@@ -103,7 +103,7 @@ class NZB {
 		//if total is bigger than 0 it means we have new parts in the newsgroup
 		if($total > 0) {
 
-			echo "Total parts: {$total}\n";
+			echo "Group has ".$data['first']." - ".$last." = {$total} (Total parts)\n";
 
 			$done = false;
 
