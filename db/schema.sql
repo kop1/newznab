@@ -1,16 +1,3 @@
--- Host: localhost
--- Generation Time: Jun 03, 2005 at 09:07 PM
--- Server version: 4.0.23
--- PHP Version: 4.3.9
--- 
--- Database: `nntp`
--- 
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `binaries`
--- 
 
 CREATE TABLE `binaries` (
   `ID` int(11) unsigned NOT NULL auto_increment,
@@ -27,11 +14,6 @@ CREATE TABLE `binaries` (
   FULLTEXT KEY `name` (`name`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
--- 
--- Table structure for table `groups`
--- 
 
 CREATE TABLE `groups` (
   `ID` int(11) NOT NULL auto_increment,
@@ -45,11 +27,6 @@ CREATE TABLE `groups` (
   KEY `active` (`active`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
--- 
--- Table structure for table `parts`
--- 
 
 CREATE TABLE `parts` (
   `ID` int(16) unsigned NOT NULL auto_increment,
@@ -61,3 +38,19 @@ CREATE TABLE `parts` (
   PRIMARY KEY  (`ID`),
   KEY `binaryID` (`binaryID`)
 ) TYPE=MyISAM AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE CONTENT
+(
+ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+TITLE VARCHAR(255) NOT NULL,
+URL VARCHAR(2000) NULL,
+BODY TEXT NULL,
+METADESCRIPTION VARCHAR(1000) NOT NULL,
+METAKEYWORDS VARCHAR(1000) NOT NULL,
+SITE INT NOT NULL,
+CONTENTTYPE INT NOT NULL,
+SHOWINMENU INT NOT NULL,
+STATUS INT NOT NULL,
+ORDINAL INT NULL
+);
