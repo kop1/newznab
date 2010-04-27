@@ -43,24 +43,24 @@ class Sites
 	public function row2Object($row)
 	{
 		$obj = new Site();
-		if (isset($row["ID"]))
-			$obj->id = $row["ID"];
+		if (isset($row["id"]))
+			$obj->id = $row["id"];
 			
-		$obj->code = $row["CODE"];
-		$obj->title = $row["TITLE"];
-		$obj->strapline = $row["STRAPLINE"];
-		$obj->meta_title = $row["METATITLE"];
-		$obj->meta_description = $row["METADESCRIPTION"];
-		$obj->meta_keywords = $row["METAKEYWORDS"];
-		$obj->footer = $row["FOOTER"];
-		$obj->email = $row["EMAIL"];
-		$obj->root = $row["ROOT"];
-		if (isset($row["LASTUPDATE"]))
-			$obj->last_update = $row["LASTUPDATE"];
-		$obj->google_analytics_acc = $row["GOOGLE_ANALYTICS_ACC"];
-		$obj->google_adsense_menu = $row["GOOGLE_ADSENSE_MENU"];
-		$obj->google_adsense_sidepanel = $row["GOOGLE_ADSENSE_SIDEPANEL"];
-		$obj->google_adsense_search = $row["GOOGLE_ADSENSE_SEARCH"];
+		$obj->code = $row["code"];
+		$obj->title = $row["title"];
+		$obj->strapline = $row["strapline"];
+		$obj->meta_title = $row["metatitle"];
+		$obj->meta_description = $row["metadescription"];
+		$obj->meta_keywords = $row["metakeywords"];
+		$obj->footer = $row["footer"];
+		$obj->email = $row["email"];
+		$obj->root = $row["root"];
+		if (isset($row["lastupdate"]))
+			$obj->last_update = $row["lastupdate"];
+		$obj->google_analytics_acc = $row["google_analytics_acc"];
+		$obj->google_adsense_menu = $row["google_adsense_menu"];
+		$obj->google_adsense_sidepanel = $row["google_adsense_sidepanel"];
+		$obj->google_adsense_search = $row["google_adsense_search"];
 			
 		return $obj;
 	}
@@ -68,13 +68,13 @@ class Sites
 	public function data_update()
 	{		
 		$db = new DB();
-		return $db->query(sprintf("UPDATE sites SET	CODE = %s , 	TITLE = %s , 	STRAPLINE = %s , 	METATITLE = %s , 	METADESCRIPTION = %s , 	METAKEYWORDS = %s , 	FOOTER = %s ,	EMAIL = %s , 	ROOT = %s , 	LASTUPDATE = now(), GOOGLE_ADSENSE_MENU = %s, GOOGLE_ADSENSE_SEARCH = %s, GOOGLE_ADSENSE_SIDEPANEL = %s, GOOGLE_ANALYTICS_ACC = %s	WHERE	ID = %d", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->term_singular), $db->escapeString($site->term_plural), $db->escapeString($site->email), $db->escapeString($site->root), $db->escapeString($site->google_adsense_menu), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc), $site->id ));
+		return $db->query(sprintf("update sites set	code = %s , 	title = %s , 	strapline = %s , 	metatitle = %s , 	metadescription = %s , 	metakeywords = %s , 	footer = %s ,	email = %s , 	root = %s , 	lastupdate = now(), google_adsense_menu = %s, google_adsense_search = %s, google_adsense_sidepanel = %s, google_analytics_acc = %s", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->term_singular), $db->escapeString($site->term_plural), $db->escapeString($site->email), $db->escapeString($site->root), $db->escapeString($site->google_adsense_menu), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc)));
 	}
 
 	public function data_get()
 	{			
 		$db = new DB();
-		return $db->queryOneRow("SELECT * FROM SITE ");		
+		return $db->queryOneRow("select * from site ");		
 	}	
 }
 ?>

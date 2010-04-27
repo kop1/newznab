@@ -132,74 +132,74 @@ class Contents
 	public function row2Object($row, $prefix="")
 	{	
 		$obj = new Content();
-		if (isset($row[$prefix."ID"]))
-			$obj->id = $row[$prefix."ID"];
-		$obj->title = $row[$prefix."TITLE"];
-		$obj->url = $row[$prefix."URL"];
-		$obj->body = $row[$prefix."BODY"];
-		$obj->metadescription = $row[$prefix."METADESCRIPTION"];
-		$obj->metakeywords = $row[$prefix."METAKEYWORDS"];
-		$obj->contenttype = $row[$prefix."CONTENTTYPE"];
-		$obj->showinmenu = $row[$prefix."SHOWINMENU"];		
-		$obj->status = $row[$prefix."STATUS"];		
-		$obj->ordinal = $row[$prefix."ORDINAL"];	
-		if (isset($row[$prefix."CREATEDDATE"]))
-			$obj->createddate = $row[$prefix."CREATEDDATE"];				
+		if (isset($row[$prefix."id"]))
+			$obj->id = $row[$prefix."id"];
+		$obj->title = $row[$prefix."title"];
+		$obj->url = $row[$prefix."url"];
+		$obj->body = $row[$prefix."body"];
+		$obj->metadescription = $row[$prefix."metadescription"];
+		$obj->metakeywords = $row[$prefix."metakeywords"];
+		$obj->contenttype = $row[$prefix."contenttype"];
+		$obj->showinmenu = $row[$prefix."showinmenu"];		
+		$obj->status = $row[$prefix."status"];		
+		$obj->ordinal = $row[$prefix."ordinal"];	
+		if (isset($row[$prefix."createddate"]))
+			$obj->createddate = $row[$prefix."createddate"];				
 		return $obj;
 	}
 
 	public function data_update($content)
 	{		
 		$db = new DB();
-		return $db->query(sprintf("UPDATE content SET	TITLE = %s , 	URL = %s , 	BODY = %s , 	METADESCRIPTION = %s , 	METAKEYWORDS = %s , 	CONTENTTYPE = %d , 	SHOWINMENU = %d , 	STATUS = %d , 	ORDINAL = %d	WHERE	ID = %d ", $db->escapeString($content->title), $db->escapeString($content->url), $db->escapeString($content->body), $db->escapeString($content->metadescription), $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal, $content->id ));
+		return $db->query(sprintf("update content set	title = %s , 	url = %s , 	body = %s , 	metadescription = %s , 	metakeywords = %s , 	contenttype = %d , 	showinmenu = %d , 	status = %d , 	ordinal = %d	where	id = %d ", $db->escapeString($content->title), $db->escapeString($content->url), $db->escapeString($content->body), $db->escapeString($content->metadescription), $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal, $content->id ));
 	}
 
 	public function data_add($content)
 	{		
 		$db = new DB();
-		return $db->queryInsert(sprintf("INSERT INTO content 	(TITLE, 	URL, 	BODY, 	METADESCRIPTION, 	METAKEYWORDS, 	CONTENTTYPE, 	SHOWINMENU, 	STATUS, 	ORDINAL, CREATEDDATE	)	VALUES	(%s, 	%s, 	%s, 	%s, 	%s, 	%d, 	%d, 	%d, 	%d , now()	)", $db->escapeString($content->title),  $db->escapeString($content->url),  $db->escapeString($content->body),  $db->escapeString($content->metadescription),  $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal ));
+		return $db->queryInsert(sprintf("insert into content 	(title, 	url, 	body, 	metadescription, 	metakeywords, 	contenttype, 	showinmenu, 	status, 	ordinal, createddate	)	values	(%s, 	%s, 	%s, 	%s, 	%s, 	%d, 	%d, 	%d, 	%d , now()	)", $db->escapeString($content->title),  $db->escapeString($content->url),  $db->escapeString($content->body),  $db->escapeString($content->metadescription),  $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal ));
 	}
 
 	public function data_get()
 	{		
 		$db = new DB();
-		return $db->query(sprintf("SELECT * FROM CONTENT WHERE STATUS = 1 ORDER BY contenttype, COALESCE(ORDINAL, 1000000)"));		
+		return $db->query(sprintf("select * from content where status = 1 order by contenttype, coalesce(ordinal, 1000000)"));		
 	}	
 	
 	public function data_getAll()
 	{		
 		$db = new DB();
-		return $db->query(sprintf("SELECT * FROM CONTENT ORDER BY contenttype, COALESCE(ORDINAL, 1000000)"));		
+		return $db->query(sprintf("select * from content order by contenttype, coalesce(ordinal, 1000000)"));		
 	}	
 	
 	public function data_getAllNoIndex()
 	{		
 		$db = new DB();
-		return $db->query(sprintf("SELECT * FROM CONTENT WHERE STATUS=1 AND CONTENTTYPE != 3 ORDER BY CREATEDDATE DESC"));		
+		return $db->query(sprintf("select * from content where status=1 and contenttype != 3 order by createddate desc"));		
 	}	
 	
 	public function data_delete($id)
 	{		
 		$db = new DB();
-		return $db->query(sprintf("DELETE FROM CONTENT WHERE ID=%d", $id));		
+		return $db->query(sprintf("delete from content where id=%d", $id));		
 	}	
 
 	public function data_getByID($id)
 	{		
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT * FROM CONTENT WHERE ID = %d", $id));		
+		return $db->queryOneRow(sprintf("select * from content where id = %d", $id));		
 	}		
 	
 	public function data_getIndex()
 	{		
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT * FROM CONTENT WHERE STATUS=1 AND CONTENTTYPE = %d ", Contents::TYPEINDEX));		
+		return $db->queryOneRow(sprintf("select * from content where status=1 and contenttype = %d ", Contents::TYPEINDEX));		
 	}		
 
 	public function data_getForMenuByType($id)
 	{		
 		$db = new DB();
-		return $db->query(sprintf("SELECT * FROM CONTENT WHERE SHOWINMENU=1 AND STATUS=1 AND CONTENTTYPE = %d ", $id));		
+		return $db->query(sprintf("select * from content where showinmenu=1 and status=1 and contenttype = %d ", $id));		
 	}		
 }
 ?>

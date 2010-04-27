@@ -25,8 +25,6 @@ class Page extends BasePage
 		$this->smarty->assign('articlecontentlist',$content->getForMenuByType(Contents::TYPEARTICLE));
 		$article_menu = $this->smarty->fetch('articlesmenu.tpl');
 		$this->smarty->assign('article_menu',$article_menu);		
-
-
 	}	
 	
 	public function render() 

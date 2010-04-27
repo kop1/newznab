@@ -26,7 +26,7 @@ switch($action)
     		// validate and add or update
     		// 
     		$returnid = 0;
-				if (!isset($_POST["ID"]) || $_POST["ID"]=="")
+				if (!isset($_POST["id"]) || $_POST["id"]=="")
 				{
 					$returnid = $contents->add($_POST);
 				}
