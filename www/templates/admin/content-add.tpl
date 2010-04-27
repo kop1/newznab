@@ -7,7 +7,10 @@
 
 <tr>
 	<td>Title:</td>
-	<td><input class="long" name="TITLE" type="text" value="{$content->title}" /></td>
+	<td>
+		<input type="hidden" name="ID" value="{$content->id}" />
+		<input class="long" name="TITLE" type="text" value="{$content->title}" />
+	</td>
 </tr>
 
 <tr>

@@ -63,6 +63,7 @@ class Contents
 	
 	public function getForMenuByType($id)
 	{		
+
 		$arr = array();
 		$rows = $this->data_getForMenuByType($id);
 		if ($rows === false)
@@ -70,7 +71,7 @@ class Contents
 						
 		foreach($rows as $row)
 			$arr[] = $this->row2Object($row);
-			
+
 		return $arr; 
 	}		
 	

@@ -1,6 +1,7 @@
 <?php
 
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/adminpage.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/content.php");
 
 $page = new AdminPage();
 

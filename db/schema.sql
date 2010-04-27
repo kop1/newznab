@@ -54,3 +54,34 @@ SHOWINMENU INT NOT NULL,
 STATUS INT NOT NULL,
 ORDINAL INT NULL
 );
+
+insert into content (title, body, contenttype, status) 
+values ('welcome to the homepage', '<p>this is the homepage text, its from the database</p>', 3, 1);
+
+insert into content (title, url, body, contenttype, status, showinmenu) 
+values ('example content', '/great/seo/content/page/', '<p>this is an example content page</p>', 2, 1, 1);
+
+insert into content (title, url, body, contenttype, status, showinmenu) 
+values ('next content', '/another/great/seo/content/page/', '<p>this is another example content page</p>', 2, 1, 1);
+
+
+CREATE TABLE SITE (
+ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CODE VARCHAR(255) NOT NULL,
+TITLE VARCHAR(1000) NOT NULL,
+STRAPLINE VARCHAR(1000) NOT NULL,
+METATITLE VARCHAR(1000) NOT NULL,
+METADESCRIPTION VARCHAR(1000) NOT NULL,
+METAKEYWORDS VARCHAR(1000) NOT NULL,
+FOOTER VARCHAR(2000) NOT NULL,
+EMAIL VARCHAR(1000) NOT NULL,
+ROOT VARCHAR(255) NOT NULL,
+LASTUPDATE DATETIME NOT NULL
+);
+
+alter table site add GOOGLE_ADSENSE_MENU varchar(255) null;
+alter table site add GOOGLE_ADSENSE_SEARCH varchar(255) null;
+alter table site add GOOGLE_ADSENSE_SIDEPANEL varchar(255) null;
+alter table site add GOOGLE_ANALYTICS_ACC varchar(255) null;
+
+insert into site values ('', 'newznab', 'Newznab', 'A great usenet indexer', 'meta title', 'metadesc', 'usenet,nzbs', 'intelligent footer text', 'info@newznab.com', '/', now(), null, null, null, null);

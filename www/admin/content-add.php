@@ -1,6 +1,7 @@
 <?php
 
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/adminpage.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/content.php");
 
 $page = new AdminPage();
 $contents = new Contents();
@@ -13,15 +14,11 @@ switch($action)
 {
     case 'add':
 				$page->title = "Content Add";
-				$s = $sites->getByHostname($_SERVER["SERVER_NAME"]);
-				if ($s != false)
-				{
-					$content = new Content();
-					$content->showinmenu = "1";
-					$content->status = "1";
-					$content->contenttype = "2";
-					$page->smarty->assign('content',$content);
-				}
+				$content = new Content();
+				$content->showinmenu = "1";
+				$content->status = "1";
+				$content->contenttype = "2";
+				$page->smarty->assign('content',$content);
         break;
 
     case 'submit':
@@ -38,7 +35,6 @@ switch($action)
 					$content = $contents->update($_POST);
 					$returnid = $content->id;
 				}
-			
 				header("Location:content-add.php?id=".$returnid);
 
         break;
