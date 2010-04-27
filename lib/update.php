@@ -1,8 +1,7 @@
 <?
 set_time_limit(0);
-$timeout = 3600;
+$timeout = 36;
 
-include('db.php');
 include('nzb.class.php');
 
 while(1) {

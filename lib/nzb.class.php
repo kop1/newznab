@@ -13,13 +13,19 @@ class NZB {
 
 		//Require the PEAR NNTP package
 		require_once "Net/NNTP/Client.php";
+		require_once "Net/NNTP/Header.php";
+		require_once "Net/NNTP/Message.php";
 		require_once "config.php";
+		require_once "../www/config.php";
 		//configuration
-		$this->server = $news_server;
+		$this->server = NNTP_Server;
 		$this->maxMssgs = 20000; //fetch this ammount of messages at the time
 
 		//initialize some stuff
 		$this->downloadspeedArr = array();
+		mysql_connect(DB_HOST,DB_USER,DB_PASSWORD);
+		mysql_select_db(DB_NAME);
+
 
 	}
 
@@ -27,9 +33,9 @@ class NZB {
 
 		//connect to server
 		echo "Connecting to {$this->server}\n";
-		$this->nntp = new Net_NNTP;
+		$this->nntp = new Net_NNTP_Client;
 		$ret = $this->nntp->connect($this->server);
-		$ret2 = $this->nntp->auth($news_user,$news_pass);
+		$ret2 = $this->nntp->authenticate(NNTP_Username,NNTP_Password);
 		if(PEAR::isError($ret) || PEAR::isError($ret2)) {
 			echo "Cannot connect to server\n";
 			exit;
