@@ -274,14 +274,15 @@ class NZB
 		}
 	}
 
+	//
+	// update the list of newsgroups and return an array of messages.
+	//
 	function updateGroupList() 
 	{
-		echo "Getting grouplist from server...\n";
-
 		$db = new DB();
 		$groups = $this->nntp->getGroups();
-		echo "Processing grouplist\n";
-
+		$ret = array();
+		
 		foreach($groups AS $group) 
 		{
 			if(stristr($group['group'], $this->groupfilter)) 
@@ -292,7 +293,11 @@ class NZB
 					if (isset($group['desc']))
 					{
 						$db->query(sprintf("UPDATE groups SET description = %s where ID = %d", $db->escapeString($group['desc']), $res["ID"]));
-						echo "Updated {$group['group']}\n";
+						$ret[] = array ('group' => $group['group'], 'msg' => 'Updated description');
+					}
+					else
+					{
+						$ret[] = array ('group' => $group['group'], 'msg' => 'Not updated');
 					}
 				} 
 				else 
@@ -303,12 +308,12 @@ class NZB
 						$desc = $group['desc'];
 					}
 					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, 0)", $db->escapeString($group['group']), $db->escapeString($desc)));
-					echo "New group {$group['group']}\n";
+					$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 				}
 			}
 		}
 
-		echo "Done\n";
+		return $ret;
 	}
 
 	function delOldBinaries($groupID='') 
