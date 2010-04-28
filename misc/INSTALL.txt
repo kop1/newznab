@@ -1,0 +1,34 @@
+pre-reqs
+	php
+	mysql
+	pear net_nntp module
+	iis
+		urlrewriter isapi in \misc\ installed
+	apache
+		.htaccess allow override on
+		
+installation
+	create new database newznab
+	add new user with only rights to newznab db
+	import \db\schema.sql into newznab db
+	copy \www\config.php.dist to \www\config.php and edit all settings
+	restart iis/apache
+	browse to http://localhost/ and should see newznab homepage with default content.
+	newznab.site database table contains configurable info about your site.
+	
+google ads/analytics
+	to integrate google analytics and adsense provide enter the adsense ad module ids 
+	into the site table for the menu (top) and sidepanel (right). providing an analytics
+	id will include the analytics js in the footer
+
+admin
+	admin functions all live in /admin/ which is not secured, and requires you to add some
+	htaccess or directory level security
+
+content/cms
+	pages can be added to the site with seo friendly urls via the admin-edit content links
+	
+	
+faqs
+	authorisation rejected from nntp server - check you have enough available connections 
+	not currently in use
