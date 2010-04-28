@@ -12,6 +12,7 @@ installation
 	add new user with only rights to newznab db
 	import \db\schema.sql into newznab db
 	copy \www\config.php.dist to \www\config.php and edit all settings
+	chmod -R 777 \www\lib\smarty\template_c
 	restart iis/apache
 	browse to http://localhost/ and should see newznab homepage with default content.
 	newznab.site database table contains configurable info about your site.
