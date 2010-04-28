@@ -21,7 +21,7 @@ CREATE TABLE `groups` (
   `last_record` int(11) unsigned NOT NULL default '0',
   `last_updated` datetime default NULL,
   `active` tinyint(1) NOT NULL default '0',
-  `description` varchar(255) NOT NULL default '',
+  `description` varchar(255) NULL default '',
   `postcount` int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)

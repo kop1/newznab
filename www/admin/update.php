@@ -1,8 +1,9 @@
-<?
+<?php
+
 set_time_limit(0);
 $timeout = 36;
 
-include('nzb.class.php');
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/nzb.php");
 
 while(1) {
 
