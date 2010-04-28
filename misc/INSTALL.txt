@@ -16,6 +16,17 @@ installation
 	browse to http://localhost/ and should see newznab homepage with default content.
 	newznab.site database table contains configurable info about your site.
 	
+updating index
+	updating the index can take ages depending on how much retention you require
+	as such its not recommended to run update scripts from web browsers, as typically
+	timeouts will occur. the recommended way to schedule updates is via a cron task 
+	similar to that in /misc/cron_update.
+	crontab -e
+	*/15 * * * * /path/to/newznab/misc/cron_update/newznab_update.sh
+
+updating newsgroups
+	can be done via web browser in /admin/ interface. 
+	
 google ads/analytics
 	to integrate google analytics and adsense provide enter the adsense ad module ids 
 	into the site table for the menu (top) and sidepanel (right). providing an analytics
@@ -26,7 +37,7 @@ admin
 	htaccess or directory level security
 
 content/cms
-	pages can be added to the site with seo friendly urls via the admin-edit content links
+	pages can be added to the site with seo friendly urls via the /admin/ edit content links
 	
 faqs
 	authorisation rejected from nntp server - check you have enough available connections 
