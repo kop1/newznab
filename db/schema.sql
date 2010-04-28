@@ -52,7 +52,7 @@ contenttype INT NOT NULL,
 showinmenu INT NOT NULL,
 status INT NOT NULL,
 ordinal INT NULL
-);
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
 insert into content (title, body, contenttype, status) 
 values ('welcome to the homepage', '<p>this is the homepage text, its from the database</p>', 3, 1);
@@ -75,12 +75,11 @@ metakeywords VARCHAR(1000) NOT NULL,
 footer VARCHAR(2000) NOT NULL,
 email VARCHAR(1000) NOT NULL,
 root VARCHAR(255) NOT NULL,
-lastupdate DATETIME NOT NULL
-);
-
-alter table site add google_adsense_menu varchar(255) null;
-alter table site add google_adsense_search varchar(255) null;
-alter table site add google_adsense_sidepanel varchar(255) null;
-alter table site add google_analytics_acc varchar(255) null;
+lastupdate DATETIME NOT NULL,
+google_adsense_menu varchar(255) null,
+google_adsense_search varchar(255) null,
+google_adsense_sidepanel varchar(255) null,
+google_analytics_acc varchar(255) null
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
 
 insert into site values ('', 'newznab', 'Newznab', 'A great usenet indexer', 'meta title', 'metadesc', 'usenet,nzbs', 'intelligent footer text', 'info@newznab.com', '/', now(), null, null, null, null);

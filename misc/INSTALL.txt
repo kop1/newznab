@@ -28,7 +28,6 @@ admin
 content/cms
 	pages can be added to the site with seo friendly urls via the admin-edit content links
 	
-	
 faqs
 	authorisation rejected from nntp server - check you have enough available connections 
 	not currently in use
