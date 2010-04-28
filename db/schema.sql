@@ -1,43 +1,43 @@
 
 CREATE TABLE `binaries` (
-  `ID` int(11) unsigned NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `fromname` varchar(255) NOT NULL default '',
-  `date` datetime default NULL,
-  `xref` varchar(255) NOT NULL default '',
-  `totalParts` int(11) unsigned NOT NULL default '0',
-  `groupID` int(11) unsigned NOT NULL default '0',
+  `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `fromname` VARCHAR(255) NOT NULL DEFAULT '',
+  `date` DATETIME DEFAULT NULL,
+  `xref` VARCHAR(255) NOT NULL DEFAULT '',
+  `totalParts` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `groupID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY  (`ID`),
   KEY `fromname` (`fromname`),
   KEY `date` (`date`),
   KEY `groupID` (`groupID`),
   FULLTEXT KEY `name` (`name`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `groups` (
-  `ID` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `last_record` int(11) unsigned NOT NULL default '0',
-  `last_updated` datetime default NULL,
-  `active` tinyint(1) NOT NULL default '0',
-  `description` varchar(255) NULL default '',
-  `postcount` int(11) unsigned NOT NULL default '0',
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL DEFAULT '',
+  `last_record` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `last_updated` DATETIME DEFAULT NULL,
+  `active` TINYINT(1) NOT NULL DEFAULT '0',
+  `description` VARCHAR(255) NULL DEFAULT '',
+  `postcount` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `parts` (
-  `ID` int(16) unsigned NOT NULL auto_increment,
-  `binaryID` int(11) unsigned NOT NULL default '0',
-  `messageID` varchar(255) NOT NULL default '',
-  `number` int(11) unsigned NOT NULL default '0',
-  `partnumber` int(11) unsigned NOT NULL default '0',
-  `size` int(11) unsigned NOT NULL default '0',
+  `ID` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `binaryID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `messageID` VARCHAR(255) NOT NULL DEFAULT '',
+  `number` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `partnumber` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `size` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY  (`ID`),
   KEY `binaryID` (`binaryID`)
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE content
@@ -50,23 +50,23 @@ metadescription VARCHAR(1000) NOT NULL,
 metakeywords VARCHAR(1000) NOT NULL,
 contenttype INT NOT NULL,
 showinmenu INT NOT NULL,
-status INT NOT NULL,
+STATUS INT NOT NULL,
 ordinal INT NULL
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-insert into content (title, body, contenttype, status) 
-values ('welcome to the homepage', '<p>this is the homepage text, its from the database</p>', 3, 1);
+INSERT INTO content (title, body, contenttype, STATUS, metadescription, metakeywords, showinmenu) 
+VALUES ('welcome to the homepage', '<p>this is the homepage text, its from the database</p>', 3, 1, '', '', 0);
 
-insert into content (title, url, body, contenttype, status, showinmenu) 
-values ('example content', '/great/seo/content/page/', '<p>this is an example content page</p>', 2, 1, 1);
+INSERT INTO content (title, url, body, contenttype, STATUS, showinmenu, metadescription, metakeywords) 
+VALUES ('example content', '/great/seo/content/page/', '<p>this is an example content page</p>', 2, 1, 1, '', '');
 
-insert into content (title, url, body, contenttype, status, showinmenu) 
-values ('next content', '/another/great/seo/content/page/', '<p>this is another example content page</p>', 2, 1, 1);
+INSERT INTO content (title, url, body, contenttype, STATUS, showinmenu, metadescription, metakeywords) 
+VALUES ('next content', '/another/great/seo/content/page/', '<p>this is another example content page</p>', 2, 1, 1, '', '');
 
 
 CREATE TABLE site (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-code VARCHAR(255) NOT NULL,
+CODE VARCHAR(255) NOT NULL,
 title VARCHAR(1000) NOT NULL,
 strapline VARCHAR(1000) NOT NULL,
 metatitle VARCHAR(1000) NOT NULL,
@@ -76,10 +76,10 @@ footer VARCHAR(2000) NOT NULL,
 email VARCHAR(1000) NOT NULL,
 root VARCHAR(255) NOT NULL,
 lastupdate DATETIME NOT NULL,
-google_adsense_menu varchar(255) null,
-google_adsense_search varchar(255) null,
-google_adsense_sidepanel varchar(255) null,
-google_analytics_acc varchar(255) null
-) TYPE=MyISAM AUTO_INCREMENT=1 ;
+google_adsense_menu VARCHAR(255) NULL,
+google_adsense_search VARCHAR(255) NULL,
+google_adsense_sidepanel VARCHAR(255) NULL,
+google_analytics_acc VARCHAR(255) NULL
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-insert into site values ('', 'newznab', 'Newznab', 'A great usenet indexer', 'meta title', 'metadesc', 'usenet,nzbs', 'intelligent footer text', 'info@newznab.com', '/', now(), null, null, null, null);
+INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'meta title', 'metadesc', 'usenet,nzbs', 'intelligent footer text', 'info@newznab.com', '/', NOW(), NULL, NULL, NULL, NULL);

@@ -10,7 +10,7 @@ class NZB
 	function NZB() 
 	{
 		$this->retention = 20; // number of days afterwhich binaries are deleted.
-		$this->maxMssgs = 20000; //fetch this ammount of messages at the time
+		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
 		$this->downloadspeedArr = array();
 		$this->groupfilter = "alt.binaries.sounds";
 	}
@@ -53,7 +53,7 @@ class NZB
 				$arr['fromname'] = str_replace('(','',str_replace(')','',$arr['fromname']));
 				$str .= "\t<file poster=\"who@no.com\" date=\"{$arr['unixdate']}\" subject=\"{$arr['name']} (1/{$arr['totalParts']})\">\n";
 				$str .= "\t<groups>\n";
-				$str .= "\t\t<group>{$group}</group>\n";
+				$str .= "\t\t<group>{$group['name']}</group>\n";
 				$str .= "\t</groups>\n";
 				$str .= "\t<segments>\n";
 				$res2 = $db->query("SELECT * FROM parts WHERE binaryID = {$arr['ID']} ORDER BY partnumber");
@@ -104,7 +104,7 @@ class NZB
 
 			$done = false;
 
-			//get all te parts (in portions of $this->maxMssgs to not use too much memory)
+			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
 			while($done === false) 
 			{
 				if($total > $this->maxMssgs) 
@@ -119,7 +119,8 @@ class NZB
 					}
 				}
 
-				$starttime = $this->getmicrotime();
+
+				$starttime = getmicrotime();
 				if($last - $first < $this->maxMssgs) 
 				{
 					$fetchpartscount = $last - $first;
@@ -132,7 +133,21 @@ class NZB
 				flush();
 
 				//get headers from newsgroup
-				$msgs = $this->nntp->getOverview($first, $last);
+				$msgs = $this->nntp->getOverview($first."-".$last, true, false);
+
+				/*   Example msg
+				Array ( 
+					[Number] => 5934117 
+					[Subject] => RepostTechnoAcidAlbums2008VarBit18Albums"RepostTechnoAcidAlbums2008VarBit18Albums.part21.rar" yEnc (121/410) 
+					[From] => FTDtechnoTEAM@ (-=Techno4Life=-) 
+					[Date] => 11 Jan 2009 09:01:12 GMT 
+					[Message-ID] => <4969b556$0$5824$2d805a3e@uploadreader.eweka.nl> 
+					[References] => 
+					[Bytes] => 396519 
+					[Lines] => 3046 
+					[Xref] => news-big.astraweb.com alt.binaries.mp3:83651138 alt.binaries.sounds.mp3.dance:25100194 alt.binaries.sounds.mp3.electronic:5934117 
+					)
+				*/
 
 				//loop headers, figure out parts
 				foreach($msgs AS $msg) 
@@ -148,12 +163,11 @@ class NZB
 						{
 							$this->message[$subject] = $msg;
 							$this->message[$subject]['MaxParts'] = $part[1];
-							$this->message[$subject]['Group'] = $group;
 							$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
 						}
 						if($part[0] > 0) 
 						{
-							$this->message[$subject]['Parts'][$part[0]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['number'], 'part' => $part[0], 'size' => $msg['Bytes']);
+							$this->message[$subject]['Parts'][$part[0]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => $part[0], 'size' => $msg['Bytes']);
 						}
 					}
 				}
@@ -166,15 +180,14 @@ class NZB
 				{
 
 					//insert binaries and parts into database. when binary allready exists; only insert new parts
-					foreach($this->message AS $subject => $data) {
-						if(count($data['Parts']) > 0 && $subject != '') {
-							$subject = str_replace("'", "\'", $subject);
-							$data['From'] = str_replace("'", "\'", $data['From']);
-							$res = $db->query("SELECT ID FROM binaries WHERE name = '{$subject}' AND fromname = '{$data['From']}' AND groupID = {$groupArr['ID']}");
-							if($res) 
+					foreach($this->message AS $subject => $data) 
+					{
+						if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '') 
+						{
+						  $res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
+							if(!$res) 
 							{
-								$sql = "INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID) VALUES ('{$subject}', '{$data['From']}', FROM_UNIXTIME({$data['Date']}), '{$data['Xref']}', '{$data['MaxParts']}', {$groupArr['ID']})";
-								$binaryID = $db->queryInsert($sql);
+								$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d)", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
 								$count++;
 							} 
 							else 
@@ -187,15 +200,14 @@ class NZB
 							reset($data['Parts']);
 							foreach($data['Parts'] AS $partdata) 
 							{
-								$sql = "INSERT INTO parts (binaryID, messageID, number, partnumber, size) VALUES ($binaryID, '{$partdata['Message-ID']}', '{$partdata['number']}', '".round($partdata['part'])."', '{$partdata['size']}')";
 								$partcount++;
-								$db->queryInsert($sql);
+								$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size) VALUES (%d, %s, %s, %s, %s)", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
 							}
 						}
 					}
 					echo "Received $count new binaries\n";
 					echo "Updated $updatecount binaries\n";
-					$endtime = $this->getmicrotime();
+					$endtime = getmicrotime();
 
 					//calculate speed
 					$parsetime = $endtime - $starttime;
@@ -209,10 +221,10 @@ class NZB
 					}
 
 					//update group table with last received message
-					$countRes = $db->query("SELECT COUNT(ID) as num FROM binaries WHERE groupID = {$groupArr['ID']}");
+					$countRes = $db->queryOneRow(sprintf("SELECT COUNT(ID) as num FROM binaries WHERE groupID = %d", $groupArr['ID']));
 					$totingroup = $countRes["num"];
 
-					$db->query("UPDATE groups SET last_record = '{$last}', last_updated = '".date("Y-m-d H:m:i")."', postcount = '{$totingroup}' WHERE ID = {$groupArr['ID']}");
+					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = %s, postcount = %s WHERE ID = %d", $db->escapeString($last), $db->escapeString(date("Y-m-d H:m:i")), $db->escapeString($totingroup), $groupArr['ID']));
 
 					//when last = orglast; all headers are downloaded; not ? than go on with next $this->maxMssgs messages
 					if($last == $orglast) 
@@ -234,7 +246,7 @@ class NZB
 						{
 							$ETA = 0;
 						}
-						$ETA = $this->sec2min($ETA);
+						$ETA = sec2min($ETA);
 						echo "Estimated time left: {$ETA}\n";
 					}
 
@@ -242,9 +254,12 @@ class NZB
 					unset($msgs);
 					unset($msg);
 					unset($data);
-				} else {
+					
+				} 
+				else 
+				{
 					$attemts++;
-					echo "Error fetching messages attemt {$attemts}...\n";
+					echo "Error fetching messages attempt {$attemts}...\n";
 					if($attemts == 5) 
 					{
 						echo "Skipping group\n";
@@ -307,7 +322,7 @@ class NZB
 					{
 						$desc = $group['desc'];
 					}
-					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, 0)", $db->escapeString($group['group']), $db->escapeString($desc)));
+					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, 1)", $db->escapeString($group['group']), $db->escapeString($desc)));
 					$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 				}
 			}
