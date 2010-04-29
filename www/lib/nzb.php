@@ -11,6 +11,7 @@ class NZB
 	{
 		$this->retention = 20; // number of days afterwhich binaries are deleted.
 		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
+		$this->howManyMsgsToGoBackForNewGroup = 2000; //how far back to go, use 0 to get all
 		$this->downloadspeedArr = array();
 		$this->groupfilter = "alt.binaries.sounds";
 	}
@@ -32,49 +33,38 @@ class NZB
 		$this->nntp->quit();
 	}
 	
-	function genNZB($selected) 
+	//
+	// Return a multi array of series of binaries and their parts.
+	//
+	function getNZB($selected)
 	{
 		$db = new DB();
-	
-		$str = "<?xml version=\"1.0\" encoding=\"us-ascii\"?>\n";
-		$str .= "<!DOCTYPE nzb PUBLIC \"-//newzBin//DTD NZB 0.9//EN\" \"http://www.newzbin.com/DTD/nzb/nzb-0.9.dtd\">\n";
-		$str .= "<nzb xmlns=\"http://www.newzbin.com/DTD/2003/nzb\">\n";
-
+		$binaries = array();
 		if(count($selected) > 0) 
 		{
 			$selected = join(',',$selected);
-			$sql = "SELECT *, UNIX_TIMESTAMP(date) AS unixdate FROM binaries WHERE ID IN ({$selected}) ORDER BY name";
-			$res = $db->query($sql);
-
-			foreach($res as $arr) 
+			
+			$res = $db->query("SELECT binaries.*, UNIX_TIMESTAMP(date) AS unixdate, groups.name as groupname FROM binaries inner join groups on binaries.groupID = groups.ID WHERE binaries.ID IN ({$selected}) ORDER BY binaries.name");
+			foreach($res as $binrow) 
 			{
-				$group = $db->queryOneRow("SELECT name FROM groups WHERE ID = {$arr['groupID']}");
-				$arr['name'] = ereg_replace("[^a-zA-Z0-9\(\)\! .]",'', str_replace('"', '', $arr['name']));
-				$arr['fromname'] = str_replace('(','',str_replace(')','',$arr['fromname']));
-				$str .= "\t<file poster=\"who@no.com\" date=\"{$arr['unixdate']}\" subject=\"{$arr['name']} (1/{$arr['totalParts']})\">\n";
-				$str .= "\t<groups>\n";
-				$str .= "\t\t<group>{$group['name']}</group>\n";
-				$str .= "\t</groups>\n";
-				$str .= "\t<segments>\n";
-				$res2 = $db->query("SELECT * FROM parts WHERE binaryID = {$arr['ID']} ORDER BY partnumber");
-				foreach ($res2 as $arr2)
-				{
-					$str .= "\t\t<segment bytes=\"{$arr2['size']}\" number=\"".round($arr2['partnumber'])."\">{$arr2['messageID']}</segment>\n";
-				}
-				$str .= "\t</segments>\n";
-				$str .= "\t</file>\n";
+				//
+				// Move this into template
+				//
+				$binrow['name'] = ereg_replace("[^a-zA-Z0-9\(\)\! .]",'', str_replace('"', '', $binrow['name']));
+				$binrow['fromname'] = str_replace('(','',str_replace(')','',$binrow['fromname']));
+				
+				$parts = $db->query(sprintf("SELECT parts.* FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
+				$binaries[] = array ('binary' => $binrow, 'parts' => $parts);
 			}
 		}
-
-		$str .= "</nzb>";
-
-		return $str;
+		return $binaries;
 	}
 
 	function updateGroup($groupArr) 
 	{
+
 		$db = new DB();
-		$attemts = 0;
+		$attempts = 0;
 
 		//select newsgroup
 		$data = $this->nntp->selectGroup($groupArr['name']);
@@ -82,18 +72,33 @@ class NZB
 		{
 			echo "Could not select group: {$groupArr['name']}\n";
 		}
-
+		
+		/*  Example newsgroup heading
+ 		Processing: alt.binaries.sounds.mp3.electronic
+		Array
+		(
+			[group] => alt.binaries.sounds.mp3.electronic
+			[first] => 5494095
+			[last] =>  7111079
+			[count] => 1616985
+		)		
+		*/
+		
 		//get first and last part numbers from newsgroup
 		$last = $orglast = $data['last'];
 		if($groupArr['last_record'] == 0) 
 		{
-			$first = $data['first'];
+			//
+			// for new newsgroups - determine here how far you want to go back.
+			//
+			$first = ($this->howManyMsgsToGoBackForNewGroup == 0 ? 
+					$data['first'] : $data['last'] - $this->howManyMsgsToGoBackForNewGroup);
 		} else 
 		{
 			$first = $groupArr['last_record'] + 1;
 		}
 
-		//calculate total number op parts
+		//calculate total number of parts
 		$total = $last - $first;
 
 		//if total is bigger than 0 it means we have new parts in the newsgroup
@@ -118,7 +123,6 @@ class NZB
 						$last = $first + $this->maxMssgs;
 					}
 				}
-
 
 				$starttime = getmicrotime();
 				if($last - $first < $this->maxMssgs) 
@@ -258,9 +262,9 @@ class NZB
 				} 
 				else 
 				{
-					$attemts++;
-					echo "Error fetching messages attempt {$attemts}...\n";
-					if($attemts == 5) 
+					$attempts++;
+					echo "Error fetching messages attempt {$attempts}...\n";
+					if($attempts == 5) 
 					{
 						echo "Skipping group\n";
 						break;
@@ -302,7 +306,7 @@ class NZB
 		{
 			if(stristr($group['group'], $this->groupfilter)) 
 			{
-				$res = $db->query("SELECT ID FROM groups WHERE name = '{$group['group']}'");
+				$res = $db->query(sprintf("SELECT ID FROM groups WHERE name = %s ", $db->escapeString($group['group'])));
 				if($res) 
 				{
 					if (isset($group['desc']))
@@ -334,28 +338,17 @@ class NZB
 	function delOldBinaries($groupID='') 
 	{
 		$db = new DB();
-		if(is_numeric($groupID)) 
-		{
-			$gr = " AND groupID = {$groupID} ";
-		}
+
 		$count = 0;
-		echo "Deleting posts older than {$this->retention} days\n";
-		$sql = "SELECT ID FROM binaries WHERE (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(date)) / 3600 / 24 > {$this->retention} {$gr}";
-		$res = $db->query($sql);
+		$res = $db->query(sprintf("SELECT ID FROM binaries WHERE (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(date)) / 3600 / 24 > %d %s ", $this->retention, (is_numeric($groupID) ? " AND groupID = {$groupID} " : "")));
 		foreach($res as $arr) 
 		{
-			$sql = "DELETE FROM parts WHERE binaryID = {$arr['ID']}";
-			$db->query($sql);
-
-			$sql = "DELETE FROM binaries WHERE ID = {$arr['ID']}";
-			$db->query($sql);
+			$db->query(sprintf("DELETE FROM parts WHERE binaryID = %d", $arr['ID']));
+			$db->query(sprintf("DELETE FROM binaries WHERE ID = %d", $arr['ID']));
 			$count++;
 		}
-		echo "Deleted {$count} binaries\n";
-		echo "Done\n\n";
-
+		return "Deleted {$count} binaries\n";
 	}
-
 }
 
 ?>
