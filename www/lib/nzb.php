@@ -9,11 +9,15 @@ class NZB
 {
 	function NZB() 
 	{
+		//
+		// TODO:Move this to be configurable in the database.
+		//
 		$this->retention = 20; // number of days afterwhich binaries are deleted.
 		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 2000; //how far back to go, use 0 to get all
+		$this->groupfilter = "alt.binaries.sounds.midi*|alt.binaries.sounds.lossless"; // regex of newsgroups to match on
+
 		$this->downloadspeedArr = array();
-		$this->groupfilter = "alt.binaries.sounds";
 	}
 
 	function connect() 
@@ -304,7 +308,8 @@ class NZB
 		
 		foreach($groups AS $group) 
 		{
-			if(stristr($group['group'], $this->groupfilter)) 
+			$regfilter = "/^" . str_replace (array ('.','*'), array ('\.','.*?'), $this->groupfilter) . "/";
+			if (preg_match ($regfilter, $group['group']) > 0)
 			{
 				$res = $db->query(sprintf("SELECT ID FROM groups WHERE name = %s ", $db->escapeString($group['group'])));
 				if($res) 
