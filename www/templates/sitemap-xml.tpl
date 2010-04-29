@@ -3,7 +3,7 @@
 
 {foreach from=$sitemaps item=sitemap}
 <url>
-	<loc>http://{$smarty.server.SERVER_NAME}{$sitemap->loc}</loc>
+	<loc>{$scheme}{$smarty.server.SERVER_NAME}{$port}{$sitemap->loc}</loc>
 	<changefreq>{$sitemap->priority}</changefreq>
 	<priority>{$sitemap->changefreq}</priority>
 </url>

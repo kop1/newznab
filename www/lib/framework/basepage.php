@@ -31,6 +31,8 @@ class BasePage
         $this->smarty->cache_dir    = SMARTY_DIR.'cache/';				
 		
 		$this->smarty->assign('page',$this);
+		$this->smarty->assign('port',($_SERVER ['SERVER_PORT'] == "80" ? "" : ":".$_SERVER ['SERVER_PORT']));
+		$this->smarty->assign('scheme', ($_SERVER['SERVER_PORT']=="443" ? "https://" : "http://"));
 	}    
 	
 	public function addToHead($headcontent) 

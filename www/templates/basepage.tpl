@@ -8,13 +8,13 @@
 	<link href="/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<script type="text/javascript" src="/includes/utils.js"></script>
 	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="http://{$smarty.server.SERVER_NAME}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
+	<link href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
 	{$page->head}
 </head>
 <body>
 
 	<div id="logo">
-		<a title="{$site->title} Logo" href="http://{$smarty.server.SERVER_NAME}/"><img alt="{$site->title} Logo" src="/images/banner.jpg" /></a>
+		<a title="{$site->title} Logo" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/"><img alt="{$site->title} Logo" src="/images/banner.jpg" /></a>
 		<h1><a href="/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
@@ -132,7 +132,7 @@
 	<div id="footer">
 	<p>
 		{$site->footer}
-		<br /><br /><br />Copyright &copy; {$smarty.now|date_format:"%Y"} {$site->title}. All rights reserved. <br/><a href="http://{$smarty.server.SERVER_NAME}/terms-and-conditions.php">Terms and Conditions</a>
+		<br /><br /><br />Copyright &copy; {$smarty.now|date_format:"%Y"} {$site->title}. All rights reserved. <br/><a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/terms-and-conditions.php">Terms and Conditions</a>
 	</p>
 	</div>
 	<!-- end #footer -->

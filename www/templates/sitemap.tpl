@@ -15,7 +15,7 @@
 	</td>
 
 	<td>
-		<a title="{$sitemap->type} - {$sitemap->name}" href="http://{$smarty.server.SERVER_NAME}{$sitemap->loc}">{$sitemap->name}</a>
+		<a title="{$sitemap->type} - {$sitemap->name}" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}{$sitemap->loc}">{$sitemap->name}</a>
 		
 	</td>
 </tr>	
