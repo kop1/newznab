@@ -308,7 +308,7 @@ class NZB
 		
 		foreach($groups AS $group) 
 		{
-			$regfilter = "/^" . str_replace (array ('.','*'), array ('\.','.*?'), $this->groupfilter) . "/";
+			$regfilter = "/^(" . str_replace (array ('.','*'), array ('\.','.*?'), $this->groupfilter) . ")/";
 			if (preg_match ($regfilter, $group['group']) > 0)
 			{
 				$res = $db->query(sprintf("SELECT ID FROM groups WHERE name = %s ", $db->escapeString($group['group'])));
