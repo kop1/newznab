@@ -1,18 +1,22 @@
 
 CREATE TABLE `binaries` (
-  `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `fromname` VARCHAR(255) NOT NULL DEFAULT '',
-  `date` DATETIME DEFAULT NULL,
-  `xref` VARCHAR(255) NOT NULL DEFAULT '',
-  `totalParts` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  `groupID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY  (`ID`),
-  KEY `fromname` (`fromname`),
-  KEY `date` (`date`),
-  KEY `groupID` (`groupID`),
-  FULLTEXT KEY `name` (`name`)
-) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+		`ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+		`name` VARCHAR(255) NOT NULL DEFAULT '',
+		`fromname` VARCHAR(255) NOT NULL DEFAULT '',
+		`date` DATETIME DEFAULT NULL,
+		`xref` VARCHAR(255) NOT NULL DEFAULT '',
+		`totalParts` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+		`groupID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+		procstat INT DEFAULT 0,
+		filename VARCHAR(255) NULL,
+		relpart INT DEFAULT 0,
+		reltotalpart INT DEFAULT 0,
+		PRIMARY KEY  (`ID`),
+		KEY `fromname` (`fromname`),
+		KEY `date` (`date`),
+		KEY `groupID` (`groupID`),
+		FULLTEXT KEY `name` (`name`)
+		) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE `groups` (

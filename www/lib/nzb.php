@@ -340,6 +340,39 @@ class NZB
 		return $ret;
 	}
 
+	function processReleases()
+	{
+		$db = new DB();
+
+		$res = $db->query("SELECT * from binaries where procstat = 0");
+
+		$pattern = '/^( (.*)(?=(?:\[|\()(?:[\s0]*)([\d]+) (?:[^\d\]]{1,5})(?:[\s0]*)([\d]+) (?:\)|\]) (\'|"?)([\W]*)(.*?)(\5) (yEnc)? $) )/';
+		$pattern = str_replace (" ", "[\s]*", $pattern);
+
+		foreach ($res as $recordIndex => $record) 
+		{
+		    if (preg_match ($pattern, $record["name"], $matches) > 0) 
+		    {
+
+		       	//the number of parts and the number of parts which it's found in
+						//$records and what the key of those parts in $records is for each
+						//release is in index
+		        $key = $matches[1] . '##' . $matches[4];
+		        $index[$key][1] = $matches[4]; // How many parts
+		        $index[$key][2][$matches[3]] = $recordIndex; // Which unique numbered parts avail in $records
+
+		       	$db->query(sprintf("update binaries set filename = %s, relpart = %d, reltotalpart = %d where ID = %d", $db->escapeString($matches[7]), $matches[3], $matches[4], $record["ID"] ));
+		       
+		        echo "\n";  
+		    }
+		    else
+		    {
+		    		//echo "didnt match ".$record["name"]."<br/>";
+		    }
+		}
+	}
+
+
 	function delOldBinaries($groupID='') 
 	{
 		$db = new DB();
