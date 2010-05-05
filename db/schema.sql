@@ -8,9 +8,11 @@ CREATE TABLE `binaries` (
 		`totalParts` INT(11) UNSIGNED NOT NULL DEFAULT '0',
 		`groupID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
 		procstat INT DEFAULT 0,
+		procattempts INT DEFAULT 0,
 		filename VARCHAR(255) NULL,
 		relpart INT DEFAULT 0,
 		reltotalpart INT DEFAULT 0,
+		relname VARCHAR(255) NULL,
 		PRIMARY KEY  (`ID`),
 		KEY `fromname` (`fromname`),
 		KEY `date` (`date`),
@@ -18,6 +20,17 @@ CREATE TABLE `binaries` (
 		FULLTEXT KEY `name` (`name`)
 		) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
+CREATE TABLE `releases` 
+(
+`ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+`name` VARCHAR(255) NOT NULL DEFAULT '',
+`searchname` VARCHAR(255) NOT NULL DEFAULT '',	
+`totalpart` INT DEFAULT 0,	
+`groupID` INT UNSIGNED NOT NULL DEFAULT '0',
+`date` DATETIME DEFAULT NULL,
+PRIMARY KEY  (`ID`),
+FULLTEXT KEY `searchname` (`searchname`)
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
 
 CREATE TABLE `groups` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
