@@ -13,6 +13,7 @@ CREATE TABLE `binaries` (
 		relpart INT DEFAULT 0,
 		reltotalpart INT DEFAULT 0,
 		relname VARCHAR(255) NULL,
+		releaseID INT NULL,
 		PRIMARY KEY  (`ID`),
 		KEY `fromname` (`fromname`),
 		KEY `date` (`date`),
@@ -27,7 +28,9 @@ CREATE TABLE `releases`
 `searchname` VARCHAR(255) NOT NULL DEFAULT '',	
 `totalpart` INT DEFAULT 0,	
 `groupID` INT UNSIGNED NOT NULL DEFAULT '0',
+`size` INT(11) UNSIGNED NOT NULL DEFAULT '0',
 `date` DATETIME DEFAULT NULL,
+guid varchar(50) not null,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;		

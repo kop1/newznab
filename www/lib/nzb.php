@@ -8,9 +8,10 @@ require_once "Net/NNTP/Client.php";
 class NZB 
 {
 	const PROCSTAT_NEW = 0;
-	const PROCSTAT_RELEASED = 1;
+	const PROCSTAT_READYTORELEASE = 1;
 	const PROCSTAT_WRONGPARTS = 2;
 	const PROCSTAT_BADTITLEFORMAT = 3;
+	const PROCSTAT_RELEASED = 4;
 
 	function NZB() 
 	{
@@ -351,7 +352,7 @@ class NZB
 	{
 		$db = new DB();
 
-		$res = $db->query(sprintf("SELECT * from binaries where procstat = 0", NZB::PROCSTAT_NEW));
+		$res = $db->query(sprintf("SELECT * from binaries where procstat = %d", NZB::PROCSTAT_NEW));
 		
 		//
 		// should match fairly typical releases in format "relname [1/12] filename yenc"
@@ -387,7 +388,7 @@ class NZB
 				foreach ($info[2] as $partNumber => $recInd) 
 				{
 					$db->query(sprintf("update binaries set filename = %s, relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
-						$db->escapeString($res[$recInd]["matches"][7]), $db->escapeString($res[$recInd]["matches"][1]), $res[$recInd]["matches"][3], $res[$recInd]["matches"][4], NZB::PROCSTAT_RELEASED, $res[$recInd]["ID"] ));
+						$db->escapeString($res[$recInd]["matches"][7]), $db->escapeString($res[$recInd]["matches"][1]), $res[$recInd]["matches"][3], $res[$recInd]["matches"][4], NZB::PROCSTAT_READYTORELEASE, $res[$recInd]["ID"] ));
 				}
 			}
 			else
@@ -398,6 +399,43 @@ class NZB
 				}
 			}
 		}
+		
+		//
+		// Get out every binary which is ready to release and create the release header for it
+		//
+		$res = $db->query(sprintf("SELECT distinct relname, reltotalpart, groupID from binaries where procstat = %d", NZB::PROCSTAT_READYTORELEASE));
+		foreach($res as $arr) 
+		{
+			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\]-?\[#[\w]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/(19\d\d|20[012]\d)/'), array ('', ' ',' - ',' ', '', '', '(\1)'), $arr["relname"]);
+			
+			//
+			// insert the header release with a clean name
+			// 
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, date, guid) values (%s, %s, %d, %d, now(), md5(%s))", 
+										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["reltotalpart"], $arr["groupID"], $db->escapeString(uniqid())));
+			
+			//
+			// tag every binary for this release with its parent release id
+			// remove the release name from the binary as its no longer required
+			//
+			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d and reltotalpart = %d ", 
+								NZB::PROCSTAT_RELEASED, $relid, $db->escapeString($arr["relname"]), NZB::PROCSTAT_READYTORELEASE, $arr["groupID"], $arr["reltotalpart"]));
+
+		}
+
+		//
+		// calculate the total size of all releases
+		// TODO: do something with this to make it a bit more scalable, 
+		// its not really worthwhile updating the size of every release in the database :/
+		//
+		$db->query("update releases inner join
+							(
+							SELECT binaries.releaseID, sum(size) as size
+							from parts
+							inner join binaries on parts.binaryID = binaries.ID
+							group by binaries.releaseID
+							) p on p.releaseID = releases.ID and releases.size = 0
+							set releases.size = p.size");								
 		
 		//
 		// tidy away any binaries which have been attempted to be grouped into 
