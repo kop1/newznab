@@ -11,7 +11,12 @@ if (isset($_GET["id"]))
 
 	$page->smarty->assign('release',$data);
 
-	echo $page->smarty->fetch('viewnzb.tpl');
+	$page->meta_title = "View NZB";
+	$page->meta_keywords = "view,nzb,description,details";
+	$page->meta_description = "View NZB for".$data["searchname"] ;
+	
+	$page->content = $page->smarty->fetch('viewnzb.tpl');
+	$page->render();
 }
 
 ?>

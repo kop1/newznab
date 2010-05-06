@@ -21,7 +21,7 @@ class NZB
 		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
 		$this->maxAttemptsToProcessBinaryIntoRelease = 3;
 		$this->maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
-		$this->howManyMsgsToGoBackForNewGroup = 2000; //how far back to go, use 0 to get all
+		$this->howManyMsgsToGoBackForNewGroup = 10000; //how far back to go, use 0 to get all
 		$this->groupfilter = "alt.binaries.sounds.midi*|alt.binaries.sounds.lossless"; // regex of newsgroups to match on
 	}
 
@@ -146,7 +146,6 @@ class NZB
 					}
 				}
 
-				$starttime = getmicrotime();
 				if($last - $first < $this->maxMssgs) 
 				{
 					$fetchpartscount = $last - $first;
@@ -297,11 +296,6 @@ class NZB
 		$db = new DB();
 		$groups = $this->nntp->getGroups();
 		$ret = array();
-		$miscgroupID = 0;
-		
-		$res = $db->queryOneRow("SELECT ID FROM category WHERE title = 'Misc' and parentID = 7");
-		if ($res)
-			$miscGroupID = $res["ID"];
 			
 		foreach($groups AS $group) 
 		{
@@ -328,7 +322,7 @@ class NZB
 					{
 						$desc = $group['desc'];
 					}
-					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active, categoryID) VALUES (%s, %s, 1, %d)", $db->escapeString($group['group']), $db->escapeString($desc), $miscGroupID));
+					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, 1)", $db->escapeString($group['group']), $db->escapeString($desc)));
 					$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 				}
 			}

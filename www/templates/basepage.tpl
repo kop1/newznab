@@ -77,7 +77,12 @@
 		<div id="sidebar">
 		<ul>		
 		<li>
-		{$category_menu}
+			<h2>Menu</h2> 
+			<ul>
+				<li><a href="/login">Login</a></li>
+				<li><a href="/search">Search</a></li>
+				<li><a href="/browse">Browse</a></li>
+			</ul>
 		</li>
 		<li>
 		{$article_menu}

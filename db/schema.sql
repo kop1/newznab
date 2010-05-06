@@ -33,6 +33,7 @@ CREATE TABLE `releases`
 `adddate` DATETIME DEFAULT NULL,
 guid varchar(50) not null,
 `fromname` VARCHAR(255) NULL,
+categoryID INT DEFAULT 0,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
@@ -45,7 +46,6 @@ CREATE TABLE `groups` (
   `active` TINYINT(1) NOT NULL DEFAULT '0',
   `description` VARCHAR(255) NULL DEFAULT '',
   `postcount` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  categoryID INT NULL,
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
@@ -76,30 +76,30 @@ insert into category (ID, title) values (4, 'PC');
 insert into category (ID, title) values (5, 'TV');
 insert into category (ID, title) values (6, 'XXX');
 insert into category (ID, title) values (7, 'Other');
-insert into category (title, parentID) values ('NDS', 1);
-insert into category (title, parentID) values ('PSP', 1);
-insert into category (title, parentID) values ('Wii', 1);
-insert into category (title, parentID) values ('Xbox', 1);
-insert into category (title, parentID) values ('Xbox 360', 1);
-insert into category (title, parentID) values ('DVD', 2);
-insert into category (title, parentID) values ('WMV-HD', 2);
-insert into category (title, parentID) values ('XviD', 2);
-insert into category (title, parentID) values ('x264', 2);
-insert into category (title, parentID) values ('MP3', 3);
-insert into category (title, parentID) values ('Video', 3);
-insert into category (title, parentID) values ('0day', 4);
-insert into category (title, parentID) values ('ISO', 4);
-insert into category (title, parentID) values ('Mac', 4);
-insert into category (title, parentID) values ('DVD', 5);
-insert into category (title, parentID) values ('H264', 5);
-insert into category (title, parentID) values ('SWE', 5);
-insert into category (title, parentID) values ('XviD', 5);
-insert into category (title, parentID) values ('x264', 5);
-insert into category (title, parentID) values ('DVD', 6);
-insert into category (title, parentID) values ('WMV', 6);
-insert into category (title, parentID) values ('XviD', 6);
-insert into category (title, parentID) values ('x264', 6);
-insert into category (title, parentID) values ('Misc', 7);
+insert into category (ID, title, parentID) values (8, 'NDS', 1);
+insert into category (ID, title, parentID) values (9, 'PSP', 1);
+insert into category (ID, title, parentID) values (10, 'Wii', 1);
+insert into category (ID, title, parentID) values (11, 'Xbox', 1);
+insert into category (ID, title, parentID) values (12, 'Xbox 360', 1);
+insert into category (ID, title, parentID) values (13, 'DVD', 2);
+insert into category (ID, title, parentID) values (14, 'WMV-HD', 2);
+insert into category (ID, title, parentID) values (15, 'XviD', 2);
+insert into category (ID, title, parentID) values (16, 'x264', 2);
+insert into category (ID, title, parentID) values (17, 'MP3', 3);
+insert into category (ID, title, parentID) values (18, 'Video', 3);
+insert into category (ID, title, parentID) values (19, '0day', 4);
+insert into category (ID, title, parentID) values (20, 'ISO', 4);
+insert into category (ID, title, parentID) values (21, 'Mac', 4);
+insert into category (ID, title, parentID) values (22, 'DVD', 5);
+insert into category (ID, title, parentID) values (23, 'H264', 5);
+insert into category (ID, title, parentID) values (24, 'SWE', 5);
+insert into category (ID, title, parentID) values (25, 'XviD', 5);
+insert into category (ID, title, parentID) values (26, 'x264', 5);
+insert into category (ID, title, parentID) values (27, 'DVD', 6);
+insert into category (ID, title, parentID) values (28, 'WMV', 6);
+insert into category (ID, title, parentID) values (29, 'XviD', 6);
+insert into category (ID, title, parentID) values (30, 'x264', 6);
+insert into category (ID, title, parentID) values (31, 'Misc', 7);
 
 
 CREATE TABLE content
@@ -112,7 +112,7 @@ metadescription VARCHAR(1000) NOT NULL,
 metakeywords VARCHAR(1000) NOT NULL,
 contenttype INT NOT NULL,
 showinmenu INT NOT NULL,
-STATUS INT NOT NULL,
+`status` INT NOT NULL,
 ordinal INT NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
@@ -128,7 +128,7 @@ VALUES ('next content', '/another/great/seo/content/page/', '<p>this is another 
 
 CREATE TABLE site (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-CODE VARCHAR(255) NOT NULL,
+`code` VARCHAR(255) NOT NULL,
 title VARCHAR(1000) NOT NULL,
 strapline VARCHAR(1000) NOT NULL,
 metatitle VARCHAR(1000) NOT NULL,

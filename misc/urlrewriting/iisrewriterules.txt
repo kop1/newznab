@@ -4,3 +4,8 @@ RewriteRule /sitemap\.xml$ /sitemap.php?type=xml
 RewriteRule /rss$ /rss.php
 RewriteRule /robots\.txt$ /robots.php
 RewriteRule .*/c([0-9]+)$ /content.php?id=$1	
+RewriteRule .*/nzb/(.*)$ /getnzb.php?id=$1	
+RewriteRule .*/viewnzb/(.*)$ /viewnzb.php?id=$1	
+RewriteRule /login$ /login.php
+RewriteRule /search$ /search.php
+RewriteRule /browse$ /browse.php
