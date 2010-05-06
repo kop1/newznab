@@ -29,8 +29,10 @@ CREATE TABLE `releases`
 `totalpart` INT DEFAULT 0,	
 `groupID` INT UNSIGNED NOT NULL DEFAULT '0',
 `size` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-`date` DATETIME DEFAULT NULL,
+`postdate` DATETIME DEFAULT NULL,
+`adddate` DATETIME DEFAULT NULL,
 guid varchar(50) not null,
+`fromname` VARCHAR(255) NULL,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
@@ -43,6 +45,7 @@ CREATE TABLE `groups` (
   `active` TINYINT(1) NOT NULL DEFAULT '0',
   `description` VARCHAR(255) NULL DEFAULT '',
   `postcount` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  categoryID INT NULL,
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
@@ -58,6 +61,45 @@ CREATE TABLE `parts` (
   PRIMARY KEY  (`ID`),
   KEY `binaryID` (`binaryID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE TABLE category
+(
+ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+title VARCHAR(255) NOT NULL,
+parentID INT NULL
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+insert into category (ID, title) values (1, 'Console');
+insert into category (ID, title) values (2, 'Movies');
+insert into category (ID, title) values (3, 'Music');
+insert into category (ID, title) values (4, 'PC');
+insert into category (ID, title) values (5, 'TV');
+insert into category (ID, title) values (6, 'XXX');
+insert into category (ID, title) values (7, 'Other');
+insert into category (title, parentID) values ('NDS', 1);
+insert into category (title, parentID) values ('PSP', 1);
+insert into category (title, parentID) values ('Wii', 1);
+insert into category (title, parentID) values ('Xbox', 1);
+insert into category (title, parentID) values ('Xbox 360', 1);
+insert into category (title, parentID) values ('DVD', 2);
+insert into category (title, parentID) values ('WMV-HD', 2);
+insert into category (title, parentID) values ('XviD', 2);
+insert into category (title, parentID) values ('x264', 2);
+insert into category (title, parentID) values ('MP3', 3);
+insert into category (title, parentID) values ('Video', 3);
+insert into category (title, parentID) values ('0day', 4);
+insert into category (title, parentID) values ('ISO', 4);
+insert into category (title, parentID) values ('Mac', 4);
+insert into category (title, parentID) values ('DVD', 5);
+insert into category (title, parentID) values ('H264', 5);
+insert into category (title, parentID) values ('SWE', 5);
+insert into category (title, parentID) values ('XviD', 5);
+insert into category (title, parentID) values ('x264', 5);
+insert into category (title, parentID) values ('DVD', 6);
+insert into category (title, parentID) values ('WMV', 6);
+insert into category (title, parentID) values ('XviD', 6);
+insert into category (title, parentID) values ('x264', 6);
+insert into category (title, parentID) values ('Misc', 7);
 
 
 CREATE TABLE content

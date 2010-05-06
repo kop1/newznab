@@ -1,7 +1,6 @@
 <?php
 
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/util.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
 require_once "Net/NNTP/Client.php";
 
@@ -24,8 +23,6 @@ class NZB
 		$this->maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
 		$this->howManyMsgsToGoBackForNewGroup = 2000; //how far back to go, use 0 to get all
 		$this->groupfilter = "alt.binaries.sounds.midi*|alt.binaries.sounds.lossless"; // regex of newsgroups to match on
-
-		$this->downloadspeedArr = array();
 	}
 
 	function connect() 
@@ -74,7 +71,7 @@ class NZB
 			foreach($res as $binrow) 
 			{
 				//
-				// Move this into template
+				// TODO:Move this into template
 				//
 				$binrow['name'] = ereg_replace("[^a-zA-Z0-9\(\)\! .]",'', str_replace('"', '', $binrow['name']));
 				$binrow['fromname'] = str_replace('(','',str_replace(')','',$binrow['fromname']));
@@ -92,7 +89,6 @@ class NZB
 		$db = new DB();
 		$attempts = 0;
 
-		//select newsgroup
 		$data = $this->nntp->selectGroup($groupArr['name']);
 		if(PEAR::isError($data)) 
 		{
@@ -237,18 +233,6 @@ class NZB
 					}
 					echo "Received $count new binaries\n";
 					echo "Updated $updatecount binaries\n";
-					$endtime = getmicrotime();
-
-					//calculate speed
-					$parsetime = $endtime - $starttime;
-					$downloadspeed = $partcount/$parsetime;
-					echo "Current download speed: ".round($downloadspeed)." parts/sec\n";
-					$avgdownloadspeed = (array_sum($this->downloadspeedArr) + $downloadspeed) / (count($this->downloadspeedArr) + 1);
-					echo "Average download speed: ".round($avgdownloadspeed)." parts/sec\n";
-					if(round($downloadspeed) > 0) 
-					{
-						$this->downloadspeedArr[] = $downloadspeed;
-					}
 
 					//update group table with last received message
 					$countRes = $db->queryOneRow(sprintf("SELECT COUNT(ID) as num FROM binaries WHERE groupID = %d", $groupArr['ID']));
@@ -264,20 +248,6 @@ class NZB
 					else 
 					{
 						$first = $last + 1;
-					}
-
-					//calculate estimated time left with current average speed
-					if($parsetime > 0 && $done === false) 
-					{
-						if($avgdownloadspeed > 0) 
-						{
-							$ETA = round(($orglast - $first) / $avgdownloadspeed);
-						} else 
-						{
-							$ETA = 0;
-						}
-						$ETA = sec2min($ETA);
-						echo "Estimated time left: {$ETA}\n";
 					}
 
 					unset($this->message);
@@ -327,7 +297,12 @@ class NZB
 		$db = new DB();
 		$groups = $this->nntp->getGroups();
 		$ret = array();
+		$miscgroupID = 0;
 		
+		$res = $db->queryOneRow("SELECT ID FROM category WHERE title = 'Misc' and parentID = 7");
+		if ($res)
+			$miscGroupID = $res["ID"];
+			
 		foreach($groups AS $group) 
 		{
 			$regfilter = "/^(" . str_replace (array ('.','*'), array ('\.','.*?'), $this->groupfilter) . ")/";
@@ -353,7 +328,7 @@ class NZB
 					{
 						$desc = $group['desc'];
 					}
-					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, 1)", $db->escapeString($group['group']), $db->escapeString($desc)));
+					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active, categoryID) VALUES (%s, %s, 1, %d)", $db->escapeString($group['group']), $db->escapeString($desc), $miscGroupID));
 					$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 				}
 			}
@@ -425,7 +400,7 @@ class NZB
 			//
 			// insert the header release with a clean name
 			// 
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, date, guid) values (%s, %s, %d, %d, now(), md5(%s))", 
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid) values (%s, %s, %d, %d, now(), md5(%s))", 
 										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["reltotalpart"], $arr["groupID"], $db->escapeString(uniqid())));
 			
 			//
@@ -449,7 +424,21 @@ class NZB
 							inner join binaries on parts.binaryID = binaries.ID
 							group by binaries.releaseID
 							) p on p.releaseID = releases.ID and releases.size = 0
-							set releases.size = p.size");								
+							set releases.size = p.size");	
+
+		//
+		// update the postdate and poster name of all new releases
+		// TODO: like the size above, this could probably be done somewhere better
+		//
+		$db->query("update releases inner join
+							(
+							SELECT binaries.releaseID, binaries.fromname, max(date) as pdate
+							from binaries
+							where releaseID is not null
+							group by binaries.releaseID
+							) p on p.releaseID = releases.ID
+							set releases.postdate = p.pdate, releases.fromname = p.fromname
+							where postdate is null");				
 		
 		//
 		// tidy away any binaries which have been attempted to be grouped into 
