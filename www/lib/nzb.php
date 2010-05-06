@@ -46,6 +46,20 @@ class NZB
 	}
 	
 	//
+	// Get an nzb by its release guid
+	//
+	function getNZBforRelease($relguid)
+	{
+		$db = new DB();
+		$binaries = array();
+		$res = $db->query(sprintf("select binaries.ID from binaries inner join releases on releases.ID = binaries.releaseID where releases.guid = %s", $db->escapeString($relguid)));
+		foreach($res as $binrow) 
+			$binaries[] = $binrow["ID"];
+
+		return $this->getNZB($binaries);
+	}
+	
+	//
 	// Return a multi array of series of binaries and their parts.
 	//
 	function getNZB($selected)
@@ -200,7 +214,7 @@ class NZB
 					{
 						if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '') 
 						{
-						  $res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
+							$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
 							if(!$res) 
 							{
 								$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d)", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
@@ -406,7 +420,7 @@ class NZB
 		$res = $db->query(sprintf("SELECT distinct relname, reltotalpart, groupID from binaries where procstat = %d", NZB::PROCSTAT_READYTORELEASE));
 		foreach($res as $arr) 
 		{
-			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\]-?\[#[\w]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/(19\d\d|20[012]\d)/'), array ('', ' ',' - ',' ', '', '', '(\1)'), $arr["relname"]);
+			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\]-?\[#[\w]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/(\s)(19\d\d|20[012]\d)(?:\s|$)/'), array ('', ' ',' - ',' ', '', '', '\1(\2)\3'), $arr["relname"]);
 			
 			//
 			// insert the header release with a clean name
