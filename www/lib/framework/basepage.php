@@ -1,6 +1,7 @@
 <?php
 
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
 require_once(SMARTY_DIR.'Smarty.class.php');
 
 class BasePage 
@@ -13,9 +14,12 @@ class BasePage
 	public $meta_description = '';    
 	public $page_template = ''; 
 	public $smarty = '';
+	public $userdata = array();
 		
 	function BasePage()
 	{			
+		session_start();
+	
 		if((function_exists("get_magic_quotes_gpc") && get_magic_quotes_gpc()) || ini_get('magic_quotes_sybase'))
 		{
             foreach($_GET as $k => $v) $_GET[$k] = stripslashes($v);
@@ -31,8 +35,23 @@ class BasePage
         $this->smarty->cache_dir    = SMARTY_DIR.'cache/';				
 		
 		$this->smarty->assign('page',$this);
-		$this->smarty->assign('port',($_SERVER ['SERVER_PORT'] == "80" ? "" : ":".$_SERVER ['SERVER_PORT']));
+		$this->smarty->assign('port',($_SERVER['SERVER_PORT'] == "80" ? "" : ":".$_SERVER['SERVER_PORT']));
 		$this->smarty->assign('scheme', ($_SERVER['SERVER_PORT']=="443" ? "https://" : "http://"));
+		
+		$users = new Users();
+		if ($users->isLoggedIn())
+		{
+			$this->userdata = $users->getById($users->currentUserId());
+			$this->smarty->assign('userdata',$this->userdata);	
+			$this->smarty->assign('loggedin',"true");
+			if ($this->userdata["role"] == Users::ROLE_ADMIN)
+				$this->smarty->assign('isadmin',"true");	
+		}
+		else
+		{
+			$this->smarty->assign('isadmin',"false");	
+			$this->smarty->assign('loggedin',"false");	
+		}
 	}    
 	
 	public function addToHead($headcontent) 
@@ -50,9 +69,16 @@ class BasePage
 		return (strtoupper($_SERVER["REQUEST_METHOD"]) === "POST");	
 	}
 	
-	public function buttonWasPressed($buttonName)
+	public function show404()
 	{
-		return isset($_POST[$buttonName]);
+		header("HTTP/1.1 404 Not Found");
+		die();
+	}
+	
+	public function show403()
+	{
+		header("HTTP/1.1 403 Forbidden");
+		die();
 	}
 }
 ?>

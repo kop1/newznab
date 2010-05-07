@@ -1,4 +1,5 @@
-
+﻿
+drop table if exists `binaries`;
 CREATE TABLE `binaries` (
 		`ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 		`name` VARCHAR(255) NOT NULL DEFAULT '',
@@ -21,6 +22,7 @@ CREATE TABLE `binaries` (
 		FULLTEXT KEY `name` (`name`)
 		) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
+drop table if exists `releases`;
 CREATE TABLE `releases` 
 (
 `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -34,10 +36,12 @@ CREATE TABLE `releases`
 guid varchar(50) not null,
 `fromname` VARCHAR(255) NULL,
 categoryID INT DEFAULT 0,
+`grabs` INT UNSIGNED NOT NULL DEFAULT '0',
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
 
+drop table if exists `groups`;
 CREATE TABLE `groups` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL DEFAULT '',
@@ -50,7 +54,7 @@ CREATE TABLE `groups` (
   KEY `active` (`active`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-
+drop table if exists `parts`;
 CREATE TABLE `parts` (
   `ID` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
   `binaryID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
@@ -62,6 +66,7 @@ CREATE TABLE `parts` (
   KEY `binaryID` (`binaryID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
+drop table if exists `category`;
 CREATE TABLE category
 (
 ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -101,7 +106,20 @@ insert into category (ID, title, parentID) values (29, 'XviD', 6);
 insert into category (ID, title, parentID) values (30, 'x264', 6);
 insert into category (ID, title, parentID) values (31, 'Misc', 7);
 
+drop table if exists `users`;
+CREATE TABLE `users` (
+  `ID` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `role` INT NOT NULL DEFAULT 1,
+  `host` VARCHAR(15) NULL,
+  `createddate` DATETIME DEFAULT NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
+
+drop table if exists `content`;
 CREATE TABLE content
 (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -117,15 +135,15 @@ ordinal INT NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 INSERT INTO content (title, body, contenttype, STATUS, metadescription, metakeywords, showinmenu) 
-VALUES ('welcome to the homepage', '<p>this is the homepage text, its from the database</p>', 3, 1, '', '', 0);
+VALUES ('welcome to newznab', '<p>A usenet indexing community site thats easy to configure.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', 3, 1, '', '', 0);
 
 INSERT INTO content (title, url, body, contenttype, STATUS, showinmenu, metadescription, metakeywords) 
-VALUES ('example content', '/great/seo/content/page/', '<p>this is an example content page</p>', 2, 1, 1, '', '');
+VALUES ('example content', '/great/seo/content/page/', '<p>this is an example content page</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', 2, 1, 1, '', '');
 
 INSERT INTO content (title, url, body, contenttype, STATUS, showinmenu, metadescription, metakeywords) 
-VALUES ('next content', '/another/great/seo/content/page/', '<p>this is another example content page</p>', 2, 1, 1, '', '');
+VALUES ('another example', '/another/great/seo/content/page/', '<p>this is another example content page</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', 2, 1, 1, '', '');
 
-
+drop table if exists `site`;
 CREATE TABLE site (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 `code` VARCHAR(255) NOT NULL,
@@ -144,4 +162,4 @@ google_adsense_sidepanel VARCHAR(255) NULL,
 google_analytics_acc VARCHAR(255) NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'meta title', 'metadesc', 'usenet,nzbs', 'intelligent footer text', 'info@newznab.com', '/', NOW(), NULL, NULL, NULL, NULL);
+INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 'info@newznab.com', '/', NOW(), NULL, NULL, NULL, NULL);

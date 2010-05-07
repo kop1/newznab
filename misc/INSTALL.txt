@@ -2,6 +2,9 @@ pre-reqs
 	php
 	mysql
 	pear net_nntp module
+	php mhash module
+	php mcrypt module
+	php sessions enabled
 	iis
 		urlrewriter isapi in \misc\ installed
 	apache
@@ -16,6 +19,7 @@ installation
 	restart iis/apache
 	browse to http://localhost/ and should see newznab homepage with default content.
 	newznab.site database table contains configurable info about your site.
+	register and update the users.role to 2 to set that user as administrator
 	
 updating index
 	updating the index can take ages depending on how much retention you require
@@ -34,8 +38,8 @@ google ads/analytics
 	id will include the analytics js in the footer
 
 admin
-	admin functions all live in /admin/ which is not secured, and requires you to add some
-	htaccess or directory level security
+	admin functions all live in /admin/ which is only accessible by users with admin role.
+	set users.role to be 2 on the users you wish to be admins
 
 content/cms
 	pages can be added to the site with seo friendly urls via the /admin/ edit content links

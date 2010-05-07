@@ -13,6 +13,14 @@
 </head>
 <body>
 
+	<div id="statusbar">
+		{if $loggedin=="true"}
+			Welcome back <a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/profile">{$userdata.username}</a>. <a href="/logout">Logout</a>
+		{else}
+			<a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/login">Login</a> or <a href="/register">Register</a>
+		{/if}
+	</div>
+
 	<div id="logo">
 		<a title="{$site->title} Logo" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/"><img alt="{$site->title} Logo" src="/images/banner.jpg" /></a>
 		<h1><a href="/">{$site->title}</a></h1>
@@ -79,9 +87,18 @@
 		<li>
 			<h2>Menu</h2> 
 			<ul>
-				<li><a href="/login">Login</a></li>
+			{if $loggedin=="true"}
 				<li><a href="/search">Search</a></li>
 				<li><a href="/browse">Browse</a></li>
+				{if $isadmin=="true"}
+					<li><a href="/admin/">Admin</a></li>
+				{/if}
+				<li><a href="/profile">Profile</a></li>
+				<li><a href="/logout">Logout</a></li>
+			{else}
+				<li><a href="/login">Login</a></li>
+				<li><a href="/register">Register</a></li>
+			{/if}
 			</ul>
 		</li>
 		<li>
@@ -137,7 +154,7 @@
 	<div id="footer">
 	<p>
 		{$site->footer}
-		<br /><br /><br />Copyright &copy; {$smarty.now|date_format:"%Y"} {$site->title}. All rights reserved. <br/><a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/terms-and-conditions.php">Terms and Conditions</a>
+		<br /><br /><br /><a href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/><a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/terms-and-conditions.php">{$site->title} Terms and Conditions</a>
 	</p>
 	</div>
 	<!-- end #footer -->
