@@ -2,6 +2,7 @@
 
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/site.php");
 require_once "Net/NNTP/Client.php";
 
 class NZB 
@@ -11,18 +12,22 @@ class NZB
 	const PROCSTAT_WRONGPARTS = 2;
 	const PROCSTAT_BADTITLEFORMAT = 3;
 	const PROCSTAT_RELEASED = 4;
-
+	private $site ;
+	
 	function NZB() 
 	{
+		$s = new Sites();
+		$this->site = $s->get();
+		
 		//
-		// TODO:Move this to be configurable in the database.
+		// TODO:Move all these to site table.
 		//
 		$this->retention = 20; // number of days afterwhich binaries are deleted.
 		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
 		$this->maxAttemptsToProcessBinaryIntoRelease = 3;
 		$this->maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
 		$this->howManyMsgsToGoBackForNewGroup = 10000; //how far back to go, use 0 to get all
-		$this->groupfilter = "alt.binaries.sounds.midi*|alt.binaries.sounds.lossless"; // regex of newsgroups to match on
+		$this->groupfilter = $this->site->groupfilter; // regex of newsgroups to match on
 	}
 
 	function connect() 

@@ -134,13 +134,13 @@ showinmenu INT NOT NULL,
 ordinal INT NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-INSERT INTO content (title, body, contenttype, STATUS, metadescription, metakeywords, showinmenu) 
+INSERT INTO content (title, body, contenttype, STATUS, metadescription, metakeywords, showinmenu)
 VALUES ('welcome to newznab', '<p>A usenet indexing community site thats easy to configure.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', 3, 1, '', '', 0);
 
 INSERT INTO content (title, url, body, contenttype, STATUS, showinmenu, metadescription, metakeywords) 
 VALUES ('example content', '/great/seo/content/page/', '<p>this is an example content page</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', 2, 1, 1, '', '');
 
-INSERT INTO content (title, url, body, contenttype, STATUS, showinmenu, metadescription, metakeywords) 
+INSERT INTO content (title, url, body, contenttype, STATUS, showinmenu, metadescription, metakeywords)
 VALUES ('another example', '/another/great/seo/content/page/', '<p>this is another example content page</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', 2, 1, 1, '', '');
 
 drop table if exists `site`;
@@ -154,7 +154,7 @@ metadescription VARCHAR(1000) NOT NULL,
 metakeywords VARCHAR(1000) NOT NULL,
 footer VARCHAR(2000) NOT NULL,
 email VARCHAR(1000) NOT NULL,
-root VARCHAR(255) NOT NULL,
+groupfilter VARCHAR(2000) NOT NULL,
 lastupdate DATETIME NOT NULL,
 google_adsense_menu VARCHAR(255) NULL,
 google_adsense_search VARCHAR(255) NULL,
@@ -162,4 +162,4 @@ google_adsense_sidepanel VARCHAR(255) NULL,
 google_analytics_acc VARCHAR(255) NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 'info@newznab.com', '/', NOW(), NULL, NULL, NULL, NULL);
+INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 'info@newznab.com', 'alt.binaries.sounds.midi*|alt.binaries.sounds.lossless', NOW(), NULL, NULL, NULL, NULL);

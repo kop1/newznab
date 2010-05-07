@@ -73,7 +73,6 @@
 	<td></td>
 	<td>
 		<input type="submit" value="Save" />
-		<input onclick="alert('go back');" type="button" value="Cancel" />
 	</td>
 </tr>
 
