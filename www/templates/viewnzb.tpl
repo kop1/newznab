@@ -5,6 +5,7 @@
 	<tr><th>Subject:</th><td>{$release.name}</td></tr>
 	<tr><th>Group:</th><td>{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
 	<tr><th>Size:</th><td>{$release.size|fsize_format:"MB"}</td></tr>
+	<tr><th>Grabs:</th><td>{$release.grabs}</td></tr>
 	<tr><th>Files:</th><td>{$release.totalpart}</td></tr>
 	<tr><th>File List:</th><td><a href="/filelist/{$release.guid}">View file list</a></td></tr>
 	<tr><th>Poster:</th><td>{$release.fromname}</td></tr>

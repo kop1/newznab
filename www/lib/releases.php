@@ -8,6 +8,26 @@ class Releases
 		$db = new DB();
 		return $db->query("select releases.* from releases");		
 	}
+
+	public function getRange($start, $num)
+	{		
+		$db = new DB();
+		
+		if ($start === false)
+			$limit = "";
+		else
+			$limit = " LIMIT ".$start.",".$num;
+		
+		return $db->query(" SELECT * from releases".$limit);		
+	}
+
+	
+	public function getCount()
+	{			
+		$db = new DB();
+		$res = $db->queryOneRow("select count(ID) as num from releases");		
+		return $res["num"];
+	}
 	
 	public function search($search)
 	{			
@@ -25,5 +45,11 @@ class Releases
 		$db = new DB();
 		return $db->queryOneRow(sprintf("select releases.*, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID where guid = %s ", $db->escapeString($guid)));		
 	}	
+	
+	public function updateGrab($guid)
+	{			
+		$db = new DB();
+		$db->queryOneRow(sprintf("update releases set grabs = grabs + 1 where guid = %s", $db->escapeString($guid)));		
+	}
 }
 ?>

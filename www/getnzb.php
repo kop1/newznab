@@ -7,12 +7,18 @@ $page = new Page();
 
 if (isset($_GET["id"]))
 {
+	$rel = new Releases;
+	$reldata = $rel->getByGuid($_GET["id"]);
+	if ($reldata)
+		$rel->updateGrab($_GET["id"]);
+	else
+		$page->show404();
+
+
 	$nzb = new NZB;
 	$nzbdata = $nzb->getNZBforRelease($_GET["id"]);
 	$page->smarty->assign('binaries',$nzbdata);
 
-	$rel = new Releases;
-	$reldata = $rel->getByGuid($_GET["id"]);
 
 	header("Content-type: text/xml");
 	header("Content-Disposition: attachment; filename=".$reldata["searchname"].".nzb");
