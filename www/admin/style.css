@@ -19,34 +19,6 @@ input.short
 		width:40px;
 }
 
-table.data
-{
-		border-spacing:0px;
-    border-color: #AAA;
-    border-width: 0 0 1px 1px;
-    border-style: solid;		
-}
-
-table.data td
-{
-		vertical-align:top;
-		padding:5px;
-    border-color: #AAA;
-    border-width: 1px 1px 0 0;
-    border-style: solid;
-}
-
-table.data th
-{
-		text-align:left;
-		background-color:#DDD;
-    border-color: #AAA;
-    border-width: 1px 1px 0 0;
-    border-style: solid;
-		padding:3px;
-		font-style:bolder;
-		text-transform:capitalize;
-}
 
 table.input td
 {

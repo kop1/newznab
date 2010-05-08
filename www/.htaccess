@@ -10,5 +10,6 @@ RewriteRule .*/viewnzb/(.*)$ /viewnzb.php?id=$1
 RewriteRule ^login$ /login.php
 RewriteRule ^logout$ /logout.php
 RewriteRule ^register$ /register.php
+RewriteRule ^search/(.*)$ /search.php?search=$1
 RewriteRule ^search$ /search.php
 RewriteRule ^browse$ /browse.php

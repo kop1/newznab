@@ -50,7 +50,7 @@ hr { display: none; }
 	float: left;
 	width: 680px;
 	height: 43px;
-	padding-top:12px;
+	padding-top:22px;
 }
 
 /* Page */
@@ -101,7 +101,7 @@ hr { display: none; }
 	color: #A8A8A8;
 }
 #logo img {
-	margin-top:20px;
+	margin-top:25px;
 }
 #logo h1 a {
 	text-decoration: none;
@@ -256,4 +256,34 @@ div.error
 #statusbar a {
 	text-decoration: none;
 	color: #515151;
+}
+
+
+table.data
+{
+		border-spacing:0px;
+    border-color: #AAA;
+    border-width: 0 0 1px 1px;
+    border-style: solid;		
+}
+
+table.data td
+{
+		vertical-align:top;
+		padding:5px;
+    border-color: #AAA;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+}
+
+table.data th
+{
+		text-align:left;
+		background-color:#DDD;
+    border-color: #AAA;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+		padding:3px;
+		font-style:bolder;
+		text-transform:capitalize;
 }

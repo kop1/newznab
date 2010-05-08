@@ -47,3 +47,4 @@ content/cms
 faqs
 	authorisation rejected from nntp server - check you have enough available connections 
 	not currently in use
+	Fatal error: Call to undefined function mhash() - missing mcrypt and mhash php library includes
