@@ -26,8 +26,8 @@
 			<td>{$result.categoryname}</td>
 			<td>{$result.postdate|date_format}</td>
 			<td>{$result.size|fsize_format:"MB"}</td>
-			<td>{$result.totalpart}</td>
-			<td></td>
+			<td><a title="View file list" href="/filelist/{$result.guid}">{$result.totalpart}</a></td>
+			<td nowrap="nowrap">{$result.grabs} grab{if $result.grabs != 1}s{/if}<br/><a title="View comments for {$result.searchname}" href="#">0 cmts</a></td>
 		</tr>
 	{/foreach}
 	

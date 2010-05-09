@@ -1,8 +1,13 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/page.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/releases.php");
 
-$page = new Page();
+$page = new Page;
+$users = new Users;
+
+if (!$users->isLoggedIn())
+	$page->show403();
 
 if (isset($_GET["id"]))
 {
