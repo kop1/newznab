@@ -18,7 +18,7 @@ class Releases
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query(" SELECT * from releases".$limit);		
+		return $db->query(" SELECT * from releases order by adddate".$limit);		
 	}
 
 	
