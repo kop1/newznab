@@ -8,6 +8,7 @@ pre-reqs
 	iis
 		urlrewriter isapi in \misc\ installed
 	apache
+		mod_rewrite enabled
 		.htaccess allow override on
 		
 installation

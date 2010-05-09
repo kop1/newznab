@@ -24,6 +24,31 @@ class Users
 		return $db->query("select * from users");		
 	}	
 	
+	public function delete($id)
+	{			
+		$db = new DB();
+		$db->query(sprintf("delete from users where ID = %d", $id));		
+	}	
+	
+	public function getRange($start, $num)
+	{		
+		$db = new DB();
+		
+		if ($start === false)
+			$limit = "";
+		else
+			$limit = " LIMIT ".$start.",".$num;
+		
+		return $db->query(" SELECT * from users".$limit);		
+	}	
+	
+	public function getCount()
+	{			
+		$db = new DB();
+		$res = $db->queryOneRow("select count(ID) as num from users");
+		return $res["num"];		
+	}	
+
 	public function add($uname, $pass, $email, $role, $host)
 	{			
 		$db = new DB();

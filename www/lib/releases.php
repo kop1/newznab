@@ -29,6 +29,12 @@ class Releases
 		return $res["num"];
 	}
 	
+	public function delete($id)
+	{			
+		$db = new DB();
+		$db->query(sprintf("delete from releases where id = %d", $id));		
+	}
+
 	public function search($search)
 	{			
 		$db = new DB();
@@ -46,6 +52,12 @@ class Releases
 		return $db->queryOneRow(sprintf("select releases.*, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID where guid = %s ", $db->escapeString($guid)));		
 	}	
 	
+	public function getById($id)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("select releases.*, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID where releases.ID = %d ", $id));		
+	}	
+
 	public function updateGrab($guid)
 	{			
 		$db = new DB();
