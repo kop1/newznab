@@ -361,7 +361,6 @@ class NZB
 					$index[$key][1] = $matches[4]; // How many parts
 					$index[$key][2][$matches[3]] = $recordIndex; // Which unique numbered parts avail in $records
 					$res[$recordIndex]["matches"] = $matches;
-					$retcount++;
 		    }
 		}
 		
@@ -410,6 +409,7 @@ class NZB
 			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d and reltotalpart = %d ", 
 								NZB::PROCSTAT_RELEASED, $relid, $db->escapeString($arr["relname"]), NZB::PROCSTAT_READYTORELEASE, $arr["groupID"], $arr["reltotalpart"]));
 
+			$retcount++;
 		}
 
 		//
