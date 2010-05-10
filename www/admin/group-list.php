@@ -7,6 +7,7 @@ $page = new AdminPage();
 
 $groups = new Groups();
 $grouplist = $groups->getAll();
+
 $page->smarty->assign('grouplist',$grouplist);	
 
 $page->title = "Group List";

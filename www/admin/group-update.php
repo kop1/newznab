@@ -1,14 +1,12 @@
 <?php
 
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/adminpage.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/nzb.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/groups.php");
 
 $page = new AdminPage();
 
-$nzb = new NZB;
-$nzb->connect();
-$msgs = $nzb->updateGroupList();
-$nzb->quit();
+$groups = new Groups;
+$msgs = $groups->updateGroupList();
 
 $page->smarty->assign('groupmsglist',$msgs);	
 

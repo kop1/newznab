@@ -50,6 +50,7 @@ CREATE TABLE `groups` (
   `active` TINYINT(1) NOT NULL DEFAULT '0',
   `description` VARCHAR(255) NULL DEFAULT '',
   `postcount` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `categoryID` INT NULL,  
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
@@ -105,6 +106,9 @@ INSERT INTO category (ID, title, parentID) VALUES (28, 'WMV', 6);
 INSERT INTO category (ID, title, parentID) VALUES (29, 'XviD', 6);
 INSERT INTO category (ID, title, parentID) VALUES (30, 'x264', 6);
 INSERT INTO category (ID, title, parentID) VALUES (31, 'Misc', 7);
+INSERT INTO category (ID, title, parentID) VALUES (32, 'Audiobook', 3);
+INSERT INTO category (ID, title, parentID) VALUES (33, 'Ebook', 7);
+INSERT INTO category (ID, title, parentID) VALUES (34, 'Ipod', 5);
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
@@ -163,4 +167,4 @@ google_adsense_sidepanel VARCHAR(255) NULL,
 google_analytics_acc VARCHAR(255) NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 'info@newznab.com', 'alt.binaries.sounds.midi*|alt.binaries.sounds.lossless', NOW(), 8737023493, 8149080431, NULL, NULL);
+INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 'info@newznab.com', 'alt.binaries.sounds.midi*|alt.binaries.sounds.lossless|alt.binaries.e-book.technical|alt.binaries.mp3.audiobooks', NOW(), 8737023493, 8149080431, NULL, NULL);

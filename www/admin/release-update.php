@@ -1,12 +1,12 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/nzb.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/releases.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/adminpage.php");
 
 $page = new AdminPage();
 
-$nzb = new NZB;
-$proccount = $nzb->processReleases();
+$releases = new Releases;
+$proccount = $releases->processReleases();
 
 $page->title = "Updating Releases";
 $page->smarty->assign('proccount', $proccount);
