@@ -35,8 +35,8 @@ updating newsgroups
 	
 google ads/analytics
 	to integrate google analytics and adsense provide enter the adsense ad module ids 
-	into the site table for the menu (top) and sidepanel (right). providing an analytics
-	id will include the analytics js in the footer
+	into the site table for the menu (top), sidepanel (right), searchbox (bottom of menu). 
+	providing an analytics id will include the analytics js in the footer
 
 admin
 	admin functions all live in /admin/ which is only accessible by users with admin role.

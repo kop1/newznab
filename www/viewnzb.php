@@ -14,7 +14,16 @@ if (isset($_GET["id"]))
 	$releases = new Releases;
 	$data = $releases->getByGuid($_GET["id"]);
 
+	if (!$data)
+		$page->show404();
+
+	if ($page->isPostBack())
+			$releases->addComment($data["ID"], $_POST["txtAddComment"], $users->currentUserId(), $_SERVER['REMOTE_ADDR']); 
+	
+	$comments = $releases->getComments($data["ID"]);
+
 	$page->smarty->assign('release',$data);
+	$page->smarty->assign('comments',$comments);
 
 	$page->meta_title = "View NZB";
 	$page->meta_keywords = "view,nzb,description,details";

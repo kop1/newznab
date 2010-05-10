@@ -16,3 +16,33 @@
 <div style="padding-top:20px;">
 <a title="Download Nzb for {$release.searchname}" href="/download/{$release.searchname}/nzb/{$release.guid}">Download Nzb for {$release.searchname}</a>
 </div>
+
+<div class="comments">
+	<a id="comments"></a>
+	<h2>Comments</h2>
+	
+	{if $comments|@count > 0}
+	
+		<table style="margin-bottom:20px;" class="data Sortable">
+			<tr>
+			<th width="80">User</th>
+			<th>Comment</th>
+			</tr>
+		{foreach from=$comments item=comment}
+			<tr>
+				<td title="{$comment.createddate}">{$comment.username}<br/>{$comment.createddate|date_format}</td>
+				<td>{$comment.text|escape:"htmlall"}</td>
+			</tr>
+		{/foreach}
+		</table>
+	
+	{/if}
+	
+	<form method="post">
+		<label for="txtAddComment">Add Comment</label>:<br/>
+		<textarea name="txtAddComment"></textarea>
+		<br/>
+		<input type="submit" value="add comment"/>
+	</form>
+
+</div>

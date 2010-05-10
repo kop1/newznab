@@ -193,6 +193,25 @@ class Releases
 		
 		return $retcount;
 	}	
+
+	public function getComments($id)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID where releaseID = %d", $id));		
+	}
+
+	public function deleteComment($id)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("delete from releasecomment where ID = %d", $id));		
+	}
+
+	public function addComment($id, $text, $userid, $host)
+	{			
+		$db = new DB();
+		return $db->queryInsert(sprintf("INSERT INTO releasecomment (`releaseID`, 	`text`, 	`userID`, 	`createddate`, 	`host`	)	
+						VALUES (%d, 	%s, 	%d, 	now(), 	%s	)", $id, $db->escapeString($text), $userid, $db->escapeString($host) ));		
+	}
 	
 }
 ?>
