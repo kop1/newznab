@@ -167,4 +167,23 @@ google_adsense_sidepanel VARCHAR(255) NULL,
 google_analytics_acc VARCHAR(255) NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-INSERT INTO site VALUES (NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 'info@newznab.com', 'alt.binaries.sounds.midi*|alt.binaries.sounds.lossless|alt.binaries.e-book.technical|alt.binaries.mp3.audiobooks', NOW(), 8737023493, 8149080431, NULL, NULL);
+
+INSERT INTO `site` 
+	(`id`, 
+	`code`, 
+	`title`, 
+	`strapline`, 
+	`metatitle`, 
+	`metadescription`, 
+	`metakeywords`, 
+	`footer`, 
+	`email`, 
+	`groupfilter`, 
+	`lastupdate`, 
+	`google_adsense_menu`, 
+	`google_adsense_search`, 
+	`google_adsense_sidepanel`, 
+	`google_analytics_acc`
+	)
+	VALUES
+	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 'info@newznab.com', 'alt.binaries.sounds.midi*|alt.binaries.sounds.lossless|alt.binaries.e-book.technical|alt.binaries.mp3.audiobooks', NOW(), 8737023493, 8149080431, 8149080431, NULL);

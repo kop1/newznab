@@ -23,7 +23,7 @@
 	{foreach from=$results item=result}
 		<tr>
 			<td><a href="/details/{$result.searchname}/viewnzb/{$result.guid}">{$result.searchname}</a></td>
-			<td>{$result.categoryname}</td>
+			<td>{$result.category_name}</td>
 			<td>{$result.postdate|date_format}</td>
 			<td>{$result.size|fsize_format:"MB"}</td>
 			<td><a title="View file list" href="/filelist/{$result.guid}">{$result.totalpart}</a></td>

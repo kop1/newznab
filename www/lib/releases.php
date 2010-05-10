@@ -1,5 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/category.php");
 
 class Releases
 {	
@@ -28,7 +29,7 @@ class Releases
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query(" SELECT * from releases order by adddate".$limit);		
+		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by adddate".$limit);		
 	}
 	
 	public function getCount()
@@ -47,10 +48,10 @@ class Releases
 	public function search($search)
 	{			
 		$db = new DB();
-		$res = $db->query(sprintf("select releases.*, 'cat' as categoryname from releases where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc ", $db->escapeString($search), $db->escapeString($search)));		
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc ", $db->escapeString($search), $db->escapeString($search)));		
 
 		if (!$res)
-				$res = $db->query(sprintf("select releases.*, 'cat' as categoryname from releases where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc ", $db->escapeString($search."*"), $db->escapeString($search."*")));		
+				$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc ", $db->escapeString($search."*"), $db->escapeString($search."*")));		
 
 		return $res;
 	}	
@@ -58,7 +59,7 @@ class Releases
 	public function getByGuid($guid)
 	{			
 		$db = new DB();
-		return $db->queryOneRow(sprintf("select releases.*, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID where guid = %s ", $db->escapeString($guid)));		
+		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID  left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where guid = %s ", $db->escapeString($guid)));		
 	}	
 	
 	public function getById($id)
@@ -75,7 +76,8 @@ class Releases
 	
 	function processReleases()
 	{
-		$db = new DB();
+		$db = new DB;
+		$cat = new Category;
 		$retcount = 0;
 
 		$res = $db->query(sprintf("SELECT * from binaries where procstat = %d", Releases::PROCSTAT_NEW));
@@ -136,8 +138,8 @@ class Releases
 			//
 			// insert the header release with a clean name
 			// 
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid) values (%s, %s, %d, %d, now(), md5(%s))", 
-										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["reltotalpart"], $arr["groupID"], $db->escapeString(uniqid())));
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID) values (%s, %s, %d, %d, now(), md5(%s), %d)", 
+										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["reltotalpart"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["groupID"], $arr["relname"]) ));
 			
 			//
 			// tag every binary for this release with its parent release id

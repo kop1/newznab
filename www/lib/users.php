@@ -1,6 +1,11 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
 
+//
+// Thanks to gizmore@wechall.net for the user password hashing code.
+//
+
+
 class Users
 {	
 	const ERR_SIGNUP_BADUNAME = -1;

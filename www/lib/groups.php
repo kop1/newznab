@@ -48,12 +48,15 @@ class Groups
 	{			
 		$db = new DB();
 		
-		return $db->query("SELECT groups.*, COALESCE(rel.num, 0) AS num_releases
+		return $db->query("SELECT groups.*, concat(cp.title,' > ',c.title) as category_name, COALESCE(rel.num, 0) AS num_releases
 											FROM groups
 											LEFT OUTER JOIN 
 											(
 												SELECT COUNT(ID) AS num, coalesce(groupID,-1) as groupID FROM releases
-											) rel ON rel.groupID = groups.ID ");
+											) rel ON rel.groupID = groups.ID 
+											left outer join category c on c.ID = groups.categoryID
+											left outer join category cp on c.parentID = cp.ID
+											");
 	}	
 	
 	public function getByID($id)
@@ -77,7 +80,7 @@ class Groups
 	//
 	// update the list of newsgroups and return an array of messages.
 	//
-	function updateGroupList($blnUpdateCategory = true) 
+	function updateGroupList($blnUpdateCategory = true, $blnExpandGroupName = false) 
 	{
 
 		$s = new Sites();
@@ -92,9 +95,10 @@ class Groups
 		
 		$ret = array();
 			
+		$regfilter = "/(" . str_replace (array ('.','*'), array ('\.','.*?'), $site->groupfilter) . ")".(!$blnExpandGroupName ? "$" : "")."/";
+
 		foreach($groups AS $group) 
 		{
-			$regfilter = "/^(" . str_replace (array ('.','*'), array ('\.','.*?'), $site->groupfilter) . ")/";
 			if (preg_match ($regfilter, $group['group']) > 0)
 			{
 				$res = $db->queryOneRow(sprintf("SELECT ID FROM groups WHERE name = %s ", $db->escapeString($group['group'])));
