@@ -180,6 +180,20 @@ class Releases
 							where postdate is null");				
 		
 		//
+		// update any newly added binaries total file size from their parts.
+		// denormalised to make file listing queries less intensive
+		//
+		$db->query(sprintf("UPDATE binaries
+		INNER JOIN 
+		(
+			SELECT binaryID, SUM(parts.size) AS size
+			FROM parts
+			INNER JOIN binaries ON binaries.ID = parts.binaryID AND binaries.procstat = %d AND binaries.size = 0
+			GROUP BY binaryID
+		) X ON x.binaryID = binaries.ID
+		SET binaries.size = x.size", Releases::PROCSTAT_RELEASED ));
+		
+		//
 		// tidy away any binaries which have been attempted to be grouped into 
 		// a release more than x times
 		//

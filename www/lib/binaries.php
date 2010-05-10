@@ -15,7 +15,7 @@ class Binaries
 	public function getForReleaseGuid($guid)
 	{			
 		$db = new DB();
-		return $db->query(sprintf("select binaries.* from binaries inner join releases on releases.ID = binaries.releaseID where releases.guid = %s", $db->escapeString($guid)));		
+		return $db->query(sprintf("select binaries.* from binaries inner join releases on releases.ID = binaries.releaseID where releases.guid = %s order by relpart", $db->escapeString($guid)));		
 	}
 
 	
