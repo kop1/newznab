@@ -31,7 +31,7 @@
 		{foreach from=$comments item=comment}
 			<tr>
 				<td title="{$comment.createddate}">{$comment.username}<br/>{$comment.createddate|date_format}</td>
-				<td>{$comment.text|escape:"htmlall"}</td>
+				<td>{$comment.text|escape:"htmlall"|nl2br}</td>
 			</tr>
 		{/foreach}
 		</table>

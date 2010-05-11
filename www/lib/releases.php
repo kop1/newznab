@@ -42,6 +42,7 @@ class Releases
 	public function delete($id)
 	{			
 		$db = new DB();
+		$this->deleteCommentsForRelease($id);
 		$db->query(sprintf("delete from releases where id = %d", $id));		
 	}
 
@@ -213,11 +214,24 @@ class Releases
 		$db = new DB();
 		return $db->query(sprintf("SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID where releaseID = %d", $id));		
 	}
+	
+	public function getCommentCount()
+	{			
+		$db = new DB();
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from releasecomment"));		
+		return $res["num"];
+	}
 
 	public function deleteComment($id)
 	{			
 		$db = new DB();
 		return $db->query(sprintf("delete from releasecomment where ID = %d", $id));		
+	}
+	
+	public function deleteCommentsForRelease($id)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("delete from releasecomment where releaseID = %d", $id));		
 	}
 
 	public function addComment($id, $text, $userid, $host)
@@ -227,5 +241,16 @@ class Releases
 						VALUES (%d, 	%s, 	%d, 	now(), 	%s	)", $id, $db->escapeString($text), $userid, $db->escapeString($host) ));		
 	}
 	
+	public function getCommentsRange($start, $num)
+	{		
+		$db = new DB();
+		
+		if ($start === false)
+			$limit = "";
+		else
+			$limit = " LIMIT ".$start.",".$num;
+		
+		return $db->query(" SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID order by releasecomment.createddate desc ".$limit);		
+	}
 }
 ?>
