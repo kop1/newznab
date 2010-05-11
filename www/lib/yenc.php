@@ -108,6 +108,7 @@ class yenc
         $encoded = array();
         $header  = array();
         $trailer = array();
+		$decoded = "";
         
         // Extract the yEnc string itself.
         preg_match("/^(=ybegin.*=yend[^$]*)$/ims", $string, $encoded);

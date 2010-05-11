@@ -8,10 +8,10 @@
 	{/if}
 
 	<table class="data">
-		<tr><th>Username:</th><td><input name="username" value="{$username}" type="text"/></td></tr>
-		<tr><th>Password:</th><td><input name="password" value="{$password}" type="password"/></td></tr>
-		<tr><th>Confirm Password:</th><td><input name="confirmpassword" value="{$confirmpassword}" type="password"/></td></tr>
-		<tr><th>Email:</th><td><input name="email" value="{$email}"/></td></tr>
+		<tr><th><label for="username">Username</label>:</th><td><input id="username" name="username" value="{$username}" type="text"/></td></tr>
+		<tr><th><label for="password">Password</label>:</th><td><input id="password" name="password" value="{$password}" type="password"/></td></tr>
+		<tr><th><label for="confirmpassword">Confirm Password</label>:</th><td><input id="confirmpassword" name="confirmpassword" value="{$confirmpassword}" type="password"/></td></tr>
+		<tr><th><label for="email">Email</label>:</th><td><input id="email" name="email" value="{$email}"/></td></tr>
 		<tr><th></th><td><input type="submit" value="Register"/></td></tr>
 	</table>
 

@@ -3,6 +3,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/lib/page.php");
 
 $page = new Page();
 
+$page->addToBody("onload=\"setFocus('username');\"");
 $page->meta_title = "Login";
 $page->meta_keywords = "Login";
 $page->meta_description = "Login";

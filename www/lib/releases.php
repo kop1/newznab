@@ -17,7 +17,7 @@ class Releases
 	public function get()
 	{			
 		$db = new DB();
-		return $db->query("select releases.* from releases");		
+		return $db->query("select releases.*, g.name as group_name, c.title as category_name  from releases left outer join category c on c.ID = releases.categoryID left outer join groups g on g.ID = releases.groupID");		
 	}
 
 	public function getRange($start, $num)
@@ -30,6 +30,16 @@ class Releases
 			$limit = " LIMIT ".$start.",".$num;
 		
 		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by adddate".$limit);		
+	}
+	
+	public function getRss($category, $num)
+	{		
+		$db = new DB();
+		
+		$limit = " LIMIT 0,".($num > 100 ? 100 : $num);
+		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
+			
+		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID %s order by adddate %s" ,$cat, $limit));
 	}
 	
 	public function getCount()
@@ -209,6 +219,12 @@ class Releases
 		return $retcount;
 	}	
 
+	public function getCommentById($id)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("SELECT * from releasecomment where ID = %d", $id));		
+	}
+	
 	public function getComments($id)
 	{			
 		$db = new DB();
@@ -225,20 +241,28 @@ class Releases
 	public function deleteComment($id)
 	{			
 		$db = new DB();
-		return $db->query(sprintf("delete from releasecomment where ID = %d", $id));		
+		$res = $this->getCommentById($id);
+		if ($res)
+		{
+			$db->query(sprintf("delete from releasecomment where ID = %d", $id));		
+			$this->updateReleaseCommentCount($res["ID"]);
+		}
 	}
 	
 	public function deleteCommentsForRelease($id)
 	{			
 		$db = new DB();
-		return $db->query(sprintf("delete from releasecomment where releaseID = %d", $id));		
+		$db->query(sprintf("delete from releasecomment where releaseID = %d", $id));		
+		$this->updateReleaseCommentCount($id);
 	}
 
 	public function addComment($id, $text, $userid, $host)
 	{			
 		$db = new DB();
-		return $db->queryInsert(sprintf("INSERT INTO releasecomment (`releaseID`, 	`text`, 	`userID`, 	`createddate`, 	`host`	)	
+		$comid = $db->queryInsert(sprintf("INSERT INTO releasecomment (`releaseID`, 	`text`, 	`userID`, 	`createddate`, 	`host`	)	
 						VALUES (%d, 	%s, 	%d, 	now(), 	%s	)", $id, $db->escapeString($text), $userid, $db->escapeString($host) ));		
+		$this->updateReleaseCommentCount($id);					
+		return $comid;
 	}
 	
 	public function getCommentsRange($start, $num)
@@ -251,6 +275,14 @@ class Releases
 			$limit = " LIMIT ".$start.",".$num;
 		
 		return $db->query(" SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID order by releasecomment.createddate desc ".$limit);		
+	}
+	
+	public function updateReleaseCommentCount($relid)
+	{			
+		$db = new DB();
+		return $db->queryInsert(sprintf("update releases
+				set comments = (select count(ID) from releasecomment where releasecomment.releaseID = %d)
+				where releases.ID = %d", $relid, $relid ));		
 	}
 }
 ?>

@@ -35,6 +35,7 @@ foreach ($contentlist as $content)
 //
 $arPages[] = buildURL("Useful Links", "Contact Us", "/contact-us.php", 'yearly', '0.30');	
 $arPages[] = buildURL("Useful Links", "Site Map", "/sitemap.php", 'weekly', '0.50');	
+$arPages[] = buildURL("Useful Links", "Rss Feeds", "/rss.php", 'weekly', '0.50');	
 
 $arPages[] = buildURL("Nzb", "Search Nzb", "/search/", 'weekly', '0.50');	
 $arPages[] = buildURL("Nzb", "Browse Nzb", "/browse/", 'daily', '0.80');	

@@ -8,11 +8,12 @@
 	<link href="/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<script type="text/javascript" src="/includes/utils.js"></script>
 	<script type="text/javascript" src="/includes/functions_sorttable.js"></script>
+	{$customtheme}
 	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
 	{$page->head}
 </head>
-<body>
+<body {$page->body}>
 
 	<div id="statusbar">
 		{if $loggedin=="true"}

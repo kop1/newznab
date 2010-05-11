@@ -1,4 +1,4 @@
-
+﻿
 DROP TABLE IF EXISTS `binaries`;
 CREATE TABLE `binaries` (
 		`ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -37,6 +37,7 @@ guid VARCHAR(50) NOT NULL,
 `fromname` VARCHAR(255) NULL,
 categoryID INT DEFAULT 0,
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
+comments INT not null DEFAULT 0,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
@@ -133,6 +134,7 @@ CREATE TABLE `users` (
   `role` INT NOT NULL DEFAULT 1,
   `host` VARCHAR(15) NULL,
   `grabs` INT NOT NULL DEFAULT 0,
+  `rsstoken` varchar(32) not null,
   `createddate` DATETIME DEFAULT NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;

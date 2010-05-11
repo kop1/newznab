@@ -11,6 +11,7 @@ if (!$users->isLoggedIn())
 
 $releases = new Releases;
 
+$page->addToBody("onload=\"setFocus('search');\"");
 $page->meta_title = "Search Nzbs";
 $page->meta_keywords = "search,nzb,description,details";
 $page->meta_description = "Search for Nzbs";

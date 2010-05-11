@@ -31,6 +31,12 @@ class Category
 	const CAT_MISC_EBOOK = 33;
 	const CAT_TV_IPOD = 34;
 
+	public function get()
+	{			
+		$db = new DB();
+		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title from category c inner join category cp on cp.ID = c.parentID");		
+	}	
+	
 	//
 	// Work out which category is applicable for either a group or a binary.
 	// returns -1 if no category is appropriate from the group name.

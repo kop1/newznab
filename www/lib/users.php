@@ -57,8 +57,8 @@ class Users
 	public function add($uname, $pass, $email, $role, $host)
 	{			
 		$db = new DB();
-		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host) values (%s, %s, %s, %d, now(), %s)", 
-			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host)));		
+		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken) values (%s, %s, %s, %d, now(), %s, md5(%s))", 
+			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid())));		
 	}	
 	
 	public function getByEmail($email)
@@ -83,6 +83,13 @@ class Users
 	{			
 		$db = new DB();
 		return $db->queryOneRow(sprintf("select * from users where id = %d ", $id));		
+	}	
+	
+	public function getByIdAndRssToken($id, $rsstoken)
+	{			
+		$db = new DB();
+		$res = $this->getById($id);
+		return ($res && $res["rsstoken"] == $rsstoken ? $res : null);
 	}	
 	
 	public function isValidUsername($uname)

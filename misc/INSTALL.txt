@@ -21,8 +21,28 @@ installation
 	browse to http://localhost/ and should see newznab homepage with default content.
 	newznab.site database table contains configurable info about your site.
 	register and update the users.role to 2 to set that user as administrator
+	goto \admin\site-edit.php and customise fields to your installation.
+	call \admin\group-update.php to populate database with your groups.
+	call \admin\binary-update.php to populate database with binaries + parts.
+	call \admin\release-update.php to create releases from all complete binary sets.
+
+how it works
+	groups are specified, message headers (binaries and parts) are downloaded for the 
+	groups, releases are created from completed sets of binaries. releases are categorised
+	by the group they came from, or with misc groups by the naming of the message subject
 	
-updating index
+choosing newsgroups
+	which newsgroups are indexed is specified as a regular expression in the column 
+	site.groupfilter. so if you want to index the groups alt.bin.blah.* and alt.bin.other
+	use the value 'alt.bin.blah.*|alt.bin.other'
+	
+categorisation
+	\www\lib\category.php contains the logic which attempts to map a group or a release to a 
+	site category. site categories are used to make browsing nzbs easier. add new categories
+	by updating the category table, and adding a new Category::constant. Then map it in the
+	function determineCategory()
+	
+updating index (populating binaries + parts)
 	updating the index can take ages depending on how much retention you require
 	as such its not recommended to run update scripts from web browsers, as typically
 	timeouts will occur. the recommended way to schedule updates is via a cron task 
@@ -31,7 +51,8 @@ updating index
 	*/15 * * * * /path/to/newznab/misc/cron_update/newznab_update.sh
 
 updating newsgroups
-	can be done via web browser in /admin/ interface. 
+	updating the list of available newsgroups is only worthwhile if you change your 
+	site.groupfilter or categorisation. It can be done via web browser in /admin/ interface. 
 	
 google ads/analytics
 	to integrate google analytics and adsense provide enter the adsense ad module ids 
@@ -45,7 +66,25 @@ admin
 content/cms
 	pages can be added to the site with seo friendly urls via the /admin/ edit content links
 	
+skinning
+	avoid custom edits to code and stylesheets to make updating painless. 
+	override any styles by editing the file \www\theme\style.css. stick any custom images in
+	\www\theme\images\
+	
 faqs
 	authorisation rejected from nntp server - check you have enough available connections 
 	not currently in use
 	Fatal error: Call to undefined function mhash() - missing mcrypt and mhash php library includes
+	
+development
+	\db\schema.sql is latest database schema. should be able to rerun in and create new blank schema
+	\misc\ for general docs and useful info, nothing in here is referenced by the application
+	\www\lib\framework few general classes for db/http code
+	\www\lib\smarty copy of a fairly recent smarty lib
+	\www\lib\ all classes used in the app, typically named same as its database entity
+	\www\templates\admin all templates used by the admin pages
+	\www\templates\ all templates used by the user pages
+	\www\admin\ all php pages used by the admin
+	\www\theme\ blank area for implementation specific ui customisations
+	\www\includes js dumping ground
+	

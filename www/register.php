@@ -5,6 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
 $page = new Page();
 $users = new Users();
 
+$page->addToBody("onload=\"setFocus('username');\"");
 $page->meta_title = "Register";
 $page->meta_keywords = "register,signup,registration";
 $page->meta_description = "Register";

@@ -25,7 +25,7 @@ if (isset($_GET["id"]))
 	$page->smarty->assign('rel', $rel);
 	$page->smarty->assign('binaries', $data);
 
-	$page->title = "File List";//$rel["searchname"];
+	$page->title = "File List";
 	$page->meta_title = "View Nzb file list";
 	$page->meta_keywords = "view,nzb,file,list,description,details";
 	$page->meta_description = "View Nzb File List";
