@@ -4,7 +4,7 @@
 <table class="data">
 	<tr><th>Subject:</th><td>{$release.name|escape:"htmlall"}</td></tr>
 	<tr><th>Group:</th><td>{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
-	<tr><th>Category:</th><td>{$release.category_name}</td></tr>
+	<tr><th>Category:</th><td><a href="/browse?t={$release.categoryID}">{$release.category_name}</a></td></tr>
 	<tr><th>Size:</th><td>{$release.size|fsize_format:"MB"}</td></tr>
 	<tr><th>Grabs:</th><td>{$release.grabs}</td></tr>
 	<tr><th>Files:</th><td><a title="View file list" href="/filelist/{$release.guid}">{$release.totalpart}</a></td></tr>

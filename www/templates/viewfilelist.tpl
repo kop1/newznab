@@ -6,7 +6,7 @@
 <table style="width:100%;" class="data Sortable">
 
 	<tr>
-		<th>part</th>
+		<th>#</th>
 		<th>filename</th>
 		<th>size</th>
 		<th>date</th>
@@ -14,10 +14,10 @@
 
 	{foreach from=$binaries item=binary}
 	<tr>
-		<td title="{$binary.relpart}/{$binary.reltotalpart}">{$binary.relpart}</td>
+		<td width="20" title="{$binary.relpart}/{$binary.reltotalpart}">{$binary.relpart}</td>
 		<td title="{$binary.name|escape:'htmlall'}">{$binary.filename}</td>
-		<td>{$binary.size|fsize_format:"MB"}</td>
-		<td title="{$binary.date}">{$binary.date|date_format}</td>
+		<td class="less">{$binary.size|fsize_format:"MB"}</td>
+		<td class="less" title="{$binary.date}">{$binary.date|date_format}</td>
 	</tr>
 	{/foreach}
 

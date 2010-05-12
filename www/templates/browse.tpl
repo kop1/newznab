@@ -8,8 +8,8 @@
 <table style="width:100%;margin-top:10px;" class="data Sortable">
 	<tr>
 		<th>name</th>
-		<th>category</th>
-		<th>posted</th>
+		<th width="70">category</th>
+		<th width="50">posted</th>
 		<th>size</th>
 		<th>files</th>
 		<th>stats</th>

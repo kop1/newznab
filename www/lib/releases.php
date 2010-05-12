@@ -197,14 +197,15 @@ class Releases
 		// TODO: do something with this to make it a bit more scalable, 
 		// its not really worthwhile updating the size of every release in the database :/
 		//
-		$db->query("update releases inner join
-							(
-							SELECT binaries.releaseID, sum(size) as size
-							from parts
-							inner join binaries on parts.binaryID = binaries.ID
-							group by binaries.releaseID
-							) p on p.releaseID = releases.ID and releases.size = 0
-							set releases.size = p.size");	
+		$db->query("UPDATE releases INNER JOIN
+								(
+								SELECT binaries.releaseID, SUM(parts.size) AS size
+								FROM parts
+								INNER JOIN binaries ON parts.binaryID = binaries.ID
+								WHERE releaseID IS NOT NULL
+								GROUP BY binaries.releaseID
+								) p ON p.releaseID = releases.ID AND releases.size = 0
+								SET releases.size = p.size");	
 
 		//
 		// update the postdate and poster name of all new releases
