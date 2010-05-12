@@ -18,6 +18,7 @@ $page->meta_description = "Search for Nzbs";
 
 $results = array();
 
+//TODO: bug here in javascript cludge to turn request in a get, rather than post is losing + signs in search query.
 if (isset($_REQUEST["search"]))
 {
 	$page->smarty->assign('search', $_REQUEST["search"]);

@@ -120,7 +120,7 @@ hr { display: none; }
 
 #content {
 	float: right;
-	width: 545px;
+	width: 585px;
 }
 
 #content h1 {
@@ -131,14 +131,15 @@ hr { display: none; }
 	margin-bottom:20px;
 }
 
-#adpanel {	margin-left:15px;width:165px;float:right; }
+#adpanel {
+	margin-left:15px;width:165px;float:right; }
 
 
 /* Sidebar */
 
 #sidebar {
 	float: left;
-	width: 200px;
+	width: 160px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
@@ -148,6 +149,7 @@ hr { display: none; }
 	padding: 0;
 	line-height: normal;
 	list-style-type: none; 
+	text-align: left;
 }
 
 #sidebar li {
@@ -264,7 +266,7 @@ div.error
 
 table.data
 {
-		border-spacing:0px;
+	border-spacing:0px;
     border-color: #AAA;
     border-width: 0 0 1px 1px;
     border-style: solid;		
@@ -272,27 +274,33 @@ table.data
 
 table.data td
 {
-		vertical-align:top;
-		padding:5px;
+	vertical-align:top;
+	padding:5px;
     border-color: #AAA;
     border-width: 1px 1px 0 0;
     border-style: solid;
 }
 
+table.data td.less
+{
+	color: #888;
+    font-size: 0.8em;
+}
+
 table.data th
 {
-		text-align:left;
-		background-color:#DDD;
-    border-color: #AAA;
-    border-width: 1px 1px 0 0;
-    border-style: solid;
-		padding:3px;
-		font-style:bolder;
-		text-transform:capitalize;
+	text-align:left;
+	background-color:#DDD;
+	border-color: #AAA;
+	border-width: 1px 1px 0 0;
+	border-style: solid;
+	padding:3px;
+	font-style:bolder;
+	text-transform:capitalize;
 }
 
 
 div.comments
 {
-		padding-top:20px;
+	padding-top:20px;
 }

@@ -13,6 +13,7 @@ class Users
 	const ERR_SIGNUP_BADEMAIL = -3;
 	const ERR_SIGNUP_UNAMEINUSE = -4;
 	const ERR_SIGNUP_EMAILINUSE = -5;
+	const SUCCESS = 1;
 	
 	const ROLE_USER = 1;
 	const ROLE_ADMIN = 2;
@@ -59,6 +60,35 @@ class Users
 		$db = new DB();
 		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken) values (%s, %s, %s, %d, now(), %s, md5(%s))", 
 			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid())));		
+	}	
+	
+	public function update($id, $uname, $email, $grabs)
+	{			
+		$db = new DB();
+		
+		$uname = trim($uname);
+		$email = trim($email);
+
+		if (!$this->isValidUsername($uname))
+			return Users::ERR_SIGNUP_BADUNAME;
+			
+		if (!$this->isValidEmail($email))
+			return Users::ERR_SIGNUP_BADEMAIL;			
+
+		$res = $this->getByUsername($uname);
+		if ($res)
+			if ($res["ID"] != $id)
+				return Users::ERR_SIGNUP_UNAMEINUSE;
+		
+		$res = $this->getByEmail($email);
+		if ($res)
+			if ($res["ID"] != $id)
+				return Users::ERR_SIGNUP_EMAILINUSE;		
+		
+		$db->queryInsert(sprintf("update users set username = %s, email = %s, grabs = %d where id = %d", 
+			$db->escapeString($uname), $db->escapeString($email), $grabs, $id));		
+			
+		return Users::SUCCESS;
 	}	
 	
 	public function getByEmail($email)

@@ -1,17 +1,11 @@
 
-<h1>Search</h1>
-
-<form method="get" action="/search/">
-	<div style="text-align:center;">
-		<label for="search" style="display:none;">Search</label>
-		<input id="search" name="search" value="{$search|escape:'htmlall'}" type="text"/>
-		<input onclick="dosearch();return false;" type="submit" value="search" />
-	</div>
-</form>
-
+<h1>Browse {$catname}</h1>
+	
 {if $results|@count > 0}
 
-<table style="width:100%;margin-top:40px;" class="data Sortable">
+{$pager}
+
+<table style="width:100%;margin-top:10px;" class="data Sortable">
 	<tr>
 		<th>name</th>
 		<th>category</th>
@@ -34,16 +28,3 @@
 	
 </table>
 {/if}
-
-{literal}
-<script type="text/javascript">
-function dosearch()
-{
-	var v = document.getElementById("search");
-	if (v != null)
-	{
-		document.location="/search/" + encodeUrl(v.value);
-	}
-}
-</script>
-{/literal}

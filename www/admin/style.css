@@ -27,7 +27,9 @@ table.input td
 
 #adpanel { display:none; }
 
-#content { 	width: 720px; }
+#content { width: 720px; }
+
+#sidebar { width: 200px; }
 
 #logo {
 	width: 0;

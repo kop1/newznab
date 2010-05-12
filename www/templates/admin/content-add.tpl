@@ -6,66 +6,66 @@
 <table class="input">
 
 <tr>
-	<td>Title:</td>
+	<td><label for="title">Title</label>:</td>
 	<td>
 		<input type="hidden" name="id" value="{$content->id}" />
-		<input class="long" name="title" type="text" value="{$content->title}" />
+		<input id="title" class="long" name="title" type="text" value="{$content->title}" />
 	</td>
 </tr>
 
 <tr>
-	<td>Url:</td>
+	<td><label for="url">Url</label>:</td>
 	<td>
-		<input class="long" name="url" type="text" value="{$content->url}" />
+		<input id="url" class="long" name="url" type="text" value="{$content->url}" />
 	</td>
 </tr>
 
 <tr>
-	<td>Body:</td>
+	<td><label for="body">Body</label>:</td>
 	<td>
-		<textarea name="body">{$content->body}</textarea>
+		<textarea id="body" name="body">{$content->body}</textarea>
 	</td>
 </tr>
 
 <tr>
-	<td>Meta Description:</td>
+	<td><label for="metadescription">Meta Description</label>:</td>
 	<td>
-		<textarea name="metadescription">{$content->metadescription}</textarea>
+		<textarea id="metadescription" name="metadescription">{$content->metadescription}</textarea>
 	</td>
 </tr>
 
 <tr>
-	<td>Meta Keywords:</td>
+	<td><label for="metakeywords">Meta Keywords</label>:</td>
 	<td>
-		<textarea name="metakeywords">{$content->metakeywords}</textarea>
+		<textarea id="metakeywords" name="metakeywords">{$content->metakeywords}</textarea>
 	</td>
 </tr>
 
 <tr>
-	<td>Content Type:</td>
+	<td><label for="contenttype">Content Type</label>:</td>
 	<td>
-		{html_options name='contenttype' options=$contenttypelist selected=$content->contenttype}
+		{html_options id="contenttype" name='contenttype' options=$contenttypelist selected=$content->contenttype}
 	</td>
 </tr>
 
 <tr>
-	<td>Show In Menu:</td>
+	<td><label for="showinmenu">Show In Menu</label>:</td>
 	<td>
-		{html_radios name='showinmenu' values=$yesno_ids output=$yesno_names selected=$content->showinmenu separator='<br />'}
+		{html_radios id="showinmenu" name='showinmenu' values=$yesno_ids output=$yesno_names selected=$content->showinmenu separator='<br />'}
 	</td>
 </tr>
 
 <tr>
-	<td>Status:</td>
+	<td><label for="status">Status</label>:</td>
 	<td>
-		{html_radios name='status' values=$status_ids output=$status_names selected=$content->status separator='<br />'}
+		{html_radios id="status" name='status' values=$status_ids output=$status_names selected=$content->status separator='<br />'}
 	</td>
 </tr>
 
 <tr>
-	<td>Ordinal:</td>
+	<td><label for="ordinal">Ordinal</label>:</td>
 	<td>
-		<input name="ordinal" type="text" value="{$content->ordinal}" />
+		<input id="ordinal" name="ordinal" type="text" value="{$content->ordinal}" />
 	</td>
 </tr>
 

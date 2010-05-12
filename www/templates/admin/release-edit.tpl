@@ -6,45 +6,45 @@
 <table class="input">
 
 <tr>
-	<td>Name:</td>
+	<td><label for="name">Original Name</label>:</td>
 	<td>
 		<input type="hidden" name="id" value="{$release.ID}" />
-		<input class="long" name="name" type="text" value="{$release.name}" />
+		<input id="name" class="long" name="name" type="text" value="{$release.name|escape:'htmlall'}" />
 	</td>
 </tr>
 
 <tr>
-	<td>Search Name:</td>
+	<td><label for="searchname">Search Name</label>:</td>
 	<td>
-		<input class="long" name="searchname" type="text" value="{$release.searchname}" />
+		<input id="searchname" class="long" name="searchname" type="text" value="{$release.searchname|escape:'htmlall'}" />
 	</td>
 </tr>
 
 <tr>
-	<td>From Name:</td>
+	<td><label for="fromname">From Name</label>:</td>
 	<td>
-		<input class="long" name="fromname" type="text" value="{$release.fromname}" />
+		<input id="fromname" class="long" name="fromname" type="text" value="{$release.fromname|escape:'htmlall'}" />
 	</td>
 </tr>
 
 <tr>
-	<td>Category:</td>
+	<td><label for="category">Category</label>:</td>
 	<td>
-		
+		{html_options id="category" name=category options=$catlist selected=$release.categoryID}
 	</td>
 </tr>
 
 <tr>
-	<td>Parts:</td>
+	<td><label for="totalpart">Parts</label>:</td>
 	<td>
-		<input class="short" name="totalpart" type="text" value="{$release.totalpart}" />
+		<input id="totalpart" class="short" name="totalpart" type="text" value="{$release.totalpart}" />
 	</td>
 </tr>
 
 <tr>
-	<td>Grabs:</td>
+	<td><label for="grabs">Grabs</label>:</td>
 	<td>
-		<input class="short" name="grabs" type="text" value="{$release.grabs}" />
+		<input id="grabs" class="short" name="grabs" type="text" value="{$release.grabs}" />
 	</td>
 </tr>
 
@@ -56,30 +56,30 @@
 </tr>
 
 <tr>
-	<td>Size:</td>
+	<td><label for="size">Size</label>:</td>
 	<td>
-		<input class="long" name="size" type="text" value="{$release.size}" />
+		<input id="size" class="long" name="size" type="text" value="{$release.size}" />
 	</td>
 </tr>
 
 <tr>
-	<td>Posted Date:</td>
+	<td><label for="postdate">Posted Date</label>:</td>
 	<td>
-		<input class="long" name="postdate" type="text" value="{$release.postdate}" />
+		<input id="postdate" class="long" name="postdate" type="text" value="{$release.postdate}" />
 	</td>
 </tr>
 
 <tr>
-	<td>Added Date:</td>
+	<td><label for="adddate">Added Date</label>:</td>
 	<td>
-		<input class="long" name="adddate" type="text" value="{$release.adddate}" />
+		<input id="adddate" class="long" name="adddate" type="text" value="{$release.adddate}" />
 	</td>
 </tr>
 
 <tr>
 	<td></td>
 	<td>
-		<input disabled="disabled" type="submit" value="Save" />
+		<input type="submit" value="Save" />
 	</td>
 </tr>
 

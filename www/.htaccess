@@ -14,3 +14,4 @@ RewriteRule ^register$ /register.php
 RewriteRule ^search/(.*)$ /search.php?search=$1
 RewriteRule ^search$ /search.php
 RewriteRule ^browse$ /browse.php
+RewriteRule ^profile$ /profile.php

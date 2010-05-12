@@ -37,6 +37,22 @@ class Category
 		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title from category c inner join category cp on cp.ID = c.parentID");		
 	}	
 	
+	public function getForSelect($blnIncludeNoneSelected = true)
+	{
+		$categories = $this->get();
+		$temp_array = array();
+		
+		if ($blnIncludeNoneSelected)
+		{
+			$temp_array[-1] = "--Please Select--";
+		}
+		
+		foreach($categories as $category)
+			$temp_array[$category["ID"]] = $category["title"];
+
+		return $temp_array;
+	}
+	
 	//
 	// Work out which category is applicable for either a group or a binary.
 	// returns -1 if no category is appropriate from the group name.

@@ -32,6 +32,28 @@ class Releases
 		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by adddate".$limit);		
 	}
 	
+	public function getBrowseCount($category)
+	{
+		$db = new DB();
+		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases %s", $cat));		
+		return $res["num"];	
+	}
+	
+	public function getBrowseRange($category, $start, $num)
+	{		
+		$db = new DB();
+		
+		if ($start === false)
+			$limit = "";
+		else
+			$limit = " LIMIT ".$start.",".$num;
+		
+		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
+		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by adddate".$limit, $cat));		
+	}
+	
 	public function getRss($category, $num)
 	{		
 		$db = new DB();
@@ -56,13 +78,21 @@ class Releases
 		$db->query(sprintf("delete from releases where id = %d", $id));		
 	}
 
+	public function update($id, $name, $searchname, $fromname, $category, $parts, $grabs, $size, $posteddate, $addeddate)
+	{			
+		$db = new DB();
+
+		$db->query(sprintf("update releases set name=%s, searchname=%s, fromname=%s, categoryID=%d, totalpart=%d, grabs=%d, size=%d, postdate=%s, adddate=%s where id = %d", 
+			$db->escapeString($name), $db->escapeString($searchname), $db->escapeString($fromname), $category, $parts, $grabs, $size, $db->escapeString($posteddate), $db->escapeString($addeddate), $id));		
+	}	
+	
 	public function search($search)
 	{			
 		$db = new DB();
-		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc ", $db->escapeString($search), $db->escapeString($search)));		
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit 1000 ", $db->escapeString($search), $db->escapeString($search)));		
 
 		if (!$res)
-				$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc ", $db->escapeString($search."*"), $db->escapeString($search."*")));		
+				$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit 1000 ", $db->escapeString($search."*"), $db->escapeString($search."*")));		
 
 		return $res;
 	}	
@@ -283,6 +313,25 @@ class Releases
 		return $db->queryInsert(sprintf("update releases
 				set comments = (select count(ID) from releasecomment where releasecomment.releaseID = %d)
 				where releases.ID = %d", $relid, $relid ));		
+	}
+	
+	public function getCommentCountForUser($uid)
+	{			
+		$db = new DB();
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from releasecomment where userID = %d", $uid));		
+		return $res["num"];
+	}
+	
+	public function getCommentsForUserRange($uid, $start, $num)
+	{		
+		$db = new DB();
+		
+		if ($start === false)
+			$limit = "";
+		else
+			$limit = " LIMIT ".$start.",".$num;
+		
+		return $db->query(sprintf(" SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID where userID = %d order by releasecomment.createddate desc ".$limit, $uid));		
 	}
 }
 ?>

@@ -15,11 +15,10 @@
 		<th>grabs</th>
 		<th>options</th>
 	</tr>
-
 	
 	{foreach from=$releaselist item=release}
 	<tr>
-		<td title="{$release.name}"><a href="release-edit.php?id={$release.ID}">{$release.searchname}</a></td>
+		<td title="{$release.name}"><a href="release-edit.php?id={$release.ID}">{$release.searchname|escape:"htmlall"}</a></td>
 		<td>{$release.category_name}</td>
 		<td>{$release.size|fsize_format:"MB"}</td>
 		<td>{$release.totalpart}</td>
@@ -29,6 +28,5 @@
 		<td><a href="release-delete.php?id={$release.ID}">delete</a></td>
 	</tr>
 	{/foreach}
-
 
 </table>

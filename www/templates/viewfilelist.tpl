@@ -1,7 +1,7 @@
 
 <h1>{$page->title}</h1>
 
-<h2>For <a href="/details/{$rel.searchname}/viewnzb/{$rel.guid}">{$rel.searchname}</a></h2>
+<h2>For <a href="/details/{$rel.searchname|escape:'htmlall'}/viewnzb/{$rel.guid}">{$rel.searchname|escape:'htmlall'}</a></h2>
 
 <table style="width:100%;" class="data Sortable">
 

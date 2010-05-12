@@ -3,7 +3,7 @@
 		{if $pageroffset == $smarty.section.pager.index}
 			{$smarty.section.pager.iteration}
 		{else}
-			<a href="{$pagerquerybase}{$smarty.section.pager.index}">{$smarty.section.pager.iteration}</a>
+			<a href="{$pagerquerybase}{$smarty.section.pager.index}{$pagerquerysuffix}">{$smarty.section.pager.iteration}</a>
 		{/if}    
 		&nbsp;
 	{/section}
