@@ -2,7 +2,7 @@
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/category.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/nntp.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/Site.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/site.php");
 
 class Groups
 {	
