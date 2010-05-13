@@ -88,3 +88,9 @@ development
 	\www\theme\ blank area for implementation specific ui customisations
 	\www\includes js dumping ground
 	
+people who've helped along the way
+	iota@irc.cyberarmy.net		regexs,sessions
+	enstyne@irc.cyberarmy.net	regexs
+	gizmore@wechall.net			password,hash
+	lhbandit@nzbs.org			yenc,nntp,bokko	
+	

@@ -174,7 +174,7 @@ class Releases
 		$res = $db->query(sprintf("SELECT distinct relname, reltotalpart, groupID from binaries where procstat = %d", Releases::PROCSTAT_READYTORELEASE));
 		foreach($res as $arr) 
 		{
-			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\]-?\[#[\w]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/(\s)(19\d\d|20[012]\d)(?:\s|$)/'), array ('', ' ',' - ',' ', '', '', '\1(\2)\3'), $arr["relname"]);
+			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $arr["relname"]);
 			
 			//
 			// insert the header release with a clean name
