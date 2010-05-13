@@ -11,7 +11,7 @@ class Nntp extends Net_NNTP_Client
 		if(PEAR::isError($ret) || PEAR::isError($ret2)) 
 		{
 			echo "Cannot connect to server - ".NNTP_SERVER." - ".NNTP_USERNAME." ($ret $ret2)";
-			exit;
+			die();
 		}
 	}
 	

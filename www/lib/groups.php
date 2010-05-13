@@ -49,14 +49,13 @@ class Groups
 		$db = new DB();
 		
 		return $db->query("SELECT groups.*, concat(cp.title,' > ',c.title) as category_name, COALESCE(rel.num, 0) AS num_releases
-											FROM groups
-											LEFT OUTER JOIN 
-											(
-												SELECT COUNT(ID) AS num, coalesce(groupID,-1) as groupID FROM releases
-											) rel ON rel.groupID = groups.ID 
-											left outer join category c on c.ID = groups.categoryID
-											left outer join category cp on c.parentID = cp.ID
-											");
+							FROM groups
+							LEFT OUTER JOIN
+							(
+							SELECT groupID, COUNT(ID) AS num FROM releases group by groupID
+							) rel ON rel.groupID = groups.ID
+							left outer join category c on c.ID = groups.categoryID
+							left outer join category cp on c.parentID = cp.ID");
 	}	
 	
 	public function getByID($id)
