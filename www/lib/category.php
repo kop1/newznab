@@ -114,11 +114,20 @@ class Category
 			
 		if (preg_match('/alt\.binaries\.erotica\.divx/i', $group)) 
 			return Category::CAT_XXX_XVID;				
-			
+
 		//
 		// If nothing can be done, try on binaryname
 		// TODO: extend this to cover more scenarios.
 		//
+		if (preg_match('/S([\d]+)E([\d]+)(.*?(720p).*?)/i', $binaryname))
+			return Category::CAT_TV_X264;				
+
+		if (preg_match('/S([\d]+)E([\d]+)(.*?(Xvid).*?)/i', $binaryname)) 
+			return Category::CAT_TV_XVID;				
+
+		if (preg_match('/S([\d]+)E([\d]+)/i', $binaryname)) 
+			return Category::CAT_TV_XVID;				
+
 		if (preg_match('/xvid|dvdscr|extrascene/i', $binaryname)) 
 			return Category::CAT_MOVIE_XVID;
 

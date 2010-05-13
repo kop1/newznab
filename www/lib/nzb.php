@@ -12,7 +12,7 @@ class NZB
 		// TODO:Move all these to site table.
 		//
 		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
-		$this->howManyMsgsToGoBackForNewGroup = 10000; //how far back to go, use 0 to get all
+		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 	}
 	
 	//

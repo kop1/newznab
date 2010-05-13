@@ -13,6 +13,7 @@ class Releases
 	//TODO: Move to site table
 	const maxAttemptsToProcessBinaryIntoRelease = 3;
 	const maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
+	const numberOfBinariesToProcessIntoReleasesInOneGo = 2000;
 	
 	public function get()
 	{			
@@ -29,7 +30,7 @@ class Releases
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by adddate".$limit);		
+		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by adddate desc".$limit);		
 	}
 	
 	public function getBrowseCount($category)
@@ -171,7 +172,7 @@ class Releases
 		//
 		// Get out every binary which is ready to release and create the release header for it
 		//
-		$res = $db->query(sprintf("SELECT distinct relname, reltotalpart, groupID from binaries where procstat = %d", Releases::PROCSTAT_READYTORELEASE));
+		$res = $db->query(sprintf("SELECT distinct relname, groupID, count(ID) as parts from binaries where procstat = %d and relname is not null group by relname, groupID", Releases::PROCSTAT_READYTORELEASE));
 		foreach($res as $arr) 
 		{
 			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $arr["relname"]);
@@ -180,14 +181,14 @@ class Releases
 			// insert the header release with a clean name
 			// 
 			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID) values (%s, %s, %d, %d, now(), md5(%s), %d)", 
-										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["reltotalpart"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["groupID"], $arr["relname"]) ));
+										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["parts"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["groupID"], $arr["relname"]) ));
 			
 			//
 			// tag every binary for this release with its parent release id
 			// remove the release name from the binary as its no longer required
 			//
-			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d and reltotalpart = %d ", 
-								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($arr["relname"]), Releases::PROCSTAT_READYTORELEASE, $arr["groupID"], $arr["reltotalpart"]));
+			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
+								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($arr["relname"]), Releases::PROCSTAT_READYTORELEASE, $arr["groupID"]));
 
 			$retcount++;
 		}
@@ -232,9 +233,9 @@ class Releases
 			FROM parts
 			INNER JOIN binaries ON binaries.ID = parts.binaryID AND binaries.procstat = %d AND binaries.size = 0
 			GROUP BY binaryID
-		) X ON x.binaryID = binaries.ID
+		) x ON x.binaryID = binaries.ID
 		SET binaries.size = x.size", Releases::PROCSTAT_RELEASED ));
-		
+
 		//
 		// tidy away any binaries which have been attempted to be grouped into 
 		// a release more than x times
@@ -246,6 +247,7 @@ class Releases
 		// into a release and are now aging
 		//
 		$res = $db->query(sprintf("update binaries set procstat = %d where procstat = %d and date < now() - interval %d day", Releases::PROCSTAT_BADTITLEFORMAT, Releases::PROCSTAT_NEW, Releases::maxDaysToProcessWrongFormatBinaryIntoRelease));
+
 		
 		return $retcount;
 	}	

@@ -15,12 +15,17 @@ CREATE TABLE `binaries` (
 		reltotalpart INT DEFAULT 0,
 		relname VARCHAR(255) NULL,
 		releaseID INT NULL,
+		size INT NULL DEFAULT 0,
 		PRIMARY KEY  (`ID`),
 		KEY `fromname` (`fromname`),
 		KEY `date` (`date`),
 		KEY `groupID` (`groupID`),
 		FULLTEXT KEY `name` (`name`)
 		) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_binary_relname ON binaries (relname);
+CREATE INDEX ix_binary_groupID ON binaries (groupID);
+CREATE INDEX ix_binary_procstat ON binaries (procstat);
 
 DROP TABLE IF EXISTS `releases`;
 CREATE TABLE `releases` 
