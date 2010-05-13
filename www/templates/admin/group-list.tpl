@@ -15,11 +15,11 @@
 	{foreach from=$grouplist item=group}
 	<tr>
 		<td><a href="group-edit.php?id={$group.ID}">{$group.name|replace:"alt.binaries":"a.b"}</a></td>
-		<td>{$group.category_name}</td>
-		<td>{$group.last_record}</td>
-		<td>{$group.last_updated}</td>
-		<td>{if $group.active=="1"}Yes{else}No{/if}</td>
-		<td>{$group.num_releases}</td>
+		<td class="less">{$group.category_name}</td>
+		<td class="less">{$group.last_record}</td>
+		<td class="less">{$group.last_updated}</td>
+		<td class="less">{if $group.active=="1"}Yes{else}No{/if}</td>
+		<td class="less">{$group.num_releases}</td>
 	</tr>
 	{/foreach}
 

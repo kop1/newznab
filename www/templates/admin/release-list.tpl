@@ -19,12 +19,12 @@
 	{foreach from=$releaselist item=release}
 	<tr>
 		<td title="{$release.name}"><a href="release-edit.php?id={$release.ID}">{$release.searchname|escape:"htmlall"}</a></td>
-		<td>{$release.category_name}</td>
-		<td>{$release.size|fsize_format:"MB"}</td>
-		<td>{$release.totalpart}</td>
-		<td>{$release.postdate|date_format}</td>
-		<td>{$release.adddate|date_format}</td>
-		<td>{$release.grabs}</td>
+		<td class="less">{$release.category_name}</td>
+		<td class="less">{$release.size|fsize_format:"MB"}</td>
+		<td class="less">{$release.totalpart}</td>
+		<td class="less">{$release.postdate|date_format}</td>
+		<td class="less">{$release.adddate|date_format}</td>
+		<td class="less">{$release.grabs}</td>
 		<td><a href="release-delete.php?id={$release.ID}">delete</a></td>
 	</tr>
 	{/foreach}
