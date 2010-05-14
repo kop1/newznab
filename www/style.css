@@ -290,6 +290,7 @@ table.data td.less
 table.data th
 {
 	text-align:left;
+	vertical-align:top;
 	background-color:#DDD;
 	border-color: #AAA;
 	border-width: 1px 1px 0 0;

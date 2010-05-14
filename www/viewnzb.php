@@ -21,9 +21,11 @@ if (isset($_GET["id"]))
 			$releases->addComment($data["ID"], $_POST["txtAddComment"], $users->currentUserId(), $_SERVER['REMOTE_ADDR']); 
 	
 	$comments = $releases->getComments($data["ID"]);
+	$similars = $releases->searchSimilar($data["searchname"]);
 
 	$page->smarty->assign('release',$data);
 	$page->smarty->assign('comments',$comments);
+	$page->smarty->assign('similars',$similars);
 
 	$page->meta_title = "View NZB";
 	$page->meta_keywords = "view,nzb,description,details";

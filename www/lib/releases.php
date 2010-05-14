@@ -13,7 +13,6 @@ class Releases
 	//TODO: Move to site table
 	const maxAttemptsToProcessBinaryIntoRelease = 3;
 	const maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
-	const numberOfBinariesToProcessIntoReleasesInOneGo = 2000;
 	
 	public function get()
 	{			
@@ -87,15 +86,23 @@ class Releases
 			$db->escapeString($name), $db->escapeString($searchname), $db->escapeString($fromname), $category, $parts, $grabs, $size, $db->escapeString($posteddate), $db->escapeString($addeddate), $id));		
 	}	
 	
-	public function search($search)
+	public function search($search, $limit=1000)
 	{			
 		$db = new DB();
-		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit 1000 ", $db->escapeString($search), $db->escapeString($search)));		
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search), $db->escapeString($search), $limit));		
 
 		if (!$res)
-				$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit 1000 ", $db->escapeString($search."*"), $db->escapeString($search."*")));		
+			$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search."*"), $db->escapeString($search."*"), $limit));		
 
 		return $res;
+	}	
+	
+	public function searchSimilar($name, $limit=6)
+	{			
+		$words = str_word_count(str_replace(".", " ", $name), 2);
+		$firstwords = array_slice($words, 0, 2);
+		$name = implode(' ', $firstwords);
+		return $this->search($name, $limit);
 	}	
 	
 	public function getByGuid($guid)

@@ -23,7 +23,7 @@
 
 	{foreach from=$results item=result}
 		<tr>
-			<td><a href="/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"}</a></td>
+			<td><a title="View Nzb details" href="/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"}</a></td>
 			<td class="less"><a title="Browse {$result.category_name}" href="/browse?t={$result.categoryID}">{$result.category_name}</a></td>
 			<td class="less" title="{$result.postdate}">{$result.postdate|date_format}</td>
 			<td class="less" width="55">{$result.size|fsize_format:"MB"}</td>

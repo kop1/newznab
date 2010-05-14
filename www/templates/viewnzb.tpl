@@ -3,7 +3,7 @@
 
 <table class="data">
 	<tr><th>Original Subject:</th><td>{$release.name|escape:"htmlall"}</td></tr>
-	<tr><th>Group:</th><td>{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
+	<tr><th>Group:</th><td title="{$release.group_name}">{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
 	<tr><th>Category:</th><td><a title="Browse by {$release.category_name}" href="/browse?t={$release.categoryID}">{$release.category_name}</a></td></tr>
 	<tr><th>Size:</th><td>{$release.size|fsize_format:"MB"}</td></tr>
 	<tr><th>Grabs:</th><td>{$release.grabs} time{if $release.grabs==1}{else}s{/if}</td></tr>
@@ -12,6 +12,16 @@
 	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format}</td></tr>
 	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format}</td></tr>
 	<tr><th>Download:</th><td><a title="Download Nzb for {$release.searchname|escape:"htmlall"}" href="/download/{$release.searchname|escape:"htmlall"}/nzb/{$release.guid}">Download Nzb for {$release.searchname|escape:"htmlall"}</a></td></tr>
+	<tr>
+		<th>Similar:</th>
+		<td>
+			{foreach from=$similars item=similar}
+				{if $similar.ID != $release.ID}
+				<a title="View similar Nzb details" href="/details/{$similar.searchname|escape:"htmlall"}/viewnzb/{$similar.guid}">{$similar.searchname|escape:"htmlall"}</a><br/>
+				{/if}
+			{/foreach}
+		</td>
+	</tr>
 </table>
 
 <div class="comments">
@@ -37,9 +47,9 @@
 	
 	<form method="post">
 		<label for="txtAddComment">Add Comment</label>:<br/>
-		<textarea name="txtAddComment"></textarea>
+		<textarea id="txtAddComment" name="txtAddComment"></textarea>
 		<br/>
-		<input type="submit" value="add comment"/>
+		<input type="submit" value="submit"/>
 	</form>
 
 </div>
