@@ -22,14 +22,14 @@ installation
 	newznab.site database table contains configurable info about your site.
 	register and update the users.role to 2 to set that user as administrator
 	goto \admin\site-edit.php and customise fields to your installation.
-	call \admin\group-update.php to populate database with your groups.
+	call \admin\group-update.php to populate database with your groups based on your groupfilter.
 	call \admin\binary-update.php to populate database with binaries + parts.
 	call \admin\release-update.php to create releases from all complete binary sets.
 
 how it works
 	groups are specified, message headers (binaries and parts) are downloaded for the 
 	groups, releases are created from completed sets of binaries. releases are categorised
-	by the group they came from, or with misc groups by the naming of the message subject
+	by the group they came from, or by the regexing message subject
 	
 choosing newsgroups
 	which newsgroups are indexed is specified as a regular expression in the column 
@@ -49,10 +49,11 @@ updating index (populating binaries + parts)
 	similar to that in /misc/cron_update.
 	crontab -e
 	*/15 * * * * /path/to/newznab/misc/cron_update/newznab_update.sh
+	*note* this currently doesnt work - have to use a browser.
 
 updating newsgroups
 	updating the list of available newsgroups is only worthwhile if you change your 
-	site.groupfilter or categorisation. It can be done via web browser in /admin/ interface. 
+	site.groupfilter or categorisation. It can be done via web browser in /admin/groups-update. 
 	
 google ads/analytics
 	to integrate google analytics and adsense provide enter the adsense ad module ids 
@@ -70,11 +71,18 @@ skinning
 	avoid custom edits to code and stylesheets to make updating painless. 
 	override any styles by editing the file \www\theme\style.css. stick any custom images in
 	\www\theme\images\
+api
+	www.newznab.com/api? provides api access to query and retrieve nzbs.
+	call with no parameters to see help doc with all available options.
 	
 faqs
-	authorisation rejected from nntp server - check you have enough available connections 
+	* authorisation rejected from nntp server - check you have enough available connections 
 	not currently in use
-	Fatal error: Call to undefined function mhash() - missing mcrypt and mhash php library includes
+	* Fatal error: Call to undefined function mhash() - missing mcrypt and mhash php library includes
+	* white screen - probably php error not being displayed to browser or session timed out and 403 being throw
+	
+debugging
+	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
 	
 development
 	\db\schema.sql is latest database schema. should be able to rerun in and create new blank schema
@@ -87,10 +95,12 @@ development
 	\www\admin\ all php pages used by the admin
 	\www\theme\ blank area for implementation specific ui customisations
 	\www\includes js dumping ground
+	\www\api.php all functionality related to api calls into newznab
 	
 people who've helped along the way
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
 	gizmore@wechall.net			password,hash
 	lhbandit@nzbs.org			yenc,nntp,bokko	
+	jayhawk@nzb.su				testing	
 	

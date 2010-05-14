@@ -99,6 +99,13 @@
 </tr>
 
 <tr>
+	<td><label for="apikey">Api Key</label>:</td>
+	<td>
+		<input id="apikey" class="long" name="apikey" type="text" value="{$fsite->apikey}"></td>
+	</td>
+</tr>
+
+<tr>
 	<td></td>
 	<td>
 		<input type="submit" value="Save" />
