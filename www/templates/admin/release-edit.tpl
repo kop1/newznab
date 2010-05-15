@@ -49,6 +49,34 @@
 </tr>
 
 <tr>
+	<td><label for="rageID">Tv Rage Id</label>:</td>
+	<td>
+		<input id="rageID" class="short" name="rageID" type="text" value="{$release.rageID}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="seriesfull">Series Full</label>:</td>
+	<td>
+		<input id="seriesfull" class="long" name="seriesfull" type="text" value="{$release.seriesfull}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="season">Season</label>:</td>
+	<td>
+		<input id="season" class="short" name="season" type="text" value="{$release.season}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="episode">Episode</label>:</td>
+	<td>
+		<input id="episode" class="short" name="episode" type="text" value="{$release.episode}" />
+	</td>
+</tr>
+
+<tr>
 	<td>Group:</td>
 	<td>
 		{$release.group_name}
