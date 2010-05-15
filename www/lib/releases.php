@@ -14,7 +14,7 @@ class Releases
 	//TODO: Move to site table
 	const maxAttemptsToProcessBinaryIntoRelease = 3;
 	const maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
-	const numReleasesToProcessPerTime = 5000;
+	const numReleasesToProcessPerTime = 7500;
 	
 	public function get()
 	{			
@@ -53,7 +53,7 @@ class Releases
 		
 		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
 		
-		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by adddate".$limit, $cat));		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by adddate desc".$limit, $cat));		
 	}
 	
 	public function getRss($category, $num)
