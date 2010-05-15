@@ -14,6 +14,7 @@ class Releases
 	//TODO: Move to site table
 	const maxAttemptsToProcessBinaryIntoRelease = 3;
 	const maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
+	const numReleasesToProcessPerTime = 5000;
 	
 	public function get()
 	{			
@@ -169,7 +170,7 @@ class Releases
 		$cat = new Category;
 		$retcount = 0;
 
-		$res = $db->query(sprintf("SELECT * from binaries where procstat = %d", Releases::PROCSTAT_NEW));
+		$res = $db->query(sprintf("SELECT * from binaries where procstat = %d limit %d", Releases::PROCSTAT_NEW, Releases::numReleasesToProcessPerTime));
 		
 		//
 		// should match fairly typical releases in format "relname [1/12] filename yenc"
