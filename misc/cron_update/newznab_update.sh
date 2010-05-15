@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# doesnt work yet, as the file requires auth to run
-# also cant be run from cli just yet, run from browser as temporary measure
-
-/path/to/php /path/to/www/admin/binary-update.php
+# if you move the cronned files to a different place you
+# may need to tweak the path in /path/to/misc/cron_update/setpath to point to root of newznab
+/path/to/php /path/to/misc/cron_update/update_binaries.php
+/path/to/php /path/to/misc/cron_update/update_releases.php

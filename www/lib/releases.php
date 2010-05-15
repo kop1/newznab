@@ -164,83 +164,94 @@ class Releases
 		$db->queryOneRow(sprintf("update releases set grabs = grabs + 1 where guid = %s", $db->escapeString($guid)));		
 	}
 	
-	function processReleases()
+	function processReleases($echooutput=false, $limitBinariesToProcess = Releases::numReleasesToProcessPerTime) 
 	{
 		$db = new DB;
 		$cat = new Category;
 		$retcount = 0;
+		$proccount = 0;
 
-		$res = $db->query(sprintf("SELECT * from binaries where procstat = %d limit %d", Releases::PROCSTAT_NEW, Releases::numReleasesToProcessPerTime));
-		
-		//
-		// should match fairly typical releases in format "relname [1/12] filename yenc"
-		// handles brackets or square
-		//
-		$pattern = '/^([\s]*(.*)(?=(?:\[|\()(?:[\s]*0*)([\d]+)[\s]*(?:[^\d\]]{1,5})(?:[\s]*0*)([\d]+)[\s]*(?:\)|\])(?:[\s][^\w\"\']*)(\'|"?)([\W]*)(.*?)(\5)[\s]*(yEnc)?[\s]*$))/';
+		$res = $db->query(sprintf("SELECT * from binaries where procstat = %d", Releases::PROCSTAT_NEW));
+		$reschunks = array_chunk ($res, $limitBinariesToProcess, true);
 
-		$index = array();
-		foreach ($res as $recordIndex => $record) 
+		foreach ($reschunks as $res)
 		{
-		    if (preg_match ($pattern, $record["name"], $matches) > 0) 
-		    {
-					//the number of parts and the number of parts which it's found in
-					//$records and what the key of those parts in $records is for each
-					//release is in index
-					$key = $matches[1] . '##' . $matches[4];
-					$index[$key][1] = $matches[4]; // How many parts
-					$index[$key][2][$matches[3]] = $recordIndex; // Which unique numbered parts avail in $records
-					$res[$recordIndex]["matches"] = $matches;
-		    }
-		}
-		
-		//
-		// determine every binary which is part of a complete release and move it on to next status
-		// if the parts dont match up increment the number of attempts so these can be moved out of the way
-		// later
-		//
-		foreach ($index as $keyStr => $info) 
-		{
-			if ($info[1] == count($info[2])) 
+			if ($echooutput)
+				echo "processing chunk ". count($res)."\n";
+				
+			//
+			// should match fairly typical releases in format "relname [1/12] filename yenc"
+			// handles brackets or square
+			//
+			$pattern = '/^([\s]*(.*)(?=(?:\[|\()(?:[\s]*0*)([\d]+)[\s]*(?:[^\d\]]{1,5})(?:[\s]*0*)([\d]+)[\s]*(?:\)|\])(?:[\s][^\w\"\']*)(\'|"?)([\W]*)(.*?)(\5)[\s]*(yEnc)?[\s]*$))/';
+	
+			$index = array();
+			foreach ($res as $recordIndex => $record) 
 			{
-				foreach ($info[2] as $partNumber => $recInd) 
+			    if (preg_match ($pattern, $record["name"], $matches) > 0) 
+			    {
+						//the number of parts and the number of parts which it's found in
+						//$records and what the key of those parts in $records is for each
+						//release is in index
+						$key = $matches[1] . '##' . $matches[4];
+						$index[$key][1] = $matches[4]; // How many parts
+						$index[$key][2][$matches[3]] = $recordIndex; // Which unique numbered parts avail in $records
+						$res[$recordIndex]["matches"] = $matches;
+			    }
+			}
+
+			//
+			// determine every binary which is part of a complete release and move it on to next status
+			// if the parts dont match up increment the number of attempts so these can be moved out of the way
+			// later
+			//
+			foreach ($index as $keyStr => $info) 
+			{
+				if ($info[1] == count($info[2])) 
 				{
-					$db->query(sprintf("update binaries set filename = %s, relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
-						$db->escapeString($res[$recInd]["matches"][7]), $db->escapeString($res[$recInd]["matches"][1]), $res[$recInd]["matches"][3], $res[$recInd]["matches"][4], Releases::PROCSTAT_READYTORELEASE, $res[$recInd]["ID"] ));
+					foreach ($info[2] as $partNumber => $recInd) 
+					{
+						$db->query(sprintf("update binaries set filename = %s, relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
+							$db->escapeString($res[$recInd]["matches"][7]), $db->escapeString($res[$recInd]["matches"][1]), $res[$recInd]["matches"][3], $res[$recInd]["matches"][4], Releases::PROCSTAT_READYTORELEASE, $res[$recInd]["ID"] ));
+					}
+				}
+				else
+				{
+					foreach ($info[2] as $partNumber => $recInd) 
+					{
+						$db->query(sprintf("update binaries set procattempts = procattempts + 1 where ID = %d", $res[$recInd]["ID"] ));
+					}
 				}
 			}
-			else
+			
+			//
+			// Get out every binary which is ready to release and create the release header for it
+			//
+			$res = $db->query(sprintf("SELECT distinct relname, groupID, count(ID) as parts from binaries where procstat = %d and relname is not null group by relname, groupID", Releases::PROCSTAT_READYTORELEASE));
+			foreach($res as $arr) 
 			{
-				foreach ($info[2] as $partNumber => $recInd) 
-				{
-					$db->query(sprintf("update binaries set procattempts = procattempts + 1 where ID = %d", $res[$recInd]["ID"] ));
-				}
-			}
+				$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $arr["relname"]);
+				
+				//
+				// insert the header release with a clean name
+				// 
+				$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID) values (%s, %s, %d, %d, now(), md5(%s), %d, -1)", 
+											$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["parts"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["groupID"], $arr["relname"]) ));
+				
+				//
+				// tag every binary for this release with its parent release id
+				// remove the release name from the binary as its no longer required
+				//
+				$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
+									Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($arr["relname"]), Releases::PROCSTAT_READYTORELEASE, $arr["groupID"]));
+	
+				$retcount++;
+			}			
+			
+			if ($echooutput)
+				echo "finished processing chunk\n";
 		}
 		
-		//
-		// Get out every binary which is ready to release and create the release header for it
-		//
-		$res = $db->query(sprintf("SELECT distinct relname, groupID, count(ID) as parts from binaries where procstat = %d and relname is not null group by relname, groupID", Releases::PROCSTAT_READYTORELEASE));
-		foreach($res as $arr) 
-		{
-			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $arr["relname"]);
-			
-			//
-			// insert the header release with a clean name
-			// 
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID) values (%s, %s, %d, %d, now(), md5(%s), %d, -1)", 
-										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["parts"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["groupID"], $arr["relname"]) ));
-			
-			//
-			// tag every binary for this release with its parent release id
-			// remove the release name from the binary as its no longer required
-			//
-			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
-								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($arr["relname"]), Releases::PROCSTAT_READYTORELEASE, $arr["groupID"]));
-
-			$retcount++;
-		}
-
 		//
 		// calculate the total size of all releases
 		// TODO: do something with this to make it a bit more scalable, 
@@ -301,6 +312,9 @@ class Releases
 		//
 		$res = $db->query(sprintf("update binaries set procstat = %d where procstat = %d and date < now() - interval %d day", Releases::PROCSTAT_BADTITLEFORMAT, Releases::PROCSTAT_NEW, Releases::maxDaysToProcessWrongFormatBinaryIntoRelease));
 		
+		if ($echooutput)
+			echo "processed ". $retcount." releases\n";
+
 		return $retcount;
 	}	
 

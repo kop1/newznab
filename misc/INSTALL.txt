@@ -49,7 +49,8 @@ updating index (populating binaries + parts)
 	similar to that in /misc/cron_update.
 	crontab -e
 	*/15 * * * * /path/to/newznab/misc/cron_update/newznab_update.sh
-	*note* this currently doesnt work - have to use a browser.
+	if you move around the files, you may need to set the path to the root of the newznab
+	www files in the setpath.php file
 
 updating newsgroups
 	updating the list of available newsgroups is only worthwhile if you change your 
@@ -64,6 +65,16 @@ admin
 	admin functions all live in /admin/ which is only accessible by users with admin role.
 	set users.role to be 2 on the users you wish to be admins
 
+tvrage
+	after release-update is called, an attempt to determine the tvrageids for every release
+	which looks like its tv. this also works out the series/episode columns. the data in the 
+	tvrage table will become populated from best guesses from the rage search api. if some of these
+	guesses are wrong, you can manually edit the rage data in the admin interface, and use the 
+	remove link to wipe any releases which have that rageid and then manually call 'process tv' which
+	will attempt to relink rage data. when a new release is created it goes in with a release.rageid of -1
+	when tv is processed, the rageid either goes to the best guess, or to -2, which indicates no match 
+	could be made, or the release isnt percieved to by tv.
+	
 content/cms
 	pages can be added to the site with seo friendly urls via the /admin/ edit content links
 	
@@ -87,6 +98,7 @@ debugging
 development
 	\db\schema.sql is latest database schema. should be able to rerun in and create new blank schema
 	\misc\ for general docs and useful info, nothing in here is referenced by the application
+	\misc\cron_update shell script and php files to call the updating of index from cli
 	\www\lib\framework few general classes for db/http code
 	\www\lib\smarty copy of a fairly recent smarty lib
 	\www\lib\ all classes used in the app, typically named same as its database entity

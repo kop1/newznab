@@ -1,7 +1,7 @@
 <?php
 
-define('SMARTY_DIR', 'C:/Documents and Settings/Username/My Documents/Dev/newznab/www/lib/smarty/');
-define('WWW_DIR', 'C:/Documents and Settings/Username/My Documents/Dev/newznab/www/');
+define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
+define('SMARTY_DIR', WWW_DIR.'lib/smarty/');
 
 define('CODENAME', 'GUNTER');
 
