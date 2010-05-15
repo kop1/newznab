@@ -305,3 +305,15 @@ div.comments
 {
 	padding-top:20px;
 }
+
+div.resextra
+{
+	color: #888;
+	font-size: 0.8em;
+}
+
+div.resextra a
+{
+	color: #888;
+	text-decoration:none;
+}

@@ -1,7 +1,7 @@
 
 RewriteRule /$ /content.php?id=0
 RewriteRule /sitemap\.xml$ /sitemap.php?type=xml
-RewriteRule /rss$ /rss.php
+RewriteRule /rss(.*)$ /rss.php$1
 RewriteRule /robots\.txt$ /robots.php
 RewriteRule .*/c([0-9]+)$ /content.php?id=$1	
 RewriteRule .*/nzb/(.*)$ /getnzb.php?id=$1	

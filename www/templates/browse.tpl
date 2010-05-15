@@ -17,7 +17,10 @@
 
 	{foreach from=$results item=result}
 		<tr>
-			<td><a title="View Nzb details" href="/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"}</a></td>
+			<td>
+				<a title="View Nzb details" href="/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"}</a>
+				{if $result.rageID > 0}<div class="resextra">[<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">Tv Rage {$result.seriesfull}</a>]</div>{/if}
+			</td>
 			<td class="less"><a title="Browse {$result.category_name}" href="/browse?t={$result.categoryID}">{$result.category_name}</a></td>
 			<td class="less" title="{$result.postdate}">{$result.postdate|date_format}</td>
 			<td class="less">{$result.size|fsize_format:"MB"}</td>
@@ -28,3 +31,6 @@
 	
 </table>
 {/if}
+
+<br/>
+{$pager}

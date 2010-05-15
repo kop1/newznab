@@ -58,7 +58,7 @@ else
 	
 	$usercat = -1;
 	if (isset($_GET["t"]))
-		$usercat = $_GET["t"]+0;
+		$usercat = ($_GET["t"]==0 ? -1 : $_GET["t"]+0);
 		
 	$usernum = 100;
 	if (isset($_GET["num"]))

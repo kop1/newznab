@@ -40,7 +40,15 @@
 	<report:groups>
 		<report:group>{$release.group_name}</report:group>
 	</report:groups>
-	<report:nzb>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/nzb/{$release.guid}</report:nzb>
+	{if $release.rageID > 0}
+<report:tv>
+		<report:tvrageid>{$release.rageID}</report:tvrageid>
+		<report:seriesfull>{$release.seriesfull}</report:seriesfull>
+		<report:series>{$release.season}</report:series>
+		<report:episode>{$release.episode}</report:episode>
+	</report:tv>
+	{/if}
+<report:nzb>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/nzb/{$release.guid}</report:nzb>
 	<report:poster><![CDATA[{$release.fromname}]]></report:poster>
 	<report:size type="bytes">{$release.size}</report:size>
 	<report:postdate>{$release.postdate|phpdate_format:"DATE_RSS"}</report:postdate>

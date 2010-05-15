@@ -1,6 +1,7 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/category.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/tvrage.php");
 
 class Releases
 {	
@@ -97,6 +98,23 @@ class Releases
 		return $res;
 	}	
 	
+	public function searchbyRageId($rageId, $series="", $episode="", $limit=1000)
+	{			
+		$db = new DB();
+		
+		if ($series != "")
+			$series = sprintf(" and upper(releases.season) = upper(%s)", $db->escapeString($series));
+		
+		if ($episode != "")
+			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
+
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where rageID = %d %s %s order by adddate desc limit %d ", $rageId, $series, $episode, $limit));		
+
+		return $res;
+	}		
+	
+	
+	
 	public function searchSimilar($name, $limit=6)
 	{			
 		$words = str_word_count(str_replace(".", " ", $name), 2);
@@ -110,6 +128,21 @@ class Releases
 		$db = new DB();
 		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID  left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where guid = %s ", $db->escapeString($guid)));		
 	}	
+
+	public function getbyRageId($rageid, $series = "", $episode = "")
+	{			
+		$db = new DB();
+
+		if ($series != "")
+			$series = sprintf(" and upper(releases.season) = upper(%s)", $db->escapeString($series));
+		
+		if ($episode != "")
+			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
+
+		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID  left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where rageID = %d %s %s", $rageid, $series, $episode));		
+	}	
+
+
 	
 	public function getById($id)
 	{			
@@ -187,7 +220,7 @@ class Releases
 			//
 			// insert the header release with a clean name
 			// 
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID) values (%s, %s, %d, %d, now(), md5(%s), %d)", 
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID) values (%s, %s, %d, %d, now(), md5(%s), %d, -1)", 
 										$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["parts"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["groupID"], $arr["relname"]) ));
 			
 			//
@@ -244,6 +277,11 @@ class Releases
 		SET binaries.size = x.size", Releases::PROCSTAT_RELEASED ));
 
 		//
+		// Process all TV related releases which will assign their series/episode/rage data
+		//
+		$this->processTvSeriesData();
+
+		//
 		// tidy away any binaries which have been attempted to be grouped into 
 		// a release more than x times
 		//
@@ -254,10 +292,64 @@ class Releases
 		// into a release and are now aging
 		//
 		$res = $db->query(sprintf("update binaries set procstat = %d where procstat = %d and date < now() - interval %d day", Releases::PROCSTAT_BADTITLEFORMAT, Releases::PROCSTAT_NEW, Releases::maxDaysToProcessWrongFormatBinaryIntoRelease));
-
 		
 		return $retcount;
 	}	
+
+	public function processTvSeriesData()
+	{
+		$ret = 0;
+		$db = new DB();
+		$rage = new TvRage();
+		$res = $db->query(sprintf("SELECT searchname, ID from releases where rageID = -1"));
+		foreach($res as $arr) 
+		{
+			//
+			// see if its in the existing rage list
+			// only process releases which have a searchname like S01E01 or S01E02-E03
+			// 
+			if (preg_match('/^(.*?)((S([\d]+))((.?E([\d]+))+))(.*$)/i', $arr["searchname"], $matches))
+			{
+				//
+				// Get a clean name version of the release (the text upto the S01E01 part) and the series and episode parts
+				//
+				$relcleanname = str_replace(".", " ", $matches[1]);
+				$fullseries = $matches[2];
+				$series = $matches[3];
+				$episode = $matches[5];
+				
+				$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s where ID = %d", 
+							$db->escapeString($fullseries), $db->escapeString($series), $db->escapeString($episode), $arr["ID"]));
+
+				//
+				// try and retrieve the entry from tvrage
+				//
+				$id = $rage->getRageId($relcleanname);
+				if ($id != -1)
+				{
+					$db->query(sprintf("update releases set rageID = %d where ID = %d", $id, $arr["ID"]));
+				}
+				else
+				{
+					//
+					// Cant find rageid, so set rageid to na
+					// 
+					$db->query(sprintf("update releases set rageID = -2 where ID = %d", $arr["ID"]));
+				}
+				
+				$ret++;
+			}
+			else
+			{
+				//
+				// Not a tv episode, so set rageid to na
+				// 
+				$db->query(sprintf("update releases set rageID = -2 where ID = ", $arr["ID"]));
+			}
+		}
+		
+		return $ret;
+	}
 
 	public function getCommentById($id)
 	{			

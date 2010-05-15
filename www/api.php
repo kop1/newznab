@@ -51,11 +51,15 @@ switch ($function)
 	// search releases
 	//
 	case "s":
-		if (!isset($_GET["q"]))
-			showApiError("no query specified");	
+		if (!isset($_GET["q"]) && !isset($_GET["rid"]))
+			showApiError("no query/rageid specified");	
 			
-		$reldata = $releases->search($_GET["q"]);
-		
+		if (isset($_GET["q"]))
+			$reldata = $releases->search($_GET["q"]);
+		else
+			$reldata = $releases->searchbyRageId($_GET["rid"], (isset($_GET["sr"]) ? $_GET["sr"] : "")
+											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
+				
 		if ($outputtype == "xml")
 		{
 			$page->smarty->assign('releases',$reldata);
@@ -72,10 +76,15 @@ switch ($function)
 	// get nzb
 	//
 	case "g":
-		if (!isset($_GET["id"]))
-			showApiError("no id specified");	
-		
-		$reldata = $releases->getByGuid($_GET["id"]);
+		if (!isset($_GET["id"]) && !isset($_GET["rid"]))
+			showApiError("no id/rageid specified");
+
+		if (isset($_GET["id"]))
+			$reldata = $releases->getByGuid($_GET["id"]);
+		else
+			$reldata = $releases->getbyRageId($_GET["rid"], (isset($_GET["sr"]) ? $_GET["sr"] : "")
+											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
+
 		if ($reldata)
 		{
 			$releases->updateGrab($_GET["id"]);
@@ -102,10 +111,15 @@ switch ($function)
 	// get individual nzb info
 	//
 	case "i":
-		if (!isset($_GET["id"]))
-			showApiError("no id specified");
-			
-		$data = $releases->getByGuid($_GET["id"]);
+		if (!isset($_GET["id"]) && !isset($_GET["rid"]))
+			showApiError("no id/rageid specified");
+
+		if (isset($_GET["id"]))
+			$data = $releases->getByGuid($_GET["id"]);
+		else
+			$data = $releases->getbyRageId($_GET["rid"], (isset($_GET["sr"]) ? $_GET["sr"] : "")
+											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
+		
 		if ($data)
 			$reldata[] = $data;
 		else
