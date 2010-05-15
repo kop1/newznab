@@ -344,7 +344,7 @@ class Releases
 				//
 				// Not a tv episode, so set rageid to na
 				// 
-				$db->query(sprintf("update releases set rageID = -2 where ID = ", $arr["ID"]));
+				$db->query(sprintf("update releases set rageID = -2 where ID = %d", $arr["ID"]));
 			}
 		}
 		
