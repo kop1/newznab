@@ -92,6 +92,7 @@
 			{if $loggedin=="true"}
 				<li><a href="/search">Search</a></li>
 				<li><a href="/browse">Browse</a></li>
+				<li><a href="/searchraw">Raw Search</a></li>
 				{if $isadmin=="true"}
 					<li><a href="/admin/">Admin</a></li>
 				{/if}

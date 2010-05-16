@@ -13,6 +13,7 @@ RewriteRule ^logout$ /logout.php
 RewriteRule ^register$ /register.php
 RewriteRule ^search/(.*)$ /search.php?search=$1
 RewriteRule ^search$ /search.php
+RewriteRule ^searchraw$ /searchraw.php
 RewriteRule ^browse$ /browse.php
 RewriteRule ^profile$ /profile.php
 RewriteRule ^api$ /api.php
