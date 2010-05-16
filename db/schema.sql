@@ -143,6 +143,7 @@ INSERT INTO category (ID, title, parentID) VALUES (31, 'Misc', 7);
 INSERT INTO category (ID, title, parentID) VALUES (32, 'Audiobook', 3);
 INSERT INTO category (ID, title, parentID) VALUES (33, 'Ebook', 7);
 INSERT INTO category (ID, title, parentID) VALUES (34, 'Ipod', 5);
+INSERT INTO category (ID, title, parentID) VALUES (35, 'Sport', 5);
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (

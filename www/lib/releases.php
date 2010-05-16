@@ -227,7 +227,7 @@ class Releases
 			//
 			// Get out every binary which is ready to release and create the release header for it
 			//
-			$res = $db->query(sprintf("SELECT distinct relname, groupID, count(ID) as parts from binaries where procstat = %d and relname is not null group by relname, groupID", Releases::PROCSTAT_READYTORELEASE));
+			$res = $db->query(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID", Releases::PROCSTAT_READYTORELEASE));
 			foreach($res as $arr) 
 			{
 				$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $arr["relname"]);
@@ -236,7 +236,7 @@ class Releases
 				// insert the header release with a clean name
 				// 
 				$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID) values (%s, %s, %d, %d, now(), md5(%s), %d, -1)", 
-											$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["parts"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["groupID"], $arr["relname"]) ));
+											$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["parts"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["group_name"], $arr["relname"]) ));
 				
 				//
 				// tag every binary for this release with its parent release id

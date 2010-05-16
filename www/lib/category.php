@@ -30,6 +30,7 @@ class Category
 	const CAT_MUSIC_AUDIOBOOK = 32;
 	const CAT_MISC_EBOOK = 33;
 	const CAT_TV_IPOD = 34;
+	const CAT_TV_SPORT = 35;
 
 	public function get()
 	{			
@@ -115,9 +116,15 @@ class Category
 		if (preg_match('/alt\.binaries\.erotica\.divx/i', $group)) 
 			return Category::CAT_XXX_XVID;				
 
+		if (preg_match('/alt\.binaries\.mma/i', $group)) 
+			return Category::CAT_TV_SPORT;		
+
 		//
 		// If nothing can be done, try on binaryname
-		// TODO: extend this to cover more scenarios.
+		//
+
+		//
+		// Tv 
 		//
 		if (preg_match('/S([\d]+)E([\d]+)(.*?(720p).*?)/i', $binaryname))
 			return Category::CAT_TV_X264;				
@@ -127,6 +134,13 @@ class Category
 
 		if (preg_match('/S([\d]+)E([\d]+)/i', $binaryname)) 
 			return Category::CAT_TV_XVID;				
+
+		//
+		// If no more tv scenarios found, and the group was teevee, then throw it in tvxvid
+		//
+		if (preg_match('/alt\.binaries\.teevee/i', $group)) 
+			return Category::CAT_TV_XVID;				
+
 
 		if (preg_match('/xvid|dvdscr|extrascene/i', $binaryname)) 
 			return Category::CAT_MOVIE_XVID;
