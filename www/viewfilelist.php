@@ -3,22 +3,38 @@ require_once($_SERVER['DOCUMENT_ROOT']."/lib/page.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/binaries.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/releases.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/nzb.php");
 
 $page = new Page;
 $users = new Users;
+$releases = new Releases;
+$nzb = new Nzb;
 
 if (!$users->isLoggedIn())
 	$page->show403();
 
 if (isset($_GET["id"]))
 {
-
-	$releases = new Releases;
 	$rel = $releases->getByGuid($_GET["id"]);
 	if (!$rel)
 		$page->show404();
+
+	if ($page->isPostBack())
+	{
+		$nzbdata = $nzb->getNZB($_POST);
+		$page->smarty->assign('binaries',$nzbdata);
 	
+		header("Content-type: text/xml");
+		header("X-DNZB-Name: ".$rel["searchname"]);
+		header("X-DNZB-Category: ".$rel["category_name"]);
+		header("X-DNZB-MoreInfo: "); //TODO:
+		header("X-DNZB-NFO: "); //TODO:
+		header("Content-Disposition: attachment; filename=".$rel["searchname"].".nzb");
 	
+		echo $page->smarty->fetch('nzb.tpl');
+		die();
+	}
+
 	$binaries = new Binaries;
 	$data = $binaries->getForReleaseGuid($_GET["id"]);
 
