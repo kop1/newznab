@@ -277,7 +277,7 @@ class Releases
 							SELECT binaries.releaseID, binaries.fromname, max(date) as pdate
 							from binaries
 							where releaseID is not null
-							group by binaries.releaseID
+							group by binaries.releaseID, binaries.fromname
 							) p on p.releaseID = releases.ID
 							set releases.postdate = p.pdate, releases.fromname = p.fromname
 							where postdate is null");				
