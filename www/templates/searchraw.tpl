@@ -10,7 +10,7 @@
 </form>
 
 {if $results|@count > 0}
-
+<form method="post" id="dl" name="dl">
 <table style="width:100%;margin-top:40px;" class="data">
 	<tr>
 		<th width="10"><a onclick="alert('check/uncheck all');return false;">Sel</a></th>
@@ -23,9 +23,9 @@
 
 	{foreach from=$results item=result}
 		<tr>
-			<td><input type="checkbox"/></td>
+			<td><input name="file{$result.ID}" id="file{$result.ID}" value="{$result.ID}" type="checkbox"/></td>
 			<td>
-				<a title="{$result.name|escape:"htmlall"}" href="#" onclick="alert('do something?');return false;">{if $result.filename != ""}{$result.filename|escape:"htmlall"}{else}{$result.name|escape:"htmlall"}{/if}</a>
+				<a title="{$result.name|escape:"htmlall"}" href="#" onclick="return false;">{if $result.filename != ""}{$result.filename|escape:"htmlall"}{else}{$result.name|escape:"htmlall"}{/if}</a>
 			</td>
 			<td class="less">{$result.group_name|replace:"alt.binaries":"a.b"}</td>
 			<td class="less" title="{$result.date}">{$result.date|date_format}</td>
@@ -35,10 +35,26 @@
 	{/foreach}
 	
 </table>
+</form>
+
+<div style="padding-top:20px;">
+	<a href="#" onclick="download();return false;">Download selected as Nzb</a>
+</div>
+
+
 {/if}
+
+
+
 
 {literal}
 <script type="text/javascript">
+function download()
+{
+	var v = document.getElementById("dl");
+	v.submit();
+}
+
 function dosearch()
 {
 	var v = document.getElementById("search");

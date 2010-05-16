@@ -171,7 +171,7 @@ class Releases
 		$retcount = 0;
 		$proccount = 0;
 
-		$res = $db->query(sprintf("SELECT * from binaries where procstat = %d", Releases::PROCSTAT_NEW));
+		$res = $db->query(sprintf("SELECT ID, name from binaries where procstat = %d", Releases::PROCSTAT_NEW));
 		$reschunks = array_chunk ($res, $limitBinariesToProcess, true);
 
 		foreach ($reschunks as $res)
@@ -227,8 +227,8 @@ class Releases
 			//
 			// Get out every binary which is ready to release and create the release header for it
 			//
-			$res = $db->query(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID", Releases::PROCSTAT_READYTORELEASE));
-			foreach($res as $arr) 
+			$resbin = $db->query(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID", Releases::PROCSTAT_READYTORELEASE));
+			foreach($resbin as $arr) 
 			{
 				$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $arr["relname"]);
 				
@@ -251,6 +251,7 @@ class Releases
 			if ($echooutput)
 				echo "finished processing chunk\n";
 		}
+		
 		
 		//
 		// calculate the total size of all releases
