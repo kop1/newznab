@@ -129,6 +129,9 @@ class Category
 		if (preg_match('/S([\d]+)E([\d]+)(.*?(720p).*?)/i', $binaryname))
 			return Category::CAT_TV_X264;				
 
+		if (preg_match('/(.*?(720p).*?)/i', $binaryname) && preg_match('/alt\.binaries\.teevee/i', $group))
+			return Category::CAT_TV_X264;				
+
 		if (preg_match('/S([\d]+)E([\d]+)(.*?(Xvid).*?)/i', $binaryname)) 
 			return Category::CAT_TV_XVID;				
 
