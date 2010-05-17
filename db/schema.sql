@@ -26,6 +26,7 @@ CREATE TABLE `binaries` (
 CREATE INDEX ix_binary_relname ON binaries (relname);
 CREATE INDEX ix_binary_groupID ON binaries (groupID);
 CREATE INDEX ix_binary_procstat ON binaries (procstat);
+CREATE INDEX ix_binary_releaseID ON binaries (releaseID);
 
 DROP TABLE IF EXISTS `releases`;
 CREATE TABLE `releases` 
@@ -49,7 +50,12 @@ episode VARCHAR(10) NULL,
 comments INT not null DEFAULT 0,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
-) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_releases_adddate ON releases (adddate);
+CREATE INDEX ix_releases_categoryID ON releases (categoryID);
+CREATE INDEX ix_releases_rageID ON releases (rageID);
+
 
 DROP TABLE IF EXISTS `releasecomment`;
 CREATE TABLE `releasecomment` 
@@ -61,7 +67,11 @@ CREATE TABLE `releasecomment`
 `createddate` DATETIME DEFAULT NULL,
 `host` VARCHAR(15) NULL,
 PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_releasecomment_releaseID ON releasecomment (releaseID);
+CREATE INDEX ix_releasecomment_userID ON releasecomment (userID);
+
 
 DROP TABLE IF EXISTS `tvrage`;
 CREATE TABLE `tvrage` 
@@ -72,7 +82,9 @@ CREATE TABLE `tvrage`
 `description` VARCHAR(2000) NULL,
 `createddate` DATETIME DEFAULT NULL,
 PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM AUTO_INCREMENT=1 ;		
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_tvrage_rageID ON tvrage (rageID);
 
 
 DROP TABLE IF EXISTS `groups`;
@@ -84,10 +96,12 @@ CREATE TABLE `groups` (
   `active` TINYINT(1) NOT NULL DEFAULT '0',
   `description` VARCHAR(255) NULL DEFAULT '',
   `postcount` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  `categoryID` INT NULL,  
+  `categoryID` INT NULL,
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_groups_categoryID ON groups (categoryID);
 
 DROP TABLE IF EXISTS `parts`;
 CREATE TABLE `parts` (
@@ -211,8 +225,8 @@ INSERT INTO `site`
 	`title`, 
 	`strapline`, 
 	`metatitle`, 
-	`metadescription`, 
-	`metakeywords`, 
+	`metadescription`,
+	`metakeywords`,
 	`footer`, 
 	`email`, 
 	`groupfilter`, 
