@@ -23,7 +23,7 @@ if ($page->isPostBack())
 			if ($users->checkPassword($_POST["password"], $res["password"]))
 			{
 				$users->login($res["ID"]);
-				header("Location: ".WWW_TOP);
+				header("Location: ".WWW_TOP."/");
 			}
 			else
 			{

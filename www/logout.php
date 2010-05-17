@@ -6,4 +6,4 @@ require_once(WWW_DIR."/lib/users.php");
 $users = new Users();
 $users->logout();
 
-header("Location: ".WWW_TOP);
+header("Location: ".WWW_TOP."/");
