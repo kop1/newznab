@@ -57,7 +57,7 @@ switch ($function)
 		if (isset($_GET["q"]))
 			$reldata = $releases->search($_GET["q"]);
 		else
-			$reldata = $releases->searchbyRageId($_GET["rid"], (isset($_GET["sr"]) ? $_GET["sr"] : "")
+			$reldata = $releases->searchbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
 											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
 				
 		if ($outputtype == "xml")
@@ -82,7 +82,7 @@ switch ($function)
 		if (isset($_GET["id"]))
 			$reldata = $releases->getByGuid($_GET["id"]);
 		else
-			$reldata = $releases->getbyRageId($_GET["rid"], (isset($_GET["sr"]) ? $_GET["sr"] : "")
+			$reldata = $releases->getbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
 											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
 
 		if ($reldata)

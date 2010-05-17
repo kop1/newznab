@@ -43,9 +43,9 @@
 	{if $release.rageID > 0}
 <report:tv>
 		<report:tvrageid>{$release.rageID}</report:tvrageid>
-		<report:seriesfull>{$release.seriesfull}</report:seriesfull>
-		<report:series>{$release.season}</report:series>
-		<report:episode>{$release.episode}</report:episode>
+		<report:seasonfull>{$release.seriesfull}</report:seasonfull>
+		<report:season>{$release.season|replace:"S":""|string_format:"%d"}</report:season>
+		<report:episode>{$release.episode|replace:"E":""|string_format:"%d"}</report:episode>
 	</report:tv>
 	{/if}
 <report:nzb>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/nzb/{$release.guid}</report:nzb>

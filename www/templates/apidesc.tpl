@@ -8,28 +8,29 @@
 			
 			<h2>Available Functions</h2>
 			<p>
-				Use the parameter <span style="font-family:courier;">?t=</span> to specify the function being called.
+				Use the parameter <span style="font-family:courier;">?t=</span> to specify the function being called 
+				and <span style="font-family:courier;">?k=</span> to provide the site api key. Please <a href="{$smarty.const.WWW_TOP}/contact-us.php">contact us</a> for details of the site api key.
 				<ul>
 					<li>
 						Search <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&q=linux">?t=s&q=linux</a></span>
 						<br/>
 						Returns a list of nzbs matching a query.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&rid=20423&sr=s01">?t=s&rid=20423&sr=s01</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&rid=20423&season=s01">?t=s&rid=20423&season=s01</a></span>
 					</li>
 					<li>
 						Individual <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
 						Returns information about an nzb.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&rid=20423&sr=s01&ep=e02">?t=i&rid=20423&sr=s01&ep=e02</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&rid=20423&season=s01&ep=e02">?t=i&rid=20423&season=s01&ep=e02</a></span>
 					</li>						
 					<li>
 						Get <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
 						Downloads the nzb file associated with an Id.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&rid=20423&sr=s01&ep=e02">?t=g&rid=20423&sr=s01&ep=e02</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&rid=20423&season=s01&ep=e02">?t=g&rid=20423&season=s01&ep=e02</a></span>
 					</li>	
 				</ul>
 			</p>
