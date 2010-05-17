@@ -14,16 +14,16 @@
 </tr>
 
 <tr>
-	<td>Description:</td>
+	<td><label for="description">Description</label>:</td>
 	<td>
-		<textarea name="description">{$group.description}</textarea>
+		<textarea id="description" name="description">{$group.description}</textarea>
 	</td>
 </tr>
 
 <tr>
-	<td>Active:</td>
+	<td><label for="active">Active</label>:</td>
 	<td>
-		{html_radios name='active' values=$yesno_ids output=$yesno_names selected=$group.active separator='<br />'}
+		{html_radios id="active" name='active' values=$yesno_ids output=$yesno_names selected=$group.active separator='<br />'}
 	</td>
 </tr>
 

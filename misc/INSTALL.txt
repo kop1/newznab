@@ -5,9 +5,13 @@ pre-reqs
 	php mhash module
 	php mcrypt module
 	php sessions enabled
+	php memory limit set to 256 
+	php recommended minimum execution time of at least 60 seconds
 	iis
 		urlrewriter isapi in \misc\ installed
+		script timeout of at least 60 seconds
 	apache
+		script timeout of at least 60 seconds
 		mod_rewrite enabled
 		.htaccess allow override on
 		
