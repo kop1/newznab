@@ -372,12 +372,12 @@ div.resextra a
 {
 	padding-top:3px;
 	float:right;
-	xbackground-color:#e5e5e5;
 }
 
-#menusearchlink input
+#menusearchlink input, select
 {
 	font-size: 0.9em;
+	color:#555;
 }
 
 #menucontainer

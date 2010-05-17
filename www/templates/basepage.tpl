@@ -6,9 +6,10 @@
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<title>{$page->meta_title} - {$site->meta_title}</title>
 	<link href="{$smarty.const.WWW_TOP}/style.css" rel="stylesheet" type="text/css" media="screen" />
-	<script type="text/javascript" src="includes/utils.js"></script>
-	<script type="text/javascript" src="includes/functions_sorttable.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
 	{$customtheme}
+	<script text="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>
 	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$smarty.const.WWW_TOP}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
 	{$page->head}
@@ -25,7 +26,7 @@
 
 	<div id="logo">
 		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/images/banner.jpg" /></a>
-		<h1><a href="{$smarty.const.WWW_TOP}">{$site->title}</a></h1>
+		<h1><a href="{$smarty.const.WWW_TOP}/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
 	<hr />

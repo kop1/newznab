@@ -16,3 +16,49 @@ function encodeUrl(allURLs)
 	allURLs = allURLs.replace(/%0A/g, '\n')
 	return allURLs;
 }
+
+function submitenter(myfield,e)
+{
+	var keycode;
+	if (window.event) keycode = window.event.keyCode;
+	else if (e) keycode = e.which;
+	else return true;
+
+	if (keycode == 13)
+	{
+		myfield.form.submit();
+		return false;
+	}
+	else
+		return true;
+}
+
+function headersubmitenter(myfield,e)
+{
+	var keycode;
+	if (window.event) keycode = window.event.keyCode;
+	else if (e) keycode = e.which;
+	else return true;
+
+	if (keycode == 13)
+	{
+		headersearch();
+		return false;
+	}
+	else
+		return true;
+}
+
+function headersearch()
+{
+	var v = document.getElementById("headsearch");
+	var vs = document.getElementById("headcat");
+	if (v != null && v.value != 'Enter keywords' && vs != null)
+	{
+		var cat = "";
+		if (vs.options[vs.selectedIndex].value != "-1")
+			cat = "&t=" + vs.options[vs.selectedIndex].value;
+		
+		document.location= WWW_TOP + "/search/" + encodeUrl(v.value) + cat;
+	}
+}
