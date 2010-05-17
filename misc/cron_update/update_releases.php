@@ -1,7 +1,7 @@
 <?php
 
-include "setpath.php";
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/releases.php");
+require("config.php");
+require_once(WWW_DIR."/lib/releases.php");
 
 $releases = new Releases;
 $releases->processReleases(true);
