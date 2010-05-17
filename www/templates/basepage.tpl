@@ -5,9 +5,9 @@
 	<meta name="keywords" content="{$page->meta_keywords},{$site->meta_keywords}" />
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<title>{$page->meta_title} - {$site->meta_title}</title>
-	<link href="/style.css" rel="stylesheet" type="text/css" media="screen" />
-	<script type="text/javascript" src="/includes/utils.js"></script>
-	<script type="text/javascript" src="/includes/functions_sorttable.js"></script>
+	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+	<script type="text/javascript" src="includes/utils.js"></script>
+	<script type="text/javascript" src="includes/functions_sorttable.js"></script>
 	{$customtheme}
 	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
@@ -17,14 +17,14 @@
 
 	<div id="statusbar">
 		{if $loggedin=="true"}
-			Welcome back <a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/profile">{$userdata.username}</a>. <a href="/logout">Logout</a>
+			Welcome back <a href="profile">{$userdata.username}</a>. <a href="logout">Logout</a>
 		{else}
-			<a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/login">Login</a> or <a href="/register">Register</a>
+			<a href="login">Login</a> or <a href="register">Register</a>
 		{/if}
 	</div>
 
 	<div id="logo">
-		<a title="{$site->title} Logo" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/"><img alt="{$site->title} Logo" src="/images/banner.jpg" /></a>
+		<a title="{$site->title} Logo" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/"><img alt="{$site->title} Logo" src="images/banner.jpg" /></a>
 		<h1><a href="/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
@@ -90,17 +90,17 @@
 			<h2>Menu</h2> 
 			<ul>
 			{if $loggedin=="true"}
-				<li><a href="/search">Search</a></li>
-				<li><a href="/browse">Browse</a></li>
-				<li><a href="/searchraw">Raw Search</a></li>
+				<li><a href="search">Search</a></li>
+				<li><a href="browse">Browse</a></li>
+				<li><a href="searchraw">Raw Search</a></li>
 				{if $isadmin=="true"}
-					<li><a href="/admin/">Admin</a></li>
+					<li><a href="admin/">Admin</a></li>
 				{/if}
-				<li><a href="/profile">Profile</a></li>
-				<li><a href="/logout">Logout</a></li>
+				<li><a href="profile">Profile</a></li>
+				<li><a href="logout">Logout</a></li>
 			{else}
-				<li><a href="/login">Login</a></li>
-				<li><a href="/register">Register</a></li>
+				<li><a href="login">Login</a></li>
+				<li><a href="register">Register</a></li>
 			{/if}
 			</ul>
 		</li>
@@ -145,7 +145,7 @@
 	
 		<div style="clear: both;text-align:right;padding-bottom:10px;">
 			<a href="http://validator.w3.org/check?uri=referer">
-			<img src="/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
+			<img src="images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
 			</a>
 		</div>
 
