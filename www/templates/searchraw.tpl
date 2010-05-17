@@ -47,8 +47,9 @@
 
 
 
-{literal}
 <script type="text/javascript">
+url = "{$smarty.const.WWW_TOP}";
+{literal}
 function download()
 {
 	var v = document.getElementById("dl");
@@ -60,7 +61,7 @@ function dosearch()
 	var v = document.getElementById("search");
 	if (v != null)
 	{
-		document.location="/searchraw/" + encodeUrl(v.value);
+		document.location=url + "/searchraw/" + encodeUrl(v.value);
 	}
 }
 </script>

@@ -38,14 +38,15 @@
 </table>
 {/if}
 
-{literal}
 <script type="text/javascript">
+url = "{$smarty.const.WWW_TOP}";
+{literal}
 function dosearch()
 {
 	var v = document.getElementById("search");
 	if (v != null)
 	{
-		document.location="/search/" + encodeUrl(v.value);
+		document.location= url + "/search/" + encodeUrl(v.value);
 	}
 }
 </script>
