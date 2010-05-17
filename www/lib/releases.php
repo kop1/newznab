@@ -300,6 +300,9 @@ class Releases
 		//
 		// Process all TV related releases which will assign their series/episode/rage data
 		//
+		if ($echooutput)
+			echo "processing tv rage data\n";		
+
 		$this->processTvSeriesData();
 
 		//

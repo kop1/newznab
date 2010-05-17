@@ -20,7 +20,6 @@ class Category
 	const CAT_PC_ISO = 20;
 	const CAT_PC_MAC = 21;
 	const CAT_TV_DVD = 22;
-	const CAT_TV_H264 = 23;
 	const CAT_TV_SWE = 24;
 	const CAT_TV_XVID = 25;
 	const CAT_TV_X264 = 26;

@@ -145,7 +145,6 @@ INSERT INTO category (ID, title, parentID) VALUES (19, '0day', 4);
 INSERT INTO category (ID, title, parentID) VALUES (20, 'ISO', 4);
 INSERT INTO category (ID, title, parentID) VALUES (21, 'Mac', 4);
 INSERT INTO category (ID, title, parentID) VALUES (22, 'DVD', 5);
-INSERT INTO category (ID, title, parentID) VALUES (23, 'H264', 5);
 INSERT INTO category (ID, title, parentID) VALUES (24, 'SWE', 5);
 INSERT INTO category (ID, title, parentID) VALUES (25, 'XviD', 5);
 INSERT INTO category (ID, title, parentID) VALUES (26, 'x264', 5);
