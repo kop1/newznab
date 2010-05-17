@@ -1,6 +1,8 @@
 <?php
 
 define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
+define('WWW_TOP', dirname( $_SERVER['PHP_SELF'] ));
+
 define('SMARTY_DIR', WWW_DIR.'lib/smarty/');
 
 define('CODENAME', 'GUNTER');

@@ -5,7 +5,7 @@
 	<meta name="keywords" content="{$page->meta_keywords},{$site->meta_keywords}" />
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<title>{$page->meta_title} - {$site->meta_title}</title>
-	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="{$smarty.const.WWW_TOP}/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<script type="text/javascript" src="includes/utils.js"></script>
 	<script type="text/javascript" src="includes/functions_sorttable.js"></script>
 	{$customtheme}
@@ -24,7 +24,7 @@
 	</div>
 
 	<div id="logo">
-		<a title="{$site->title} Logo" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/"><img alt="{$site->title} Logo" src="images/banner.jpg" /></a>
+		<a title="{$site->title} Logo" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="images/banner.jpg" /></a>
 		<h1><a href="/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
