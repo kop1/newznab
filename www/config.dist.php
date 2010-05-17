@@ -1,12 +1,8 @@
 <?php
 
-define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
-define('WWW_TOP', dirname( $_SERVER['PHP_SELF'] ));
-
-define('SMARTY_DIR', WWW_DIR.'lib/smarty/');
-
-define('CODENAME', 'GUNTER');
-
+//=========================
+// Config you must change
+//=========================
 define('DB_TYPE', 'mysql');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'newznab');
@@ -19,5 +15,18 @@ define('NNTP_SERVER', 'newz.server');
 define('NNTP_PORT', '119');
 
 define('GOOGLE_ADSENSE_ACC', 'pub-12345678901234');
-  
+
+
+
+//=========================
+// Config you can leave alone
+//=========================
+define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
+define('SMARTY_DIR', WWW_DIR.'lib/smarty/');
+
+$www_top = str_replace("\\","/",dirname( $_SERVER['PHP_SELF'] ));
+if(strlen($www_top) == 1)
+	$www_top = "";
+
+define('WWW_TOP', $www_top);
 ?>
