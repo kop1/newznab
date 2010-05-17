@@ -173,7 +173,7 @@ class Releases
 
 		$overridelimit = "";
 		if ($limitOverride > 0)
-			$overridelimit = sprintf(" limit %d", limitOverride);
+			$overridelimit = sprintf(" limit %d", $limitOverride);
 			
 		$res = $db->query(sprintf("SELECT ID, name from binaries where procstat = %d %s", Releases::PROCSTAT_NEW, $overridelimit));
 		$reschunks = array_chunk ($res, $limitBinariesToProcess, true);
