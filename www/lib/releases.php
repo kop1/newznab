@@ -7,6 +7,7 @@ require_once(WWW_DIR."/lib/tvrage.php");
 class Releases
 {	
 	const PROCSTAT_NEW = 0;
+	const PROCSTAT_TITLEMATCHED = 5;
 	const PROCSTAT_READYTORELEASE = 1;
 	const PROCSTAT_WRONGPARTS = 2;
 	const PROCSTAT_BADTITLEFORMAT = 3;
@@ -174,98 +175,72 @@ class Releases
 		$db->queryOneRow(sprintf("update releases set grabs = grabs + 1 where guid = %s", $db->escapeString($guid)));		
 	}
 	
-	function processReleases($echooutput=false, $limitBinariesToProcess = Releases::numReleasesToProcessPerTime, $limitOverride = Releases::numOverrideBinariesToSelect) 
+	function processReleases($echooutput=false) 
 	{
 		$db = new DB;
 		$cat = new Category;
 		$retcount = 0;
-		$proccount = 0;
 
-		$overridelimit = "";
-		if ($limitOverride > 0)
-			$overridelimit = sprintf(" limit %d", $limitOverride);
-			
-		$res = $db->query(sprintf("SELECT ID, name from binaries where procstat = %d %s", Releases::PROCSTAT_NEW, $overridelimit));
-		$reschunks = array_chunk ($res, $limitBinariesToProcess, true);
+		//
+		// should match fairly typical releases in format "relname [1/12] filename yenc"
+		// handles brackets or square
+		//
+		$pattern = '/^([\s]*(.*)(?=(?:\[|\()(?:[\s]*0*)([\d]+)[\s]*(?:[^\d\]]{1,5})(?:[\s]*0*)([\d]+)[\s]*(?:\)|\])(?:[\s][^\w\"\']*)(\'|"?)([\W]*)(.*?)(\5)[\s]*(yEnc)?[\s]*$))/';
 
-		foreach ($reschunks as $res)
+		$result = $db->queryDirect(sprintf("SELECT ID, name from binaries where procstat = %d", Releases::PROCSTAT_NEW));
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
-			if ($echooutput)
-				echo "processing chunk ". count($res)."\n";
-				
-			//
-			// should match fairly typical releases in format "relname [1/12] filename yenc"
-			// handles brackets or square
-			//
-			$pattern = '/^([\s]*(.*)(?=(?:\[|\()(?:[\s]*0*)([\d]+)[\s]*(?:[^\d\]]{1,5})(?:[\s]*0*)([\d]+)[\s]*(?:\)|\])(?:[\s][^\w\"\']*)(\'|"?)([\W]*)(.*?)(\5)[\s]*(yEnc)?[\s]*$))/';
-	
-			$index = array();
-			foreach ($res as $recordIndex => $record) 
+				$retcount ++;
+		    if (preg_match ($pattern, $row["name"], $matches) > 0) 
+		    {
+						$db->query(sprintf("update binaries set filename = %s, relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
+							$db->escapeString($matches[7]), $db->escapeString($matches[1]), $matches[3], $matches[4], Releases::PROCSTAT_TITLEMATCHED, $row["ID"] ));
+		    }
+		    
+		    if ($echooutput && ($retcount % 10 == 0))
+		    	echo "processed ".$retcount." binaries stage one\n";
+		}
+		$retcount=0;
+
+		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, count(*) as num from binaries where procstat = %d group by relname, reltotalpart", Releases::PROCSTAT_TITLEMATCHED));
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		{
+			$retcount ++;
+			if ($row["reltotalpart"] == $row["num"])
 			{
-			    if (preg_match ($pattern, $record["name"], $matches) > 0) 
-			    {
-						//the number of parts and the number of parts which it's found in
-						//$records and what the key of those parts in $records is for each
-						//release is in index
-						$key = $matches[1] . '##' . $matches[4];
-						$index[$key][1] = $matches[4]; // How many parts
-						$index[$key][2][$matches[3]] = $recordIndex; // Which unique numbered parts avail in $records
-						$res[$recordIndex]["matches"] = $matches;
-			    }
+				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d", Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED));
 			}
+			else
+			{
+				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED ));
+			}
+			if ($echooutput && ($retcount % 10 == 0))
+	    	echo "processed ".$retcount." binaries stage two\n";
+		}
+		$retcount=0;
+
+		$result = $db->queryDirect(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID", Releases::PROCSTAT_READYTORELEASE));
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		{
+			$retcount ++;
+			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
 
 			//
-			// determine every binary which is part of a complete release and move it on to next status
-			// if the parts dont match up increment the number of attempts so these can be moved out of the way
-			// later
-			//
-			foreach ($index as $keyStr => $info) 
-			{
-				if ($info[1] == count($info[2])) 
-				{
-					foreach ($info[2] as $partNumber => $recInd) 
-					{
-						$db->query(sprintf("update binaries set filename = %s, relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
-							$db->escapeString($res[$recInd]["matches"][7]), $db->escapeString($res[$recInd]["matches"][1]), $res[$recInd]["matches"][3], $res[$recInd]["matches"][4], Releases::PROCSTAT_READYTORELEASE, $res[$recInd]["ID"] ));
-					}
-				}
-				else
-				{
-					foreach ($info[2] as $partNumber => $recInd) 
-					{
-						$db->query(sprintf("update binaries set procattempts = procattempts + 1 where ID = %d", $res[$recInd]["ID"] ));
-					}
-				}
-			}
+			// insert the header release with a clean name
+			// 
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID) values (%s, %s, %d, %d, now(), md5(%s), %d, -1)", 
+										$db->escapeString($row["relname"]), $db->escapeString($relsearchname), $row["parts"], $row["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($row["group_name"], $row["relname"]) ));
 			
 			//
-			// Get out every binary which is ready to release and create the release header for it
+			// tag every binary for this release with its parent release id
+			// remove the release name from the binary as its no longer required
 			//
-			$resbin = $db->query(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID", Releases::PROCSTAT_READYTORELEASE));
-			foreach($resbin as $arr) 
-			{
-				$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $arr["relname"]);
-				
-				//
-				// insert the header release with a clean name
-				// 
-				$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID) values (%s, %s, %d, %d, now(), md5(%s), %d, -1)", 
-											$db->escapeString($arr["relname"]), $db->escapeString($relsearchname), $arr["parts"], $arr["groupID"], $db->escapeString(uniqid()), $cat->determineCategory($arr["group_name"], $arr["relname"]) ));
-				
-				//
-				// tag every binary for this release with its parent release id
-				// remove the release name from the binary as its no longer required
-				//
-				$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
-									Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($arr["relname"]), Releases::PROCSTAT_READYTORELEASE, $arr["groupID"]));
+			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
+								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 	
-				$retcount++;
-			}			
-			
-			if ($echooutput)
-				echo "finished processing chunk\n";
+	    if ($echooutput && ($retcount % 10 == 0))
+	    	echo "processed ".$retcount." binaries stage three\n";
 		}
-		
 		
 		//
 		// calculate the total size of all releases
@@ -316,7 +291,7 @@ class Releases
 		if ($echooutput)
 			echo "processing tv rage data\n";		
 
-		$this->processTvSeriesData();
+		$this->processTvSeriesData($echooutput);
 
 		//
 		// tidy away any binaries which have been attempted to be grouped into 
@@ -336,7 +311,7 @@ class Releases
 		return $retcount;
 	}	
 
-	public function processTvSeriesData()
+	public function processTvSeriesData($echooutput=false)
 	{
 		$ret = 0;
 		$db = new DB();
@@ -364,7 +339,7 @@ class Releases
 				//
 				// try and retrieve the entry from tvrage
 				//
-				$id = $rage->getRageId($relcleanname);
+				$id = $rage->getRageId($relcleanname, $echooutput);
 				if ($id != -1)
 				{
 					$db->query(sprintf("update releases set rageID = %d where ID = %d", $id, $arr["ID"]));

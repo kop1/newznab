@@ -16,7 +16,7 @@
 						<br/>
 						Returns a list of nzbs matching a query.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&rid=20423&season=s01">?t=s&rid=20423&season=s01</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&rid=20423&season=s01">?t=s&rid=20423&season=s01</a></span>. Either numeric (1) or string (E01) can be used for searching by series or episode.
 					</li>
 					<li>
 						Individual <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>

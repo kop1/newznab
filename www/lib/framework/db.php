@@ -89,6 +89,12 @@ class DB
 		return $rows;
 	}	
 	
+	public function queryDirect($query)
+	{
+		$result = mysql_query($query);
+		return $result;
+	}	
+
 	public function optimise() 
 	{
 		$ret = array();

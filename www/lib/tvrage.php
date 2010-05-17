@@ -67,7 +67,7 @@ class TvRage
 		return $res["num"];
 	}
 
-	function getRageId($title)
+	function getRageId($title, $echooutput=false)
 	{
 		$db = new DB();
 		$res = $db->queryOneRow(sprintf("SELECT rageID from tvrage where lower(releasetitle) = lower(%s)", $db->escapeString($title)));
@@ -76,6 +76,9 @@ class TvRage
 		
 		if ($this->doWebLookup)
 		{
+			if ($echooutput)
+				echo "didnt find rageid for ".$title." in local db, checking web\n";
+
 			$xml = file_get_contents($this->searchUrl.urlencode($title));
 			$xmlObj = simplexml_load_string($xml);
 			$arrXml = objectsIntoArray($xmlObj);
