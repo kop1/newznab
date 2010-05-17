@@ -1,6 +1,7 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/page.php");
+require_once("config.php");
+require_once(WWW_DIR."/lib/page.php");
 $page = new Page();
 
 if (isset($_POST["useremail"]))
