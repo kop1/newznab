@@ -1,7 +1,7 @@
 
 <h1>Search Binaries</h1>
 
-<form method="get" action="/searchraw/">
+<form method="get" action="{$smarty.const.WWW_TOP}/searchraw/">
 	<div style="text-align:center;">
 		<label for="search" style="display:none;">Search</label>
 		<input id="search" name="search" value="{$search|escape:'htmlall'}" type="text"/>
@@ -30,7 +30,7 @@
 			<td class="less">{$result.group_name|replace:"alt.binaries":"a.b"}</td>
 			<td class="less" title="{$result.date}">{$result.date|date_format}</td>
 			<td class="less" width="55">{if $result.size > 0}{$result.size|fsize_format:"MB"}{else}-{/if}</td>
-			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="/details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>
+			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="{$smarty.const.WWW_TOP}/details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>
 		</tr>
 	{/foreach}
 	

@@ -1,6 +1,6 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:report="http://www.newzbin.com/DTD/2007/feeds/report/">
 <channel>
-<atom:link href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss" rel="self" type="application/rss+xml" />
+<atom:link href="{$smarty.const.WWW_TOP}/rss" rel="self" type="application/rss+xml" />
 <title>{$site->title|escape}</title>
 <description>{$site->title|escape} Nzb Feed</description>
 <link>{$scheme}{$smarty.server.SERVER_NAME}{$port}/</link>
@@ -25,14 +25,14 @@
 	<description>
 	<![CDATA[
 	<ul>
-	<li>ID: <a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
+	<li>ID: <a href="{$smarty.const.WWW_TOP}/rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Attributes: Category - {$release.category_name} </li>
 	<li>Groups: {$release.group_name}</li>
 	<li>Poster: {$release.fromname}</li>
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
 	</ul>]]>
 	</description>
-	{if $dl=="1"}<enclosure url="{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/nzb/{$release.guid}&i={$userdata.ID}&r={$userdata.rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}
+	{if $dl=="1"}<enclosure url="{$smarty.const.WWW_TOP}/rss/nzb/{$release.guid}&i={$userdata.ID}&r={$userdata.rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}
 
 	<!-- Additional attributes-->
 	<report:id>{$release.guid}</report:id>

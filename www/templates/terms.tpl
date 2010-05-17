@@ -17,5 +17,5 @@
 			</p>
 			
 			<p>
-				Please <a href="/contact-us.php">contact us</a> for further information.
+				Please <a href="{$smarty.const.WWW_TOP}/contact-us.php">contact us</a> for further information.
 			</p>

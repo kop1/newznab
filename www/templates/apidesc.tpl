@@ -11,25 +11,25 @@
 				Use the parameter <span style="font-family:courier;">?t=</span> to specify the function being called.
 				<ul>
 					<li>
-						Search <span style="font-family:courier;"><a href="api?t=s&q=linux">?t=s&q=linux</a></span>
+						Search <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&q=linux">?t=s&q=linux</a></span>
 						<br/>
 						Returns a list of nzbs matching a query.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="api?t=s&rid=20423&sr=s01">?t=s&rid=20423&sr=s01</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&rid=20423&sr=s01">?t=s&rid=20423&sr=s01</a></span>
 					</li>
 					<li>
-						Individual <span style="font-family:courier;"><a href="api?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
+						Individual <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
 						Returns information about an nzb.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="api?t=i&rid=20423&sr=s01&ep=e02">?t=i&rid=20423&sr=s01&ep=e02</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&rid=20423&sr=s01&ep=e02">?t=i&rid=20423&sr=s01&ep=e02</a></span>
 					</li>						
 					<li>
-						Get <span style="font-family:courier;"><a href="api?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
+						Get <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
 						Downloads the nzb file associated with an Id.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="api?t=g&rid=20423&sr=s01&ep=e02">?t=g&rid=20423&sr=s01&ep=e02</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&rid=20423&sr=s01&ep=e02">?t=g&rid=20423&sr=s01&ep=e02</a></span>
 					</li>	
 				</ul>
 			</p>

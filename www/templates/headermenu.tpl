@@ -2,10 +2,10 @@
 	<div id="menulink"> 
 		<ul>
 		{foreach from=$parentcatlist item=parentcat}
-			<li><a title="Browse {$parentcat.title}" href="/browse?t={$parentcat.ID}">{$parentcat.title}</a>
+			<li><a title="Browse {$parentcat.title}" href="{$smarty.const.WWW_TOP}/browse?t={$parentcat.ID}">{$parentcat.title}</a>
 				<ul>
 				{foreach from=$parentcat.subcatlist item=subcat}
-					<li><a title="Browse {$subcat.title}" href="/browse?t={$subcat.ID}">{$subcat.title}</a></li>
+					<li><a title="Browse {$subcat.title}" href="{$smarty.const.WWW_TOP}/browse?t={$subcat.ID}">{$subcat.title}</a></li>
 				{/foreach}
 				</ul>
 			</li>
