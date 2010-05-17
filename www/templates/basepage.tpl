@@ -17,14 +17,14 @@
 
 	<div id="statusbar">
 		{if $loggedin=="true"}
-			Welcome back <a href="profile">{$userdata.username}</a>. <a href="logout">Logout</a>
+			Welcome back <a href="profile">{$userdata.username}</a>. <a href="{$smarty.const.WWW_TOP}/logout">Logout</a>
 		{else}
 			<a href="login">Login</a> or <a href="register">Register</a>
 		{/if}
 	</div>
 
 	<div id="logo">
-		<a title="{$site->title} Logo" href="{$scheme}{$smarty.server.SERVER_NAME}{$port}{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="images/banner.jpg" /></a>
+		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/images/banner.jpg" /></a>
 		<h1><a href="/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
@@ -94,17 +94,17 @@
 			<h2>Menu</h2> 
 			<ul>
 			{if $loggedin=="true"}
-				<li><a href="search">Search</a></li>
-				<li><a href="browse">Browse</a></li>
-				<li><a href="searchraw">Raw Search</a></li>
+				<li><a href="{$smarty.const.WWW_TOP}/search">Search</a></li>
+				<li><a href="{$smarty.const.WWW_TOP}/browse">Browse</a></li>
+				<li><a href="{$smarty.const.WWW_TOP}/searchraw">Raw Search</a></li>
 				{if $isadmin=="true"}
-					<li><a href="admin/">Admin</a></li>
+					<li><a href="{$smarty.const.WWW_TOP}/admin/">Admin</a></li>
 				{/if}
-				<li><a href="profile">Profile</a></li>
-				<li><a href="logout">Logout</a></li>
+				<li><a href="{$smarty.const.WWW_TOP}/profile">Profile</a></li>
+				<li><a href="{$smarty.const.WWW_TOP}/logout">Logout</a></li>
 			{else}
-				<li><a href="login">Login</a></li>
-				<li><a href="register">Register</a></li>
+				<li><a href="{$smarty.const.WWW_TOP}/login">Login</a></li>
+				<li><a href="{$smarty.const.WWW_TOP}/register">Register</a></li>
 			{/if}
 			</ul>
 		</li>

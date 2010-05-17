@@ -88,7 +88,7 @@ class BasePage
 	
 	public function show403()
 	{
-		header("Location: /login");
+		header("Location: ".WWW_TOP."/login");
 		die();
 	}
 }
