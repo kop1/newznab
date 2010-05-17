@@ -15,6 +15,7 @@ class Releases
 	//TODO: Move to site table
 	const maxAttemptsToProcessBinaryIntoRelease = 3;
 	const maxDaysToProcessWrongFormatBinaryIntoRelease = 7;
+	const numOverrideBinariesToSelect = 0;
 	const numReleasesToProcessPerTime = 7500;
 	
 	public function get()
@@ -115,8 +116,6 @@ class Releases
 		return $res;
 	}		
 	
-	
-	
 	public function searchSimilar($name, $limit=6)
 	{			
 		$words = str_word_count(str_replace(".", " ", $name), 2);
@@ -165,14 +164,18 @@ class Releases
 		$db->queryOneRow(sprintf("update releases set grabs = grabs + 1 where guid = %s", $db->escapeString($guid)));		
 	}
 	
-	function processReleases($echooutput=false, $limitBinariesToProcess = Releases::numReleasesToProcessPerTime) 
+	function processReleases($echooutput=false, $limitBinariesToProcess = Releases::numReleasesToProcessPerTime, $limitOverride = Releases::numOverrideBinariesToSelect) 
 	{
 		$db = new DB;
 		$cat = new Category;
 		$retcount = 0;
 		$proccount = 0;
 
-		$res = $db->query(sprintf("SELECT ID, name from binaries where procstat = %d", Releases::PROCSTAT_NEW));
+		$overridelimit = "";
+		if ($limitOverride > 0)
+			$overridelimit = sprintf(" limit %d", limitOverride);
+			
+		$res = $db->query(sprintf("SELECT ID, name from binaries where procstat = %d %s", Releases::PROCSTAT_NEW, $overridelimit));
 		$reschunks = array_chunk ($res, $limitBinariesToProcess, true);
 
 		foreach ($reschunks as $res)

@@ -19,7 +19,7 @@
 		<label style="display:none;" for="headcat">Search Category</label>
 		<select id="headcat" name="headcat">
 			<optgroup label="All">
-				<option value="-1">-- Please Select --</option>
+				<option value="-1">-- Everything --</option>
 			</optgroup>
 		{foreach from=$parentcatlist item=parentcat}
 			<optgroup label="{$parentcat.title}">
