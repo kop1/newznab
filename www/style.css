@@ -16,7 +16,6 @@ h1, h2, h3 {
 
 textarea { font-family: Arial, Helvetica, sans-serif; height:100px; width:300px;}
 
-
 h1 { font-size: 44px; padding-bottom:10px;}
 
 h2 { padding-bottom:5px; font-size: 18px; }
@@ -51,9 +50,8 @@ hr { display: none; }
 
 #menu {
 	float: left;
-	width: 680px;
-	height: 43px;
-	padding-top:16px;
+	width: 100%;
+	background-color:#e5e5e5;
 }
 
 /* Page */
@@ -61,7 +59,7 @@ hr { display: none; }
 #page {
 	width: 940px;
 	margin: 0 auto;
-	padding: 70px 0px 0px 0px;
+	padding: 50px 0px 0px 0px;
 }
 
 
@@ -256,6 +254,7 @@ div.error
 {
 	float:right;
 	padding-right:10px;
+	padding-top:2px;
 }
 
 #statusbar a {
@@ -373,6 +372,7 @@ div.resextra a
 {
 	padding-top:3px;
 	float:right;
+	xbackground-color:#e5e5e5;
 }
 
 #menusearchlink input

@@ -38,7 +38,7 @@
 				{$header_menu}
 			{/if}
 				
-			{if $google_adsense_acc != '' && $site->google_adsense_menu != ''}
+			{if 1==2 && $google_adsense_acc != '' && $site->google_adsense_menu != ''}
 			{literal}
 				<script type="text/javascript">
 						<!--
