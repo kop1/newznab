@@ -10,22 +10,22 @@
 	<script type="text/javascript" src="includes/functions_sorttable.js"></script>
 	{$customtheme}
 	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
+	<link href="{$smarty.const.WWW_TOP}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
 	{$page->head}
 </head>
 <body {$page->body}>
 
 	<div id="statusbar">
 		{if $loggedin=="true"}
-			Welcome back <a href="profile">{$userdata.username}</a>. <a href="{$smarty.const.WWW_TOP}/logout">Logout</a>
+			Welcome back <a href="{$smarty.const.WWW_TOP}/profile">{$userdata.username}</a>. <a href="{$smarty.const.WWW_TOP}/logout">Logout</a>
 		{else}
-			<a href="login">Login</a> or <a href="register">Register</a>
+			<a href="{$smarty.const.WWW_TOP}/login">Login</a> or <a href="{$smarty.const.WWW_TOP}/register">Register</a>
 		{/if}
 	</div>
 
 	<div id="logo">
 		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/images/banner.jpg" /></a>
-		<h1><a href="/">{$site->title}</a></h1>
+		<h1><a href="{$smarty.const.WWW_TOP}">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
 	<hr />
@@ -149,7 +149,7 @@
 	
 		<div style="clear: both;text-align:right;padding-bottom:10px;">
 			<a href="http://validator.w3.org/check?uri=referer">
-			<img src="images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
+			<img src="{$smarty.const.WWW_TOP}/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
 			</a>
 		</div>
 
@@ -161,7 +161,7 @@
 	<div id="footer">
 	<p>
 		{$site->footer}
-		<br /><br /><br /><a href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/><a href="{$scheme}{$smarty.server.SERVER_NAME}{$port}/terms-and-conditions.php">{$site->title} Terms and Conditions</a>
+		<br /><br /><br /><a href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/><a href="{$smarty.const.WWW_TOP}/terms-and-conditions.php">{$site->title} Terms and Conditions</a>
 	</p>
 	</div>
 	<!-- end #footer -->
