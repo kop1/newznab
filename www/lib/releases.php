@@ -135,11 +135,21 @@ class Releases
 		$db = new DB();
 
 		if ($series != "")
+		{
+			if (is_numeric($series))
+				$series = sprintf('S%02d', $series);
+			
 			$series = sprintf(" and upper(releases.season) = upper(%s)", $db->escapeString($series));
+		}
 		
 		if ($episode != "")
-			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
+		{
+			if (is_numeric($episode))
+				$episode = sprintf('E%02d', $episode);
 
+			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
+		}
+		
 		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID  left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where rageID = %d %s %s", $rageid, $series, $episode));		
 	}	
 

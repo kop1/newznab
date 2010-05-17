@@ -117,7 +117,7 @@ switch ($function)
 		if (isset($_GET["id"]))
 			$data = $releases->getByGuid($_GET["id"]);
 		else
-			$data = $releases->getbyRageId($_GET["rid"], (isset($_GET["sr"]) ? $_GET["sr"] : "")
+			$data = $releases->getbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
 											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
 		
 		if ($data)
