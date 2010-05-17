@@ -1,5 +1,7 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
+
+require_once("config.php");
+require_once(WWW_DIR."/lib/framework/db.php");
 
 class Category
 {	

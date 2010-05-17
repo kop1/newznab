@@ -5,9 +5,9 @@
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />	
 	<title>{$page->meta_title}</title>
-	<link href="/style.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="/admin/style.css" rel="stylesheet" type="text/css" media="screen" />
-	<script type="text/javascript" src="/includes/functions_sorttable.js"></script>
+	<link href="../style.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="admin/style.css" rel="stylesheet" type="text/css" media="screen" />
+	<script type="text/javascript" src="includes/functions_sorttable.js"></script>
 	{$page->head}
 </head>
 <body>

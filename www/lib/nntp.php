@@ -1,6 +1,8 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
-require_once "Net/NNTP/Client.php";
+require_once("config.php");
+if(!include('Net/NNTP/Client.php')) {
+	exit("Error: <b>You must install the pear package 'Net_NNTP'.</b>");	
+}
 
 class Nntp extends Net_NNTP_Client
 {    

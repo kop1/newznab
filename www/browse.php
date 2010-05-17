@@ -1,7 +1,8 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/page.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/releases.php");
+require_once("config.php");
+require_once(WWW_DIR."/lib/page.php");
+require_once(WWW_DIR."/lib/users.php");
+require_once(WWW_DIR."/lib/releases.php");
 define("ITEMS_PER_PAGE", "50");
 
 $page = new Page;

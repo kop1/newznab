@@ -1,6 +1,8 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/basepage.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
+
+require_once("config.php");
+require_once(WWW_DIR."/lib/framework/basepage.php");
+require_once(WWW_DIR."/lib/users.php");
 
 class AdminPage extends BasePage
 {    

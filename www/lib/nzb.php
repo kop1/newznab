@@ -1,8 +1,9 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/framework/db.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/site.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/groups.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/nntp.php");
+require_once("config.php");
+require_once(WWW_DIR."/lib/framework/db.php");
+require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/groups.php");
+require_once(WWW_DIR."/lib/nntp.php");
 
 class NZB 
 {
