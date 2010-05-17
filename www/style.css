@@ -53,7 +53,7 @@ hr { display: none; }
 	float: left;
 	width: 680px;
 	height: 43px;
-	padding-top:22px;
+	padding-top:16px;
 }
 
 /* Page */
@@ -317,3 +317,72 @@ div.resextra a
 	color: #888;
 	text-decoration:none;
 }
+
+
+
+
+#menulink {
+	float: left;
+}
+
+/* remove the bullets, padding and margins from the lists */
+#menulink ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+/* make the top level links horizontal and position relative so that we can position the sub level */
+#menulink li {
+	float: left;
+	position: relative;
+	z-index: 100;
+}
+
+/* style all the links */
+#menulink a, #menulink :visited {
+	display: block;
+	font-size: 0.9em;
+	width: 80px;
+	padding: 0px 0px 0px 5px;
+	color: #000;
+	background-color: #e5e5e5;
+	text-decoration: none;
+	text-align: left;
+	vertical-align: middle;
+}
+/* style the links hover */
+#menulink :hover, #menulink a.selected {
+	background-color: #aaa;
+}
+
+/* hide the sub level links */
+#menulink ul ul {
+	visibility: hidden;
+	position: absolute;
+	width: 60px;
+	height: 0;
+}
+
+/* make the sub level visible on hover list or link */
+#menulink ul li:hover ul, #menulink ul a:hover ul {
+	visibility: visible;
+}
+
+
+#menusearchlink
+{
+	padding-top:3px;
+	float:right;
+}
+
+#menusearchlink input
+{
+	font-size: 0.9em;
+}
+
+#menucontainer
+{
+	width:900px;
+	height:10px;
+}
+

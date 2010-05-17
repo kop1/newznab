@@ -40,6 +40,27 @@ class Category
 		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title from category c inner join category cp on cp.ID = c.parentID");		
 	}	
 	
+	public function getForMenu()
+	{			
+		$db = new DB();
+		$ret = array();
+		$arr = $db->query("select * from category");	
+		foreach ($arr as $a)
+			if ($a["parentID"] == "")
+				$ret[] = $a;
+
+		foreach ($ret as $key => $parent)
+		{
+			$subcatlist = array();
+			foreach ($arr as $a)
+				if ($a["parentID"] == $parent["ID"])
+					$subcatlist[] = $a;
+
+			$ret[$key]["subcatlist"] = $subcatlist;
+		}
+		return $ret;
+	}	
+	
 	public function getForSelect($blnIncludeNoneSelected = true)
 	{
 		$categories = $this->get();

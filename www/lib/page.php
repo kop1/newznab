@@ -3,6 +3,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/framework/basepage.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/content.php");
+require_once(WWW_DIR."/lib/category.php");
 
 class Page extends BasePage
 {    
@@ -27,6 +28,14 @@ class Page extends BasePage
 		$article_menu = $this->smarty->fetch('articlesmenu.tpl');
 		$this->smarty->assign('article_menu',$article_menu);	
 
+		$category = new Category();
+		$parentcatlist = $category->getForMenu();
+		//echo count($parentcatlist["subcatlist"]);
+		$this->smarty->assign('parentcatlist',$parentcatlist);
+		$header_menu = $this->smarty->fetch('headermenu.tpl');
+		$this->smarty->assign('header_menu',$header_menu);		
+		
+		
 	}	
 	
 	public function render() 

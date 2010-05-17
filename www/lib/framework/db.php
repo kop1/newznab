@@ -44,12 +44,7 @@ class DB
 			return "'".str_replace("'", "''", $str)."'";
 		}
 	}		
-	
-	public function now()
-	{
-		return "now()";
-	}		
-	
+
 	public function makeLookupTable($rows, $keycol)
 	{
 		$arr = array();
@@ -94,14 +89,18 @@ class DB
 		return $rows;
 	}	
 	
-	function optimize() 
+	public function optimise() 
 	{
-		$db = new DB();
-		echo "Optimizing table: binaries...\n";
-		$db->query("OPTIMIZE TABLE binaries");
-		echo "Optimizing table: parts...\n";
-		$db->query("OPTIMIZE TABLE parts");
-		echo "Done\n\n";
+		$ret = array();
+		$alltables = $this->query("SHOW TABLES"); 
+
+		foreach ($alltables as $tablename) 
+		{
+			$ret[] = $tablename[0];
+			$this->query("OPTIMIZE TABLE '".$tablename[0]."'"); 
+		}
+			
+		return $ret;
 	}	
 }
 ?>

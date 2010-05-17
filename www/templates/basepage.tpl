@@ -31,24 +31,28 @@
 	<hr />
 	
 	<div id="header">
+
 		<div id="menu"> 
 
-	{if $google_adsense_acc != '' && $site->google_adsense_menu != ''}
-	{literal}
-		<script type="text/javascript">
-				<!--
-				google_ad_client = "{/literal}{$google_adsense_acc}{literal}";
-				/* 728x15, created 2/13/10 */
-				google_ad_slot = "{/literal}{$site->google_adsense_menu}{literal}";
-				google_ad_width = 728;
-				google_ad_height = 15;
-				//-->
-				</script>
-				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-		</script>
-	{/literal}
-	{/if}
+			{if $loggedin=="true"}
+				{$header_menu}
+			{/if}
 				
+			{if $google_adsense_acc != '' && $site->google_adsense_menu != ''}
+			{literal}
+				<script type="text/javascript">
+						<!--
+						google_ad_client = "{/literal}{$google_adsense_acc}{literal}";
+						/* 728x15, created 2/13/10 */
+						google_ad_slot = "{/literal}{$site->google_adsense_menu}{literal}";
+						google_ad_width = 728;
+						google_ad_height = 15;
+						//-->
+						</script>
+						<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			{/literal}
+			{/if}
 						
 		</div> 
 		<!-- end #menu --> 
