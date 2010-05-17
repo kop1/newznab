@@ -1,7 +1,7 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT']."/config.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
+require_once("config.php");
+require_once(WWW_DIR."/lib/users.php");
 require_once(SMARTY_DIR.'Smarty.class.php');
 
 class BasePage 
