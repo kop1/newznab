@@ -124,7 +124,7 @@ class NZB
 		if($total > 0) 
 		{
 
-			echo "Group ".$data[group]." has ".$data['first']." - ".$last." = {$total} (Total parts)\n";
+			echo "Group ".$data["group"]." has ".$data['first']." - ".$last." = {$total} (Total parts)\n";
 
 			$done = false;
 
