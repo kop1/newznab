@@ -124,7 +124,7 @@ class NZB
 		if($total > 0) 
 		{
 
-			echo "Group has ".$data['first']." - ".$last." = {$total} (Total parts)\n";
+			echo "Group ".$data[group]." has ".$data['first']." - ".$last." = {$total} (Total parts)\n";
 
 			$done = false;
 
@@ -201,7 +201,7 @@ class NZB
 				if(count($this->message)) 
 				{
 
-					//insert binaries and parts into database. when binary allready exists; only insert new parts
+					//insert binaries and parts into database. when binary already exists; only insert new parts
 					foreach($this->message AS $subject => $data) 
 					{
 						if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '') 
