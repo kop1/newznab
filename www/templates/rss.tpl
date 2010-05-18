@@ -16,7 +16,7 @@
 
 {foreach from=$releases item=release}
 <item>
-	<title><![CDATA[{$release.searchname}]]></title>
+	<title>{$release.searchname}</title>
 	<guid isPermaLink="true">{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/viewnzb/{$release.guid}</guid>
 	<link>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}&i={$userdata.ID}&r={$userdata.rsstoken}{/if}</link>
 	<comments>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/viewnzb/{$release.guid}#comments</comments> 	

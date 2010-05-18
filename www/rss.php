@@ -56,7 +56,7 @@ else
 	// valid or logged in user, get them the requested feed
 	//
 	if (isset($_GET["dl"]) && $_GET["dl"] = "1")
-		$page->smarty->assign('dl',"1");
+		$page->smarty->assign("dl","1");
 	
 	$usercat = -1;
 	if (isset($_GET["t"]))

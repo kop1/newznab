@@ -49,6 +49,7 @@ hr { display: none; }
 /* Menu */
 
 #menu {
+	height:30px;
 	float: left;
 	width: 100%;
 	background-color:#e5e5e5;
