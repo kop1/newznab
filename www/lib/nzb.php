@@ -89,6 +89,7 @@ class NZB
 		if(PEAR::isError($data)) 
 		{
 			echo "Could not select group: {$groupArr['name']}\n";
+			die();
 		}
 		
 		/*  Example newsgroup heading
