@@ -18,6 +18,10 @@ if (!$users->isLoggedIn())
 		$page->show403();
 }
 
+if (isset($_GET["dl"]) && $_GET["dl"] = "1")
+	$page->smarty->assign("dl","1");
+
+
 //
 // output is either json or xml
 //
