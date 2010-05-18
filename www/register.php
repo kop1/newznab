@@ -40,7 +40,7 @@ switch($action)
 			if ($ret > 0)
 			{
 				$users->login($ret);
-				header("Location:/");
+				header("Location: ".WWW_TOP."/");
 			}
 			else
 			{
