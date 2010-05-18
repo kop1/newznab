@@ -265,7 +265,8 @@ div.error
 
 table.data
 {
-	border-spacing:0px;
+		border-collapse:collapse;
+		border-spacing:0px;
     border-color: #AAA;
     border-width: 0 0 1px 1px;
     border-style: solid;		
