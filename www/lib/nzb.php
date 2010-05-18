@@ -230,12 +230,6 @@ class NZB
 					echo "Received $count new binaries\n";
 					echo "Updated $updatecount binaries\n";
 
-					//update group table with last received message
-					$countRes = $db->queryOneRow(sprintf("SELECT COUNT(ID) as num FROM binaries WHERE groupID = %d", $groupArr['ID']));
-					$totingroup = $countRes["num"];
-
-					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = %s, postcount = %s WHERE ID = %d", $db->escapeString($last), $db->escapeString(date("Y-m-d H:m:i")), $db->escapeString($totingroup), $groupArr['ID']));
-
 					//when last = orglast; all headers are downloaded; not ? than go on with next $this->maxMssgs messages
 					if($last == $orglast) 
 					{
@@ -264,6 +258,12 @@ class NZB
 					sleep(1);
 				}
 			}
+			
+			//
+			// update the group with the last update record.
+			//
+			$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
+
 		} 
 		else 
 		{
