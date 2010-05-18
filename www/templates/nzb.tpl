@@ -9,7 +9,7 @@
 	</groups>
 	<segments>
 	{foreach from=$binary.parts item=part}
-	<segment bytes="{$part.size}" number="{$part.number|string_format:"%d"}">{$part.messageID}</segment>
+	<segment bytes="{$part.size}" number="{$part.partnumber}">{$part.messageID}</segment>
 	{/foreach}		
 	</segments>
 	</file>

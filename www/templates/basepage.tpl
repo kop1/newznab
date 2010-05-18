@@ -109,12 +109,10 @@
 			{/if}
 			</ul>
 		</li>
-		<li>
+
 		{$article_menu}
-		</li>		
-		<li>
+
 		{$useful_menu}
-		</li>		
 		
 		{if $google_adsense_acc != '' && $site->google_adsense_search != ''}
 		{literal}

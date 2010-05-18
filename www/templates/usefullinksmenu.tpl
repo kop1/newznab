@@ -1,3 +1,4 @@
+<li>
 		<h2>Useful Links</h2> 
 		<ul>
 		<li><a title="Contact Us" href="{$smarty.const.WWW_TOP}/contact-us.php">Contact Us</a></li>
@@ -10,3 +11,4 @@
 			<li><a title="{$content->title}" href="{$smarty.const.WWW_TOP}{$content->url}c{$content->id}">{$content->title}</a></li>
 		{/foreach}
 		</ul>
+</li>
