@@ -101,6 +101,7 @@ CREATE TABLE `groups` (
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_groups_categoryID ON groups (categoryID);
+ALTER TABLE groups ADD UNIQUE (name);
 
 DROP TABLE IF EXISTS `parts`;
 CREATE TABLE `parts` (
