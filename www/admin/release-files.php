@@ -20,7 +20,7 @@ if (isset($_GET["id"]))
 	
 	
 	$binaries = new Binaries;
-	$data = $binaries->getForReleaseGuid($_GET["id"]);
+	$data = $binaries->getForReleaseId($rel["ID"]);
 
 	$page->smarty->assign('rel', $rel);
 	$page->smarty->assign('binaries', $data);

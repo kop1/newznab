@@ -38,7 +38,7 @@ if (isset($_GET["id"]))
 	}
 
 	$binaries = new Binaries;
-	$data = $binaries->getForReleaseGuid($_GET["id"]);
+	$data = $binaries->getForReleaseID($rel["ID"]);
 
 	$page->smarty->assign('rel', $rel);
 	$page->smarty->assign('binaries', $data);

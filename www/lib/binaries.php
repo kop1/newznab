@@ -1,6 +1,7 @@
 <?php
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
+require_once(WWW_DIR."/lib/releases.php");
 
 class Binaries
 {	
@@ -40,10 +41,10 @@ class Binaries
 		return $res;
 	}	
 
-	public function getForReleaseGuid($guid)
+	public function getForReleaseId($id)
 	{			
 		$db = new DB();
-		return $db->query(sprintf("select binaries.* from binaries inner join releases on releases.ID = binaries.releaseID where releases.guid = %s order by relpart", $db->escapeString($guid)));		
+		return $db->query(sprintf("select binaries.* from binaries where releaseID = %d order by relpart", $id));		
 	}
 
 	
