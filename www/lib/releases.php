@@ -223,7 +223,9 @@ class Releases
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
-			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[#[\w\.]+@[\w]+net\](-?\[full\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
+
+			//new
+			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|u4all\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
 
 			//
 			// insert the header release with a clean name
