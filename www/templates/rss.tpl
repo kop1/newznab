@@ -18,7 +18,7 @@
 <item>
 	<title>{$release.searchname}</title>
 	<guid isPermaLink="true">{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/viewnzb/{$release.guid}</guid>
-	<link>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}&i={$userdata.ID}&r={$userdata.rsstoken}{/if}</link>
+	<link>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}{if $k != ""}&k={$k}{else}&i={$userdata.ID}&r={$userdata.rsstoken}{/if}{/if}</link>
 	<comments>{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/viewnzb/{$release.guid}#comments</comments> 	
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
 	<category>{$release.category_name}</category> 	

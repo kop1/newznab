@@ -21,6 +21,8 @@ if (!$users->isLoggedIn())
 if (isset($_GET["dl"]) && $_GET["dl"] = "1")
 	$page->smarty->assign("dl","1");
 
+$page->smarty->assign("k",$page->site->apikey);
+
 
 //
 // output is either json or xml
