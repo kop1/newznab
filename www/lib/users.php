@@ -130,7 +130,8 @@ class Users
 	
 	public function isValidPassword($pass)
 	{
-		return eregi("^[^\s]{6,}$", $pass);
+		return (strlen($pass) > 5);
+		//return eregi("^[^\s]{6,}$", $pass);
 	}
 	
 	public function isValidEmail($email)
