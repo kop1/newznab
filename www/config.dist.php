@@ -14,7 +14,7 @@ define('NNTP_PASSWORD', 'password');
 define('NNTP_SERVER', 'newz.server');
 define('NNTP_PORT', '119');
 
-define('GOOGLE_ADSENSE_ACC', 'pub-12345678901234');
+define('GOOGLE_ADSENSE_ACC', '');
 
 
 

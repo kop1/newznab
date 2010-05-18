@@ -15,7 +15,7 @@
 	
 	<div id="menusearchlink">
 		<label style="display:none;" for="headsearch">Search Text</label>
-		<input id="headsearch" name="headsearch" onKeyPress="headersubmitenter(this,event);" value="Enter keywords" onfocus="if(this.value == 'Enter keywords') this.value = ''" style="width:85px;" type="text" /> 
+		<input id="headsearch" name="headsearch" onkeypress="headersubmitenter(this,event);" value="Enter keywords" onfocus="if(this.value == 'Enter keywords') this.value = ''" style="width:85px;" type="text" /> 
 		<label style="display:none;" for="headcat">Search Category</label>
 		<select id="headcat" name="headcat">
 			<optgroup label="All">

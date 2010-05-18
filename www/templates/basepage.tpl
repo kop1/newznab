@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
 	{$customtheme}
-	<script text="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>
+	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>
 	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$smarty.const.WWW_TOP}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
 	{$page->head}
@@ -115,7 +115,7 @@
 		<li>
 		{$useful_menu}
 		</li>		
-
+		
 		{if $google_adsense_acc != '' && $site->google_adsense_search != ''}
 		{literal}
 			<li>
@@ -143,6 +143,10 @@
 			</li>		
 		{/literal}
 		{/if}
+		
+		<li>
+			<a title="Sickbeard - The ultimate usenet PVR" href="http://code.google.com/p/sickbeard/"><img alt="Sickbeard - The ultimate usenet PVR" src="{$smarty.const.WWW_TOP}/images/sickbeard.png" /></a>
+		</li>
 		
 		</ul>
 		</div>
