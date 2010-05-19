@@ -16,7 +16,7 @@ $offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 $page->smarty->assign('pagertotalitems',$commentcount);
 $page->smarty->assign('pageroffset',$offset);
 $page->smarty->assign('pageritemsperpage',ITEMS_PER_PAGE);
-$page->smarty->assign('pagerquerybase', "/admin/comments-list.php?offset=");
+$page->smarty->assign('pagerquerybase', WWW_TOP."/comments-list.php?offset=");
 $pager = $page->smarty->fetch("pager.tpl");
 $page->smarty->assign('pager', $pager);
 
