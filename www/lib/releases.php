@@ -246,7 +246,7 @@ class Releases
 		{
 			$retcount ++;
 
-			$relsearchname = preg_replace (array ('/^\[[\d]5,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|vwhores|u4all|teevee|lostwhores|goodwifewhores\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
+			$relsearchname = preg_replace (array ('/^\[[x\d]{4,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|vwhores|u4all|teevee|lostwhores|goodwifewhores\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
 
 			//
 			// insert the header release with a clean name
