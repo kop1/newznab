@@ -10,6 +10,7 @@ pre-reqs
 	iis
 		urlrewriter isapi in \misc\ installed
 		script timeout of at least 60 seconds
+		iis is currently broke due to config/require() problems.
 	apache
 		script timeout of at least 60 seconds
 		mod_rewrite enabled
@@ -54,7 +55,7 @@ updating index (populating binaries + parts)
 	crontab -e
 	*/15 * * * * /path/to/newznab/misc/cron_update/newznab_update.sh
 	if you move around the files, you may need to set the path to the root of the newznab
-	www files in the setpath.php file
+	www files in the config.php file
 
 updating newsgroups
 	updating the list of available newsgroups is only worthwhile if you change your 
@@ -88,7 +89,9 @@ skinning
 	\www\theme\images\
 api
 	www.newznab.com/api? provides api access to query and retrieve nzbs.
-	call with no parameters to see help doc with all available options.
+	call with no parameters to see help doc with all available options. users either have to be logged in
+	or provide the site apikey. its intended that a site owner has to give out this key. if the 
+	key is blank no api is available
 	
 faqs
 	* authorisation rejected from nntp server - check you have enough available connections 
@@ -113,10 +116,12 @@ development
 	\www\includes js dumping ground
 	\www\api.php all functionality related to api calls into newznab
 	
-people who've helped along the way
+(just some of the) people who've helped along the way
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
 	gizmore@wechall.net			password,hash
-	lhbandit@nzbs.org			yenc,nntp,bokko	
+	lhbandit@nzbs.org			yenc,nntp,bokko,everything	
 	jayhawk@nzb.su				testing	
+	midgetspy@sickbeard			rage integration,api
+	ueland@newznab				dev
 	

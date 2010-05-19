@@ -205,7 +205,7 @@ class Releases
 							$db->escapeString($matches[7]), $db->escapeString($matches[1]), $matches[3], $matches[4], Releases::PROCSTAT_TITLEMATCHED, $row["ID"] ));
 		    }
 		    
-		    if ($echooutput && ($retcount % 10 == 0))
+		    if ($echooutput && ($retcount % 100 == 0))
 		    	echo "processed ".$retcount." binaries stage one\n";
 		}
 		$retcount=0;
@@ -222,7 +222,7 @@ class Releases
 			{
 				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED ));
 			}
-			if ($echooutput && ($retcount % 10 == 0))
+			if ($echooutput && ($retcount % 100 == 0))
 	    	echo "processed ".$retcount." binaries stage two\n";
 		}
 		$retcount=0;
@@ -232,8 +232,7 @@ class Releases
 		{
 			$retcount ++;
 
-			//new
-			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|u4all\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
+			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|u4all|teevee|lostwhores|goodwifewhores\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
 
 			//
 			// insert the header release with a clean name
@@ -248,7 +247,7 @@ class Releases
 			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
 								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 	
-	    if ($echooutput && ($retcount % 10 == 0))
+	    if ($echooutput && ($retcount % 100 == 0))
 	    	echo "processed ".$retcount." binaries stage three\n";
 		}
 		
