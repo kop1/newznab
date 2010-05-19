@@ -34,7 +34,7 @@ class Releases
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by adddate desc".$limit);		
+		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by postdate desc".$limit);		
 	}
 	
 	public function getBrowseCount($category)
@@ -56,7 +56,7 @@ class Releases
 		
 		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
 		
-		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by adddate desc".$limit, $cat));		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by postdate desc".$limit, $cat));		
 	}
 	
 	public function getRss($category, $num)
@@ -213,7 +213,7 @@ class Releases
 						$db->query(sprintf("update binaries set filename = %s, relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
 							$db->escapeString($matches[7]), $db->escapeString($matches[1]), $matches[3], $matches[4], Releases::PROCSTAT_TITLEMATCHED, $row["ID"] ));
 		    }
-		    
+
 		    if ($echooutput && ($retcount % 100 == 0))
 		    	echo "processed ".$retcount." binaries stage one\n";
 		}
@@ -241,7 +241,7 @@ class Releases
 		{
 			$retcount ++;
 
-			$relsearchname = preg_replace (array ('/^\[[\d]{5,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|u4all|teevee|lostwhores|goodwifewhores\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
+			$relsearchname = preg_replace (array ('/^\[[x\d]{4,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|vwhores|u4all|teevee|lostwhores|goodwifewhores\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
 
 			//
 			// insert the header release with a clean name

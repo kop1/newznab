@@ -218,8 +218,6 @@ class NZB
 								$updatecount++;
 							}
 
-							ksort($data['Parts']);
-							reset($data['Parts']);
 							foreach($data['Parts'] AS $partdata) 
 							{
 								$partcount++;
@@ -232,13 +230,9 @@ class NZB
 
 					//when last = orglast; all headers are downloaded; not ? than go on with next $this->maxMssgs messages
 					if($last == $orglast) 
-					{
 						$done = true;
-					} 
 					else 
-					{
 						$first = $last + 1;
-					}
 
 					unset($this->message);
 					unset($msgs);

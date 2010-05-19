@@ -91,7 +91,7 @@ class TvRage
 				{
 						if ($first == "")
 							$first = $arr["showid"];
-						if ($arr["name"] == $title)
+						if (isset($arr["name"]) && $arr["name"] == $title)
 						{
 							$best = $arr["showid"];
 							exit;
