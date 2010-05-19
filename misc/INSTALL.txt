@@ -31,6 +31,9 @@ installation
 	call \admin\binary-update.php to populate database with binaries + parts.
 	call \admin\release-update.php to create releases from all complete binary sets.
 
+running	outside of root website
+	set /htaccess RewriteBase to your virtual directory
+	
 how it works
 	groups are specified, message headers (binaries and parts) are downloaded for the 
 	groups, releases are created from completed sets of binaries. releases are categorised

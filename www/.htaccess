@@ -1,4 +1,5 @@
 RewriteEngine on
+RewriteBase /
 
 RewriteRule ^$ content.php?id=0
 RewriteRule ^sitemap\.xml$ sitemap.php?type=xml
