@@ -260,6 +260,9 @@ class Releases
 	    	echo "processed ".$retcount." binaries stage three\n";
 		}
 		
+	    if ($echooutput)
+	    	echo "updating release size\n";		
+		
 		//
 		// calculate the total size of all releases
 		// TODO: do something with this to make it a bit more scalable, 
@@ -275,6 +278,9 @@ class Releases
 								) p ON p.releaseID = releases.ID AND releases.size = 0
 								SET releases.size = p.size");	
 
+	    if ($echooutput)
+	    	echo "updating postdate\n";		
+								
 		//
 		// update the postdate and poster name of all new releases
 		// TODO: like the size above, this could probably be done somewhere better
@@ -288,6 +294,9 @@ class Releases
 							) p on p.releaseID = releases.ID
 							set releases.postdate = p.pdate, releases.fromname = p.fromname
 							where postdate is null");				
+	    
+		if ($echooutput)
+	    	echo "updating binary size\n";		
 		
 		//
 		// update any newly added binaries total file size from their parts.
