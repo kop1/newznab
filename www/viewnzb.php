@@ -23,7 +23,7 @@ if (isset($_GET["id"]))
 			$releases->addComment($data["ID"], $_POST["txtAddComment"], $users->currentUserId(), $_SERVER['REMOTE_ADDR']); 
 	
 	$comments = $releases->getComments($data["ID"]);
-	$similars = $releases->searchSimilar($data["searchname"]);
+	$similars = $releases->searchSimilar($data["ID"], $data["searchname"]);
 
 	$page->smarty->assign('release',$data);
 	$page->smarty->assign('comments',$comments);

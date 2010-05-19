@@ -20,9 +20,7 @@
 		<th>Similar:</th>
 		<td>
 			{foreach from=$similars item=similar}
-				{if $similar.ID != $release.ID}
-					<a title="View similar Nzb details" href="{$smarty.const.WWW_TOP}/details/{$similar.searchname|escape:"htmlall"}/viewnzb/{$similar.guid}">{$similar.searchname|escape:"htmlall"}</a><br/>
-				{/if}
+				<a title="View similar Nzb details" href="{$smarty.const.WWW_TOP}/details/{$similar.searchname|escape:"htmlall"}/viewnzb/{$similar.guid}">{$similar.searchname|escape:"htmlall"}</a><br/>
 			{/foreach}
 		</td>
 	</tr>

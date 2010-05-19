@@ -18,7 +18,7 @@
 	
 	{foreach from=$releaselist item=release}
 	<tr>
-		<td title="{$release.name}"><a href="release-edit.php?id={$release.ID}">{$release.searchname|escape:"htmlall"}</a></td>
+		<td title="{$release.name}"><a href="release-edit.php?id={$release.ID}">{$release.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a></td>
 		<td class="less">{$release.category_name}</td>
 		<td class="less">{$release.size|fsize_format:"MB"}</td>
 		<td class="less"><a href="release-files.php?id={$release.guid}">{$release.totalpart}</a></td>

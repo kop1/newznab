@@ -125,12 +125,21 @@ class Releases
 		return $res;
 	}		
 	
-	public function searchSimilar($name, $limit=6)
+	public function searchSimilar($currentid, $name, $limit=6)
 	{			
 		$words = str_word_count(str_replace(".", " ", $name), 2);
 		$firstwords = array_slice($words, 0, 2);
 		$name = implode(' ', $firstwords);
-		return $this->search($name, $limit);
+		$results = $this->search($name, $limit);
+		if (!$results)
+			return $results;
+
+		$ret = array();
+		foreach ($results as $res)
+			if ($res["ID"] != $currentid)
+				$ret[] = $res;
+
+		return $ret;
 	}	
 	
 	public function getByGuid($guid)
