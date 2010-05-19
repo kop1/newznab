@@ -1,8 +1,10 @@
 <?php
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
+require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/tvrage.php");
+require_once(WWW_DIR."/lib/nzb.php");
 
 class Releases
 {	
@@ -80,6 +82,7 @@ class Releases
 	{			
 		$db = new DB();
 		$this->deleteCommentsForRelease($id);
+		$this->deleteReleaseNzb($id);
 		$db->query(sprintf("delete from releases where id = %d", $id));		
 	}
 
@@ -197,6 +200,8 @@ class Releases
 		$db = new DB;
 		$cat = new Category;
 		$retcount = 0;
+		$page = new Page();
+		$nzb = new Nzb();
 
 		//
 		// should match fairly typical releases in format "relname [1/12] filename yenc"
@@ -241,7 +246,7 @@ class Releases
 		{
 			$retcount ++;
 
-			$relsearchname = preg_replace (array ('/^\[[x\d]{4,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|vwhores|u4all|teevee|lostwhores|goodwifewhores\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
+			$relsearchname = preg_replace (array ('/^\[[\d]5,7}\](?:-?\[full\])?-?\[(#[\w\.]+@[\w]+net|[a-z][\w.]+[a-z])\](-?\[full|vwhores|u4all|teevee|lostwhores|goodwifewhores\])?/i', '/([^\w-]|_)/i', '/-/', '/\s[\s]+/', '/^([\W]|_)*/i', '/([\W]|_)*$/i', '/[\s]+/'), array ('', ' ','-',' ', '', '', '.'), $row["relname"]);
 
 			//
 			// insert the header release with a clean name
@@ -255,13 +260,20 @@ class Releases
 			//
 			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
 								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
-	
+
+			//
+			// create the nzbxml file for each release.
+			//
+			//$nzbdata = $nzb->getNZBforReleaseId($relid);
+			//$page->smarty->assign('binaries',$nzbdata);
+			//$this->addReleaseNzb($relid, $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl'));
+
 	    if ($echooutput && ($retcount % 2 == 0))
 	    	echo "processed ".$retcount." binaries stage three\n";
 		}
 		
-	    if ($echooutput)
-	    	echo "updating release size\n";		
+    if ($echooutput)
+    	echo "updating release size\n";		
 		
 		//
 		// calculate the total size of all releases
@@ -454,7 +466,7 @@ class Releases
 	public function updateReleaseCommentCount($relid)
 	{			
 		$db = new DB();
-		return $db->queryInsert(sprintf("update releases
+		$db->query(sprintf("update releases
 				set comments = (select count(ID) from releasecomment where releasecomment.releaseID = %d)
 				where releases.ID = %d", $relid, $relid ));		
 	}
@@ -477,5 +489,18 @@ class Releases
 		
 		return $db->query(sprintf(" SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID where userID = %d order by releasecomment.createddate desc ".$limit, $uid));		
 	}
+	
+	public function addReleaseNzb($relid, $nzb)
+	{
+		$db = new DB();
+		return $db->queryInsert(sprintf("insert into releasenzb (releaseID, nzb) values (%d, compress(%s))", $relid, $db->escapeString($nzb) ));		
+	}
+	
+	public function deleteReleaseNzb($relid)
+	{
+		$db = new DB();
+		$db->query(sprintf("delete from releasenzb where releaseID = %d", $relid));		
+	}
+
 }
 ?>

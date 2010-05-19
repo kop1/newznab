@@ -30,14 +30,12 @@ class BasePage
 		
 		$this->smarty = new Smarty();
 		
-        $this->smarty->template_dir = WWW_DIR.'templates/';
-        $this->smarty->compile_dir  = SMARTY_DIR.'templates_c/';
-        $this->smarty->config_dir   = SMARTY_DIR.'configs/';
-        $this->smarty->cache_dir    = SMARTY_DIR.'cache/';				
+    $this->smarty->template_dir = WWW_DIR.'templates/';
+    $this->smarty->compile_dir  = SMARTY_DIR.'templates_c/';
+    $this->smarty->config_dir   = SMARTY_DIR.'configs/';
+    $this->smarty->cache_dir    = SMARTY_DIR.'cache/';				
 		
 		$this->smarty->assign('page',$this);
-		$this->smarty->assign('port',($_SERVER['SERVER_PORT'] == "80" ? "" : ":".$_SERVER['SERVER_PORT']));
-		$this->smarty->assign('scheme', ($_SERVER['SERVER_PORT']=="443" ? "https://" : "http://"));
 		
 		$users = new Users();
 		if ($users->isLoggedIn())

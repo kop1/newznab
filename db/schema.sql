@@ -71,6 +71,16 @@ PRIMARY KEY  (`ID`)
 CREATE INDEX ix_releasecomment_releaseID ON releasecomment (releaseID);
 CREATE INDEX ix_releasecomment_userID ON releasecomment (userID);
 
+DROP TABLE IF EXISTS `releasenzb`;
+CREATE TABLE `releasenzb` 
+(
+`ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+`releaseID` INT(11) UNSIGNED NOT NULL,
+`nzb` mediumtext NULL ,
+PRIMARY KEY  (`ID`)
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_releasenzb_releaseID ON releasenzb (releaseID);
 
 DROP TABLE IF EXISTS `tvrage`;
 CREATE TABLE `tvrage` 

@@ -31,6 +31,24 @@ class NZB
 	}
 	
 	//
+	// Get an nzb by its release guid
+	//
+	function getNZBforReleaseId($relid)
+	{
+		$db = new DB();
+		$binaries = array();
+		$res = $db->query(sprintf("select binaries.ID from binaries where releaseID = %d", $relid));
+		if ($res)
+		{
+			foreach($res as $binrow) 
+				$binaries[] = $binrow["ID"];
+
+			return $this->getNZB($binaries);
+		}
+		return null;
+	}
+
+	//
 	// Return a multi array of series of binaries and their parts.
 	//
 	function getNZB($selected)
