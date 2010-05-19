@@ -5,6 +5,8 @@ if(is_file("config.php")) {
 } else {
 	$path = str_replace("content.php", "", $_SERVER['SCRIPT_FILENAME']);
 	exit("You have to setup config.php first.<br />quick fix: mv {$path}config.dist.php {$path}config.php");
+        //header("location: install");
+        //exit();
 }
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/content.php");
