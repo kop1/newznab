@@ -256,7 +256,7 @@ class Releases
 			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
 								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 	
-	    if ($echooutput && ($retcount % 100 == 0))
+	    if ($echooutput && ($retcount % 2 == 0))
 	    	echo "processed ".$retcount." binaries stage three\n";
 		}
 		
