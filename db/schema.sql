@@ -215,7 +215,7 @@ google_adsense_search VARCHAR(255) NULL,
 google_adsense_sidepanel VARCHAR(255) NULL,
 google_analytics_acc VARCHAR(255) NULL,
 apikey VARCHAR(50) NOT NULL,
-siteseed VARCHAR(50) NOT NULL,
+siteseed VARCHAR(50) NOT NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
