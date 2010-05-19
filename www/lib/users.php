@@ -125,7 +125,7 @@ class Users
 	
 	public function isValidUsername($uname)
 	{
-		return eregi("^[a-z][a-z0-9]{2,}$", $uname);
+		return preg_match("/^[a-z][a-z0-9]{2,}$/i", $uname);
 	}
 	
 	public function isValidPassword($pass)
@@ -135,7 +135,7 @@ class Users
 	
 	public function isValidEmail($email)
 	{
-		return eregi("^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$", $email);
+		return preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i", $email);
 	}
 	
 	public function signup($uname, $pass, $email, $host)
