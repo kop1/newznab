@@ -20,6 +20,7 @@ class Site
 	public $google_adsense_search = '';	
 	public $groupfilter = '';	
 	public $apikey = '';	
+	public $siteseed = '';
 }
 
 class Sites
@@ -64,6 +65,7 @@ class Sites
 		$obj->google_adsense_sidepanel = $row["google_adsense_sidepanel"];
 		$obj->google_adsense_search = $row["google_adsense_search"];
 		$obj->apikey = $row["apikey"];
+		$obj->siteseed = $row["siteseed"];
 			
 		return $obj;
 	}

@@ -1,6 +1,7 @@
 <?php
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
+require_once(WWW_DIR."/lib/site.php");
 
 //
 // Thanks to gizmore@wechall.net for the user password hashing code.
@@ -23,7 +24,6 @@ class Users
 	const SHA1LEN = 40;
 	const HASHLEN = 44;
 	const TOKENLEN = 12;
-	const SECRET_SALT = "NEW&NAB_SECR3T_SaLT"; //TODO:store in site table to allow change per site.
 
 	public function get()
 	{			
@@ -131,7 +131,6 @@ class Users
 	public function isValidPassword($pass)
 	{
 		return (strlen($pass) > 5);
-		//return eregi("^[^\s]{6,}$", $pass);
 	}
 	
 	public function isValidEmail($email)
@@ -177,7 +176,9 @@ class Users
 	public static function hashPassword($password)
 	{
 		$salt = self::randomKey(self::SALTLEN);
-		return self::hashSHA1(self::SECRET_SALT.$password.$salt.self::SECRET_SALT).$salt; 
+		$site = new Sites();
+		$s = $site->get();
+		return self::hashSHA1($s->siteseed.$password.$salt.$s->siteseed).$salt; 
 	}
 
 	public static function hashSHA1($string)
@@ -188,7 +189,9 @@ class Users
 	public static function checkPassword($password, $hash)
 	{
 		$salt = substr($hash, -self::SALTLEN);
-		return self::hashSHA1(self::SECRET_SALT.$password.$salt.self::SECRET_SALT) === substr($hash, 0, self::SHA1LEN);
+		$site = new Sites();
+		$s = $site->get();
+		return self::hashSHA1($s->siteseed.$password.$salt.$s->siteseed) === substr($hash, 0, self::SHA1LEN);
 	}	
 		
 	public function isLoggedIn()
