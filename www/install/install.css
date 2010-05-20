@@ -40,3 +40,8 @@ h2 {
     	margin-left: auto;
 	margin-right: auto;
 }
+
+.error {
+	color: red;
+	padding: 20px;
+}
