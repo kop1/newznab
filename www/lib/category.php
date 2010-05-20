@@ -32,18 +32,39 @@ class Category
 	const CAT_MISC_EBOOK = 33;
 	const CAT_TV_IPOD = 34;
 	const CAT_TV_SPORT = 35;
+	
+	const STATUS_INACTIVE = 0;
+	const STATUS_ACTIVE = 1;
 
 	public function get()
 	{			
 		$db = new DB();
-		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title from category c inner join category cp on cp.ID = c.parentID");		
+		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, c.status from category c inner join category cp on cp.ID = c.parentID");		
+	}	
+	
+	public function getFlat()
+	{			
+		$db = new DB();
+		return $db->query("select * from category");		
+	}		
+	
+	public function getById($id)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("select * from category where ID = %d", $id));
+	}	
+	
+	public function update($id, $status)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("update category set status = %d where ID = %d", $status, $id));
 	}	
 	
 	public function getForMenu()
 	{			
 		$db = new DB();
 		$ret = array();
-		$arr = $db->query("select * from category");	
+		$arr = $db->query(sprintf("select * from category where status = %d", Category::STATUS_ACTIVE));	
 		foreach ($arr as $a)
 			if ($a["parentID"] == "")
 				$ret[] = $a;
