@@ -281,7 +281,7 @@ class NZB
 		} 
 		else 
 		{
-			echo "No new records (first $first last $last total $total)\n";
+			echo "No new records for ".$data["group"]." (first $first last $last total $total)\n";
 		}
 	}
 }
