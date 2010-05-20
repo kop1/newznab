@@ -90,6 +90,7 @@ class NZB
 
 			foreach($res as $groupArr) 
 			{
+				echo "\n";			
 				$this->message = array();
 				$this->updateGroup($nntp, $groupArr);
 			}
@@ -243,6 +244,12 @@ class NZB
 							}
 						}
 					}
+					
+					//
+					// update the group with the last update record.
+					//
+					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
+					
 					echo "Received $count new binaries\n";
 					echo "Updated $updatecount binaries\n";
 
@@ -271,15 +278,10 @@ class NZB
 				}
 			}
 			
-			//
-			// update the group with the last update record.
-			//
-			$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
-
 		} 
 		else 
 		{
-			echo "No new records\n";
+			echo "No new records (first $first last $last total $total)\n";
 		}
 	}
 }
