@@ -5,14 +5,14 @@
 
 {$pager}
 
-<table style="width:100%;margin-top:10px;" class="data Sortable">
+<table style="width:100%;margin-top:10px;" class="data">
 	<tr>
-		<th>name</th>
-		<th width="70">category</th>
-		<th width="50">posted</th>
-		<th >size</th>
-		<th>files</th>
-		<th>stats</th>
+		<th>name<a href="{$orderbyname_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a href="{$orderbyname_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th width="70">category<a href="{$orderbycat_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a href="{$orderbycat_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></th>
+		<th width="50">posted<a href="{$orderbyposted_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a href="{$orderbyposted_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>size<a href="{$orderbysize_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a href="{$orderbysize_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>files<a href="{$orderbyfiles_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a href="{$orderbyfiles_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>stats<a href="{$orderbystats_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a href="{$orderbystats_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
 	</tr>
 
 	{foreach from=$results item=result}

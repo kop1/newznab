@@ -47,7 +47,7 @@ class Releases
 		return $res["num"];	
 	}
 	
-	public function getBrowseRange($category, $start, $num)
+	public function getBrowseRange($category, $start, $num, $orderby)
 	{		
 		$db = new DB();
 		
@@ -58,7 +58,44 @@ class Releases
 		
 		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
 		
-		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by postdate desc".$limit, $cat));		
+		$order = $this->getBrowseOrder($orderby);
+
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by %s %s".$limit, $cat, $order[0], $order[1]));		
+	}
+	
+	public function getBrowseOrder($orderby)
+	{
+		$order = ($orderby == '') ? 'posted_desc' : $orderby;
+		$orderArr = explode("_", $order);
+		switch($orderArr[0]) {
+			case 'cat':
+				$orderfield = 'categoryID';
+			break;
+			case 'name':
+				$orderfield = 'searchname';
+			break;
+			case 'size':
+				$orderfield = 'size';
+			break;
+			case 'files':
+				$orderfield = 'totalpart';
+			break;
+			case 'stats':
+				$orderfield = 'grabs';
+			break;
+			case 'posted': 
+			default:
+				$orderfield = 'postdate';
+			break;
+		}
+		$ordersort = (isset($orderArr[1]) && preg_match('/^asc|desc$/i', $orderArr[1])) ? $orderArr[1] : 'desc';
+		return array($orderfield, $ordersort);
+	}
+	
+	public function getBrowseOrdering()
+	{
+		return array('name_asc', 'name_desc', 'cat_asc', 'cat_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc');
+	
 	}
 	
 	public function getRss($category, $num)
