@@ -17,6 +17,10 @@ h1, h2, h3 {
 	color: #485459;
 }
 
+li {
+	padding-top:10px;
+}
+
 textarea { font-family: Arial, Helvetica, sans-serif; height:100px; width:300px;}
 
 h1 { 

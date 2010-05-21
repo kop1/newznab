@@ -136,7 +136,7 @@ status INT NOT NULL DEFAULT '1'
 
 INSERT INTO category (ID, title) VALUES (1, 'Console');
 INSERT INTO category (ID, title) VALUES (2, 'Movies');
-INSERT INTO category (ID, title) VALUES (3, 'Music');
+INSERT INTO category (ID, title) VALUES (3, 'Audio');
 INSERT INTO category (ID, title) VALUES (4, 'PC');
 INSERT INTO category (ID, title) VALUES (5, 'TV');
 INSERT INTO category (ID, title) VALUES (6, 'XXX');
@@ -1350,15 +1350,5 @@ INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddat
 (1089, -2, 'MDCG ', NULL, '2010-05-18 08:31:36'),
 (1090, 22329, 'Bizarre ER ', NULL, '2010-05-18 08:31:42'),
 (1091, 24036, 'Ultimate Parkour Challenge ', NULL, '2010-05-18 08:31:43'),
-(1092, 10223, 'BINTUBE COM Chuck ', NULL, '2010-05-18 10:30:51'),
-(1093, 21702, 'BINTUBE COM 10 Things I Hate About You ', NULL, '2010-05-18 10:30:53'),
-(1094, 18398, 'BINTUBE COM 24 ', NULL, '2010-05-18 10:31:00'),
-(1095, 3184, 'BINTUBE COM CSI Miami ', NULL, '2010-05-18 10:31:01'),
-(1096, 15619, 'BINTUBE COM Gossip Girl ', NULL, '2010-05-18 10:31:20'),
-(1097, 11613, 'BINTUBE COM House ', NULL, '2010-05-18 10:31:21'),
-(1098, 3918, 'BINTUBE COM How I Met Your Mother ', NULL, '2010-05-18 10:32:00'),
-(1099, 4724, 'BINTUBE COM One Tree Hill ', NULL, '2010-05-18 10:32:25'),
-(1100, 8511, 'BINTUBE COM The Big Bang Theory ', NULL, '2010-05-18 10:32:26'),
-(1101, 6454, 'BINTUBE COM Two and a Half Men ', NULL, '2010-05-18 10:32:49'),
 (1102, 2, 'The Imploders ', NULL, '2010-05-18 11:38:41'),
 (1103, 17996, 'De bende van Wim ', NULL, '2010-05-18 11:56:53');

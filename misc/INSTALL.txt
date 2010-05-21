@@ -1,6 +1,8 @@
 pre-reqs
 	php
 	mysql
+		max_allowed_packet=12582912
+		ft_min_word_len=3 - allows searching for matches of 3characters
 	pear net_nntp module
 	php mhash module
 	php mcrypt module
@@ -30,6 +32,10 @@ installation
 	call \admin\group-update.php to populate database with your groups based on your groupfilter.
 	call \admin\binary-update.php to populate database with binaries + parts.
 	call \admin\release-update.php to create releases from all complete binary sets.
+	
+installation checklist
+	in \www\install is a checklist which should take you through an installation process. this 
+	is work in progress. it should also be deleted once installed.
 
 running	outside of root website
 	set /htaccess RewriteBase to your virtual directory
