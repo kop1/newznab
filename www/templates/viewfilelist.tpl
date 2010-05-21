@@ -4,7 +4,7 @@
 <h2>For <a href="{$smarty.const.WWW_TOP}/details/{$rel.searchname|escape:'htmlall'}/viewnzb/{$rel.guid}">{$rel.searchname|escape:'htmlall'}</a></h2>
 
 <form id="fileform" method="POST">
-<table style="width:100%;" class="data Sortable">
+<table style="width:100%;" class="data Sortable highlight">
 
 	<tr>
 		<th>#</th>

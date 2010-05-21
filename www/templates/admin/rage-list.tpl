@@ -3,7 +3,7 @@
 
 {$pager}
 
-<table style="margin-top:10px;" class="data Sortable">
+<table style="margin-top:10px;" class="data Sortable highlight">
 
 	<tr>
 		<th>rageid</th>

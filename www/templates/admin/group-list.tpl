@@ -1,7 +1,7 @@
 
 <h1>{$page->title}</h1>
 
-<table class="data Sortable">
+<table class="data Sortable highlight">
 
 	<tr>
 		<th>group</th>

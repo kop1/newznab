@@ -5,7 +5,7 @@
 	Make a category inactive to remove it from the menu. This does not prevent binaries being matched into an appropriate category.
 </p>
 
-<table style="margin-top:10px;" class="data Sortable">
+<table style="margin-top:10px;" class="data Sortable highlight">
 
 	<tr>
 		<th>id</th>
