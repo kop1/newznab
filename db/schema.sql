@@ -260,7 +260,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 
 	'info@newznab.com', 
 	'alt.binaries.teevee', 
-	NOW(), 8737023493, 8149080431, 8149080431, NULL, md5(UUID()), md5(md5(UUID()), 1));
+	NOW(), 8737023493, 8149080431, 8149080431, NULL, md5(UUID()), md5(md5(UUID())), 0);
 
 
 

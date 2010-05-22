@@ -4,8 +4,8 @@
 <table class="data">
 	<tr><th>Username:</th><td>{$user.username|escape:"htmlall"}</td></tr>
 	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Email:</th><td>{$user.email}</td></tr>{/if}
-	{if $site->sabintegration=="1" && ($user.ID==$userdata.ID || $userdata.role==2)}<tr><th title="Not public">Sab Api Key:</th><td>{$user.sabapikey}</td></tr>{/if}
-	{if $site->sabintegration=="1" && ($user.ID==$userdata.ID || $userdata.role==2)}<tr><th title="Not public">Sab Host:</th><td><a href="{$user.sabhost}">{$user.sabhost}</a></td></tr>{/if}
+	{if $site->sabintegration=="1" && ($user.ID==$userdata.ID || $userdata.role==2)}<tr><th title="Not public">Sab Api Key:</th><td>{$user.sabapikey|escape:"htmlall"}</td></tr>{/if}
+	{if $site->sabintegration=="1" && ($user.ID==$userdata.ID || $userdata.role==2)}<tr><th title="Not public">Sab Host:</th><td><a href="{$user.sabhost|escape:"htmlall"}">{$user.sabhost|escape:"htmlall"}</a></td></tr>{/if}
 	<tr><th>Registered:</th><td title="{$user.createddate}">{$user.createddate|date_format}</td></tr>
 	<tr><th>Grabs:</th><td>{$user.grabs}</td></tr>
 </table>

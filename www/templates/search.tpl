@@ -27,7 +27,7 @@
 				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="resextra">
 					<a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}">[Nzb]</a>
-					{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}<a title="Send to my Sabnzbd" onclick="sendToSab(this, '{$userdata.sabhost}', '{$userdata.sabapikey}', '{$result.guid}', '{$userdata.ID}', '{$userdata.rsstoken}'); return false;" href="#">[Sab]</a>{/if}
+					{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}<a title="Send to my Sabnzbd" onclick="sendToSab(this, '{$userdata.sabhost|escape:"htmlall"}', '{$userdata.sabapikey|escape:"htmlall"}', '{$result.guid}', '{$userdata.ID}', '{$userdata.rsstoken}'); return false;" href="#">[Sab]</a>{/if}
 					{if $result.rageID > 0}[<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">Tv Rage {$result.seriesfull}</a>]{/if}
 				</div>
 			</td>
