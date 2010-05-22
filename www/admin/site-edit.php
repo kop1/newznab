@@ -29,6 +29,9 @@ switch($action)
       break;   
 }
 
+$page->smarty->assign('yesno_ids', array(1,0));
+$page->smarty->assign('yesno_names', array( 'Yes', 'No'));
+
 $page->content = $page->smarty->fetch('admin/site-edit.tpl');
 $page->render();
 

@@ -229,7 +229,8 @@ google_adsense_search VARCHAR(255) NULL,
 google_adsense_sidepanel VARCHAR(255) NULL,
 google_analytics_acc VARCHAR(255) NULL,
 apikey VARCHAR(50) NOT NULL,
-siteseed VARCHAR(50) NOT NULL
+siteseed VARCHAR(50) NOT NULL,
+sabintegration INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
@@ -250,7 +251,8 @@ INSERT INTO `site`
 	`google_adsense_sidepanel`, 
 	`google_analytics_acc`,
 	apikey,
-	siteseed
+	siteseed,
+	sabintegration
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
@@ -258,7 +260,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 
 	'info@newznab.com', 
 	'alt.binaries.teevee', 
-	NOW(), 8737023493, 8149080431, 8149080431, NULL, md5(UUID()), md5(md5(UUID())));
+	NOW(), 8737023493, 8149080431, 8149080431, NULL, md5(UUID()), md5(md5(UUID()), 1));
 
 
 
