@@ -1,8 +1,9 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/adminpage.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/releases.php");
-require_once($_SERVER['DOCUMENT_ROOT']."/lib/category.php");
+require_once("config.php");
+require_once(WWW_DIR."/lib/adminpage.php");
+require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/category.php");
 
 $page = new AdminPage();
 $releases = new Releases();
