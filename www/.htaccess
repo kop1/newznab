@@ -19,3 +19,4 @@ RewriteRule ^searchraw$ searchraw.php
 RewriteRule ^browse$ browse.php
 RewriteRule ^profile$ profile.php
 RewriteRule ^api$ api.php
+RewriteRule ^cart$ cart.php

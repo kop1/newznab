@@ -83,6 +83,24 @@ function sendToSab(el, host, key, nzb, uid, rsstoken)
 	xmlhttp.send(null);
 }
 
+//
+// Do ajax call to send nzb url to sab api.
+//
+function addToCart(el, nzb)
+{
+	var url = SERVERROOT + "cart.php?add=" + nzb + "&rand=" + Math.floor(Math.random()*100000);
+  xmlhttp=GetXmlHttpObject();
+  if (xmlhttp==null)
+  {
+          alert ("Browser does not support HTTP Request");
+          return;
+  }
+
+	xmlhttp.onreadystatechange=function(){ jsStateChanged( 2, el ); };
+	xmlhttp.open("POST",url,true);
+	xmlhttp.send(null);
+}
+
 function jsStateChanged(ty, el)
 {
 	if (ty == 1)
@@ -91,6 +109,16 @@ function jsStateChanged(ty, el)
 	  {
 	  	el.innerText = "[Sent to Sab]";
 	    el.title = "added to queue";
+	    el.onclick = "return false;";
+	    el.href = "#";
+	  }
+	}
+	if (ty == 2)
+	{
+	  if (xmlhttp.readyState==4)
+	  {
+	  	el.innerText = "[Added to Cart]";
+	    el.title = "added to cart";
 	    el.onclick = "return false;";
 	    el.href = "#";
 	  }

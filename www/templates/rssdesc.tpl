@@ -33,12 +33,16 @@
 				<ul style="text-align: left;">
 					<li>
 						Full site feed<br/>
-						<a href="{$smarty.const.WWW_TOP}/rss?t=0&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/?t=0&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
+						<a href="{$smarty.const.WWW_TOP}/rss?t=0&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss/?t=0&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
+					</li>
+					<li>
+						My cart feed<br/>
+						<a href="{$smarty.const.WWW_TOP}/rss?t=-2&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss/?t=0&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
 					</li>
 					{foreach from=$categorylist item=category}
 						<li>
 							{$category.title} feed <br/>
-							<a href="{$smarty.const.WWW_TOP}/rss?t={$category.ID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$scheme}{$smarty.server.SERVER_NAME}{$port}/rss/?t={$category.ID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
+							<a href="{$smarty.const.WWW_TOP}/rss?t={$category.ID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss/?t={$category.ID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
 						</li>
 					{/foreach}
 				</ul>

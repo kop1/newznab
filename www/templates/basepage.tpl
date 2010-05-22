@@ -45,7 +45,6 @@
 				<script type="text/javascript">
 						<!--
 						google_ad_client = "{/literal}{$google_adsense_acc}{literal}";
-						/* 728x15, created 2/13/10 */
 						google_ad_slot = "{/literal}{$site->google_adsense_menu}{literal}";
 						google_ad_width = 728;
 						google_ad_height = 15;
@@ -70,7 +69,6 @@
 		
 				<script type="text/javascript"><!--
 				google_ad_client = "{/literal}{$google_adsense_acc}{literal}";
-				/* pbp_sidepanel */
 				google_ad_slot = "{/literal}{$site->google_adsense_sidepanel}{literal}";
 				google_ad_width = 160;
 				google_ad_height = 600;
@@ -96,17 +94,18 @@
 			<h2>Menu</h2> 
 			<ul>
 			{if $loggedin=="true"}
-				<li><a href="{$smarty.const.WWW_TOP}/search">Search</a></li>
-				<li><a href="{$smarty.const.WWW_TOP}/browse">Browse</a></li>
-				<li><a href="{$smarty.const.WWW_TOP}/searchraw">Raw Search</a></li>
+				<li><a title="Search for Nzbs" href="{$smarty.const.WWW_TOP}/search">Search</a></li>
+				<li><a title="Browse for Nzbs" href="{$smarty.const.WWW_TOP}/browse">Browse</a></li>
+				<li><a title="Search for individual files" href="{$smarty.const.WWW_TOP}/searchraw">Raw Search</a></li>
 				{if $isadmin=="true"}
-					<li><a href="{$smarty.const.WWW_TOP}/admin/">Admin</a></li>
+					<li><a title="Admin" href="{$smarty.const.WWW_TOP}/admin/">Admin</a></li>
 				{/if}
-				<li><a href="{$smarty.const.WWW_TOP}/profile">Profile</a></li>
-				<li><a href="{$smarty.const.WWW_TOP}/logout">Logout</a></li>
+				<li><a title="Your Nzb Cart" href="{$smarty.const.WWW_TOP}/cart">My Cart</a></li>
+				<li><a title="View your Profile " href="{$smarty.const.WWW_TOP}/profile">Profile</a></li>
+				<li><a title="Logout" href="{$smarty.const.WWW_TOP}/logout">Logout</a></li>
 			{else}
-				<li><a href="{$smarty.const.WWW_TOP}/login">Login</a></li>
-				<li><a href="{$smarty.const.WWW_TOP}/register">Register</a></li>
+				<li><a title="Login" href="{$smarty.const.WWW_TOP}/login">Login</a></li>
+				<li><a title="Register" href="{$smarty.const.WWW_TOP}/register">Register</a></li>
 			{/if}
 			</ul>
 		</li>

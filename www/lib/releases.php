@@ -2,6 +2,7 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/page.php");
+require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/tvrage.php");
 require_once(WWW_DIR."/lib/nzb.php");
@@ -98,12 +99,13 @@ class Releases
 	
 	}
 	
-	public function getRss($category, $num)
+	public function getRss($category, $num, $uid=0)
 	{		
 		$db = new DB();
 		
 		$limit = " LIMIT 0,".($num > 100 ? 100 : $num);
 		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
+		$cat = ($category == -2 ? sprintf(" where releases.ID in (select releaseID from usercart where userID = %d)", $uid) : "");
 			
 		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID %s order by adddate %s" ,$cat, $limit));
 	}
@@ -118,8 +120,10 @@ class Releases
 	public function delete($id)
 	{			
 		$db = new DB();
+		$users = new Users();
 		$this->deleteCommentsForRelease($id);
 		$this->deleteReleaseNzb($id);
+		$users->delCartForRelease($id);
 		$db->query(sprintf("delete from releases where id = %d", $id));		
 	}
 

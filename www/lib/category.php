@@ -36,10 +36,14 @@ class Category
 	const STATUS_INACTIVE = 0;
 	const STATUS_ACTIVE = 1;
 
-	public function get()
+	public function get($activeonly=false)
 	{			
 		$db = new DB();
-		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, c.status from category c inner join category cp on cp.ID = c.parentID");		
+		$act = "";
+		if ($activeonly)
+			$act = sprintf(" where c.status = %d ", Category::STATUS_ACTIVE ) ;
+			
+		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, c.status from category c inner join category cp on cp.ID = c.parentID ".$act);		
 	}	
 	
 	public function getFlat()

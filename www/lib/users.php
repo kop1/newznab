@@ -36,6 +36,7 @@ class Users
 	public function delete($id)
 	{			
 		$db = new DB();
+		$this->delCartForUser($id);
 		$db->query(sprintf("delete from users where ID = %d", $id));		
 	}	
 	
@@ -237,5 +238,35 @@ class Users
 	{
 		$_SESSION['uid'] = $uid;
 	}
+	
+	public function addCart($uid, $releaseid)
+	{			
+		$db = new DB();
+		return $db->queryInsert(sprintf("insert into usercart (userID, releaseID, createddate) values (%d, %d, now())", $uid, $releaseid));		
+	}	
+
+	public function getCart($uid)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("select usercart.*, releases.searchname,releases.guid from usercart inner join releases on releases.ID = usercart.releaseID where userID = %d", $uid));		
+	}	
+
+	public function delCart($id, $uid)
+	{			
+		$db = new DB();
+		$db->query(sprintf("delete from usercart where ID = %d and userID = %d", $id, $uid));		
+	}	
+	
+	public function delCartForUser($uid)
+	{			
+		$db = new DB();
+		$db->query(sprintf("delete from usercart where userID = %d", $uid));		
+	}	
+
+	public function delCartForRelease($rid)
+	{			
+		$db = new DB();
+		$db->query(sprintf("delete from usercart where releaseID = %d", $rid));		
+	}	
 }
 ?>

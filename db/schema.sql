@@ -180,12 +180,21 @@ CREATE TABLE `users` (
   `host` VARCHAR(15) NULL,
   `grabs` INT NOT NULL DEFAULT 0,
   `rsstoken` varchar(32) not null,
-  `createddate` DATETIME DEFAULT NULL,
+  `createddate` DATETIME NOT NULL,
   `sabapikey` varchar(32) null,
   `sabhost` varchar(255) null,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `usercart`;
+CREATE TABLE `usercart` (
+  `ID` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userID` INT NOT NULL ,
+  `releaseID` INT NOT NULL,
+  `createddate` DATETIME NOT NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+CREATE unique INDEX ix_usercart_userrelease ON usercart (userID, releaseID);
 
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE content

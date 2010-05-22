@@ -30,7 +30,7 @@ if (!isset($_GET["t"]))
 	$page->meta_keywords = "view,nzb,description,details,rss,atom";
 	$page->meta_description = "View available Rss Nzb feeds.";
 	
-	$categorylist = $category->get();
+	$categorylist = $category->get(true);
 	$page->smarty->assign('categorylist',$categorylist);
 	
 	$page->content = $page->smarty->fetch('rssdesc.tpl');
@@ -67,7 +67,7 @@ else
 		$usernum = $_GET["num"]+0;		
 
 	$releases = new Releases;
-	$reldata = $releases->getRss($usercat, $usernum);
+	$reldata = $releases->getRss($usercat, $usernum, $users->currentUserId());
 	$page->smarty->assign('releases',$reldata);
 	header("Content-type: text/xml");
 	echo $page->smarty->fetch('rss.tpl');
