@@ -63,6 +63,12 @@ switch($action)
 					case Users::ERR_SIGNUP_EMAILINUSE:
 						$page->smarty->assign('error', "Email in use.");
 						break;
+					case Users::ERR_SIGNUP_BADSABAPIKEY:
+						$page->smarty->assign('error', "Bad Sabnzbd api key");
+						break;
+					case Users::ERR_SIGNUP_BADSABHOST:
+						$page->smarty->assign('error', "Invalid url for Sabnzbd");
+						break;
 					default:
 						$page->smarty->assign('error', "Failed to register.");
 						break;

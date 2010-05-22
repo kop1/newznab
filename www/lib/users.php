@@ -155,6 +155,8 @@ class Users
 		$uname = trim($uname);
 		$pass = trim($pass);
 		$email = trim($email);
+		$sabhost = trim($sabhost);
+		$sabapikey = trim($sabapikey);
 
 		if (!$this->isValidUsername($uname))
 			return Users::ERR_SIGNUP_BADUNAME;
@@ -165,11 +167,13 @@ class Users
 		if (!$this->isValidEmail($email))
 			return Users::ERR_SIGNUP_BADEMAIL;			
 
-		if (!$this->isValidUrl($sabhost))
-			return Users::ERR_SIGNUP_BADSABHOST;			
-
-		if (!$this->isValidSabApiKey($sabapikey))
-			return Users::ERR_SIGNUP_BADSABAPIKEY;			
+		if ($sabhost != "")
+			if (!$this->isValidUrl($sabhost))
+				return Users::ERR_SIGNUP_BADSABHOST;			
+		
+		if ($sabapikey != "")
+			if (!$this->isValidSabApiKey($sabapikey))
+				return Users::ERR_SIGNUP_BADSABAPIKEY;			
 
 		$res = $this->getByUsername($uname);
 		if ($res)
