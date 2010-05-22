@@ -20,8 +20,8 @@
 	<tr>
 		<td>{$content->ordinal}</td>
 		<td>{$content->id}</td>
-		<td><a href="content-add.php?id={$content->id}" title="Edit {$content->title}">{$content->title}</a></td>
-		<td><a title="Preview in new window" href="{$content->url}c{$content->id}" target="null">{$content->url}c{$content->id}</a></td>
+		<td><a href="{$smarty.const.WWW_TOP}/content-add.php?id={$content->id}" title="Edit {$content->title}">{$content->title}</a></td>
+		<td><a title="Preview in new window" href="{$smarty.const.WWW_TOP}/{$content->url}c{$content->id}" target="null">{$content->url}c{$content->id}</a></td>
 		<td>
 			{if $content->contenttype == "1"}
 				Useful Link
@@ -46,7 +46,7 @@
 			{/if}
 		</td>
 		<td title="{$content->body|escape:'htmlall'}">{$content->body|truncate:100|escape:'htmlall'}</td>
-		<td><a onclick="return confirm('Are you sure?');" href="content-delete.php?id={$content->id}">delete</a></td>
+		<td><a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/content-delete.php?id={$content->id}">delete</a></td>
 	</tr>
 	{/foreach}
 

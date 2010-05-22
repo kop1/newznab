@@ -16,11 +16,11 @@
 	
 	{foreach from=$commentslist item=comment}
 	<tr>
-		<td><a href="user-edit.php?id={$comment.userID}">{$comment.username}</a></td>
+		<td><a href="{$smarty.const.WWW_TOP}/user-edit.php?id={$comment.userID}">{$comment.username}</a></td>
 		<td title="{$comment.createddate}">{$comment.createddate|date_format}</td>
 		<td>{$comment.text|escape:"htmlall"|nl2br}</td>
 		<td>{$comment.host}</td>
-		<td><a href="comments-delete.php?id={$comment.ID}">delete</a></td>
+		<td><a href="{$smarty.const.WWW_TOP}/comments-delete.php?id={$comment.ID}">delete</a></td>
 	</tr>
 	{/foreach}
 
