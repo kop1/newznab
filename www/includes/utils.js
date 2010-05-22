@@ -78,7 +78,6 @@ function sendToSab(el, host, key, nzb, uid, rsstoken)
   }
 	
 	var url=fullsaburl + "&rand=" + Math.floor(Math.random()*100000) + "&name=" + escape(nzburl) ;
-	alert(url);
 	xmlhttp.onreadystatechange=function(){ jsStateChanged( 1, el ); };
 	xmlhttp.open("POST",url,true);
 	xmlhttp.send(null);
