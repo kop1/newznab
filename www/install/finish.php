@@ -10,7 +10,6 @@ $nntpError = 0;
 if (PHP_INT_MAX == $results) {
 	$nntpError = 1;
 } 
-$nntpError = 1;
 
 ?>
         <h1>Finish up</h1>
