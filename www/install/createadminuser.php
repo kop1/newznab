@@ -43,7 +43,7 @@ include('header.html');
 			</tr>
 			<tr>
 				<th>Password:</th>
-				<td><input type="text" name="pass" value="<?=$pass?>" /></td>
+				<td><input type="password" name="pass" value="<?=$pass?>" /></td>
 			</tr>
                         <tr>
                                 <th>Email:</th>
