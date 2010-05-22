@@ -1,7 +1,13 @@
 <?php 
 
 //Try to save config and import data
-if($_GET['do'] == 'run') {
+$failed = 0;
+$host = "";
+$user = "";
+$pass = "";
+$db = "newznab";
+
+if(isset($_GET['do']) &&$_GET['do'] == 'run') {
 
 	$failed = 0;
 	$host = $_POST['host'];
@@ -71,20 +77,31 @@ include('header.html');
 		<table>
 			<tr>
 				<th>Hostname:</th>
-				<td><input type="text" name="host" value="<?=$host?>" /></td>
+				<?php
+				echo "<td><input type=\"text\" name=\"host\" value=\"".$host."\" /></td>";
+				?>
 			</tr>
 			<tr>
 				<th>Username:</th>
-				<td><input type="text" name="user" value="<?=$user?>" /></td>
+				<?php
+				echo "<td><input autocomplete=\"off\" type=\"text\" name=\"user\" value=\"".$user."\" /></td>";
+				?>
+				
 			</tr>
-                        <tr>
-                                <th>Password:</th>
-                                <td><input type="password" name="pass" value="<?=$pass?>" /></td>
-                        </tr>
-                        <tr>
-                                <th>Database:</th>
-                                <td><input type="text" name="db" value="<?=$db?>" /></td>
-                        </tr>
+      <tr>
+        <th>Password:</th>
+				<?php
+				echo "<td><input autocomplete=\"off\" type=\"password\" name=\"pass\" value=\"".$pass."\" /></td>";
+				?>
+              
+      </tr>
+      <tr>
+        <th>Database:</th>
+				<?php
+				echo "<td><input type=\"text\" name=\"db\" value=\"".$db."\" /></td>";
+				?>
+              
+      </tr>
 			<tr> 
 				<td colspan="2">
 					<div align="center">
