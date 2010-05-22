@@ -36,6 +36,8 @@ class BasePage
     $this->smarty->cache_dir    = SMARTY_DIR.'cache/';				
 		
 		$this->smarty->assign('page',$this);
+		if (isset($_SERVER["SERVER_NAME"]))
+			$this->smarty->assign('serverroot',(isset($_SERVER["HTTPS"]) ? "https://" : "http://").$_SERVER["SERVER_NAME"].($_SERVER["SERVER_PORT"] != "80" ? ":".$_SERVER["SERVER_PORT"] : "")."/");
 		
 		$users = new Users();
 		if ($users->isLoggedIn())

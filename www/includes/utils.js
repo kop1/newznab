@@ -62,3 +62,14 @@ function headersearch()
 		document.location= WWW_TOP + "/search/" + encodeUrl(v.value) + cat;
 	}
 }
+
+//
+// Do ajax call to send nzb url to sab api.
+//
+function sendToSab(el, host, key, nzb, uid, rsstoken)
+{
+	var fullsaburl = host + "/api/?mode=addurl&priority=1&apikey=" + key;
+	var nzburl = SERVERROOT + "download/sab/nzb/" + nzb + "&i=" + uid + "&r=" + rsstoken;
+	alert("SABURL = " + fullsaburl);
+	alert("NZBURL = " + nzburl);
+}

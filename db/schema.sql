@@ -181,6 +181,8 @@ CREATE TABLE `users` (
   `grabs` INT NOT NULL DEFAULT 0,
   `rsstoken` varchar(32) not null,
   `createddate` DATETIME DEFAULT NULL,
+  `sabapikey` varchar(32) null,
+  `sabhost` varchar(255) null,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 

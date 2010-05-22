@@ -25,6 +25,8 @@ switch($action)
 		$page->smarty->assign('password', $_POST['password']);
 		$page->smarty->assign('confirmpassword', $_POST['confirmpassword']);
 		$page->smarty->assign('email', $_POST['email']);
+		$page->smarty->assign('sabapikey', $_POST['sabapikey']);
+		$page->smarty->assign('sabhost', $_POST['sabhost']);
 		
 		//
 		// check uname/email isnt in use, password valid.
@@ -36,7 +38,7 @@ switch($action)
 		}
 		else
 		{
-			$ret = $users->signup($_POST['username'], $_POST['password'], $_POST['email'], $_SERVER['REMOTE_ADDR']);
+			$ret = $users->signup($_POST['username'], $_POST['password'], $_POST['email'], $_SERVER['REMOTE_ADDR'], $_POST['sabapikey'], $_POST['sabhost']);
 			if ($ret > 0)
 			{
 				$users->login($ret);

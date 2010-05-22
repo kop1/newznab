@@ -10,6 +10,7 @@
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
 	{$customtheme}
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>
+	<script type="text/javascript">var SERVERROOT = "{$serverroot}";</script>
 	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$smarty.const.WWW_TOP}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
 	{$page->head}
@@ -143,7 +144,10 @@
 		{/if}
 		
 		<li>
-			<a title="Sickbeard - The ultimate usenet PVR" href="http://code.google.com/p/sickbeard/"><img alt="Sickbeard - The ultimate usenet PVR" src="{$smarty.const.WWW_TOP}/images/sickbeard.png" /></a>
+			<a title="Sickbeard - The ultimate usenet PVR" href="http://code.google.com/p/sickbeard/"><img class="menupic" alt="Sickbeard - The ultimate usenet PVR" src="{$smarty.const.WWW_TOP}/images/sickbeard.png" /></a>
+		</li>
+		<li>
+			<a title="Sabznbd - A great usenet binary downloader" href="http://www.sabnzbd.org/"><img class="menupic" alt="Sabznbd - A great usenet binary downloader" src="{$smarty.const.WWW_TOP}/images/sabnzbd.png" /></a>
 		</li>
 		
 		</ul>
