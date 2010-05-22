@@ -12,7 +12,7 @@ class NZB
 		//
 		// TODO:Move all these to site table.
 		//
-		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
+		$this->maxMssgs = 20000; //fetch this ammount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 	}
 	
@@ -97,7 +97,25 @@ class NZB
 			$nntp->doQuit();	
 		}		
 	}	
-	
+
+	function backfillAllGroups()
+	{
+		$groups = new Groups;
+		$res = $groups->getActive();
+		if($res)
+		{
+                        $nntp = new Nntp();
+                        $nntp->doConnect();
+
+                        foreach($res as $groupArr)
+                        {
+                                $this->message = array();
+                                $this->backfillGroup($nntp, $groupArr);
+                        }
+
+                        $nntp->doQuit();
+		}
+	}	
 	function updateGroup($nntp, $groupArr) 
 	{
 		$db = new DB();
@@ -122,58 +140,213 @@ class NZB
 		*/
 		
 		//get first and last part numbers from newsgroup
-		$last = $orglast = $data['last'];
-		if($groupArr['last_record'] == 0) 
+		$end = $last = $data['last'];
+		$first = $data['first'];
+		if($groupArr['last_record']==0)//if new group start from the end and can backfill, otherwise start from last done
 		{
-			//
-			// for new newsgroups - determine here how far you want to go back.
-			//
-			$first = ($this->howManyMsgsToGoBackForNewGroup == 0 ? 
-					$data['first'] : $data['last'] - $this->howManyMsgsToGoBackForNewGroup);
-		} else 
-		{
-			$first = $groupArr['last_record'] + 1;
+			$begin = $data['last'] - 500;
+			$db->query(sprintf("UPDATE groups SET first_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($begin), $groupArr['ID']));
+
 		}
+		else
+			$begin = $groupArr['last_record'] + 1;
 
 		//calculate total number of parts
-		$total = $last - $first;
+		$total = $data['last'] - $data['first'];
 
 		//if total is bigger than 0 it means we have new parts in the newsgroup
-		if($total > 0) 
+		if($data['last'] - $begin > 0) 
 		{
 
-			echo "Group ".$data["group"]." has ".$data['first']." - ".$last." = {$total} (Total parts) - Local last = ".$groupArr['last_record']."\n";
-
+			echo "Group ".$data["group"]." has ".$data['first']." - ".$end." = {$total} total parts.  Local last = ".$groupArr['last_record']."\n";
 			$done = false;
 
 			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
 			while($done === false) 
 			{
-				if($total > $this->maxMssgs) 
+				if($end - $begin  > $this->maxMssgs) 
 				{
-					if($first + $this->maxMssgs > $orglast) 
+					if($begin + $this->maxMssgs > $data['last']) 
 					{
-						$last = $orglast;
+						$end = $data['last'];
 					} 
 					else 
 					{
-						$last = $first + $this->maxMssgs;
+						$end = $begin + $this->maxMssgs;
 					}
 				}
 
-				if($last - $first < $this->maxMssgs) 
+				if($end - $begin < $this->maxMssgs) 
 				{
-					$fetchpartscount = $last - $first;
+					$fetchpartscount = $end - $begin;
 				} 
 				else 
 				{
 					$fetchpartscount = $this->maxMssgs;
 				}
-				echo "Getting {$fetchpartscount} parts (".($orglast - $last)." in queue)\n";
+				echo "Getting {$fetchpartscount} parts (".($last - $end)." more in queue)\n";
+				echo "Getting $begin to $end.  ($first to $last in queue).\n";
 				flush();
 
 				//get headers from newsgroup
-				$msgs = $nntp->getOverview($first."-".$last, true, false);
+				$msgs = $nntp->getOverview($begin."-".$end, true, false);
+
+				/*   Example msg
+				Array ( 
+					[Number] => 5934117 
+					[Subject] => RepostTechnoAcidAlbums2008VarBit18Albums"RepostTechnoAcidAlbums2008VarBit18Albums.part21.rar" yEnc (121/410) 
+					[From] => FTDtechnoTEAM@ (-=Techno4Life=-) 
+					[Date] => 11 Jan 2009 09:01:12 GMT 
+					[Message-ID] => <4969b556$0$5824$2d805a3e@uploadreader.eweka.nl> 
+					[References] => 
+					[Bytes] => 396519 
+					[Lines] => 3046 
+					[Xref] => news-big.astraweb.com alt.binaries.mp3:83651138 alt.binaries.sounds.mp3.dance:25100194 alt.binaries.sounds.mp3.electronic:5934117 
+					)
+				*/
+
+				//loop headers, figure out parts
+				foreach($msgs AS $msg) 
+				{
+					$pos = strrpos($msg['Subject'], '(');
+					$part = substr($msg['Subject'], $pos+1, -1);
+					$part = explode('/',$part);
+
+					if(is_numeric($part[0])) 
+					{
+						$subject = trim(substr($msg['Subject'], 0, $pos));
+						if(!isset($this->message[$subject])) 
+						{
+							$this->message[$subject] = $msg;
+							$this->message[$subject]['MaxParts'] = (isset($part[1]) ? $part[1] : 0);
+							$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
+						}
+						if($part[0] > 0) 
+						{
+							$this->message[$subject]['Parts'][$part[0]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => $part[0], 'size' => $msg['Bytes']);
+						}
+					}
+				}
+
+				$count = 0;
+				$updatecount = 0;
+				$partcount = 0;
+
+				if(count($this->message)) 
+				{
+
+					//insert binaries and parts into database. when binary already exists; only insert new parts
+					foreach($this->message AS $subject => $data) 
+					{
+						if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '') 
+						{
+							$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
+							if(!$res) 
+							{
+								$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d)", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
+								$count++;
+							} 
+							else 
+							{
+								$binaryID = $res["ID"];
+								$updatecount++;
+							}
+
+							foreach($data['Parts'] AS $partdata) 
+							{
+								$partcount++;
+								$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size) VALUES (%d, %s, %s, %s, %s)", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
+							}
+						}
+					}
+					
+					//
+					// update the group with the last update record.
+					//
+					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($end), $groupArr['ID']));
+					
+					echo "Received $count new binaries\n";
+					echo "Updated $updatecount binaries\n";
+					if($end == $last) 
+						$done = true;
+					else 
+						$begin = $end + 1;
+
+					unset($this->message);
+					unset($msgs);
+					unset($msg);
+					unset($data);
+					
+				} 
+				else 
+				{
+					$attempts++;
+					echo "Error fetching messages attempt {$attempts}...\n";
+					if($attempts == 5) 
+					{
+						echo "Skipping group\n";
+						break;
+					}
+					sleep(1);
+				}
+			}
+			
+		} 
+		else 
+		{
+			echo "No new records for ".$data["group"]." (first $begin last $end total $total) grouplast ".$groupArr['last_record']."\n";
+		}
+	}
+}
+
+	function backfillGroup($nntp, $groupArr) 
+	{
+		$db = new DB();
+		$attempts = 0;
+
+		$data = $nntp->selectGroup($groupArr['name']);
+		if(PEAR::isError($data)) 
+		{
+			echo "Could not select group: {$groupArr['name']}\n";
+			die();
+		}
+		//get first and last part numbers from newsgroup
+		$end = $last = $groupArr['last_record'];
+		$first = $data['first'];
+		$last = $data['last'];
+		$begin = $groupArr['first_record'] - $this->maxMssgs; //where to start (beginning of existing range)
+		$end = $groupArr['first_record'];
+		if($begin < $data['first'])  //as if we'd ever reach the beginning, but who knows...
+			$begin = $data['first'];
+
+		//calculate total number of parts
+		$total = $data['last'] - $data['first'];
+
+		//if total is bigger than 0 it means we have new parts in the newsgroup
+		if($data['last'] - $begin > 0) 
+		{
+
+			echo "Group ".$data["group"]." has ".$data['first']." - ".$data['last']." = {$total} total parts.  Local first = ".$groupArr['first_record']."\n";
+			$done = false;
+
+			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
+			while($done === false) 
+			{
+
+				if($end - $begin < $this->maxMssgs) 
+				{
+					$fetchpartscount = $end - $begin;
+				} 
+				else 
+				{
+					$fetchpartscount = $this->maxMssgs;
+				}
+				echo "Getting {$fetchpartscount} parts (".($last - $end)." more in queue)\n";
+				echo "Getting $begin to $end.  ($first to $last in queue).\n";
+				flush();
+
+				//get headers from newsgroup
+				$msgs = $nntp->getOverview($begin."-".$end, true, false);
 
 				/*   Example msg
 				Array ( 
@@ -251,12 +424,10 @@ class NZB
 					
 					echo "Received $count new binaries\n";
 					echo "Updated $updatecount binaries\n";
-
-					//when last = orglast; all headers are downloaded; not ? than go on with next $this->maxMssgs messages
-					if($last == $orglast) 
+					if($first == $begin) 
 						$done = true;
 					else 
-						$first = $last + 1;
+						$begin = $begin - $this->maxMssgs;
 
 					unset($this->message);
 					unset($msgs);
@@ -280,9 +451,9 @@ class NZB
 		} 
 		else 
 		{
-			echo "No new records for ".$data["group"]." (first $first last $last total $total) grouplast ".$groupArr['last_record']."\n";
+			echo "No more records for ".$data["group"]." (first $first last $last total $total) groupfirst ".$groupArr['first_record']."\n";
 		}
 	}
-}
+
 
 ?>

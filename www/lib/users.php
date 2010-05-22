@@ -183,7 +183,7 @@ class Users
 
 	public static function hashSHA1($string)
 	{
-		return bin2hex(mhash(MHASH_SHA1, $string));
+		return sha1($string);
 	}
 
 	public static function checkPassword($password, $hash)
