@@ -68,8 +68,49 @@ function headersearch()
 //
 function sendToSab(el, host, key, nzb, uid, rsstoken)
 {
-	var fullsaburl = host + "/api/?mode=addurl&priority=1&apikey=" + key;
+	var fullsaburl = host + "api/?mode=addurl&priority=1&apikey=" + key;
 	var nzburl = SERVERROOT + "download/sab/nzb/" + nzb + "&i=" + uid + "&r=" + rsstoken;
-	alert("SABURL = " + fullsaburl);
-	alert("NZBURL = " + nzburl);
+  xmlhttp=GetXmlHttpObject();
+  if (xmlhttp==null)
+  {
+          alert ("Browser does not support HTTP Request");
+          return;
+  }
+	
+	var url=fullsaburl + "&rand=" + Math.floor(Math.random()*100000) + "&name=" + escape(nzburl) ;
+	alert(url);
+	xmlhttp.onreadystatechange=function(){ jsStateChanged( 1, el ); };
+	xmlhttp.open("POST",url,true);
+	xmlhttp.send(null);
 }
+
+function jsStateChanged(ty, el)
+{
+	if (ty == 1)
+	{
+	  if (xmlhttp.readyState==4)
+	  {
+	  	el.innerText = "[Sent to Sab]";
+	    el.title = "added to queue";
+	    el.onclick = "return false;";
+	    el.href = "#";
+	  }
+	}
+}
+
+
+function GetXmlHttpObject()
+{
+	if (window.XMLHttpRequest)
+  {
+	  // code for IE7+, Firefox, Chrome, Opera, Safari
+  	return new XMLHttpRequest();
+  }
+	if (window.ActiveXObject)
+  {
+  	// code for IE6, IE5
+	  return new ActiveXObject("Microsoft.XMLHTTP");
+  }
+	return null;
+}
+
