@@ -16,16 +16,6 @@
 				</strong>
 			</p>
 
-
-
-                        <p>
-                                <strong>
-                                        <div style="color: red">WARNING #2: </div>
-					This installer is not yet complete - please do not use this yet. Follow the README on how to install Newznab.
-                                </strong>
-                        </p>
-
-
 	<div align="center">
 		<form action="checkit.php"><input type="submit" value="Go to step one: Pre flight check" /></form>		
 	</div>
