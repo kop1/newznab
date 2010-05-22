@@ -24,6 +24,12 @@ if(is_writable("../config.php") == false) {
 	}
 }
 
+
+//We need access to the sql file
+if(is_file("../../db/schema.sql") == false) {
+	$errors[] = "The schema.sql file is missing, please make shure it is placed in ".realpath("../../db/schema.sql");
+}
+
 ?>
 	<h1>Pre flight checklist</h1>
 	<?php if(count($errors) == 0) { ?>

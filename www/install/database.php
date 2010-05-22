@@ -1,5 +1,4 @@
 <?php 
-include('header.html');
 
 //Try to save config and import data
 if($_GET['do'] == 'run') {
@@ -47,12 +46,24 @@ if($_GET['do'] == 'run') {
 			fwrite($fp, $c);
 		}
 		fclose($fp);
+
+		//Load database queries
+		$dbData = file_get_contents("../../db/schema.sql");
+		$queries = explode(";", $dbData);
+		foreach($queries as $q) {
+			mysql_query($q);
+		}
+
+		//Done, redirect to NNTP-config
+		header("location: nntp.php");
+		exit();
 	}
 }
 
 if(!$host)
 	$host = "localhost";
 
+include('header.html');
 ?>
 	<h1>Database setup</h1>
 	<p>We need some information about your MySQL database, please provide the following information</p>
