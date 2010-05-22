@@ -108,26 +108,45 @@ class Category
 		//
 		// Try and determine based on group
 		//
-		if (preg_match('/alt\.binaries\.mp3\.audiobooks/i', $group)) 
+		if (preg_match('/alt\.binaries\..*?audiobook.*?/i', $group)) 
 			return Category::CAT_MUSIC_AUDIOBOOK;
 
-		if (preg_match('/alt\.binaries\.sounds*|alt\.binaries\.mp3*|alt\.binaries\.audio\.warez/i', $group)) 
+		if (preg_match('/alt\.binaries\.sounds.*?|alt\.binaries\.mp3.*?/i', $group)) 
 			return Category::CAT_MUSIC_MP3;
 
-		if (preg_match('/alt\.binaries\.games\.xbox360/i', $group)) 
+		if (preg_match('/alt\.binaries\.games\.xbox360/i', $group)) {
+			if (!empty($binaryname) && preg_match('/wmv/i', $binaryname)) {return Category::CAT_MOVIE_WMV_HD; }
 			return Category::CAT_GAME_XBOX360;
+		}
+		
+		if (preg_match('/alt\.binaries\.games\.xbox/i', $group))
+			return Category::CAT_GAME_XBOX;
 
-		if (preg_match('/alt\.binaries\.dvd*/i', $group)) 
+		if (preg_match('/alt\.binaries\.dvd.*?/i', $group)) {
+			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $binaryname)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_MOVIE_DVD;	
+		}
+		
+		if (preg_match('/alt\.binaries\.hdtv\.x264|alt\.binaries\.x264/i', $group)) {
+			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $binaryname)) { return Category::CAT_TV_X264; }
+			return Category::CAT_MOVIE_X264;	
+		}
 			
 		if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx/i', $group)) 
 			return Category::CAT_MOVIE_XVID;	
 			
-		if (preg_match('/alt\.binaries\.e-book*/i', $group)) 
+		if (preg_match('/alt\.binaries\.e-book.*?/i', $group)) 
 			return Category::CAT_MISC_EBOOK;
 
-		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day/i', $group)) 
-			return Category::CAT_PC_0DAY;		
+		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries\.inner\-sanctum/i', $group)) {
+			if (preg_match('/osx|os\.x|\.mac\./i', $binaryname)) { return Category::CAT_PC_MAC; }
+			return Category::CAT_PC_0DAY;
+		}
+		
+		if (preg_match('/alt\.binaries\.cd\.image|alt\.binaries\.audio\.warez/i', $group)) {
+			if (preg_match('/osx|os\.x|\.mac\./i', $binaryname)) { return Category::CAT_PC_MAC; }
+			return Category::CAT_PC_ISO;		
+		}
 		
 		if (preg_match('/alt\.binaries\.sony\.psp/i', $group)) 
 			return Category::CAT_GAME_PSP;		
@@ -145,13 +164,7 @@ class Category
 			return Category::CAT_TV_IPOD;	
 
 		if (preg_match('/alt\.binaries\.tv\.swedish/i', $group)) 
-			return Category::CAT_TV_SWE;		
-
-		if (preg_match('/alt\.binaries\.tvseries/i', $group)) 
-			return Category::CAT_TV_XVID;				
-
-		if (preg_match('/alt\.binaries\.tvseries/i', $group)) 
-			return Category::CAT_TV_XVID;	
+			return Category::CAT_TV_SWE;						
 
 		if (preg_match('/alt\.binaries\.games\.wii/i', $group)) 
 			return Category::CAT_GAME_WII;				
@@ -159,7 +172,7 @@ class Category
 		if (preg_match('/alt\.binaries\.erotica\.divx/i', $group)) 
 			return Category::CAT_XXX_XVID;				
 
-		if (preg_match('/alt\.binaries\.mma/i', $group)) 
+		if (preg_match('/alt\.binaries\.mma|alt\.binaries\.multimedia\.sports.*?/i', $group)) 
 			return Category::CAT_TV_SPORT;		
 
 		//
@@ -169,34 +182,55 @@ class Category
 		//
 		// Tv 
 		//
-		if (preg_match('/S([\d]+)E([\d]+)(.*?(720p).*?)/i', $binaryname))
-			return Category::CAT_TV_X264;				
-
-		if (preg_match('/(.*?(720p).*?)/i', $binaryname) && preg_match('/alt\.binaries\.teevee/i', $group))
-			return Category::CAT_TV_X264;				
-
-		if (preg_match('/S([\d]+)E([\d]+)(.*?(Xvid).*?)/i', $binaryname)) 
-			return Category::CAT_TV_XVID;				
-
-		if (preg_match('/S([\d]+)E([\d]+)/i', $binaryname)) 
-			return Category::CAT_TV_XVID;				
+		if (preg_match('/alt\.binaries\.(teevee|multimedia|tv|tvseries)/i', $group)) {
+			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_TV_X264; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_TV_DVD; }
+			return Category::CAT_TV_XVID;
+		}
+		
+		//S01E01
+		//S01.E01
+		//1x01
+		//S1.D1
+		if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $binaryname)) {
+			if (preg_match('/720p|1080p|x264/i', $binaryname)) { return Category::CAT_TV_X264; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_TV_DVD; }
+			return Category::CAT_TV_XVID;
+		}
+		
+		if (preg_match('/\.S\d{2}\./i', $binaryname)) {
+			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_TV_X264; }
+			return Category::CAT_TV_XVID;
+		}
+		
+		//
+		// XXX 
+		//
+		if (preg_match('/erotica/i', $group)) { 
+			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_XXX_X264; }
+			if (preg_match('/xvid|divx/i', $binaryname)) { return Category::CAT_XXX_XVID; }
+			if (preg_match('/wmv|pack\-/i', $binaryname)) { return Category::CAT_XXX_WMV; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_XXX_DVD; }
+		}
 
 		//
-		// If no more tv scenarios found, and the group was teevee, then throw it in tvxvid
-		//
-		if (preg_match('/alt\.binaries\.teevee/i', $group)) 
-			return Category::CAT_TV_XVID;				
-
-
-		if (preg_match('/xvid|dvdscr|extrascene/i', $binaryname)) 
+		// Movie 
+		//		
+		if (preg_match('/xvid|dvdscr|extrascene|dvdrip|r5/i', $binaryname)) 
 			return Category::CAT_MOVIE_XVID;
 
 		if (preg_match('/dvdr|dvd9|dvd5/i', $binaryname) && !preg_match('/dvdrip/i', $binaryname)) 
 			return Category::CAT_MOVIE_DVD;
-
+		
+		if (preg_match('/720p|1080p/i', $binaryname) || preg_match('/x264/i', $binaryname)) 
+			return Category::CAT_MOVIE_X264;
+					
 		if (preg_match('/wmv/i', $binaryname)) 
 			return Category::CAT_MOVIE_WMV_HD;
-
+		
+		//
+		// Console 
+		//	
 		if (preg_match('/PSP-/', $binaryname)) 
 			return Category::CAT_GAME_PSP;
 
@@ -208,6 +242,7 @@ class Category
 		
 		if (preg_match('/xbox360/i', $binaryname)) 
 			return Category::CAT_GAME_XBOX360;
+		
 		
 		//
 		// If no binary name provided and the group wasnt determined, then return -1
