@@ -16,7 +16,7 @@ switch($action)
     case 'submit':
 				$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"]);
 				if ($ret == Users::SUCCESS)
-					header("Location:user-list.php");
+					header("Location:".WWW_TOP."/user-list.php");
 				else
 				{
 					switch ($ret)

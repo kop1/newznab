@@ -15,7 +15,7 @@ switch($action)
 {
     case 'submit':
 				$groups->update($_POST);
-				header("Location:group-list.php");
+				header("Location:".WWW_TOP."/group-list.php");
 
         break;
     case 'view':

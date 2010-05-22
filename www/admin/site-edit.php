@@ -16,7 +16,7 @@ switch($action)
     case 'submit':
 		$site = $sites->update($_POST);
 		$returnid = $site->id;
-		header("Location:site-edit.php?id=".$returnid);
+		header("Location:".WWW_TOP."/site-edit.php?id=".$returnid);
 
         break;
     case 'view':

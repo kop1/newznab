@@ -15,7 +15,7 @@ switch($action)
 {
     case 'submit':
 		$ret = $category->update($_POST["id"], $_POST["status"]);
-		header("Location:category-list.php");
+		header("Location:".WWW_TOP."/category-list.php");
 		break;
     case 'view':
     default:

@@ -18,7 +18,7 @@ switch($action)
     case 'submit':
 		
 		$releases->update($_POST["id"], $_POST["name"], $_POST["searchname"], $_POST["fromname"], $_POST["category"], $_POST["totalpart"], $_POST["grabs"], $_POST["size"], $_POST["postdate"], $_POST["adddate"], $_POST["rageID"], $_POST["seriesfull"], $_POST["season"], $_POST["episode"]);
-		header("Location:release-list.php");
+		header("Location:".WWW_TOP."/release-list.php");
         break;
     case 'view':
     default:

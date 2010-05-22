@@ -19,7 +19,7 @@ switch($action)
 		else
 			$tvrage->update($_POST["id"], $_POST["rageID"], $_POST["releasetitle"], $_POST["description"]);
 			
-		header("Location:rage-list.php");
+		header("Location:".WWW_TOP."/rage-list.php");
         break;
     case 'view':
     default:
