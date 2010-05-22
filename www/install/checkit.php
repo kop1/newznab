@@ -4,8 +4,8 @@ include('header.html');
 $errors = array();
 
 //mcrypt function
-if(function_exists('mhash') == false)
-	$errors[] = "The PHP installation lacks support for mcrypt, this is normally found in the package 'php5-mcrypt'.";
+if(function_exists('sha1') == false)
+	$errors[] = "The PHP installation lacks support for sha1.";
 
 //the templates cache holder must be writable
 if(is_writable("../lib/smarty/templates_c") == false) {
