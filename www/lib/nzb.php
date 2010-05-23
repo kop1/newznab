@@ -65,7 +65,7 @@ class NZB
 				//
 				// TODO:Move this into template
 				//
-				$binrow['name'] = ereg_replace("[^a-zA-Z0-9\(\)\! .]",'', str_replace('"', '', $binrow['name']));
+				$binrow['name'] = preg_replace("/[^a-zA-Z0-9\(\)\! .]/",'', str_replace('"', '', $binrow['name']));
 				$binrow['fromname'] = str_replace('(','',str_replace(')','',$binrow['fromname']));
 				
 				$parts = $db->query(sprintf("SELECT parts.* FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
