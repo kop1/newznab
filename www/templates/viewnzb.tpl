@@ -15,6 +15,7 @@
 	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format}</td></tr>
 	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format}</td></tr>
 	<tr><th>Download:</th><td><a title="Download Nzb for {$release.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/download/{$release.searchname|escape:"htmlall"}/nzb/{$release.guid}">Download Nzb for {$release.searchname|escape:"htmlall"}</a></td></tr>
+	<tr><th>Cart:</th><td><a title="Add to cart" onclick="addToCart(this, '{$release.guid}'); return false;" href="#">[Add to cart]</a></td></tr>
 	{if $similars|@count > 1}
 	<tr>
 		<th>Similar:</th>
