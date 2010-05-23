@@ -38,8 +38,19 @@ installation checklist
 	is work in progress. it should also be deleted once installed.
 
 running	outside of root website
-	set /htaccess RewriteBase to your virtual directory
+	set /.htaccess RewriteBase to your virtual directory
 	
+sample apache config for your your VHOST. 
+	add this to your exist VHOST file modifying your values for ServerName, Server Alias, and DocumentRoot.  You should find this under /etc/apache2/sites-enabled/ (000-default).	
+	<VirtualHost *:80>
+	        ServerAdmin admin@example.com
+	        ServerName example.com 
+	        ServerAlias www.example.com
+	        DocumentRoot /domains/www/example.com/newz/www
+	        LogLevel warn
+	        ServerSignature Off
+	</VirtualHost>
+
 how it works
 	groups are specified, message headers (binaries and parts) are downloaded for the 
 	groups, releases are created from completed sets of binaries. releases are categorised
