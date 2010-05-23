@@ -43,6 +43,13 @@ running	outside of root website
 sample apache config for your your VHOST. 
 	add this to your exist VHOST file modifying your values for ServerName, Server Alias, and DocumentRoot.  You should find this under /etc/apache2/sites-enabled/ (000-default).	
 	<VirtualHost *:80>
+	        <Directory /domains/www/example.com/newz/www/>
+	                Options FollowSymLinks
+	                AllowOverride All
+	                Order allow,deny
+	                allow from all
+	        </Directory>
+	
 	        ServerAdmin admin@example.com
 	        ServerName example.com 
 	        ServerAlias www.example.com
