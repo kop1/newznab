@@ -19,7 +19,9 @@ if(!include('Net/NNTP/Client.php')) {
 
 //We need either write access to config.php, or write access in the root folder
 if(is_writable("../config.php") == false) {
-	if(is_writable("../") == false) {
+	if(is_file("../config.php") == true) {
+		$errors[] = "The installer cannot write to ".realpath('../config.php').", please fix the permissions.<br /> Quick Fix: chmod 777 ".realpath('../config.php');
+	} else if(is_writable("../") == false) {
 		$errors[] = "The installer needs write access to either ".realpath('../')."/config.php or to the folder ".realpath('../')." in order to setup the configuration.<br />Quick fix: chmod 777 ".realpath('../');
 	}
 }
