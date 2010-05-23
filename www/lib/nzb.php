@@ -12,7 +12,7 @@ class NZB
 		//
 		// TODO:Move all these to site table.
 		//
-		$this->maxMssgs = 20000; //fetch this ammount of messages at the time
+		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 	}
 	
@@ -140,56 +140,58 @@ class NZB
 		*/
 		
 		//get first and last part numbers from newsgroup
-		$end = $last = $data['last'];
-		$first = $data['first'];
-		if($groupArr['last_record']==0)//if new group start from the end and can backfill, otherwise start from last done
+		$last = $orglast = $data['last'];
+		if($groupArr['last_record'] == 0) 
 		{
-			$begin = $data['last'] - 500;
-			$db->query(sprintf("UPDATE groups SET first_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($begin), $groupArr['ID']));
-
+			//
+			// for new newsgroups - determine here how far you want to go back.
+			//
+			$first = ($this->howManyMsgsToGoBackForNewGroup == 0 ? 
+					$data['first'] : $data['last'] - $this->howManyMsgsToGoBackForNewGroup);
+		} else 
+		{
+			$first = $groupArr['last_record'] + 1;
 		}
-		else
-			$begin = $groupArr['last_record'] + 1;
 
 		//calculate total number of parts
-		$total = $data['last'] - $data['first'];
+		$total = $last - $first;
 
 		//if total is bigger than 0 it means we have new parts in the newsgroup
-		if($data['last'] - $begin > 0) 
+		if($total > 0) 
 		{
 
-			echo "Group ".$data["group"]." has ".$data['first']." - ".$end." = {$total} total parts.  Local last = ".$groupArr['last_record']."\n";
+			echo "Group ".$data["group"]." has ".$data['first']." - ".$last." = {$total} (Total parts) - Local last = ".$groupArr['last_record']."\n";
+
 			$done = false;
 
 			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
 			while($done === false) 
 			{
-				if($end - $begin  > $this->maxMssgs) 
+				if($total > $this->maxMssgs) 
 				{
-					if($begin + $this->maxMssgs > $data['last']) 
+					if($first + $this->maxMssgs > $orglast) 
 					{
-						$end = $data['last'];
+						$last = $orglast;
 					} 
 					else 
 					{
-						$end = $begin + $this->maxMssgs;
+						$last = $first + $this->maxMssgs;
 					}
 				}
 
-				if($end - $begin < $this->maxMssgs) 
+				if($last - $first < $this->maxMssgs) 
 				{
-					$fetchpartscount = $end - $begin;
+					$fetchpartscount = $last - $first;
 				} 
 				else 
 				{
 					$fetchpartscount = $this->maxMssgs;
 				}
-				echo "Getting {$fetchpartscount} parts (".($last - $end)." more in queue)\n";
-				echo "Getting $begin to $end.  ($first to $last in queue).\n";
+				echo "Getting {$fetchpartscount} parts (".($orglast - $last)." in queue)\n";
 				flush();
 
 				//get headers from newsgroup
-				$msgs = $nntp->getOverview($begin."-".$end, true, false);
+				$msgs = $nntp->getOverview($first."-".$last, true, false);
 
 				/*   Example msg
 				Array ( 
@@ -263,14 +265,16 @@ class NZB
 					//
 					// update the group with the last update record.
 					//
-					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($end), $groupArr['ID']));
+					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
 					
 					echo "Received $count new binaries\n";
 					echo "Updated $updatecount binaries\n";
-					if($end == $last) 
+
+					//when last = orglast; all headers are downloaded; not ? than go on with next $this->maxMssgs messages
+					if($last == $orglast) 
 						$done = true;
 					else 
-						$begin = $end + 1;
+						$first = $last + 1;
 
 					unset($this->message);
 					unset($msgs);
@@ -294,7 +298,7 @@ class NZB
 		} 
 		else 
 		{
-			echo "No new records for ".$data["group"]." (first $begin last $end total $total) grouplast ".$groupArr['last_record']."\n";
+			echo "No new records for ".$data["group"]." (first $first last $last total $total) grouplast ".$groupArr['last_record']."\n";
 		}
 	}
 }
