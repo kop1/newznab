@@ -15,7 +15,7 @@
 	</tr>
 
 	{foreach item=i name=iteration from=$binaries item=binary}
-	<tr>
+	<tr class="{cycle values=",alt"}">
 		<td width="20" title="Original Part ({$binary.relpart}/{$binary.reltotalpart})">{$smarty.foreach.iteration.index+1}</td>
 		<td width="20"><input name="fileID_{$binary.ID}" id="fileID_{$binary.ID}" value="{$binary.ID}" type="checkbox"/></td>
 		<td title="{$binary.name|escape:'htmlall'}">{$binary.filename}</td>

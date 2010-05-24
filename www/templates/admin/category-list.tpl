@@ -15,7 +15,7 @@
 	</tr>
 	
 	{foreach from=$categorylist item=category}
-	<tr>
+	<tr class="{cycle values=",alt"}">
 		<td>{$category.ID}</td>
 		<td><a href="{$smarty.const.WWW_TOP}/category-edit.php?id={$category.ID}">{$category.title}</a></td>
 		<td>

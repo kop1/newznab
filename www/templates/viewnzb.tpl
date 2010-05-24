@@ -35,7 +35,7 @@
 	{if $comments|@count > 0}
 	
 		<table style="margin-bottom:20px;" class="data Sortable">
-			<tr>
+			<tr class="{cycle values=",alt"}">
 			<th width="80">User</th>
 			<th>Comment</th>
 			</tr>

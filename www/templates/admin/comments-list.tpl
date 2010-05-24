@@ -15,7 +15,7 @@
 
 	
 	{foreach from=$commentslist item=comment}
-	<tr>
+	<tr class="{cycle values=",alt"}">
 		<td><a href="{$smarty.const.WWW_TOP}/user-edit.php?id={$comment.userID}">{$comment.username}</a></td>
 		<td title="{$comment.createddate}">{$comment.createddate|date_format}</td>
 		<td>{$comment.text|escape:"htmlall"|nl2br}</td>

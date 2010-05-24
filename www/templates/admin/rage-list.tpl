@@ -13,7 +13,7 @@
 	</tr>
 	
 	{foreach from=$tvragelist item=tvrage}
-	<tr>
+	<tr class="{cycle values=",alt"}">
 		<td class="less"><a href="http://www.tvrage.com/shows/id-{$tvrage.rageID}" title="View in TvRage">{$tvrage.rageID}</a></td>
 		<td><a title="Edit" href="{$smarty.const.WWW_TOP}/rage-edit.php?id={$tvrage.ID}">{$tvrage.releasetitle|escape:"htmlall"}</a></td>
 		<td class="less">{$tvrage.createddate|date_format}</td>

@@ -13,7 +13,7 @@
 	</tr>
 	
 	{foreach from=$grouplist item=group}
-	<tr>
+	<tr class="{cycle values=",alt"}">
 		<td><a href="{$smarty.const.WWW_TOP}/group-edit.php?id={$group.ID}">{$group.name|replace:"alt.binaries":"a.b"}</a></td>
 		<td class="less">{$group.category_name}</td>
 		<td class="less">{$group.last_record}</td>

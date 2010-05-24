@@ -22,7 +22,7 @@
 	</tr>
 
 	{foreach from=$results item=result}
-		<tr>
+		<tr class="{cycle values=",alt"}">
 			<td><input name="file{$result.ID}" id="file{$result.ID}" value="{$result.ID}" type="checkbox"/></td>
 			<td>
 				<a title="{$result.name|escape:"htmlall"}" href="#" onclick="return false;">{if $result.filename != ""}{$result.filename|escape:"htmlall"}{else}{$result.name|escape:"htmlall"}{/if}</a>

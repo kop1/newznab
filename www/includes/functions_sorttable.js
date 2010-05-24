@@ -32,7 +32,7 @@ function sortables_init() {
         thisTbl = tbls[ti];
         if ((' '+thisTbl.className+' ').indexOf("Sortable") != -1) {
             ts_makeSortable(thisTbl);
-			F_ColourRows(thisTbl);
+			//F_ColourRows(thisTbl);
         }
     }
 }

@@ -22,7 +22,7 @@
 	</tr>
 
 	{foreach from=$results item=result}
-		<tr>
+		<tr class="{cycle values=",alt"}">
 			<td>
 				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="resextra">

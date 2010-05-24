@@ -17,7 +17,7 @@
 
 	
 	{foreach from=$contentlist item=content}
-	<tr>
+	<tr class="{cycle values=",alt"}">
 		<td>{$content->ordinal}</td>
 		<td>{$content->id}</td>
 		<td><a href="{$smarty.const.WWW_TOP}/content-add.php?id={$content->id}" title="Edit {$content->title}">{$content->title}</a></td>

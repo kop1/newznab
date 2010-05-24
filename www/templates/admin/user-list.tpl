@@ -16,7 +16,7 @@
 
 	
 	{foreach from=$userlist item=user}
-	<tr>
+	<tr class="{cycle values=",alt"}">
 		<td><a href="{$smarty.const.WWW_TOP}/user-edit.php?id={$user.ID}">{$user.username}</a></td>
 		<td>{$user.email}</td>
 		<td>{$user.host}</td>

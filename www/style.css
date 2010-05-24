@@ -82,6 +82,7 @@ table.data td { vertical-align:top; padding:5px; border-color: #AAA; border-widt
 table.data td.less { color: #888; font-size: 0.8em; }
 table.data th { text-align:left; vertical-align:top; background-color:#DDD; border-color: #AAA; border-width: 1px 1px 0 0; border-style: solid; padding:3px; font-style:bolder; text-transform:capitalize;}
 table.highlight tr:hover td { background-color: #E1F0D9; }
+table tr.alt { background-color: #EEE; }
 table.data em {font-weight:bolder; color:red;}
 div.hint, div.hint a {font-size:0.9em; font-style:italic; color:#999;}
 input.long {width:400px; }
