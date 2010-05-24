@@ -6,7 +6,10 @@
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<title>{$page->meta_title} - {$site->meta_title}</title>
 	<link href="{$smarty.const.WWW_TOP}/style.css" rel="stylesheet" type="text/css" media="screen" />
-	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
+	{if $google_adsense_acc == ''}
+<link href="{$smarty.const.WWW_TOP}/style_noadsense.css" rel="stylesheet" type="text/css" media="screen" />
+	{/if}
+<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
 	{$customtheme}
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>

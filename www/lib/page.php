@@ -32,7 +32,8 @@ class Page extends BasePage
 		$parentcatlist = $category->getForMenu();
 		$this->smarty->assign('parentcatlist',$parentcatlist);
 		$header_menu = $this->smarty->fetch('headermenu.tpl');
-		$this->smarty->assign('header_menu',$header_menu);		
+		$this->smarty->assign('header_menu',$header_menu);	
+	
 	}	
 	
 	public function render() 
