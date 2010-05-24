@@ -7,6 +7,10 @@ $errors = array();
 if(function_exists('sha1') == false)
 	$errors[] = "The PHP installation lacks support for sha1.";
 
+//mysql libs
+if(function_exists('mysql_connect') == false)
+	$errors[] = "The PHP installation lacks support for MySQL(mysql_connect).";
+
 //the templates cache holder must be writable
 if(is_writable("../lib/smarty/templates_c") == false) {
 	$errors[] = "The template cache folder must be writable. A quick solution is to run:<br />chmod 777 ".realpath("../lib/smarty/templates_c");
