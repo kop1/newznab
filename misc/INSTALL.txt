@@ -125,6 +125,10 @@ faqs
 	not currently in use
 	* Fatal error: Call to undefined function mhash() - missing mcrypt and mhash php library includes
 	* white screen - probably php error not being displayed to browser or session timed out and 403 being throw
+	* Lots of binary headers processed but few releases created - The binary headers downloaded do not match
+	the regexes used to create a release. The message headers must follow popular formats in order for releases
+	to created.
+	* search and rawsearch requests lose page css styling - use the provided apache vhost settings.
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.

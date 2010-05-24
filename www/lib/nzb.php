@@ -95,6 +95,10 @@ class NZB
 			}
 			
 			$nntp->doQuit();	
+		}
+		else
+		{
+			echo "No groups specified. Ensure site.groupfilter is populated and run group-update.";
 		}		
 	}	
 
