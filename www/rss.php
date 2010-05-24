@@ -42,6 +42,7 @@ if (!isset($_GET["t"]))
 //
 else
 {
+	$uid = -1;
 	if (!$users->isLoggedIn())
 	{
 		if (!isset($_GET["i"]) || !isset($_GET["r"]))
@@ -50,8 +51,14 @@ else
 		$res = $users->getByIdAndRssToken($_GET["i"], $_GET["r"]);
 		if (!$res)
 			$page->show403();
+		
+		$uid = $_GET["i"];
 	}
-	
+	else
+	{
+		$uid = $users->currentUserId();
+	}
+
 	//
 	// valid or logged in user, get them the requested feed
 	//
@@ -67,7 +74,7 @@ else
 		$usernum = $_GET["num"]+0;		
 
 	$releases = new Releases;
-	$reldata = $releases->getRss($usercat, $usernum, $users->currentUserId());
+	$reldata = $releases->getRss($usercat, $usernum, $uid);
 	$page->smarty->assign('releases',$reldata);
 	header("Content-type: text/xml");
 	echo $page->smarty->fetch('rss.tpl');
