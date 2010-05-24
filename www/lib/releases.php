@@ -482,6 +482,22 @@ class Releases
 		$db->query(sprintf("delete from releasecomment where releaseID = %d", $id));		
 		$this->updateReleaseCommentCount($id);
 	}
+	
+	public function deleteCommentsForUser($id)
+	{			
+		$db = new DB();
+		
+		$numcomments = $this->getCommentCountForUser($id);
+		if ($numcomments > 0)
+		{
+			$comments = $this->getCommentsForUserRange($id, 0, $numcomments);
+			foreach ($comments as $comment)
+			{
+				$this->deleteComment($comment["ID"]);
+				$this->updateReleaseCommentCount($comment["releaseID"]);
+			}
+		}
+	}
 
 	public function addComment($id, $text, $userid, $host)
 	{			

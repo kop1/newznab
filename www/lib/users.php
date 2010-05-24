@@ -2,6 +2,7 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/releases.php");
 
 //
 // Thanks to gizmore@wechall.net for the user password hashing code.
@@ -37,6 +38,10 @@ class Users
 	{			
 		$db = new DB();
 		$this->delCartForUser($id);
+		
+		$releases = new Releases();
+		$releases->deleteCommentsForUser($id);
+		
 		$db->query(sprintf("delete from users where ID = %d", $id));		
 	}	
 	
