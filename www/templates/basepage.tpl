@@ -164,7 +164,7 @@
 	</div>
 	<!-- end #page -->
 
-	<div id="footer">
+	<div class="footer">
 	<p>
 		{$site->footer}
 		<br /><br /><br /><a href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/><a href="{$smarty.const.WWW_TOP}/terms-and-conditions.php">{$site->title} Terms and Conditions</a>

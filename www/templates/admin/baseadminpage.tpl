@@ -56,7 +56,7 @@
 		</center>
 	</div>
 	
-	<div id="footer">
+	<div class="footer">
 	<p>
 		{$site->footer}
 		<br /><br /><br />Copyright &copy; {$smarty.now|date_format:"%Y"} {$site->title}. All rights reserved.
