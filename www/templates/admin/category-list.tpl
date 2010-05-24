@@ -18,7 +18,13 @@
 	<tr>
 		<td>{$category.ID}</td>
 		<td><a href="{$smarty.const.WWW_TOP}/category-edit.php?id={$category.ID}">{$category.title}</a></td>
-		<td>{$category.parentID}</td>
+		<td>
+			{if $category.parentID != null}
+				{$category.parentName}
+			{else}
+				n/a
+			{/if}
+		</td>
 		<td>{if $category.status == "1"}Yes{else}No{/if}</td>
 	</tr>
 	{/foreach}

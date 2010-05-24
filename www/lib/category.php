@@ -49,7 +49,7 @@ class Category
 	public function getFlat()
 	{			
 		$db = new DB();
-		return $db->query("select * from category");		
+		return $db->query("select c.*, (SELECT title FROM category WHERE ID=c.parentID) AS parentName from category c");		
 	}		
 	
 	public function getById($id)
