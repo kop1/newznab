@@ -9,7 +9,7 @@ class Nntp extends Net_NNTP_Client
 	function doConnect() 
 	{
 		$ret = $this->connect(NNTP_SERVER);
-		if(!is_null(NNTP_USERNAME) && !is_null (NNTP_PASSWORD))
+		if(!defined(NNTP_USERNAME) && NNTP_USERNAME!="" )
 			$ret2 = $this->authenticate(NNTP_USERNAME, NNTP_PASSWORD);
 		if(PEAR::isError($ret) || PEAR::isError($ret2)) 
 		{
