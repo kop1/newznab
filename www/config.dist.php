@@ -9,6 +9,7 @@ define('DB_USER', 'newznab');
 define('DB_PASSWORD', 'password');
 define('DB_NAME', 'newznab');
 
+//NNTP_USERNAME: 'Username' or NULL (same for password)
 define('NNTP_USERNAME', 'account');
 define('NNTP_PASSWORD', 'password');
 define('NNTP_SERVER', 'newz.server');
