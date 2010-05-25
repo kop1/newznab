@@ -27,7 +27,8 @@ if(isset($_GET['do']) && $_GET['do'] == 'run') {
 
 	if(strlen($error) == 0) {
 		//NNTP connection works, try to auth
-		$authtest = $test->authenticate($user, $pass);
+		if(!empty($user))
+			$authtest = $test->authenticate($user, $pass);
 		if(strlen($authtest->message) > 0) { 
 			$error = $authtest->message;
 		} else {
