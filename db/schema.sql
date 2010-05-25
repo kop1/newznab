@@ -262,7 +262,7 @@ INSERT INTO `site`
 	apikey,
 	siteseed,
 	sabintegration,
-	`tandc`,
+	`tandc`
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
