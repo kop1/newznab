@@ -43,7 +43,26 @@ class Releases
 	public function getBrowseCount($category)
 	{
 		$db = new DB();
-		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
+		$cat = "";
+		if ($category != -1)
+		{
+			$categ = new Category();
+			if ($categ->isParent($category))
+			{
+				$children = $categ->getChildren($category);
+				$chlist = "-99";
+				foreach ($children as $child)
+					$chlist.=", ".$child["ID"];
+
+				if ($chlist != "-99")
+						$cat = "where releases.categoryID in (".$chlist.")";
+			}
+			else
+			{
+				$cat =  sprintf(" where releases.categoryID = %d", $category);
+			}
+		}
+
 		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases %s", $cat));		
 		return $res["num"];	
 	}
@@ -57,8 +76,26 @@ class Releases
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		$cat = ($category != -1 ? sprintf(" where releases.categoryID = %d", $category) : "");
-		
+		$cat = "";
+		if ($category != -1)
+		{
+			$categ = new Category();
+			if ($categ->isParent($category))
+			{
+				$children = $categ->getChildren($category);
+				$chlist = "-99";
+				foreach ($children as $child)
+					$chlist.=", ".$child["ID"];
+
+				if ($chlist != "-99")
+						$cat = "where releases.categoryID in (".$chlist.")";
+			}
+			else
+			{
+				$cat =  sprintf(" where releases.categoryID = %d", $category);
+			}
+		}
+
 		$order = $this->getBrowseOrder($orderby);
 
 		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by %s %s".$limit, $cat, $order[0], $order[1]));		

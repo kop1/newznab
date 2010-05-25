@@ -46,16 +46,32 @@ class Category
 		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, c.status from category c inner join category cp on cp.ID = c.parentID ".$act);		
 	}	
 	
+	public function isParent($cid)
+	{			
+		$db = new DB();
+		$ret = $db->queryOneRow(sprintf("select * from category where ID = %d and parentID is null", $cid));
+		if ($ret)
+			return true;
+		else
+			return false;
+	}		
+	
 	public function getFlat()
 	{			
 		$db = new DB();
 		return $db->query("select c.*, (SELECT title FROM category WHERE ID=c.parentID) AS parentName from category c");		
 	}		
+
+	public function getChildren($cid)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("select c.* from category c where parentID = %d", $cid));		
+	}		
 	
 	public function getById($id)
 	{			
 		$db = new DB();
-		return $db->queryOneRow(sprintf("select * from category where ID = %d", $id));
+		return $db->queryOneRow(sprintf("SELECT c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));		die();
 	}	
 	
 	public function update($id, $status)

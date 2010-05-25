@@ -3,6 +3,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/category.php");
 define("ITEMS_PER_PAGE", "50");
 
 $page = new Page;
@@ -39,8 +40,15 @@ $page->smarty->assign('pager', $pager);
 $results = $releases->getBrowseRange($category, $offset, ITEMS_PER_PAGE, $orderby);
 if ($category == -1)
 	$page->smarty->assign("catname","All");			
-elseif (count($results) > 0)
-	$page->smarty->assign('catname',$results[0]["category_name"]);			
+else
+{
+	$cat = new Category();
+	$cdata = $cat->getById($category);
+	if ($cdata)
+		$page->smarty->assign('catname',$cdata["title"]);			
+	else
+		$page->show404();
+}
 
 foreach($ordering as $ordertype) {
 	$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/browse?t=".$category."&amp;ob=".$ordertype."&amp;offset=0");
