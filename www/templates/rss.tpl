@@ -18,7 +18,7 @@
 <item>
 	<title>{$release.searchname}</title>
 	<guid isPermaLink="true">{$serverroot}rss/viewnzb/{$release.guid}</guid>
-	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}{if $k != ""}&amp;k={$k}{else}&amp;i={$userdata.ID}&amp;r={$userdata.rsstoken}{/if}{/if}</link>
+	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}{if $k != ""}&amp;k={$k}{else}&amp;i={$uid}&amp;r={$rsstoken}{/if}{/if}</link>
 	<comments>{$serverroot}rss/viewnzb/{$release.guid}#comments</comments> 	
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
 	<category>{$release.category_name}</category> 	
@@ -33,7 +33,7 @@
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
 	</ul>]]>
 	</description>
-	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}&amp;i={$userdata.ID}&amp;r={$userdata.rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}
+	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}
 
 	<!-- Additional attributes-->
 	<report:id>{$release.guid}</report:id>

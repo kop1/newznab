@@ -43,6 +43,7 @@ if (!isset($_GET["t"]))
 else
 {
 	$uid = -1;
+	$rsstoken = -1;
 	if (!$users->isLoggedIn())
 	{
 		if (!isset($_GET["i"]) || !isset($_GET["r"]))
@@ -53,10 +54,12 @@ else
 			$page->show403();
 		
 		$uid = $_GET["i"];
+		$rsstoken = $_GET["r"];
 	}
 	else
 	{
-		$uid = $users->currentUserId();
+		$uid = $page->userdata["ID"];
+		$rsstoken = $page->userdata["rsstoken"];
 	}
 
 	//
@@ -73,6 +76,10 @@ else
 	if (isset($_GET["num"]))
 		$usernum = $_GET["num"]+0;		
 
+		
+	$page->smarty->assign('uid',$uid);		
+	$page->smarty->assign('rsstoken',$rsstoken);		
+		
 	$releases = new Releases;
 	$reldata = $releases->getRss($usercat, $usernum, $uid);
 	$page->smarty->assign('releases',$reldata);
