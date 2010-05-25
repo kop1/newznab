@@ -24,6 +24,7 @@ installation
 	import \db\schema.sql into newznab db (if this doesnt work piping in, use a query editor)
 	copy \www\config.php.dist to \www\config.php and edit all settings
 	chmod -R 777 \www\lib\smarty\template_c
+	chmod -R 777 \www\lib\smarty\cache
 	restart iis/apache
 	browse to http://localhost/ and should see newznab homepage with default content.
 	newznab.site database table contains configurable info about your site.
