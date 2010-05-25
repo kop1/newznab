@@ -54,7 +54,11 @@ if(isset($_GET['do']) &&$_GET['do'] == 'run') {
 		fclose($fp);
 
 		//Load database queries
-		$dbData = file_get_contents("../../db/schema.sql");
+		if(is_file("../../db/schema.sql")) {
+			$dbData = file_get_contents("../../db/schema.sql");
+		} else {
+			$dbData = file_get_contents("schema.sql");
+		}
 		$queries = explode(";", $dbData);
 		foreach($queries as $q) {
 			mysql_query($q);

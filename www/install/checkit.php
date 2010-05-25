@@ -33,7 +33,11 @@ if(is_writable("../config.php") == false) {
 
 //We need access to the sql file
 if(is_file("../../db/schema.sql") == false) {
-	$errors[] = "The schema.sql file is missing, please make shure it is placed in ".realpath("../../db/schema.sql");
+	$sdir = realpath("../../db/");
+	if(!$sdir) {
+		$sdir = realpath('.'); //Use the install folder as backup dir when people mess around with the structure
+	}
+	$errors[] = "The schema.sql file is missing, please make sure it is placed in:<br />".$sdir."/schema.sql";
 }
 
 ?>
