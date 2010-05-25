@@ -112,6 +112,14 @@
 </tr>
 
 <tr>
+	<td><label for="tandc">Terms and Conditions</label>:</td>
+	<td>
+		<textarea id="tandc" name="tandc">{$fsite->tandc}</textarea>
+		<div class="hint">Text displayed in the terms and conditions page.</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="apikey">Api Key</label>:</td>
 	<td>
 		<input id="apikey" class="long" name="apikey" type="text" value="{$fsite->apikey}" />

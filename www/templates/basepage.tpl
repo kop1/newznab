@@ -8,6 +8,8 @@
 	<link href="{$smarty.const.WWW_TOP}/style.css" rel="stylesheet" type="text/css" media="screen" />
 	{if $google_adsense_acc == ''}
 <link href="{$smarty.const.WWW_TOP}/style_noadsense.css" rel="stylesheet" type="text/css" media="screen" />
+{else}
+<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
 	{/if}
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/jquery.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
@@ -15,8 +17,6 @@
 	{$customtheme}
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>
 	<script type="text/javascript">var SERVERROOT = "{$serverroot}";</script>
-	<link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="{$smarty.const.WWW_TOP}/rss" rel="alternate" type="application/rss+xml" title="{$site->title} RSS Feed" />
 	{$page->head}
 </head>
 <body {$page->body}>

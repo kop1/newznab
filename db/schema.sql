@@ -8,13 +8,13 @@ CREATE TABLE `binaries` (
 		`xref` VARCHAR(255) NOT NULL DEFAULT '',
 		`totalParts` INT(11) UNSIGNED NOT NULL DEFAULT '0',
 		`groupID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-		procstat INT DEFAULT 0,
-		procattempts INT DEFAULT 0,
-		filename VARCHAR(255) NULL,
-		relpart INT DEFAULT 0,
-		reltotalpart INT DEFAULT 0,
-		relname VARCHAR(255) NULL,
-		releaseID INT NULL,
+		`procstat` INT DEFAULT 0,
+		`procattempts` INT DEFAULT 0,
+		`filename` VARCHAR(255) NULL,
+		`relpart` INT DEFAULT 0,
+		`reltotalpart` INT DEFAULT 0,
+		`relname` VARCHAR(255) NULL,
+		`releaseID` INT NULL,
 		`size` INT NULL DEFAULT 0,
 		PRIMARY KEY  (`ID`),
 		KEY `fromname` (`fromname`),
@@ -38,22 +38,22 @@ CREATE TABLE `releases`
 `size` INT(11) UNSIGNED NOT NULL DEFAULT '0',
 `postdate` DATETIME DEFAULT NULL,
 `adddate` DATETIME DEFAULT NULL,
-guid VARCHAR(50) NOT NULL,
+`guid` VARCHAR(50) NOT NULL,
 `fromname` VARCHAR(255) NULL,
-categoryID INT DEFAULT 0,
-rageID INT NULL,
-seriesfull VARCHAR(15) NULL,
-season VARCHAR(10) NULL,
-episode VARCHAR(10) NULL,
+`categoryID` INT DEFAULT 0,
+`rageID` INT NULL,
+`seriesfull` VARCHAR(15) NULL,
+`season` VARCHAR(10) NULL,
+`episode` VARCHAR(10) NULL,
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
-comments INT not null DEFAULT 0,
+`comments` INT not null DEFAULT 0,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-CREATE INDEX ix_releases_adddate ON releases (adddate);
-CREATE INDEX ix_releases_categoryID ON releases (categoryID);
-CREATE INDEX ix_releases_rageID ON releases (rageID);
+CREATE INDEX ix_releases_adddate ON releases (`adddate`);
+CREATE INDEX ix_releases_categoryID ON releases (`categoryID`);
+CREATE INDEX ix_releases_rageID ON releases (`rageID`);
 
 
 DROP TABLE IF EXISTS `releasecomment`;
@@ -68,8 +68,8 @@ CREATE TABLE `releasecomment`
 PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-CREATE INDEX ix_releasecomment_releaseID ON releasecomment (releaseID);
-CREATE INDEX ix_releasecomment_userID ON releasecomment (userID);
+CREATE INDEX ix_releasecomment_releaseID ON releasecomment (`releaseID`);
+CREATE INDEX ix_releasecomment_userID ON releasecomment (`userID`);
 
 DROP TABLE IF EXISTS `releasenzb`;
 CREATE TABLE `releasenzb` 
@@ -80,7 +80,7 @@ CREATE TABLE `releasenzb`
 PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-CREATE INDEX ix_releasenzb_releaseID ON releasenzb (releaseID);
+CREATE INDEX ix_releasenzb_releaseID ON releasenzb (`releaseID`);
 
 DROP TABLE IF EXISTS `tvrage`;
 CREATE TABLE `tvrage` 
@@ -93,7 +93,7 @@ CREATE TABLE `tvrage`
 PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-CREATE INDEX ix_tvrage_rageID ON tvrage (rageID);
+CREATE INDEX ix_tvrage_rageID ON tvrage (`rageID`);
 
 
 DROP TABLE IF EXISTS `groups`;
@@ -128,10 +128,10 @@ CREATE TABLE `parts` (
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE category
 (
-ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-title VARCHAR(255) NOT NULL,
-parentID INT NULL,
-status INT NOT NULL DEFAULT '1'
+`ID` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+`title` VARCHAR(255) NOT NULL,
+`parentID` INT NULL,
+`status` INT NOT NULL DEFAULT '1'
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 INSERT INTO category (ID, title) VALUES (1, 'Console');
@@ -198,16 +198,16 @@ CREATE unique INDEX ix_usercart_userrelease ON usercart (userID, releaseID);
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE content
 (
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-title VARCHAR(255) NOT NULL,
-url VARCHAR(2000) NULL,
+`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+`title` VARCHAR(255) NOT NULL,
+`url` VARCHAR(2000) NULL,
 `body` TEXT NULL,
-metadescription VARCHAR(1000) NOT NULL,
-metakeywords VARCHAR(1000) NOT NULL,
-contenttype INT NOT NULL,
-showinmenu INT NOT NULL,
+`metadescription` VARCHAR(1000) NOT NULL,
+`metakeywords` VARCHAR(1000) NOT NULL,
+`contenttype` INT NOT NULL,
+`showinmenu` INT NOT NULL,
 `status` INT NOT NULL,
-ordinal INT NULL
+`ordinal` INT NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 INSERT INTO content (title, body, contenttype, STATUS, metadescription, metakeywords, showinmenu)
@@ -221,24 +221,25 @@ VALUES ('another example', '/another/great/seo/content/page/', '<p>this is anoth
 
 DROP TABLE IF EXISTS `site`;
 CREATE TABLE site (
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+`id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 `code` VARCHAR(255) NOT NULL,
-title VARCHAR(1000) NOT NULL,
-strapline VARCHAR(1000) NOT NULL,
-metatitle VARCHAR(1000) NOT NULL,
-metadescription VARCHAR(1000) NOT NULL,
-metakeywords VARCHAR(1000) NOT NULL,
-footer VARCHAR(2000) NOT NULL,
-email VARCHAR(1000) NOT NULL,
-groupfilter VARCHAR(2000) NOT NULL,
-lastupdate DATETIME NOT NULL,
-google_adsense_menu VARCHAR(255) NULL,
-google_adsense_search VARCHAR(255) NULL,
-google_adsense_sidepanel VARCHAR(255) NULL,
-google_analytics_acc VARCHAR(255) NULL,
-apikey VARCHAR(50) NOT NULL,
-siteseed VARCHAR(50) NOT NULL,
-sabintegration INT NOT NULL DEFAULT 0
+`title` VARCHAR(1000) NOT NULL,
+`strapline` VARCHAR(1000) NOT NULL,
+`metatitle` VARCHAR(1000) NOT NULL,
+`metadescription` VARCHAR(1000) NOT NULL,
+`metakeywords` VARCHAR(1000) NOT NULL,
+`footer` VARCHAR(2000) NOT NULL,
+`email` VARCHAR(1000) NOT NULL,
+`groupfilter` VARCHAR(2000) NOT NULL,
+`lastupdate` DATETIME NOT NULL,
+`google_adsense_menu` VARCHAR(255) NULL,
+`google_adsense_search` VARCHAR(255) NULL,
+`google_adsense_sidepanel` VARCHAR(255) NULL,
+`google_analytics_acc` VARCHAR(255) NULL,
+`apikey` VARCHAR(50) NOT NULL,
+`siteseed` VARCHAR(50) NOT NULL,
+`sabintegration` INT NOT NULL DEFAULT 0,
+`tandc` VARCHAR(5000) NOT NULL,
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
@@ -260,7 +261,8 @@ INSERT INTO `site`
 	`google_analytics_acc`,
 	apikey,
 	siteseed,
-	sabintegration
+	sabintegration,
+	`tandc`,
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
@@ -268,7 +270,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 
 	'info@newznab.com', 
 	'alt.binaries.teevee', 
-	NOW(), null, null, null, NULL, md5(UUID()), md5(md5(UUID())), 0);
+	NOW(), null, null, null, NULL, md5(UUID()), md5(md5(UUID())), 0, '<p>Your terms and conditions...</p>');
 
 
 
@@ -588,7 +590,6 @@ INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddat
 (313, 24868, 'My Dream Farm ', NULL, '2010-05-17 19:38:36'),
 (314, 25063, 'Newswipe With Charlie Brooker ', NULL, '2010-05-17 19:39:25'),
 (315, 4696, 'Numb3rs ', NULL, '2010-05-17 19:39:25'),
-(316, -4, 'National Geographic Britains Greatest Machines ', NULL, '2010-05-17 19:40:49'),
 (317, 4554, 'Murder She Wrote ', NULL, '2010-05-17 19:40:50'),
 (318, 25063, 'Newswipe ', NULL, '2010-05-17 19:41:09'),
 (319, 19920, 'New Zealands Hottest Home Baker ', NULL, '2010-05-17 19:41:09'),
@@ -740,7 +741,6 @@ INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddat
 (465, 6157, 'The Saddle Club ', NULL, '2010-05-17 20:24:45'),
 (466, 17521, 'The Peter Serafinowicz Show ', NULL, '2010-05-17 20:24:46'),
 (467, 24803, 'The Ricky Gervais Show ', NULL, '2010-05-17 20:24:55'),
-(468, -4, 'The SPINdustry ', NULL, '2010-05-17 20:24:55'),
 (469, 6080, 'The Patty Duke Show ', NULL, '2010-05-17 20:25:04'),
 (470, 15237, 'The Spectacular Spider Man ', NULL, '2010-05-17 20:25:04'),
 (471, 25013, 'Tower Block Of Commons ', NULL, '2010-05-17 20:25:27'),
@@ -751,7 +751,6 @@ INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddat
 (476, 20667, 'Toddlers and Tiaras ', NULL, '2010-05-17 20:26:16'),
 (477, 22792, 'The Wanda Sykes Show ', NULL, '2010-05-17 20:26:26'),
 (478, 24940, 'The Virtual Revolution ', NULL, '2010-05-17 20:26:27'),
-(479, -4, 'The TV Book Club ', NULL, '2010-05-17 20:27:40'),
 (480, 22690, 'Tosh 0 ', NULL, '2010-05-17 20:27:41'),
 (481, 6290, 'The White Room ', NULL, '2010-05-17 20:28:20'),
 (482, 5653, 'The Zoo NZ ', NULL, '2010-05-17 20:28:21'),
@@ -813,7 +812,6 @@ INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddat
 (538, 5694, 'The Contender Australia ', NULL, '2010-05-17 20:46:20'),
 (539, 14662, 'All Star Family Fortunes ', NULL, '2010-05-17 20:47:15'),
 (540, 18035, 'Kill It Cook It Eat It ', NULL, '2010-05-17 20:47:16'),
-(541, -4, 'Jinx ', NULL, '2010-05-17 20:47:24'),
 (542, 4605, 'Mythbusters ', NULL, '2010-05-17 20:47:25'),
 (642, 19805, 'Wogans Perfect Recall ', NULL, '2010-05-17 21:18:49'),
 (544, 24810, 'Conveyor Belt of Love ', NULL, '2010-05-17 20:49:10'),
