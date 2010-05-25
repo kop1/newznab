@@ -1,4 +1,4 @@
-﻿
+
 DROP TABLE IF EXISTS `binaries`;
 CREATE TABLE `binaries` (
 		`ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -46,7 +46,7 @@ CREATE TABLE `releases`
 `season` VARCHAR(10) NULL,
 `episode` VARCHAR(10) NULL,
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
-`comments` INT not null DEFAULT 0,
+`comments` INT NOT NULL DEFAULT 0,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
@@ -76,7 +76,7 @@ CREATE TABLE `releasenzb`
 (
 `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 `releaseID` INT(11) UNSIGNED NOT NULL,
-`nzb` mediumtext NULL ,
+`nzb` MEDIUMTEXT NULL ,
 PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
@@ -111,7 +111,7 @@ CREATE TABLE `groups` (
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_groups_categoryID ON groups (categoryID);
-ALTER TABLE groups ADD UNIQUE (name);
+ALTER TABLE groups ADD UNIQUE (NAME);
 
 DROP TABLE IF EXISTS `parts`;
 CREATE TABLE `parts` (
@@ -178,10 +178,10 @@ CREATE TABLE `users` (
   `role` INT NOT NULL DEFAULT 1,
   `host` VARCHAR(15) NULL,
   `grabs` INT NOT NULL DEFAULT 0,
-  `rsstoken` varchar(32) not null,
+  `rsstoken` VARCHAR(32) NOT NULL,
   `createddate` DATETIME NOT NULL,
-  `sabapikey` varchar(32) null,
-  `sabhost` varchar(255) null,
+  `sabapikey` VARCHAR(32) NULL,
+  `sabhost` VARCHAR(255) NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
@@ -193,7 +193,7 @@ CREATE TABLE `usercart` (
   `createddate` DATETIME NOT NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
-CREATE unique INDEX ix_usercart_userrelease ON usercart (userID, releaseID);
+CREATE UNIQUE INDEX ix_usercart_userrelease ON usercart (userID, releaseID);
 
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE content
@@ -239,7 +239,7 @@ CREATE TABLE site (
 `apikey` VARCHAR(50) NOT NULL,
 `siteseed` VARCHAR(50) NOT NULL,
 `sabintegration` INT NOT NULL DEFAULT 0,
-`tandc` VARCHAR(5000) NOT NULL,
+`tandc` VARCHAR(5000) NOT NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
@@ -270,7 +270,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 
 	'info@newznab.com', 
 	'alt.binaries.teevee', 
-	NOW(), null, null, null, NULL, md5(UUID()), md5(md5(UUID())), 0, '<p>Your terms and conditions...</p>');
+	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), MD5(MD5(UUID())), 0, '<p>Your terms and conditions...</p>');
 
 
 
