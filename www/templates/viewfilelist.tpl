@@ -17,8 +17,8 @@
 	{foreach item=i name=iteration from=$binaries item=binary}
 	<tr class="{cycle values=",alt"}">
 		<td width="20" title="Original Part ({$binary.relpart}/{$binary.reltotalpart})">{$smarty.foreach.iteration.index+1}</td>
-		<td width="20"><input name="fileID_{$binary.ID}" id="fileID_{$binary.ID}" value="{$binary.ID}" type="checkbox"/></td>
-		<td title="{$binary.name|escape:'htmlall'}">{$binary.filename}</td>
+		<td width="20" class="selection"><input name="fileID_{$binary.ID}" id="fileID_{$binary.ID}" value="{$binary.ID}" type="checkbox"/></td>
+		<td title="{$binary.name|escape:'htmlall'}"><a href="#" class="data_filename">{$binary.filename}</a></td>
 		<td class="less">{$binary.size|fsize_format:"MB"}</td>
 		<td class="less" title="{$binary.date}">{$binary.date|date_format}</td>
 	</tr>
@@ -26,6 +26,14 @@
 
 </table>	
 </form>
+
+<div class="checkbox_operations">
+	Selection:
+	<a href="#" class="select_all">All</a>
+	<a href="#" class="select_none">None</a>
+	<a href="#" class="select_invert">Invert</a>
+	<a href="#" class="select_range">Range</a>
+</div>
 
 <div style="padding-top:20px;">
 	<a href="#" id="viewfilelist_download_selected" title="Download selected files as a partial Nzb">Download selected</a>

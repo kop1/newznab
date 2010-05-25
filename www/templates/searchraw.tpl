@@ -23,9 +23,9 @@
 
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}">
-			<td><input name="file{$result.ID}" id="file{$result.ID}" value="{$result.ID}" type="checkbox"/></td>
+			<td class="selection"><input name="file{$result.ID}" id="file{$result.ID}" value="{$result.ID}" type="checkbox"/></td>
 			<td>
-				<a title="{$result.name|escape:"htmlall"}" style="cursor:default;">{if $result.filename != ""}{$result.filename|escape:"htmlall"}{else}{$result.name|escape:"htmlall"}{/if}</a>
+				<a href="#" class="data_filename" title="{$result.name|escape:"htmlall"}">{if $result.filename != ""}{$result.filename|escape:"htmlall"}{else}{$result.name|escape:"htmlall"}{/if}</a>
 			</td>
 			<td class="less">{$result.group_name|replace:"alt.binaries":"a.b"}</td>
 			<td class="less" title="{$result.date}">{$result.date|date_format}</td>
@@ -36,6 +36,14 @@
 	
 </table>
 </form>
+
+<div class="checkbox_operations">
+	Selection:
+	<a href="#" class="select_all">All</a>
+	<a href="#" class="select_none">None</a>
+	<a href="#" class="select_invert">Invert</a>
+	<a href="#" class="select_range">Range</a>
+</div>
 
 <div style="padding-top:20px;">
 	<a href="#" id="searchraw_download_selected">Download selected as Nzb</a>
