@@ -14,8 +14,9 @@
 	</div>
 	
 	<div id="menusearchlink">
+	<form id="headsearch_form">
 		<label style="display:none;" for="headsearch">Search Text</label>
-		<input id="headsearch" name="headsearch" onkeypress="headersubmitenter(this,event);" value="Enter keywords" onfocus="if(this.value == 'Enter keywords') this.value = ''" style="width:85px;" type="text" /> 
+		<input id="headsearch" name="headsearch" value="Enter keywords" style="width:85px;" type="text" /> 
 		<label style="display:none;" for="headcat">Search Category</label>
 		<select id="headcat" name="headcat">
 			<optgroup label="All">
@@ -29,6 +30,7 @@
 			</optgroup>
 		{/foreach}
 		</select>
-		<input onclick="headersearch();" type="submit" value="Go"/>
+		<input id="headsearch_go" type="submit" value="Go"/>
+	</form>
 	</div>
 </div>

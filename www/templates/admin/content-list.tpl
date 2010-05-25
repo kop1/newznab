@@ -46,7 +46,7 @@
 			{/if}
 		</td>
 		<td title="{$content->body|escape:'htmlall'}">{$content->body|truncate:100|escape:'htmlall'}</td>
-		<td><a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/content-delete.php?id={$content->id}">delete</a></td>
+		<td><a class="confirm_action" href="{$smarty.const.WWW_TOP}/content-delete.php?id={$content->id}">delete</a></td>
 	</tr>
 	{/foreach}
 

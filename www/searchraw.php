@@ -14,7 +14,6 @@ if (!$users->isLoggedIn())
 
 $binaries = new Binaries;
 
-$page->addToBody("onload=\"setFocus('search');\"");
 $page->meta_title = "Search Binaries";
 $page->meta_keywords = "search,binaries,binsearch,nzb,description,details";
 $page->meta_description = "Search for Binaries";

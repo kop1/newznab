@@ -21,8 +21,8 @@
 				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="resextra">
 					<a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}">[Nzb]</a>
-					<a title="Add to Cart" onclick="addToCart(this, '{$result.guid}'); return false;" href="#">[Cart]</a>
-					{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}<a title="Send to my Sabnzbd" onclick="sendToSab(this, '{$userdata.sabhost|escape:"htmlall"}', '{$userdata.sabapikey|escape:"htmlall"}', '{$result.guid}', '{$userdata.ID}', '{$userdata.rsstoken}'); return false;" href="#">[Sab]</a>{/if}
+					<a href="#" class="add_to_cart" id="{$result.guid}" title="Add to Cart">[Cart]</a>
+					{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}<a href="#" class="add_to_sab" id="{$result.guid}" title="Send to my Sabnzbd">[Sab]</a>{/if}
 					{if $result.rageID > 0}[<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">Tv Rage {$result.seriesfull}</a>]{/if}
 				</div>
 			</td>
@@ -36,6 +36,11 @@
 	
 </table>
 {/if}
+
+<input type="hidden" id="cred-host" value="{$userdata.sabhost|escape:"htmlall"}" />
+<input type="hidden" id="cred-key" value="{$userdata.sabapikey|escape:"htmlall"}" />
+<input type="hidden" id="cred-uid" value="{$userdata.ID}" />
+<input type="hidden" id="cred-rsstoken" value="{$userdata.rsstoken}" />
 
 <br/>
 {$pager}

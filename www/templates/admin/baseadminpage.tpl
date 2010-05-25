@@ -7,13 +7,14 @@
 	<title>{$page->meta_title}</title>
 	<link href="../style.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="../admin/style.css" rel="stylesheet" type="text/css" media="screen" />
+	<script type="text/javascript" src="../includes/jquery.js"></script>
 	<script type="text/javascript" src="../includes/functions_sorttable.js"></script>
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}/..";</script>
 	{$page->head}
 </head>
 <body>
 
-	<div id="logo" onclick="document.location='/';" style="cursor: pointer;">
+	<div id="logo" style="cursor: pointer;">
 		<h1><a href="/"></a></h1>
 		<p><em></em></p>
 	</div>

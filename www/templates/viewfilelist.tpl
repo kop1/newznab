@@ -28,14 +28,5 @@
 </form>
 
 <div style="padding-top:20px;">
-	<a onclick="download();return false;" title="Download selected files as a partial Nzb" href="">Download selected</a>
+	<a href="#" id="viewfilelist_download_selected" title="Download selected files as a partial Nzb">Download selected</a>
 </div>
-
-{literal}
-<script type="text/javascript">
-function download()
-{
-	document.getElementById("fileform").submit();
-}
-</script>
-{/literal}

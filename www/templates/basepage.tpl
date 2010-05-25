@@ -9,7 +9,8 @@
 	{if $google_adsense_acc == ''}
 <link href="{$smarty.const.WWW_TOP}/style_noadsense.css" rel="stylesheet" type="text/css" media="screen" />
 	{/if}
-<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/jquery.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
 	{$customtheme}
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>

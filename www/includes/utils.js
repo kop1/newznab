@@ -1,143 +1,85 @@
-function gotoUrl(url)
-{
-	window.location = url;
-}
 
-function setFocus(id)
-{
-	var v = document.getElementById(id);
-	if (v != null)
-		v.focus();
-}
+// event bindings
+jQuery(function($){
 
-function encodeUrl(allURLs)
-{
-	allURLs = encodeURIComponent(allURLs).replace(/!/g, '%21').replace(/'/g, '%27').replace(/\(/g, '%28').  replace(/\)/g, '%29').replace(/\*/g, '%2A'); 
-	allURLs = allURLs.replace(/%0A/g, '\n')
-	return allURLs;
-}
-
-function submitenter(myfield,e)
-{
-	var keycode;
-	if (window.event) keycode = window.event.keyCode;
-	else if (e) keycode = e.which;
-	else return true;
-
-	if (keycode == 13)
-	{
-		myfield.form.submit();
+	// browse.tpl, search.tpl
+	$('.add_to_cart').click(function(e){
+		if ($(this).text()=="[Added to Cart]") return false; // already added
+		$.post( SERVERROOT + "cart.php?add=" + $(this).attr('id'), function(resp){
+			$(e.target).text('[Added to Cart]').attr('title','added to cart');
+		});
 		return false;
-	}
-	else
-		return true;
-}
+	});
+	$('.add_to_sab').click(function(e){ // replace with cookies?
+		if ($(this).text()=="[Sent to Sab]") return false; // already added
 
-function headersubmitenter(myfield,e)
-{
-	var keycode;
-	if (window.event) keycode = window.event.keyCode;
-	else if (e) keycode = e.which;
-	else return true;
+		var fullsaburl = $('#cred-host').val() + "api/?mode=addurl&priority=1&apikey=" + $('#cred-key').val();
+		var nzburl = SERVERROOT + "download/sab/nzb/" + $(this).attr('id') + "&i=" + $('#cred-uid').val() + "&r=" + $('#cred-rsstoken').val();
 
-	if (keycode == 13)
-	{
-		headersearch();
+		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
+			$(e.target).text('[Sent to Sab]').attr('title','added to queue');
+		});
 		return false;
-	}
-	else
-		return true;
-}
+	});
 
-function headersearch()
-{
-	var v = document.getElementById("headsearch");
-	var vs = document.getElementById("headcat");
-	if (v != null && v.value != 'Enter keywords' && vs != null)
-	{
-		var cat = "";
-		if (vs.options[vs.selectedIndex].value != "-1")
-			cat = "&t=" + vs.options[vs.selectedIndex].value;
-		
-		document.location= WWW_TOP + "/search/" + encodeUrl(v.value) + cat;
-	}
-}
+	// headermenu.tpl
+	$('#headsearch')
+		.focus(function(){if(this.value == 'Enter keywords') this.value = '';})
+		.blur (function(){if(this.value == '') this.value = 'Enter keywords';});
+	$('#headsearch_form').submit(function(){
+		$('headsearch_go').trigger('click');
+		return false;
+	});
+	$('#headsearch_go').click(function(){
+		if ($('#headsearch').val() && $('#headsearch').val() != 'Enter keywords')
+			document.location= WWW_TOP + "/search/" + $.URLEncode($('#headsearch').val()) + ($("#headcat").val()!=-1 ? "&t="+$("#headcat").val() : "");
+	});
 
-//
-// Do ajax call to send nzb url to sab api.
-//
-function sendToSab(el, host, key, nzb, uid, rsstoken)
-{
-	var fullsaburl = host + "api/?mode=addurl&priority=1&apikey=" + key;
-	var nzburl = SERVERROOT + "download/sab/nzb/" + nzb + "&i=" + uid + "&r=" + rsstoken;
-  xmlhttp=GetXmlHttpObject();
-  if (xmlhttp==null)
-  {
-          alert ("Browser does not support HTTP Request");
-          return;
-  }
-	
-	var url=fullsaburl + "&rand=" + Math.floor(Math.random()*100000) + "&name=" + escape(nzburl) ;
-	xmlhttp.onreadystatechange=function(){ jsStateChanged( 1, el ); };
-	xmlhttp.open("POST",url,true);
-	xmlhttp.send(null);
-}
+	// login.tpl, register.tpl, search.tpl, searchraw.tpl
+	if ($('#username').length)
+		$('#username').focus();
+	if ($('#search').length)
+		$('#search').focus();
 
-//
-// Do ajax call to send nzb url to sab api.
-//
-function addToCart(el, nzb)
-{
-	var url = SERVERROOT + "cart.php?add=" + nzb + "&rand=" + Math.floor(Math.random()*100000);
-  xmlhttp=GetXmlHttpObject();
-  if (xmlhttp==null)
-  {
-          alert ("Browser does not support HTTP Request");
-          return;
-  }
+	// search.tpl
+	$('#search_search_button').click(function(){
+		if ($('#search').val())
+			document.location=WWW_TOP + "/search/" + $.URLEncode($('#search').val());
+		return false;
+	});
 
-	xmlhttp.onreadystatechange=function(){ jsStateChanged( 2, el ); };
-	xmlhttp.open("POST",url,true);
-	xmlhttp.send(null);
-}
+	// searchraw.tpl
+	$('#searchraw_search_button').click(function(){
+		if ($('#search').val())
+			document.location=WWW_TOP + "/searchraw/" + $.URLEncode($('#search').val());
+		return false;
+	});
+	$('#searchraw_download_selected').click(function(){
+		if ($('#dl input:checked').length)
+			$('#dl').trigger('submit');
+		return false;
+	});
 
-function jsStateChanged(ty, el)
-{
-	if (ty == 1)
-	{
-	  if (xmlhttp.readyState==4)
-	  {
-	  	el.innerText = "[Sent to Sab]";
-	    el.title = "added to queue";
-	    el.onclick = "return false;";
-	    el.href = "#";
-	  }
-	}
-	if (ty == 2)
-	{
-	  if (xmlhttp.readyState==4)
-	  {
-	  	el.innerText = "[Added to Cart]";
-	    el.title = "added to cart";
-	    el.onclick = "return false;";
-	    el.href = "#";
-	  }
-	}
-}
+	// viewfilelist.tpl
+	$('#viewfilelist_download_selected').click(function(){
+		if ($('#fileform input:checked').length)
+			$('#fileform').trigger('submit');
+		return false;
+	});
+
+	// misc
+	$('.confirm_action').click(function(){ return confirm('Are you sure?'); });
+
+});
 
 
-function GetXmlHttpObject()
-{
-	if (window.XMLHttpRequest)
-  {
-	  // code for IE7+, Firefox, Chrome, Opera, Safari
-  	return new XMLHttpRequest();
-  }
-	if (window.ActiveXObject)
-  {
-  	// code for IE6, IE5
-	  return new ActiveXObject("Microsoft.XMLHTTP");
-  }
-	return null;
-}
-
+$.extend({ // http://plugins.jquery.com/project/URLEncode
+URLEncode:function(c){var o='';var x=0;c=c.toString();var r=/(^[a-zA-Z0-9_.]*)/;
+  while(x<c.length){var m=r.exec(c.substr(x));
+    if(m!=null && m.length>1 && m[1]!=''){o+=m[1];x+=m[1].length;
+    }else{if(c[x]==' ')o+='+';else{var d=c.charCodeAt(x);var h=d.toString(16);
+    o+='%'+(h.length<2?'0':'')+h.toUpperCase();}x++;}}return o;},
+URLDecode:function(s){var o=s;var binVal,t;var r=/(%[^%]{2})/;
+  while((m=r.exec(o))!=null && m.length>1 && m[1]!=''){b=parseInt(m[1].substr(1),16);
+  t=String.fromCharCode(b);o=o.replace(m[1],t);}return o;}
+});
