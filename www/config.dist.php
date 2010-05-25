@@ -25,9 +25,4 @@ define('GOOGLE_ADSENSE_ACC', '');
 define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
 define('SMARTY_DIR', WWW_DIR.'lib/smarty/');
 
-$www_top = str_replace("\\","/",dirname( $_SERVER['PHP_SELF'] ));
-if(strlen($www_top) == 1)
-	$www_top = "";
-
-define('WWW_TOP', $www_top);
-?>
+require("automated.config.php");
