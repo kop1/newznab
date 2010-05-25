@@ -37,7 +37,7 @@
 					</li>
 					<li>
 						My cart feed<br/>
-						<a href="{$smarty.const.WWW_TOP}/rss?t=-2&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss/?t=0&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
+						<a href="{$smarty.const.WWW_TOP}/rss?t=-2&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss/?t=-2&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
 					</li>
 					{foreach from=$categorylist item=category}
 						<li>

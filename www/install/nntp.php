@@ -2,10 +2,18 @@
 
 include('Net/NNTP/Client.php');
 
-//Try to save config and import data
-if($_GET['do'] == 'run') {
+$port = "";
+$user = "";
+$host = "";
+$pass = "";
+$failed = 0;
+$error = "";
 
-	$failed = 0;
+
+//Try to save config and import data
+if(isset($_GET['do']) && $_GET['do'] == 'run') {
+
+	
 	$host = $_POST['host'];
 	$user = $_POST['user'];
 	$pass = $_POST['pass'];
@@ -60,25 +68,33 @@ if(is_numeric($port) == false) {
 include('header.html');
 ?>
 	<h1>News server setup</h1>
-	<p>We need some information about your News server(NNTP), please provide the following information</p>
+	<p>We need some information about your News server (NNTP), please provide the following information:</p>
 	<form action="nntp.php?do=run" method="post">
 		<table>
 			<tr>
-				<th>Server:</th>
-				<td><input type="text" name="host" value="<?=$host?>" /></td>
+				<th><label for="host">Server</label>:</th>
+				<?php
+				echo "<td><input id=\"host\" type=\"text\" name=\"host\" value=\"".$host."\" /></td>";
+				?>
 			</tr>
 			<tr>
-				<th>Username:</th>
-				<td><input type="text" name="user" value="<?=$user?>" /></td>
+				<th><label for="username">Username</label>:</th>
+				<?php
+				echo "<td><input id=\"username\" type=\"text\" name=\"user\" value=\"".$user."\" /></td>";
+				?>
 			</tr>
-                        <tr>
-                                <th>Password:</th>
-                                <td><input type="password" name="pass" value="<?=$pass?>" /></td>
-                        </tr>
-                        <tr>
-                                <th>Port:</th>
-                                <td><input type="text" name="port" value="<?=$port?>" /></td>
-                        </tr>
+			<tr>
+				<th><label for="pass">Password</label>:</th>
+				<?php
+				echo "<td><input id=\"pass\" type=\"text\" name=\"pass\" value=\"".$pass."\" /></td>";
+				?>
+			</tr>
+			<tr>
+				<th><label for="port">Port</label>:</th>
+				<?php
+				echo "<td><input id=\"port\" type=\"text\" name=\"port\" value=\"".$port."\" /></td>";
+				?>
+			</tr>
 			<tr> 
 				<td colspan="2">
 					<div align="center">

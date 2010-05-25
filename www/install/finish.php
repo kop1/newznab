@@ -12,7 +12,7 @@ if (PHP_INT_MAX == $results) {
 } 
 
 ?>
-        <h1>Finish up</h1>
+    <h1>Finish up</h1>
 	<p>The installation is now finished. Please remove your /install folder and click below to go to your newly installed site.
 	<br /><br />
 	Hint: rm -rf <?=realpath('.')?></p>
@@ -20,9 +20,9 @@ if (PHP_INT_MAX == $results) {
 	<br /><br />
 	<?php if($nntpError == 1) { ?>
 		<div class="error">
-			Ugh!<br />
-			We have detected a bug in your NNTP-version.<br />
-			run the following command:  <b>pear list-files NET_NNTP</b><br />
+			Warning!<br />
+			We have detected a bug in your NNTP-version handling large numbers used by some newsgroups.<br />
+			Run the following command:  <b>pear list-files NET_NNTP</b><br />
 			This will give you the location of the NNTP installation<br />
 			<br />
 			locate the following file under /Net/NNTP/Protocol/Client.php	
@@ -48,7 +48,7 @@ if (PHP_INT_MAX == $results) {
 
 	<form action="../" method="GET">
 		<div align="center">
-        		<input type="submit" value="Take me to the frontpage" />
+        		<input type="submit" value="Take me to the homepage" />
 	       </div>
 	</form>
 
