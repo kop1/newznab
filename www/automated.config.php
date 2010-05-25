@@ -12,3 +12,11 @@ if(strlen($www_top) == 1)
 
 define('WWW_TOP', $www_top);
 
+//=========================
+// Make sure install folder is removed
+//=========================
+if(INSTALL_CHECK == true) {
+	if(is_dir('install')) {
+		die("Please remove the install folder for increased security<br />Hint: rm -r ".realpath('install'));
+	}
+}

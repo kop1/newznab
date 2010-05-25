@@ -17,7 +17,7 @@ define('NNTP_PORT', '119');
 
 define('GOOGLE_ADSENSE_ACC', '');
 
-
+define('INSTALL_CHECK', false);
 
 //=========================
 // Config you can leave alone
