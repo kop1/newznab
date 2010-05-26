@@ -20,6 +20,7 @@ select, textarea, input {background-color:#AAA; font-family:verdana;}
 
 /* menu bar background colours*/
 #menulink a, #menulink :visited, #menulink li, #menu {background-color:#555;}
+#menulink :hover, #menulink a.selected { background-color: #000; }
 
 /* override almost every element in the sites font and color*/
 #sidebar li li a:hover, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a {font-family:verdana; color:#88B541;}
