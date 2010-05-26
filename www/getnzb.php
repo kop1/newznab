@@ -45,7 +45,7 @@ if (isset($_GET["id"]))
 	$nzbdata = $nzb->getNZBforRelease($_GET["id"]);
 	$page->smarty->assign('binaries',$nzbdata);
 
-	header("Content-type: application/xml");
+	header("Content-type: application/x-nzb");
 	header("X-DNZB-Name: ".$reldata["searchname"]);
 	header("X-DNZB-Category: ".$reldata["category_name"]);
 	header("X-DNZB-MoreInfo: "); //TODO:
