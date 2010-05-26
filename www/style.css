@@ -78,8 +78,8 @@ page structure
 misc site style such as data tables, 
 */
 table.data { border-collapse:collapse; border-spacing:0px; border-color: #AAA; border-width: 0 0 1px 1px; border-style: solid; }
-table.data td { vertical-align:top; padding:5px; border-color: #AAA; border-width: 1px 1px 0 0; border-style: solid;}
-table.data td.less { color: #888; font-size: 0.8em; }
+table.data td { vertical-align:top; padding:5px; border-color: #AAA; border-width: 1px 1px 0 0; border-style: solid; }
+table.data td.less { color: #888; font-size: 0.8em; white-space:nowrap; }
 table.data th { text-align:left; vertical-align:top; background-color:#DDD; border-color: #AAA; border-width: 1px 1px 0 0; border-style: solid; padding:3px; font-style:bolder; text-transform:capitalize;}
 table.highlight tr:hover td { background-color: #E1F0D9; }
 table tr.alt { background-color: #EEE; }
@@ -91,7 +91,7 @@ input.short { width:40px; }
 
 
 div.reshover { display:none; float:right; }
-div.resextra { color: #888; font-size: 0.8em; }
+div.resextra { color: #888; font-size: 0.8em; height:16px; }
 div.resextra a { color: #888; text-decoration:none; }
 
 div.error { padding:20px; border:1px solid #FF2A2A; background-color:#FFD4FF; font-size:1.2em; margin-bottom:10px;}
