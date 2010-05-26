@@ -1,4 +1,4 @@
-
+﻿
 DROP TABLE IF EXISTS `binaries`;
 CREATE TABLE `binaries` (
 		`ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -241,7 +241,7 @@ CREATE TABLE site (
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
-INSERT INTO `site` 
+INSERT INTO `site`
 	(`id`, 
 	`code`, 
 	`title`, 
@@ -260,15 +260,15 @@ INSERT INTO `site`
 	apikey,
 	siteseed,
 	`tandc`,
-	registerstatus
+	`registerstatus`
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
 	'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 
-	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 
+	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
-	'alt.binaries.teevee', 
-	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), MD5(MD5(UUID())), 0, '<p>Your terms and conditions...</p>',0);
+	'alt.binaries.teevee',
+	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), MD5(MD5(UUID())), '<p>Your terms and conditions...</p>',0);
 
 
 
