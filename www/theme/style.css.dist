@@ -1,1 +1,25 @@
-<!-- your style overrides here -->
+
+/* example site specific theme*/
+
+/* make all main site containers black baground and remove the fader image at the top*/
+.footer, body, #sidebar , #content { background-color:#000;}
+body { background: #000 url() repeat-x left top;}
+
+/* remove the pictures top bottom and side, and just display site name in h1*/
+#logo h1 {display:inline;}
+.w3validator, .menupic, #logo img {display:none;}
+
+/* override table styles, alt rows, headings etc*/
+table tr.alt { background-color: #333; }
+table.highlight tr:hover td { background-color: #444; }
+table.data th { background-color:#555; border-color: #777;}
+table.data td, table.data { border-color: #777;}
+
+/* backgrounds to input boxes need special case in this high contrast stylesheet*/
+select, textarea, input {background-color:#AAA; font-family:verdana;}
+
+/* menu bar background colours*/
+#menulink a, #menulink :visited, #menulink li, #menu {background-color:#555;}
+
+/* override almost every element in the sites font and color*/
+#sidebar li li a:hover, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a {font-family:verdana; color:#88B541;}

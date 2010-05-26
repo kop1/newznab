@@ -162,8 +162,8 @@
 		</div>
 		<!-- end #sidebar -->
 	
-		<div style="clear: both;text-align:right;padding-bottom:10px;">
-			<a href="http://validator.w3.org/check?uri=referer">
+		<div  style="clear: both;text-align:right;padding-bottom:10px;">
+			<a class="w3validator" href="http://validator.w3.org/check?uri=referer">
 			<img src="{$smarty.const.WWW_TOP}/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
 			</a>
 		</div>
