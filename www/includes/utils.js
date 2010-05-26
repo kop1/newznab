@@ -4,8 +4,8 @@ jQuery(function($){
 
 	// browse.tpl, search.tpl -- show icons on hover
 	$('table.data tr').hover(
-		function(){	$(this).children('td').children('.resextra').show(); },
-		function(){	$(this).children('td').children('.resextra').hide(); }
+		function(){	$(this).children('td').children('.reshover').show(); },
+		function(){	$(this).children('td').children('.reshover').hide(); }
 	);
 
 	// browse.tpl, search.tpl
