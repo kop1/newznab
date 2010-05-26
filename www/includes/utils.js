@@ -19,7 +19,7 @@ jQuery(function($){
 	$('.add_to_sab').click(function(e){ // replace with cookies?
 		if ($(this).hasClass('icon_sab_clicked')) return false;
 
-		var fullsaburl = $.cookie('sabnzbd_host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_apikey');
+		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
 		var nzburl = SERVERROOT + "download/sab/nzb/" + $(this).attr('id') + "&i=" + UID + "&r=" + RSSTOKEN;
 
 		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
@@ -122,24 +122,24 @@ jQuery(function($){
 
 
 	// SABnzbd integration
-	if ($.cookie('sabnzbd_host')) {
+	if ($.cookie('sabnzbd_'+UID+'__host')) {
 		$('table.data .icon_sab, .sabnzbd_required').show();	// sab icons hidden by default
 		
 		// set profile.tpl credentials into profile on page load
 		if ($('#profile_sab_host').val()) {
-			$('#profile_sab_apikey').val($.cookie('sabnzbd_apikey'));
-			$('#profile_sab_host').val($.cookie('sabnzbd_host'));
+			$('#profile_sab_apikey').val($.cookie('sabnzbd_'+UID+'__apikey'));
+			$('#profile_sab_host').val($.cookie('sabnzbd_'+UID+'__host'));
 		}
 	}
 	// profile.tpl
 	$('#profile_sab_save').click(function(){	// store sabnzbd info to cookie
-		$.cookie('sabnzbd_apikey', $('#profile_sab_apikey').val(), { expires: 365 });
-		$.cookie('sabnzbd_host', $('#profile_sab_host').val(), { expires: 365 });
+		$.cookie('sabnzbd_'+UID+'__apikey', $('#profile_sab_apikey').val(), { expires: 365 });
+		$.cookie('sabnzbd_'+UID+'__host', $('#profile_sab_host').val(), { expires: 365 });
 		$(this).next('.icon').addClass('icon_check'); // save status notification
 	});
 	$('#profile_sab_clear').click(function(){	// store sabnzbd info to cookie
-		$.cookie('sabnzbd_apikey', null);
-		$.cookie('sabnzbd_host', null);
+		$.cookie('sabnzbd_'+UID+'__apikey', null);
+		$.cookie('sabnzbd_'+UID+'__host', null);
 		$('#profile_sab_apikey, #profile_sab_host').val('');
 		$('#profile_sab_save').next('.icon').removeClass('icon_check'); // save status notification
 	});
