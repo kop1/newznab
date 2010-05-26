@@ -22,10 +22,15 @@ class Site
 	public $apikey = '';	
 	public $siteseed = '';
 	public $tandc = '';
+	public $registerstatus = '';
 }
 
 class Sites
 {	
+	const REGISTER_STATUS_OPEN = 0;
+	const REGISTER_STATUS_INVITE = 1;
+	const REGISTER_STATUS_CLOSED = 2;
+
 	public function update($form)
 	{		
 		$site = $this->row2Object($form);
@@ -68,6 +73,7 @@ class Sites
 		$obj->apikey = $row["apikey"];
 		$obj->siteseed = $row["siteseed"];
 		$obj->tandc = $row["tandc"];
+		$obj->registerstatus = $row["registerstatus"];
 			
 		return $obj;
 	}
@@ -75,7 +81,7 @@ class Sites
 	public function data_update($site)
 	{		
 		$db = new DB();
-		return $db->query(sprintf("update site set	code = %s , 	title = %s , 	strapline = %s , 	metatitle = %s , 	metadescription = %s , 	metakeywords = %s , 	footer = %s ,	email = %s , 	lastupdate = now(), google_adsense_menu = %s, google_adsense_search = %s, google_adsense_sidepanel = %s, google_analytics_acc = %s, groupfilter = %s, apikey=%s, tandc=%s", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->email), $db->escapeString($site->google_adsense_menu), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc), $db->escapeString($site->groupfilter), $db->escapeString($site->apikey), $db->escapeString($site->tandc) ));
+		return $db->query(sprintf("update site set	code = %s , 	title = %s , 	strapline = %s , 	metatitle = %s , 	metadescription = %s , 	metakeywords = %s , 	footer = %s ,	email = %s , 	lastupdate = now(), google_adsense_menu = %s, google_adsense_search = %s, google_adsense_sidepanel = %s, google_analytics_acc = %s, groupfilter = %s, apikey=%s, tandc=%s, registerstatus=%d", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->email), $db->escapeString($site->google_adsense_menu), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc), $db->escapeString($site->groupfilter), $db->escapeString($site->apikey), $db->escapeString($site->tandc), $site->registerstatus ));
 	}
 
 	public function data_get()

@@ -100,6 +100,7 @@
 		<ul>		
 		<li>
 			<h2>Menu</h2> 
+			
 			<ul>
 			{if $loggedin=="true"}
 				<li><a title="Search for Nzbs" href="{$smarty.const.WWW_TOP}/search">Search</a></li>

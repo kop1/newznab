@@ -85,6 +85,7 @@ table.highlight tr:hover td { background-color: #E1F0D9; }
 table tr.alt { background-color: #EEE; }
 table.data em {font-weight:bolder; color:red;}
 div.hint, div.hint a {font-size:0.9em; font-style:italic; color:#999;}
+div.hint { margin-bottom:10px;}
 input.long {width:400px; }
 input.short { width:40px; }
 

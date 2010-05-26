@@ -3,10 +3,12 @@
 
 <form action="{$SCRIPT_NAME}?action=submit" method="post">
 
+<fieldset>
+<legend>Main Site Settings, Html Layout, Tags</legend>
 <table class="input">
 
 <tr>
-	<td><label for="codename">Code Name</label>:</td>
+	<td style="width:160px;"><label for="codename">Code Name</label>:</td>
 	<td>
 		<input id="codename" name="code" type="text" value="{$fsite->code}" />
 		<input type="hidden" name="id" value="{$fsite->id}" />
@@ -72,46 +74,6 @@
 </tr>
 
 <tr>
-	<td><label for="google_analytics_acc">Google Analytics</label>:</td>
-	<td>
-		<input id="google_analytics_acc" class="long" name="google_analytics_acc" type="text" value="{$fsite->google_analytics_acc}" />
-		<div class="hint">e.g. UA-xxxxxx-x</div>
-	</td>
-</tr>
-
-<tr>
-	<td><label for="google_adsense_menu">Google Adsense Menu</label>:</td>
-	<td>
-		<input id="google_adsense_menu" class="long" name="google_adsense_menu" type="text" value="{$fsite->google_adsense_menu}" />
-		<div class="hint">The ID of the google adsense link panel displayed at the top of every page.</div>
-	</td>
-</tr>
-
-<tr>
-	<td><label for="google_adsense_sidepanel">Google Adsense Sidepanel</label>:</td>
-	<td>
-		<input id="google_adsense_sidepanel" class="long" name="google_adsense_sidepanel" type="text" value="{$fsite->google_adsense_sidepanel}" />
-		<div class="hint">The ID of a google skyscraper link panel displayed at the right side of every page.</div>
-	</td>
-</tr>
-
-<tr>
-	<td><label for="google_adsense_search">Google Adsense Search</label>:</td>
-	<td>
-		<input id="google_adsense_search" class="long" name="google_adsense_search" type="text" value="{$fsite->google_adsense_search}" />
-		<div class="hint">The ID of the google search ad panel displayed at the bottom of the left menu.</div>
-	</td>
-</tr>
-
-<tr>
-	<td><label for="groupfilter">Usenet Group Filter</label>:</td>
-	<td>
-		<textarea id="groupfilter" name="groupfilter">{$fsite->groupfilter}</textarea>
-		<div class="hint">Regex of groups which are to be polled for binaries. e.g. alt.binaries.cd.image.linux|alt.binaries.warez.linux</div>
-	</td>
-</tr>
-
-<tr>
 	<td><label for="tandc">Terms and Conditions</label>:</td>
 	<td>
 		<textarea id="tandc" name="tandc">{$fsite->tandc}</textarea>
@@ -119,21 +81,92 @@
 	</td>
 </tr>
 
+</table>
+</fieldset>
+
+<fieldset>
+<legend>Google Adsense and Analytics</legend>
+<table class="input">
 <tr>
-	<td><label for="apikey">Api Key</label>:</td>
+	<td style="width:160px;"><label for="google_analytics_acc">Google Analytics</label>:</td>
+	<td>
+		<input id="google_analytics_acc" name="google_analytics_acc" type="text" value="{$fsite->google_analytics_acc}" />
+		<div class="hint">e.g. UA-xxxxxx-x</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="google_adsense_menu">Google Adsense Menu</label>:</td>
+	<td>
+		<input id="google_adsense_menu" name="google_adsense_menu" type="text" value="{$fsite->google_adsense_menu}" />
+		<div class="hint">The ID of the google adsense link panel displayed at the top of every page.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="google_adsense_sidepanel">Google Adsense Sidepanel</label>:</td>
+	<td>
+		<input id="google_adsense_sidepanel" name="google_adsense_sidepanel" type="text" value="{$fsite->google_adsense_sidepanel}" />
+		<div class="hint">The ID of a google skyscraper link panel displayed at the right side of every page.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="google_adsense_search">Google Adsense Search</label>:</td>
+	<td>
+		<input id="google_adsense_search" name="google_adsense_search" type="text" value="{$fsite->google_adsense_search}" />
+		<div class="hint">The ID of the google search ad panel displayed at the bottom of the left menu.</div>
+	</td>
+</tr>
+
+</table>
+</fieldset>
+
+<fieldset>
+<legend>Usenet Settings</legend>
+<table class="input">
+
+<tr>
+	<td style="width:160px;"><label for="groupfilter">Usenet Group Filter</label>:</td>
+	<td>
+		<textarea id="groupfilter" name="groupfilter">{$fsite->groupfilter}</textarea>
+		<div class="hint">Regex of groups which are to be polled for binaries. e.g. alt.binaries.cd.image.linux|alt.binaries.warez.linux</div>
+	</td>
+</tr>
+
+</table>
+</fieldset>
+
+<fieldset>
+<legend>3rd Party Integration</legend>
+<table class="input">
+
+<tr>
+	<td style="width:160px;"><label for="apikey">Api Key</label>:</td>
 	<td>
 		<input id="apikey" class="long" name="apikey" type="text" value="{$fsite->apikey}" />
 		<div class="hint">The site wide API key which can be used by 3rd parties when calling the /api functions.</div>
 	</td>
 </tr>
 
+</table>
+</fieldset>
+
+<fieldset>
+<legend>User Settings</legend>
+<table class="input">
+
 <tr>
-	<td></td>
+	<td style="width:160px;"><label for="registerstatus">Registration Status</label>:</td>
 	<td>
-		<input type="submit" value="Save" />
+		{html_radios id="registerstatus" name='registerstatus' values=$registerstatus_ids output=$registerstatus_names selected=$fsite->registerstatus separator='<br />'}
+		<div class="hint">The status of registrations to the site.</div>
 	</td>
 </tr>
 
 </table>
+</fieldset>
+
+<input type="submit" value="Save Site Settings" />
 
 </form>

@@ -236,7 +236,8 @@ CREATE TABLE site (
 `google_analytics_acc` VARCHAR(255) NULL,
 `apikey` VARCHAR(50) NOT NULL,
 `siteseed` VARCHAR(50) NOT NULL,
-`tandc` VARCHAR(5000) NOT NULL
+`tandc` VARCHAR(5000) NOT NULL,
+`registerstatus` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
@@ -258,7 +259,8 @@ INSERT INTO `site`
 	`google_analytics_acc`,
 	apikey,
 	siteseed,
-	`tandc`
+	`tandc`,
+	registerstatus
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
@@ -266,7 +268,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.', 
 	'info@newznab.com', 
 	'alt.binaries.teevee', 
-	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), MD5(MD5(UUID())), 0, '<p>Your terms and conditions...</p>');
+	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), MD5(MD5(UUID())), 0, '<p>Your terms and conditions...</p>',0);
 
 
 

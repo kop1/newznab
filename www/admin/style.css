@@ -1,5 +1,8 @@
 body  { background: #FFFFFF ; }
 textarea { height:100px; width:400px; }
+fieldset { margin-bottom:20px; border:1px solid #999;}
+legend { padding: 0.4em 0.6em; border:1px solid #999; font-weight:bold; text-align:right; }
+
 
 #adpanel { display:none; }
 #content { width: 720px; }
