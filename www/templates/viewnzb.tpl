@@ -9,13 +9,13 @@
 	<tr><th>Grabs:</th><td>{$release.grabs} time{if $release.grabs==1}{else}s{/if}</td></tr>
 	<tr><th>Files:</th><td><a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$release.guid}">{$release.totalpart} file{if $release.totalpart==1}{else}s{/if}</a></td></tr>
 	{if $release.rageID > 0}
-	<tr><th>Tv Info:</th><td><a href="http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage">Rage Id {$release.rageID}</a> ({$release.seriesfull})</td></tr>
+	<tr><th>Tv Info:</th><td><div class="icon icon_tvrage"></div>&nbsp;<a href="http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage">Rage Id {$release.rageID}</a> ({$release.seriesfull})</td></tr>
 	{/if}
 	<tr><th>Poster:</th><td>{$release.fromname|escape:"htmlall"}</td></tr>
 	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format}</td></tr>
 	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format}</td></tr>
-	<tr><th>Download:</th><td><a title="Download Nzb for {$release.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/download/{$release.searchname|escape:"htmlall"}/nzb/{$release.guid}">Download Nzb for {$release.searchname|escape:"htmlall"}</a></td></tr>
-	<tr><th>Cart:</th><td><a href="#" title="Add to Cart" class="add_to_cart" id="{$release.guid}">[Add to cart]</a></td></tr>
+	<tr><th>Download Nzb:</th><td><a title="Download Nzb for {$release.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/download/{$release.searchname|escape:"htmlall"}/nzb/{$release.guid}"><div class="icon icon_nzb"></div></a></td></tr>
+	<tr><th>Cart:</th><td><a href="#" title="Add to Cart" class="add_to_cart" id="{$release.guid}"><div class="icon icon_cart"></div></a></td></tr>
 	{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}
 		<tr><th>
 				SABnzbd:
@@ -24,7 +24,7 @@
 				<input type="hidden" id="cred-uid" value="{$userdata.ID}" />
 				<input type="hidden" id="cred-rsstoken" value="{$userdata.rsstoken}" />
 			</th>
-			<td><a href="#" class="add_to_sab" id="{$release.guid}" title="Send to my Sabnzbd">[Add to Sab]</a></td>
+			<td><a href="#" class="add_to_sab" id="{$release.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a></td>
 		</tr>
 	{/if}
 	{if $similars|@count > 1}

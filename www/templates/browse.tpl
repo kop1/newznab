@@ -20,10 +20,10 @@
 			<td>
 				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="resextra">
-					<a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}">[Nzb]</a>
-					<a href="#" class="add_to_cart" id="{$result.guid}" title="Add to Cart">[Cart]</a>
-					{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}<a href="#" class="add_to_sab" id="{$result.guid}" title="Send to my Sabnzbd">[Sab]</a>{/if}
-					{if $result.rageID > 0}[<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">Tv Rage {$result.seriesfull}</a>]{/if}
+					<a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}"><div class="icon icon_nzb"></div></a>
+					<a href="#" class="add_to_cart" id="{$result.guid}" title="Add to Cart"><div class="icon icon_cart"></div></a>
+					{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}<a href="#" class="add_to_sab" id="{$result.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a>{/if}
+					{if $result.rageID > 0}<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage"><div class="icon icon_tvrage"></div></a>{/if}
 				</div>
 			</td>
 			<td class="less"><a title="Browse {$result.category_name}" href="{$smarty.const.WWW_TOP}/browse?t={$result.categoryID}">{$result.category_name}</a></td>

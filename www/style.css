@@ -95,3 +95,14 @@ div.resextra a { color: #888; text-decoration:none; }
 div.error { padding:20px; border:1px solid #FF2A2A; background-color:#FFD4FF; font-size:1.2em; margin-bottom:10px;}
 
 div.comments { padding-top:20px; }
+
+/* icons */
+div.icon { float:left; width:16px; height:16px; background-repeat:no-repeat; cursor:pointer; }
+div.resextra div.icon { margin:2px 2px -2px 2px; }
+div.icon_tvrage			{ background-image:url('images/icons/tvrage.png'); }
+div.icon_cart			{ background-image:url('images/icons/cartup.png'); }
+div.icon_cart_clicked	{ background-image:url('images/icons/cartdown.png'); }
+div.icon_nzb			{ background-image:url('images/icons/nzbup.png'); }
+div.icon_nzb_clicked	{ background-image:url('images/icons/nzbdown.png'); }
+div.icon_sab			{ background-image:url('images/icons/sabup.png'); }
+div.icon_sab_clicked	{ background-image:url('images/icons/sabdown.png'); }

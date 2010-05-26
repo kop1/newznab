@@ -4,20 +4,20 @@ jQuery(function($){
 
 	// browse.tpl, search.tpl
 	$('.add_to_cart').click(function(e){
-		if ($(this).text()=="[Added to Cart]") return false; // already added
+		if ($(this).hasClass('icon_cart_clicked')) return false;
 		$.post( SERVERROOT + "cart.php?add=" + $(this).attr('id'), function(resp){
-			$(e.target).text('[Added to Cart]').attr('title','added to cart');
+			$(e.target).addClass('icon_cart_clicked').attr('title','added to cart');
 		});
 		return false;
 	});
 	$('.add_to_sab').click(function(e){ // replace with cookies?
-		if ($(this).text()=="[Sent to Sab]") return false; // already added
+		if ($(this).hasClass('icon_sab_clicked')) return false;
 
 		var fullsaburl = $('#cred-host').val() + "api/?mode=addurl&priority=1&apikey=" + $('#cred-key').val();
 		var nzburl = SERVERROOT + "download/sab/nzb/" + $(this).attr('id') + "&i=" + $('#cred-uid').val() + "&r=" + $('#cred-rsstoken').val();
 
 		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
-			$(e.target).text('[Sent to Sab]').attr('title','added to queue');
+			$(e.target).addClass('icon_sab_clicked').attr('title','added to queue');
 		});
 		return false;
 	});
