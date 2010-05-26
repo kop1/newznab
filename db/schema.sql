@@ -180,8 +180,6 @@ CREATE TABLE `users` (
   `grabs` INT NOT NULL DEFAULT 0,
   `rsstoken` VARCHAR(32) NOT NULL,
   `createddate` DATETIME NOT NULL,
-  `sabapikey` VARCHAR(32) NULL,
-  `sabhost` VARCHAR(255) NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
@@ -238,7 +236,6 @@ CREATE TABLE site (
 `google_analytics_acc` VARCHAR(255) NULL,
 `apikey` VARCHAR(50) NOT NULL,
 `siteseed` VARCHAR(50) NOT NULL,
-`sabintegration` INT NOT NULL DEFAULT 0,
 `tandc` VARCHAR(5000) NOT NULL
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
@@ -261,7 +258,6 @@ INSERT INTO `site`
 	`google_analytics_acc`,
 	apikey,
 	siteseed,
-	sabintegration,
 	`tandc`
 	)
 	VALUES

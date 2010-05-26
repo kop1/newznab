@@ -128,14 +128,6 @@
 </tr>
 
 <tr>
-	<td><label for="sabintegration">Sabnzbd Integration</label>:</td>
-	<td>
-		{html_radios id="sabintegration" name='sabintegration' values=$yesno_ids output=$yesno_names selected=$fsite->sabintegration separator='<br />'}
-		<div class="hint">When enabled allows users to specify their sab credentials to directly send Nzbs to their Sab installations.</div>
-	</td>
-</tr>
-
-<tr>
 	<td></td>
 	<td>
 		<input type="submit" value="Save" />

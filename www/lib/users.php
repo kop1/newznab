@@ -16,8 +16,6 @@ class Users
 	const ERR_SIGNUP_BADEMAIL = -3;
 	const ERR_SIGNUP_UNAMEINUSE = -4;
 	const ERR_SIGNUP_EMAILINUSE = -5;
-	const ERR_SIGNUP_BADSABAPIKEY = -6;
-	const ERR_SIGNUP_BADSABHOST = -7;
 	const SUCCESS = 1;
 	
 	const ROLE_USER = 1;
@@ -64,11 +62,11 @@ class Users
 		return $res["num"];		
 	}	
 
-	public function add($uname, $pass, $email, $role, $host, $sabapikey, $sabhost)
+	public function add($uname, $pass, $email, $role, $host)
 	{			
 		$db = new DB();
-		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken, sabapikey, sabhost) values (%s, %s, %s, %d, now(), %s, md5(%s), %s, %s)", 
-			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid()), $db->escapeString($sabapikey), $db->escapeString($sabhost)));		
+		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken) values (%s, %s, %s, %d, now(), %s, md5(%s), %s, %s)", 
+			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid())));		
 	}	
 	
 	public function update($id, $uname, $email, $grabs)
@@ -151,18 +149,11 @@ class Users
 		return (!preg_match('/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i', $url)) ? false : true;
 	}
 
-	public function isValidSabApiKey($sabapikey)
-	{
-		return true;
-	}
-
-	public function signup($uname, $pass, $email, $host, $sabapikey, $sabhost)
+	public function signup($uname, $pass, $email, $host)
 	{
 		$uname = trim($uname);
 		$pass = trim($pass);
 		$email = trim($email);
-		$sabhost = trim($sabhost);
-		$sabapikey = trim($sabapikey);
 
 		if (!$this->isValidUsername($uname))
 			return Users::ERR_SIGNUP_BADUNAME;
@@ -173,14 +164,6 @@ class Users
 		if (!$this->isValidEmail($email))
 			return Users::ERR_SIGNUP_BADEMAIL;			
 
-		if ($sabhost != "")
-			if (!$this->isValidUrl($sabhost))
-				return Users::ERR_SIGNUP_BADSABHOST;			
-		
-		if ($sabapikey != "")
-			if (!$this->isValidSabApiKey($sabapikey))
-				return Users::ERR_SIGNUP_BADSABAPIKEY;			
-
 		$res = $this->getByUsername($uname);
 		if ($res)
 			return Users::ERR_SIGNUP_UNAMEINUSE;
@@ -189,7 +172,7 @@ class Users
 		if ($res)
 			return Users::ERR_SIGNUP_EMAILINUSE;
 
-		return $this->add($uname, $pass, $email, Users::ROLE_USER, $host, $sabapikey, $sabhost);
+		return $this->add($uname, $pass, $email, Users::ROLE_USER, $host);
 	}
 	
 	function randomKey($amount)

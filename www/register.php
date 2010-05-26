@@ -24,8 +24,6 @@ switch($action)
 		$page->smarty->assign('password', $_POST['password']);
 		$page->smarty->assign('confirmpassword', $_POST['confirmpassword']);
 		$page->smarty->assign('email', $_POST['email']);
-		$page->smarty->assign('sabapikey', $_POST['sabapikey']);
-		$page->smarty->assign('sabhost', $_POST['sabhost']);
 		
 		//
 		// check uname/email isnt in use, password valid.
@@ -37,7 +35,7 @@ switch($action)
 		}
 		else
 		{
-			$ret = $users->signup($_POST['username'], $_POST['password'], $_POST['email'], $_SERVER['REMOTE_ADDR'], $_POST['sabapikey'], $_POST['sabhost']);
+			$ret = $users->signup($_POST['username'], $_POST['password'], $_POST['email'], $_SERVER['REMOTE_ADDR']);
 			if ($ret > 0)
 			{
 				$users->login($ret);
@@ -61,12 +59,6 @@ switch($action)
 						break;
 					case Users::ERR_SIGNUP_EMAILINUSE:
 						$page->smarty->assign('error', "Email in use.");
-						break;
-					case Users::ERR_SIGNUP_BADSABAPIKEY:
-						$page->smarty->assign('error', "Bad Sabnzbd api key");
-						break;
-					case Users::ERR_SIGNUP_BADSABHOST:
-						$page->smarty->assign('error', "Invalid url for Sabnzbd");
 						break;
 					default:
 						$page->smarty->assign('error', "Failed to register.");
