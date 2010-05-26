@@ -28,7 +28,7 @@
 				<div class="resextra">
 					<a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}"><div class="icon icon_nzb"></div></a>
 					<a href="#" title="Add to Cart" class="add_to_cart" id="{$result.guid}"><div class="icon icon_cart"></div></a>
-					{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}<a href="#" class="add_to_sab" id="{$result.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a>{/if}
+					<a href="#" class="add_to_sab" id="{$result.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a>
 					{if $result.rageID > 0}<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage"><div class="icon icon_tvrage"></div></a>{/if}
 				</div>
 			</td>
@@ -42,8 +42,3 @@
 	
 </table>
 {/if}
-
-<input type="hidden" id="cred-host" value="{$userdata.sabhost|escape:"htmlall"}" />
-<input type="hidden" id="cred-key" value="{$userdata.sabapikey|escape:"htmlall"}" />
-<input type="hidden" id="cred-uid" value="{$userdata.ID}" />
-<input type="hidden" id="cred-rsstoken" value="{$userdata.rsstoken}" />

@@ -16,17 +16,9 @@
 	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format}</td></tr>
 	<tr><th>Download Nzb:</th><td><a title="Download Nzb for {$release.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/download/{$release.searchname|escape:"htmlall"}/nzb/{$release.guid}"><div class="icon icon_nzb"></div></a></td></tr>
 	<tr><th>Cart:</th><td><a href="#" title="Add to Cart" class="add_to_cart" id="{$release.guid}"><div class="icon icon_cart"></div></a></td></tr>
-	{if $site->sabintegration=="1" && $userdata.sabapikey!="" && $userdata.sabhost!=""}
-		<tr><th>
-				SABnzbd:
-				<input type="hidden" id="cred-host" value="{$userdata.sabhost|escape:"htmlall"}" />
-				<input type="hidden" id="cred-key" value="{$userdata.sabapikey|escape:"htmlall"}" />
-				<input type="hidden" id="cred-uid" value="{$userdata.ID}" />
-				<input type="hidden" id="cred-rsstoken" value="{$userdata.rsstoken}" />
-			</th>
-			<td><a href="#" class="add_to_sab" id="{$release.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a></td>
-		</tr>
-	{/if}
+	<tr class="sabnzbd_required" style="display:none"><th>SABnzbd:</th>
+		<td><a href="#" class="add_to_sab" id="{$release.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a></td>
+	</tr>
 	{if $similars|@count > 1}
 	<tr>
 		<th>Similar:</th>

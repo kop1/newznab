@@ -13,8 +13,8 @@ jQuery(function($){
 	$('.add_to_sab').click(function(e){ // replace with cookies?
 		if ($(this).hasClass('icon_sab_clicked')) return false;
 
-		var fullsaburl = $('#cred-host').val() + "api/?mode=addurl&priority=1&apikey=" + $('#cred-key').val();
-		var nzburl = SERVERROOT + "download/sab/nzb/" + $(this).attr('id') + "&i=" + $('#cred-uid').val() + "&r=" + $('#cred-rsstoken').val();
+		var fullsaburl = $.cookie('sabnzbd_host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_apikey');
+		var nzburl = SERVERROOT + "download/sab/nzb/" + $(this).attr('id') + "&i=" + UID + "&r=" + RSSTOKEN;
 
 		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
 			$(e.target).addClass('icon_sab_clicked').attr('title','added to queue');
@@ -72,7 +72,6 @@ jQuery(function($){
 
 
 	// searchraw.tpl, viewfilelist.tpl -- checkbox operations
-
 	// selections
 	var last1, last2;
 	$(".checkbox_operations .select_all").click(function(){
@@ -114,6 +113,30 @@ jQuery(function($){
 		return false;
 	});
 
+
+
+	// SABnzbd integration
+	if ($.cookie('sabnzbd_host')) {
+		$('table.data .icon_sab, .sabnzbd_required').show();	// sab icons hidden by default
+		
+		// set profile.tpl credentials into profile on page load
+		if ($('#profile_sab_host').val()) {
+			$('#profile_sab_apikey').val($.cookie('sabnzbd_apikey'));
+			$('#profile_sab_host').val($.cookie('sabnzbd_host'));
+		}
+	}
+	// profile.tpl
+	$('#profile_sab_save').click(function(){	// store sabnzbd info to cookie
+		$.cookie('sabnzbd_apikey', $('#profile_sab_apikey').val(), { expires: 365 });
+		$.cookie('sabnzbd_host', $('#profile_sab_host').val(), { expires: 365 });
+		$(this).next('.icon').addClass('icon_check'); // save status notification
+	});
+	$('#profile_sab_clear').click(function(){	// store sabnzbd info to cookie
+		$.cookie('sabnzbd_apikey', null);
+		$.cookie('sabnzbd_host', null);
+		$('#profile_sab_apikey, #profile_sab_host').val('');
+		$('#profile_sab_save').next('.icon').removeClass('icon_check'); // save status notification
+	});
 
 });
 

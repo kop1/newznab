@@ -4,10 +4,22 @@
 <table class="data">
 	<tr><th>Username:</th><td>{$user.username|escape:"htmlall"}</td></tr>
 	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Email:</th><td>{$user.email}</td></tr>{/if}
-	{if $site->sabintegration=="1" && ($user.ID==$userdata.ID || $userdata.role==2)}<tr><th title="Not public">Sab Api Key:</th><td>{$user.sabapikey|escape:"htmlall"}</td></tr>{/if}
-	{if $site->sabintegration=="1" && ($user.ID==$userdata.ID || $userdata.role==2)}<tr><th title="Not public">Sab Host:</th><td><a href="{$user.sabhost|escape:"htmlall"}">{$user.sabhost|escape:"htmlall"}</a></td></tr>{/if}
 	<tr><th>Registered:</th><td title="{$user.createddate}">{$user.createddate|date_format}</td></tr>
 	<tr><th>Grabs:</th><td>{$user.grabs}</td></tr>
+</table>
+
+
+<br/><br/>
+<h2>SABnzbd Integration</h2>
+
+<table class="data">
+	<tr><th title="Not public">SABnzbd API Key:</th><td><input id="profile_sab_apikey" type="text" size="40" /></td></tr>
+	<tr><th title="Not public">SABnzbd Host:</th><td><input id="profile_sab_host" type="text" size="40" value="http://localhost:8080/sabnzbd/"/><br/><small><i>for example:</i> http://localhost:8080/sabnzbd/</small></td></tr>
+	<tr><th title="Not public"></th><td>
+		<input id="profile_sab_clear" type="button" value="Clear" style="float:right;" />
+		<input id="profile_sab_save" type="button" value="Save to Cookie" style="float:left;" />
+		<div class="icon"></div>
+		</td></tr>
 </table>
 
 

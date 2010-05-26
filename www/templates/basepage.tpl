@@ -15,8 +15,12 @@
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
 	{$customtheme}
-	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}";</script>
-	<script type="text/javascript">var SERVERROOT = "{$serverroot}";</script>
+	<script type="text/javascript">
+		var WWW_TOP = "{$smarty.const.WWW_TOP}";
+		var SERVERROOT = "{$serverroot}";
+		var UID = "{$userdata.ID}";
+		var RSSTOKEN = "{$userdata.rsstoken}";
+	</script>
 	{$page->head}
 </head>
 <body {$page->body}>
