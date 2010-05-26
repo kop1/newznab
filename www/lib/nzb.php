@@ -106,24 +106,6 @@ class NZB
 		}		
 	}	
 
-	function backfillAllGroups()
-	{
-		$groups = new Groups;
-		$res = $groups->getActive();
-		if($res)
-		{
-                        $nntp = new Nntp();
-                        $nntp->doConnect();
-
-                        foreach($res as $groupArr)
-                        {
-                                $this->message = array();
-                                $this->backfillGroup($nntp, $groupArr);
-                        }
-
-                        $nntp->doQuit();
-		}
-	}	
 	function updateGroup($nntp, $groupArr) 
 	{
 		$db = new DB();
@@ -300,7 +282,7 @@ class NZB
 				{
 					$attempts++;
 					echo "Error fetching messages attempt {$attempts}...$n";
-					if($attempts == 5) 
+					if($attempts == 1) 
 					{
 						echo "Skipping group$n";
 						break;
@@ -317,12 +299,26 @@ class NZB
 	}
 
 
-	function backfillGroup($nntp, $groupArr) 
+	function scantest() 
 	{
+		$groups = new Groups;
+		$res = $groups->getActive();
+		$nntp = new Nntp();
+		$nntp->doConnect();
+		foreach($res as $groupArr)
+		{
+			if($groupArr['name']=='alt.binaries.teevee')
+			{
+				$this->update($nntp,$groupArr['name'],'68425551','68427551');
+			}
+			else
+				continue;
+		}
 	}
-/*
+
 	function update($nntp, $group, $begin, $end, $direction=TRUE) //scan headers; inputs need to be valid, freshness check upstream 
-	{
+	{	$temp_begin = $begin;
+		$temp_end = $end;
 		$db = new DB();
 		$attempts = 0;
 		$data = $nntp->selectGroup($group);
@@ -338,50 +334,24 @@ class NZB
 		//[last] =>  7111079
 		//[count] => 1616985
 		//I lied, we're going to check for validity anyway.
-		if($begin < $data['first'] || $end > $data['end'] || $end <= $first || $first==0 || $end==0)
+		if($begin < $data['first'] || $end > $data['last'] || $end <= $first || $begin==0 || $end==0)
 			{
-			echo "Error seeking, group $group first ".$data['first']." last ".$data['last']." begin $begin end $end"; 
+			echo "Error seeking past hard limit, group $group first ".$data['first']." last ".$data['last']." begin $begin end $end$n"; 
 			die();	
 		}
 		$done = false;
+		//limit temporary queue
+		if($direction==TRUE && $end > $begin + $this->maxMssgs)
+			$temp_end = $begin + $this->maxMssgs;
+		if($direction==FALSE && $begin < $end - $this->maxMssgs)
+			$temp_end = $end - $this->maxMssgs;
 		//get all the parts (in portions of $this->maxMssgs to not use too much memory)
 		while($done === false) 
 		{
-			if($total > $this->maxMssgs) 
-			{
-				if($first + $this->maxMssgs > $orglast) 
-				{
-					$last = $orglast;
-				} 
-				else 
-				{
-					$last = $first + $this->maxMssgs;
-				}
-			}
-				if($last - $first < $this->maxMssgs) 
-			{
-				$fetchpartscount = $last - $first;
-			} 
-			else 
-			{
-				$fetchpartscount = $this->maxMssgs;
-			}
-			echo "Getting {$fetchpartscount} parts (".($orglast - $last)." in queue)\n";
 			flush();
+
 				//get headers from newsgroup
-			$msgs = $nntp->getOverview($first."-".$last, true, false);
-			//Example msg
-			//Array ( 
-			//[Number] => 5934117 
-			//[Subject] => RepostTechnoAcidAlbums2008VarBit18Albums"RepostTechnoAcidAlbums2008VarBit18Albums.part21.rar" yEnc (121/410) 
-			//[From] => FTDtechnoTEAM@ (-=Techno4Life=-) 
-			//[Date] => 11 Jan 2009 09:01:12 GMT 
-			//[Message-ID] => <4969b556$0$5824$2d805a3e@uploadreader.eweka.nl> 
-			//[References] => 
-			//[Bytes] => 396519 
-			//[Lines] => 3046 
-			//[Xref] => news-big.astraweb.com alt.binaries.mp3:83651138 alt.binaries.sounds.mp3.dance:25100194
-			//loop headers, figure out parts
+			$msgs = $nntp->getOverview($temp_begin."-".$temp_end, true, false);
 			foreach($msgs AS $msg) 
 			{
 				$pos = strrpos($msg['Subject'], '(');
@@ -402,12 +372,12 @@ class NZB
 					}
 				}
 			}
-				$count = 0;
+			$count = 0;
 			$updatecount = 0;
 			$partcount = 0;
-				if(count($this->message)) 
+			if(count($this->message)) 
 			{
-					//insert binaries and parts into database. when binary already exists; only insert new parts
+				//insert binaries and parts into database. when binary already exists; only insert new parts
 				foreach($this->message AS $subject => $data) 
 				{
 					if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '') 
@@ -434,16 +404,35 @@ class NZB
 				//
 				// update the group with the last update record.
 				//
-				$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
+				if($direction==TRUE)
+					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($temp_end), $groupArr['ID']));
+				else
+					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($temp_begin), $groupArr['ID']));
 				
-				echo "Received $count new binaries\n";
-				echo "Updated $updatecount binaries\n";
+				echo "Received $count new binaries, Updated $updatecount binaries$n";
 					//when last = orglast; all headers are downloaded; not ? than go on with next $this->maxMssgs messages
-				if($last == $orglast) 
+				if(($direction==TRUE && $temp_end==$end) || ($direction==FALSE && $temp_begin==$begin))
 					$done = true;
-				else 
-					$first = $last + 1;
-					unset($this->message);
+				else
+				{
+					if($direction==TRUE)
+					{
+						$temp_begin = $temp_end + 1;
+						if($temp_end + $this->maxMssgs + 1 < $end)
+							$temp_end = $temp_end + $this_maxMssgs + 1;
+						else
+							$temp_end = $end;
+					}
+					if($direction==FALSE)
+						$temp_end = $temp_begin - 1;
+					{
+						if($temp_begin - $this->maxMssgs - 1 > $begin)
+							$temp_begin = $temp_begin - $this->maxMssgs - 1;
+						else
+							$temp_begin = $begin;
+					}
+				}
+				unset($this->message);
 				unset($msgs);
 				unset($msg);
 				unset($data);
@@ -452,23 +441,16 @@ class NZB
 			else 
 			{
 				$attempts++;
-				echo "Error fetching messages attempt {$attempts}...\n";
-				if($attempts == 5) 
+				echo "Error fetching group $group messages $begin to $end$n";
+				if($attempts == 1) 
 				{
-					echo "Skipping group\n";
 					break;
 				}
 				sleep(1);
 			}
-			}
-			
 		} 
-		else 
-		{
-			echo "No new records for ".$data["group"]." (first $first last $last total $total) grouplast ".$groupArr['last_record']."\n";
-		}
 	}
-*/
+
 
 	
 }
