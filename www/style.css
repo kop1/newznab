@@ -89,7 +89,7 @@ input.long {width:400px; }
 input.short { width:40px; }
 
 
-div.resextra { color: #888; font-size: 0.8em; }
+div.resextra { color: #888; font-size: 0.8em; display:none; float:right; }
 div.resextra a { color: #888; text-decoration:none; }
 
 div.error { padding:20px; border:1px solid #FF2A2A; background-color:#FFD4FF; font-size:1.2em; margin-bottom:10px;}
