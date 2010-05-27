@@ -34,7 +34,7 @@
 	</div>
 
 	<div id="logo">
-		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/images/banner.jpg" /></a>
+		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/images/clearlogo.png" /></a>
 		<h1><a href="{$smarty.const.WWW_TOP}/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
