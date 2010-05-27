@@ -54,19 +54,19 @@ else
 					switch ($ret)
 					{
 						case Users::ERR_SIGNUP_BADUNAME:
-							$page->smarty->assign('error', "Bad username. Try a better one.");
+							$page->smarty->assign('error', "Your username must be longer than three characters.");
 							break;
 						case Users::ERR_SIGNUP_BADPASS:
-							$page->smarty->assign('error', "Bad password. Try a longer one.");
+							$page->smarty->assign('error', "Your password must be longer than five characters.");
 							break;
 						case Users::ERR_SIGNUP_BADEMAIL:
-							$page->smarty->assign('error', "Bad email.");
+							$page->smarty->assign('error', "Your email is not a valid format.");
 							break;
 						case Users::ERR_SIGNUP_UNAMEINUSE:
-							$page->smarty->assign('error', "Username in use.");
+							$page->smarty->assign('error', "Sorry, the username is already taken.");
 							break;
 						case Users::ERR_SIGNUP_EMAILINUSE:
-							$page->smarty->assign('error', "Email in use.");
+							$page->smarty->assign('error', "Sorry, the email is already in use.");
 							break;
 						default:
 							$page->smarty->assign('error', "Failed to register.");

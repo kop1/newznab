@@ -11,7 +11,7 @@ $page->meta_description = "Login";
 if ($page->isPostBack())
 {
 	if (!isset($_POST["username"]) || !isset($_POST["password"]))
-		$page->smarty->assign('error', "Please enter username/password");
+		$page->smarty->assign('error', "Please enter your username and password.");
 	else
 	{
 		$page->smarty->assign('username', $_POST["username"]);
@@ -26,12 +26,12 @@ if ($page->isPostBack())
 			}
 			else
 			{
-				$page->smarty->assign('error', "Bad username/password");
+				$page->smarty->assign('error', "Incorrect username or password.");
 			}
 		}
 		else
 		{
-			$page->smarty->assign('error', "Bad username/password");
+			$page->smarty->assign('error', "Incorrect username or password.");
 		}
 	}
 }

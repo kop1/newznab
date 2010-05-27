@@ -9,8 +9,18 @@
 	<form method="post" action="{$SCRIPT_NAME}?action=submit">
 
 		<table style="width:500px;" class="data">
-			<tr><th width="75px;"><label for="username">Username</label>: <em>*</em></th><td><input autocomplete="off" id="username" name="username" value="{$username}" type="text"/></td></tr>
-			<tr><th><label for="password">Password</label>: <em>*</em></th><td><input id="password" autocomplete="off" name="password" value="{$password}" type="password"/></td></tr>
+			<tr><th width="75px;"><label for="username">Username</label>: <em>*</em></th>
+				<td>
+					<input autocomplete="off" id="username" name="username" value="{$username}" type="text"/>
+					<div class="hint">Should be at least three characters and start with a letter.</div>
+				</td>
+			</tr>
+			<tr><th><label for="password">Password</label>: <em>*</em></th>
+				<td>
+					<input id="password" autocomplete="off" name="password" value="{$password}" type="password"/>
+					<div class="hint">Should be at least six characters long.</div>
+				</td>
+			</tr>
 			<tr><th><label for="confirmpassword">Confirm Password</label>: <em>*</em></th><td><input autocomplete="off" id="confirmpassword" name="confirmpassword" value="{$confirmpassword}" type="password"/></td></tr>
 			<tr><th><label for="email">Email</label>: <em>*</em></th><td><input autocomplete="off" id="email" name="email" value="{$email}"/></td></tr>
 		</table>
