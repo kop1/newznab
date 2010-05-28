@@ -1,12 +1,13 @@
 
-<h1>Browse {$catname}</h1>
+<h1 style="margin-left:35px;">Browse {$catname}</h1>
 	
 {if $results|@count > 0}
 
 {$pager}
 
-<table style="width:100%;margin-top:10px;" class="data highlight">
+<table style="width:100%;margin-top:10px;" class="data highlight icons">
 	<tr>
+		<th class="icons"></th>
 		<th>name<br/><a title="Sort Descending" href="{$orderbyname_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyname_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>category<br/><a title="Sort Descending" href="{$orderbycat_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbycat_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>posted<br/><a title="Sort Descending" href="{$orderbyposted_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyposted_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
@@ -17,13 +18,15 @@
 
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}">
-			<td>
-				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
+			<td class="icons">
 				<div class="reshover">
 					<a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}"><div class="icon icon_nzb"></div></a>
 					<a href="#" class="add_to_cart" id="{$result.guid}" title="Add to Cart"><div class="icon icon_cart"></div></a>
 					<a href="#" class="add_to_sab" id="{$result.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a>
 				</div>
+			</td>
+			<td>
+				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="resextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}?modal" title="View Nfo" class="modal_nfo" rel="nfo">(NFO)</a>{/if}
 					{if $result.rageID > 0}<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">(TVRage)</a>{/if}
