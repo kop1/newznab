@@ -9,6 +9,7 @@
 </table>
 
 
+{if $user.ID==$userdata.ID || $userdata.role==2}
 <br/><br/>
 <h2>SABnzbd Integration</h2>
 
@@ -21,6 +22,7 @@
 		<div class="icon"></div>
 		</td></tr>
 </table>
+{/if}
 
 
 {if $commentslist|@count > 0}
