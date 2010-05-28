@@ -30,3 +30,7 @@ select, textarea, input {background-color:#AAA; font-family:verdana;}
 
 /* override almost every element in the sites font and color*/
 #sidebar li li a:hover, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a {font-family:verdana; color:#88B541;}
+
+pre#nfo { color: #fff; }
+
+#cboxLoadedContent{background:#333; margin-top:32px; padding:1px; }
