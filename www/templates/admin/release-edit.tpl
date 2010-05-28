@@ -77,6 +77,13 @@
 </tr>
 
 <tr>
+	<td><label for="episode">IMDB Id</label>:</td>
+	<td>
+		<input id="imdbID" class="short" name="imdbID" type="text" value="{$release.imdbID}" />
+	</td>
+</tr>
+
+<tr>
 	<td>Group:</td>
 	<td>
 		{$release.group_name}
