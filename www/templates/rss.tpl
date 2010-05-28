@@ -3,12 +3,12 @@
 <atom:link href="{$serverroot}rss" rel="self" type="application/rss+xml" />
 <title>{$site->title|escape}</title>
 <description>{$site->title|escape} Nzb Feed</description>
-<link>{$scheme}{$smarty.server.SERVER_NAME}{$port}/</link>
+<link>{$serverroot}</link>
 <language>en-gb</language>
 <webMaster>{$site->email} ({$site->title|escape})</webMaster>
 <category>{$site->meta_keywords}</category>
 <image>
-	<url>{$serverroot}images/banner.jpg</url>
+	<url>{if $site->style != "" && $site->style != "/"}{$serverroot}theme/{$site->style}/images/banner.jpg{else}{$serverroot}images/banner.jpg{/if}</url>
 	<title>{$site->title|escape}</title>
 	<link>{$serverroot}</link>
 	<description>Visit {$site->title|escape} - {$site->strapline|escape}</description>

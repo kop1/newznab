@@ -31,12 +31,10 @@ class Sites
 	const REGISTER_STATUS_OPEN = 0;
 	const REGISTER_STATUS_INVITE = 1;
 	const REGISTER_STATUS_CLOSED = 2;
-	const SVN_REV = "\$Rev: 1914 \$";
 
 	public function version()
 	{
-		$ver = substr(Sites::SVN_REV, 6);
-		return "0.1.".substr($ver, 0, (strlen($ver) - 2));
+		return "0.1.250";
 	}
 	
 	public function update($form)
