@@ -1,5 +1,5 @@
 
-<h1 style="margin-left:65px;">Search</h1>
+<h1>Search</h1>
 
 <form method="get" action="/search/">
 	<div style="text-align:center;">
@@ -13,7 +13,6 @@
 
 <table style="width:100%;margin-top:40px;" class="data Sortable highlight icons">
 	<tr>
-		<th class="icons"></th>
 		<th>name</th>
 		<th>category</th>
 		<th>posted</th>
@@ -24,15 +23,13 @@
 
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}">
-			<td class="icons">
+			<td>
+				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="reshover">
 					<a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}"><div class="icon icon_nzb"></div></a>
 					<a href="#" title="Add to Cart" class="add_to_cart" id="{$result.guid}"><div class="icon icon_cart"></div></a>
 					<a href="#" class="add_to_sab" id="{$result.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a>
 				</div>
-			</td>
-			<td>
-				<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="resextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="modal_nfo" rel="nfo">(NFO)</a>{/if}
 					{if $result.rageID > 0}<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">(TVRage)</a>{/if}
