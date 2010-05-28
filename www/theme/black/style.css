@@ -5,9 +5,15 @@
 .footer, body, #sidebar , #content { background-color:#000;}
 body { background: #000 url() repeat-x left top;}
 
-/* remove the pictures top bottom and side, and just display site name in h1*/
-#logo h1 {display:inline;}
-.w3validator, .menupic, #logo img {display:none;}
+/* remove the w3 validator, change logo, and hide h1 text*/
+
+.w3validator, menupic {display:none;}
+#logo h1 { padding-top: 10px; font-size: 48px;}
+#logo h1 a { text-decoration: none; color: #485459;}
+#logo a { text-decoration: none; color: #A8A8A8; }
+#logo { background:url(images/logo.png)            
+        no-repeat top left;
+}
 
 /* override table styles, alt rows, headings etc*/
 table tr.alt { background-color: #333; }
