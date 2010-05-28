@@ -2,7 +2,7 @@
 			<h1>{$page->title}</h1>
 
 			<p>
-				Here lives the documentation for the api for accessing nzb data within the index. Api functions can be called by either logged in 
+				Here lives the documentation for the api for accessing nzb and index data. Api functions can be called by either logged in 
 				users, or using the site api key.
 			</p>
 			
@@ -31,6 +31,11 @@
 						Downloads the nzb file associated with an Id.
 						<br/>
 						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&rid=20423&season=s01&ep=e02">?t=g&rid=20423&season=s01&ep=e02</a></span>
+					</li>	
+					<li>
+						Capabilities <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=c">?t=c</a></span>
+						<br/>
+						Reports the capabilities if the server. Includes information about the server name, available search categories and version number of the software.
 					</li>	
 				</ul>
 			</p>
