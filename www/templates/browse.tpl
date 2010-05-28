@@ -26,9 +26,8 @@
 				</div>
 				<div class="resextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}?modal" title="View Nfo" class="modal_nfo" rel="nfo">(NFO)</a>{/if}
-					{if $result.imdbID > 0}<a target="_blank" href="http://www.imdb.com/title/tt{$result.imdbID}/" title="View IMDB">(IMDB)</a>{/if}
-
-					{if $result.rageID > 0}<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">(TVRage)</a>{/if}
+					{if $result.imdbID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" title="View IMDB">(IMDB)</a>{/if}
+					{if $result.rageID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">(TVRage)</a>{/if}
 				</div>
 			</td>
 			<td class="less"><a title="Browse {$result.category_name}" href="{$smarty.const.WWW_TOP}/browse?t={$result.categoryID}">{$result.category_name}</a></td>

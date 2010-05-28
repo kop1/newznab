@@ -12,7 +12,7 @@
 	<tr><th>Nfo:</th><td><a href="{$smarty.const.WWW_TOP}/nfo/{$release.guid}" title="View Nfo">View Nfo</a></td></tr>
 	{/if}
 	{if $release.rageID > 0}
-	<tr><th>Tv Info:</th><td><a target="blank" href="http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage"><div style="padding-right:5px;" class="icon icon_tvrage"></div>Rage Id {$release.rageID}</a> ({$release.seriesfull})</td></tr>
+	<tr><th>Tv Info:</th><td><a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage"><div style="padding-right:5px;" class="icon icon_tvrage"></div>Rage Id {$release.rageID}</a> ({$release.seriesfull})</td></tr>
 	{/if}
 	<tr><th>Poster:</th><td>{$release.fromname|escape:"htmlall"}</td></tr>
 	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format}</td></tr>

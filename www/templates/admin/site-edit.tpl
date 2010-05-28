@@ -74,6 +74,14 @@
 </tr>
 
 <tr>
+	<td><label for="style">Dereferrer Link</label>:</td>
+	<td>
+		<input id="dereferrer_link" class="long" name="dereferrer_link" type="text" value="{$fsite->dereferrer_link}" />
+		<div class="hint">Optional URL to prepend to external links</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="email">Email</label>:</td>
 	<td>
 		<input id="email" class="long" name="email" type="text" value="{$fsite->email}" />

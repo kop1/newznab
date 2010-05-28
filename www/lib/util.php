@@ -26,8 +26,8 @@ function objectsIntoArray($arrObjData, $arrSkipIndices = array())
     return $arrData;
 }
 
-function makeStringLinksHtml($str) {
-	return preg_replace('/(https?):\/\/([A-Za-z0-9\._\-\/\?=&;]+)/is', '<a href="$1://$2" target="_blank">$1://$2</a>', $str);
+function makeStringLinksHtml($str, $dereferrer='') {
+	return preg_replace('/(https?):\/\/([A-Za-z0-9\._\-\/\?=&;]+)/is', '<a href="'.$dereferrer.'$1://$2" target="_blank">$1://$2</a>', $str);
 }
 
 
