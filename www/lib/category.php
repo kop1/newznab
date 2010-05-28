@@ -43,7 +43,7 @@ class Category
 		if ($activeonly)
 			$act = sprintf(" where c.status = %d ", Category::STATUS_ACTIVE ) ;
 			
-		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, c.status from category c inner join category cp on cp.ID = c.parentID ".$act);		
+		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, cp.ID as parentID, c.status from category c inner join category cp on cp.ID = c.parentID ".$act);		
 	}	
 	
 	public function isParent($cid)
@@ -56,10 +56,14 @@ class Category
 			return false;
 	}		
 	
-	public function getFlat()
+	public function getFlat($activeonly=false)
 	{			
 		$db = new DB();
-		return $db->query("select c.*, (SELECT title FROM category WHERE ID=c.parentID) AS parentName from category c");		
+		$act = "";
+		if ($activeonly)
+			$act = sprintf(" where c.status = %d ", Category::STATUS_ACTIVE ) ;
+
+		return $db->query("select c.*, (SELECT title FROM category WHERE ID=c.parentID) AS parentName from category c ".$act);		
 	}		
 
 	public function getChildren($cid)

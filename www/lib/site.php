@@ -31,7 +31,14 @@ class Sites
 	const REGISTER_STATUS_OPEN = 0;
 	const REGISTER_STATUS_INVITE = 1;
 	const REGISTER_STATUS_CLOSED = 2;
+	const SVN_REV = "\$Rev: 1914 \$";
 
+	public function version()
+	{
+		$ver = substr(Sites::SVN_REV, 6);
+		return "0.1.".substr($ver, 0, (strlen($ver) - 2));
+	}
+	
 	public function update($form)
 	{		
 		$site = $this->row2Object($form);
@@ -76,6 +83,7 @@ class Sites
 		$obj->tandc = $row["tandc"];
 		$obj->registerstatus = $row["registerstatus"];
 		$obj->style = $row["style"];
+		$obj->version = $this->version();
 			
 		return $obj;
 	}

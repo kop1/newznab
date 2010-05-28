@@ -3,10 +3,12 @@ require_once($_SERVER['DOCUMENT_ROOT']."/lib/page.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/nzb.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/releases.php");
 require_once($_SERVER['DOCUMENT_ROOT']."/lib/users.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/lib/category.php");
 
 $page = new Page;
 $users = new Users;
 $releases = new Releases;
+$category = new Category;
 $nzb = new NZB;
 
 //
@@ -44,7 +46,9 @@ if (isset($_GET["t"]))
 	elseif ($_GET["t"] == "g")
 		$function = "g";
 	elseif ($_GET["t"] == "s")
-		$function = "s";		
+		$function = "s";	
+	elseif ($_GET["t"] == "c")
+		$function = "c";			
 	else
 		showApiHelp();
 }
@@ -142,6 +146,16 @@ switch ($function)
 			
 		break;
 		
+	//
+	// capabilities request
+	//
+	case "c":
+		$cats = $category->getFlat(true);
+		$page->smarty->assign('cats',$cats);
+		header("Content-type: text/xml");
+		echo $page->smarty->fetch('caps.tpl');	
+		break;		
+	
 	default:
 		showApiError("no api function declared");
 		break;
