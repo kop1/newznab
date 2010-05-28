@@ -33,4 +33,4 @@ select, textarea, input {background-color:#AAA; font-family:verdana;}
 
 pre#nfo { color: #fff; }
 
-#cboxLoadedContent{background:#333; margin-top:32px; padding:1px; }
+#cboxLoadedContent{ background:#333; }
