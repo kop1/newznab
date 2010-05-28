@@ -4,6 +4,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/util.php");
 
 $page = new Page;
 $users = new Users;
@@ -20,6 +21,8 @@ if (isset($_GET["id"]))
 		$page->show404();
 
 	$nfo = $releases->getReleaseNfo($rel['ID']);
+	$nfo['nfoUTF'] = cp437toUTF($nfo['nfo']);
+	
 	
 	$page->smarty->assign('rel', $rel);
 	$page->smarty->assign('nfo', $nfo);
