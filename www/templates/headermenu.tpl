@@ -16,7 +16,7 @@
 	<div id="menusearchlink">
 	<form id="headsearch_form">
 		<label style="display:none;" for="headsearch">Search Text</label>
-		<input id="headsearch" name="headsearch" value="Enter keywords" style="width:85px;" type="text" /> 
+		<input id="headsearch" name="headsearch" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
 		<label style="display:none;" for="headcat">Search Category</label>
 		<select id="headcat" name="headcat">
 			<optgroup label="All">
@@ -25,7 +25,7 @@
 		{foreach from=$parentcatlist item=parentcat}
 			<optgroup label="{$parentcat.title}">
 				{foreach from=$parentcat.subcatlist item=subcat}
-					<option value="{$subcat.ID}">{$subcat.title}</option>
+					<option {if $header_menu_cat==$subcat.ID}selected{/if} value="{$subcat.ID}">{$subcat.title}</option>
 				{/foreach}
 			</optgroup>
 		{/foreach}

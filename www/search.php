@@ -22,8 +22,12 @@ $results = array();
 //TODO: bug here in javascript cludge to turn request in a get, rather than post is losing + signs in search query.
 if (isset($_REQUEST["search"]))
 {
+	$cat = "-1";
+	if (isset($_REQUEST["t"]))
+		$cat = $_REQUEST["t"];
+
 	$page->smarty->assign('search', $_REQUEST["search"]);
-	$results = $releases->search($_REQUEST["search"]);
+	$results = $releases->search($_REQUEST["search"], $cat);
 }
 
 $page->smarty->assign('results', $results);
