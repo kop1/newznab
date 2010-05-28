@@ -9,7 +9,7 @@
 </table>
 
 
-{if $user.ID==$userdata.ID || $userdata.role==2}
+{if $user.ID==$userdata.ID}
 <br/><br/>
 <h2>SABnzbd Integration</h2>
 
