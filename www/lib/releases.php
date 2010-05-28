@@ -358,16 +358,6 @@ class Releases
 			if ($relnfo !== false) {
 				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
 			}
-			
-			//example for finding extra files (jpg, gif etc)
-			/*
-			$extraFiles = $this->determineReleaseExtras($nzbdata);
-			if ($extraFiles !== false) {
-				foreach($extraFiles as $extra) {
-					$this->addExtraFile($relid, $extra['binary']['ID'], $extra['type']);
-				}
-			}
-			*/
     	
 	    if ($echooutput && ($retcount % 2 == 0))
 	    	echo "processed ".$retcount." binaries stage three\n";
@@ -683,7 +673,6 @@ class Releases
 				$fetchedBinary = $nntp->getBinary($binaryToFetch[0]);
 				if ($fetchedBinary !== false) {
 					//$release->parseImdb($fetchedBinary);
-					echo "<pre>".$fetchedBinary."</pre>";
 					$db->query(sprintf("UPDATE releasenfo SET nfo = compress(%s) WHERE ID = %d", $db->escapeString($fetchedBinary), $arr["ID"]));
 					$ret++;
 				} else {
