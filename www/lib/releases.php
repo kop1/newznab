@@ -672,14 +672,17 @@ class Releases
 				$binaryToFetch = $nzb->getNZB(array($arr['binaryID']));
 				$fetchedBinary = $nntp->getBinary($binaryToFetch[0]);
 				if ($fetchedBinary !== false) {
+					//parse nfo for metadata
 					$imdbId = $this->parseImdb($fetchedBinary);
 					if ($imdbId !== false) {
 						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
 					}
+					
+					//insert nfo into database
 					$db->query(sprintf("UPDATE releasenfo SET nfo = compress(%s) WHERE ID = %d", $db->escapeString($fetchedBinary), $arr["ID"]));
 					$ret++;
 				} else {
-					//increment attempts
+					//nfo download failed, increment attempts
 					$db->query(sprintf("UPDATE releasenfo SET attempts = attempts+1 WHERE ID = %d", $arr["ID"]));
 				}
 			}

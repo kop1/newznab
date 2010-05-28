@@ -26,6 +26,11 @@ function objectsIntoArray($arrObjData, $arrSkipIndices = array())
     return $arrData;
 }
 
+function makeStringLinksHtml($str) {
+	return preg_replace('/(https?):\/\/([A-Za-z0-9\._\-\/\?=&;]+)/is', '<a href="$1://$2" target="_blank">$1://$2</a>', $str);
+}
+
+
 function cp437toUTF($str) {
 	$out = '';
     for ($i = 0; $i<strlen($str);$i++){	

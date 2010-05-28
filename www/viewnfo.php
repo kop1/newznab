@@ -21,8 +21,8 @@ if (isset($_GET["id"]))
 		$page->show404();
 
 	$nfo = $releases->getReleaseNfo($rel['ID']);
+	$nfo['nfo'] = makeStringLinksHtml($nfo['nfo']);
 	$nfo['nfoUTF'] = cp437toUTF($nfo['nfo']);
-	
 	
 	$page->smarty->assign('rel', $rel);
 	$page->smarty->assign('nfo', $nfo);
