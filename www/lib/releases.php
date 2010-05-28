@@ -672,7 +672,10 @@ class Releases
 				$binaryToFetch = $nzb->getNZB(array($arr['binaryID']));
 				$fetchedBinary = $nntp->getBinary($binaryToFetch[0]);
 				if ($fetchedBinary !== false) {
-					//$release->parseImdb($fetchedBinary);
+					$imdbId = $this->parseImdb($fetchedBinary);
+					if ($imdbId !== false) {
+						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
+					}
 					$db->query(sprintf("UPDATE releasenfo SET nfo = compress(%s) WHERE ID = %d", $db->escapeString($fetchedBinary), $arr["ID"]));
 					$ret++;
 				} else {
@@ -683,6 +686,14 @@ class Releases
 			$nntp->doQuit();
 		}
 		return $ret;
+	}
+	
+	public function parseImdb($str) {
+		preg_match('/imdb.*?tt(\d{7})/i', $str, $matches);
+		if (isset($matches[1]) && !empty($matches[1])) {
+			return trim($matches[1]);
+		}
+		return false;
 	}
 }
 ?>

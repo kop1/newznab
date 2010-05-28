@@ -45,6 +45,7 @@ CREATE TABLE `releases`
 `seriesfull` VARCHAR(15) NULL,
 `season` VARCHAR(10) NULL,
 `episode` VARCHAR(10) NULL,
+`imdbID` MEDIUMINT(7) UNSIGNED ZEROFILL NULL,
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
 `comments` INT NOT NULL DEFAULT 0,
 PRIMARY KEY  (`ID`),
@@ -54,6 +55,7 @@ FULLTEXT KEY `searchname` (`searchname`)
 CREATE INDEX ix_releases_adddate ON releases (`adddate`);
 CREATE INDEX ix_releases_categoryID ON releases (`categoryID`);
 CREATE INDEX ix_releases_rageID ON releases (`rageID`);
+CREATE INDEX ix_releases_imdbID ON releases (`imdbID`);
 
 
 DROP TABLE IF EXISTS `releasecomment`;

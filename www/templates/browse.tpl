@@ -26,6 +26,8 @@
 				</div>
 				<div class="resextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}?modal" title="View Nfo" class="modal_nfo" rel="nfo">(NFO)</a>{/if}
+					{if $result.imdbID > 0}<a target="_blank" href="http://www.imdb.com/title/tt{$result.imdbID}/" title="View IMDB">(IMDB)</a>{/if}
+
 					{if $result.rageID > 0}<a target="blank" href="http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">(TVRage)</a>{/if}
 				</div>
 			</td>
