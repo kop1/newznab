@@ -35,6 +35,15 @@ $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
 $page->smarty->assign('registerstatus_ids', array(Sites::REGISTER_STATUS_OPEN, Sites::REGISTER_STATUS_INVITE, Sites::REGISTER_STATUS_CLOSED));
 $page->smarty->assign('registerstatus_names', array( 'Open', 'Invite', 'Closed'));
 
+$themelist = array();
+$themelist[] = "/";
+$themes = scandir(WWW_DIR."/theme");
+foreach ($themes as $theme)
+	if (strpos($theme, ".") === false && is_dir(WWW_DIR."/theme/".$theme))
+		$themelist[] = $theme;
+
+$page->smarty->assign('themelist', $themelist);
+
 $page->content = $page->smarty->fetch('admin/site-edit.tpl');
 $page->render();
 

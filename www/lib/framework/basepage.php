@@ -53,11 +53,6 @@ class BasePage
 			$this->smarty->assign('isadmin',"false");	
 			$this->smarty->assign('loggedin',"false");	
 		}
-		
-		if (file_exists($_SERVER['DOCUMENT_ROOT']."/theme/style.css"))
-			$this->smarty->assign('customtheme',"<link href=\"/theme/style.css\" rel=\"stylesheet\" type=\"text/css\" media=\"screen\" />");
-		else
-			$this->smarty->assign('customtheme', "");
 	}    
 	
 	public function addToHead($headcontent) 

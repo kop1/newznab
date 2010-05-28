@@ -66,6 +66,14 @@
 </tr>
 
 <tr>
+	<td><label for="style">Theme</label>:</td>
+	<td>
+		{html_options id="style" name='style' values=$themelist output=$themelist selected=$fsite->style}
+		<div class="hint">The theme folder which will be loaded for css and images. (Use / for default)</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="email">Email</label>:</td>
 	<td>
 		<input id="email" class="long" name="email" type="text" value="{$fsite->email}" />

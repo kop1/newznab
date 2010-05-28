@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="{$page->meta_keywords},{$site->meta_keywords}" />
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<title>{$page->meta_title} - {$site->meta_title}</title>
@@ -14,7 +14,9 @@
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/jquery.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
-	{$customtheme}
+	{if $site->style != "" && $site->style != "/"}<link href="{$smarty.const.WWW_TOP}/theme/{$site->style}/style.css" rel="stylesheet" type="text/css" media="screen" />
+	{/if}
+
 	<script type="text/javascript">
 		var WWW_TOP = "{$smarty.const.WWW_TOP}";
 		var SERVERROOT = "{$serverroot}";

@@ -4,8 +4,6 @@ pre-reqs
 		max_allowed_packet=12582912
 		ft_min_word_len=3 - allows searching for matches of 3characters
 	pear net_nntp module
-	php mhash module
-	php mcrypt module
 	php sessions enabled
 	php memory limit set to 256 
 	php recommended minimum execution time of at least 60 seconds
@@ -19,6 +17,9 @@ pre-reqs
 		.htaccess allow override on
 		
 installation
+
+	there is an installer in \install\ try it first, before manual.
+
 	create new database newznab
 	add new user with only rights to newznab db
 	import \db\schema.sql into newznab db (if this doesnt work piping in, use a query editor)
@@ -34,10 +35,6 @@ installation
 	call \admin\binary-update.php to populate database with binaries + parts.
 	call \admin\release-update.php to create releases from all complete binary sets.
 	
-installation checklist
-	in \www\install is a checklist which should take you through an installation process. this 
-	is work in progress. it should also be deleted once installed.
-
 running	outside of root website
 	set /.htaccess RewriteBase to your virtual directory
 	
@@ -107,14 +104,21 @@ tvrage
 	will attempt to relink rage data. when a new release is created it goes in with a release.rageid of -1
 	when tv is processed, the rageid either goes to the best guess, or to -2, which indicates no match 
 	could be made, or the release isnt percieved to by tv.
+
+nfo
+	nfos are attempted to be retrieved using a queuing method. there will be a number of attempts to get
+	an nfo vefore giving up
 	
 content/cms
 	pages can be added to the site with seo friendly urls via the /admin/ edit content links
 	
 skinning
 	avoid custom edits to code and stylesheets to make updating painless. 
-	override any styles by editing the file \www\theme\style.css. stick any custom images in
-	\www\theme\images\
+	override any styles by creating a folder \www\theme\<yourtheme>\style.css. stick any custom images in
+	\www\theme\<yourtheme>\images\
+	pick the theme in the admin\site-edit page. your styles should override the existing style sheet, which
+	should always be loaded in.
+	
 api
 	www.newznab.com/api? provides api access to query and retrieve nzbs.
 	call with no parameters to see help doc with all available options. users either have to be logged in
@@ -144,16 +148,22 @@ development
 	\www\templates\admin all templates used by the admin pages
 	\www\templates\ all templates used by the user pages
 	\www\admin\ all php pages used by the admin
-	\www\theme\ blank area for implementation specific ui customisations
+	\www\theme\<yourtheme> blank area for implementation specific ui customisations
 	\www\includes js dumping ground
 	\www\api.php all functionality related to api calls into newznab
 	
-(just some of the) people who've helped along the way
+(just some of the) people who've helped along the way. full(er) list at http://code.google.com/p/newznab/source/list
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
 	gizmore@wechall.net			password,hash
 	lhbandit@nzbs.org			yenc,nntp,bokko,everything	
-	jayhawk@nzb.su				testing	
+	jayhawk@nzb.su				testing,icons	
 	midgetspy@sickbeard			rage integration,api
-	ueland@newznab				dev
-	
+	ueland@newznab				install
+	sakarias@newznab			testing
+	pairdime@sabnzbd			jquery,css
+	pmow@newznab				headers,backfill
+	bigdave@newznab				testing
+	duv@sabnzbd					yenc
+	inpheaux@sabnzbd			design,nzb
+	spooge@newznab				testing
