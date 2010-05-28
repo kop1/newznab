@@ -28,6 +28,12 @@ class TvRage
 		return $db->queryOneRow(sprintf("select * from tvrage where ID = %d", $id ));		
 	}
 	
+	public function getByRageID($id)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("select * from tvrage where rageID = %d", $id ));		
+	}
+	
 	public function add($rageid, $releasename, $desc)
 	{			
 		$db = new DB();
