@@ -1,5 +1,5 @@
 
-<h1 style="margin-left:35px;">Search</h1>
+<h1 style="margin-left:65px;">Search</h1>
 
 <form method="get" action="/search/">
 	<div style="text-align:center;">

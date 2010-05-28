@@ -87,12 +87,12 @@ page structure
 misc site style such as data tables, 
 */
 table.data { border-collapse:collapse; }
-table.icons { border-left:1px solid white; margin-left:-30px; }
+table.icons { border-left:1px solid white; }
 table.data th { text-align:left; vertical-align:top; background-color:#DDD; border-color: #AAA; border-width: 1px; border-style: solid; padding:3px; font-style:bolder; text-transform:capitalize;}
 table.data td { vertical-align:top; padding:5px; border-color: #AAA; border-width: 1px; border-style: solid; }
 table.data td.less { color: #888; font-size: 0.8em; white-space:nowrap; }
-table.data th.icons { width:0px; padding:0px; border:0px; background: #fff; }
-table.data td.icons { z-index:-5; background-color: #fff; width:55px; height:30px; border:0px; }
+table.data th.icons { width:65px; padding:0px; border:0px; background: #fff; }
+table.data td.icons { white-space:nowrap; z-index:-5; background-color: #fff; height:30px; border:0px; }
 table.data tr:hover td.icons { z-index:5; border: 1px solid #AAA; }
 table.highlight tr:hover td { background-color: #E1F0D9; }
 table tr.alt { background-color: #EEE; }

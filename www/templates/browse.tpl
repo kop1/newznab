@@ -1,5 +1,5 @@
 
-<h1 style="margin-left:35px;">Browse {$catname}</h1>
+<h1 style="margin-left:65px;">Browse {$catname}</h1>
 	
 {if $results|@count > 0}
 
