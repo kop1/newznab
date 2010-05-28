@@ -22,10 +22,12 @@ if (isset($_GET["id"]))
 	if ($page->isPostBack())
 			$releases->addComment($data["ID"], $_POST["txtAddComment"], $users->currentUserId(), $_SERVER['REMOTE_ADDR']); 
 	
+	$nfo = $releases->getReleaseNfo($data["ID"], false);
 	$comments = $releases->getComments($data["ID"]);
 	$similars = $releases->searchSimilar($data["ID"], $data["searchname"]);
 
 	$page->smarty->assign('release',$data);
+	$page->smarty->assign('nfo',$nfo);
 	$page->smarty->assign('comments',$comments);
 	$page->smarty->assign('similars',$similars);
 

@@ -29,5 +29,38 @@ class Nntp extends Net_NNTP_Client
 	{
 		$this->quit();
 	}
+	
+	function getBinary($binary)
+	{
+		require_once(WWW_DIR."/lib/yenc.php");
+		$yenc = new yenc();
+		$message = $dec = '';
+		$summary = $this->selectGroup($binary['binary']['groupname']);
+		if (PEAR::isError($summary)) {
+			echo $summary->getMessage();
+			return false;
+		}
+
+		// Fetch body
+		foreach($binary['parts'] as $part) {
+			$body = $this->getBody($part['number'], true);
+			if (PEAR::isError($body)) {
+			   echo 'Error fetching part number '.$part['number'].' (Server response: '. $body->getMessage().')';
+			   return false;
+			}
+			
+			$dec = $yenc->decode($body);
+			if ($yenc->error) {
+				echo $yenc->error;
+				return false;
+			}
+			//if (!$yenc->encoded) {
+			//	$dec = base64_decode($body);
+			//}
+			$message .= $dec;
+		}
+		return $message;
+	}
+	
 }
 ?>

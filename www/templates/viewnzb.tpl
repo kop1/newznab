@@ -8,6 +8,9 @@
 	<tr><th>Size:</th><td>{$release.size|fsize_format:"MB"}</td></tr>
 	<tr><th>Grabs:</th><td>{$release.grabs} time{if $release.grabs==1}{else}s{/if}</td></tr>
 	<tr><th>Files:</th><td><a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$release.guid}">{$release.totalpart} file{if $release.totalpart==1}{else}s{/if}</a></td></tr>
+	{if $nfo.ID|@count > 0}
+	<tr><th>Nfo:</th><td><a href="{$smarty.const.WWW_TOP}/nfo/{$release.guid}" title="View Nfo">View Nfo</a></td></tr>
+	{/if}
 	{if $release.rageID > 0}
 	<tr><th>Tv Info:</th><td><div class="icon icon_tvrage"></div>&nbsp;<a href="http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage">Rage Id {$release.rageID}</a> ({$release.seriesfull})</td></tr>
 	{/if}

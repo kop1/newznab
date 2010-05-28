@@ -82,6 +82,19 @@ PRIMARY KEY  (`ID`)
 
 CREATE INDEX ix_releasenzb_releaseID ON releasenzb (`releaseID`);
 
+DROP TABLE IF EXISTS `releasenfo`;
+CREATE TABLE `releasenfo` (
+  `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `releaseID` int(11) UNSIGNED NOT NULL,
+  `binaryID` int(11) UNSIGNED NOT NULL,
+  `attempts` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  `nfo` MEDIUMTEXT NULL ,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_releasenfo_releaseID ON releasenfo (`releaseID`);
+
+
 DROP TABLE IF EXISTS `tvrage`;
 CREATE TABLE `tvrage` 
 (

@@ -229,7 +229,7 @@ class Releases
 	public function getByGuid($guid)
 	{			
 		$db = new DB();
-		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID  left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where guid = %s ", $db->escapeString($guid)));		
+		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where guid = %s ", $db->escapeString($guid)));		
 	}	
 
 	public function getbyRageId($rageid, $series = "", $episode = "")
@@ -348,7 +348,27 @@ class Releases
 			//$nzbdata = $nzb->getNZBforReleaseId($relid);
 			//$page->smarty->assign('binaries',$nzbdata);
 			//$this->addReleaseNzb($relid, $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl'));
-
+			
+			
+			//
+			// find an .nfo in the release
+			//
+			$nzbdata = $nzb->getNZBforReleaseId($relid);
+			$relnfo = $this->determineReleaseNfo($nzbdata);
+			if ($relnfo !== false) {
+				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
+			}
+			
+			//example for finding extra files (jpg, gif etc)
+			/*
+			$extraFiles = $this->determineReleaseExtras($nzbdata);
+			if ($extraFiles !== false) {
+				foreach($extraFiles as $extra) {
+					$this->addExtraFile($relid, $extra['binary']['ID'], $extra['type']);
+				}
+			}
+			*/
+    	
 	    if ($echooutput && ($retcount % 2 == 0))
 	    	echo "processed ".$retcount." binaries stage three\n";
 		}
@@ -412,7 +432,15 @@ class Releases
 			echo "processing tv rage data\n";		
 
 		$this->processTvSeriesData($echooutput);
+		
+		//
+		// Process nfo files
+		//
+		if ($echooutput)
+			echo "processing nfo files\n";		
 
+		$this->processNfoFiles($echooutput);
+		
 		//
 		// tidy away any binaries which have been attempted to be grouped into 
 		// a release more than x times
@@ -598,6 +626,74 @@ class Releases
 		$db = new DB();
 		$db->query(sprintf("delete from releasenzb where releaseID = %d", $relid));		
 	}
+	
+	public function determineReleaseNfo($nzbdata)
+	{
+		$nfos = array();
+		foreach ($nzbdata as $bin) {
+			if (preg_match('/\.(nfo|txt)$/i', $bin['binary']['filename'])) {
+				$nfos[$bin['binary']['filename']] = $bin;
+			}
+		}
+		ksort($nfos);
+		return (is_array($nfos) && !empty($nfos)) ? array_shift($nfos) : false;
+	}
+	
+	public function determineReleaseExtras($nzbdata)
+	{
+		$allowedFileExt = array('jpg', 'gif', 'png');
+		$fileExtPattern = implode('|', $allowedFileExt);
+		$files = $typesFound = array();
+		foreach ($nzbdata as $bin) {
+			if (preg_match('/\.('.$fileExtPattern.')$/i', $bin['binary']['filename'], $matches)) {
+				if (!in_array($matches[1], $typesFound)) { //optional, only get one of each file ext
+					$bin['type'] = $matches[1];
+					$files[$bin['binary']['filename']] = $bin;
+					$typesFound[] = $bin['type'];
+				}
+			}
+		}
+		return (is_array($files) && !empty($files)) ? $files : false;
+	}
 
+	public function addReleaseNfo($relid, $binid)
+	{
+		$db = new DB();
+		return $db->queryInsert(sprintf("INSERT INTO releasenfo (releaseID, binaryID) VALUES (%d, %d)", $relid, $binid));		
+	}
+	
+	public function getReleaseNfo($id, $incnfo=true)
+	{			
+		$db = new DB();
+		$selnfo = ($incnfo) ? ', uncompress(nfo) as nfo' : '';
+		return $db->queryOneRow(sprintf("SELECT ID, releaseID".$selnfo." FROM releasenfo where releaseID = %d AND nfo IS NOT NULL", $id));		
+	}
+	
+	public function processNfoFiles($echooutput=false)
+	{
+		$ret = 0;
+		$db = new DB();
+		$nzb = new Nzb();
+		$nntp = new Nntp();
+		$res = $db->query(sprintf("SELECT * FROM releasenfo WHERE nfo IS NULL AND attempts < 5"));
+		if ($res) {
+			$nntp->doConnect();
+			foreach($res as $arr) {
+				$binaryToFetch = $nzb->getNZB(array($arr['binaryID']));
+				$fetchedBinary = $nntp->getBinary($binaryToFetch[0]);
+				if ($fetchedBinary !== false) {
+					//$release->parseImdb($fetchedBinary);
+					echo "<pre>".$fetchedBinary."</pre>";
+					$db->query(sprintf("UPDATE releasenfo SET nfo = compress(%s) WHERE ID = %d", $db->escapeString($fetchedBinary), $arr["ID"]));
+					$ret++;
+				} else {
+					//increment attempts
+					$db->query(sprintf("UPDATE releasenfo SET attempts = attempts+1 WHERE ID = %d", $arr["ID"]));
+				}
+			}
+			$nntp->doQuit();
+		}
+		return $ret;
+	}
 }
 ?>
