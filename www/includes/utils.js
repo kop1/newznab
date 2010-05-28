@@ -3,10 +3,15 @@
 jQuery(function($){
 
 	// browse.tpl, search.tpl -- show icons on hover
+	var orig_opac = $('table.data tr').children('td.icons').children('a').children('div.icon').css('opacity');
 	$('table.data tr').hover(
-		function(){	$(this).children('td').children('.reshover').show(); },
-		function(){	$(this).children('td').children('.reshover').hide(); }
+		function(){	$(this).children('td.icons').children('a').children('div.icon').css('opacity',1); },
+		function(){	$(this).children('td.icons').children('a').children('div.icon').css('opacity',orig_opac); }
 	);
+	
+	$('.nzb_check_all').change(function(){
+		$('table.data tr td input:checkbox').attr('checked',$(this).attr('checked'));
+	});
 
 	// browse.tpl, search.tpl
 	$('.add_to_cart').click(function(e){
@@ -130,6 +135,7 @@ jQuery(function($){
 	// SABnzbd integration
 	if ($.cookie('sabnzbd_'+UID+'__host')) {
 		$('table.data .icon_sab, .sabnzbd_required').show();	// sab icons hidden by default
+		$('table.data td.icons').addClass('icons_with_sab');
 		
 		// set profile.tpl credentials into profile on page load
 		if ($('#profile_sab_host').val()) {

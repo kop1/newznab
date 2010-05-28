@@ -1,4 +1,5 @@
 {if $pagertotalitems > $pageritemsperpage}
+	<div class="pager">
 	{section name=pager loop=$pagertotalitems start=0 step=$pageritemsperpage}
 		{if $pageroffset == $smarty.section.pager.index}
 			{$smarty.section.pager.iteration}&nbsp;
@@ -11,4 +12,5 @@
 			<a title="Goto first page" href="{$pagerquerybase}0{$pagerquerysuffix}">1</a> ... 
 		{/if}    
 	{/section}
+	</div>
 {/if}  
