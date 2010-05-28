@@ -31,9 +31,18 @@ if (isset($_GET["id"]))
 	$page->meta_title = "View Nfo";
 	$page->meta_keywords = "view,nzb,nfo,description,details";
 	$page->meta_description = "View Nfo File";
+
+	if (isset($_GET['modal'])) {
+		$modal = true;
+		$page->smarty->assign('modal', true);
+	}
 	
 	$page->content = $page->smarty->fetch('viewnfo.tpl');
-	$page->render();
+
+	if ($modal)
+		echo $page->content;
+	else
+		$page->render();
 }
 
 ?>
