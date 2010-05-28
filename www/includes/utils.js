@@ -31,7 +31,7 @@ jQuery(function($){
 		title:'NFO', width:"800px", height:"90%", initialWidth:"800px", initialHeight:"90%", speed:0, opacity:0.7,
 		onComplete:function(){
 			$('#cboxTitle').text( $('#cboxLoadedContent h2 a').text() );
-			$('#cboxLoadedContent').html( '<pre>'+$('#cboxLoadedContent #content pre').html()+'</pre>' );
+			$('#cboxLoadedContent').html( '<pre id="nfo">'+$('#cboxLoadedContent #content pre').html()+'</pre>' );
 		}
 	});
 

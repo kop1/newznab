@@ -98,7 +98,7 @@ div.hint { margin-bottom:10px;}
 input.long {width:400px; }
 input.short { width:40px; }
 
-pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 13px; line-height: 14px; }
+pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
 div.reshover { display:none; float:right; }
 div.resextra { color: #888; font-size: 0.8em; height:16px; }
