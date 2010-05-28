@@ -62,7 +62,7 @@ page structure
 #statusbar a { text-decoration: none; color: #515151;}
 
 #content { float: right; width: 585px;}
-#content h1 { font-size: 32px;}
+#content h1 { font-size: 28px;}
 #content p { margin-bottom:20px;}
 
 #adpanel { margin-left:15px;width:165px;float:right; }
