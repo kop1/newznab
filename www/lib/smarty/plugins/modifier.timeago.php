@@ -20,7 +20,7 @@ function smarty_modifier_timeAgo( $date)
       $timeStrings = array(   'now',      // 0
                         'Sec', 'Secs',    // 1,1 
                         'Min','Mins',     // 3,3 
-                        'Hour', 'Hours',  // 5,5 
+                        'Hour', 'Hrs',  // 5,5 
                         'Day', 'Days');
       $debug = false; 
       $sec = time() - (( strtotime($date)) ? strtotime($date) : $date); 
