@@ -281,6 +281,99 @@ class Releases
 		$db->queryOneRow(sprintf("update releases set grabs = grabs + 1 where guid = %s", $db->escapeString($guid)));		
 	}
 	
+	function processReleaseNew($echooutput=false) 
+	{
+    //
+    // Get all regexes for all groups which are to be applied to new binaries
+    // in order of how they should be applied
+    // Loop around 
+    //
+
+        // Get out all binaries of STAGE0 for current group
+
+        // apply a regex to all new binaries for the current group
+        
+        // for every match determine the releasename, part, total parts, filename
+        
+        // update the binary with its data and set its status to STAGE1
+    
+    //end loop
+    
+    //
+    // Get out all binaries still at STAGE0 to apply misc/general regex
+    //
+    
+    //
+    // Get out misc regexs in order
+    // Loop around all misc regexs applying misc regex
+    //
+                    
+       // do same as group based loop
+    
+    // end loop 
+    
+    
+    // get out all distinct groups at STAGE1
+    // loop around each group (may not be many).
+    
+	    
+	    //
+	    // Get out all distinct release names, total part count and total row count and at STAGE1 for the current grouploop
+	    // Loop through it
+	    //
+	    
+		    // if the total part count >= total row count (caters for additional nzb release)
+		    
+		        // update all binaries of STAGE1 where relname = current to be STAGE2
+		
+		    //else
+		                    
+		        // update all binaries of STAGE1 where relname = current to be processattempts + 1
+		        // this caters for binaries which match the patterns, but are not yet complete
+		
+	    // end loop
+	    
+		// end loop    
+		
+		
+    //
+    // Get out all distinct relname, group from binaries of STAGE2 
+    // loop around
+    
+    	//
+    	// select out from releases where STAGE3 and relname = current relname (checking for duplicate)
+    	// if doesnt exist
+    		
+	    	// get the total size of all combined parts 
+	    	
+	    	// get the max postdate for all binaries 
+	    	
+	    	// insert new release
+	    	
+	    	// create nzb for release and write to disk at \nzbs\relguid.nzb
+
+				// update all binaries of this relname at STAGE2 to STAGE3
+	    	
+  		//endif  	
+    
+    // end loop
+    
+    
+    //process tv series edpisode / rage data (should this just be done on tv groups, and inline with the release process above??
+    
+    //processnfos
+    
+    //delete all binaries and parts at stage3
+    
+    //delete all binaries/parts where process attempts > 5
+    
+    //delete all binaries/parts older than 24 hours.
+    
+    
+	}
+
+
+
 	function processReleases($echooutput=false) 
 	{
 		$db = new DB;
@@ -314,7 +407,7 @@ class Releases
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
-			if ($row["reltotalpart"] == $row["num"])
+			if ($row["reltotalpart"] >= $row["num"])
 			{
 				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d", Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED));
 			}

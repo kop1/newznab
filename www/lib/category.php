@@ -184,6 +184,9 @@ class Category
 		if (preg_match('/alt\.binaries\.mac/i', $group)) 
 			return Category::CAT_PC_MAC;
 
+		if (preg_match('/linux/i', $group)) 
+			return Category::CAT_PC_ISO;
+
 		if (preg_match('/alt\.binaries\.ipod\.videos\.tvshows/i', $group)) 
 			return Category::CAT_TV_IPOD;	
 
