@@ -13,9 +13,20 @@ $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'view';
 
 switch($action) 
 {
+    case 'add':
+			break;
     case 'submit':
+    
+    	if ($_POST["id"] == "")
+    	{
+				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '');
+    	}
+    	else
+    	{
 				$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"]);
-				if ($ret == Users::SUCCESS)
+			}
+
+				if ($ret >= 0)
 					header("Location:".WWW_TOP."/user-list.php");
 				else
 				{
