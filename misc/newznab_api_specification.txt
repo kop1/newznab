@@ -1,15 +1,15 @@
 
 
-
-                NEWZNAB Usenet Searching Web API 
+    
+                    NEWZNAB Usenet Searching Web API 
 
 
                                v0.1
                              30/6/2010
 
 
-Owner: bb at #newznab           (irc.synirc.org)
-Author: ensi at #newznab        (irc.synirc.org)   samiv@ensisoft.com
+Owner:  bb   at #newznab        (irc.synirc.org)
+Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 
 1.  Introduction
 2.  Functions
@@ -17,6 +17,15 @@ Author: ensi at #newznab        (irc.synirc.org)   samiv@ensisoft.com
 2.2 LOGIN
 2.3 SEARCH
 2.4 GET
+
+TODO:
+  - data encoding (xml-json)
+  - data encoding (request parameters)
+  - tv-rage ??
+  - authorization
+  - error cases
+  - non-login operation?
+  - login session timeout
 
 
 1. Introduction
@@ -30,6 +39,13 @@ Author: ensi at #newznab        (irc.synirc.org)   samiv@ensisoft.com
 
    Intended readers are server and client implementers.
 
+1.1 Notation
+    
+    This document uses the follocation notations:
+    
+    Parameters: "t=c" denotes a required HTTP query parameter. [o=json | o=xml] denotes optional 
+    parameters with possible values.
+
 
 2. Functions
    
@@ -40,27 +56,89 @@ Author: ensi at #newznab        (irc.synirc.org)   samiv@ensisoft.com
    2.1 CAPS
 
    Description: 
-   
-   CAPS function is used to query the server for supported features and the protocol version and other 
-   meta data relevant to the implementation. This function doesn't require the client to provide any
-   login information but can be executed out of "login session".
+     CAPS function is used to query the server for supported features and the protocol version and other 
+     meta data relevant to the implementation. This function doesn't require the client to provide any
+     login information but can be executed out of "login session".
 
-   HTTP Method: GET
+   HTTP Method: 
+     POST
       
-   Parameters: ?t=c 
+   Parameters:  
+     t=c                       caps function
+     [o=json | o=xml]          output format, either JSON or XML (default is XML)
 
-   Responses:
+   Responses:  
+     200 OK
 
    Example:
-   -> GET http://nzb.su?t=c
-
+     -> POST http://nzb.su?t=c
+     <- 200 OK
+        <?xml version="1.0" encoding="UTF-8"?>
+          <caps>
+            <server name="acme nzb" contact="john.doe@acme.com" version="1.0"/>
+            <search>
+                <category name="Console">
+                  <subcategory name="NDS"/>
+                  <subcategory name="PSP"/>
+                </category name="Movies">
+                  <subcategory name="DVD"/>
+                </category/>
+                ...
+            </search>
+          </caps>
+        </xml>
         
+     -> GET http://nzb.su?t=c
+     <- 200 OK
+       [todo: JSON]
+        
+    TBD:
+     - more searching options: 
+       conditional operations,
+       attributes,
+       wild cards,
+       regex
 
 
    2.2 LOGIN
+   
+   Description: 
+     Login function tries to perform login with the provided user credentials. On succesful login 200 OK with
+     session cookies are returned. If login fails 403 Forbidden is returned with appropriate response body
+     describing the error is included in the response body. 
+     
+     Todo: maybe should be revised to provide a more secure authentication mechanism.
 
+   HTTP Method:
+     POST
+     
+   Parameters:
+     t=dologin          login function
+     username=xxxxx     username
+     password=xxxxx     password
+     [o=json | o=xml]   output format, either JSON or XML (default is XML)
+
+   Responses:
+      200 OK
+      403 Forbidden
+
+   Example:
+     -> POST http://nzb.su?t=dologin&username=xxxx&password=xxxx
+     <- 200 OK
+        Set-Cookie: TBD
+        
+     -> POST http://nzb.su?t=dologin&username=xxxx&password=xxxx
+     <- 403 Forbidden
+        <?xml version="1.0" encoding="UTF-8"?>
+          <error code="xxx" description="Incorrect password or username"/>
+        </xml>   
+
+   Error codes:
+      xxx - Incorrect password or username
+      xxx - Account suspended
    
    2.3 SEARCH
+
 
    2.4 GET
    
