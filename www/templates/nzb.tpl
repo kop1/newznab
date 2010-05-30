@@ -5,12 +5,14 @@
 
 	<file poster="{$binary.binary.fromname|escape:'html'}" date="{$binary.binary.unixdate}" subject="{$binary.binary.name|escape:'html'} (1/{$binary.binary.totalParts})">
 	<groups>
-		<group>{$binary.binary.groupname}</group>
+	{foreach from=$binary.groups item=group}
+	<group>{$group}</group>
+	{/foreach} 
 	</groups>
 	<segments>
 	{foreach from=$binary.parts item=part}
 	<segment bytes="{$part.size}" number="{$part.partnumber}">{$part.messageID}</segment>
-	{/foreach}		
+	{/foreach} 
 	</segments>
 	</file>
 

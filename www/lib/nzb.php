@@ -73,7 +73,17 @@ class NZB
 				$binrow['fromname'] = str_replace('(','',str_replace(')','',$binrow['fromname']));
 				
 				$parts = $db->query(sprintf("SELECT parts.* FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
-				$binaries[] = array ('binary' => $binrow, 'parts' => $parts);
+				
+				//get groups for the binary
+				$groups = array();
+				$groupsRaw = explode(' ', $binrow['xref']);
+				foreach($groupsRaw as $grp) {
+					if (preg_match('/^([a-z0-9\.\-_]+):\d+$/i', $grp, $match)) {
+						$groups[] = $match[1];
+					}
+				}
+				
+				$binaries[] = array ('binary' => $binrow, 'parts' => $parts, 'groups' => $groups);
 			}
 		}
 		return $binaries;
