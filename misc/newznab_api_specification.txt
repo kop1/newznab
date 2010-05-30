@@ -1,0 +1,68 @@
+
+
+
+                NEWZNAB Usenet Searching Web API 
+
+
+                               v0.1
+                             30/6/2010
+
+
+Owner: bb at #newznab           (irc.synirc.org)
+Author: ensi at #newznab        (irc.synirc.org)   samiv@ensisoft.com
+
+1.  Introduction
+2.  Functions
+2.1 CAPS
+2.2 LOGIN
+2.3 SEARCH
+2.4 GET
+
+
+1. Introduction
+   
+   This document describes the NEWZNAB Usenet Searching Web API. The API is designed for NZB aware client
+   applications to perform searches to a particular NEWZNAB implementation using HTTP queries and receive
+   matching search results and NZB data for downloading the material in question.
+   
+   This document does not describe the actual implementation of either the client or the server but just
+   describes the HTTP interface and request/response sequences.
+
+   Intended readers are server and client implementers.
+
+
+2. Functions
+   
+   All functions are executed as HTTP requests over TCP. All parameters are to be passed
+   as query parmeters unless otherwise indicated. 
+
+
+   2.1 CAPS
+
+   Description: 
+   
+   CAPS function is used to query the server for supported features and the protocol version and other 
+   meta data relevant to the implementation. This function doesn't require the client to provide any
+   login information but can be executed out of "login session".
+
+   HTTP Method: GET
+      
+   Parameters: ?t=c 
+
+   Responses:
+
+   Example:
+   -> GET http://nzb.su?t=c
+
+        
+
+
+   2.2 LOGIN
+
+   
+   2.3 SEARCH
+
+   2.4 GET
+   
+   
+   
