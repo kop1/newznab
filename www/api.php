@@ -13,31 +13,7 @@ $category = new Category;
 $nzb = new NZB;
 
 //
-// page is accessible only by the site apikey, or logged in users.
-//
-if (!$users->isLoggedIn())
-{
-	if (!isset($_GET["k"]) || $page->site->apikey != $_GET["k"])
-		$page->show403();
-}
-
-if (isset($_GET["dl"]) && $_GET["dl"] = "1")
-	$page->smarty->assign("dl","1");
-
-$page->smarty->assign("k",$page->site->apikey);
-
-
-//
-// output is either json or xml
-//
-$outputtype = "xml";
-if (isset($_GET["o"]))
-	if ($_GET["o"] == "json")
-		$outputtype = "json";
-
-//
-// api functions, extend this, 
-// currently search (s) or individual (i)
+// api functions
 //		
 $function = "s";
 if (isset($_GET["t"]))
@@ -55,6 +31,32 @@ if (isset($_GET["t"]))
 }
 else
 	showApiHelp();
+
+
+//
+// page is accessible only by the site apikey, or logged in users.
+//
+if (!$users->isLoggedIn())
+{
+	if ($function != "c")
+		if (!isset($_GET["k"]) || $page->site->apikey != $_GET["k"])
+			$page->show403();
+}
+
+if (isset($_GET["dl"]) && $_GET["dl"] = "1")
+	$page->smarty->assign("dl","1");
+
+$page->smarty->assign("k",$page->site->apikey);
+
+
+//
+// output is either json or xml
+//
+$outputtype = "xml";
+if (isset($_GET["o"]))
+	if ($_GET["o"] == "json")
+		$outputtype = "json";
+
 		
 switch ($function)
 {
