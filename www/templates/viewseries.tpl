@@ -1,6 +1,6 @@
 
 <h1>{$page->title} {$seriesnames}</h1>
-<h2><a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">http://www.tvrage.com/shows/id-{$rage[0].rageID}</a></h2>
+<h2><a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">http://www.tvrage.com/shows/id-{$rage[0].rageID}</a></h2>
 <h4>{$seriesdescription}</h4>
 
 <table style="width:100%;" class="data highlight">
