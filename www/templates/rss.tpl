@@ -18,7 +18,7 @@
 <item>
 	<title>{$release.searchname}</title>
 	<guid isPermaLink="true">{$serverroot}rss/viewnzb/{$release.guid}</guid>
-	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}{if $k != ""}&amp;k={$k}{else}&amp;i={$uid}&amp;r={$rsstoken}{/if}{/if}</link>
+	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}&amp;i={$uid}&amp;r={$rsstoken}{/if}</link>
 	<comments>{$serverroot}rss/viewnzb/{$release.guid}#comments</comments> 	
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
 	<category>{$release.category_name}</category> 	

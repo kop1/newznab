@@ -14,21 +14,14 @@ $users = new Users;
 //
 if (!$users->isLoggedIn())
 {
-	if ((!isset($_GET["i"]) || !isset($_GET["r"])) && (!isset($_GET["k"])))
+	if ((!isset($_GET["i"]) || !isset($_GET["r"])))
 		$page->show403();
 
-	if (isset($_GET["k"]))
-	{
-			if ($page->site->apikey != $_GET["k"])
-				$page->show403();
-	}
-	else
-	{
-		$res = $users->getByIdAndRssToken($_GET["i"], $_GET["r"]);
-		if (!$res)
-			$page->show403();
-	}
+	$res = $users->getByIdAndRssToken($_GET["i"], $_GET["r"]);
+	if (!$res)
+		$page->show403();
 }
+
 if (isset($_GET["id"]))
 {
 	$rel = new Releases;

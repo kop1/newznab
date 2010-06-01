@@ -154,21 +154,6 @@
 </fieldset>
 
 <fieldset>
-<legend>3rd Party Integration</legend>
-<table class="input">
-
-<tr>
-	<td style="width:160px;"><label for="apikey">Api Key</label>:</td>
-	<td>
-		<input id="apikey" class="long" name="apikey" type="text" value="{$fsite->apikey}" />
-		<div class="hint">The site wide API key which can be used by 3rd parties when calling the /api functions.</div>
-	</td>
-</tr>
-
-</table>
-</fieldset>
-
-<fieldset>
 <legend>User Settings</legend>
 <table class="input">
 

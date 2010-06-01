@@ -129,6 +129,13 @@ class Users
 		return ($res && $res["rsstoken"] == $rsstoken ? $res : null);
 	}	
 	
+	public function getByNameAndRssToken($username, $rsstoken)
+	{			
+		$db = new DB();
+		$res = $this->getByUsername($username);
+		return ($res && $res["rsstoken"] == $rsstoken ? $res : null);
+	}	
+	
 	public function isValidUsername($uname)
 	{
 		return preg_match("/^[a-z][a-z0-9]{2,}$/i", $uname);

@@ -2,40 +2,47 @@
 			<h1>{$page->title}</h1>
 
 			<p>
-				Here lives the documentation for the api for accessing nzb and index data. Api functions can be called by either logged in 
-				users, or using the site api key.
+				Here lives the documentation for the api for accessing nzb and index data. Api functions can be
+				called by either logged in users, or by providing a username and apikey.
 			</p>
+			
+			{if $loggedin=="true"}
+				<p>
+					Your credentials should be provided as <span style="font-family:courier;">?user={$userdata.username}&apikey={$userdata.rsstoken}</span>
+				</p>
+			{/if}
 			
 			<h2>Available Functions</h2>
 			<p>
-				Use the parameter <span style="font-family:courier;">?t=</span> to specify the function being called 
-				and <span style="font-family:courier;">?k=</span> to provide the site api key. Please <a href="{$smarty.const.WWW_TOP}/contact-us.php">contact us</a> for details of the site api key.
+				Use the parameter <span style="font-family:courier;">?t=</span> to specify the function being called.
 				<ul>
 					<li>
-						Search <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&q=linux">?t=s&q=linux</a></span>
+						Capabilities <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=caps">?t=caps</a></span>
+						<br/>
+						Reports the capabilities if the server. Includes information about the server name, available search categories and version number of the newznab protocol being used.
+						<br/>
+						Capabilities does not require any credentials in order to be ran.
+					</li>	
+					<li>
+						Search <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&q=linux">?t=search&q=linux</a></span>
 						<br/>
 						Returns a list of nzbs matching a query.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=s&rid=20423&season=s01">?t=s&rid=20423&season=s01</a></span>. Either numeric (1) or string (E01) can be used for searching by series or episode.
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&rid=20423&season=s01">?t=search&rid=20423&season=s01</a></span>. Either numeric (1) or string (E01) can be used for searching by series or episode.
 					</li>
 					<li>
-						Individual <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=i&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
+						Individual <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=indiv&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=indiv&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
 						Returns information about an nzb.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=i&rid=20423&season=s01&ep=e02">?t=i&rid=20423&season=s01&ep=e02</a></span>
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=indiv&rid=20423&season=s01&ep=e02">?t=indiv&rid=20423&season=s01&ep=e02</a></span>
 					</li>						
 					<li>
-						Get <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=g&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
+						Get <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=get&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=get&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
 						Downloads the nzb file associated with an Id.
 						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=g&rid=20423&season=s01&ep=e02">?t=g&rid=20423&season=s01&ep=e02</a></span>
-					</li>	
-					<li>
-						Capabilities <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=c">?t=c</a></span>
-						<br/>
-						Reports the capabilities if the server. Includes information about the server name, available search categories and version number of the software.
+						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=get&rid=20423&season=s01&ep=e02">?t=get&rid=20423&season=s01&ep=e02</a></span>
 					</li>	
 				</ul>
 			</p>
@@ -47,12 +54,12 @@
 			<p>
 				<ul>
 					<li>
-						Xml (default) <span style="font-family:courier;">?t=s&q=linux&o=xml</span>
+						Xml (default) <span style="font-family:courier;">?t=search&q=linux&o=xml</span>
 						<br/>
 						Returns the data in an xml document.
 					</li>
 					<li>
-						Json <span style="font-family:courier;">?t=s&q=linux&o=json</span>
+						Json <span style="font-family:courier;">?t=search&q=linux&o=json</span>
 						<br/>
 						Returns the data in a json object.
 					</li>						

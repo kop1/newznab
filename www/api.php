@@ -18,13 +18,13 @@ $nzb = new NZB;
 $function = "s";
 if (isset($_GET["t"]))
 {
-	if ($_GET["t"] == "i")
+	if ( $_GET["t"] == "indiv" || $_GET["t"] == "i")
 		$function = "i";
-	elseif ($_GET["t"] == "g")
+	elseif ( $_GET["t"] == "get" || $_GET["t"] == "g")
 		$function = "g";
-	elseif ($_GET["t"] == "s")
+	elseif ($_GET["t"] == "search" || $_GET["t"] == "s" )
 		$function = "s";	
-	elseif ($_GET["t"] == "c")
+	elseif ($_GET["t"] == "caps" || $_GET["t"] == "c")
 		$function = "c";			
 	else
 		showApiHelp();
@@ -34,19 +34,37 @@ else
 
 
 //
-// page is accessible only by the site apikey, or logged in users.
+// page is accessible only by the apikey, or logged in users.
 //
+$user="";
+$apikey="";
 if (!$users->isLoggedIn())
 {
 	if ($function != "c")
-		if (!isset($_GET["k"]) || $page->site->apikey != $_GET["k"])
+	{
+		if (!isset($_GET["user"]) || !isset($_GET["apikey"]))
 			$page->show403();
+		
+		$res = $users->getByNameAndRssToken($_GET["user"], $_GET["apikey"]);
+		if (!$res)
+		{
+			echo $_GET["apikey"];die();
+			$page->show403();			
+		}
+		$uid=$res["ID"];
+		$apikey=$_GET["apikey"];
+	}	
+}
+else
+{
+	$uid=$page->userdata["ID"];
+	$apikey=$page->userdata["rsstoken"];
 }
 
-if (isset($_GET["dl"]) && $_GET["dl"] = "1")
-	$page->smarty->assign("dl","1");
 
-$page->smarty->assign("k",$page->site->apikey);
+$page->smarty->assign("dl","1");
+$page->smarty->assign("uid",$uid);
+$page->smarty->assign("rsstoken",$apikey);
 
 
 //
@@ -153,8 +171,8 @@ switch ($function)
 	// capabilities request
 	//
 	case "c":
-		$cats = $category->getFlat(true);
-		$page->smarty->assign('cats',$cats);
+		$parentcatlist = $category->getForMenu();
+		$page->smarty->assign('parentcatlist',$parentcatlist);
 		header("Content-type: text/xml");
 		echo $page->smarty->fetch('caps.tpl');	
 		break;		
@@ -180,6 +198,7 @@ function showApiHelp()
 	
 	$page->content = $page->smarty->fetch('apidesc.tpl');
 	$page->render();
+	die();
 }
 
 ?>
