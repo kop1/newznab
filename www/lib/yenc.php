@@ -111,6 +111,9 @@ class yenc
        
         // Extract the yEnc string itself.
         preg_match("/^(=ybegin.*=yend[^$]*)$/ims", $string, $encoded);
+        if (!isset($encoded[1]))
+        	return false;
+        
         $encoded = $encoded[1];
        
         // Extract the file size from the header.

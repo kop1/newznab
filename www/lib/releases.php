@@ -407,7 +407,7 @@ class Releases
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
-			if ($row["reltotalpart"] >= $row["num"])
+			if ($row["num"] >= $row["reltotalpart"])
 			{
 				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d", Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED));
 			}
