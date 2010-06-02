@@ -138,5 +138,35 @@ class Groups
 		return $ret;
 	}
 
+
+    /**
+     * updateGroupStatus();
+     *
+     * @param id        group id
+     * @param status    0 = deactive, 1 = activate
+     * return string
+     */
+    public function updateGroupStatus($id, $status = 0)
+    {
+        $db = new DB();
+
+        // don't need to escape anything when typecasting
+        $id     = (int)$id;
+        $status = (int)$status;
+
+        $sql = "
+            UPDATE
+                `groups`
+            SET
+                active = '". $status ."'
+            WHERE
+                id = '". $id ."' LIMIT 1
+        ";
+
+        $db->query($sql);
+        $status = ($status == 0) ? 'deactivated' : 'activated';
+        return "Group $id has been $status.";
+    }
+
 }
 ?>

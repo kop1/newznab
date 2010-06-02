@@ -9,6 +9,7 @@
 	<link href="../admin/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<script type="text/javascript" src="../includes/jquery.js"></script>
 	<script type="text/javascript" src="../includes/functions_sorttable.js"></script>
+	<script type="text/javascript" src="../includes/utils-admin.js"></script>
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}/..";</script>
 	{$page->head}
 </head>

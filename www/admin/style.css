@@ -12,3 +12,31 @@ legend { padding: 0.4em 0.6em; border:1px solid #999; font-weight:bold; text-ali
 #menu { height:0px; }
 
 table.input td { vertical-align:top;}
+
+/* group editing */
+div#group_list {
+}
+
+    div#group_list div#message {
+        display: none;
+        margin: 0 0 10px 0;
+        color: #fff;
+        background: #008C00;
+        border: 1px solid #ddd;
+        padding: 5px;
+    }
+
+/* deactivate link */
+div#group_list a.group_active,
+div#group_list a.group_active:visited,
+div#group_list a.group_active:active {
+    color: #CC0000;
+}
+
+/* activate link */
+div#group_list a.group_deactive
+div#group_list a.group_deactive:visited,
+div#group_list a.group_deactive:active {
+    color: #008C00;
+}
+
