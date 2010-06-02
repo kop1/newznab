@@ -258,7 +258,9 @@ CREATE TABLE site (
 `tandc` VARCHAR(5000) NOT NULL,
 `registerstatus` INT NOT NULL DEFAULT 0,
 `style` VARCHAR(50) NULL,
-`dereferrer_link` VARCHAR(255) NULL
+`dereferrer_link` VARCHAR(255) NULL,
+`nzbpath` VARCHAR(500) NOT NULL,
+`binretentiondays` INT NOT NULL DEFAULT 3
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
@@ -282,7 +284,9 @@ INSERT INTO `site`
 	`tandc`,
 	`registerstatus`,
 	`style`,
-	`dereferrer_link`
+	`dereferrer_link`,
+	`nzbpath`,
+	`binretentiondays`
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
@@ -290,7 +294,8 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
 	'alt.binaries.teevee',
-	NOW(), NULL, NULL, NULL, NULL, MD5(MD5(UUID())), '<p>Your terms and conditions...</p>',0, '', 'http://www.dereferer.ws/?');
+	NOW(), NULL, NULL, NULL, NULL, MD5(MD5(UUID())), '<p>Your terms and conditions...</p>',0, '', 
+	'http://www.dereferer.ws/?', '/tmp/nzb/', 3);
 
 
 INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`) VALUES

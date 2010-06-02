@@ -150,6 +150,22 @@
 	</td>
 </tr>
 
+<tr>
+	<td><label for="nzbpath">Nzb File Path</label>:</td>
+	<td>
+		<input id="nzbpath" name="nzbpath" type="text" value="{$fsite->nzbpath}" />
+		<div class="hint">The directory where nzb files will be stored.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="binretentiondays">Binary Retention Days</label>:</td>
+	<td>
+		<input class="small" id="binretentiondays" name="binretentiondays" type="text" value="{$fsite->binretentiondays}" />
+		<div class="hint">The number of days binary and part data will be retained for use in raw search, and making releases.</div>
+	</td>
+</tr>
+
 </table>
 </fieldset>
 
