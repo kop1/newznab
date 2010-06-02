@@ -286,8 +286,6 @@ class Releases
 		$cat = new Category;
 		$nzb = new Nzb;
 		$page = new Page;
-		$s = new Sites;
-		$site = $s->get();
 		$retcount = 0;
 		
 		//
@@ -411,7 +409,7 @@ class Releases
 			$nzbdata = $nzb->getNZBforReleaseId($relid);
 			$page->smarty->assign('binaries',$nzbdata);
 			$nzbfile = $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl');
-			$fp = gzopen($site->nzbpath.$relguid.".nzb.gz", "w"); 
+			$fp = gzopen($page->site->nzbpath.$relguid.".nzb.gz", "w"); 
 			gzwrite($fp, $nzbfile); 
 			gzclose($fp); 
 		

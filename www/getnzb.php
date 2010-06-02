@@ -34,6 +34,12 @@ if (isset($_GET["id"]))
 	else
 		$page->show404();
 
+		
+	//$zd = gzopen($page->site->nzbpath.$_GET["id"].".nzb.gz", "r");
+	//$contents = gzread($zd, 50000);
+	//gzclose($zd);
+	//echo $contents;
+
 	$nzb = new NZB;
 	$nzbdata = $nzb->getNZBforRelease($_GET["id"]);
 	$page->smarty->assign('binaries',$nzbdata);
