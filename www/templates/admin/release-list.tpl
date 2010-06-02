@@ -1,6 +1,6 @@
-
 <h1>{$page->title}</h1>
 
+{if $releaselist}
 {$pager}
 
 <table style="margin-top:10px;" class="data Sortable highlight">
@@ -30,3 +30,6 @@
 	{/foreach}
 
 </table>
+{else}
+<p>No releases avalible.</p>
+{/if}
