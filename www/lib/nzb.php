@@ -94,6 +94,7 @@ class NZB
 	//
 	function updateAllGroups() 
 	{
+		$n = $this->n;
 		$groups = new Groups;
 		$res = $groups->getActive();
 
@@ -216,22 +217,27 @@ class NZB
 				//loop headers, figure out parts
 				foreach($msgs AS $msg) 
 				{
-					$pos = strrpos($msg['Subject'], '(');
-					$part = substr($msg['Subject'], $pos+1, -1);
-					$part = explode('/',$part);
+                    $pattern = '/\((\d+)\/(\d+)\)$/i';
+                    if (!preg_match($pattern, $msg['Subject'], $matches))
+                    {
+                        // not a binary post most likely.. continue with next
+                        continue;
+                    }
 
-					if(is_numeric($part[0])) 
+					if(is_numeric($matches[1]) && is_numeric($matches[2])) 
 					{
-						$subject = trim(substr($msg['Subject'], 0, $pos));
+                        array_map('trim', $matches);
+                        $subject = trim(preg_replace($pattern, '', $msg['Subject']));
+						
 						if(!isset($this->message[$subject])) 
 						{
 							$this->message[$subject] = $msg;
-							$this->message[$subject]['MaxParts'] = (isset($part[1]) ? $part[1] : 0);
+							$this->message[$subject]['MaxParts'] = (int)$matches[2];
 							$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
 						}
-						if($part[0] > 0) 
+						if((int)$matches[1] > 0) 
 						{
-							$this->message[$subject]['Parts'][$part[0]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => $part[0], 'size' => $msg['Bytes']);
+							$this->message[$subject]['Parts'][$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => $matches[1], 'size' => $msg['Bytes']);
 						}
 					}
 				}
@@ -290,8 +296,9 @@ class NZB
 				} 
 				else 
 				{
+                    // TODO: fix some max attemps variable.. somewhere
 					$attempts++;
-					echo "Error fetching messages attempt {$attempts}...$n";
+					echo "No binary parts found in group.  Attempt {$attempts} of 1..$n";
 					if($attempts == 1) 
 					{
 						echo "Skipping group$n";
