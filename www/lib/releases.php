@@ -286,6 +286,8 @@ class Releases
 		$cat = new Category;
 		$nzb = new Nzb;
 		$page = new Page;
+		$s = new Sites;
+		$site = $s->get();
 		$retcount = 0;
 		
 		//
@@ -295,7 +297,7 @@ class Releases
 		$result = $db->queryDirect("SELECT * from releaseregex where groupID is not null order by groupID, ordinal");
 		while ($regexrow = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
-		// Get out all binaries of STAGE0 for current group
+			// Get out all binaries of STAGE0 for current group
 			$resbin = $db->queryDirect(sprintf("SELECT ID, name from binaries where groupID = %d and procstat = %d", $regexrow["groupID"], Releases::PROCSTAT_NEW));
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
 			{
@@ -392,8 +394,8 @@ class Releases
 			//
 			// insert the release
 			// 
-			$relguid = uniqid();
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), md5(%s), %d, -1, %s, %s, %d)", 
+			$relguid = md5(uniqid());
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, -1, %s, %s, %d)", 
 										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $cat->determineCategory($row["group_name"], $row["relname"]), $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
 			
 			//
@@ -404,12 +406,14 @@ class Releases
 								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 
 			//
-			// create the nzbxml file for each release.
+			// create the zipped nzb file for each release.
 			//
-			//$nzbdata = $nzb->getNZBforReleaseId($relid);
-			//$page->smarty->assign('binaries',$nzbdata);
-			//$nzbfile = $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl'));
-			//write nzbfile to /nzbfiles/{$relguid}.nzb
+			$nzbdata = $nzb->getNZBforReleaseId($relid);
+			$page->smarty->assign('binaries',$nzbdata);
+			$nzbfile = $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl');
+			$fp = gzopen($site->nzbpath.$relguid.".nzb.gz", "w"); 
+			gzwrite($fp, $nzbfile); 
+			gzclose($fp); 
 		
 			//
 			// find an .nfo in the release
