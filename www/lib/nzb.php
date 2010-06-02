@@ -228,7 +228,7 @@ class NZB
 					{
                         array_map('trim', $matches);
                         $subject = trim(preg_replace($pattern, '', $msg['Subject']));
-						
+
 						if(!isset($this->message[$subject])) 
 						{
 							$this->message[$subject] = $msg;
@@ -237,7 +237,7 @@ class NZB
 						}
 						if((int)$matches[1] > 0) 
 						{
-							$this->message[$subject]['Parts'][$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => $matches[1], 'size' => $msg['Bytes']);
+							$this->message[$subject]['Parts'][(int)$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => (int)$matches[1], 'size' => $msg['Bytes']);
 						}
 					}
 				}
@@ -333,6 +333,7 @@ class NZB
 		}
 	}
 
+    // TODO: check if the new regex for extracting parts is working.. as per updateGroup() function
 	function update($nntp, $group, $begin, $end, $direction=TRUE) //scan headers; inputs need to be valid, freshness check upstream 
 	{	$temp_begin = $begin;
 		$temp_end = $end;
@@ -371,21 +372,29 @@ class NZB
 			$msgs = $nntp->getOverview($temp_begin."-".$temp_end, true, false);
 			foreach($msgs AS $msg) 
 			{
-				$pos = strrpos($msg['Subject'], '(');
-				$part = substr($msg['Subject'], $pos+1, -1);
-				$part = explode('/',$part);
-					if(is_numeric($part[0])) 
-				{
-					$subject = trim(substr($msg['Subject'], 0, $pos));
+
+                $pattern = '/\((\d+)\/(\d+)\)$/i';
+                if (!preg_match($pattern, $msg['Subject'], $matches))
+                {
+                    // not a binary post most likely.. continue with next
+                    continue;
+                }
+
+                if(is_numeric($matches[1]) && is_numeric($matches[2])) 
+                {
+                    array_map('trim', $matches);
+                    $subject = trim(preg_replace($pattern, '', $msg['Subject']));
+
 					if(!isset($this->message[$subject])) 
 					{
 						$this->message[$subject] = $msg;
-						$this->message[$subject]['MaxParts'] = (isset($part[1]) ? $part[1] : 0);
+						$this->message[$subject]['MaxParts'] = (int)$matches[2];
 						$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
 					}
-					if($part[0] > 0) 
+					
+                    if ((int)$matches[1] > 0) 
 					{
-						$this->message[$subject]['Parts'][$part[0]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => $part[0], 'size' => $msg['Bytes']);
+						$this->message[$subject]['Parts'][(int)$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => (int)$matches[1], 'size' => $msg['Bytes']);
 					}
 				}
 			}
