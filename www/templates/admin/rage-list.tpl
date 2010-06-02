@@ -1,6 +1,6 @@
-
 <h1>{$page->title}</h1>
 
+{if $tvragelist}
 {$pager}
 
 <table style="margin-top:10px;" class="data Sortable highlight">
@@ -22,3 +22,6 @@
 	{/foreach}
 
 </table>
+{else}
+<p>No TVRage episodes avalible.</p>
+{/if}
