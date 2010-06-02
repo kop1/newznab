@@ -1,0 +1,20 @@
+url.rewrite-once = ( 
+	"^/$" => "/trunk/www/content.php?id=0",
+	"^/sitemap\.xml$" => "/trunk/www/sitemap.php?type=xml",
+	"^/browse/?$" => "/trunk/www/browse.php",
+	"^/browse(.*)$" => "/trunk/www/browse.php$1",
+	".*/viewnzb/(.*)$" => "/trunk/www/viewnzb.php?id=$1",
+	".*/nzb/(.*)$" => "/trunk/www/getnzb.php?id=$1",
+	"^/login$" => "/trunk/www/login.php",
+	"^/profile$" => "/trunk/www/profile.php",
+	"^/cart$" => "/trunk/www/cart.php",
+	"^/logout$" => "/trunk/www/logout.php",
+	"^/register$" => "/trunk/www/register.php",
+	"^/search$" => "/trunk/www/search.php",
+	"^/searchraw$" => "/trunk/www/searchraw.php",
+	"^/search/(.*)$" => "/trunk/www/search.php?search=$1",
+	"^/searchraw/(.*)$" => "/trunk/www/searchraw.php?search=$1",
+	"^/filelist/(.*)$" => "/trunk/www/viewfilelist.php?id=$1",	
+	"^/cart\?delete=([0-9]+)" => "/trunk/www/cart.php?delete=$1",
+	".*/nfo/(.*)" => "/trunk/www/viewnfo.php?id=$1&modal"
+)
