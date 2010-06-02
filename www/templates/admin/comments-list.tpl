@@ -1,6 +1,6 @@
-
 <h1>{$page->title}</h1>
 
+{if $commentslist}
 {$pager}
 
 <table style="margin-top:10px;" class="data Sortable highlight">
@@ -26,3 +26,6 @@
 
 
 </table>
+{else}
+<p>No comments avalible.</p>
+{/if}
