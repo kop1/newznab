@@ -162,7 +162,6 @@ class Releases
 		$db = new DB();
 		$users = new Users();
 		$this->deleteCommentsForRelease($id);
-		$this->deleteReleaseNzb($id);
 		$users->delCartForRelease($id);
 		$db->query(sprintf("delete from releases where id = %d", $id));		
 	}
@@ -283,85 +282,139 @@ class Releases
 	
 	function processReleaseNew($echooutput=false) 
 	{
+		$db = new DB;
+		$cat = new Category;
+		$nzb = new Nzb;
+		$page = new Page;
+		$retcount = 0;
+		
     //
     // Get all regexes for all groups which are to be applied to new binaries
     // in order of how they should be applied
-    // Loop around 
     //
+		$result = $db->queryDirect("SELECT * from releaseregex where groupID is not null order by groupID, ordinal");
+		while ($regexrow = mysql_fetch_array($result, MYSQL_BOTH)) 
+		{
+      // Get out all binaries of STAGE0 for current group
+			$resbin = $db->queryDirect(sprintf("SELECT ID, name from binaries where groupID = %d and procstat = %d", $regexrow["groupID"], Releases::PROCSTAT_NEW));
+			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
+			{
+			    if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 
+			    {
+			    		$parts = explode("/", $matches[3]);
+							$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
+								$db->escapeString($matches[2]), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $rowbin["ID"] ));
+			    }
+			}
 
-        // Get out all binaries of STAGE0 for current group
+    	echo "applied regex ".$regexrow["ID"]." for group ".$regexrow["groupID"]."\n";
 
-        // apply a regex to all new binaries for the current group
-        
-        // for every match determine the releasename, part, total parts, filename
-        
-        // update the binary with its data and set its status to STAGE1
-    
-    //end loop
-    
-    //
-    // Get out all binaries still at STAGE0 to apply misc/general regex
-    //
-    
+  	}
+       
     //
     // Get out misc regexs in order
     // Loop around all misc regexs applying misc regex
     //
-                    
-       // do same as group based loop
-    
-    // end loop 
-    
-    
-    // get out all distinct groups at STAGE1
-    // loop around each group (may not be many).
-    
-	    
-	    //
-	    // Get out all distinct release names, total part count and total row count and at STAGE1 for the current grouploop
-	    // Loop through it
-	    //
-	    
-		    // if the total part count >= total row count (caters for additional nzb release)
-		    
-		        // update all binaries of STAGE1 where relname = current to be STAGE2
-		
-		    //else
-		                    
-		        // update all binaries of STAGE1 where relname = current to be processattempts + 1
-		        // this caters for binaries which match the patterns, but are not yet complete
-		
-	    // end loop
-	    
-		// end loop    
-		
-		
+		$result = $db->queryDirect("SELECT * from releaseregex where groupID is null order by ordinal");
+		while ($regexrow = mysql_fetch_array($result, MYSQL_BOTH)) 
+		{
+			$resbin = $db->queryDirect(sprintf("SELECT ID, name from binaries where procstat = %d", Releases::PROCSTAT_NEW));
+			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
+			{
+			    if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 
+			    {
+			    		$parts = explode("/", $matches[3]);
+							$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
+								$db->escapeString($matches[2]), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $rowbin["ID"] ));
+			    }
+			}
+    	echo "applied misc regex ".$regexrow["ID"]." \n";
+		}
+
+
+		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart", Releases::PROCSTAT_TITLEMATCHED));
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		{
+			$retcount ++;
+			if ($row["num"] >= $row["reltotalpart"])
+			{
+				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d", 
+					Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED));
+			}
+			else
+			{
+				echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
+				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED ));
+			}
+			if ($echooutput && ($retcount % 100 == 0))
+	    	echo "processed ".$retcount." binaries stage two\n";
+		}
+		$retcount=0;
+   
     //
     // Get out all distinct relname, group from binaries of STAGE2 
-    // loop around
-    
-    	//
-    	// select out from releases where STAGE3 and relname = current relname (checking for duplicate)
-    	// if doesnt exist
-    		
-	    	// get the total size of all combined parts 
-	    	
-	    	// get the max postdate for all binaries 
-	    	
-	    	// insert new release
-	    	
-	    	// create nzb for release and write to disk at \nzbs\relguid.nzb
+    // 
+		$result = $db->queryDirect(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID", Releases::PROCSTAT_READYTORELEASE));
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		{
+			$retcount ++;
 
-				// update all binaries of this relname at STAGE2 to STAGE3
-	    	
-  		//endif  	
-    
-    // end loop
-    
+			//
+			// TODO: select from releases to see if that releasename already exist.
+			//
+
+			//
+			// get the last post date and the poster name from the binary
+			//
+			$bindata = $db->queryOneRow(sprintf("select fromname, MAX(date) as date from binaries where relname = %s and procstat = %d group by fromname", 
+										$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE ));
+
+			//
+			// get total size of this release
+			//
+
+			//
+			// insert the header release with a clean name
+			// 
+			$relguid = uniqid();
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID, postdate, fromname) values (%s, %s, %d, %d, now(), md5(%s), %d, -1, %s, %s)", 
+										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $cat->determineCategory($row["group_name"], $row["relname"]), $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]) ));
+			
+			//
+			// tag every binary for this release with its parent release id
+			// remove the release name from the binary as its no longer required
+			//
+			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and releaseID is null and groupID = %d ", 
+								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
+
+			//
+			// create the nzbxml file for each release.
+			//
+			//$nzbdata = $nzb->getNZBforReleaseId($relid);
+			//$page->smarty->assign('binaries',$nzbdata);
+			//$nzbfile = $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl'));
+			//write nzbfile to /nzbfiles/{$relguid}.nzb
+		
+			//
+			// find an .nfo in the release
+			//
+			$nzbdata = $nzb->getNZBforReleaseId($relid);
+			$relnfo = $this->determineReleaseNfo($nzbdata);
+			if ($relnfo !== false) {
+				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
+			}
+    	
+	    if ($echooutput && ($retcount % 5 == 0))
+	    	echo "processed ".$retcount." binaries stage three\n";
+		}    
     
     //process tv series edpisode / rage data (should this just be done on tv groups, and inline with the release process above??
     
     //processnfos
+    
+    //
+    // delete binaries/parts if site settings say so.
+    //
     
     //delete all binaries and parts at stage3
     
@@ -369,10 +422,7 @@ class Releases
     
     //delete all binaries/parts older than 24 hours.
     
-    
 	}
-
-
 
 	function processReleases($echooutput=false) 
 	{
@@ -701,18 +751,6 @@ class Releases
 			$limit = " LIMIT ".$start.",".$num;
 		
 		return $db->query(sprintf(" SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID where userID = %d order by releasecomment.createddate desc ".$limit, $uid));		
-	}
-	
-	public function addReleaseNzb($relid, $nzb)
-	{
-		$db = new DB();
-		return $db->queryInsert(sprintf("insert into releasenzb (releaseID, nzb) values (%d, compress(%s))", $relid, $db->escapeString($nzb) ));		
-	}
-	
-	public function deleteReleaseNzb($relid)
-	{
-		$db = new DB();
-		$db->query(sprintf("delete from releasenzb where releaseID = %d", $relid));		
 	}
 	
 	public function determineReleaseNfo($nzbdata)

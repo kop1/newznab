@@ -86,6 +86,21 @@ CREATE TABLE `releasenfo` (
 
 CREATE INDEX ix_releasenfo_releaseID ON releasenfo (`releaseID`);
 
+DROP TABLE IF EXISTS `releaseregex`;
+CREATE TABLE `releaseregex` (
+  `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `groupID` INT(11) UNSIGNED NULL,
+  `regex` VARCHAR(2000) NOT NULL,
+  `ordinal`INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+INSERT INTO `releaseregex` (`ID`,`groupID`,`regex`, `ordinal`)
+VALUES
+(NULL, NULL, 
+'/\\[(\\d{4,5})\\].*?([A-Z0-9\\.\\-_\\(\\)]+\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i', 
+ 1 );
+
 
 DROP TABLE IF EXISTS `tvrage`;
 CREATE TABLE `tvrage` 
