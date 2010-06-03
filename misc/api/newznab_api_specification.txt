@@ -14,18 +14,13 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 1.  Introduction
 2.  Functions
 2.1 CAPS
-2.2 LOGIN
-2.3 SEARCH
-2.4 GET
+2.2 SEARCH
 
 TODO:
-  - data encoding (xml-json)
-  - data encoding (request parameters)
   - tv-rage ??
   - authorization
-  - error cases
-  - non-login operation?
-  - login session timeout
+  - error codes
+  - standard category names?
 
 
 1. Introduction
@@ -50,8 +45,10 @@ TODO:
 2. Functions
    
    All functions are executed as HTTP requests over TCP. All parameters are to be passed
-   as query parmeters unless otherwise indicated. 
-
+   as query parmeters unless otherwise indicated. All returned XML/JSON data is UTF-8 encoded
+   unless otherwise specified. All query parameters should be UTF-8 and URL encoded, i.e.
+   query-param = URL-ENCODE( UTF8-ENCODE(param=value))
+   
 
    2.1 CAPS
 
@@ -60,37 +57,41 @@ TODO:
      meta data relevant to the implementation. This function doesn't require the client to provide any
      login information but can be executed out of "login session".
 
+     Important fields of the returned data:
+      server/version - the version of the procol implemented by the server. All implementations         
+                       should be backwards compatible. 
+      caps/category  - Defines a searchable category which might have any number of subcategories.
+
    HTTP Method: 
      POST
       
    Parameters:  
-     t=c                       caps function
+     t=caps                    caps function
      [o=json | o=xml]          output format, either JSON or XML (default is XML)
 
    Responses:  
      200 OK
+     404 Not Found
 
    Example:
-     -> POST http://nzb.su?t=c
-     <- 200 OK
+     --> POST http://nzb.su/api?t=c
+     <-- 200 OK
         <?xml version="1.0" encoding="UTF-8"?>
           <caps>
-            <server name="acme nzb" contact="john.doe@acme.com" version="1.0"/>
+            <server version="1.0" title="Newznab" strapline="A great usenet indexer" email="info@newznab.com" url="http://nzb.su/" image="http://nzb.su/theme/black/images/banner.jpg"/>
             <search>
-                <category name="Console">
-                  <subcategory name="NDS"/>
-                  <subcategory name="PSP"/>
-                </category name="Movies">
-                  <subcategory name="DVD"/>
-                </category/>
+                <category id="100" name="Console">
+                  <subcat id="101" name="NDS"/>
+                  <subcat id="102"  name="PSP"/>
+                </category>
+                <category id="200" name="Movies">
+                  <subcat id="201" name="DVD"/>
+                </category>
+                <category id="1000" name="extra-spice"/>
                 ...
             </search>
           </caps>
         </xml>
-        
-     -> GET http://nzb.su?t=c
-     <- 200 OK
-       [todo: JSON]
         
     TBD:
      - more searching options: 
@@ -100,47 +101,93 @@ TODO:
        regex
 
 
-   2.2 LOGIN
+   2.2 SEARCH
    
-   Description: 
-     Login function tries to perform login with the provided user credentials. On succesful login 200 OK with
-     session cookies are returned. If login fails 403 Forbidden is returned with appropriate response body
-     describing the error is included in the response body. 
-     
-     Todo: maybe should be revised to provide a more secure authentication mechanism.
+   Description:
+      SEARCH function searches the index for items matching the search criteria. On succesful
+      search the response contains a list of found items. Even if search matched nothing an empty
+      response set is created and returned. This function requires passing the user credentials.
+      
+      Searches that include categories that are not supported by the server are still executed
+      but the non-supported categories are simply skipped. This basically treats such a search
+      simply as a "no match" but allows the same query to be ran simultaneously against several 
+      servers. 
+      
+      The list of search categories specifies a logical OR condition. I.e. an item matching the 
+      search input in any of the specified categories is considered a match and is returned. E.g.
+      a search searching for "linux" in "computer" and "ebook" categories searches for matching
+      items in "computer" and "ebook" but does not search for example the "movies" category.
+      Items found in either group are then combined into a single result set.
+      
+      Important fields of the returned data:
+        pubdate - the publishing date in RSS date object as specified by RFC822/2822
+        size    - the size of the object in bytes
+        nzb     - url for retrieving the NZB content via 
 
-   HTTP Method:
-     POST
-     
-   Parameters:
-     t=dologin          login function
-     username=xxxxx     username
-     password=xxxxx     password
-     [o=json | o=xml]   output format, either JSON or XML (default is XML)
+    HTTP Method:
+      POST
+      
+    Parameters:
+      t=search          search function
+      q=xxxx            search input (UTF-8/URL encoded)
+      key=xxxx          user's key as provided by the service implementer
+      [o=json | o=xml]  output format, either JSON or XML (default is XML)
 
-   Responses:
+    Response:
       200 OK
       403 Forbidden
+      404 Not found
 
-   Example:
-     -> POST http://nzb.su?t=dologin&username=xxxx&password=xxxx
-     <- 200 OK
-        Set-Cookie: TBD
-        
-     -> POST http://nzb.su?t=dologin&username=xxxx&password=xxxx
-     <- 403 Forbidden
-        <?xml version="1.0" encoding="UTF-8"?>
-          <error code="xxx" description="Incorrect password or username"/>
-        </xml>   
-
-   Error codes:
+    Error Codes:
       xxx - Incorrect password or username
-      xxx - Account suspended
-   
-   2.3 SEARCH
+      xxx - account suspended
+      xxx - insufficient priviledges
 
+    Example:
+      --> POST http://nzb.su/api?t=search&key=xxxxx&q=linux%20image
+      <-- 200 OK
+          <?xml version="1.0" encoding="UTF-8"?>
+          <search>
+                <match 
+                  name="Perforce.v2009.2.Linux.Incl.Keyfilemaker-EMBRACE
+                  category="123"
+                  pubdate="Fri, 26 Feb 2010 13:47:54 +0000"
+                  size="112197632"
+                  nzb="http://nzb.su/nzbs/index.php?nzbid=21212"
+                </match>
+                <match 
+                  name="debian linux 3.2 iso"
+                  category="123"
+                  pubdate="Fri, 26 Feb 2010 13:47:54 +0000"
+                  size="112197632"
+                  nzb="http://nzb.su/nzbs/index.php?nzbid=21212"
+                </match>
+                ....
+          </search>
+          </xml>
+          
+      // no items matched the search criteria
+      --> POST http://nzb.su/api?t=search&key=xxxxx&q=linux%20image
+      <-- 200 OK
+          <?xml version="1.0" encoding="UTF-8"?>
+             <search/>
+          </xml>
 
-   2.4 GET
-   
+     // query could not be completed because of broken credentials
+     --> POST http://nzb.su/api?t=search&key=xxxxx&q=linux%20image
+     <-- 403  Forbidden
+         <?xml version="1.0" encoding="UTF-8"?>
+           <error code="xxx" description="Incorrect password or username"/>
+         </xml>
+
+     // query could not be completed because it was malformed
+     --> POST http://nzb.su/api?t=search&key=xxxxx&q=linux%20image
+     <-- 404 Not Found
+         <?xml version="1.0" encoding="UTF-8"/>
+           <error code="xxx" description="Missing parameter: key"/>
+         </xml>
+
+         
+            
    
    
