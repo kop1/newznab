@@ -16,7 +16,7 @@ class NZB
 			$this->n = "\n<BR>";
 		else
 			$this->n = "\n";
-		$this->maxMssgs = 2000; //fetch this ammount of messages at the time
+		$this->maxMssgs = 20000; //fetch this ammount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 	}
 	
@@ -49,8 +49,8 @@ class NZB
 		{
 			$selected = join(',',$selected);
 			
-			$res = $db->query("SELECT binaries.*, UNIX_TIMESTAMP(date) AS unixdate, groups.name as groupname FROM binaries inner join groups on binaries.groupID = groups.ID WHERE binaries.ID IN ({$selected}) ORDER BY binaries.name");
-			foreach($res as $binrow) 
+			$result = $db->queryDirect("SELECT binaries.*, UNIX_TIMESTAMP(date) AS unixdate, groups.name as groupname FROM binaries inner join groups on binaries.groupID = groups.ID WHERE binaries.ID IN ({$selected}) ORDER BY binaries.name");
+			while ($binrow = mysql_fetch_array($result, MYSQL_BOTH)) 
 			{
 				//
 				// TODO:Move this into template
@@ -221,7 +221,7 @@ class NZB
 							$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
 							if(!$res) 
 							{
-								$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d)", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
+								$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
 								$count++;
 							} 
 							else 
@@ -233,7 +233,7 @@ class NZB
 							foreach($data['Parts'] AS $partdata) 
 							{
 								$partcount++;
-								$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, date) VALUES (%d, %s, %s, %s, %s, FROM_UNIXTIME(%s))", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size']), $db->escapeString($data['Date'])));
+								$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, dateadded) VALUES (%d, %s, %s, %s, %s, now())", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
 							}
 						}
 					}

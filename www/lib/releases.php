@@ -368,7 +368,7 @@ class Releases
 			// was not being used.
 			//
 			$totalSize = 0;
-			$binariesForSize = $db->query(sprintf("select ID from binaries where relname = %s and procstat = %d", 
+			$binariesForSize = $db->query(sprintf("select ID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d", 
 									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE ));
 			if (count($binariesForSize) > 0)
 			{
@@ -448,8 +448,8 @@ class Releases
 		//
 		// delete any parts and binaries which are older than the site's retention days
 		//
-		$res = $db->query(sprintf("delete from parts where date < now() - interval %d day", $page->site->binretentiondays));
-		$res = $db->query(sprintf("delete from binaries where date < now() - interval %d day", $page->site->binretentiondays));
+		$res = $db->query(sprintf("delete from parts where dateadded < now() - interval %d day", $page->site->binretentiondays));
+		$res = $db->query(sprintf("delete from binaries where dateadded < now() - interval %d day", $page->site->binretentiondays));
 		
 
 		if ($echooutput)
