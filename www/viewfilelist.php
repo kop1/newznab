@@ -3,9 +3,7 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
-require_once(WWW_DIR."/lib/binaries.php");
 require_once(WWW_DIR."/lib/releases.php");
-require_once(WWW_DIR."/lib/nzb.php");
 
 $page = new Page;
 $users = new Users;
@@ -21,27 +19,17 @@ if (isset($_GET["id"]))
 	if (!$rel)
 		$page->show404();
 
-	if ($page->isPostBack())
+	$zd = gzopen($page->site->nzbpath.$_GET["id"].".nzb.gz", "r");
+	if (!$zd)
+		$page->show404();
+	else
 	{
-		$nzbdata = $nzb->getNZB($_POST);
-		$page->smarty->assign('binaries',$nzbdata);
-	
-		header("Content-type: text/xml");
-		header("X-DNZB-Name: ".$rel["searchname"]);
-		header("X-DNZB-Category: ".$rel["category_name"]);
-		header("X-DNZB-MoreInfo: "); //TODO:
-		header("X-DNZB-NFO: "); //TODO:
-		header("Content-Disposition: attachment; filename=".$rel["searchname"].".nzb");
-	
-		echo $page->smarty->fetch('nzb.tpl');
-		die();
+		$nzbfile = gzread($zd, 50000);
+		gzclose($zd);	
 	}
-
-	$binaries = new Binaries;
-	$data = $binaries->getForReleaseID($rel["ID"]);
-
+		
+		
 	$page->smarty->assign('rel', $rel);
-	$page->smarty->assign('binaries', $data);
 
 	$page->title = "File List";
 	$page->meta_title = "View Nzb file list";

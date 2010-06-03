@@ -21,21 +21,7 @@ class NZB
 	}
 	
 	//
-	// Get an nzb by its release guid
-	//
-	function getNZBforRelease($relguid)
-	{
-		$db = new DB();
-		$binaries = array();
-		$res = $db->query(sprintf("select binaries.ID from binaries inner join releases on releases.ID = binaries.releaseID where releases.guid = %s", $db->escapeString($relguid)));
-		foreach($res as $binrow) 
-			$binaries[] = $binrow["ID"];
-
-		return $this->getNZB($binaries);
-	}
-	
-	//
-	// Get an nzb by its release guid
+	// Get an nzb by its release id
 	//
 	function getNZBforReleaseId($relid)
 	{
@@ -74,11 +60,15 @@ class NZB
 				
 				$parts = $db->query(sprintf("SELECT parts.* FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
 				
-				//get groups for the binary
+				//
+				// get groups for the binary
+				//
 				$groups = array();
 				$groupsRaw = explode(' ', $binrow['xref']);
-				foreach($groupsRaw as $grp) {
-					if (preg_match('/^([a-z0-9\.\-_]+):\d+$/i', $grp, $match)) {
+				foreach($groupsRaw as $grp) 
+				{
+					if (preg_match('/^([a-z0-9\.\-_]+):\d+$/i', $grp, $match)) 
+					{
 						$groups[] = $match[1];
 					}
 				}
@@ -130,17 +120,6 @@ class NZB
 			die();
 		}
 		
-		/*  Example newsgroup heading
- 		Processing: alt.binaries.sounds.mp3.electronic
-		Array
-		(
-			[group] => alt.binaries.sounds.mp3.electronic
-			[first] => 5494095
-			[last] =>  7111079
-			[count] => 1616985
-		)		
-		*/
-		
 		//get first and last part numbers from newsgroup
 		$last = $orglast = $data['last'];
 		if($groupArr['last_record'] == 0) 
@@ -148,13 +127,12 @@ class NZB
 			//
 			// for new newsgroups - determine here how far you want to go back.
 			//
-			//$first = ($this->howManyMsgsToGoBackForNewGroup == 0 ? 
-			//		$data['first'] : $data['last'] - $this->howManyMsgsToGoBackForNewGroup);
 			if($data['first'] > ($data['last'] - $this->howManyMsgsToGoBackForNewGroup))
 				$first = $data['first'];
 			else
 				$first = $data['last'] - $this->howManyMsgsToGoBackForNewGroup;	
-		} else 
+		} 
+		else 
 		{
 			$first = $groupArr['last_record'] + 1;
 		}
@@ -199,20 +177,6 @@ class NZB
 				//get headers from newsgroup
 				echo " getting $first to $last: $n";
 				$msgs = $nntp->getOverview($first."-".$last, true, false);
-
-				/*   Example msg
-				Array ( 
-					[Number] => 5934117 
-					[Subject] => RepostTechnoAcidAlbums2008VarBit18Albums"RepostTechnoAcidAlbums2008VarBit18Albums.part21.rar" yEnc (121/410) 
-					[From] => FTDtechnoTEAM@ (-=Techno4Life=-) 
-					[Date] => 11 Jan 2009 09:01:12 GMT 
-					[Message-ID] => <4969b556$0$5824$2d805a3e@uploadreader.eweka.nl> 
-					[References] => 
-					[Bytes] => 396519 
-					[Lines] => 3046 
-					[Xref] => news-big.astraweb.com alt.binaries.mp3:83651138 alt.binaries.sounds.mp3.dance:25100194 alt.binaries.sounds.mp3.electronic:5934117 
-					)
-				*/
 
 				//loop headers, figure out parts
 				foreach($msgs AS $msg) 
@@ -269,7 +233,7 @@ class NZB
 							foreach($data['Parts'] AS $partdata) 
 							{
 								$partcount++;
-								$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size) VALUES (%d, %s, %s, %s, %s)", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
+								$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, date) VALUES (%d, %s, %s, %s, %s, FROM_UNIXTIME(%s))", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size']), $db->escapeString($data['Date'])));
 							}
 						}
 					}

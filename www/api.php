@@ -116,21 +116,10 @@ switch ($function)
 			$reldata = $releases->getbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
 											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
 
+											
 		if ($reldata)
 		{
-			$releases->updateGrab($_GET["id"]);
-			
-			$nzbdata = $nzb->getNZBforRelease($_GET["id"]);
-			$page->smarty->assign('binaries',$nzbdata);
-
-			header("Content-type: text/xml");
-			header("X-DNZB-Name: ".$reldata["searchname"]);
-			header("X-DNZB-Category: ".$reldata["category_name"]);
-			header("X-DNZB-MoreInfo: "); //TODO:
-			header("X-DNZB-NFO: "); //TODO:
-			header("Content-Disposition: attachment; filename=".$reldata["searchname"].".nzb");
-
-			echo $page->smarty->fetch('nzb.tpl');
+			header("Location:".WWW_TOP."/getnzb.php?i=".$uid."&r=".$apikey."&id=".$reldata["guid"]);
 		}
 		else
 		{
