@@ -20,14 +20,14 @@ if (isset($_GET["id"]))
 	if (!$rel)
 		$page->show404();
 
-	$zd = gzopen($page->site->nzbpath.$_GET["id"].".nzb.gz", "r");
-	if (!$zd)
+
+	if (!file_exists($page->site->nzbpath.$_GET["id"].".nzb.gz")) 
 		$page->show404();
-	else
-	{
-		$nzbfile = gzread($zd, 5000000);
-		gzclose($zd);	
-	}
+
+	ob_start();
+	@readgzfile($page->site->nzbpath.$_GET["id"].".nzb.gz");
+	$nzbfile = ob_get_contents();
+	ob_end_clean();
 		
 	$ret = $nzb->nzbFileList($nzbfile);
 		

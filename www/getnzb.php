@@ -27,14 +27,8 @@ if (isset($_GET["id"]))
 	$rel = new Releases;
 	$reldata = $rel->getByGuid($_GET["id"]);
 
-	$zd = gzopen($page->site->nzbpath.$_GET["id"].".nzb.gz", "r");
-	if (!$zd)
+	if (!file_exists($page->site->nzbpath.$_GET["id"].".nzb.gz"))
 		$page->show404();
-	else
-	{
-		$nzbfile = gzread($zd, 5000000);
-		gzclose($zd);	
-	}
 
 	if ($reldata)
 	{
@@ -51,7 +45,7 @@ if (isset($_GET["id"]))
 	header("X-DNZB-NFO: "); //TODO:
 	header("Content-Disposition: attachment; filename=".$reldata["searchname"].".nzb");
 	
-	echo $nzbfile;
+	readgzfile($page->site->nzbpath.$_GET["id"].".nzb.gz");
 }
 
 ?>

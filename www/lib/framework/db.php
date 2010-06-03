@@ -23,26 +23,7 @@ class DB
 				
 	public function escapeString($str, $allowEmptyString=false)
 	{
-		if (!$str)
-		{
-			if($str != 0 && $str != 0.0 && $str != "0")
-			{
-				return "'".str_replace("'", "''", $str)."'";
-			}
-			else
-			{
-				if ($str == "")
-				{
-					if ($allowEmptyString)
-						return "'".str_replace("'", "''", $str)."'";
-				}			
-			}
-			return "NULL";			
-		}
-		else
-		{
-			return "'".str_replace("'", "''", $str)."'";
-		}
+		return "'".mysql_real_escape_string($str)."'";
 	}		
 
 	public function makeLookupTable($rows, $keycol)
