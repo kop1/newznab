@@ -32,7 +32,7 @@ if (isset($_GET["id"]))
 		$page->show404();
 	else
 	{
-		$nzbfile = gzread($zd, 50000);
+		$nzbfile = gzread($zd, 5000000);
 		gzclose($zd);	
 	}
 

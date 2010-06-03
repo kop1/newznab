@@ -441,7 +441,40 @@ class NZB
 		} 
 	}
 
+	function nzbFileList($nzb) 
+	{
+	    $result = array();
+	   
+	    $nzb = str_replace("\x0F", "", $nzb);
+	   	$num_pars = 0;
+	    $xml = @simplexml_load_string($nzb);
+	    if (!$xml || strtolower($xml->getName()) != 'nzb') 
+	    {
+	      return false;
+	    }
 
+	    $i=0;
+	    foreach($xml->file as $file) 
+	    {
+          //subject
+          $title = $file->attributes()->subject;
+          if (preg_match('/\.par2/i', $title)) 
+          	$num_pars++;
+
+          $result[$i]['title'] = "$title";
+ 
+          //filesize
+          $filesize = 0;
+          foreach($file->segments->segment as $segment)
+          	$filesize += $segment->attributes()->bytes;
+
+          $result[$i]['size'] = $filesize;
+         
+          $i++;
+	    }
+	   
+	    return $result;
+	}
 	
 }
 ?>

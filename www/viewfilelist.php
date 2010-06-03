@@ -4,6 +4,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/nzb.php");
 
 $page = new Page;
 $users = new Users;
@@ -24,12 +25,14 @@ if (isset($_GET["id"]))
 		$page->show404();
 	else
 	{
-		$nzbfile = gzread($zd, 50000);
+		$nzbfile = gzread($zd, 5000000);
 		gzclose($zd);	
 	}
 		
+	$ret = $nzb->nzbFileList($nzbfile);
 		
 	$page->smarty->assign('rel', $rel);
+	$page->smarty->assign('files', $ret);
 
 	$page->title = "File List";
 	$page->meta_title = "View Nzb file list";
