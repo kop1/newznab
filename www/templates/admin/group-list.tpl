@@ -28,7 +28,7 @@
 
     </table>
     {else}
-    <p>No groups avalible (eg. none have been added).<br />If you still see this message, after updating your group list - please check the "<strong>group filter</strong>" option, under your site configuration.<br /><a href="{$smarty.const.WWW_TOP}/group-update.php">Click here to update your group list</a></p>
+    <p>No groups available (eg. none have been added).<br />If you still see this message, after updating your group list - please check the "<strong>group filter</strong>" option, under your site configuration.<br /><a href="{$smarty.const.WWW_TOP}/group-update.php">Click here to update your group list</a></p>
     {/if}
 
 </div>		

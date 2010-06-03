@@ -31,5 +31,5 @@
 
 </table>
 {else}
-<p>No releases avalible.</p>
+<p>No releases available.</p>
 {/if}

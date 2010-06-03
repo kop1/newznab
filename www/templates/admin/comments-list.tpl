@@ -27,5 +27,5 @@
 
 </table>
 {else}
-<p>No comments avalible.</p>
+<p>No comments available</p>
 {/if}

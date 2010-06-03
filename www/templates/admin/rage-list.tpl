@@ -23,5 +23,5 @@
 
 </table>
 {else}
-<p>No TVRage episodes avalible.</p>
+<p>No TVRage episodes available.</p>
 {/if}
