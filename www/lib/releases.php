@@ -413,11 +413,11 @@ class Releases
 			//
 			// find an .nfo in the release
 			//
-			$nzbdata = $nzb->getNZBforReleaseId($relid);
-			$relnfo = $this->determineReleaseNfo($nzbdata);
-			if ($relnfo !== false) {
-				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
-			}
+			//$nzbdata = $nzb->getNZBforReleaseId($relid);
+			//$relnfo = $this->determineReleaseNfo($nzbdata);
+			//if ($relnfo !== false) {
+			//	$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
+			//}
 		
 			if ($echooutput && ($retcount % 5 == 0))
 				echo "processed ".$retcount." binaries stage three\n";
