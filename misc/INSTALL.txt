@@ -32,8 +32,8 @@ installation
 	register and update the users.role to 2 to set that user as administrator
 	goto \admin\site-edit.php and customise fields to your installation.
 	call \admin\group-update.php to populate database with your groups based on your groupfilter.
-	call \admin\binary-update.php to populate database with binaries + parts.
-	call \admin\release-update.php to create releases from all complete binary sets.
+	call from cli \misc\cron\update_binaries.php to populate database with binaries + parts.
+	call from cli \misc\cron\update_releases.php to create releases from all complete binary sets.
 	
 running	outside of root website
 	set /.htaccess RewriteBase to your virtual directory
@@ -81,6 +81,14 @@ updating index (populating binaries + parts)
 	*/15 * * * * /path/to/newznab/misc/cron_update/newznab_update.sh
 	if you move around the files, you may need to set the path to the root of the newznab
 	www files in the config.php file
+	
+regex matching
+	releases are created by applying regexs to binary message subjects. different regexes 
+	are applied to binaries from different newsgroups. catchall regexes are applied to any
+	binaries left unmatched after the group specific matching.
+	
+nzb file store
+	nzbs are saved to disk gzipped at the location specified by site.nzbpath.
 
 updating newsgroups
 	updating the list of available newsgroups is only worthwhile if you change your 
@@ -96,7 +104,7 @@ admin
 	set users.role to be 2 on the users you wish to be admins
 
 tvrage
-	after release-update is called, an attempt to determine the tvrageids for every release
+	after releases.processReleases() is called, an attempt to determine the tvrageids for every release
 	which looks like its tv. this also works out the series/episode columns. the data in the 
 	tvrage table will become populated from best guesses from the rage search api. if some of these
 	guesses are wrong, you can manually edit the rage data in the admin interface, and use the 
@@ -107,7 +115,7 @@ tvrage
 
 nfo
 	nfos are attempted to be retrieved using a queuing method. there will be a number of attempts to get
-	an nfo vefore giving up
+	an nfo before giving up
 	
 content/cms
 	pages can be added to the site with seo friendly urls via the /admin/ edit content links
@@ -122,17 +130,15 @@ skinning
 api
 	www.newznab.com/api? provides api access to query and retrieve nzbs.
 	call with no parameters to see help doc with all available options. users either have to be logged in
-	or provide the site apikey. its intended that a site owner has to give out this key. if the 
-	key is blank no api is available
+	or provide their rsstoken. users can use their rsstoken to access both rss + api.
 	
 faqs
 	* authorisation rejected from nntp server - check you have enough available connections 
 	not currently in use
-	* Fatal error: Call to undefined function mhash() - missing mcrypt and mhash php library includes
 	* white screen - probably php error not being displayed to browser or session timed out and 403 being throw
 	* Lots of binary headers processed but few releases created - The binary headers downloaded do not match
 	the regexes used to create a release. The message headers must follow popular formats in order for releases
-	to created.
+	to be created.
 	* search and rawsearch requests lose page css styling - use the provided apache vhost settings.
 	
 debugging
@@ -156,10 +162,12 @@ development
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
 	gizmore@wechall.net			password,hash
-	lhbandit@nzbs.org			yenc,nntp,bokko,everything	
+	lhbandit@nzbs.org			yenc,nntp,bokko,dev	
 	jayhawk@nzb.su				testing,icons	
 	midgetspy@sickbeard			rage integration,api
 	ueland@newznab				install
+	ensi@ensisoft.com			api
+	michael@newznab				dev
 	sakarias@newznab			testing
 	pairdime@sabnzbd			jquery,css
 	pmow@newznab				headers,backfill

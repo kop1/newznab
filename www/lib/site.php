@@ -78,7 +78,8 @@ class Sites
 		$obj->google_adsense_menu = $row["google_adsense_menu"];
 		$obj->google_adsense_sidepanel = $row["google_adsense_sidepanel"];
 		$obj->google_adsense_search = $row["google_adsense_search"];
-		$obj->siteseed = $row["siteseed"];
+		if (isset($row["siteseed"]))
+			$obj->siteseed = $row["siteseed"];
 		$obj->tandc = $row["tandc"];
 		$obj->registerstatus = $row["registerstatus"];
 		$obj->style = $row["style"];
