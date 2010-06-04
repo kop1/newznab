@@ -413,12 +413,11 @@ class Releases
 			//
 			// find an .nfo in the release
 			//
-			//$nzbdata = $nzb->getNZBforReleaseId($relid);
-			//$relnfo = $this->determineReleaseNfo($nzbdata);
-			//if ($relnfo !== false) {
-			//	$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
-			//}
-		
+			$relnfo = $this->determineReleaseNfo($nzbdata);
+			if ($relnfo !== false) {
+				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
+			}
+
 			if ($echooutput && ($retcount % 5 == 0))
 				echo "processed ".$retcount." binaries stage three\n";
 		}    
@@ -618,8 +617,8 @@ class Releases
 	{
 		$nfos = array();
 		foreach ($nzbdata as $bin) {
-			if (preg_match('/\.(nfo|txt)$/i', $bin['binary']['filename'])) {
-				$nfos[$bin['binary']['filename']] = $bin;
+			if (preg_match('/.*\.nfo[ "\)\]\-]/i', $bin['binary']['name'])) {
+				$nfos[$bin['binary']['name']] = $bin;
 			}
 		}
 		ksort($nfos);
@@ -632,10 +631,10 @@ class Releases
 		$fileExtPattern = implode('|', $allowedFileExt);
 		$files = $typesFound = array();
 		foreach ($nzbdata as $bin) {
-			if (preg_match('/\.('.$fileExtPattern.')$/i', $bin['binary']['filename'], $matches)) {
+			if (preg_match('/\.('.$fileExtPattern.')[ "\)\]\-]/i', $bin['binary']['name'], $matches)) {
 				if (!in_array($matches[1], $typesFound)) { //optional, only get one of each file ext
 					$bin['type'] = $matches[1];
-					$files[$bin['binary']['filename']] = $bin;
+					$files[$bin['binary']['name']] = $bin;
 					$typesFound[] = $bin['type'];
 				}
 			}

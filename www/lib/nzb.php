@@ -51,18 +51,9 @@ class NZB
 			
 			$result = $db->queryDirect("SELECT binaries.*, UNIX_TIMESTAMP(date) AS unixdate, groups.name as groupname FROM binaries inner join groups on binaries.groupID = groups.ID WHERE binaries.ID IN ({$selected}) ORDER BY binaries.name");
 			while ($binrow = mysql_fetch_array($result, MYSQL_BOTH)) 
-			{
-				//
-				// TODO:Move this into template
-				//
-				$binrow['name'] = preg_replace("/[^a-zA-Z0-9\(\)\! .]/",'', str_replace('"', '', $binrow['name']));
-				$binrow['fromname'] = str_replace('(','',str_replace(')','',$binrow['fromname']));
-				
+			{				
 				$parts = $db->query(sprintf("SELECT parts.* FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
 				
-				//
-				// get groups for the binary
-				//
 				$groups = array();
 				$groupsRaw = explode(' ', $binrow['xref']);
 				foreach($groupsRaw as $grp) 
