@@ -296,8 +296,8 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
 	'alt.binaries.teevee',
-	NOW(), NULL, NULL, NULL, NULL, MD5(MD5(UUID())), '<p>Your terms and conditions...</p>',0, '', 
-	'http://www.dereferer.ws/?', '/tmp/nzb/', 3);
+	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
+	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3);
 
 
 INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`) VALUES

@@ -158,6 +158,17 @@ class Releases
 	{			
 		$db = new DB();
 		$users = new Users();
+		$s = new Sites();
+		$site = $s->get();
+
+		//
+		// delete from disk.
+		//
+		$rel = $this->getById($id);
+		if ($rel && file_exists($site->nzbpath.$rel["guid"].".nzb.gz")) 
+			unlink($site->nzbpath.$rel["guid"].".nzb.gz");
+		
+		$this->deleteReleaseNfo($id);
 		$this->deleteCommentsForRelease($id);
 		$users->delCartForRelease($id);
 		$db->query(sprintf("delete from releases where id = %d", $id));		
@@ -646,6 +657,12 @@ class Releases
 	{
 		$db = new DB();
 		return $db->queryInsert(sprintf("INSERT INTO releasenfo (releaseID, binaryID) VALUES (%d, %d)", $relid, $binid));		
+	}
+	
+	public function deleteReleaseNfo($relid)
+	{
+		$db = new DB();
+		return $db->query(sprintf("delete from releasenfo where releaseID = %d", $relid));		
 	}
 	
 	public function getReleaseNfo($id, $incnfo=true)
