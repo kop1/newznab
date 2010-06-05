@@ -100,7 +100,7 @@ class TvRage
 						if (isset($arr["name"]) && $arr["name"] == $title)
 						{
 							$best = $arr["showid"];
-							exit;
+							break;
 						}
 				}
 				if ($best != "")
