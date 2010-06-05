@@ -49,7 +49,6 @@
 	{/foreach}
 	
 </table>
-{/if}
 
 <br/>
 
@@ -61,5 +60,7 @@
 	<input type="button" value="Add to Cart" />
 	<input type="button" value="Download NZBs" />
 </div>
+
+{/if}
 
 <br/><br/><br/>

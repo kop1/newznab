@@ -19,6 +19,8 @@
 	<input type="button" value="Add to Cart" />
 	<input type="button" value="Download NZBs" />
 </div>
+<br/><br/>
+
 
 <table style="width:100%;" class="data highlight icons">
 	<tr>
@@ -57,6 +59,7 @@
 	{/foreach}
 	
 </table>
+<br/>
 
 <div class="nzb_multi_operations">
 	<small>With Selected:</small>
