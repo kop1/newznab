@@ -37,7 +37,36 @@ jQuery(function($){
 		title: function(){ return $(this).parent().parent().children('a.title').text(); },
 		width:"800px", height:"90%", initialWidth:"800px", initialHeight:"90%", speed:0, opacity:0.7
 	});
-
+	$('input.nzb_multi_operations_download').click(function(){
+		alert('not implemented');
+	});
+	$('input.nzb_multi_operations_cart').click(function(){
+		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
+		var nzburl;
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	var $cart = $(row).parent().parent().children('td.icons').children('.add_to_cart');
+			if (!$cart.hasClass('icon_cart_clicked')){
+				$.post( SERVERROOT + "cart.php?add=" + $cart.attr('id'), function(resp){
+					$cart.children('div.icon_cart').addClass('icon_cart_clicked').attr('title','added to cart');
+				});
+			}
+		});
+		return false;
+	});
+	$('input.nzb_multi_operations_sab').click(function(){
+		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
+		var nzburl;
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	var $sab = $(row).parent().parent().children('td.icons').children('.add_to_sab');
+			if (!$sab.hasClass('icon_sab_clicked')){
+				nzburl = SERVERROOT + "download/sab/nzb/" + $sab.attr('id') + "&i=" + UID + "&r=" + RSSTOKEN;
+				$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
+					$sab.children('div.icon_sab').addClass('icon_sab_clicked').attr('title','added to queue');
+				});
+			}
+		});
+		return false;
+	});
 
 	// headermenu.tpl
 	$('#headsearch')
@@ -135,6 +164,7 @@ jQuery(function($){
 	// SABnzbd integration
 	if ($.cookie('sabnzbd_'+UID+'__host')) {
 		$('table.data .icon_sab, .sabnzbd_required').show();	// sab icons hidden by default
+		$('.nzb_multi_operations_sab').show();	// sab icons hidden by default
 		$('table.data td.icons').addClass('icons_with_sab');
 		
 		// set profile.tpl credentials into profile on page load

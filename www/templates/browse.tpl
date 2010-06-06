@@ -5,9 +5,9 @@
 
 <div class="nzb_multi_operations">
 	<small>With Selected:</small>
-	<input type="button" value="Send to SAB" />
-	<input type="button" value="Add to Cart" />
-	<input type="button" value="Download NZBs" />
+	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
+	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
+	<input type="button" class="nzb_multi_operations_sab" value="Send to SAB" />
 </div>
 
 {$pager}
@@ -56,9 +56,9 @@
 
 <div class="nzb_multi_operations">
 	<small>With Selected:</small>
-	<input type="button" value="Send to SAB" />
-	<input type="button" value="Add to Cart" />
-	<input type="button" value="Download NZBs" />
+	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
+	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
+	<input type="button" class="nzb_multi_operations_sab" value="Send to SAB" />
 </div>
 
 {/if}
