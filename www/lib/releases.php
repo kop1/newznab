@@ -6,6 +6,7 @@ require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/tvrage.php");
 require_once(WWW_DIR."/lib/nzb.php");
+require_once(WWW_DIR."/lib/zipfile.php");
 
 class Releases
 {	
@@ -243,6 +244,35 @@ class Releases
 		$db = new DB();
 		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where guid = %s ", $db->escapeString($guid)));		
 	}	
+
+	//
+	// writes a zip file of an array of release guids directly to the stream
+	// TODO:put real filenames not guids, and generate a better combined name from the datetime.
+	//
+	public function getZipped($guids)
+	{
+		$s = new Sites();
+		$site = $s->get();
+		$zipfile = new zipfile();
+		
+		foreach ($guids as $guid)
+		{
+			if (file_exists($site->nzbpath.$guid.".nzb.gz")) 
+			{
+				ob_start();
+				@readgzfile($site->nzbpath.$guid.".nzb.gz");
+				$nzbfile = ob_get_contents();
+				ob_end_clean();
+				
+				$zipfile->add_file($nzbfile, "nzb/".$guid.".nzb");
+			}
+		}
+		
+		header("Content-type: application/octet-stream");
+		header("Content-disposition: attachment; filename=combined_nzb.zip");
+		echo $zipfile->file();
+		die();
+	}
 
 	public function getbyRageId($rageid, $series = "", $episode = "")
 	{			
