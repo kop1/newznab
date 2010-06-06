@@ -247,7 +247,6 @@ class Releases
 
 	//
 	// writes a zip file of an array of release guids directly to the stream
-	// TODO:put real filenames not guids, and generate a better combined name from the datetime.
 	//
 	public function getZipped($guids)
 	{
@@ -263,8 +262,13 @@ class Releases
 				@readgzfile($site->nzbpath.$guid.".nzb.gz");
 				$nzbfile = ob_get_contents();
 				ob_end_clean();
+
+				$filename = $guid;
+				$r = $this->getByGuid($guid);
+				if ($r)
+					$filename = $r["searchname"];
 				
-				$zipfile->add_file($nzbfile, "nzb/".$guid.".nzb");
+				$zipfile->add_file($nzbfile, $filename.".nzb");
 			}
 		}
 		

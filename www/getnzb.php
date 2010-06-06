@@ -30,8 +30,9 @@ if (isset($_GET["id"]) && isset($_GET["zip"]) && $_GET["zip"] == "1")
 {
 	$guids = explode(",", $_GET["id"]);
 	$zip = $rel->getZipped($guids);	
+	$filename = date("Ymdhis").".nzb.zip";
 	header("Content-type: application/octet-stream");
-	header("Content-disposition: attachment; filename=combined_nzb.zip");
+	header("Content-disposition: attachment; filename=".$filename);
 	echo $zip;
 	die();
 }
