@@ -8,6 +8,7 @@ require_once(WWW_DIR."/lib/releases.php");
 
 $page = new Page;
 $users = new Users;
+$rel = new Releases;
 
 //
 // page is accessible only by the rss token, or logged in users.
@@ -22,9 +23,22 @@ if (!$users->isLoggedIn())
 		$page->show403();
 }
 
+//
+// user requested a zip of guid,guid,guid releases
+//
+if (isset($_GET["id"]) && isset($_GET["zip"]) && $_GET["zip"] == "1")
+{
+	$guids = explode(",", $_GET["id"]);
+	$zip = $rel->getZipped($guids);	
+	header("Content-type: application/octet-stream");
+	header("Content-disposition: attachment; filename=combined_nzb.zip");
+	echo $zip;
+	die();
+}
+
+
 if (isset($_GET["id"]))
 {
-	$rel = new Releases;
 	$reldata = $rel->getByGuid($_GET["id"]);
 
 	if (!file_exists($page->site->nzbpath.$_GET["id"].".nzb.gz"))

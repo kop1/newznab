@@ -268,10 +268,7 @@ class Releases
 			}
 		}
 		
-		header("Content-type: application/octet-stream");
-		header("Content-disposition: attachment; filename=combined_nzb.zip");
-		echo $zipfile->file();
-		die();
+		return $zipfile->file();
 	}
 
 	public function getbyRageId($rageid, $series = "", $episode = "")
