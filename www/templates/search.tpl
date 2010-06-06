@@ -12,6 +12,8 @@
 
 {if $results|@count > 0}
 
+<form id="nzb_multi_operations_form">
+
 <br/>
 <div class="nzb_multi_operations">
 	<small>With Selected:</small>
@@ -36,7 +38,7 @@
 
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}">
-			<td><input type="checkbox" class="nzb_check" /></td>
+			<td><input type="checkbox" class="nzb_check" name="id[]" value="{$result.guid}" /></td>
 			<td>
 				<a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:75:"\n":true}</a>
 				<div class="resextra">
@@ -69,6 +71,8 @@
 </div>
 
 <br/><br/><br/>
+
+</form>
 
 {/if}
 

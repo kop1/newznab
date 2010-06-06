@@ -37,8 +37,16 @@ jQuery(function($){
 		title: function(){ return $(this).parent().parent().children('a.title').text(); },
 		width:"800px", height:"90%", initialWidth:"800px", initialHeight:"90%", speed:0, opacity:0.7
 	});
+	$('#nzb_multi_operations_form').submit(function(){return false;});
 	$('input.nzb_multi_operations_download').click(function(){
-		alert('not implemented');
+		var ids = "";
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	if ($(row).val()!="on")
+		    	ids += $(row).val()+',';
+	    });
+	    ids = ids.substring(0,ids.length-1);
+	    if (ids)
+			window.location = SERVERROOT + "getnzb.php?zip=1&id="+ids;
 	});
 	$('input.nzb_multi_operations_cart').click(function(){
 		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
@@ -51,7 +59,6 @@ jQuery(function($){
 				});
 			}
 		});
-		return false;
 	});
 	$('input.nzb_multi_operations_sab').click(function(){
 		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
@@ -65,7 +72,6 @@ jQuery(function($){
 				});
 			}
 		});
-		return false;
 	});
 
 	// headermenu.tpl
