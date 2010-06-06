@@ -42,10 +42,10 @@ if (!$users->isLoggedIn())
 {
 	if ($function != "c")
 	{
-		if (!isset($_GET["user"]) || !isset($_GET["apikey"]))
+		if (!isset($_GET["apikey"]))
 			$page->show403();
 		
-		$res = $users->getByNameAndRssToken($_GET["user"], $_GET["apikey"]);
+		$res = $users->getByRssToken($_GET["apikey"]);
 		if (!$res)
 		{
 			echo $_GET["apikey"];die();
@@ -171,9 +171,11 @@ switch ($function)
 		break;
 }		
 
-function showApiError($err)
+function showApiError($err, $errcode=-1)
 {
-	echo $err. " - check /api for list of available parameters";
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	echo "<error code=\"$errcode\" description=\"$err\"/>";
+	echo "</xml>";
 	die();
 }
 

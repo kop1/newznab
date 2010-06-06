@@ -129,11 +129,10 @@ class Users
 		return ($res && $res["rsstoken"] == $rsstoken ? $res : null);
 	}	
 	
-	public function getByNameAndRssToken($username, $rsstoken)
+	public function getByRssToken($rsstoken)
 	{			
 		$db = new DB();
-		$res = $this->getByUsername($username);
-		return ($res && $res["rsstoken"] == $rsstoken ? $res : null);
+		return $db->queryOneRow(sprintf("select * from users where lower(rsstoken) = lower(%s) ", $db->escapeString($rsstoken)));		
 	}	
 	
 	public function isValidUsername($uname)
