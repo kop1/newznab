@@ -45,7 +45,7 @@ jQuery(function($){
 		var nzburl;
 	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
 	    	var $cart = $(row).parent().parent().children('td.icons').children('.add_to_cart');
-			if (!$cart.hasClass('icon_cart_clicked')){
+			if ($cart.attr('id') && !$cart.children('div.icon_cart:first').hasClass('icon_cart_clicked')){
 				$.post( SERVERROOT + "cart.php?add=" + $cart.attr('id'), function(resp){
 					$cart.children('div.icon_cart').addClass('icon_cart_clicked').attr('title','added to cart');
 				});
@@ -58,7 +58,7 @@ jQuery(function($){
 		var nzburl;
 	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
 	    	var $sab = $(row).parent().parent().children('td.icons').children('.add_to_sab');
-			if (!$sab.hasClass('icon_sab_clicked')){
+			if ($sab.attr('id') && !$sab.children('div.icon_sab:first').hasClass('icon_sab_clicked')){
 				nzburl = SERVERROOT + "download/sab/nzb/" + $sab.attr('id') + "&i=" + UID + "&r=" + RSSTOKEN;
 				$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
 					$sab.children('div.icon_sab').addClass('icon_sab_clicked').attr('title','added to queue');
