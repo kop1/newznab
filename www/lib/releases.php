@@ -16,6 +16,7 @@ class Releases
 	const PROCSTAT_WRONGPARTS = 2;
 	const PROCSTAT_BADTITLEFORMAT = 3;
 	const PROCSTAT_RELEASED = 4;
+	const PROCSTAT_DUPLICATE = 6;
 
 	//TODO: Move to site table
 	const maxAttemptsToProcessBinaryIntoRelease = 3;
@@ -395,14 +396,26 @@ class Releases
 			$retcount ++;
 
 			//
-			// TODO: select from releases to see if that releasename already exist.
-			//
-
-			//
 			// get the last post date and the poster name from the binary
 			//
 			$bindata = $db->queryOneRow(sprintf("select fromname, MAX(date) as date from binaries where relname = %s and procstat = %d group by fromname", 
 										$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE ));
+
+			//
+			// get all releases with the same name with a usenet posted date in a +1-1 date range.
+			//
+			$relDupes = $db->query(sprintf("select ID from releases where searchname = %s and (%s - INTERVAL 1 DAY < postdate AND %s + INTERVAL 1 DAY > postdate)", 
+									$db->escapeString($row["relname"]), $db->escapeString($bindata["date"]), $db->escapeString($bindata["date"])));
+			if (count($relDupes) > 0)
+			{
+				if ($echooutput)
+					echo "found duplicate of existing release - ".$row["relname"]."\n";
+				
+				$db->query(sprintf("update binaries set relname = null, procstat = %d where relname = %s and procstat = %d and groupID = %d ", 
+									Releases::PROCSTAT_DUPLICATE, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
+
+				continue;
+			}
 
 			//
 			// get total size of this release
