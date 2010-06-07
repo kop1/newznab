@@ -45,8 +45,8 @@ if (isset($_GET["id"]))
 	$page->smarty->assign('seriesnames', $seriesnames);
 	$page->smarty->assign('seriesdescription', array_shift($seriesdescription));
 
-	$page->title = "Series";
-	$page->meta_title = "Series $seriesnames";
+	$page->title = "$seriesnames";
+	$page->meta_title = "View TV Series $seriesnames";
 	$page->meta_keywords = "view,series,tv,show,description,details";
 	$page->meta_description = "View $seriesnames Series";
 	

@@ -108,6 +108,7 @@ CREATE TABLE `tvrage`
 `rageID` INT NOT NULL,
 `releasetitle` VARCHAR(255) NOT NULL DEFAULT '',
 `description` VARCHAR(2000) NULL,
+`imgdata` longblob null,
 `createddate` DATETIME DEFAULT NULL,
 PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;

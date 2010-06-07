@@ -1,7 +1,15 @@
 
-<h1>{$page->title} {$seriesnames}</h1>
-<h2><a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">http://www.tvrage.com/shows/id-{$rage[0].rageID}</a></h2>
-<h4>{$seriesdescription}</h4>
+<h1>{$page->title}</h1>
+
+{if $rage[0].imgdata != ""}
+	<img style="display:block;" src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&id={$rage[0].ID}">
+{/if}
+
+<p>
+	{$seriesdescription}
+	<br/>
+	<a style="float:right;" target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a>
+</p>
 
 <table style="width:100%;" class="data highlight">
 	<tr>

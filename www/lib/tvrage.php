@@ -34,18 +34,22 @@ class TvRage
 		return $db->query(sprintf("select * from tvrage where rageID = %d", $id ));		
 	}
 	
-	public function add($rageid, $releasename, $desc)
+	public function add($rageid, $releasename, $desc, $imgbytes)
 	{			
 		$db = new DB();
-		return $db->queryInsert(sprintf("insert into tvrage (rageID, releasetitle, description, createddate) values (%d, %s, %s, now())", 
-			$rageid, $db->escapeString($releasename), $db->escapeString($desc) ));		
+		return $db->queryInsert(sprintf("insert into tvrage (rageID, releasetitle, description, createddate, imgdata) values (%d, %s, %s, now(), %s)", 
+			$rageid, $db->escapeString($releasename), $db->escapeString($desc), $db->escapeString($imgbytes)));		
 	}
 
-	public function update($id, $rageid, $releasename, $desc)
+	public function update($id, $rageid, $releasename, $desc, $imgbytes)
 	{			
 		$db = new DB();
-		$db->query(sprintf("update tvrage set rageID = %d, releasetitle = %s, description = %s where ID = %d", 
-			$rageid, $db->escapeString($releasename), $db->escapeString($desc), $id ));		
+		
+		if ($imgbytes != "")
+			$imgbytes = sprintf(", imgdata = %s", $db->escapeString($imgbytes));
+		
+		$db->query(sprintf("update tvrage set rageID = %d, releasetitle = %s, description = %s %s where ID = %d", 
+			$rageid, $db->escapeString($releasename), $db->escapeString($desc), $imgbytes, $id ));		
 	}
 
 	public function delete($id)
@@ -95,31 +99,31 @@ class TvRage
 				$best = "";
 				foreach ($arrXml["show"] as $arr)
 				{
-						if ($first == "")
-							$first = $arr["showid"];
-						if (isset($arr["name"]) && $arr["name"] == $title)
-						{
-							$best = $arr["showid"];
-							break;
-						}
+					if ($first == "")
+						$first = $arr["showid"];
+					if (isset($arr["name"]) && $arr["name"] == $title)
+					{
+						$best = $arr["showid"];
+						break;
+					}
 				}
 				if ($best != "")
 				{
-					$this->add($best, $title, "");
+					$this->add($best, $title, "", "");
 					return $best;
 				}
 				elseif ($first != "")
 				{
-					$this->add($first, $title, "");
+					$this->add($first, $title, "", "");
 					return $first;
 				}				
 			}
 			else
 			{
-					//
-					// Nothing returned form rage, so insert a dummy row in database to prevent going to rage again
-					//
-					$this->add(-2, $title, "");
+				//
+				// Nothing returned form rage, so insert a dummy row in database to prevent going to rage again
+				//
+				$this->add(-2, $title, "", "");
 			}
 		}
 		return -1;

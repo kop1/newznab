@@ -1,7 +1,7 @@
 
 <h1>{$page->title}</h1>
 
-<form action="{$SCRIPT_NAME}?action=submit" method="POST">
+<form enctype="multipart/form-data" action="{$SCRIPT_NAME}?action=submit" method="POST">
 
 <table class="input">
 
@@ -24,6 +24,16 @@
 	<td><label for="description">Description</label>:</td>
 	<td>
 		<textarea id="description" name="description">{$rage.description|escape:'htmlall'}</textarea>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="imagedata">Series Image</label>:</td>
+	<td>
+		{if $rage.imgdata != ""}
+			<img style="max-width:200px; display:block;" src="{$smarty.const.WWW_TOP}/../getimage.php?type=tvrage&id={$rage.ID}">
+		{/if}
+		<input type="file" id="imagedata" name="imagedata">
 	</td>
 </tr>
 
