@@ -1,0 +1,90 @@
+<?php
+
+// To use this script rename import.txt to import.php
+// edit the hostname, db, username, and password
+// put import.php at the root of newznab.  Create a folder called import.
+// chmod -R 777 import/ (or make it world read/writable.
+// Dump your nzb's you want to backfil in the import directory.
+// call import.php from your browser or cli.
+
+$hostname = 'localhost';
+$database = 'newznab';
+$username = 'newznab';
+$password = 'password';
+	
+$dbConnect = @mysql_connect($hostname, $username, $password) or die(mysql_error());
+mysql_select_db($database, $dbConnect) or die(mysql_error());
+
+
+$groupSql = 'SELECT ID, name FROM groups';
+$groupQuery = mysql_query($groupSql);
+$siteGroups = array();
+while($row = mysql_fetch_assoc($groupQuery)) {
+	$siteGroups[$row['name']] = $row['ID'];
+}
+
+$nzbCount = 0;
+foreach(glob("./import/*.nzb") as $nzbFile) {
+	
+	$nzb = file_get_contents($nzbFile);
+	
+	$xml = @simplexml_load_string($nzb);
+	if (!$xml || strtolower($xml->getName()) != 'nzb') {
+		//return false;
+		continue;
+	}
+	
+	$i=0;
+	foreach($xml->file as $file) {
+		//file info
+		$name = (string)$file->attributes()->subject;
+		$fromname = (string)$file->attributes()->poster;
+		$unixdate = (string)$file->attributes()->date;
+		$date = date("Y-m-d H:i:s", (string)$file->attributes()->date);
+		
+		//groups
+		$groupArr = array();
+		foreach($file->groups->group as $group) {
+			$group = (string)$group;
+			if (array_key_exists($group, $siteGroups)) {
+				$groupID = $siteGroups[$group];
+			}
+			$groupArr[] = $group;
+		}
+		$xref = 'Xref: '.implode(' ', $groupArr);
+				
+		$totalParts = sizeof($file->segments->segment);
+		
+		//insert binary
+		$binarySql = "INSERT INTO binaries (name, fromname, date, xref, totalParts, groupID) 
+				VALUES ('".$name."', '".$fromname."', '".$date."', '".$xref."', '".$totalParts."', '".$groupID."')";
+		$binaryQuery = mysql_query($binarySql);
+		$binaryId = mysql_insert_id();
+		
+		//segments (i.e. parts)
+		$filenum = 0;
+		foreach($file->segments->segment as $segment) {
+			$messageId = (string)$segment;
+			$partnumber = $segment->attributes()->number;
+			$size = $segment->attributes()->bytes;
+			$partsSql = "INSERT INTO parts (binaryID, messageID, number, partnumber, size)
+					VALUES ('".$binaryId."', '".$messageId."', '0', '".$partnumber."', '".$size."')";
+			$partsQuery = mysql_query($partsSql);
+			$filenum++;
+		}
+		
+		//update group data
+		$guSql = "UPDATE groups SET postcount=postcount+1 WHERE ID = '".$groupID."'";
+		$guQuery = mysql_query($guSql);
+		
+	}
+	$nzbCount++;
+	unlink($nzbFile);
+	echo 'imported '.$nzbFile.'<br />';
+	flush();
+}
+
+echo 'Processed '.$nzbCount.' nzbs';
+
+?>
+
