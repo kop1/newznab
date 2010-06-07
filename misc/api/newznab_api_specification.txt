@@ -121,13 +121,13 @@ TODO:
       Items found in either group are then combined into a single result set.
       
       Important fields of the returned data:
-      	title						- title of the found item.
-        pubdate 				- the publishing date in RSS date object as specified by RFC822/2822. this is the
-        									date the item was added to the index, not the date it was posted to usenet.
-        report.size    	- the size of the object in bytes.
-        report.postdate	- the date the item was posted to usenet.
-        link     				- url for retrieving the NZB content.
-        category				- the category the NZB belongs to.
+       title      - title of the found item.
+        pubdate     - the publishing date in RSS date object as specified by RFC822/2822. this is the
+                 date the item was added to the index, not the date it was posted to usenet.
+        report.size     - the size of the object in bytes.
+        report.postdate - the date the item was posted to usenet.
+        link         - url for retrieving the NZB content.
+        category    - the category the NZB belongs to.
 
     HTTP Method:
       GET
@@ -155,50 +155,50 @@ TODO:
     Example:
       --> GET http://servername.com/api?t=search&key=xxxxx&q=a%20tv%20show
       <-- 200 OK
-	<?xml version="1.0" encoding="UTF-8"?>
-	 <item> 
-	   <title>A.Tv.Show.S06E05.DVDRIP.XviD</title> 
-	   <guid isPermaLink="true">http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c</guid> 
-	   <link>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9</link> 
-	   <comments>http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c#comments</comments> 	
-	   <pubDate>Sun, 06 Jun 2010 17:29:23 +0100</pubDate> 
-	   <category>TV > XviD</category> 	
-	   
-	   <description> 
-	   <![CDATA[>
-	   <ul> 
-	   <li>ID: <a href="http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c">e9c515e02346086e3a477a5436d7bc8c</a> (Size: 147.49 MB) </li> 
-	   <li>Name: A.Tv.Show.S06E05.DVDRIP.XviD</li> 
-	   <li>Attributes: Category - TV > XviD </li> 
-	   <li>Groups: </li> 
-	   <li>Poster: teevee@4u.tv (teevee)</li> 
-	   <li>PostDate: Sun, 06 Jun 2010 16:16:17 +0100</li> 
-	   </ul>]]>
-	   </description> 
-	   
-	   <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
-	   
-	   <!-- Additional attributes--> 
-	   <report:id>e9c515e02346086e3a477a5436d7bc8c</report:id> 
-	   <report:category parentID="" id="25">TV > XviD</report:category> 
-	   <report:groups> 
-	     <report:group></report:group> 
-	   </report:groups> 
-	   <report:tv> 
-	     <report:tvrageid>2638</report:tvrageid> 
-	     <report:seasonfull>S06E05</report:seasonfull> 
-	     <report:season>6</report:season> 
-	     <report:episode>5</report:episode> 
-	   </report:tv> 
-	   <report:nzb>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c</report:nzb> 
-	   <report:poster><![CDATA[teevee@4u.tv (teevee)]]></report:poster> 
-	   <report:size type="bytes">154653309</report:size> 
-	   <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate> 
-	   <report:stats> 
-	     <report:views>0</report:views> 
-	     <report:comments>0</report:comments> 
-	   </report:stats>				
-	</item>
+ <?xml version="1.0" encoding="UTF-8"?>
+  <item> 
+    <title>A.Tv.Show.S06E05.DVDRIP.XviD</title> 
+    <guid isPermaLink="true">http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c</guid> 
+    <link>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9</link> 
+    <comments>http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c#comments</comments>  
+    <pubDate>Sun, 06 Jun 2010 17:29:23 +0100</pubDate> 
+    <category>TV > XviD</category>  
+    
+    <description> 
+    <![CDATA[>
+    <ul> 
+    <li>ID: <a href="http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c">e9c515e02346086e3a477a5436d7bc8c</a> (Size: 147.49 MB) </li> 
+    <li>Name: A.Tv.Show.S06E05.DVDRIP.XviD</li> 
+    <li>Attributes: Category - TV > XviD </li> 
+    <li>Groups: </li> 
+    <li>Poster: teevee@4u.tv (teevee)</li> 
+    <li>PostDate: Sun, 06 Jun 2010 16:16:17 +0100</li> 
+    </ul>]]>
+    </description> 
+    
+    <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
+    
+    <!-- Additional attributes--> 
+    <report:id>e9c515e02346086e3a477a5436d7bc8c</report:id> 
+    <report:category parentID="" id="25">TV > XviD</report:category> 
+    <report:groups> 
+      <report:group></report:group> 
+    </report:groups> 
+    <report:tv> 
+      <report:tvrageid>2638</report:tvrageid> 
+      <report:seasonfull>S06E05</report:seasonfull> 
+      <report:season>6</report:season> 
+      <report:episode>5</report:episode> 
+    </report:tv> 
+    <report:nzb>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c</report:nzb> 
+    <report:poster><![CDATA[teevee@4u.tv (teevee)]]></report:poster> 
+    <report:size type="bytes">154653309</report:size> 
+    <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate> 
+    <report:stats> 
+      <report:views>0</report:views> 
+      <report:comments>0</report:comments> 
+    </report:stats>    
+ </item>
 
           
       // no items matched the search criteria
@@ -233,11 +233,11 @@ TODO:
       GET
       
     Parameters:
-     	t=indiv      individual function
-     	id=xxxxx     optional - the guid of the item being queried
-     	rid=xxxxx    optional - the tvrage id of the item being queried
-     	season=xxx   optional - the season string e.g. S01 or 1 for the item being queried
-     	ep=xxx       optional - the episode string e.g. E13 or 13 for the item being queried
+      t=indiv      individual function
+      id=xxxxx     optional - the guid of the item being queried
+      rid=xxxxx    optional - the tvrage id of the item being queried
+      season=xxx   optional - the season string e.g. S01 or 1 for the item being queried
+      ep=xxx       optional - the episode string e.g. E13 or 13 for the item being queried
         key=xxxx     user's key as provided by the service implementer
       [o=json | o=xml]  output format, either JSON or XML (default is XML)
 
@@ -249,50 +249,50 @@ TODO:
     Example:
       --> GET http://servername.com/api?t=indiv&key=xxxxx&id=xxxxxxxxx
       <-- 200 OK
-	<?xml version="1.0" encoding="UTF-8"?>
-	 <item> 
-	   <title>A.Tv.Show.S06E05.DVDRIP.XviD</title> 
-	   <guid isPermaLink="true">http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c</guid> 
-	   <link>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9</link> 
-	   <comments>http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c#comments</comments> 	
-	   <pubDate>Sun, 06 Jun 2010 17:29:23 +0100</pubDate> 
-	   <category>TV > XviD</category> 	
-	   
-	   <description> 
-	   <![CDATA[>
-	   <ul> 
-	   <li>ID: <a href="http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c">e9c515e02346086e3a477a5436d7bc8c</a> (Size: 147.49 MB) </li> 
-	   <li>Name: A.Tv.Show.S06E05.DVDRIP.XviD</li> 
-	   <li>Attributes: Category - TV > XviD </li> 
-	   <li>Groups: </li> 
-	   <li>Poster: teevee@4u.tv (teevee)</li> 
-	   <li>PostDate: Sun, 06 Jun 2010 16:16:17 +0100</li> 
-	   </ul>]]>
-	   </description> 
-	   
-	   <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
-	   
-	   <!-- Additional attributes--> 
-	   <report:id>e9c515e02346086e3a477a5436d7bc8c</report:id> 
-	   <report:category parentID="" id="25">TV > XviD</report:category> 
-	   <report:groups> 
-	     <report:group></report:group> 
-	   </report:groups> 
-	   <report:tv> 
-	     <report:tvrageid>2638</report:tvrageid> 
-	     <report:seasonfull>S06E05</report:seasonfull> 
-	     <report:season>6</report:season> 
-	     <report:episode>5</report:episode> 
-	   </report:tv> 
-	   <report:nzb>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c</report:nzb> 
-	   <report:poster><![CDATA[teevee@4u.tv (teevee)]]></report:poster> 
-	   <report:size type="bytes">154653309</report:size> 
-	   <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate> 
-	   <report:stats> 
-	     <report:views>0</report:views> 
-	     <report:comments>0</report:comments> 
-	   </report:stats>				
-	</item>
+ <?xml version="1.0" encoding="UTF-8"?>
+  <item> 
+    <title>A.Tv.Show.S06E05.DVDRIP.XviD</title> 
+    <guid isPermaLink="true">http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c</guid> 
+    <link>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9</link> 
+    <comments>http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c#comments</comments>  
+    <pubDate>Sun, 06 Jun 2010 17:29:23 +0100</pubDate> 
+    <category>TV > XviD</category>  
+    
+    <description> 
+    <![CDATA[>
+    <ul> 
+    <li>ID: <a href="http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c">e9c515e02346086e3a477a5436d7bc8c</a> (Size: 147.49 MB) </li> 
+    <li>Name: A.Tv.Show.S06E05.DVDRIP.XviD</li> 
+    <li>Attributes: Category - TV > XviD </li> 
+    <li>Groups: </li> 
+    <li>Poster: teevee@4u.tv (teevee)</li> 
+    <li>PostDate: Sun, 06 Jun 2010 16:16:17 +0100</li> 
+    </ul>]]>
+    </description> 
+    
+    <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
+    
+    <!-- Additional attributes--> 
+    <report:id>e9c515e02346086e3a477a5436d7bc8c</report:id> 
+    <report:category parentID="" id="25">TV > XviD</report:category> 
+    <report:groups> 
+      <report:group></report:group> 
+    </report:groups> 
+    <report:tv> 
+      <report:tvrageid>2638</report:tvrageid> 
+      <report:seasonfull>S06E05</report:seasonfull> 
+      <report:season>6</report:season> 
+      <report:episode>5</report:episode> 
+    </report:tv> 
+    <report:nzb>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c</report:nzb> 
+    <report:poster><![CDATA[teevee@4u.tv (teevee)]]></report:poster> 
+    <report:size type="bytes">154653309</report:size> 
+    <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate> 
+    <report:stats> 
+      <report:views>0</report:views> 
+      <report:comments>0</report:comments> 
+    </report:stats>    
+ </item>
 
             
    
