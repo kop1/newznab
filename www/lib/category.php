@@ -212,6 +212,15 @@ class Category
 		if (preg_match('/alt\.binaries\.(teevee|multimedia|tv|tvseries)/i', $group)) {
 			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_TV_X264; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_TV_DVD; }
+			if (preg_match('/ESPN/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/WWE\./', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/MMA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/TNA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/EPL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NBA\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NHL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NRL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/motogp/i', $binaryname)) { return Category::CAT_TV_SPORT; }
 			return Category::CAT_TV_XVID;
 		}
 		
