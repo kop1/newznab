@@ -17,7 +17,6 @@
 		<th>filename</th>
 		<th>group</th>
 		<th>posted</th>
-		<th>size</th>
 		<th>Nzb</th>
 	</tr>
 
@@ -29,8 +28,7 @@
 			</td>
 			<td class="less">{$result.group_name|replace:"alt.binaries":"a.b"}</td>
 			<td class="less" title="{$result.date}">{$result.date|date_format}</td>
-			<td class="less" width="55">{if $result.size > 0}{$result.size|fsize_format:"MB"}{else}-{/if}</td>
-			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="{$smarty.const.WWW_TOP}/details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>
+			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="{$smarty.const.WWW_TOP}details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>
 		</tr>
 	{/foreach}
 	

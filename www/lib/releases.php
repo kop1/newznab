@@ -422,7 +422,7 @@ class Releases
 			// done in a big OR statement, not an IN as the mysql binaryID index on parts table
 			// was not being used.
 			//
-			$totalSize = 0;
+			$totalSize = "0";
 			$binariesForSize = $db->query(sprintf("select ID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d", 
 									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE ));
 			if (count($binariesForSize) > 0)
@@ -432,14 +432,14 @@ class Releases
 					$sizeSql.= " binaryID = ".$binSizeId["ID"]." or ";
 				$sizeSql.=" 1=2) ";
 				$temp = $db->queryOneRow($sizeSql);
-				$totalSize = $temp["totalSize"];
+				$totalSize = $temp["totalSize"]."";
 			}
 			
 			//
 			// insert the release
 			// 
 			$relguid = md5(uniqid());
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, -1, %s, %s, %d)", 
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, -1, %s, %s, %s)", 
 										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $cat->determineCategory($row["group_name"], $row["relname"]), $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
 			
 			//
