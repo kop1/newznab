@@ -153,7 +153,7 @@
 <tr>
 	<td><label for="nzbpath">Nzb File Path</label>:</td>
 	<td>
-		<input id="nzbpath" name="nzbpath" type="text" value="{$fsite->nzbpath}" />
+		<input id="nzbpath" class="long" name="nzbpath" type="text" value="{$fsite->nzbpath}" />
 		<div class="hint">The directory where nzb files will be stored.</div>
 	</td>
 </tr>
