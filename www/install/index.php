@@ -1,4 +1,9 @@
-<?php include('header.html'); ?>
+<?php
+// check if system is already installed
+require_once './is_locked.php';
+
+include('header.html');
+?>
 	<h1>Welcome</h1>
 			<p>Welcome to Newznab. Before getting started, you need to make sure that the server meet's 
 				the minimum requirements for running Newznab. Also prepare the following information:</p>

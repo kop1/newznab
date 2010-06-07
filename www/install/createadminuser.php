@@ -1,4 +1,6 @@
 <?php 
+// check if system is already installed
+require_once './is_locked.php';
 
 require("../lib/framework/db.php");
 require("../lib/users.php");

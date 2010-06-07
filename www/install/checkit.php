@@ -1,4 +1,7 @@
 <?php 
+// check if system is already installed
+require_once './is_locked.php';
+
 include('header.html');
 
 $errors = array();

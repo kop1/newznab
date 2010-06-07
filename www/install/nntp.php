@@ -1,4 +1,6 @@
 <?php 
+// check if system is already installed
+require_once './is_locked.php';
 
 include('Net/NNTP/Client.php');
 
@@ -87,7 +89,7 @@ include('header.html');
 			<tr>
 				<th><label for="pass">Password</label>:</th>
 				<?php
-				echo "<td><input id=\"pass\" type=\"text\" name=\"pass\" value=\"".$pass."\" /></td>";
+				echo "<td><input id=\"pass\" type=\"password\" name=\"pass\" value=\"".$pass."\" /></td>";
 				?>
 			</tr>
 			<tr>
