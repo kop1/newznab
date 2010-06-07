@@ -110,10 +110,10 @@ class Users
 		return $db->queryOneRow(sprintf("select * from users where lower(username) = lower(%s) ", $db->escapeString($uname)));		
 	}	
 	
-	public function incrementGrabs($id)
+	public function incrementGrabs($id, $num=1)
 	{			
 		$db = new DB();
-		$db->query(sprintf("update users set grabs = grabs + 1 where id = %d ", $id));		
+		$db->query(sprintf("update users set grabs = grabs + %d where id = %d ", $num, $id));		
 	}	
 
 	public function getById($id)

@@ -83,7 +83,7 @@ CREATE TABLE `releasenfo` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
-CREATE INDEX ix_releasenfo_releaseID ON releasenfo (`releaseID`);
+CREATE UNIQUE INDEX ix_releasenfo_releaseID ON releasenfo (`releaseID`);
 
 DROP TABLE IF EXISTS `releaseregex`;
 CREATE TABLE `releaseregex` (

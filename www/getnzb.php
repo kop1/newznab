@@ -9,6 +9,7 @@ require_once(WWW_DIR."/lib/releases.php");
 $page = new Page;
 $users = new Users;
 $rel = new Releases;
+$uid = 0;
 
 //
 // page is accessible only by the rss token, or logged in users.
@@ -21,6 +22,12 @@ if (!$users->isLoggedIn())
 	$res = $users->getByIdAndRssToken($_GET["i"], $_GET["r"]);
 	if (!$res)
 		$page->show403();
+		
+	$uid = $res["ID"];
+}
+else
+{
+	$uid = $users->currentUserId();
 }
 
 //
@@ -29,12 +36,23 @@ if (!$users->isLoggedIn())
 if (isset($_GET["id"]) && isset($_GET["zip"]) && $_GET["zip"] == "1")
 {
 	$guids = explode(",", $_GET["id"]);
+	
 	$zip = $rel->getZipped($guids);	
-	$filename = date("Ymdhis").".nzb.zip";
-	header("Content-type: application/octet-stream");
-	header("Content-disposition: attachment; filename=".$filename);
-	echo $zip;
-	die();
+
+	if (strlen($zip) > 0)
+	{
+		$users->incrementGrabs($uid, count($guids));
+		foreach ($guids as $guid)
+			$rel->updateGrab($guid);
+
+		$filename = date("Ymdhis").".nzb.zip";
+		header("Content-type: application/octet-stream");
+		header("Content-disposition: attachment; filename=".$filename);
+		echo $zip;
+		die();
+	}
+	else
+		$page->show404();
 }
 
 
@@ -48,7 +66,7 @@ if (isset($_GET["id"]))
 	if ($reldata)
 	{
 		$rel->updateGrab($_GET["id"]);
-		$users->incrementGrabs($users->currentUserId());
+		$users->incrementGrabs($uid);
 	}
 	else
 		$page->show404();
