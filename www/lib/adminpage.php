@@ -12,7 +12,7 @@ class AdminPage extends BasePage
 		
 		$users = new Users();
 		if (!$users->isLoggedIn() || !isset($this->userdata["role"]) || $this->userdata["role"] != Users::ROLE_ADMIN)
-			$this->show403();
+			$this->show403(true);
 	}	
 	
 	public function render() 

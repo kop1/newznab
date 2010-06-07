@@ -81,9 +81,11 @@ class BasePage
 		die();
 	}
 	
-	public function show403()
+	public function show403($from_admin = false)
 	{
-		header("Location: ".WWW_TOP."/login");
+        // FIXME: This could probably be handled from a rewrite rule..
+        $redirect_path = ($from_admin) ? str_replace('/admin', '/', WWW_TOP) : WWW_TOP;
+		header("Location: $redirect_path/login");
 		die();
 	}
 }
