@@ -10,6 +10,7 @@
 		<li><a href="{$smarty.const.WWW_TOP}/release-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/release-update.php">Update</a> Releases</li>
 		<li><a href="{$smarty.const.WWW_TOP}/rage-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/rage-edit.php?action=add">Add</a> TVRage List</li>
 		<li><a href="{$smarty.const.WWW_TOP}/rage-process.php">Process</a> TV Manually</li>
+		<li><a href="{$smarty.const.WWW_TOP}/nzb-import.php">Import Nzb's</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/db-optimise.php">Optimise</a> Tables</li>
 		<li><a href="{$smarty.const.WWW_TOP}/comments-list.php">View Comments</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/user-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/user-edit.php?action=add">Add</a> Users</a></li>

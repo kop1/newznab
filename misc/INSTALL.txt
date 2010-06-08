@@ -90,6 +90,12 @@ regex matching
 nzb file store
 	nzbs are saved to disk gzipped at the location specified by site.nzbpath.
 
+importing nzbs
+	.nzb files can be imported from the admin interface. importing is a convenient way to fill the
+	index without trawling a large backdated number of usenet messages. however imported nzbs will
+	not have their nfo files added. after running an import the process_releases() function must be ran 
+	to create valid releases.
+
 updating newsgroups
 	updating the list of available newsgroups is only worthwhile if you change your 
 	site.groupfilter or categorisation. It can be done via web browser in /admin/groups-update. 
