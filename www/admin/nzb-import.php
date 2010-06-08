@@ -67,8 +67,10 @@ if (!empty($argc) || $page->isPostBack() )
 			$totalParts = sizeof($file->segments->segment);
 			
 			//insert binary
-			$binarySql = "INSERT INTO binaries (name, fromname, date, xref, totalParts, groupID) 
-					VALUES ('".$name."', '".$fromname."', '".$date."', '".$xref."', '".$totalParts."', '".$groupID."')";
+			$binarySql = sprintf("INSERT INTO binaries (name, fromname, date, xref, totalParts, groupID) values (%s, %s, %s, %s, %s, %s)", 
+					$db->escapeString($name), $db->escapeString($fromname), $db->escapeString($date),
+					$db->escapeString($xref), $db->escapeString($totalParts), $db->escapeString($groupID) );
+			
 			$binaryId = $db->queryInsert($binarySql);
 			
 			//segments (i.e. parts)
@@ -77,8 +79,9 @@ if (!empty($argc) || $page->isPostBack() )
 				$messageId = (string)$segment;
 				$partnumber = $segment->attributes()->number;
 				$size = $segment->attributes()->bytes;
-				$partsSql = "INSERT INTO parts (binaryID, messageID, number, partnumber, size, dateadded)
-						VALUES ('".$binaryId."', '".$messageId."', '0', '".$partnumber."', '".$size."', '".$date."')";
+				$partsSql = sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, dateadded) values (%s, %s, 0, %s, %s, %s)", 
+						$db->escapeString($binaryId), $db->escapeString($messageId), $db->escapeString($partnumber), 
+						$db->escapeString($size), $db->escapeString($date));
 				$partsQuery = $db->queryInsert($partsSql);
 			}
 		}
