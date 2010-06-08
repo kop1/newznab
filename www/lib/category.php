@@ -215,6 +215,7 @@ class Category
 			if (preg_match('/MMA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/TNA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/EPL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NASCAR\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NBA\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NHL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NRL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
