@@ -1,6 +1,6 @@
 <?php
 
-// To use this script rename import.txt to import.php
+// To use this script 
 // edit the hostname, db, username, and password
 // put import.php at the root of newznab.  Create a folder called import.
 // chmod -R 777 import/ (or make it world read/writable.
