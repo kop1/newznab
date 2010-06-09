@@ -97,9 +97,8 @@ CREATE TABLE `releaseregex` (
 INSERT INTO `releaseregex` (`ID`,`groupID`,`regex`, `ordinal`)
 VALUES
 (NULL, NULL, 
-'/\\[(\\d{4,5})\\].*?([A-Z0-9\\.\\-_\\(\\)]+\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i', 
+'/([\\[\\(]).*?([^\\(\\[#][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i', 
  1 );
-
 
 DROP TABLE IF EXISTS `tvrage`;
 CREATE TABLE `tvrage` 

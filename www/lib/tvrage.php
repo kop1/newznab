@@ -16,12 +16,6 @@ class TvRage
 		//
 		$this->doWebLookup = true; 	
 	}
-
-	public function get()
-	{			
-		$db = new DB();
-		return $db->query("select * from tvrage");		
-	}
 	
 	public function getByID($id)
 	{			
@@ -74,7 +68,7 @@ class TvRage
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query(" SELECT * from tvrage order by rageID asc".$limit);		
+		return $db->query(" SELECT ID, rageID, releasetitle, description, createddate from tvrage order by rageID asc".$limit);		
 	}
 	
 	public function getCount()

@@ -339,23 +339,31 @@ class Releases
 		while ($regexrow = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			// Get out all binaries of STAGE0 for current group
-			$resbin = $db->queryDirect(sprintf("SELECT ID, name from binaries where groupID = coalesce(%s, groupID) and procstat = %d", ($regexrow["groupID"]=="99999"?"null":$regexrow["groupID"]), Releases::PROCSTAT_NEW));
+			$resbin = $db->queryDirect(sprintf("SELECT ID, name, date from binaries where groupID = coalesce(%s, groupID) and procstat = %d", ($regexrow["groupID"]=="99999"?"null":$regexrow["groupID"]), Releases::PROCSTAT_NEW));
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
 			{
 				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 
 				{
-					if (count($matches) >= 3)
-					{
+				
+					//
+					// normally formed release title with parts
+					//
+					if (count($matches) > 3)
 						$parts = explode("/", $matches[3]);
-							$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
-								$db->escapeString($matches[2]), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $rowbin["ID"] ));
-					}
+					//
+					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
+					//
+					else if (count($matches) == 3 && time() - strtotime($rowbin['date']) > 10800)
+						$parts = explode("1/10");
 					else
 					{
 						if ($echooutput)
 							echo "bad regex applied which didnt return right number of capture groups - ".$regexrow["regex"]."\n";
 						break;
 					}
+					
+					$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
+						$db->escapeString($matches[2]), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $rowbin["ID"] ));
 				}
 			}
 			if ($echooutput)
