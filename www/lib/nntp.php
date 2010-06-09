@@ -43,9 +43,10 @@ class Nntp extends Net_NNTP_Client
 
 		// Fetch body
 		foreach($binary['parts'] as $part) {
-			$body = $this->getBody($part['number'], true);
+			$messageID = '<'.$part['messageID'].'>';
+			$body = $this->getBody($messageID, true);
 			if (PEAR::isError($body)) {
-			   echo 'Error fetching part number '.$part['number'].' (Server response: '. $body->getMessage().')';
+			   echo 'Error fetching part number '.$part['messageID'].' in '.$binary['binary']['groupname'].' (Server response: '. $body->getMessage().')';
 			   return false;
 			}
 			
