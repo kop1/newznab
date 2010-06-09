@@ -122,6 +122,7 @@ class NZB
 				$first = $data['first'];
 			else
 				$first = $data['last'] - $this->howManyMsgsToGoBackForNewGroup;	
+		$db->query(sprintf("UPDATE groups SET first_record = %s WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 		} 
 		else 
 		{
