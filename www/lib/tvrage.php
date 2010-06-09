@@ -8,7 +8,8 @@ class TvRage
 {	
 	function TvRage()
 	{
-		$this->searchUrl = "http://services.tvrage.com/feeds/search.php?show="; 	
+		$this->searchUrl = "http://services.tvrage.com/feeds/search.php?show=";
+		$this->showInfoUrl = "http://services.tvrage.com/feeds/full_show_info.php?sid="; 	
 		
 		//
 		// TODO: move this to site table.
@@ -36,6 +37,12 @@ class TvRage
 	
 	public function add($rageid, $releasename, $desc, $imgbytes)
 	{			
+		if ($imgbytes == '') {
+			$tmpimg = $this->getRageImage($rageid);
+			if ($tmpimg !== false) {
+				$imgbytes = $tmpimg;
+			}
+		}
 		$db = new DB();
 		return $db->queryInsert(sprintf("insert into tvrage (rageID, releasetitle, description, createddate, imgdata) values (%d, %s, %s, now(), %s)", 
 			$rageid, $db->escapeString($releasename), $db->escapeString($desc), $db->escapeString($imgbytes)));		
@@ -76,7 +83,24 @@ class TvRage
 		$res = $db->queryOneRow("select count(ID) as num from tvrage");		
 		return $res["num"];
 	}
+	
+	function getRageImage($showId)
+	{
+		$xml = file_get_contents($this->showInfoUrl.$showId);
+		$xmlObj = simplexml_load_string($xml);
+		$arrXml = objectsIntoArray($xmlObj);
 
+		if (isset($arrXml['image']) && $arrXml['image'] != '')
+		{
+			$img = file_get_contents($arrXml['image']);
+			$im = imagecreatefromstring($img);
+			if($im !== false) {
+				return $img;
+			}
+		}
+		return false;	
+	}
+	
 	function getRageId($title, $echooutput=false)
 	{
 		$db = new DB();
