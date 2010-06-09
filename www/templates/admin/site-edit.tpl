@@ -166,6 +166,14 @@
 	</td>
 </tr>
 
+<tr>
+	<td><label for="attemptgroupbindays">Days to Attempt To Group</label>:</td>
+	<td>
+		<input class="small" id="attemptgroupbindays" name="attemptgroupbindays" type="text" value="{$fsite->attemptgroupbindays}" />
+		<div class="hint">The number of days an attempt will be made to group binaries into releases after being added.</div>
+	</td>
+</tr>
+
 </table>
 </fieldset>
 

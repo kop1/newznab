@@ -18,9 +18,6 @@ class Releases
 	const PROCSTAT_RELEASED = 4;
 	const PROCSTAT_DUPLICATE = 6;
 
-	//TODO: Move to site table
-	const maxAttemptsToProcessBinaryIntoRelease = 3;
-	
 	public function get()
 	{			
 		$db = new DB();
@@ -379,7 +376,9 @@ class Releases
 			}
 			else
 			{
-				echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
+				if ($echooutput)
+					echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
+					
 				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED ));
 			}
 			if ($echooutput && ($retcount % 100 == 0))
@@ -497,13 +496,18 @@ class Releases
 		// tidy away any binaries which have been attempted to be grouped into 
 		// a release more than x times
 		//
-		$res = $db->query(sprintf("update binaries set procstat = %d where procstat = %d and procattempts > %d ", Releases::PROCSTAT_WRONGPARTS, Releases::PROCSTAT_NEW, Releases::maxAttemptsToProcessBinaryIntoRelease));
-
+		if ($echooutput)
+			echo "tidying away binaries which cant be grouped after ".$page->site->attemptgroupbindays." days\n";			
+		$db->query(sprintf("update binaries set procstat = %d where procstat = %d and dateadded < now() - interval %d day ", 
+			Releases::PROCSTAT_WRONGPARTS, Releases::PROCSTAT_NEW, $page->site->attemptgroupbindays));
+		
 		//
 		// delete any parts and binaries which are older than the site's retention days
 		//
-		$res = $db->query(sprintf("delete from parts where dateadded < now() - interval %d day", $page->site->binretentiondays));
-		$res = $db->query(sprintf("delete from binaries where dateadded < now() - interval %d day", $page->site->binretentiondays));
+		if ($echooutput)
+			echo "deleting binaries which are older than ".$page->site->binretentiondays." days\n";			
+		$db->query(sprintf("delete from parts where dateadded < now() - interval %d day", $page->site->binretentiondays));
+		$db->query(sprintf("delete from binaries where dateadded < now() - interval %d day", $page->site->binretentiondays));
 		
 
 		if ($echooutput)
