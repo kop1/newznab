@@ -446,8 +446,9 @@ class Releases
 			// insert the release
 			// 
 			$relguid = md5(uniqid());
+			$catId = $cat->determineCategory($row["group_name"], $row["relname"]);
 			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, -1, %s, %s, %s)", 
-										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $cat->determineCategory($row["group_name"], $row["relname"]), $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
+										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
 			
 			//
 			// tag every binary for this release with its parent release id
@@ -457,10 +458,30 @@ class Releases
 								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 
 			//
-			// create the zipped nzb file for each release.
+			// reread out the entire data to generate the nzb
 			//
 			$nzbdata = $nzb->getNZBforReleaseId($relid);
+
+			//
+			// find an .nfo in the release
+			//
+			$relnfo = $this->determineReleaseNfo($nzbdata);
+			if ($relnfo !== false) 
+			{
+				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
+			}
+
+			//
+			// create the zipped nzb file for each release.
+			//
 			$page->smarty->assign('binaries',$nzbdata);
+
+			$catrow = $cat->getById($catId);
+			if ($catrow)
+				$page->smarty->assign('category',$catrow);
+				
+			$page->smarty->assign('name',$row["relname"]);
+
 			$nzbfile = $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl');
 			$fp = gzopen($page->site->nzbpath.$relguid.".nzb.gz", "w"); 
 			if ($fp)
@@ -472,13 +493,6 @@ class Releases
 				if ($echooutput)
 					echo "Unable to write nzb to file.";
 			
-			//
-			// find an .nfo in the release
-			//
-			$relnfo = $this->determineReleaseNfo($nzbdata);
-			if ($relnfo !== false) {
-				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
-			}
 
 			if ($echooutput && ($retcount % 5 == 0))
 				echo "processed ".$retcount." binaries stage three\n";
