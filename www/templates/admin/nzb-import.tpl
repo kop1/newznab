@@ -7,6 +7,10 @@ Import nzbs from a folder into the system. Specify the full file path to a folde
 If you are importing a large number of nzb files, run this script from the command line and pass in the folder path as the first argument.
 <br/>
 Importing will enter the nzbs into the binaries/parts tables, but not create any releases. The update_releases function should be run to create new releases from the imported nzbs.
+<br />
+Groups contained in the nzbs should be added to the site before the import is run.
+<br />
+Duplicate binary/part checks are not done so you will get duplicates if you import nzbs that are already indexed.
 </p>
 
 
