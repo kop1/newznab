@@ -31,7 +31,7 @@ class TvRage
 	
 	public function add($rageid, $releasename, $desc, $imgbytes)
 	{			
-		if ($imgbytes == '') {
+		if ($imgbytes == '' && $rageid > 0) {
 			$tmpimg = $this->getRageImage($rageid);
 			if ($tmpimg !== false) {
 				$imgbytes = $tmpimg;
