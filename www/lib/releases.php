@@ -129,9 +129,28 @@ class Releases
 	public function getBrowseOrdering()
 	{
 		return array('name_asc', 'name_desc', 'cat_asc', 'cat_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc');
-	
+	}
+
+	public function getForExport()
+	{
+		$db = new DB();
+		return $db->query(sprintf("SELECT searchname, guid from releases"));
 	}
 	
+	public function getEarliestUsenetPostDate()
+	{
+		$db = new DB();
+		$row = $db->queryOneRow("SELECT DATE_FORMAT(min(postdate), '%d/%m/%Y') as postdate from releases");
+		return $row["postdate"];	
+	}
+
+	public function getLatestUsenetPostDate()
+	{
+		$db = new DB();
+		$row = $db->queryOneRow("SELECT DATE_FORMAT(max(postdate), '%d/%m/%Y') as postdate from releases");
+		return $row["postdate"];	
+	}
+
 	public function getRss($category, $num, $uid=0)
 	{		
 		$db = new DB();

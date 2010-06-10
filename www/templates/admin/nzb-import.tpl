@@ -10,7 +10,7 @@ Importing will enter the nzbs into the binaries/parts tables, but not create any
 <br />
 Groups contained in the nzbs should be added to the site before the import is run.
 <br />
-Duplicate binary/part checks are not done so you will get duplicates if you import nzbs that are already indexed.
+Duplicate binary/part checks are not done so you will get duplicated binary and part data if you import nzbs that are already indexed.
 </p>
 
 

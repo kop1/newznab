@@ -19,7 +19,7 @@ class BasePage
 		
 	function BasePage()
 	{			
-		session_start();
+		@session_start();
 	
 		if((function_exists("get_magic_quotes_gpc") && get_magic_quotes_gpc()) || ini_get('magic_quotes_sybase'))
 		{
@@ -83,8 +83,8 @@ class BasePage
 	
 	public function show403($from_admin = false)
 	{
-        // FIXME: This could probably be handled from a rewrite rule..
-        $redirect_path = ($from_admin) ? str_replace('/admin', '/', WWW_TOP) : WWW_TOP;
+    // FIXME: This could probably be handled from a rewrite rule..
+    $redirect_path = ($from_admin) ? str_replace('/admin', '/', WWW_TOP) : WWW_TOP;
 		header("Location: $redirect_path/login");
 		die();
 	}
