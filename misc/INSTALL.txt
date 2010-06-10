@@ -5,6 +5,7 @@ pre-reqs
 		ft_min_word_len=3 - allows searching for matches of 3characters
 	pear net_nntp module
 	php sessions enabled
+	php GD imaging library
 	php memory limit set to 256 
 	php recommended minimum execution time of at least 60 seconds
 	iis
