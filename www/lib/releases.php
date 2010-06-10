@@ -286,7 +286,7 @@ class Releases
 				if ($r)
 					$filename = $r["searchname"];
 				
-				$zipfile->add_file($nzbfile, $filename.".nzb");
+				$zipfile->addFile($nzbfile, $filename.".nzb");
 			}
 		}
 		
