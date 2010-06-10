@@ -189,10 +189,30 @@ class Releases
 		if ($cat != -1)
 			$catsrch = sprintf(" and releases.categoryID = %d", $cat);
 			
-		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search), $catsrch, $db->escapeString($search), $limit));		
+		//
+		// if the query starts with a ^ it indicates the search is looking for items which start with the term
+		// still do the fulltext match, but mandate that all items returned must start with the provided word
+		//
+		$startswith = "";
+		if (strpos($search, "^") === 0)
+		{
+			$words = explode(" ", $search);
+			if (count($words) > 0)
+			{
+				$firstword = substr($words[0], 1);
+				$startswith = sprintf(" and releases.searchname like %s ", $db->escapeString($firstword."%"));
+				
+				//
+				// put the query back together with the caret removed
+				//
+				unset($words[0]);
+				$search = $firstword." ".implode(" ", $words);
+			}
+		}
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search), $catsrch, $startswith, $db->escapeString($search), $limit));				
 
 		if (!$res)
-			$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search."*"), $catsrch, $db->escapeString($search."*"), $limit));		
+			$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search."*"), $catsrch, $startswith, $db->escapeString($search."*"), $limit));		
 
 		return $res;
 	}	
@@ -344,7 +364,8 @@ class Releases
 			{
 				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 
 				{
-				
+					array_map("trim", $matches);
+					
 					//
 					// normally formed release title with parts
 					//
