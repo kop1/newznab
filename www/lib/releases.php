@@ -946,7 +946,14 @@ class Releases
 					//parse nfo for metadata
 					$imdbId = $this->parseImdb($fetchedBinary);
 					if ($imdbId !== false) {
+
 						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
+
+                        // process imdb data
+                        $imdb = $this->fetchImdbProperties($imdbId);
+    
+                        print_r($imdb);
+                        // place above in database..
 					}
 					
 					//insert nfo into database
@@ -969,5 +976,55 @@ class Releases
 		}
 		return false;
 	}
+
+    /**
+     * fetchImdbProperties()
+     *
+     * @link http://code.google.com/p/moving-pictures/source/browse/trunk/MovingPictures/DataProviders/ScraperScripts/IMDb.xml?spec=svn920&r=920
+     * @param int $imdb_id  imdb id
+     * @return array
+     */
+    private function fetchImdbProperties($imdb_id = 0)
+    {
+        // :-)
+        if ((int)$imdb_id > 0)
+        {
+            if (is_callable('file_get_contents'))
+            {
+                $imdb_regex = array(
+                    'imdb_title'    => '/<title>(.*)<\/title>/isU',     // title
+                    'imdb_plot'     => ''                               // plot
+                    // etc.
+                );
+
+                $ret    = array();
+                $buffer = file_get_contents("http://www.imdb.com/title/tt$imdb_id/");
+
+                // make sure we got some data
+                if (strlen($buffer))
+                {
+                    foreach ($imdb_regex as $field => $regex)
+                    {
+                        if (!preg_match($regex, $buffer, $matches))
+                        {
+                            print "Error fetching '$field' for imdb id: $imdb_id\n";
+                        }
+                        else
+                        {
+                            $match = $matches[1];
+                            $match = strip_tags(trim(rtrim(addslashes($match))));
+                            array_push($ret, array($field => $match));
+                        }
+                    }
+                }
+
+                return $ret;
+            }
+            else
+            {
+                print __FUNCTION__ . ": Unable to call file_get_contents()! - Perhaps it was removed by your host.\n";
+            }
+        }
+    }
 }
 ?>
