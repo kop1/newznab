@@ -10,12 +10,29 @@ require_once(WWW_DIR."/lib/zipfile.php");
 
 class Releases
 {	
+	//
+	// initial binary state after being added from usenet
 	const PROCSTAT_NEW = 0;
+
+	// after a binary has matched a releaseregex
 	const PROCSTAT_TITLEMATCHED = 5;
+
+	//
+	// after a binary has been confirmed as having 
 	const PROCSTAT_READYTORELEASE = 1;
+	
+	//
+	// after a binary has has been attempted to be matched for x days and 
+	// still has the wrong number of parts
 	const PROCSTAT_WRONGPARTS = 2;
-	const PROCSTAT_BADTITLEFORMAT = 3;
+	
+	//
+	// binary that has finished and successfully made it into a release
 	const PROCSTAT_RELEASED = 4;
+	
+	//
+	// binary that is identified as already being part of another release 
+	//(with the same name posted in a similar date range)
 	const PROCSTAT_DUPLICATE = 6;
 
 	public function get()
@@ -432,7 +449,7 @@ class Releases
 					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
 					//
 					else if (count($matches) == 3 && time() - strtotime($rowbin['date']) > 10800)
-						$parts = explode("1/10");
+						$parts = explode("01/10");
 					else
 					{
 						if ($echooutput)
