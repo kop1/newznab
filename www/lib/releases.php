@@ -14,11 +14,12 @@ class Releases
 	// initial binary state after being added from usenet
 	const PROCSTAT_NEW = 0;
 
+	//
 	// after a binary has matched a releaseregex
 	const PROCSTAT_TITLEMATCHED = 5;
 
 	//
-	// after a binary has been confirmed as having 
+	// after a binary has been confirmed as having the right number of parts
 	const PROCSTAT_READYTORELEASE = 1;
 	
 	//
