@@ -6,4 +6,4 @@ start on runlevel [2345]
 stop on shutdown
 respawn
 
-exec sh -c "while true;do cd /PATH/TO/misc/cron_update/ && php UPDATE_BINARIES_FILE.php; sleep 10 ;done
+exec sh -c "while true;do cd /PATH/TO/misc/cron_update/ && php UPDATE_BINARIES_FILE.php; sleep 600 ;done
