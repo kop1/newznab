@@ -84,7 +84,9 @@ jQuery(function($){
 	});
 	$('#headsearch_go').click(function(){
 		if ($('#headsearch').val() && $('#headsearch').val() != 'Enter keywords')
-			document.location= WWW_TOP + "/search/" + $.URLEncode($('#headsearch').val()) + ($("#headcat").val()!=-1 ? "&t="+$("#headcat").val() : "");
+		{
+			document.location= WWW_TOP + "/search/" + $('#headsearch').val() + ($("#headcat").val()!=-1 ? "&t="+$("#headcat").val() : "");
+		}
 	});
 
 	// login.tpl, register.tpl, search.tpl, searchraw.tpl
@@ -96,14 +98,14 @@ jQuery(function($){
 	// search.tpl
 	$('#search_search_button').click(function(){
 		if ($('#search').val())
-			document.location=WWW_TOP + "/search/" + $.URLEncode($('#search').val());
+			document.location=WWW_TOP + "/search/" + $('#search').val();
 		return false;
 	});
 
 	// searchraw.tpl
 	$('#searchraw_search_button').click(function(){
 		if ($('#search').val())
-			document.location=WWW_TOP + "/searchraw/" + $.URLEncode($('#search').val());
+			document.location=WWW_TOP + "/searchraw/" + $('#search').val();
 		return false;
 	});
 	$('#searchraw_download_selected').click(function(){

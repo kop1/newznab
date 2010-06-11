@@ -4,7 +4,7 @@
 <form method="get" action="/search/">
 	<div style="text-align:center;">
 		<label for="search" style="display:none;">Search</label>
-		<input id="search" name="search" value="{$search|escape:'htmlall'}" type="text"/>
+		<input id="search" name="search" value="{$search|escape:'html'}" type="text"/>
 		<input id="search_search_button" type="submit" value="search" />
 	</div>
 </form>
