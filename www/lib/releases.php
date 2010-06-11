@@ -131,10 +131,33 @@ class Releases
 		return array('name_asc', 'name_desc', 'cat_asc', 'cat_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc');
 	}
 
-	public function getForExport()
+	public function getForExport($postfrom, $postto, $group)
 	{
 		$db = new DB();
-		return $db->query(sprintf("SELECT searchname, guid from releases"));
+		if ($postfrom != "")
+		{
+			$dateparts = explode("/", $postfrom);
+			if (count($dateparts) == 3)
+				$postfrom = sprintf(" and postdate > %s ", $db->escapeString($dateparts[2]."-".$dateparts[1]."-".$dateparts[0]." 00:00:00"));
+			else
+				$postfrom = "";
+		}
+
+		if ($postto != "")
+		{
+			$dateparts = explode("/", $postto);
+			if (count($dateparts) == 3)
+				$postto = sprintf(" and postdate < %s ", $db->escapeString($dateparts[2]."-".$dateparts[1]."-".$dateparts[0]." 23:59:59"));
+			else
+				$postto = "";
+		}
+		
+		if ($group != "" && $group != "-1")
+			$group = sprintf(" and groupID = %d ", $group);
+		else
+			$group = "";
+		
+		return $db->query(sprintf("SELECT searchname, guid from releases where 1 = 1 %s %s %s", $postfrom, $postto, $group));
 	}
 	
 	public function getEarliestUsenetPostDate()
@@ -151,6 +174,21 @@ class Releases
 		return $row["postdate"];	
 	}
 
+	public function getReleasedGroupsForSelect($blnIncludeAll = true)
+	{
+		$db = new DB();
+		$groups = $db->query("select distinct groups.ID, groups.name from releases inner join groups on groups.ID = releases.groupID");
+		$temp_array = array();
+		
+		if ($blnIncludeAll)
+			$temp_array[-1] = "--All Groups--";
+		
+		foreach($groups as $group)
+			$temp_array[$group["ID"]] = $group["name"];
+
+		return $temp_array;
+	}
+	
 	public function getRss($category, $num, $uid=0)
 	{		
 		$db = new DB();

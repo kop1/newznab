@@ -33,7 +33,7 @@ If you are exporting a large number of nzb files, run this script from the comma
 <tr>
 	<td><label for="group">Group</label>:</td>
 	<td>
-		{html_options id="group" name='group' options=$grouplist}
+		{html_options id="group" name='group' options=$grouplist selected=$group}
 		<div class="hint">Posted to this newsgroup</div>
 	</td>
 </tr>

@@ -16,25 +16,36 @@ if (!empty($argc) || $page->isPostBack() )
 {
 	$retval = "";	
 	$strTerminator = "<br />";
+	$postfrom = "";
+	$postto = "";
+	$group = "";
 	
 	if (!empty($argc))
 	{
 		$strTerminator = "\n";
 		$path = $argv[1];
+		$postfrom = $argv[2];
+		$postto = $argv[3];
+		$group = $argv[4];
 	}
 	else		
 	{
 		$strTerminator = "<br />";
 		$path = $_POST["folder"];
+		if (isset($_POST["postfrom"]))
+			$postfrom = $_POST["postfrom"];		
+		if (isset($_POST["postto"]))
+			$postto = $_POST["postto"];	
+		if (isset($_POST["group"]))
+			$group = $_POST["group"];				
 	}
 
 	if ($path != "")
 	{
-
 		if (substr($path, strlen($path) - 1) != '/')
 			$path = $path."/";
-		
-		$releases = $rel->getForExport();
+
+		$releases = $rel->getForExport($postfrom, $postto, $group);
 		$s = new Sites();
 		$site = $s->get();
 		$nzbCount = 0;
@@ -62,19 +73,20 @@ if (!empty($argc) || $page->isPostBack() )
 	
 	$page->smarty->assign('folder', $path);	
 	$page->smarty->assign('output', $retval);	
+	$page->smarty->assign('fromdate', $postfrom);	
+	$page->smarty->assign('todate', $postto);	
+	$page->smarty->assign('group', $group);	
+	
 }
 else
 {
-	$page->smarty->assign('fromdate', $rel->getLatestUsenetPostDate());	
+	$page->smarty->assign('fromdate', $rel->getEarliestUsenetPostDate());	
 	$page->smarty->assign('todate', $rel->getLatestUsenetPostDate());	
 }
 
 $page->title = "Export Nzbs";
-
-$grouplist = array("-1" => "--All Groups--");
+$grouplist = $rel->getReleasedGroupsForSelect(true);
 $page->smarty->assign('grouplist', $grouplist);
-
-
 $page->content = $page->smarty->fetch('admin/nzb-export.tpl');
 $page->render();
 
