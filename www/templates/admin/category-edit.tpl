@@ -25,6 +25,13 @@
 </tr>
 
 <tr>
+	<td>Description:</td>
+	<td>
+		<input type="text" class="long" name="description" value="{$category.description}" />
+	</td>
+</tr>
+
+<tr>
 	<td><label for="status">Active</label>:</td>
 	<td>
 		{html_radios id="status" name='status' values=$status_ids output=$status_names selected=$category.status separator='<br />'}

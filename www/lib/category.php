@@ -76,13 +76,13 @@ class Category
 	public function getById($id)
 	{			
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));		die();
+		return $db->queryOneRow(sprintf("SELECT c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));
 	}	
 	
-	public function update($id, $status)
+	public function update($id, $status, $desc)
 	{			
 		$db = new DB();
-		return $db->query(sprintf("update category set status = %d where ID = %d", $status, $id));
+		return $db->query(sprintf("update category set status = %d, description = %s where ID = %d", $status, $db->escapeString($desc), $id));
 	}	
 	
 	public function getForMenu()

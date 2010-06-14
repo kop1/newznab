@@ -160,7 +160,8 @@ CREATE TABLE category
 `ID` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 `title` VARCHAR(255) NOT NULL,
 `parentID` INT NULL,
-`status` INT NOT NULL DEFAULT '1'
+`status` INT NOT NULL DEFAULT '1',
+`description` varchar(255) null
 ) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
 
 INSERT INTO category (ID, title) VALUES (1000, 'Console');
