@@ -256,14 +256,20 @@ class Releases
 			$db->escapeString($name), $db->escapeString($searchname), $db->escapeString($fromname), $category, $parts, $grabs, $size, $db->escapeString($posteddate), $db->escapeString($addeddate), $rageid, $db->escapeString($seriesfull), $db->escapeString($season), $db->escapeString($episode), $imdbid, $id));		
 	}	
 	
-	public function search($search, $cat=-1, $limit=1000)
+	public function search($search, $cat=array(-1), $limit=1000)
 	{			
 		$db = new DB();
 		
 		$catsrch = "";
-		if ($cat != -1)
-			$catsrch = sprintf(" and releases.categoryID = %d", $cat);
-			
+		if (count($cat) > 0 && $cat[0] != -1)
+		{
+			$catsrch = " and (";
+			foreach ($cat as $c)
+				$catsrch.= sprintf(" releases.categoryID = %d or ", $c);
+
+			$catsrch.= "1=2 )";
+		}
+		
 		//
 		// if the query starts with a ^ it indicates the search is looking for items which start with the term
 		// still do the fulltext match, but mandate that all items returned must start with the provided word
@@ -320,7 +326,7 @@ class Releases
 		$words = str_word_count(str_replace(".", " ", $name), 2);
 		$firstwords = array_slice($words, 0, 2);
 		$name = implode(' ', $firstwords);
-		$results = $this->search($name, -1, $limit);
+		$results = $this->search($name, array(-1), $limit);
 		if (!$results)
 			return $results;
 

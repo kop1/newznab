@@ -61,7 +61,7 @@ else
 	$apikey=$page->userdata["rsstoken"];
 }
 
-
+$page->smarty->assign("api","1");
 $page->smarty->assign("dl","1");
 $page->smarty->assign("uid",$uid);
 $page->smarty->assign("rsstoken",$apikey);
@@ -84,9 +84,19 @@ switch ($function)
 	case "s":
 		if (!isset($_GET["q"]) && !isset($_GET["rid"]))
 			showApiError("no query/rageid specified");	
-			
+
+		$categoryId = array();
+		if (isset($_GET["cat"]))
+			$categoryId = explode(",",$_GET["cat"]);
+		else
+			$categoryId[] = -1;
+		
+		$limit = 100;
+		if (isset($_GET["limit"]) && is_numeric($_GET["limit"]) && $_GET["limit"] < 100)
+			$limit = $_GET["limit"];
+		
 		if (isset($_GET["q"]))
-			$reldata = $releases->search($_GET["q"]);
+			$reldata = $releases->search($_GET["q"], $categoryId, $limit);
 		else
 			$reldata = $releases->searchbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
 											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));

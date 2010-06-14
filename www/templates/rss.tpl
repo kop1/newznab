@@ -21,23 +21,24 @@
 	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}&amp;i={$uid}&amp;r={$rsstoken}{/if}</link>
 	<comments>{$serverroot}rss/viewnzb/{$release.guid}#comments</comments> 	
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
-	<category>{$release.category_name}</category> 	
-	<description>
-	<![CDATA[
+	<category>{$release.category_name|escape:html}</category> 	
+	<description>{if $api=="1"}{$release.searchname}{else}
+<![CDATA[
 	<ul>
 	<li>ID: <a href="{$serverroot}rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
-	<li>Attributes: Category - {$release.category_name} </li>
+	<li>Attributes: Category - {$release.category_name}</li>
 	<li>Groups: {$release.group_name}</li>
 	<li>Poster: {$release.fromname}</li>
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
 	</ul>]]>
-	</description>
+	{/if}
+</description>
 	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}
 
-	<!-- Additional attributes-->
+
 	<report:id>{$release.guid}</report:id>
-	<report:category parentID="{$release.parentCategoryID}" id="{$release.categoryID}">{$release.category_name}</report:category>
+	<report:category parentID="{$release.parentCategoryID}" id="{$release.categoryID}">{$release.category_name|escape:html}</report:category>
 	<report:groups>
 		<report:group>{$release.group_name}</report:group>
 	</report:groups>

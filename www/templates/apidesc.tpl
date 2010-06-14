@@ -26,7 +26,7 @@
 					<li>
 						Search <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&q=linux">?t=search&q=linux</a></span>
 						<br/>
-						Returns a list of nzbs matching a query.
+						Returns a list of nzbs matching a query. You can also  filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;">&cat=123,124</span>
 						<br/>
 						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&rid=20423&season=s01">?t=search&rid=20423&season=s01</a></span>. Either numeric (1) or string (E01) can be used for searching by series or episode.
 					</li>

@@ -161,42 +161,50 @@ CREATE TABLE category
 `title` VARCHAR(255) NOT NULL,
 `parentID` INT NULL,
 `status` INT NOT NULL DEFAULT '1'
-) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
 
-INSERT INTO category (ID, title) VALUES (1, 'Console');
-INSERT INTO category (ID, title) VALUES (2, 'Movies');
-INSERT INTO category (ID, title) VALUES (3, 'Audio');
-INSERT INTO category (ID, title) VALUES (4, 'PC');
-INSERT INTO category (ID, title) VALUES (5, 'TV');
-INSERT INTO category (ID, title) VALUES (6, 'XXX');
-INSERT INTO category (ID, title) VALUES (7, 'Other');
-INSERT INTO category (ID, title, parentID) VALUES (8, 'NDS', 1);
-INSERT INTO category (ID, title, parentID) VALUES (9, 'PSP', 1);
-INSERT INTO category (ID, title, parentID) VALUES (10, 'Wii', 1);
-INSERT INTO category (ID, title, parentID) VALUES (11, 'Xbox', 1);
-INSERT INTO category (ID, title, parentID) VALUES (12, 'Xbox 360', 1);
-INSERT INTO category (ID, title, parentID) VALUES (13, 'DVD', 2);
-INSERT INTO category (ID, title, parentID) VALUES (14, 'WMV-HD', 2);
-INSERT INTO category (ID, title, parentID) VALUES (15, 'XviD', 2);
-INSERT INTO category (ID, title, parentID) VALUES (16, 'x264', 2);
-INSERT INTO category (ID, title, parentID) VALUES (17, 'MP3', 3);
-INSERT INTO category (ID, title, parentID) VALUES (18, 'Video', 3);
-INSERT INTO category (ID, title, parentID) VALUES (19, '0day', 4);
-INSERT INTO category (ID, title, parentID) VALUES (20, 'ISO', 4);
-INSERT INTO category (ID, title, parentID) VALUES (21, 'Mac', 4);
-INSERT INTO category (ID, title, parentID) VALUES (22, 'DVD', 5);
-INSERT INTO category (ID, title, parentID) VALUES (24, 'SWE', 5);
-INSERT INTO category (ID, title, parentID) VALUES (25, 'XviD', 5);
-INSERT INTO category (ID, title, parentID) VALUES (26, 'x264', 5);
-INSERT INTO category (ID, title, parentID) VALUES (27, 'DVD', 6);
-INSERT INTO category (ID, title, parentID) VALUES (28, 'WMV', 6);
-INSERT INTO category (ID, title, parentID) VALUES (29, 'XviD', 6);
-INSERT INTO category (ID, title, parentID) VALUES (30, 'x264', 6);
-INSERT INTO category (ID, title, parentID) VALUES (31, 'Misc', 7);
-INSERT INTO category (ID, title, parentID) VALUES (32, 'Audiobook', 3);
-INSERT INTO category (ID, title, parentID) VALUES (33, 'Ebook', 7);
-INSERT INTO category (ID, title, parentID) VALUES (34, 'Ipod', 5);
-INSERT INTO category (ID, title, parentID) VALUES (35, 'Sport', 5);
+INSERT INTO category (ID, title) VALUES (1000, 'Console');
+INSERT INTO category (ID, title) VALUES (2000, 'Movies');
+INSERT INTO category (ID, title) VALUES (3000, 'Audio');
+INSERT INTO category (ID, title) VALUES (4000, 'PC');
+INSERT INTO category (ID, title) VALUES (5000, 'TV');
+INSERT INTO category (ID, title) VALUES (6000, 'XXX');
+INSERT INTO category (ID, title) VALUES (7000, 'Other');
+
+INSERT INTO category (ID, title, parentID) VALUES (1010, 'NDS', 1000);
+INSERT INTO category (ID, title, parentID) VALUES (1020, 'PSP', 1000);
+INSERT INTO category (ID, title, parentID) VALUES (1030, 'Wii', 1000);
+INSERT INTO category (ID, title, parentID) VALUES (1040, 'Xbox', 1000);
+INSERT INTO category (ID, title, parentID) VALUES (1050, 'Xbox 360', 1000);
+
+INSERT INTO category (ID, title, parentID) VALUES (2010, 'DVD', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2020, 'WMV-HD', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2030, 'XviD', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2040, 'x264', 2000);
+
+INSERT INTO category (ID, title, parentID) VALUES (3010, 'MP3', 3000);
+INSERT INTO category (ID, title, parentID) VALUES (3020, 'Video', 3000);
+INSERT INTO category (ID, title, parentID) VALUES (3030, 'Audiobook', 3000);
+INSERT INTO category (ID, title, parentID) VALUES (3040, 'Lossless', 3000);
+
+INSERT INTO category (ID, title, parentID) VALUES (4010, '0day', 4000);
+INSERT INTO category (ID, title, parentID) VALUES (4020, 'ISO', 4000);
+INSERT INTO category (ID, title, parentID) VALUES (4030, 'Mac', 4000);
+
+INSERT INTO category (ID, title, parentID) VALUES (5010, 'DVD', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5020, 'SWE', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5030, 'XviD', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5040, 'x264', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5050, 'Ipod', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5060, 'Sport', 5000);
+
+INSERT INTO category (ID, title, parentID) VALUES (6010, 'DVD', 6000);
+INSERT INTO category (ID, title, parentID) VALUES (6020, 'WMV', 6000);
+INSERT INTO category (ID, title, parentID) VALUES (6030, 'XviD', 6000);
+INSERT INTO category (ID, title, parentID) VALUES (6040, 'x264', 6000);
+
+INSERT INTO category (ID, title, parentID) VALUES (7010, 'Misc', 7000);
+INSERT INTO category (ID, title, parentID) VALUES (7020, 'Ebook', 7000);
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (

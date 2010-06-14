@@ -14,7 +14,7 @@ RewriteRule ^nfo/(.*)$ viewnfo.php?id=$1
 RewriteRule ^login$ login.php
 RewriteRule ^logout$ logout.php
 RewriteRule ^register$ register.php
-RewriteRule ^search/(.*)$ search.php?search=$1 [B]
+RewriteRule ^search/(.*)$ search.php?search=$1
 RewriteRule ^search$ search.php
 RewriteRule ^searchraw/(.*)$ searchraw.php?search=$1
 RewriteRule ^searchraw$ searchraw.php
