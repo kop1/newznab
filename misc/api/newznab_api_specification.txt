@@ -15,8 +15,10 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 2.  Functions
 2.1 CAPS
 2.2 SEARCH
-2.3 INDIVIDUAL
+2.3 TV-SEARCH
+2.4 DETAILS
 3.  Predefined Categories
+4.  Predefined Attributes
 
 TODO:
   - tv-rage ??
@@ -85,7 +87,7 @@ TODO:
      200 OK
      404 Not Found
 
-   Example:
+   Examples:
      --> GET http://servername.com/api?t=c
      <-- 200 OK
         <?xml version="1.0" encoding="UTF-8"?>
@@ -112,6 +114,13 @@ TODO:
                 </category>
                 ...
             </categories>               
+
+            <!-- available searching capabilities -->
+            <searching>
+                <search available="yes"/>
+                <tv-search available="yes"/>
+                <audio-search available="no"/>
+            </searching>
 
             <!-- TBD
                  - more searching options?
@@ -159,16 +168,12 @@ TODO:
       
     Parameters:
       t=search          Search function, must always be "search"
-      q=xxxx            Search input (UTF-8/URL encoded)
+      q=xxxx            Search input (URL/UTF-8 encoded).
       key=xxxx          User's key as provided by the service provider.
       
    Optional parameters:
-      tvrage=x          Include TVRage information, either "yes" or "no". Default is "no"
-      limit=123         Limit the number of returned items to this limit
+      limit=123         Upper limit for the number of items to be returned.
       cat=xxx           List of categories to search delimeted by ","
-      rid=xxxxx         TVRage id of the item being queried
-      season=xxx        Season string e.g. S01 or 1 for the item being queried
-      ep=xxx            Episode string e.g. E13 or 13 for the item being queried
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
 
     Response:
@@ -177,11 +182,11 @@ TODO:
       404 Not found
 
     Error Codes:
-      xxx - Incorrect password or username
-      xxx - account suspended
-      xxx - insufficient priviledges/not authorized
+      xxx - Incorrect user credentials.
+      xxx - Account suspended.
+      xxx - Insufficient priviledges/not authorized.
 
-    Example:
+    Examples:
       --> GET http://servername.com/api?t=search&key=xxxxx&q=a%20tv%20show
       <-- 200 OK
           <?xml version="1.0" encoding="UTF-8"?>
@@ -205,12 +210,6 @@ TODO:
                 <report:category>5010</report:category>
                 <report:category>5020</report:category>
               </report:categories>
-
-              <!-- specific data -->
-              <tv:season>6</tv:season>
-              <tv:episode>5</tv:episode>
-              <tv:tvrage>2638</tv:tvrage>
-
            </item>
          </channel>
          </rss>
@@ -237,13 +236,100 @@ TODO:
          <?xml version="1.0" encoding="UTF-8"/>
          <error code="xxx" description="Missing parameter: key"/>
 
-   2.3 DETAILS
+   2.3 TV-SEARCH
+
+   Description:
+     TV-SEARCH function searches the index in the TV category for items matching the search criteria.
+     The criteria includes query string and in addition information about season and episode.
+     On succesful search the response contains a list of items that matched the query. Even if the 
+     search matched nothing an empty but valid response is created and returned. This function
+     requires passing the user credentials.
+     
+     The returned XML data stream is RSS 2.0 compliant and also contains additional information
+     in the extra namespace and in addition TV specific information in the tv namespace.
+
+   HTTP Method:
+     GET
+
+   Parameters:
+     t=tvsearch         TV-Search function, must always be "tvsearch".
+     q=xxxx             Search input (URL/UTF-8 encoded).
+     key=xxx            User's key as provided by the service provider.
+     
+   Optional parameters:
+     limit=123          Upper limit for the number of items to be returned, e.g. 123.
+     rid=xxxx           TVRage id of the item being queried.
+     season=xxxx        Season string, e.g S13 or 13 for the item being queried.
+     ep=xxx             Episode string, e.g E13 or 13 for the item being queried.
+     o=xml              Output format, either "JSON" or "XML". Default is "XML".
+
+   Response:
+     200 OK
+     403 Forbidden
+     404 Not Found
+     
+   Error Codes:
+     xxx - Incorrect user credentials
+     xxx - Account suspended.
+     xxx - Insufficient priviledges/not authorized.
+     
+   Examples:
+     --> GET http://servername.com/api?t=tvsearch&key=xxxq=lost&season=S03
+     <-- 200 OK
+         <?xml version="1.0" encoding="UTF-8"?>
+         <rss version="2.0">
+         <channel>
+            <item>
+              <!-- Standard RSS 2.0 data -->
+              <title>Land.of.the.Lost.S03E02.Survival.Kit.iNTERNAL.DVDRip.XViD-SPRiNTER</title> 
+              <guid isPermaLink="true">http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c</guid> 
+              <link>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9</link> 
+              <comments>http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c#comments</comments>  
+              <pubDate>Sun, 06 Jun 2010 17:29:23 +0100</pubDate> 
+              <category>TV > XviD</category>  
+              <description>Some TV show</description>
+              <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" />               
+
+              <!-- Additional attributes -->
+              <report:size>154653309</report:size>
+              <report:categories>
+                <report:category>5030</report:category>
+              </report:categories>
+              
+              <tv:season>3</tv:season>
+              <tv:episode>2</tv:episode>
+            </item>         
+
+            <item>
+              <!-- Standard RSS 2.0 data -->
+              <title>Lost.S03E01.720p.BluRay.DTS.x264.INTERNAL-hV</title> 
+              <guid isPermaLink="true">http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c</guid> 
+              <link>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9</link> 
+              <comments>http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c#comments</comments>  
+              <pubDate>Sun, 06 Jun 2010 17:29:23 +0100</pubDate> 
+              <category>TV > XviD</category>  
+              <description>Some TV show</description>
+              <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" />               
+
+              <!-- Additional attributes -->
+              <report:size>154653309</report:size>
+              <report:categories>
+                <report:category>5040</report:category>
+              </report:categories>
+              
+              <tv:season>3</tv:season>
+              <tv:episode>1</tv:episode>
+            </item>         
+            ....
+         </channel>
+         </rss>
+
+
+   2.4 DETAILS
    
    Description:
-      DETAILS function returns all information for a particular Usenet (NZB) item.
-      
-      If a query is submitted which returns more than one result, then the first result found will be returned.
-      i.e. only one <item> result will ever be returned.
+      DETAILS function returns all information for a particular Usenet (NZB) item. The response
+      contains the generic RSS part + full extra information + full type/category specific information.
       
     HTTP Method:
       GET
@@ -280,12 +366,12 @@ TODO:
 
                 <!-- additional attributes -->
                 <report:size>154653309</report:size>
+                <report:poster>teevee@4u.tv (teevee</report:poster>
+                <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate>
                 <report:categories>
                   <report:category>5000</report:category>
                   <report:category>5010</report:category>
                   <report:category>5020</report:category>
-                  <report:poster>teevee@4u.tv (teevee</report:poster>
-                  <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate>
                 </report:categories>
                 
                 <!-- TV specific information. -->
@@ -369,3 +455,15 @@ TODO:
    7010                                 Misc
    7020                                 EBook                           E-Books
    9000-9999                            Custom                          Specific to a site.
+
+
+4. Predefined Attributes
+   
+   A set of known attributes for items in different categories has been defined. 
+
+   TODO:
+   - tv
+   - movie
+   - console
+   - etc.
+   
