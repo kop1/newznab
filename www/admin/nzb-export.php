@@ -5,6 +5,8 @@ require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/releases.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/framework/db.php");
+require_once(WWW_DIR."/lib/util.php");
+
 $db = new DB();
 
 if (empty($argc))
@@ -19,14 +21,19 @@ if (!empty($argc) || $page->isPostBack() )
 	$postfrom = "";
 	$postto = "";
 	$group = "";
+	$path = "";
 	
 	if (!empty($argc))
 	{
 		$strTerminator = "\n";
-		$path = $argv[1];
-		$postfrom = $argv[2];
-		$postto = $argv[3];
-		$group = $argv[4];
+		if (isset($argv[1]))
+			$path = $argv[1];
+		if (isset($argv[2]))
+			$postfrom = $argv[2];
+		if (isset($argv[3]))
+			$postto = $argv[3];
+		if (isset($argv[4]))
+			$group = $argv[4];
 	}
 	else		
 	{
@@ -56,7 +63,7 @@ if (!empty($argc) || $page->isPostBack() )
 			@readgzfile($site->nzbpath.$release["guid"].".nzb.gz");
 			$nzbfile = ob_get_contents();
 			ob_end_clean();
-			$fh = fopen($path.$release["searchname"].".nzb", 'w');
+			$fh = fopen($path.safeFilename($release["searchname"]).".nzb", 'w');
 			fwrite($fh, $nzbfile);
 			fclose($fh);
 			$nzbCount++;
@@ -69,6 +76,11 @@ if (!empty($argc) || $page->isPostBack() )
 			echo 'Processed '.$nzbCount.' nzbs';
 			die();
 		}
+	}
+	else
+	{
+		echo 'No export path specified.';
+		die();
 	}
 	
 	$page->smarty->assign('folder', $path);	

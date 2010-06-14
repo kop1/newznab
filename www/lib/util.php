@@ -30,6 +30,28 @@ function makeStringLinksHtml($str, $dereferrer='') {
 	return preg_replace('/(https?):\/\/([A-Za-z0-9\._\-\/\?=&;]+)/is', '<a href="'.$dereferrer.'$1://$2" target="_blank">$1://$2</a>', $str);
 }
 
+function safeFilename($filename) 
+{
+    $temp = $filename;
+ 
+    // Lower case
+    $temp = strtolower($temp);
+ 
+    // Replace spaces with a '_'
+    $temp = str_replace(" ", "_", $temp);
+ 
+    // Loop through string
+    $result = '';
+    for ($i=0; $i<strlen($temp); $i++) {
+        if (preg_match('([0-9]|[a-z]|_)', $temp[$i])) {
+            $result = $result . $temp[$i];
+        }    
+    }
+ 
+    // Return filename
+    return $result;
+}
+
 
 function cp437toUTF($str) {
 	$out = '';
