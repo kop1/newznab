@@ -88,7 +88,7 @@ TODO:
      404 Not Found
 
    Examples:
-     --> GET http://servername.com/api?t=c
+     --> GET http://servername.com/api?t=caps
      <-- 200 OK
         <?xml version="1.0" encoding="UTF-8"?>
           <caps>
@@ -366,7 +366,7 @@ TODO:
 
                 <!-- additional attributes -->
                 <report:size>154653309</report:size>
-                <report:poster>teevee@4u.tv (teevee</report:poster>
+                <report:poster>teevee@4u.tv (teevee)</report:poster>
                 <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate>
                 <report:categories>
                   <report:category>5000</report:category>
@@ -422,7 +422,7 @@ TODO:
    6000-6999                            XXX
    7000-7999                            Other
    8000-8999                            Reserved
-   9000-9999                            Custom                          Site specific category range. Defined in CAPS
+   100000-                              Custom                          Site specific category range. Defined in CAPS
 
    Subcategories                        Category Name
 
@@ -454,7 +454,7 @@ TODO:
    6040                                 XXX/x264                        HD Pron.
    7010                                 Misc
    7020                                 EBook                           E-Books
-   9000-9999                            Custom                          Specific to a site.
+   100000-                              Custom                          Specific to a site.
 
 
 4. Predefined Attributes

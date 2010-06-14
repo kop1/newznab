@@ -18,8 +18,8 @@ $nzb = new NZB;
 $function = "s";
 if (isset($_GET["t"]))
 {
-	if ( $_GET["t"] == "indiv" || $_GET["t"] == "i")
-		$function = "i";
+	if ( $_GET["t"] == "details" || $_GET["t"] == "d")
+		$function = "d";
 	elseif ( $_GET["t"] == "get" || $_GET["t"] == "g")
 		$function = "g";
 	elseif ($_GET["t"] == "search" || $_GET["t"] == "s" )
@@ -105,7 +105,7 @@ switch ($function)
 		{
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
-			echo $page->smarty->fetch('rss.tpl');	
+			echo $page->smarty->fetch('apiresult.tpl');	
 		}
 		else
 		{
@@ -138,17 +138,13 @@ switch ($function)
 		break;		
 		
 	//
-	// get individual nzb info
+	// get individual nzb details
 	//
-	case "i":
-		if (!isset($_GET["id"]) && !isset($_GET["rid"]))
-			showApiError("no id/rageid specified");
+	case "d":
+		if (!isset($_GET["id"]))
+			showApiError("no id specified");
 
-		if (isset($_GET["id"]))
-			$data = $releases->getByGuid($_GET["id"]);
-		else
-			$data = $releases->getbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
-											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
+		$data = $releases->getByGuid($_GET["id"]);
 		
 		if ($data)
 			$reldata[] = $data;
@@ -159,7 +155,7 @@ switch ($function)
 		{
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
-			echo $page->smarty->fetch('rss.tpl');
+			echo $page->smarty->fetch('apidetail.tpl');
 		}	
 		else
 			echo json_encode($data); //TODO:make that a more specific array of data to return rather than resultset
