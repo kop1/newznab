@@ -5,7 +5,7 @@ set -e
 
 export NEWZNAB_PATH="/usr/local/www/newznab/misc/cron_update"
 export NEWZNAB_BINUP="update_binaries.php"
-export NEWZNAB_RELUP="update_release.php"
+export NEWZNAB_RELUP="update_releases.php"
 export NEWZNAB_SLEEP_TIME="600" # in seconds . 10sec is good for 100s of groups. 600sec might be a good start for fewer.
 export NEWZNAB_PID_PATH="/var/run/" # don't forget the trailing slash . need r/w on it
 
@@ -17,7 +17,7 @@ case "$1" in
   start)
         echo -n "Starting Newznab binaries update"
         cd ${NEWZNAB_PATH}
-        (while (true);do cd ${NEWZNAB_PATH} && php ${NEWZNAB_BINUP} && php ${NEWZNAB_RELUP} ; sleep ${SLEEP_TIME} ;done) &
+        (while (true);do cd ${NEWZNAB_PATH} && php ${NEWZNAB_BINUP} && php ${NEWZNAB_RELUP} ; sleep ${NEWZNAB_SLEEP_TIME} ;done) &
         PID=`echo $!`
         echo $PID > ${NEWZNAB_PID_PATH}${PIDFILE}
         ;;
