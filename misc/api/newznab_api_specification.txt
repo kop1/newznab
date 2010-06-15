@@ -19,6 +19,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 2.4 DETAILS
 3.  Predefined Categories
 4.  Predefined Attributes
+5.  Newznab Error Codes
 
 TODO:
   - tv-rage ??
@@ -76,16 +77,15 @@ TODO:
 
    HTTP Method: 
      GET
+     
+   HTTP Response:
+     200 OK
       
    Parameters:  
      t=caps                     Caps function, must always be "caps".
      
    Optional parameters:
      o=xxx                      Output format, either "JSON" or "XML. Default is "XML".                     
-
-   Responses:  
-     200 OK
-     404 Not Found
 
    Examples:
      --> GET http://servername.com/api?t=caps
@@ -107,10 +107,10 @@ TODO:
                 </category>
 
                 <!-- site specific categories -->
-                <category id="9001" name="MotoGP"       description="Latest MotoGP stuff"/>
-                <category id="9002" name="Fifa 2010"    description="Fifa 2010 world cup">
-                  <subcat id="9003" name="Fifa 2010 HD" description="HD stuff"/>
-                  <subcat id="9004" name="Fifa 2010 SD" description="SD stuff"/>
+                <category id="1000001" name="MotoGP"       description="Latest MotoGP stuff"/>
+                <category id="1000002" name="Fifa 2010"    description="Fifa 2010 world cup">
+                  <subcat id="1000003" name="Fifa 2010 HD" description="HD stuff"/>
+                  <subcat id="1000004" name="Fifa 2010 SD" description="SD stuff"/>
                 </category>
                 ...
             </categories>               
@@ -166,6 +166,9 @@ TODO:
     HTTP Method:
       GET
       
+    HTTP Response:
+      200 OK
+      
     Parameters:
       t=search          Search function, must always be "search"
       q=xxxx            Search input (URL/UTF-8 encoded).
@@ -175,16 +178,6 @@ TODO:
       limit=123         Upper limit for the number of items to be returned.
       cat=xxx           List of categories to search delimeted by ","
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
-
-    Response:
-      200 OK
-      403 Forbidden
-      404 Not found
-
-    Error Codes:
-      xxx - Incorrect user credentials.
-      xxx - Account suspended.
-      xxx - Insufficient priviledges/not authorized.
 
     Examples:
       --> GET http://servername.com/api?t=search&key=xxxxx&q=a%20tv%20show
@@ -225,16 +218,16 @@ TODO:
 
      // Query could not be completed because user credentials are broken
      --> GET http://servername.com/api?t=search&key=xxxxx&q=linux%20image
-     <-- 403  Forbidden
+     <-- 200  OK
          <?xml version="1.0" encoding="UTF-8"?>
-         <error code="xxx" description="Incorrect user credentials"/>
+         <error code="100" description="Incorrect user credentials"/>
 
 
      // Query could not be completed because it was malformed
      --> GET http://servername.com/api?t=search&key=xxxxx&q=linux%20image
-     <-- 404 Not Found
+     <-- 200 OK
          <?xml version="1.0" encoding="UTF-8"/>
-         <error code="xxx" description="Missing parameter: key"/>
+         <error code="200" description="Missing parameter: key"/>
 
    2.3 TV-SEARCH
 
@@ -250,6 +243,9 @@ TODO:
 
    HTTP Method:
      GET
+  
+   HTTP Response:
+     200 OK
 
    Parameters:
      t=tvsearch         TV-Search function, must always be "tvsearch".
@@ -262,16 +258,6 @@ TODO:
      season=xxxx        Season string, e.g S13 or 13 for the item being queried.
      ep=xxx             Episode string, e.g E13 or 13 for the item being queried.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
-
-   Response:
-     200 OK
-     403 Forbidden
-     404 Not Found
-     
-   Error Codes:
-     xxx - Incorrect user credentials
-     xxx - Account suspended.
-     xxx - Insufficient priviledges/not authorized.
      
    Examples:
      --> GET http://servername.com/api?t=tvsearch&key=xxxq=lost&season=S03
@@ -333,6 +319,9 @@ TODO:
       
     HTTP Method:
       GET
+
+    HTTP Response:
+      200 OK
       
     Parameters:
       t=details         Details function, must always be "details".
@@ -341,11 +330,6 @@ TODO:
       
     Optional parameters:
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
-
-    Response:
-      200 OK
-      403 Forbidden
-      404 Not found
 
     Example:
       --> GET http://servername.com/api?t=details&key=xxxxx&guid=xxxxxxxxx
@@ -389,21 +373,21 @@ TODO:
 
       // Query could not be completed because it was malformed
       --> GET http://servername.com/api?t=details&key=xxxxx&guid=xxxxxxxxx
-      <-- 404 Not Found
+      <-- 200 OK
           <?xml version="1.0" encoding="UTF-8"/>
-          <error code="xxx" description="Missing parameter: key"/>
+          <error code="200" description="Missing parameter: key"/>
           
      // Query could not be completed because no such item was available
      --> GET http://servername.com/api?t=details&key=xxxxx&guid=xxxxxxxxx
-     <-- 404 Not Found
+     <-- 200 OK
          <?xml version="1.0" encoding="UTF-8"/>
-         <error code="xxx" description="No such GUID"/>
+         <error code="300" description="No such GUID"/>
             
      // Query could not be completed because user credentials are broken
      --> GET http://servername.com/api?t=details&key=xxxxx&guid=xxxxxxxxx
-     <-- 403 Forbidden
+     <-- 200 OK
          <?xml version="1.0" encoding="UTF-8"/>
-         <error code="xxx" description="Incorrect user credentials"/>     
+         <error code="100" description="Incorrect user credentials"/>     
 
 3. Predefined Categories
    
@@ -421,7 +405,7 @@ TODO:
    5000-5999                            TV
    6000-6999                            XXX
    7000-7999                            Other
-   8000-8999                            Reserved
+   8000-99999                           Reserved                        Reserved for future expansion
    100000-                              Custom                          Site specific category range. Defined in CAPS
 
    Subcategories                        Category Name
@@ -439,7 +423,7 @@ TODO:
    3020                                 Audio/Video                     Music videos
    3030                                 Audio/Audiobook                 wtf is an audiobook?
    3040                                 Audio/Lossless
-   4010                                 PC/0day                         0-day?
+   4010                                 PC/0day                         Apps and games not released in ISO.
    4020                                 PC/ISO                          CD-ROM images/DVD Images
    4030                                 PC/Mac                          
    5010                                 TV/DVD                          TV Series on DVD
@@ -451,10 +435,10 @@ TODO:
    6010                                 XXX/DVD                                 
    6020                                 XXX/WMV
    6030                                 XXX/XviD
-   6040                                 XXX/x264                        HD Pron.
+   6040                                 XXX/x264                        HD Pron
    7010                                 Misc
    7020                                 EBook                           E-Books
-   100000-                              Custom                          Specific to a site.
+   100000-                              Custom                          Specific to a site
 
 
 4. Predefined Attributes
@@ -467,3 +451,33 @@ TODO:
    - console
    - etc.
    
+5. Newznab Error Codes
+
+   Under normal circumstances i.e. when the HTTP requst/response sequence is succesfully completed
+   Newznab implementations always respond with HTTP 200 OK. However this doesn't mean that the 
+   query was semantically correct. It simply means that the HTTP part of the sequence was succesful.
+   One then must check the actual response body/data to see if the request was completed 
+   without errors. 
+   
+   In case of a Newznab error the response contains an error code and an a description of the error.
+   
+   The error codes have been defined into different ranges. 100-199 Account/user credentials specific
+   error codes, 200-299 API call specific error codes, 300-399 content specific error codes and finally
+   900-999 Other error codes.
+
+   Error code           Description
+   
+   100                  Incorrect user credentials
+   101                  Account suspended
+   102                  Insufficient priviledges/not authorized
+
+   200                  Missing parameter
+   201                  Incorrect parameter
+   202                  No such function
+   
+   300                  No such item
+
+   900                  Unknown error
+
+   
+
