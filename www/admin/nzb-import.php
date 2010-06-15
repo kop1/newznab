@@ -50,7 +50,7 @@ if (!empty($argc) || $page->isPostBack() )
 	
 			$nzb = file_get_contents($nzbFile);
 			
-			$xml = simplexml_load_string($nzb);
+			$xml = @simplexml_load_string($nzb);
 			if (!$xml || strtolower($xml->getName()) != 'nzb') 
 			{
 				continue;
