@@ -17,7 +17,7 @@ case "$1" in
   start)
         echo -n "Starting Newznab binaries update"
         cd ${NEWZNAB_PATH}
-        (while (true);do cd ${NEWZNAB_PATH} && php ${NEWZNAB_BINUP} && php ${NEWZNAB_RELUP} ; sleep ${NEWZNAB_SLEEP_TIME} ;done) &
+        (while (true);do cd ${NEWZNAB_PATH} && php ${NEWZNAB_BINUP}  2>&1 > /dev/null && php ${NEWZNAB_RELUP}  2>&1 > /dev/null ; sleep ${NEWZNAB_SLEEP_TIME} ;done) &
         PID=`echo $!`
         echo $PID > ${NEWZNAB_PID_PATH}${PIDFILE}
         ;;
