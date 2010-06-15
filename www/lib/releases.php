@@ -494,8 +494,8 @@ class Releases
 			if ($echooutput && ($retcount % 100 == 0))
 				echo "processed ".$retcount." binaries stage two\n";
 		}
-		$retcount=0;
-   
+		$retcount=$nfocount=0;
+   		
 		//
 		// Get out all distinct relname, group from binaries of STAGE2 
 		// 
@@ -571,6 +571,7 @@ class Releases
 			if ($relnfo !== false) 
 			{
 				$this->addReleaseNfo($relid, $relnfo['binary']['ID']);
+				$nfocount++;
 			}
 
 			//
@@ -599,7 +600,10 @@ class Releases
 			if ($echooutput && ($retcount % 5 == 0))
 				echo "processed ".$retcount." binaries stage three\n";
 		}    
-    
+    	
+    	if ($echooutput)
+			echo "found ".$nfocount." nfos in ".$retcount." releases\n";
+    	
 		//
 		// Process all TV related releases which will assign their series/episode/rage data
 		//
@@ -973,12 +977,19 @@ class Releases
 					$db->query(sprintf("UPDATE releasenfo SET nfo = compress(%s) WHERE ID = %d", $db->escapeString($fetchedBinary), $arr["ID"]));
 					$ret++;
 				} else {
+					if ($echooutput)
+						echo "nfo download failed - release ".$arr['releaseID']." on attempt ".($arr["attempts"]++)."\n";
+						
 					//nfo download failed, increment attempts
 					$db->query(sprintf("UPDATE releasenfo SET attempts = attempts+1 WHERE ID = %d", $arr["ID"]));
 				}
 			}
 			$nntp->doQuit();
 		}
+		
+		if ($echooutput)
+			echo $ret." nfo files processed\n";
+		
 		return $ret;
 	}
 	
