@@ -956,9 +956,9 @@ class Releases
 						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
 
                         // process imdb data
-                        $imdb = $this->fetchImdbProperties($imdbId);
+                        //$imdb = $this->fetchImdbProperties($imdbId);
     
-                        print_r($imdb);
+                        //print_r($imdb);
                         // place above in database..
 					}
 					
