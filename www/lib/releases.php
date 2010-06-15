@@ -645,8 +645,9 @@ class Releases
 		$ret = 0;
 		$db = new DB();
 		$rage = new TvRage();
-		$res = $db->query("SELECT searchname, ID from releases where rageID = -1");
-		foreach($res as $arr) 
+
+		$result = $db->queryDirect("SELECT searchname, ID from releases where rageID = -1");
+		while ($arr = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$show = '';
 			$season = '';
@@ -942,24 +943,30 @@ class Releases
 		$db = new DB();
 		$nzb = new Nzb();
 		$nntp = new Nntp();
-		$res = $db->query(sprintf("SELECT * FROM releasenfo WHERE nfo IS NULL AND attempts < 5"));
-		if ($res) {
+	
+		$res = $db->queryDirect(sprintf("SELECT * FROM releasenfo WHERE nfo IS NULL AND attempts < 5"));
+
+		if ($res) 
+		{
 			$nntp->doConnect();
-			foreach($res as $arr) {
+			while ($arr = mysql_fetch_array($res, MYSQL_BOTH)) 
+			{
 				$binaryToFetch = $nzb->getNZB(array($arr['binaryID']));
 				$fetchedBinary = $nntp->getBinary($binaryToFetch[0]);
-				if ($fetchedBinary !== false) {
+				if ($fetchedBinary !== false) 
+				{
 					//parse nfo for metadata
 					$imdbId = $this->parseImdb($fetchedBinary);
-					if ($imdbId !== false) {
+					if ($imdbId !== false) 
+					{
 
 						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
 
-                        // process imdb data
-                        //$imdb = $this->fetchImdbProperties($imdbId);
-    
-                        //print_r($imdb);
-                        // place above in database..
+	              // process imdb data
+	              //$imdb = $this->fetchImdbProperties($imdbId);
+	
+	              //print_r($imdb);
+	              // place above in database..
 					}
 					
 					//insert nfo into database
