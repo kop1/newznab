@@ -79,7 +79,7 @@ CREATE TABLE `releasenfo` (
   `releaseID` int(11) UNSIGNED NOT NULL,
   `binaryID` int(11) UNSIGNED NOT NULL,
   `attempts` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-  `nfo` MEDIUMTEXT NULL ,
+  `nfo` BLOB NULL DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
 
