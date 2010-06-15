@@ -55,7 +55,7 @@ if (!empty($argc) || $page->isPostBack() )
 			{
 				continue;
 			}
-die();
+
 			$i=0;
 			foreach($xml->file as $file) 
 			{
