@@ -2,6 +2,9 @@
 <h1>{$release.searchname|escape:"htmlall"}</h1>
 
 <table class="data">
+	{if $isadmin}
+	<tr><th>Admin Functions:</th><td><a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a> [Delete]</td></tr>
+	{/if}
 	<tr><th>Original Subject:</th><td>{$release.name|escape:"htmlall"}</td></tr>
 	<tr><th>Group:</th><td title="{$release.group_name}">{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
 	<tr><th>Category:</th><td><a title="Browse by {$release.category_name}" href="{$smarty.const.WWW_TOP}/browse?t={$release.categoryID}">{$release.category_name}</a></td></tr>

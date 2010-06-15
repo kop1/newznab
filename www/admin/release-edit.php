@@ -18,6 +18,13 @@ switch($action)
     case 'submit':
 		
 		$releases->update($_POST["id"], $_POST["name"], $_POST["searchname"], $_POST["fromname"], $_POST["category"], $_POST["totalpart"], $_POST["grabs"], $_POST["size"], $_POST["postdate"], $_POST["adddate"], $_POST["rageID"], $_POST["seriesfull"], $_POST["season"], $_POST["episode"], $_POST['imdbID']);
+		
+		if(isset($_POST['from']) && !empty($_POST['from']))
+		{
+			header("Location:".$_POST['from']);
+			exit;
+		}
+		
 		header("Location:".WWW_TOP."/release-list.php");
         break;
     case 'view':

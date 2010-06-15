@@ -445,7 +445,7 @@ class Releases
 			{
 				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 
 				{
-					array_map("trim", $matches);
+					$matches = array_map("trim", $matches);
 					
 					//
 					// normally formed release title with parts

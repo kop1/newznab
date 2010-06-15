@@ -3,6 +3,8 @@
 
 <form action="{$SCRIPT_NAME}?action=submit" method="POST">
 
+<input type="hidden" name="from" value="{$smarty.get.from}" />
+
 <table class="input">
 
 <tr>
