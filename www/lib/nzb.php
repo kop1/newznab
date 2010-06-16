@@ -16,7 +16,7 @@ class NZB
 			$this->n = "\n<BR>";
 		else
 			$this->n = "\n";
-		$this->maxMssgs = 20000; //fetch this ammount of messages at the time
+		$this->maxMssgs = 20000; //fetch this amount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 	}
 	
@@ -52,7 +52,7 @@ class NZB
 			$result = $db->queryDirect("SELECT binaries.*, UNIX_TIMESTAMP(date) AS unixdate, groups.name as groupname FROM binaries inner join groups on binaries.groupID = groups.ID WHERE binaries.ID IN ({$selected}) ORDER BY binaries.name");
 			while ($binrow = mysql_fetch_array($result, MYSQL_BOTH)) 
 			{				
-				$parts = $db->query(sprintf("SELECT parts.* FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
+				$parts = $db->query(sprintf("SELECT size, partnumber, messageID FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
 				
 				$groups = array();
 				$groupsRaw = explode(' ', $binrow['xref']);
