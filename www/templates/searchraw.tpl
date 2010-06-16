@@ -13,7 +13,7 @@
 <form method="post" id="dl" name="dl">
 <table style="width:100%;margin-top:40px;" class="data">
 	<tr>
-		<th width="10">Sel</th>
+		<th width="10"></th>
 		<th>filename</th>
 		<th>group</th>
 		<th>posted</th>
@@ -23,9 +23,7 @@
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}">
 			<td class="selection"><input name="file{$result.ID}" id="file{$result.ID}" value="{$result.ID}" type="checkbox"/></td>
-			<td>
-				<a href="#" class="data_filename" title="{$result.name|escape:"htmlall"}">{if $result.filename != ""}{$result.filename|escape:"htmlall"}{else}{$result.name|escape:"htmlall"}{/if}</a>
-			</td>
+			<td title="{$result.xref|escape:"htmlall"}">{$result.name|escape:"htmlall"}</td>
 			<td class="less">{$result.group_name|replace:"alt.binaries":"a.b"}</td>
 			<td class="less" title="{$result.date}">{$result.date|date_format}</td>
 			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="{$smarty.const.WWW_TOP}details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>

@@ -31,11 +31,9 @@
 						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&rid=20423&season=s01">?t=search&rid=20423&season=s01</a></span>. Either numeric (1) or string (E01) can be used for searching by series or episode.
 					</li>
 					<li>
-						Individual <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=indiv&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=indiv&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
+						Details <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
-						Returns information about an nzb.
-						<br/>
-						or for a TV Rage ID <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=indiv&rid=20423&season=s01&ep=e02">?t=indiv&rid=20423&season=s01&ep=e02</a></span>
+						Returns detailed information about an nzb.
 					</li>						
 					<li>
 						Get <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=get&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=get&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>

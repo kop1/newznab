@@ -31,9 +31,10 @@ if ($page->isPostBack())
 {
 	$nzbdata = $nzb->getNZB($_POST);
 	$page->smarty->assign('binaries',$nzbdata);
-
+	$filename = date("Ymdhis").".parts.nzb";
+	
 	header("Content-type: text/xml");
-	header("Content-Disposition: attachment; filename=nzbfileparts.nzb");
+	header("Content-Disposition: attachment; filename=".$filename);
 
 	echo $page->smarty->fetch('nzb.tpl');
 	die();
