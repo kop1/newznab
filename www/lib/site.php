@@ -27,6 +27,9 @@ class Site
 	public $nzbpath = '';
 	public $binretentiondays = '';
 	public $attemptgroupbindays = '';
+	public $lookuptvrage = '';
+	public $lookupimdb = '';
+	public $lookupnfo = '';
 }
 
 class Sites
@@ -37,7 +40,7 @@ class Sites
 
 	public function version()
 	{
-		return "0.1.250";
+		return "0.1.360";
 	}
 	
 	public function update($form)
@@ -89,7 +92,10 @@ class Sites
 		$obj->nzbpath = $row["nzbpath"];
 		$obj->binretentiondays = $row["binretentiondays"];
 		$obj->attemptgroupbindays = $row["attemptgroupbindays"];
-			
+		$obj->lookuptvrage = $row["lookuptvrage"];
+		$obj->lookupimdb = $row["lookupimdb"];
+		$obj->lookupnfo = $row["lookupnfo"];
+
 		return $obj;
 	}
 
@@ -102,7 +108,7 @@ class Sites
 			$site->nzbpath = $site->nzbpath."/";
 		}
 		
-		return $db->query(sprintf("update site set	code = %s , 	title = %s , 	strapline = %s , 	metatitle = %s , 	metadescription = %s , 	metakeywords = %s , 	footer = %s ,	email = %s , 	lastupdate = now(), google_adsense_menu = %s, google_adsense_search = %s, google_adsense_sidepanel = %s, google_analytics_acc = %s, groupfilter = %s, tandc=%s, registerstatus=%d, style=%s, dereferrer_link=%s, nzbpath=%s, binretentiondays=%d, attemptgroupbindays=%d", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->email), $db->escapeString($site->google_adsense_menu), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc), $db->escapeString($site->groupfilter), $db->escapeString($site->tandc), $site->registerstatus, $db->escapeString($site->style), $db->escapeString($site->dereferrer_link), $db->escapeString($site->nzbpath), $site->binretentiondays, $site->attemptgroupbindays  ));
+		return $db->query(sprintf("update site set	code = %s , 	title = %s , 	strapline = %s , 	metatitle = %s , 	metadescription = %s , 	metakeywords = %s , 	footer = %s ,	email = %s , 	lastupdate = now(), google_adsense_menu = %s, google_adsense_search = %s, google_adsense_sidepanel = %s, google_analytics_acc = %s, groupfilter = %s, tandc=%s, registerstatus=%d, style=%s, dereferrer_link=%s, nzbpath=%s, binretentiondays=%d, attemptgroupbindays=%d, lookuptvrage=%d, lookupimdb=%d, lookupnfo=%d", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->email), $db->escapeString($site->google_adsense_menu), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc), $db->escapeString($site->groupfilter), $db->escapeString($site->tandc), $site->registerstatus, $db->escapeString($site->style), $db->escapeString($site->dereferrer_link), $db->escapeString($site->nzbpath), $site->binretentiondays, $site->attemptgroupbindays, $site->lookuptvrage, $site->lookupimdb, $site->lookupnfo  ));
 	}
 
 	public function data_get()

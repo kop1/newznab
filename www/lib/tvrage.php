@@ -10,11 +10,6 @@ class TvRage
 	{
 		$this->searchUrl = "http://services.tvrage.com/feeds/search.php?show=";
 		$this->showInfoUrl = "http://services.tvrage.com/feeds/full_show_info.php?sid="; 	
-		
-		//
-		// TODO: move this to site table.
-		//
-		$this->doWebLookup = true; 	
 	}
 	
 	public function getByID($id)
@@ -95,14 +90,14 @@ class TvRage
 		return false;	
 	}
 	
-	function getRageId($title, $echooutput=false)
+	function getRageId($title, $echooutput=false, $lookupTvRage = true)
 	{
 		$db = new DB();
 		$res = $db->queryOneRow(sprintf("SELECT rageID from tvrage where lower(releasetitle) = lower(%s)", $db->escapeString($title)));
 		if ($res)
 			return $res["rageID"];
 		
-		if ($this->doWebLookup)
+		if ($lookupTvRage)
 		{
 			if ($echooutput)
 				echo "didnt find rageid for ".$title." in local db, checking web\n";

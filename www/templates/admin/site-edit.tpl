@@ -174,6 +174,31 @@
 	</td>
 </tr>
 
+<tr>
+	<td><label for="lookupnfo">Lookup Nfo</label>:</td>
+	<td>
+		{html_radios id="lookupnfo" name='lookupnfo' values=$yesno_ids output=$yesno_names selected=$fsite->lookupnfo separator='<br />'}
+		<div class="hint">Whether to attempt to retrieve the an nfo file from usenet when processing binaries.<br/><strong>NOTE: disabling nfo lookups will disable movie lookups.</strong></div>
+	</td>
+</tr>
+
+
+<tr>
+	<td><label for="lookuptvrage">Lookup TV Rage</label>:</td>
+	<td>
+		{html_radios id="lookuptvrage" name='lookuptvrage' values=$yesno_ids output=$yesno_names selected=$fsite->lookuptvrage separator='<br />'}
+		<div class="hint">Whether to attempt to lookup tv rage ids on the web when processing binaries.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="lookupimdb">Lookup Movies</label>:</td>
+	<td>
+		{html_radios id="lookupimdb" name='lookupimdb' values=$yesno_ids output=$yesno_names selected=$fsite->lookupimdb separator='<br />'}
+		<div class="hint">Whether to attempt to lookup film information from IMDB or TheMovieDB when processing binaries.</div>
+	</td>
+</tr>
+
 </table>
 </fieldset>
 

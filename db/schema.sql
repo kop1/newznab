@@ -279,7 +279,10 @@ CREATE TABLE site (
 `dereferrer_link` VARCHAR(255) NULL,
 `nzbpath` VARCHAR(500) NOT NULL,
 `binretentiondays` INT NOT NULL DEFAULT 3,
-`attemptgroupbindays` INT NOT NULL DEFAULT 2
+`attemptgroupbindays` INT NOT NULL DEFAULT 2,
+`lookuptvrage` INT NOT NULL DEFAULT 1,
+`lookupimdb` INT NOT NULL DEFAULT 1,
+`lookupnfo` INT NOT NULL DEFAULT 1
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 

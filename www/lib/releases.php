@@ -112,7 +112,7 @@ class Releases
 
 		$order = $this->getBrowseOrder($orderby);
 
-		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by %s %s".$limit, $cat, $order[0], $order[1]));		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID %s order by %s %s".$limit, $cat, $order[0], $order[1]));		
 	}
 	
 	public function getBrowseOrder($orderby)
@@ -610,15 +610,23 @@ class Releases
 		if ($echooutput)
 			echo "processing tv rage data\n";		
 
-		$this->processTvSeriesData($echooutput);
+		$this->processTvSeriesData($echooutput, ($page->site->lookuptvrage=="1"));
 		
 		//
 		// Process nfo files
 		//
-		if ($echooutput)
-			echo "processing nfo files\n";		
+		if ($page->site->lookupnfo != "1")
+		{
+			if ($echooutput)
+				echo "site config (site.lookupnfo) prevented retrieving nfos\n";		
+		}
+		else
+		{
+			if ($echooutput)
+				echo "processing nfo files\n";		
 
-		$this->processNfoFiles($echooutput);
+			$this->processNfoFiles($echooutput, ($page->site->lookupimdb=="1"));
+		}
 		
 		//
 		// tidy away any binaries which have been attempted to be grouped into 
@@ -644,12 +652,15 @@ class Releases
 		return $retcount;	
 	}
 
-	public function processTvSeriesData($echooutput=false)
+	public function processTvSeriesData($echooutput=false, $lookupTvRage = true)
 	{
 		$ret = 0;
 		$db = new DB();
 		$rage = new TvRage();
 
+		if ($echooutput)
+			echo "lookup tv rage from the web (".($lookupTvRage?"true)\n":"false)\n");
+		
 		$result = $db->queryDirect("SELECT searchname, ID from releases where rageID = -1");
 		while ($arr = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
@@ -727,7 +738,9 @@ class Releases
 					case 'x': $e = 10; break;
 				}
 				$episode = $e;
-			} elseif (preg_match('/^(.*?)\.(ws|hdtv|pdtv|dsr|dvdrip|bdrip|bluray|dvdcsr|internal|proper|repack)/i', $arr['searchname'], $matches)) {
+			} 
+			elseif (preg_match('/^(.*?)\.(ws|hdtv|pdtv|dsr|dvdrip|bdrip|bluray|dvdcsr|internal|proper|repack)/i', $arr['searchname'], $matches)) 
+			{
 				$show = $matches[1];
 			}			
 			
@@ -763,7 +776,7 @@ class Releases
 				//
 				// try and retrieve the entry from tvrage
 				//
-				$id = $rage->getRageId($relcleanname, $echooutput);
+				$id = $rage->getRageId($relcleanname, $echooutput, $lookupTvRage);
 				if ($id != -1)
 				{
 					$db->query(sprintf("update releases set rageID = %d where ID = %d", $id, $arr["ID"]));
@@ -780,8 +793,6 @@ class Releases
 			}
 			else
 			{
-				if ($echooutput)
-					echo "not tv - ".$show."\n";
 				//
 				// Not a tv episode, so set rageid to na
 				// 
@@ -941,7 +952,7 @@ class Releases
 		return $db->queryOneRow(sprintf("SELECT ID, releaseID".$selnfo." FROM releasenfo where releaseID = %d AND nfo IS NOT NULL", $id));		
 	}
 	
-	public function processNfoFiles($echooutput=false)
+	public function processNfoFiles($echooutput=false, $processImdb = true)
 	{
 		$ret = 0;
 		$db = new DB();
@@ -959,24 +970,28 @@ class Releases
 				$fetchedBinary = $nntp->getBinary($binaryToFetch[0]);
 				if ($fetchedBinary !== false) 
 				{
-					//parse nfo for metadata
-					$imdbId = $this->parseImdb($fetchedBinary);
-					if ($imdbId !== false) 
+					if ($processImdb)
 					{
+						//parse nfo for metadata
+						$imdbId = $this->parseImdb($fetchedBinary);
+						if ($imdbId !== false) 
+						{
+							$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
 
-						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
-
-	              // process imdb data
-	              //$imdb = $this->fetchImdbProperties($imdbId);
-	
-	              //print_r($imdb);
-	              // place above in database..
+							// process imdb data
+							//$imdb = $this->fetchImdbProperties($imdbId);
+		
+							//print_r($imdb);
+							// place above in database..
+						}
 					}
 					
 					//insert nfo into database
 					$db->query(sprintf("UPDATE releasenfo SET nfo = compress(%s) WHERE ID = %d", $db->escapeString($fetchedBinary), $arr["ID"]));
 					$ret++;
-				} else {
+				} 
+				else 
+				{
 					if ($echooutput)
 						echo "nfo download failed - release ".$arr['releaseID']." on attempt ".($arr["attempts"]++)."\n";
 						

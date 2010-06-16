@@ -7,7 +7,7 @@ require_once(WWW_DIR."/lib/releases.php");
 $page = new AdminPage();
 
 $releases = new Releases();
-$num = $releases->processTvSeriesData();
+$num = $releases->processTvSeriesData(false, ($page->site->lookuptvrage=="1"));
 
 $page->smarty->assign('numtv',$num);	
 
