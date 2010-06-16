@@ -10,19 +10,19 @@
 <table style="margin-top:10px;" class="data Sortable highlight">
 
 	<tr>
-		<th>id</th>
+		<th style="width:20px;">id</th>
 		<th>group</th>
 		<th>regex</th>
 		<th>status</th>
 		<th>ordinal</th>
-		<th></th>
+		<th style="width:60px;"></th>
 		<th></th>
 	</tr>
 	
 	{foreach from=$regexlist item=regex}
 	<tr class="{cycle values=",alt"}">
 		<td>{$regex.ID}</td>
-		<td>{if $regex.groupID==""}all{else}{$regex.groupID}{/if}</td>
+		<td>{if $regex.groupname=="zzzz_misc"}all{else}{$regex.groupname|replace:"alt.binaries":"a.b"}{/if}</td>
 		<td><a href="{$smarty.const.WWW_TOP}/regex-edit.php?id={$regex.ID}">{$regex.regex}</a></td>
 		<td>active</td>
 		<td style="text-align:center;">{$regex.ordinal}</td>

@@ -47,7 +47,7 @@ if (!empty($argc) || $page->isPostBack() )
 		$nzbCount = 0;
 		foreach(glob($path."*.nzb") as $nzbFile) 
 		{
-	
+			$importfailed = false;
 			$nzb = file_get_contents($nzbFile);
 			
 			$xml = @simplexml_load_string($nzb);
@@ -105,9 +105,11 @@ if (!empty($argc) || $page->isPostBack() )
 								$db->escapeString($size), $db->escapeString($date));
 						$partsQuery = $db->queryInsert($partsSql);
 					}
+
 				}
 				else
 				{
+					$importfailed = true;
 					if (!empty($argc))
 					{
 						echo ("no group found for ".$name."\n");
@@ -117,19 +119,24 @@ if (!empty($argc) || $page->isPostBack() )
 					{
 						$retval.= "no group found for ".$name."<br />";
 					}
+					break;
 				}
 			}
-			$nzbCount++;
-			unlink($nzbFile);
-	
-			if (!empty($argc))
+			
+			if (!$importfailed)
 			{
-				echo ("imported ".$nzbFile."\n");
-				flush();
-			}
-			else
-			{
-				$retval.= "imported ".$nzbFile."<br />";
+				$nzbCount++;
+				unlink($nzbFile);
+
+				if (!empty($argc))
+				{
+					echo ("imported ".$nzbFile."\n");
+					flush();
+				}
+				else
+				{
+					$retval.= "imported ".$nzbFile."<br />";
+				}
 			}
 		}
 	}

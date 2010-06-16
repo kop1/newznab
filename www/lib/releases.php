@@ -3,6 +3,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
+require_once(WWW_DIR."/lib/releaseregex.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/tvrage.php");
 require_once(WWW_DIR."/lib/nzb.php");
@@ -423,6 +424,7 @@ class Releases
 		$db = new DB;
 		$cat = new Category;
 		$nzb = new Nzb;
+		$relreg = new ReleaseRegex;
 		$page = new Page;
 		$retcount = 0;
 		
@@ -436,8 +438,8 @@ class Releases
 		// Get all regexes for all groups which are to be applied to new binaries
 		// in order of how they should be applied
 		//
-		$result = $db->queryDirect("SELECT ID, regex, coalesce(groupID,99999) as groupID from releaseregex order by coalesce(groupID,99999), ordinal");
-		while ($regexrow = mysql_fetch_array($result, MYSQL_BOTH)) 
+		$regexrows = $relreg->get();
+		foreach ($regexrows as $regexrow)
 		{
 			// Get out all binaries of STAGE0 for current group
 			$resbin = $db->queryDirect(sprintf("SELECT ID, name, date from binaries where groupID = coalesce(%s, groupID) and procstat = %d", ($regexrow["groupID"]=="99999"?"null":$regexrow["groupID"]), Releases::PROCSTAT_NEW));
@@ -456,7 +458,7 @@ class Releases
 					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
 					//
 					else if (count($matches) == 3 && time() - strtotime($rowbin['date']) > 10800)
-						$parts = explode("01/10");
+						$parts = explode("/", "01/10");
 					else
 					{
 						if ($echooutput)
@@ -469,7 +471,7 @@ class Releases
 				}
 			}
 			if ($echooutput)
-				echo "applied regex ".$regexrow["ID"]." for group ".($regexrow["groupID"]=="99999"?"misc":$regexrow["groupID"])."\n";
+				echo "applied regex ".$regexrow["ID"]." for group ".$regexrow["groupname"]."\n";
 		}
 
 		//
