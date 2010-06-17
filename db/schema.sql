@@ -119,6 +119,25 @@ PRIMARY KEY  (`ID`)
 CREATE INDEX ix_tvrage_rageID ON tvrage (`rageID`);
 
 
+DROP TABLE IF EXISTS `movieinfo`;
+CREATE TABLE `movieinfo` 
+(
+ `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `imdbID` mediumint(7) unsigned zerofill NOT NULL,
+  `tmdbID` int(10) unsigned DEFAULT NULL,
+  `title` varchar(128) NOT NULL,
+  `rating` varchar(4) NOT NULL,
+  `plot` varchar(255) NOT NULL,
+  `year` varchar(4) NOT NULL,
+  `genre` varchar(64) NOT NULL,
+  `cover` mediumblob,
+  `backdrop` mediumblob,
+  `createddate` datetime NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `imdbID` (`imdbID`)
+) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+
 DROP TABLE IF EXISTS `groups`;
 CREATE TABLE `groups` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,

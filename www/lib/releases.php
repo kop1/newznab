@@ -979,12 +979,43 @@ class Releases
 						if ($imdbId !== false) 
 						{
 							$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
+							
 
-							// process imdb data
-							//$imdb = $this->fetchImdbProperties($imdbId);
-		
-							//print_r($imdb);
-							// place above in database..
+							// check for existing movie entry
+							$movCheck = $db->queryOneRow(sprintf("SELECT ID FROM movieinfo where imdbID = %d", $imdbId));
+							if ($movCheck === false)
+							{
+								if ($echooutput)
+									echo "fetching imdb info from tmdb - ".$imdbId."\n";
+								
+								// check themoviedb for imdb info
+								$imdb = $this->fetchTvdbProperties($imdbId);
+								if ($imdb === false) {
+									if ($echooutput)
+										echo "not found... trying from imdb - ".$imdbId."\n";
+										
+									// if themoviedb doesnt have it then scrape imdb.com
+									$imdb = $this->fetchImdbProperties($imdbId);
+								}
+								print_r($imdb);
+								if (isset($imdb['cover']) && $imdb['cover'] != '') {
+									$cover = $this->getReleaseImage($imdb['cover']);
+									if ($cover !== false) {
+										$imdb['cover'] = $cover;
+									}
+								}
+								if (isset($imdb['backdrop']) && $imdb['backdrop'] != '') {
+									$backdrop = $this->getReleaseImage($imdb['backdrop']);
+									if ($backdrop !== false) {
+										$imdb['backdrop'] = $backdrop;
+									}
+								}
+								$imdb['tmdb_id'] = ($imdb['tmdb_id'] == '') ? "NULL" : $imdb['tmdb_id'];
+								$query = sprintf("INSERT INTO movieinfo (imdbID, tmdbID, title, rating, plot, year, genre, cover, backdrop, createddate) VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, NOW())", $imdb['imdb_id'], $imdb['tmdb_id'], $db->escapeString($imdb['title']), $db->escapeString($imdb['rating']), $db->escapeString($imdb['plot']), $db->escapeString($imdb['year']), $db->escapeString($imdb['genre']), $db->escapeString($imdb['cover']), $db->escapeString($imdb['backdrop']));
+								//echo $query;
+								$db->queryInsert($query);
+							}
+
 						}
 					}
 					
@@ -1010,6 +1041,16 @@ class Releases
 		return $ret;
 	}
 	
+	function getReleaseImage($imgUrl)
+	{		
+		$img = file_get_contents($imgUrl);
+		$im = imagecreatefromstring($img);
+		if($im !== false) {
+			return $img;
+		}
+		return false;	
+	}
+	
 	public function parseImdb($str) {
 		preg_match('/imdb.*?tt(\d{7})/i', $str, $matches);
 		if (isset($matches[1]) && !empty($matches[1])) {
@@ -1018,6 +1059,47 @@ class Releases
 		return false;
 	}
 
+	public function fetchTvdbProperties($imdbId)
+	{
+		require_once(WWW_DIR."/lib/TMDb.php");
+		$tmdb = new TMDb('9a4e16adddcd1e86da19bcaf5ff3c2a3');
+		$lookupId = 'tt'.$imdbId;
+		$movie = array_shift(json_decode($tmdb->getMovie($lookupId, TMDb::IMDB)));
+		if ($movie == 'Nothing found.') { return false; }
+		$ret = array();
+		$ret['title'] = $movie->name;
+		$ret['tmdb_id'] = $movie->id;
+		$ret['imdb_id'] = $imdbId;
+		$ret['rating'] = ($movie->rating == 0) ? '' : $movie->rating;
+		$ret['plot'] = $movie->overview;
+		$ret['year'] = date("Y", strtotime($movie->released));
+		$ret['genre'] = '';
+		if (isset($movie->genres) && sizeof($movie->genres) > 0) {
+			$genres = array();
+			foreach($movie->genres as $genre) {
+				$genres[] = $genre->name;
+			}
+			$ret['genre'] = implode(', ', $genres);
+		}
+		$ret['cover'] = '';
+		if (isset($movie->posters) && sizeof($movie->posters) > 0) {
+			foreach($movie->posters as $poster) {
+				if ($poster->image->size == 'cover') {
+					$ret['cover'] = $poster->image->url;
+				}
+			}
+		}
+		$ret['backdrop'] = '';
+		if (isset($movie->backdrops) && sizeof($movie->backdrops) > 0) {
+			foreach($movie->backdrops as $backdrop) {
+				if ($backdrop->image->size == 'original') {
+					$ret['backdrop'] = $backdrop->image->url;
+				}
+			}
+		}
+		return $ret;
+	}
+	
     /**
      * fetchImdbProperties()
      *
@@ -1033,12 +1115,19 @@ class Releases
             if (is_callable('file_get_contents'))
             {
                 $imdb_regex = array(
-                    'imdb_title'    => '/<title>(.*)<\/title>/isU',     // title
-                    'imdb_plot'     => ''                               // plot
-                    // etc.
+                    'title'    => '/<title>(.*?)\(.*?<\/title>/i',
+                    'plot'     => '/plot\s?(?:outline|summary)?:<\/h5>\s<div.*?>([^<]*)/i',
+                    'rating'   => '/<b>([0-9]{1,2}\.[0-9]{1,2})\/10<\/b>/i',
+					'year'     => '/<title>.*?\((\d+).*?<\/title>/i',
+					'genre'    => '/\/Sections\/Genres\/(.+?)\//i',
+					'cover'    => '/<a name="poster".+title=".+">.*?src="([^"]*)"/i'
                 );
-
+				
                 $ret    = array();
+                $ret['tmdb_id'] = '';
+				$ret['imdb_id'] = $imdb_id;
+				$ret['backdrop'] = '';
+		
                 $buffer = file_get_contents("http://www.imdb.com/title/tt$imdb_id/");
 
                 // make sure we got some data
@@ -1049,12 +1138,13 @@ class Releases
                         if (!preg_match($regex, $buffer, $matches))
                         {
                             print "Error fetching '$field' for imdb id: $imdb_id\n";
+                            $ret[$field] = '';
                         }
                         else
                         {
                             $match = $matches[1];
                             $match = strip_tags(trim(rtrim(addslashes($match))));
-                            array_push($ret, array($field => $match));
+                            $ret[$field] = $match;
                         }
                     }
                 }
