@@ -39,7 +39,7 @@ class Movie
 	{			
 		$db = new DB();
 		
-		$db->query(sprintf("update movieinfo set title = %s, plot = %s, year = %s, rating = %s, genre = %s, cover = %d, backdrop = %d where imdbID = %d", 
+		$db->query(sprintf("UPDATE movieinfo SET title=%s, plot=%s, year=%s, rating=%s, genre=%s, cover=%d, backdrop=%d WHERE imdbID = %d", 
 			$db->escapeString($title), $db->escapeString($plot), $db->escapeString($year), $db->escapeString($rating), $db->escapeString($genre), $cover, $backdrop, $id));		
 	}
 	
