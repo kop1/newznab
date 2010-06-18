@@ -98,25 +98,39 @@ class Nfo
 								if ($imdb !== false) {
 									$imdb['tmdb_id'] = (!isset($imdb['tmdb_id']) || $imdb['tmdb_id'] == '') ? "NULL" : $imdb['tmdb_id'];
 									if (isset($imdb['cover']) && $imdb['cover'] != '') {
-										$cover = $this->fetchReleaseImage($imdb['cover']);
+										$cover = $this->fetchCoverImage($imdb['cover']);
 										if ($cover !== false) {
-											$imdb['cover'] = $cover;
+											$coverSave = $this->saveCoverImage($cover, $imdb['imdb_id'], 'cover');
+											if ($coverSave !== false) {
+												$imdb['cover'] = 1;
+											} else {
+												if ($echooutput)
+													echo "unable to save cover image - ".$imdb['cover']."\n";
+												$imdb['cover'] = 0;
+											}
 										} else {
 											if ($echooutput)
 												echo "cover download failed - ".$imdb['cover']."\n";
 										}
 									}
 									if (isset($imdb['backdrop']) && $imdb['backdrop'] != '') {
-										$backdrop = $this->fetchReleaseImage($imdb['backdrop']);
+										$backdrop = $this->fetchCoverImage($imdb['backdrop']);
 										if ($backdrop !== false) {
-											$imdb['backdrop'] = $backdrop;
+											$backdropSave = $this->saveCoverImage($backdrop, $imdb['imdb_id'], 'backdrop');
+											if ($backdropSave !== false) {
+												$imdb['backdrop'] = 1;
+											} else {
+												if ($echooutput)
+													echo "unable to save cover image - ".$imdb['backdrop']."\n";
+												$imdb['backdrop'] = 0;
+											}
 										} else {
 											if ($echooutput)
 												echo "backdrop download failed - ".$imdb['backdrop']."\n";
 										}
 									}
 								
-									$query = sprintf("INSERT INTO movieinfo (imdbID, tmdbID, title, rating, plot, year, genre, cover, backdrop, createddate) VALUES (%d, %s, %s, %s, %s, %s, %s, %s, %s, NOW())", $imdb['imdb_id'], $imdb['tmdb_id'], $db->escapeString($imdb['title']), $db->escapeString($imdb['rating']), $db->escapeString($imdb['plot']), $db->escapeString($imdb['year']), $db->escapeString($imdb['genre']), $db->escapeString($imdb['cover']), $db->escapeString($imdb['backdrop']));
+									$query = sprintf("INSERT INTO movieinfo (imdbID, tmdbID, title, rating, plot, year, genre, cover, backdrop, createddate) VALUES (%d, %s, %s, %s, %s, %s, %s, %d, %d, NOW())", $imdb['imdb_id'], $imdb['tmdb_id'], $db->escapeString($imdb['title']), $db->escapeString($imdb['rating']), $db->escapeString($imdb['plot']), $db->escapeString($imdb['year']), $db->escapeString($imdb['genre']), $imdb['cover'], $imdb['backdrop']);
 									$movieId = $db->queryInsert($query);
 								
 									if ($echooutput && $movieId)
@@ -145,7 +159,7 @@ class Nfo
 		return $ret;
 	}
 	
-	private function fetchReleaseImage($imgUrl)
+	private function fetchCoverImage($imgUrl)
 	{		
 		$img = @file_get_contents($imgUrl);
 		if ($img !== false) {
@@ -155,6 +169,11 @@ class Nfo
 			}
 		}
 		return false;	
+	}
+	
+	private function saveCoverImage($image, $id, $type='cover')
+	{
+		return file_put_contents(WWW_DIR.'images/covers/'.$id.'-'.$type.'.jpg', $image);
 	}
 	
 	private function parseImdb($str) {

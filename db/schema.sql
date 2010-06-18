@@ -130,8 +130,8 @@ CREATE TABLE `movieinfo`
   `plot` varchar(255) NOT NULL,
   `year` varchar(4) NOT NULL,
   `genre` varchar(64) NOT NULL,
-  `cover` mediumblob,
-  `backdrop` mediumblob,
+  `cover` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+  `backdrop` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
   `createddate` datetime NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `imdbID` (`imdbID`)
