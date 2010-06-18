@@ -18,3 +18,4 @@
  url.rewrite-once += ( "^/profile$" => "profile.php" )
  url.rewrite-once += ( "^/api$" => "api.php" )
  url.rewrite-once += ( "^/cart$" => "cart.php" )
+ url.rewrite-once += ( "^/movie/(.*)$" => "viewmovie.php?id=$1" )
