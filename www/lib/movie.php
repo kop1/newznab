@@ -49,7 +49,7 @@ class Movie
 			echo "fetching imdb info from tmdb - ".$imdbId."\n";
 		
 		//check themoviedb for imdb info
-		$imdb = $this->fetchTvdbProperties($imdbId);
+		$imdb = $this->fetchTmdbProperties($imdbId);
 		if (!$imdb) {
 			if ($this->echooutput)
 				echo "not found in tmdb... trying from imdb - ".$imdbId."\n";
@@ -122,11 +122,13 @@ class Movie
 		return 0;
 	}
 	
-	private function fetchTvdbProperties($imdbId)
+	private function fetchTmdbProperties($imdbId)
 	{
 		$tmdb = new TMDb('9a4e16adddcd1e86da19bcaf5ff3c2a3');
 		$lookupId = 'tt'.$imdbId;
-		$movie = array_shift(json_decode($tmdb->getMovie($lookupId, TMDb::IMDB)));
+		$tmdbLookup = json_decode($tmdb->getMovie($lookupId, TMDb::IMDB));
+		if (!$tmdbLookup) { return false; }
+		$movie = array_shift($tmdbLookup);
 		if ($movie == 'Nothing found.') { return false; }
 		$ret = array();
 		$ret['title'] = $movie->name;
