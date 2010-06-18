@@ -64,15 +64,15 @@ class Nfo
 					$db->query(sprintf("UPDATE releasenfo SET nfo = compress(%s) WHERE ID = %d", $db->escapeString($fetchedBinary), $arr["ID"]));
 					$ret++;
 					
-					//scan for imdb info if set
-					if ($processImdb)
+					$imdbId = $this->parseImdb($fetchedBinary);
+					if ($imdbId !== false) 
 					{
-						$imdbId = $this->parseImdb($fetchedBinary);
-						if ($imdbId !== false) 
+						//update release with imdb id
+						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
+						
+						//if set scan for imdb info
+						if ($processImdb)
 						{
-							//update release with imdb id
-							$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
-							
 							//check for existing movie entry
 							$movCheck = $db->queryOneRow(sprintf("SELECT ID FROM movieinfo where imdbID = %d", $imdbId));
 							if ($movCheck === false)
@@ -132,14 +132,18 @@ class Nfo
 								
 									$query = sprintf("INSERT INTO movieinfo (imdbID, tmdbID, title, rating, plot, year, genre, cover, backdrop, createddate) VALUES (%d, %s, %s, %s, %s, %s, %s, %d, %d, NOW())", $imdb['imdb_id'], $imdb['tmdb_id'], $db->escapeString($imdb['title']), $db->escapeString($imdb['rating']), $db->escapeString($imdb['plot']), $db->escapeString($imdb['year']), $db->escapeString($imdb['genre']), $imdb['cover'], $imdb['backdrop']);
 									$movieId = $db->queryInsert($query);
-								
-									if ($echooutput && $movieId)
-										echo "added movie: ".$imdb['title']." (".$imdb['year'].") - ".$imdb['imdb_id']."\n";
 									
+									if ($movieId) {
+										if ($echooutput)
+											echo "added movie: ".$imdb['title']." (".$imdb['year'].") - ".$imdb['imdb_id']."\n";
+									} else {
+										if ($echooutput)
+											echo "error adding movie: ".$imdb['title']." (".$imdb['year'].") - ".$imdb['imdb_id']."\n";
+									}
 								} //no data fetched
 							} //no local version of movie
-						} //no imdb id found
-					} //no imdb processing
+						} //no imdb processing
+					} //no imdb id found
 				} 
 				else 
 				{
