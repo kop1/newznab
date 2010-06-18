@@ -34,7 +34,7 @@
 				<a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|wordwrap:50:"\n":true}</a>
 				<div class="resextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="modal_nfo" rel="nfo">[NFO]</a>{/if}
-					{if $result.imdbID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" title="View IMDB">[IMDB]</a>{/if}
+					{if $result.imdbID > 0}<a href="{$smarty.const.WWW_TOP}/movie/{$result.imdbID}" title="Movie Info" class="modal_imdb" rel="movie" >[IMDB]</a>{/if}
 					{if $result.rageID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$result.rageID}" title="View in TvRage">[TVRage]</a>{/if}
 					
 					{if $isadmin}<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a>{/if}

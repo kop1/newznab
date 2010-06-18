@@ -102,6 +102,13 @@ input.date { width:70px; }
 
 pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
+#movieinfo { background-position: center center; background-repeat: no-repeat; position: absolute; z-index: 2;}
+#movieinfo h1 { font-size: 32px; padding-left: 20px; }
+#movieinfo h2, #movieinfo h3 { padding-left: 10px; }
+#movieinfo .backdrop { color: #fff; text-shadow: 0px 0px 4px #000; }
+#backdrop { position: absolute; left: -11px; top: -12px; width: 773px; height: -11px; overflow: hidden;}
+#backdrop img { opacity:0.9; width: 100%;}
+
 div.resextra { padding-top:2px; color: #888; font-size: 0.8em; height:16px; }
 div.resextra a { color: #888; text-decoration:none; }
 

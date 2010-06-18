@@ -421,6 +421,12 @@ class Releases
 		return $db->queryOneRow(sprintf("SELECT ID, releaseID".$selnfo." FROM releasenfo where releaseID = %d AND nfo IS NOT NULL", $id));		
 	}
 	
+	public function getMovieInfo($imdbId)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("SELECT * FROM movieinfo where imdbID = %d", $imdbId));		
+	}
+	
 	public function updateGrab($guid)
 	{			
 		$db = new DB();
