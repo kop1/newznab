@@ -89,9 +89,10 @@ CREATE UNIQUE INDEX ix_releasenfo_releaseID ON releasenfo (`releaseID`);
 DROP TABLE IF EXISTS `releaseregex`;
 CREATE TABLE `releaseregex` (
   `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`groupname` VARCHAR(255) NULL,
+  `groupname` VARCHAR(255) NULL,
   `regex` VARCHAR(2000) NOT NULL,
-  `ordinal`INT(11) UNSIGNED NOT NULL,
+  `ordinal` INT(11) UNSIGNED NOT NULL,
+  `status` INT(11) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
@@ -105,7 +106,7 @@ INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, 'alt.binaries.multimedia', '/()^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s(.*?)\\s.*?(\\d{1,4}\\/\\d{1,4})/i',  1 ); 
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.erotica*', '/()/.*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 ); 
+VALUES (NULL, 'alt.binaries.erotica*', '/().*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 ); 
 
 
 
