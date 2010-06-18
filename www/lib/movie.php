@@ -35,6 +35,14 @@ class Movie
 		return $res["num"];
 	}
 	
+	public function update($id, $title, $plot, $year, $rating, $genre, $cover, $backdrop)
+	{			
+		$db = new DB();
+		
+		$db->query(sprintf("update movieinfo set title = %s, plot = %s, year = %s, rating = %s, genre = %s, cover = %d, backdrop = %d where imdbID = %d", 
+			$db->escapeString($title), $db->escapeString($plot), $db->escapeString($year), $db->escapeString($rating), $db->escapeString($genre), $cover, $backdrop, $id));		
+	}
+	
 	public function updateMovieInfo($imdbId)
 	{
 		if ($this->echooutput)
