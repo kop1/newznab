@@ -3,25 +3,25 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
-require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/movie.php");
 
 $page = new Page;
 $users = new Users;
-$releases = new Releases;
+$movie = new Movie;
 
 if (!$users->isLoggedIn())
 	$page->show403();
 	
 if (isset($_GET["id"]))
 {
-	$movie = $releases->getMovieInfo($_GET['id']);
+	$mov = $movie->getMovieInfo($_GET['id']);
 	
-	if (!$movie)
+	if (!$mov)
 		$page->show404();
 	
-	$page->smarty->assign('movie', $movie);
+	$page->smarty->assign('movie', $mov);
 
-	$page->title = "Info for ".$movie['title'];
+	$page->title = "Info for ".$mov['title'];
 	$page->meta_title = "";
 	$page->meta_keywords = "";
 	$page->meta_description = "";

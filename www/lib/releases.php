@@ -421,12 +421,6 @@ class Releases
 		return $db->queryOneRow(sprintf("SELECT ID, releaseID".$selnfo." FROM releasenfo where releaseID = %d AND nfo IS NOT NULL", $id));		
 	}
 	
-	public function getMovieInfo($imdbId)
-	{			
-		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT * FROM movieinfo where imdbID = %d", $imdbId));		
-	}
-	
 	public function updateGrab($guid)
 	{			
 		$db = new DB();
@@ -440,7 +434,7 @@ class Releases
 		$nzb = new Nzb;
 		$relreg = new ReleaseRegex;
 		$page = new Page;
-		$nfo = new Nfo;
+		$nfo = new Nfo($echooutput);
 		$retcount = 0;
 		
 		if (!file_exists($page->site->nzbpath))
@@ -642,7 +636,7 @@ class Releases
 			if ($echooutput)
 				echo "processing nfo files\n";		
 
-			$nfo->processNfoFiles($echooutput, ($page->site->lookupimdb=="1"));
+			$nfo->processNfoFiles(($page->site->lookupimdb=="1"));
 		}
 		
 		//
