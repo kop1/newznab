@@ -52,6 +52,7 @@ FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_releases_adddate ON releases (`adddate`);
+CREATE INDEX ix_releases_postdate ON releases (`postdate`);
 CREATE INDEX ix_releases_categoryID ON releases (`categoryID`);
 CREATE INDEX ix_releases_rageID ON releases (`rageID`);
 CREATE INDEX ix_releases_imdbID ON releases (`imdbID`);
