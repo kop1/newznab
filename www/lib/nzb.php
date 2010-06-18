@@ -57,12 +57,11 @@ class NZB
 				$groups = array();
 				$groupsRaw = explode(' ', $binrow['xref']);
 				foreach($groupsRaw as $grp) 
-				{
-					if (preg_match('/^([a-z0-9\.\-_]+):\d+$/i', $grp, $match)) 
-					{
+					if (preg_match('/^([a-z0-9\.\-_]+)(:\d+)?$/i', $grp, $match)) 
 						$groups[] = $match[1];
-					}
-				}
+
+				if (count($groups) == 0)
+					$groups[] = $binrow["groupname"];
 				
 				$binaries[] = array ('binary' => $binrow, 'parts' => $parts, 'groups' => $groups);
 			}
@@ -174,7 +173,7 @@ class NZB
 				foreach($msgs AS $msg) 
 				{
                     $pattern = '/\((\d+)\/(\d+)\)$/i';
-                    if (!preg_match($pattern, $msg['Subject'], $matches))
+                    if (!isset($msg['Subject']) || !preg_match($pattern, $msg['Subject'], $matches))
                     {
                         // not a binary post most likely.. continue with next
                         continue;
@@ -202,7 +201,7 @@ class NZB
 				$updatecount = 0;
 				$partcount = 0;
 
-				if(count($this->message)) 
+				if(isset($this->message) && count($this->message)) 
 				{
 
 					//insert binaries and parts into database. when binary already exists; only insert new parts

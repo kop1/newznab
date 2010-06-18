@@ -450,8 +450,30 @@ class Releases
 		$regexrows = $relreg->get();
 		foreach ($regexrows as $regexrow)
 		{
+			$groupmatch = "";
+			
+			//
+			// groups ending in * need to be like matched when getting out binaries for groups and children
+			//
+			if (preg_match("/\*$/i", $regexrow["groupname"]))
+			{
+				$groupname = substr($regexrow["groupname"], 0, -1);
+				$groupmatch = sprintf(" groups.name like %s ", $db->escapeString($groupname."%"));
+			}
+			//
+			// a group name which doesnt end in a * needs an exact match
+			//
+			elseif ($regexrow["groupname"] != "")
+				$groupmatch = sprintf(" groups.name = %s ", $db->escapeString($regexrow["groupname"]));
+			//
+			// no groupname specified (these must be the misc regexes applied to all groups)
+			//
+			else
+				$groupmatch = " 1 = 1 ";
+				
 			// Get out all binaries of STAGE0 for current group
-			$resbin = $db->queryDirect(sprintf("SELECT ID, name, date from binaries where groupID = coalesce(%s, groupID) and procstat = %d", ($regexrow["groupID"]=="99999"?"null":$regexrow["groupID"]), Releases::PROCSTAT_NEW));
+			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date from binaries inner join groups on groups.ID = binaries.groupID where %s and procstat = %d", $groupmatch, Releases::PROCSTAT_NEW));
+
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
 			{
 				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 

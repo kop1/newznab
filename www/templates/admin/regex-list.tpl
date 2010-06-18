@@ -4,6 +4,8 @@
 <p>
 	Regexs are applied to group message subjects into releases. The second capture group must always be the name of the release, and the third should be the number of parts portion.
 	They are applied to messages from that group in order, then any general regexs are applied in order afterwards.
+	If you want to apply a regex to a group and all its children then append an asterix a.b.blah* to the end. 
+	
 </p>
 
 
@@ -22,7 +24,7 @@
 	{foreach from=$regexlist item=regex}
 	<tr class="{cycle values=",alt"}">
 		<td>{$regex.ID}</td>
-		<td>{if $regex.groupname=="zzzz_misc"}all{else}{$regex.groupname|replace:"alt.binaries":"a.b"}{/if}</td>
+		<td>{if $regex.groupname==""}all{else}{$regex.groupname|replace:"alt.binaries":"a.b"}{/if}</td>
 		<td><a href="{$smarty.const.WWW_TOP}/regex-edit.php?id={$regex.ID}">{$regex.regex}</a></td>
 		<td>active</td>
 		<td style="text-align:center;">{$regex.ordinal}</td>

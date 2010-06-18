@@ -10,12 +10,8 @@ class ReleaseRegex
 		$db = new DB();
 		return $db->query("SELECT releaseregex.ID, releaseregex.groupname AS groupname, releaseregex.regex, 
 												groups.ID AS groupID, releaseregex.ordinal FROM releaseregex 
-												INNER JOIN groups ON groups.name = releaseregex.groupname 
-												UNION
-												SELECT releaseregex.ID, 'zzzz_misc' AS groupname, releaseregex.regex, 
-												99999 AS groupID, releaseregex.ordinal FROM releaseregex
-												WHERE groupname IS NULL
-												ORDER BY groupname, ordinal");		
+												left outer JOIN groups ON groups.name = releaseregex.groupname 
+												ORDER BY coalesce(groupname,'zzz'), ordinal");		
 	}
 
 	public function getByID($id)
