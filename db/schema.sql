@@ -108,6 +108,8 @@ VALUES (NULL, 'alt.binaries.multimedia', '/()^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s(.*?
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, 'alt.binaries.erotica*', '/().*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 ); 
 
+INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`) 
+VALUES (NULL, 'alt.binaries.x264', '^/(#alt\\.binaries\\.x264:)(.*?)"/i', 1);
 
 
 DROP TABLE IF EXISTS `tvrage`;
