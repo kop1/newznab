@@ -104,7 +104,7 @@ class Nfo
 			$nntp->doQuit();
 		}
 		
-		if ($this->$echooutput)
+		if ($this->echooutput)
 			echo $ret." nfo files processed\n";
 		
 		return $ret;
