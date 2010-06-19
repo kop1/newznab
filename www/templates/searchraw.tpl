@@ -26,7 +26,7 @@
 			<td title="{$result.xref|escape:"htmlall"}">{$result.name|escape:"htmlall"}</td>
 			<td class="less">{$result.group_name|replace:"alt.binaries":"a.b"}</td>
 			<td class="less" title="{$result.date}">{$result.date|date_format}</td>
-			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="{$smarty.const.WWW_TOP}details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>
+			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="{$smarty.const.WWW_TOP}/details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>
 		</tr>
 	{/foreach}
 	

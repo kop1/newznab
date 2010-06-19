@@ -3,7 +3,7 @@
 	
 {if $results|@count > 0}
 
-<form id="nzb_multi_operations_form">
+<form id="nzb_multi_operations_form" action="get">
 
 <div class="nzb_multi_operations">
 	<small>With Selected:</small>
