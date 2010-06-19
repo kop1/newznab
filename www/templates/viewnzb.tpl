@@ -23,11 +23,9 @@
 	<tr><th>Poster:</th><td>{$release.fromname|escape:"htmlall"}</td></tr>
 	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format}</td></tr>
 	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format}</td></tr>
-	<tr><th>Download Nzb:</th><td><a title="Download Nzb for {$release.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/download/{$release.searchname|escape:"htmlall"}/nzb/{$release.guid}"><div class="icon icon_nzb"></div></a></td></tr>
-	<tr><th>Cart:</th><td><a href="#" title="Add to Cart" class="add_to_cart" id="{$release.guid}"><div class="icon icon_cart"></div></a></td></tr>
-	<tr class="sabnzbd_required" style="display:none"><th>SABnzbd:</th>
-		<td><a href="#" class="add_to_sab" id="{$release.guid}" title="Send to my Sabnzbd"><div class="icon icon_sab"></div></a></td>
-	</tr>
+	<tr><th>Download Nzb:</th><td><div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$release.guid}">&nbsp;</a></div></td></tr>
+	<tr id="guiC{$release.guid}"><th>Cart:</th><td><div class="icon icon_cart" title="Add to Cart"></div></td></tr>
+	<tr class="sabnzbd_required" style="display:none" id="guiS{$release.guid}"><th>SABnzbd:</th><td><div class="icon icon_sab" title="Send to my Sabnzbd"></div></td></tr>
 	{if $similars|@count > 1}
 	<tr>
 		<th>Similar:</th>

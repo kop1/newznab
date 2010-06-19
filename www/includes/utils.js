@@ -3,10 +3,10 @@
 jQuery(function($){
 
 	// browse.tpl, search.tpl -- show icons on hover
-	var orig_opac = $('table.data tr').children('td.icons').children('a').children('div.icon').css('opacity');
+	var orig_opac = $('table.data tr').children('td.icons').children('div.icon').css('opacity');
 	$('table.data tr').hover(
-		function(){	$(this).children('td.icons').children('a').children('div.icon').css('opacity',1); },
-		function(){	$(this).children('td.icons').children('a').children('div.icon').css('opacity',orig_opac); }
+		function(){	$(this).children('td.icons').children('div.icon').css('opacity',1); },
+		function(){	$(this).children('td.icons').children('div.icon').css('opacity',orig_opac); }
 	);
 	
 	$('.nzb_check_all').change(function(){
@@ -14,18 +14,20 @@ jQuery(function($){
 	});
 
 	// browse.tpl, search.tpl
-	$('.add_to_cart').click(function(e){
+	$('.icon_cart').click(function(e){
 		if ($(this).hasClass('icon_cart_clicked')) return false;
-		$.post( SERVERROOT + "cart.php?add=" + $(this).attr('id'), function(resp){
+		var guid = $(this).parent().parent().attr('id').substring(4);
+		$.post( SERVERROOT + "cart.php?add=" + guid, function(resp){
 			$(e.target).addClass('icon_cart_clicked').attr('title','added to cart');
 		});
 		return false;
 	});
-	$('.add_to_sab').click(function(e){ // replace with cookies?
+	$('.icon_sab').click(function(e){ // replace with cookies?
 		if ($(this).hasClass('icon_sab_clicked')) return false;
 
+		var guid = $(this).parent().parent().attr('id').substring(4);
 		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
-		var nzburl = SERVERROOT + "download/sab/nzb/" + $(this).attr('id') + "&i=" + UID + "&r=" + RSSTOKEN;
+		var nzburl = SERVERROOT + "download/sab/nzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 
 		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
 			$(e.target).addClass('icon_sab_clicked').attr('title','added to queue');
@@ -55,25 +57,25 @@ jQuery(function($){
 	});
 	$('input.nzb_multi_operations_cart').click(function(){
 		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
-		var nzburl;
 	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
-	    	var $cart = $(row).parent().parent().children('td.icons').children('.add_to_cart');
-			if ($cart.attr('id') && !$cart.children('div.icon_cart:first').hasClass('icon_cart_clicked')){
-				$.post( SERVERROOT + "cart.php?add=" + $cart.attr('id'), function(resp){
-					$cart.children('div.icon_cart').addClass('icon_cart_clicked').attr('title','added to cart');
+	    	var $cartIcon = $(row).parent().parent().children('td.icons').children('.icon_cart');
+	    	var guid = $(row).parent().parent().attr('id').substring(4);
+			if (guid && !$cartIcon.hasClass('icon_cart_clicked')){
+				$.post( SERVERROOT + "cart.php?add=" + guid, function(resp){
+					$cartIcon.addClass('icon_cart_clicked').attr('title','added to cart');
 				});
 			}
 		});
 	});
 	$('input.nzb_multi_operations_sab').click(function(){
 		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
-		var nzburl;
 	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
-	    	var $sab = $(row).parent().parent().children('td.icons').children('.add_to_sab');
-			if ($sab.attr('id') && !$sab.children('div.icon_sab:first').hasClass('icon_sab_clicked')){
-				nzburl = SERVERROOT + "download/sab/nzb/" + $sab.attr('id') + "&i=" + UID + "&r=" + RSSTOKEN;
+	    	var $sabIcon = $(row).parent().parent().children('td.icons').children('.icon_sab');
+	    	var guid = $(row).parent().parent().attr('id').substring(4);
+			if (guid && !$sabIcon.hasClass('icon_sab_clicked')){
+				var nzburl = SERVERROOT + "download/sab/nzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 				$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
-					$sab.children('div.icon_sab').addClass('icon_sab_clicked').attr('title','added to queue');
+					$sabIcon.addClass('icon_sab_clicked').attr('title','added to queue');
 				});
 			}
 		});
