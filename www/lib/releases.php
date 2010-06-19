@@ -352,15 +352,18 @@ class Releases
 	public function getZipped($guids)
 	{
 		$s = new Sites();
+		$nzb = new NZB;
 		$site = $s->get();
 		$zipfile = new zipfile();
 		
 		foreach ($guids as $guid)
 		{
-			if (file_exists($site->nzbpath.$guid.".nzb.gz")) 
+			$nzbpath = $nzb->getNZBPath($guid, $site->nzbpath);
+
+			if (file_exists($nzbpath)) 
 			{
 				ob_start();
-				@readgzfile($site->nzbpath.$guid.".nzb.gz");
+				@readgzfile($nzbpath);
 				$nzbfile = ob_get_contents();
 				ob_end_clean();
 
