@@ -25,6 +25,7 @@ CREATE INDEX ix_binary_name ON binaries (name);
 CREATE INDEX ix_binary_relname ON binaries (relname);
 CREATE INDEX ix_binary_procstat ON binaries (procstat);
 CREATE INDEX ix_binary_releaseID ON binaries (releaseID);
+CREATE INDEX ix_binary_dateadded ON binaries (dateadded);
 
 DROP TABLE IF EXISTS `releases`;
 CREATE TABLE `releases` 
@@ -175,6 +176,9 @@ CREATE TABLE `parts` (
   PRIMARY KEY  (`ID`),
   KEY `binaryID` (`binaryID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+
+CREATE INDEX ix_parts_dateadded ON parts (dateadded);
+
 
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE category
