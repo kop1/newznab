@@ -70,6 +70,26 @@ class NZB
 	}
 
 	//
+	// builds a full path to the nzb file on disk. nzbs are stored in a subdir of their first char.
+	//
+	function getNZBPath($releaseGuid, $sitenzbpath = "", $createIfDoesntExist = false)
+	{
+		if ($sitenzbpath == "")
+		{
+			$s = new Site;
+			$site = $s->get();
+			$sitenzbpath = $site->nzbpath;
+		}
+
+		$nzbpath = $sitenzbpath.substr($releaseGuid, 0, 1)."/";
+
+		if ($createIfDoesntExist && !file_exists($nzbpath))
+				mkdir($nzbpath);
+		
+		return $nzbpath.$releaseGuid.".nzb.gz";
+	}
+
+	//
 	// Update all active groups categories and descriptions
 	//
 	function updateAllGroups() 

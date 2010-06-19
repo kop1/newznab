@@ -7,6 +7,7 @@ require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/releases.php");
 
 $page = new Page;
+$nzb = new NZB;
 $users = new Users;
 $rel = new Releases;
 $uid = 0;
@@ -59,8 +60,9 @@ if (isset($_GET["id"]) && isset($_GET["zip"]) && $_GET["zip"] == "1")
 if (isset($_GET["id"]))
 {
 	$reldata = $rel->getByGuid($_GET["id"]);
-
-	if (!file_exists($page->site->nzbpath.$_GET["id"].".nzb.gz"))
+	$nzbpath = $nzb->getNZBPath($_GET["id"], $page->site->nzbpath);
+	
+	if (!file_exists($nzbpath))
 		$page->show404();
 
 	if ($reldata)
@@ -78,7 +80,7 @@ if (isset($_GET["id"]))
 	header("X-DNZB-NFO: "); //TODO:
 	header("Content-Disposition: attachment; filename=".$reldata["searchname"].".nzb");
 	
-	readgzfile($page->site->nzbpath.$_GET["id"].".nzb.gz");
+	readgzfile($nzbpath);
 }
 
 ?>

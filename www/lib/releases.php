@@ -619,7 +619,8 @@ class Releases
 			$page->smarty->assign('name',$row["relname"]);
 
 			$nzbfile = $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl');
-			$fp = gzopen($page->site->nzbpath.$relguid.".nzb.gz", "w"); 
+			
+			$fp = gzopen($nzb->getNZBPath($relguid, $page->site->nzbpath, true), "w"); 
 			if ($fp)
 			{
 				gzwrite($fp, $nzbfile); 

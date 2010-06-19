@@ -3,10 +3,12 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
+require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/releases.php");
 require_once(WWW_DIR."/lib/nzb.php");
 
 $page = new Page;
+$nzb = new NZB;
 $users = new Users;
 $releases = new Releases;
 $nzb = new Nzb;
@@ -20,12 +22,13 @@ if (isset($_GET["id"]))
 	if (!$rel)
 		$page->show404();
 
+	$nzbpath = $nzb->getNZBPath($_GET["id"], $page->site->nzbpath);
 
-	if (!file_exists($page->site->nzbpath.$_GET["id"].".nzb.gz")) 
+	if (!file_exists($nzbpath)) 
 		$page->show404();
 
 	ob_start();
-	@readgzfile($page->site->nzbpath.$_GET["id"].".nzb.gz");
+	@readgzfile($nzbpath);
 	$nzbfile = ob_get_contents();
 	ob_end_clean();
 		

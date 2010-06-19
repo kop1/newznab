@@ -9,9 +9,9 @@ pre-reqs
 	php memory limit set to 256 
 	php recommended minimum execution time of at least 60 seconds
 	iis
+		iis is currently broke due to config/require() problems.
 		urlrewriter isapi in \misc\ installed
 		script timeout of at least 60 seconds
-		iis is currently broke due to config/require() problems.
 	apache
 		script timeout of at least 60 seconds
 		mod_rewrite enabled
@@ -59,8 +59,8 @@ sample apache config for your your VHOST.
 
 how it works
 	groups are specified, message headers (binaries and parts) are downloaded for the 
-	groups, releases are created from completed sets of binaries. releases are categorised
-	by the group they came from, or by the regexing message subject
+	groups, releases are created from completed sets of binaries by applying regex to the message subject.
+	releases are categorised by the group they came from, or by the regexing message subject
 	
 choosing newsgroups
 	which newsgroups are indexed is specified as a regular expression in the column 
@@ -89,13 +89,14 @@ regex matching
 	binaries left unmatched after the group specific matching.
 	
 nzb file store
-	nzbs are saved to disk gzipped at the location specified by site.nzbpath.
+	nzbs are saved to disk gzipped at the location specified by site.nzbpath in subdirs based on the 
+	first char of the release guid, this just makes the dirs a bit easier to manage when you have thousands
+	of nzb.gz files
 
 importing nzbs
 	.nzb files can be imported from the admin interface. importing is a convenient way to fill the
-	index without trawling a large backdated number of usenet messages. however imported nzbs will
-	not have their nfo files added. after running an import the process_releases() function must be ran 
-	to create valid releases.
+	index without trawling a large backdated number of usenet messages. after running an import 
+	the process_releases() function must be ran to create valid releases.
 
 updating newsgroups
 	updating the list of available newsgroups is only worthwhile if you change your 
@@ -168,17 +169,17 @@ development
 (just some of the) people who've helped along the way. full(er) list at http://code.google.com/p/newznab/source/list
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
-	gizmore@wechall.net			password,hash
-	lhbandit@nzbs.org			yenc,nntp,bokko,dev	
-	jayhawk@nzb.su				testing,icons	
-	midgetspy@sickbeard			rage integration,api
-	ueland@newznab				install
-	ensi@ensisoft.com			api
-	michael@newznab				dev
-	sakarias@newznab			testing
-	pairdime@sabnzbd			jquery,css
-	pmow@newznab				headers,backfill
-	bigdave@newznab				testing
-	duv@sabnzbd					yenc
-	inpheaux@sabnzbd			design,nzb
-	spooge@newznab				testing
+	gizmore@wechall.net				password,hash
+	lhbandit@nzbs.org					yenc,nntp,bokko,dev	
+	jayhawk@nzb.su						testing,icons	
+	midgetspy@sickbeard				rage integration,api
+	ueland@newznab						installer
+	ensi@ensisoft.com					api
+	michael@newznab						dev
+	sakarias@newznab					testing
+	pairdime@sabnzbd					jquery,css
+	pmow@newznab							headers,backfill
+	bigdave@newznab						testing
+	duv@sabnzbd								yenc
+	inpheaux@sabnzbd					design,nzb
+	spooge@newznab						testing
