@@ -4,6 +4,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/releases.php");
 require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/util.php");
 
@@ -54,13 +55,14 @@ if (!empty($argc) || $page->isPostBack() )
 
 		$releases = $rel->getForExport($postfrom, $postto, $group);
 		$s = new Sites();
+		$nzb = new NZB;
 		$site = $s->get();
 		$nzbCount = 0;
 		
 		foreach ($releases as $release)
 		{
 			ob_start();
-			@readgzfile($site->nzbpath.$release["guid"].".nzb.gz");
+			@readgzfile($nzb->getNZBPath($release["guid"], $site->nzbpath));
 			$nzbfile = ob_get_contents();
 			ob_end_clean();
 			$fh = fopen($path.safeFilename($release["searchname"]).".nzb", 'w');
