@@ -25,9 +25,17 @@ if (isset($_GET["id"]))
 	$nfo = $releases->getReleaseNfo($data["ID"], false);
 	$comments = $releases->getComments($data["ID"]);
 	$similars = $releases->searchSimilar($data["ID"], $data["searchname"]);
-
+	
+	$mov = '';
+	if ($data['imdbID'] != '') {
+		require_once(WWW_DIR."/lib/movie.php");
+		$movie = new Movie();
+		$mov = $movie->getMovieInfo($data['imdbID']);
+	}
+	
 	$page->smarty->assign('release',$data);
 	$page->smarty->assign('nfo',$nfo);
+	$page->smarty->assign('movie',$mov);
 	$page->smarty->assign('comments',$comments);
 	$page->smarty->assign('similars',$similars);
 

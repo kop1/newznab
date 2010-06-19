@@ -17,9 +17,18 @@
 	{if $release.rageID > 0}
 	<tr><th>Tv Info:</th><td>[<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage"><div style="padding-right:5px;" class="icon icon_tvrage"></div>Rage Id {$release.rageID}</a>] [<a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">Series Info</a>] [{$release.seriesfull}]</td></tr>
 	{/if}
-	{if $release.imdbID > 0}
-	<tr><th>Imdb Info:</th><td><a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$release.imdbID}/" title="View IMDB">View IMDB</a></td></tr>	
+	
+	{if $movie.imdbID > 0}
+	<tr><th>Movie Info:</th><td>
+		{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/images/covers/{$movie.imdbID}-cover.jpg" alt="{$movie.title}" height="140" align="left" hspace="10" />{/if}
+		<strong>{$movie.title} ({$movie.year})</strong>
+		{if $movie.plot != ''}<br />{$movie.plot}{/if}
+		<br /><br /><strong>Rating:</strong> {if $movie.rating == ''}N/A{/if}{$movie.rating}/10
+		<br /><strong>Genre:</strong>{$movie.genre}
+		<br /><strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$release.imdbID}/" title="View IMDB">IMDB</a>]{if $movie.tmdbID != ''}&nbsp;&nbsp;[<a target="_blank" href="{$site->dereferrer_link}http://www.themoviedb.org/movie/{$movie.tmdbID}/" title="View TMDb">TMDb</a>]{/if}
+	</td></tr>
 	{/if}
+	
 	<tr><th>Poster:</th><td>{$release.fromname|escape:"htmlall"}</td></tr>
 	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format}</td></tr>
 	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format}</td></tr>
