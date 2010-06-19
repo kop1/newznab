@@ -42,7 +42,9 @@ jQuery(function($){
 	$("table.data a.modal_imdb").colorbox({	 // IMDB modal
 		href: function(){ return $(this).attr('href') +'&modal'; },
 		title: function(){ return $(this).parent().parent().children('a.title').text(); },
-		width:"800px", height:"90%", initialWidth:"800px", initialHeight:"90%", speed:0, opacity:0.7
+		width:"800px", height:"450px", initialWidth:"800px", initialHeight:"450px", speed:0, opacity:0.7
+	}).click(function(){
+		$('#colorbox').removeClass().addClass('cboxMovie');	
 	});
 	$('#nzb_multi_operations_form').submit(function(){return false;});
 	$('input.nzb_multi_operations_download').click(function(){

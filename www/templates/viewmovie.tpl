@@ -7,8 +7,8 @@
 
 <div id="movieinfo">
 
-<h1{if $movie.backdrop == 1} class="backdrop"{/if}>{$movie.title|ss} ({$movie.year})</h1>
-<h2{if $movie.backdrop == 1} class="backdrop"{/if}>{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/images/covers/{$movie.imdbID}-cover.jpg" alt="{$movie.title|ss}" align="left" hspace="10" />{/if}{$movie.plot|ss}</h2>
-<h3{if $movie.backdrop == 1} class="backdrop"{/if}>Rating: {$movie.rating}/10<br />Genre: {$movie.genre|ss}</h3>
+<h1>{$movie.title|ss} ({$movie.year})</h1>
+<h2>{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/images/covers/{$movie.imdbID}-cover.jpg" class="cover" alt="{$movie.title|ss}" align="left" />{/if}{$movie.plot|ss}</h2>
+<h3>Rating: {$movie.rating}/10<br />Genre: {$movie.genre|ss}</h3>
 
 </div>

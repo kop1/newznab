@@ -103,10 +103,10 @@ input.date { width:70px; }
 pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
 #movieinfo { background-position: center center; background-repeat: no-repeat; position: absolute; z-index: 2;}
-#movieinfo h1 { font-size: 32px; padding-left: 20px; }
-#movieinfo h2, #movieinfo h3 { padding-left: 10px; }
-#movieinfo .backdrop { color: #fff; text-shadow: 0px 0px 4px #000; }
-#backdrop { position: absolute; left: -11px; top: -12px; width: 773px; height: -11px; overflow: hidden;}
+#movieinfo h1 { font-size: 32px; padding: 10px 10px 0px 20px; color: #fff; text-shadow: 0px 0px 4px #000; }
+#movieinfo h2, #movieinfo h3 { padding: 10px 20px 0px 20px; color: #fff; text-shadow: 0px 0px 4px #000; }
+#movieinfo img.cover { margin-right: 20px; -webkit-box-shadow: 0px 0px 4px #000; -moz-box-shadow: 0px 0px 4px #000; }
+#backdrop { position: absolute; width: 751px; height: 368px; left: -1px; top: 5px; background-color: #333; overflow: hidden;}
 #backdrop img { opacity:0.9; width: 100%;}
 
 div.resextra { padding-top:2px; color: #888; font-size: 0.8em; height:16px; }
@@ -165,7 +165,7 @@ div.icon_check			{ background-image:url('images/icons/check.png'); }
 */
 #cboxOverlay{background:#fff;}
 
-#colorBox{}
+#colorbox{}
     #cboxTopLeft{width:25px; height:25px; background:url(images/colorbox/border1.png) 0 0 no-repeat;}
     #cboxTopCenter{height:25px; background:url(images/colorbox/border1.png) 0 -50px repeat-x;}
     #cboxTopRight{width:25px; height:25px; background:url(images/colorbox/border1.png) -25px 0 no-repeat;}
@@ -212,3 +212,35 @@ div.icon_check			{ background-image:url('images/icons/check.png'); }
 .cboxIE #cboxBottomRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderBottomRight.png, sizingMethod='scale');}
 .cboxIE #cboxMiddleLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderMiddleLeft.png, sizingMethod='scale');}
 .cboxIE #cboxMiddleRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderMiddleRight.png, sizingMethod='scale');}
+
+
+/*
+	Use colorbox example 2 css for movieinfo popups
+*/
+.cboxMovie{}
+    .cboxMovie #cboxContent{margin-top:32px;}
+    .cboxMovie #cboxTopLeft{display:none;}
+    .cboxMovie #cboxTopCenter{display:none;}
+    .cboxMovie #cboxTopRight{display:none;}
+    .cboxMovie #cboxBottomLeft{display:none;}
+    .cboxMovie #cboxBottomCenter{display:none;}
+    .cboxMovie #cboxBottomRight{display:none;}
+    .cboxMovie #cboxMiddleLeft{display:none;}
+    .cboxMovie #cboxMiddleRight{display:none;}
+        .cboxMovie #cboxLoadedContent{margin-top: 5px; background:#888; padding:1px;}
+        .cboxMovie #cboxLoadingGraphic{background:url(images/loading.gif) center center no-repeat;}
+        .cboxMovie #cboxLoadingOverlay{background:#000;}
+        .cboxMovie #cboxTitle{position:absolute; top:-22px; left:0; color:#000;}
+        .cboxMovie #cboxCurrent{position:absolute; top:-22px; right:205px; text-indent:-9999px;}
+        .cboxMovie #cboxSlideshow, .cboxMovie #cboxPrevious, .cboxMovie #cboxNext, .cboxMovie #cboxClose{text-indent:-9999px; width:20px; height:20px; position:absolute; top:-20px; background:url(images/colorbox/controls2.png) 0 0 no-repeat;}
+        .cboxMovie #cboxPrevious{background-position:0px 0px; right:44px;}
+        .cboxMovie #cboxPrevious.hover{background-position:0px -25px;}
+        .cboxMovie #cboxNext{background-position:-25px 0px; right:22px;}
+        .cboxMovie #cboxNext.hover{background-position:-25px -25px;}
+        .cboxMovie #cboxClose{background-position:-50px 0px; right:0;}
+        .cboxMovie #cboxClose.hover{background-position:-50px -25px;}
+        .cboxMovie .cboxSlideshow_on #cboxPrevious, .cboxMovie .cboxSlideshow_off #cboxPrevious{right:66px;}
+        .cboxMovie .cboxSlideshow_on #cboxSlideshow{background-position:-75px -25px; right:44px;}
+        .cboxMovie .cboxSlideshow_on #cboxSlideshow.hover{background-position:-100px -25px;}
+        .cboxMovie .cboxSlideshow_off #cboxSlideshow{background-position:-100px 0px; right:44px;}
+        .cboxMovie .cboxSlideshow_off #cboxSlideshow.hover{background-position:-75px -25px;}
