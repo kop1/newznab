@@ -40,7 +40,7 @@ jQuery(function($){
 		width:"800px", height:"90%", initialWidth:"800px", initialHeight:"90%", speed:0, opacity:0.7
 	});
 	$("table.data a.modal_imdb").colorbox({	 // IMDB modal
-		href: function(){ return $(this).attr('href') +'&modal'; },
+		href: function(){ return $(this).attr('name') +'&modal'; },
 		title: function(){ return $(this).parent().parent().children('a.title').text(); },
 		width:"800px", height:"450px", initialWidth:"800px", initialHeight:"450px", speed:0, opacity:0.7
 	}).click(function(){
