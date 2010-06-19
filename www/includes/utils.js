@@ -178,7 +178,7 @@ jQuery(function($){
 
 	// SABnzbd integration
 	if ($.cookie('sabnzbd_'+UID+'__host')) {
-		$('table.data .icon_sab, .sabnzbd_required').show();	// sab icons hidden by default
+		$('table.data .icon_sab').show();	// sab icons hidden by default
 		$('.nzb_multi_operations_sab').show();	// sab icons hidden by default
 		$('table.data td.icons').addClass('icons_with_sab');
 		
@@ -195,8 +195,8 @@ jQuery(function($){
 		$(this).next('.icon').addClass('icon_check'); // save status notification
 	});
 	$('#profile_sab_clear').click(function(){	// store sabnzbd info to cookie
-		$.cookie('sabnzbd_'+UID+'__apikey', null);
-		$.cookie('sabnzbd_'+UID+'__host', null);
+		$.cookie('sabnzbd_'+UID+'__apikey', '');
+		$.cookie('sabnzbd_'+UID+'__host', '');
 		$('#profile_sab_apikey, #profile_sab_host').val('');
 		$('#profile_sab_save').next('.icon').removeClass('icon_check'); // save status notification
 	});
