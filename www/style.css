@@ -218,7 +218,7 @@ div.icon_check			{ background-image:url('images/icons/check.png'); }
 	Use colorbox example 2 css for movieinfo popups
 */
 .cboxMovie{}
-    .cboxMovie #cboxContent{margin-top:32px;}
+    .cboxMovie #cboxContent{margin-top:32px; background: transparent;}
     .cboxMovie #cboxTopLeft{display:none;}
     .cboxMovie #cboxTopCenter{display:none;}
     .cboxMovie #cboxTopRight{display:none;}
