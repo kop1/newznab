@@ -220,6 +220,9 @@ class Category
 			if (preg_match('/NBA\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NHL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NRL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/Superleague\.Formula/', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/FIFA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/netball\.anz/', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/motogp/i', $binaryname)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_TV_X264; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_TV_DVD; }

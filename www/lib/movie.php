@@ -100,7 +100,7 @@ class Movie
 		return $movieId;
 	}
 	
-	private function fetchCoverImage($imgUrl)
+	public function fetchCoverImage($imgUrl)
 	{		
 		$img = @file_get_contents($imgUrl);
 		if ($img !== false) {
@@ -112,7 +112,7 @@ class Movie
 		return false;	
 	}
 	
-	private function saveCoverImage($imgUrl, $imdbId, $type='cover')
+	public function saveCoverImage($imgUrl, $imdbId, $type='cover')
 	{
 		$cover = $this->fetchCoverImage($imgUrl);
 		if ($cover !== false) {
@@ -122,7 +122,7 @@ class Movie
 		return 0;
 	}
 	
-	private function fetchTmdbProperties($imdbId)
+	public function fetchTmdbProperties($imdbId)
 	{
 		$tmdb = new TMDb('9a4e16adddcd1e86da19bcaf5ff3c2a3');
 		$lookupId = 'tt'.$imdbId;
@@ -171,7 +171,7 @@ class Movie
      * @param int $imdb_id  imdb id
      * @return array
      */
-    private function fetchImdbProperties($imdbId)
+    public function fetchImdbProperties($imdbId)
     {
         $imdb_regex = array(
             'title'    => '/<title>(.*?)\(.*?<\/title>/i',
