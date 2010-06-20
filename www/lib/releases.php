@@ -318,7 +318,7 @@ class Releases
 
 			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
 		}
-		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where rageID = %d %s %s order by adddate desc limit %d ", $rageId, $series, $episode, $limit));		
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where rageID = %d %s %s order by adddate desc limit %d ", $rageId, $series, $episode, $limit));		
 
 		return $res;
 	}		
