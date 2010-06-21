@@ -67,7 +67,7 @@ page structure
 
 #adpanel { margin-left:15px;width:165px;float:right; }
 
-#sidebar { float: left; width: 160px; font-family: Arial, Helvetica, sans-serif; font-size: 12px;}
+#sidebar { float: left; width: 160px; font-size: 12px;}
 #sidebar ul {margin: 0; padding: 0; line-height: normal; list-style-type: none; text-align: left; }
 #sidebar li { margin-bottom: 30px; padding: 0 0 0px 0px;}
 #sidebar li ul { list-style-type: none;  list-style-position:inside; margin: 0px 10px; padding: 0; margin-left: 1em;}
