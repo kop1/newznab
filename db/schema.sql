@@ -102,7 +102,7 @@ INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, 'alt.binaries.sounds.mp3.opera', '/()(.*)(\\d{2,3}\\/\\d{1,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.multimedia', '/()^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s(.*?)\\s.*?(\\d{1,4}\\/\\d{1,4})/i',  1 );
+VALUES (NULL, 'alt.binaries.multimedia', '/^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s([^\\s]*?)\\s[^\\s]*?(\\d{1,4}\\/\\d{1,4})/i', 1);
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, 'alt.binaries.erotica*', '/.*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 );
