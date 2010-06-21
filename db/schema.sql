@@ -97,20 +97,25 @@ CREATE TABLE `releaseregex` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/([\\[\\(]).*?([^\\(\\[#][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.sounds.mp3.opera', '/()(.*)(\\d{2,3}\\/\\d{1,3})/i',  1 ); 
+VALUES (NULL, 'alt.binaries.sounds.mp3.opera', '/()(.*)(\\d{2,3}\\/\\d{1,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.multimedia', '/()^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s(.*?)\\s.*?(\\d{1,4}\\/\\d{1,4})/i',  1 ); 
+VALUES (NULL, 'alt.binaries.multimedia', '/()^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s(.*?)\\s.*?(\\d{1,4}\\/\\d{1,4})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.erotica*', '/().*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 ); 
+VALUES (NULL, 'alt.binaries.erotica*', '/().*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 );
 
-INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`) 
-VALUES (NULL, 'alt.binaries.x264', '/^(#alt\\.binaries\\.x264:)(.*?)"/i', 1);
+
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
+VALUES (NULL, NULL,  '/^(\\[).*?([^\\(\\[#][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i',  1 );
+
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
+VALUES (NULL, NULL,  '/^(.*?)\\((\\d{2,3}\\/\\d{2,3}).*?wrestlingbay/i',  2 );
+
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
+VALUES (NULL, NULL,  '/^(\\()(.*)\\).*?\\[(\\d{2,3}\\/\\d{2,3})/i',  3 );
 
 
 DROP TABLE IF EXISTS `tvrage`;
