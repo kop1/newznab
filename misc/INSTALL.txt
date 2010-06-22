@@ -125,6 +125,12 @@ nfo
 	nfos are attempted to be retrieved using a queuing method. there will be a number of attempts to get
 	an nfo before giving up
 	
+imdb/tmdb
+	if enabled, and if an imdb id is found in the nfo, the application will attempt to use that imdb id to
+	get general data about the movie (title, year, genre, covers etc) from themoviedb.org. If no entry is 
+	available from tmdb then an attempt to gather the info from imdb.com is made. any results are stored
+	in the moveinfo table, with covers/backdrops being saved to the images/covers/.
+	
 content/cms
 	pages can be added to the site with seo friendly urls via the /admin/ edit content links
 	
