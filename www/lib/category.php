@@ -252,6 +252,7 @@ class Category
 			if (preg_match('/xvid|divx/i', $binaryname)) { return Category::CAT_XXX_XVID; }
 			if (preg_match('/wmv|pack\-/i', $binaryname)) { return Category::CAT_XXX_WMV; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_XXX_DVD; }
+			return Category::CAT_XXX_XVID;
 		}
 
 		//
