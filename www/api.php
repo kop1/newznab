@@ -61,8 +61,6 @@ else
 	$apikey=$page->userdata["rsstoken"];
 }
 
-$page->smarty->assign("api","1");
-$page->smarty->assign("dl","1");
 $page->smarty->assign("uid",$uid);
 $page->smarty->assign("rsstoken",$apikey);
 
