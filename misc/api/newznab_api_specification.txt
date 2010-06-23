@@ -97,9 +97,10 @@ TODO:
                     email="info@newznab.com" url="http://servername.com/" 
                     image="http://servername.com/theme/black/images/banner.jpg"/>
 
+            <!-- limit parameter range -->
             <limits max="100" default="50"/>
 
-           <!-- supported categories -->
+            <!-- supported categories -->
             <categories>
                 <category id="1000" name="Console">
                   <subcat id="1010" name="NDS"/>
@@ -421,7 +422,7 @@ TODO:
    2020                                 Movies/WMV-HD
    2030                                 Movies/XViD
    2040                                 Movies/x264                     HD movies with AVC encoding
-   3000                                 Audio                           All of movies
+   3000                                 Audio                           All of audio
    3010                                 Audio/MP3
    3020                                 Audio/Video                     Music videos
    3030                                 Audio/Audiobook                 wtf is an audiobook?
@@ -451,12 +452,39 @@ TODO:
 4. Predefined Attributes
    
    A set of known attributes for items in different categories has been defined. 
+   Its possible that not all attributes are vailable at all times. Therefore a
+   client application should not rely on any particular attributes being in the
+   returned data but should take this list as an optional extra information.
+   However attributes marked with * are always available.
+
+   Additionally, not all attributes are applicable to all items. The category 
+   information can be used to check which attributes area available for which 
+   category items.
+
+   All attributes are defined using XML namespace syntax.
+
+   Attribute            Category                Description                             Example value
+
+   attr:size *          ALL                     Size in bytes                           "252322"
+   attr:category *      ALL                     Item's category                         "5004"
+   attr:files           ALL                     Number of files                         "4"
+   attr:poster          ALL                     NNTP Poster                             "yenc@power-post"
+   attr:group           ALL                     Group doing the release                 "DiAMOND"
+   attr:season          TV                      Numeric season                          "1"
+   attr:episode         TV                      Numeric episode within the season       "1"
+   attr:rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
+   attr:video           TV, Movies              Video codec                             "x264"
+   attr:audio           TV, Movies, Audio       Audio codec                             "AC3 2.0 @ 384 kbs"
+   attr:resolution      TV, Movies              Video resolution                        "1280x716 1.78:1"
+   attr:framerate       TV, Movies              Video fps                               "23.976 fps"
+   attr:language        TV, Movies, Audio       Natural languages                       "English"
+   attr:subs            TV, Movies              Subtitles                               "English, Spanish"
+   attr:imdb            TV, Movies              IMDb link                               "http://www.imdb.com/title/tt0104409/"
+   attr:genre           TV, Movies              Genre                                   "Horror"
+   
 
    TODO:
-   - tv
-   - movie
-   - console
-   - etc.
+   - console/PC/XXX
    
 5. Newznab Error Codes
 
