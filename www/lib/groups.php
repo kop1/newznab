@@ -82,59 +82,63 @@ class Groups
 	//
 	function updateGroupList($blnUpdateCategory = true, $blnExpandGroupName = false) 
 	{
-
+		$ret = array();
 		$s = new Sites();
 		$site = $s->get(); // $site->groupfilter is regex of newsgroups to match on
 	
-		$db = new DB();
-		$category = new Category();
-		$nntp = new Nntp;
-		$nntp->doConnect();
-		$groups = $nntp->getGroups();
-		$nntp->doQuit();
-		
-		$ret = array();
-			
-		$regfilter = "/(" . str_replace (array ('.','*'), array ('\.','.*?'), $site->groupfilter) . ")".(!$blnExpandGroupName ? "$" : "")."/";
-
-		foreach($groups AS $group) 
+		if ($site->groupfilter == "")
 		{
-			if (preg_match ($regfilter, $group['group']) > 0)
+			$ret[] = "No groupfilter specified in site table.";
+		}
+		else
+		{
+			$db = new DB();
+			$category = new Category();
+			$nntp = new Nntp;
+			$nntp->doConnect();
+			$groups = $nntp->getGroups();
+			$nntp->doQuit();
+				
+			$regfilter = "/(" . str_replace (array ('.','*'), array ('\.','.*?'), $site->groupfilter) . ")".(!$blnExpandGroupName ? "$" : "")."/";
+
+			foreach($groups AS $group) 
 			{
-				$res = $db->queryOneRow(sprintf("SELECT ID FROM groups WHERE name = %s ", $db->escapeString($group['group'])));
-				if($res) 
+				if (preg_match ($regfilter, $group['group']) > 0)
 				{
-					$cat = "";
-					if($blnUpdateCategory)
+					$res = $db->queryOneRow(sprintf("SELECT ID FROM groups WHERE name = %s ", $db->escapeString($group['group'])));
+					if($res) 
 					{
+						$cat = "";
+						if($blnUpdateCategory)
+						{
+							$cat = $category->determineCategory($group['group']);
+							if ($cat == -1)
+								$cat = " categoryID = null, ";
+							else
+								$cat = " categoryID = ".$cat.", ";
+						}
+						
+						$db->query(sprintf("UPDATE groups SET %s description = %s where ID = %d", $cat, $db->escapeString((isset($group['desc']) ? $group['desc'] : "description")), $res["ID"]));
+						$ret[] = array ('group' => $group['group'], 'msg' => 'Updated');
+					} 
+					else 
+					{
+						$desc = "";
+						if (isset($group['desc']))
+						{
+							$desc = $group['desc'];
+						}
+						
 						$cat = $category->determineCategory($group['group']);
 						if ($cat == -1)
-							$cat = " categoryID = null, ";
-						else
-							$cat = " categoryID = ".$cat.", ";
+							$cat = "null";
+							
+						$db->queryInsert(sprintf("INSERT INTO groups (name, description, active, categoryID) VALUES (%s, %s, 1, %s)", $db->escapeString($group['group']), $db->escapeString($desc), $cat));
+						$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 					}
-					
-					$db->query(sprintf("UPDATE groups SET %s description = %s where ID = %d", $cat, $db->escapeString((isset($group['desc']) ? $group['desc'] : "description")), $res["ID"]));
-					$ret[] = array ('group' => $group['group'], 'msg' => 'Updated');
-				} 
-				else 
-				{
-					$desc = "";
-					if (isset($group['desc']))
-					{
-						$desc = $group['desc'];
-					}
-					
-					$cat = $category->determineCategory($group['group']);
-					if ($cat == -1)
-						$cat = "null";
-						
-					$db->queryInsert(sprintf("INSERT INTO groups (name, description, active, categoryID) VALUES (%s, %s, 1, %s)", $db->escapeString($group['group']), $db->escapeString($desc), $cat));
-					$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 				}
 			}
 		}
-
 		return $ret;
 	}
 
