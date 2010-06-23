@@ -27,7 +27,7 @@ if (isset($_GET["t"]))
 	elseif ($_GET["t"] == "caps" || $_GET["t"] == "c")
 		$function = "c";			
 	else
-		showApiHelp();
+		showApiError(202);
 }
 else
 	showApiHelp();
@@ -43,13 +43,12 @@ if (!$users->isLoggedIn())
 	if ($function != "c")
 	{
 		if (!isset($_GET["apikey"]))
-			$page->show403();
+			showApiError(200);
 		
 		$res = $users->getByRssToken($_GET["apikey"]);
 		if (!$res)
 		{
-			echo $_GET["apikey"];die();
-			$page->show403();			
+			showApiError(100);
 		}
 		$uid=$res["ID"];
 		$apikey=$_GET["apikey"];
@@ -81,7 +80,7 @@ switch ($function)
 	//
 	case "s":
 		if (!isset($_GET["q"]) && !isset($_GET["rid"]))
-			showApiError("no query/rageid specified");	
+			showApiError(200);	
 
 		$categoryId = array();
 		if (isset($_GET["cat"]))
@@ -116,7 +115,7 @@ switch ($function)
 	//
 	case "g":
 		if (!isset($_GET["id"]) && !isset($_GET["rid"]))
-			showApiError("no id/rageid specified");
+			showApiError(200);
 
 		if (isset($_GET["id"]))
 			$reldata = $releases->getByGuid($_GET["id"]);
@@ -131,7 +130,7 @@ switch ($function)
 		}
 		else
 		{
-			showApiError("nzb not found");
+			showApiError(300);
 		}
 		break;		
 		
@@ -140,7 +139,7 @@ switch ($function)
 	//
 	case "d":
 		if (!isset($_GET["id"]))
-			showApiError("no id specified");
+			showApiError(200);
 
 		$data = $releases->getByGuid($_GET["id"]);
 		
@@ -167,19 +166,50 @@ switch ($function)
 		$parentcatlist = $category->getForMenu();
 		$page->smarty->assign('parentcatlist',$parentcatlist);
 		header("Content-type: text/xml");
-		echo $page->smarty->fetch('caps.tpl');	
+		echo $page->smarty->fetch('apicaps.tpl');	
 		break;		
 	
 	default:
-		showApiError("no api function declared");
+		showApiError(202);
 		break;
 }		
 
-function showApiError($err, $errcode=-1)
+function showApiError($errcode=900, $errtext="")
 {
-	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-	echo "<error code=\"$errcode\" description=\"$err\"/>";
-	echo "</xml>";
+	switch ($errcode)
+	{
+		case 100:
+			$errtext = "Incorrect user credentials";
+			break;
+		case 101:
+			$errtext = "Account suspended";
+			break;
+		case 102:
+			$errtext = "Insufficient priviledges/not authorized";
+			break;
+		case 200:
+			$errtext = "Missing parameter";
+			break;
+		case 201:
+			$errtext = "Incorrect parameter";
+			break;
+		case 202:
+			$errtext = "No such function";
+			break;
+		case 203:
+			$errtext = "Function not available";
+			break;
+		case 300:
+			$errtext = "No such item";
+			break;
+		default:
+			$errtext = "Unknown error";
+			break;
+	}
+	
+	header("Content-type: text/xml");
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	echo "<error code=\"$errcode\" description=\"$errtext\"/>\n";
 	die();
 }
 

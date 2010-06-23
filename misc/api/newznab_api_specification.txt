@@ -66,6 +66,7 @@ TODO:
 
    Important fields of the returned data:
       server/version                    The version of the protocol implemented by the server. All implementations should be backwards compatible. 
+	  limits                            The limit and defaults to the number of search results returned.
       category                          Defines a searchable category which might have any number of subcategories.
       category/id                       Unique category ID, can be either one of the standard category IDs or a site specific ID.
       category/name                     Any descriptive name for the category. Can be site/language specific.
@@ -95,6 +96,8 @@ TODO:
             <server version="1.0" title="Newznab" strapline="A great usenet indexer" 
                     email="info@newznab.com" url="http://servername.com/" 
                     image="http://servername.com/theme/black/images/banner.jpg"/>
+
+            <limits max="100" default="50"/>
 
            <!-- supported categories -->
             <categories>
@@ -484,5 +487,9 @@ TODO:
    
    900                  Unknown error
 
-   
+   // Query could not be completed because user credentials are broken
+   --> GET http://servername.com/api?t=details&apikey=xxxxx&guid=xxxxxxxxx
+   <-- 200 OK
+       <?xml version="1.0" encoding="UTF-8"/>
+       <error code="100" description="Incorrect user credentials"/>     
 
