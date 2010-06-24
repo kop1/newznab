@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:report="http://www.newznab.com/DTD/2010/feeds/report/" xmlns:tv="http://www.newznab.com/DTD/2010/feeds/tv/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/">
 <channel>
 <atom:link href="{$serverroot}rss" rel="self" type="application/rss+xml" />
 <title>{$site->title|escape}</title>
@@ -25,11 +25,10 @@
 	<description>{$release.searchname}</description>
 	<enclosure url="{$serverroot}rss/nzb/{$release.guid}&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />
 
-	<report:categories>
 	{foreach from=$release.category_ids|parray:"," item=cat}
-	<report:category>{$cat}</report:category>
-	{/foreach}</report:categories>
-	<report:size type="bytes">{$release.size}</report:size>
+<newznab:attr name="category" value="{$cat}" />
+	{/foreach}
+<newznab:attr name="size" value="{$release.size}" />
 
 </item>
 {/foreach}

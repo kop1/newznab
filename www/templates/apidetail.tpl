@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:report="http://www.newznab.com/DTD/2010/feeds/report/" xmlns:tv="http://www.newznab.com/DTD/2010/feeds/tv/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/">
 <channel>
 <atom:link href="{$serverroot}rss" rel="self" type="application/rss+xml" />
 <title>{$site->title|escape}</title>
@@ -24,30 +24,21 @@
 	<category>{$release.category_name|escape:html}</category> 	
 	<description>{$release.searchname}</description>
 	<enclosure url="{$serverroot}rss/nzb/{$release.guid}&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />
-
-
-	<report:categories>
+	
 	{foreach from=$release.category_ids|parray:"," item=cat}
-	<report:category>{$cat}</report:category>
-	{/foreach}</report:categories>	
-	<report:groups>
-		<report:group>{$release.group_name}</report:group>
-	</report:groups>
-	<report:nzb>{$serverroot}rss/nzb/{$release.guid}&amp;i={$uid}&amp;r={$rsstoken}</report:nzb>
-	<report:poster><![CDATA[{$release.fromname}]]></report:poster>
-	<report:size type="bytes">{$release.size}</report:size>
-	<report:postdate>{$release.postdate|phpdate_format:"DATE_RSS"}</report:postdate>
-	<report:stats>
-		<report:views>{$release.grabs}</report:views>
-		<report:comments>{$release.comments}</report:comments>
-	</report:stats>				
-
-	{if $release.rageID > 0}
-<tv:tvrageid>{$release.rageID}</tv:tvrageid>
-	<tv:seasonfull>{$release.seriesfull}</tv:seasonfull>
-	<tv:season>{$release.season|replace:"S":""|string_format:"%d"}</tv:season>
-	<tv:episode>{$release.episode|replace:"E":""|string_format:"%d"}</tv:episode>
-	{/if}
+<newznab:attr name="category" value="{$cat}" />
+	{/foreach}
+<newznab:attr name="size" value="{$release.size}" />
+	<newznab:attr name="files" value="{$release.totalpart}" />
+	<newznab:attr name="poster" value="{$release.fromname|escape:html}" />
+{if $release.season != ""}<newznab:attr name="season" value="{$release.season}" />{/if}
+{if $release.episode != ""}<newznab:attr name="episode" value="{$release.episode}" />{/if}
+{if $release.rageID != "-1" && $release.rageID != "-2"}<newznab:attr name="rageid" value="{$release.rageID}" />{/if}
+{if $release.imdbID != ""}<newznab:attr name="imdb" value="{$release.imdbID}" />{/if}
+	<newznab:attr name="grabs" value="{$release.grabs}" />
+	<newznab:attr name="comments" value="{$release.comments}" />
+	<newznab:attr name="usenetdate" value="{$release.postdate|phpdate_format:"DATE_RSS"}" />	
+	<newznab:attr name="group" value="{$release.group_name|escape:html}" />
 
 </item>
 {/foreach}

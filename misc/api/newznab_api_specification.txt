@@ -196,13 +196,11 @@ TODO:
               <description>Some TV show</description>
               <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
     
-              <!-- Additional attributes--> 
-              <report:size>154653309</report:size>
-              <report:categories>
-                <report:category>5000</report:category>
-                <report:category>5010</report:category>
-                <report:category>5020</report:category>
-              </report:categories>
+              <!-- Additional attributes -->
+	          <newznab:attr name="category" value="2000" /> 
+	          <newznab:attr name="category" value="2030" /> 
+	          <newznab:attr name="size" value="4294967295" />
+			  
            </item>
          </channel>
          </rss>
@@ -298,13 +296,9 @@ TODO:
               <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" />               
 
               <!-- Additional attributes -->
-              <report:size>154653309</report:size>
-              <report:categories>
-                <report:category>5040</report:category>
-              </report:categories>
-              
-              <tv:season>3</tv:season>
-              <tv:episode>1</tv:episode>
+	          <newznab:attr name="category" value="2000" /> 
+	          <newznab:attr name="category" value="2030" /> 
+	          <newznab:attr name="size" value="4294967295" /> 
             </item>         
             ....
          </channel>
@@ -349,24 +343,16 @@ TODO:
                 <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
 
                 <!-- additional attributes -->
-                <report:size>154653309</report:size>
-                <report:poster>teevee@4u.tv (teevee)</report:poster>
-                <report:postdate>Sun, 06 Jun 2010 16:16:17 +0100</report:postdate>
-                <report:categories>
-                  <report:category>5000</report:category>
-                  <report:category>5010</report:category>
-                  <report:category>5020</report:category>
-                </report:categories>
+	            <newznab:attr name="category" value="2000" /> 
+	            <newznab:attr name="category" value="2030" /> 
+	            <newznab:attr name="size" value="4294967295" /> 
+	            <newznab:attr name="files" value="107" /> 
+	            <newznab:attr name="poster" value="example@4u.net (example)" /> 
+	            <newznab:attr name="grabs" value="1" /> 
+	            <newznab:attr name="comments" value="0" /> 
+	            <newznab:attr name="usenetdate" value="Tue, 22 Jun 2010 06:54:22 +0100" />	
+	            <newznab:attr name="group" value="alt.binaries.movies.divx" /> 
                 
-                <!-- TV specific information. -->
-                <tv:season>6<tv:season>
-                <tv:episode>5<tv:episode>               
-
-                <!-- Movie specific information. -->
-                <movie:genre>Horror</movie:genre>
-                <movie:imdb>http://www.imdb.com/title/tt0051196/</movie::imdb>
-                                
-                <!-- TODO: other category specific content -->
               </item>  
             </channel>
           </rss>
@@ -463,25 +449,28 @@ TODO:
 
    All attributes are defined using XML namespace syntax.
 
-   Attribute            Category                Description                             Example value
+   Attribute               Category                   Description                                Example value
 
-   attr:size *          ALL                     Size in bytes                           "252322"
-   attr:category *      ALL                     Item's category                         "5004"
-   attr:files           ALL                     Number of files                         "4"
-   attr:poster          ALL                     NNTP Poster                             "yenc@power-post"
-   attr:group           ALL                     NNTP Group(s)                           "a.b.warez, a.b.teevee"
-   attr:team            ALL                     Team doing the release                  "DiAMOND"
-   attr:season          TV                      Numeric season                          "1"
-   attr:episode         TV                      Numeric episode within the season       "1"
-   attr:rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
-   attr:video           TV, Movies              Video codec                             "x264"
-   attr:audio           TV, Movies, Audio       Audio codec                             "AC3 2.0 @ 384 kbs"
-   attr:resolution      TV, Movies              Video resolution                        "1280x716 1.78:1"
-   attr:framerate       TV, Movies              Video fps                               "23.976 fps"
-   attr:language        TV, Movies, Audio       Natural languages                       "English"
-   attr:subs            TV, Movies              Subtitles                               "English, Spanish"
-   attr:imdb            TV, Movies              IMDb link                               "http://www.imdb.com/title/tt0104409/"
-   attr:genre           TV, Movies              Genre                                   "Horror"
+   newznab:size *          ALL                     Size in bytes                           "252322"
+   newznab:category *      ALL                     Item's category                         "5004"
+   newznab:files           ALL                     Number of files                         "4"
+   newznab:poster          ALL                     NNTP Poster                             "yenc@power-post"
+   newznab:group           ALL                     NNTP Group(s)                           "a.b.warez, a.b.teevee"
+   newznab:team            ALL                     Team doing the release                  "DiAMOND"
+   newznab:grabs           ALL                     Number of times item downloaded         "1"
+   newznab:comments        ALL                     Number of comments                      "2"
+   newznab:usenetdate      ALL                     Date posted to usenet                   "Tue, 22 Jun 2010 06:54:22 +0100"
+   newznab:season          TV                      Numeric season                          "1"
+   newznab:episode         TV                      Numeric episode within the season       "1"
+   newznab:rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
+   newznab:video           TV, Movies              Video codec                             "x264"
+   newznab:audio           TV, Movies, Audio       Audio codec                             "AC3 2.0 @ 384 kbs"
+   newznab:resolution      TV, Movies              Video resolution                        "1280x716 1.78:1"
+   newznab:framerate       TV, Movies              Video fps                               "23.976 fps"
+   newznab:language        TV, Movies, Audio       Natural languages                       "English"
+   newznab:subs            TV, Movies              Subtitles                               "English, Spanish"
+   newznab:imdb            TV, Movies              IMDb link                               "0104409"
+   newznab:genre           TV, Movies              Genre                                   "Horror"
    
 
    TODO:
