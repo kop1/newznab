@@ -78,7 +78,7 @@ switch ($function)
 	// search releases
 	//
 	case "s":
-		if (!isset($_GET["q"]) && !isset($_GET["rid"]))
+		if (isset($_GET["q"]) && $_GET["q"]=="")
 			showApiError(200);	
 
 		$categoryId = array();
@@ -94,8 +94,14 @@ switch ($function)
 		if (isset($_GET["q"]))
 			$reldata = $releases->search($_GET["q"], $categoryId, $limit);
 		else
-			$reldata = $releases->searchbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
-											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
+		{
+			$orderby = array();
+			$orderby[0] = "postdate";
+			$orderby[1] = "asc";
+			$reldata = $releases->getBrowseRange($categoryId, 0, $limit, "");
+		}
+			//$reldata = $releases->searchbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
+			//								, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
 				
 		if ($outputtype == "xml")
 		{

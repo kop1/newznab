@@ -37,7 +37,10 @@ $page->smarty->assign('pagerquerysuffix', "#results");
 $pager = $page->smarty->fetch("pager.tpl");
 $page->smarty->assign('pager', $pager);
 
-$results = $releases->getBrowseRange($category, $offset, ITEMS_PER_PAGE, $orderby);
+$catarray = array();
+$catarray[] = $category;
+
+$results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby);
 if ($category == -1)
 	$page->smarty->assign("catname","All");			
 else
