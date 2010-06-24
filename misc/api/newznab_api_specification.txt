@@ -474,7 +474,7 @@ TODO:
    framerate       TV, Movies              Video fps                               "23.976 fps"
    language        TV, Movies, Audio       Natural languages                       "English"
    subs            TV, Movies              Subtitles                               "English, Spanish"
-   imdb            TV, Movies              IMDb link                               "0104409"
+   imdb            TV, Movies              IMDb ID  (www.imdb.com)                 "0104409"
    genre           TV, Movies              Genre                                   "Horror"
    
 
