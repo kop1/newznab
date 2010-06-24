@@ -149,7 +149,9 @@ TODO:
       search input in any of the specified categories is considered a match and is returned. E.g.
       a search searching for "linux" in "computer" and "ebook" categories searches for matching
       items in "computer" and "ebook" but does not search for example the "movies" category.
-      Items found in either group are then combined into a single result set. 
+      Items found in either group are then combined into a single result set. If the input string
+      for search is empty all items (within the server/query limits) are returned for the 
+      matching categories. 
       
       When performing the query the categories to be searched are concatenated into a single 
       query parameter by , (comma). For example "cat=200,300,400", which is then URL encoded.
@@ -173,10 +175,10 @@ TODO:
       
     Parameters:
       t=search          Search function, must always be "search"
-      q=xxxx            Search input (URL/UTF-8 encoded).
       apikey=xxxx       User's key as provided by the service provider.
       
    Optional parameters:
+      q=xxxx            Search input (URL/UTF-8 encoded).
       limit=123         Upper limit for the number of items to be returned.
       cat=xxx           List of categories to search delimeted by ","
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
