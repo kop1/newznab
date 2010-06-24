@@ -5,7 +5,7 @@
 		<li><a title="Site Map" href="{$smarty.const.WWW_TOP}/sitemap.php">Site Map</a></li>
 		{if $loggedin=="true"}
 		<li><a title="{$site->title} Rss Feeds" href="{$smarty.const.WWW_TOP}/rss">Rss Feeds</a></li>
-		<li><a title="{$site->title} Api" href="{$smarty.const.WWW_TOP}/api">Api</a></li>
+		<li><a title="{$site->title} Api" href="{$smarty.const.WWW_TOP}/apihelp">Api</a></li>
 		{/if}
 		{foreach from=$usefulcontentlist item=content}
 			<li><a title="{$content->title}" href="{$smarty.const.WWW_TOP}{$content->url}c{$content->id}">{$content->title}</a></li>

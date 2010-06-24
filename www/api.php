@@ -30,8 +30,7 @@ if (isset($_GET["t"]))
 		showApiError(202);
 }
 else
-	showApiHelp();
-
+	showApiError(200);
 
 //
 // page is accessible only by the apikey, or logged in users.
@@ -210,19 +209,6 @@ function showApiError($errcode=900, $errtext="")
 	header("Content-type: text/xml");
 	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	echo "<error code=\"$errcode\" description=\"$errtext\"/>\n";
-	die();
-}
-
-function showApiHelp()
-{
-	global $page;
-	$page->title = "Api";
-	$page->meta_title = "Api Help Topics";
-	$page->meta_keywords = "view,nzb,api,details,help,json,rss,atom";
-	$page->meta_description = "View description of the site Nzb Api.";
-	
-	$page->content = $page->smarty->fetch('apidesc.tpl');
-	$page->render();
 	die();
 }
 
