@@ -19,6 +19,8 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 2.4 DETAILS
 3.  Predefined Categories
 4.  Predefined Attributes
+4.1 List of Attributes
+4.2 Attribute example
 5.  Newznab Error Codes
 
 TODO:
@@ -435,7 +437,7 @@ TODO:
    100000-                              Custom                          Specific to a site
 
 
-4. Predefined Attributes
+4. PREDEFINED ATTRIBUTES
    
    A set of known attributes for items in different categories has been defined. 
    Its possible that not all attributes are vailable at all times. Therefore a
@@ -447,34 +449,46 @@ TODO:
    information can be used to check which attributes area available for which 
    category items.
 
-   All attributes are defined using XML namespace syntax.
+   All attributes are defined using XML namespace syntax. 
+   e.g. xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/"
+   
+   4.1 List of Attributes
+   
+   Attribute       Category                Description                             Example value
 
-   Attribute               Category                   Description                                Example value
-
-   newznab:size *          ALL                     Size in bytes                           "252322"
-   newznab:category *      ALL                     Item's category                         "5004"
-   newznab:files           ALL                     Number of files                         "4"
-   newznab:poster          ALL                     NNTP Poster                             "yenc@power-post"
-   newznab:group           ALL                     NNTP Group(s)                           "a.b.warez, a.b.teevee"
-   newznab:team            ALL                     Team doing the release                  "DiAMOND"
-   newznab:grabs           ALL                     Number of times item downloaded         "1"
-   newznab:comments        ALL                     Number of comments                      "2"
-   newznab:usenetdate      ALL                     Date posted to usenet                   "Tue, 22 Jun 2010 06:54:22 +0100"
-   newznab:season          TV                      Numeric season                          "1"
-   newznab:episode         TV                      Numeric episode within the season       "1"
-   newznab:rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
-   newznab:video           TV, Movies              Video codec                             "x264"
-   newznab:audio           TV, Movies, Audio       Audio codec                             "AC3 2.0 @ 384 kbs"
-   newznab:resolution      TV, Movies              Video resolution                        "1280x716 1.78:1"
-   newznab:framerate       TV, Movies              Video fps                               "23.976 fps"
-   newznab:language        TV, Movies, Audio       Natural languages                       "English"
-   newznab:subs            TV, Movies              Subtitles                               "English, Spanish"
-   newznab:imdb            TV, Movies              IMDb link                               "0104409"
-   newznab:genre           TV, Movies              Genre                                   "Horror"
+   size *          ALL                     Size in bytes                           "252322"
+   category *      ALL                     Item's category                         "5004"
+   files           ALL                     Number of files                         "4"
+   poster          ALL                     NNTP Poster                             "yenc@power-post"
+   group           ALL                     NNTP Group(s)                           "a.b.warez, a.b.teevee"
+   team            ALL                     Team doing the release                  "DiAMOND"
+   grabs           ALL                     Number of times item downloaded         "1"
+   comments        ALL                     Number of comments                      "2"
+   usenetdate      ALL                     Date posted to usenet                   "Tue, 22 Jun 2010 06:54:22 +0100"
+   season          TV                      Numeric season                          "1"
+   episode         TV                      Numeric episode within the season       "1"
+   rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
+   video           TV, Movies              Video codec                             "x264"
+   audio           TV, Movies, Audio       Audio codec                             "AC3 2.0 @ 384 kbs"
+   resolution      TV, Movies              Video resolution                        "1280x716 1.78:1"
+   framerate       TV, Movies              Video fps                               "23.976 fps"
+   language        TV, Movies, Audio       Natural languages                       "English"
+   subs            TV, Movies              Subtitles                               "English, Spanish"
+   imdb            TV, Movies              IMDb link                               "0104409"
+   genre           TV, Movies              Genre                                   "Horror"
    
 
    TODO:
    - console/PC/XXX
+   
+   4.2 Attribute Example
+   
+    Example attribute declarations within <item> element.
+   
+    <newznab:attr name="category" value="2000" /> 
+    <newznab:attr name="category" value="2030" /> 
+    <newznab:attr name="size" value="4294967295" /> 
+  
    
 5. Newznab Error Codes
 
