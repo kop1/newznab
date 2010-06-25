@@ -1,6 +1,11 @@
 <?php
 require_once("config.php");
-if(!include('Net/NNTP/Client.php')) {
+require_once(WWW_DIR."/lib/yenc.php");
+require_once(WWW_DIR."/lib/binaries.php");
+require_once(WWW_DIR."/lib/framework/db.php");
+
+if(!include('Net/NNTP/Client.php')) 
+{
 	exit("Error: <b>You must install the pear package 'Net_NNTP'.</b>");	
 }
 
@@ -30,26 +35,33 @@ class Nntp extends Net_NNTP_Client
 		$this->quit();
 	}
 	
-	function getBinary($binary)
+	function getBinary($binaryId)
 	{
-		require_once(WWW_DIR."/lib/yenc.php");
+		$db = new DB();
 		$yenc = new yenc();
+		$bin = new Binaries();
+		
+		$binary = $bin->getById($binaryId);
+		if (!$binary)
+			return false;
+		
+		$summary = $this->selectGroup($binary['groupname']);
 		$message = $dec = '';
-		$summary = $this->selectGroup($binary['binary']['groupname']);
+
 		if (PEAR::isError($summary)) 
 		{
 			echo $summary->getMessage();
 			return false;
 		}
 
-		// Fetch body
-		foreach($binary['parts'] as $part) 
+		$resparts = $db->queryDirect(sprintf("SELECT size, partnumber, messageID FROM parts WHERE binaryID = %d ORDER BY partnumber", $binaryId));
+		while ($part = mysql_fetch_array($resparts, MYSQL_BOTH)) 
 		{
 			$messageID = '<'.$part['messageID'].'>';
 			$body = $this->getBody($messageID, true);
 			if (PEAR::isError($body)) 
 			{
-			   echo 'Error fetching part number '.$part['messageID'].' in '.$binary['binary']['groupname'].' (Server response: '. $body->getMessage().')';
+			   echo 'Error fetching part number '.$part['messageID'].' in '.$binary['groupname'].' (Server response: '. $body->getMessage().')';
 			   return false;
 			}
 			

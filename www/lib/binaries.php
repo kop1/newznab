@@ -5,15 +5,6 @@ require_once(WWW_DIR."/lib/releases.php");
 
 class Binaries
 {	
-
-	const RETENTION = 20; // number of days afterwhich binaries are deleted.
-
-	public function get()
-	{			
-		$db = new DB();
-		return $db->query("select releases.* from releases");		
-	}
-	
 	public function search($search, $limit=1000)
 	{			
 		$db = new DB();
@@ -45,6 +36,12 @@ class Binaries
 	{			
 		$db = new DB();
 		return $db->query(sprintf("select binaries.* from binaries where releaseID = %d order by relpart", $id));		
+	}
+
+	public function getById($id)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("select binaries.*, groups.name as groupname from binaries left outer join groups on binaries.groupID = groups.ID where binaries.ID = %d ", $id));		
 	}
 
 }

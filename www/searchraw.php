@@ -27,20 +27,6 @@ if (isset($_REQUEST["search"]))
 	$results = $binaries->search($_REQUEST["search"]);
 }
 
-if ($page->isPostBack())
-{
-	$nzbdata = $nzb->getNZB($_POST);
-	$page->smarty->assign('binaries',$nzbdata);
-	$filename = date("Ymdhis").".parts.nzb";
-	
-	header("Content-type: text/xml");
-	header("Content-Disposition: attachment; filename=".$filename);
-
-	echo $page->smarty->fetch('nzb.tpl');
-	die();
-}
-
-
 $page->smarty->assign('results', $results);
 
 $page->content = $page->smarty->fetch('searchraw.tpl');

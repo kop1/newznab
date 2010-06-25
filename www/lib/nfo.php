@@ -15,15 +15,17 @@ class Nfo
 	/**
      * determineReleaseNfo()
      *
-     * @param array $nzbdata  array of nzb binary data provided by $nzb->getNZBforReleaseId($relid);
+     * @param array $nzbdata  array of nzb binary data
      * @return array
      */
 	public function determineReleaseNfo($nzbdata)
 	{
 		$nfos = array();
-		foreach ($nzbdata as $bin) {
-			if (preg_match('/.*\.nfo[ "\)\]\-]/i', $bin['binary']['name'])) {
-				$nfos[$bin['binary']['name']] = $bin;
+		foreach ($nzbdata as $bin) 
+		{
+			if (preg_match('/.*\.nfo[ "\)\]\-]/i', $bin['name'])) 
+			{
+				$nfos[$bin['name']] = $bin;
 			}
 		}
 		ksort($nfos);
@@ -64,9 +66,7 @@ class Nfo
 			$nntp->doConnect();
 			while ($arr = mysql_fetch_array($res, MYSQL_BOTH)) 
 			{
-				//if ($ret > 0) { continue; } //only process one nfo per run for testing
-				$binaryToFetch = $nzb->getNZB(array($arr['binaryID']));
-				$fetchedBinary = $nntp->getBinary($binaryToFetch[0]);
+				$fetchedBinary = $nntp->getBinary($arr['binaryID']);
 				if ($fetchedBinary !== false) 
 				{
 					//insert nfo into database

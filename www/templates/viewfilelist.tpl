@@ -8,14 +8,14 @@
 	<tr>
 		<th>#</th>
 		<th>filename</th>
-		<th>size</th>
+		<th style="text-align:center;">size</th>
 	</tr>
 
 	{foreach item=i name=iteration from=$files item=file}
 	<tr class="{cycle values=",alt"}">
 		<td width="20">{$smarty.foreach.iteration.index+1}</td>
 		<td>{$file.title|escape:'htmlall'}</td>
-		<td class="less">{$file.size|fsize_format:"MB"}</td>
+		<td style="text-align:right;" class="less">{$file.size|fsize_format:"MB"}</td>
 	</tr>
 	{/foreach}
 

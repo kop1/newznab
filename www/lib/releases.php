@@ -2,6 +2,7 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/page.php");
+require_once(WWW_DIR."/lib/binaries.php");
 require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/releaseregex.php");
 require_once(WWW_DIR."/lib/category.php");
@@ -443,6 +444,7 @@ class Releases
 	{
 		$db = new DB;
 		$cat = new Category;
+		$bin = new Binaries;
 		$nzb = new Nzb;
 		$relreg = new ReleaseRegex;
 		$page = new Page;
@@ -491,7 +493,7 @@ class Releases
 				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 
 				{
 					$matches = array_map("trim", $matches);
-					
+
 					//
 					// normally formed release title with parts
 					//
@@ -514,7 +516,7 @@ class Releases
 				}
 			}
 			if ($echooutput)
-				echo "applied regex ".$regexrow["ID"]." for group ".$regexrow["groupname"]."\n";
+				echo "applied regex ".$regexrow["ID"]." for group ".($regexrow["groupname"]==""?"all":$regexrow["groupname"])."\n";
 		}
 
 		//
@@ -605,43 +607,19 @@ class Releases
 								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 
 			//
-			// reread out the entire data to generate the nzb
-			//
-			$nzbdata = $nzb->getNZBforReleaseId($relid);
-
-			//
 			// find an .nfo in the release
 			//
-			$relnfo = $nfo->determineReleaseNfo($nzbdata);
+			$relnfo = $nfo->determineReleaseNfo($bin->getForReleaseId($relid));
 			if ($relnfo !== false) 
 			{
-				$nfo->addReleaseNfo($relid, $relnfo['binary']['ID']);
+				$nfo->addReleaseNfo($relid, $relnfo['ID']);
 				$nfocount++;
 			}
 
 			//
-			// create the zipped nzb file for each release.
+			// write the nzb to disk
 			//
-			$page->smarty->assign('binaries',$nzbdata);
-
-			$catrow = $cat->getById($catId);
-			if ($catrow)
-				$page->smarty->assign('category',$catrow);
-				
-			$page->smarty->assign('name',$row["relname"]);
-
-			$nzbfile = $page->smarty->fetch(WWW_DIR.'/templates/nzb.tpl');
-			
-			$fp = gzopen($nzb->getNZBPath($relguid, $page->site->nzbpath, true), "w"); 
-			if ($fp)
-			{
-				gzwrite($fp, $nzbfile); 
-				gzclose($fp); 
-			}
-			else
-				if ($echooutput)
-					echo "Unable to write nzb to file.";
-			
+			$nzb->writeNZBforReleaseId($relid, $relguid, $row["relname"], $catId, $nzb->getNZBPath($relguid, $page->site->nzbpath, true));
 
 			if ($echooutput && ($retcount % 5 == 0))
 				echo "processed ".$retcount." binaries stage three\n";
