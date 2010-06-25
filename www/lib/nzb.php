@@ -299,6 +299,64 @@ class NZB
 	}
 
 
+        function postdate($nntp,$post) //returns single timestamp from a local article number
+        {
+                $msgs = $nntp->getOverview($post."-".$post,true,false);
+                $date = $msgs[0]['Date'];
+                $date = strtotime($date);
+                return $date;
+        }
+        function daytopost($group,$days)
+        {
+                $nntp = new Nntp();
+                $nntp->doConnect();
+                $data = $nntp->selectGroup($group);
+                $goaldate = date('U')-(86400*$days); //goaltimestamp
+                if($goaldate < $this->postdate($nntp,$data['first']) || $goaldate > $this->postdate($nntp,$data['last']))
+                {
+                        echo "Daytopost: Goal date out of range.\n";
+                        echo "Debug: goaldate=$datedate\nFirstdate:".$this->postdate($nntp,$data['first'])."\nLastdate:".$this->postdate($nntp,$data['last'])."\n";
+                        return false;
+                }
+                $startdate = $this->postdate($nntp,$data['first']); $enddate = $this->postdate($nntp,$data['last']);
+                echo("Start  =".$data['first']."\nSrtdate=$startdate\nEnd    =".$data['last']."\nEndDate=$enddate\n");
+                $totalnumberofarticles = $data['last'] - $data['first'];
+                $upperbound = $data['last'];
+                $lowerbound = $data['first'];
+
+                echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
+                $interval = (int)(($upperbound - $lowerbound) * 0.5);
+                while(!$dateofnextone)
+                {  $dateofnextone = $this->postdate($nntp,($upperbound-1)); }
+
+                while($dateofnextone > $goaldate)  //while upperbound is not right above timestamp
+                {
+                        while($this->postdate($nntp,($upperbound-$interval))>$goaldate)
+                        {
+                                $upperbound = $upperbound - $interval;
+                                echo "Lowered upperbound $interval articles.\n";
+                        }
+                        if(!$templowered)
+                        {
+                                $interval = ceil(($interval /2));
+                                echo "Set interval to $interval articles. DEBUG: $upperbound\n";
+                        }
+                        /*if($interval==0)
+                        {
+                                $interval=1;
+                                echo "Reset interval to $interval articles.\n";
+                        }*/
+                        $dateofnextone = $this->postdate($nntp,($upperbound-1));
+                        while(!$dateofnextone)
+                        {  $dateofnextone = $this->postdate($nntp,($upperbound-1)); }
+                }
+                echo "Determined to be article $upperbound\n";
+                return $upperbound;
+
+                $nntp->doQuit();
+        }
+
+
 	function scantest() 
 	{
 		$groups = new Groups;
