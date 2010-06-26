@@ -310,10 +310,15 @@ class Releases
 		return $res;
 	}	
 	
-	public function searchbyRageId($rageId, $series="", $episode="", $limit=1000)
+	public function searchbyRageId($rageId, $series="", $episode="", $limit=100, $name="")
 	{			
 		$db = new DB();
 		
+		if ($rageId != "-1")
+			$rageId = sprintf(" and rageID = %d ", $rageId);
+		else
+			$rageId = "";
+
 		if ($series != "")
 		{
 			if (is_numeric($series))
@@ -328,7 +333,13 @@ class Releases
 
 			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
 		}
-		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where rageID = %d %s %s order by adddate desc limit %d ", $rageId, $series, $episode, $limit));		
+
+		if ($name != "")
+		{
+			$name = sprintf(" and MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) ", $db->escapeString($name));
+		}
+
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by adddate desc limit %d ", $rageId, $series, $episode, $name, $limit));		
 
 		return $res;
 	}		

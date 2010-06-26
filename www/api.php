@@ -26,6 +26,8 @@ if (isset($_GET["t"]))
 		$function = "s";	
 	elseif ($_GET["t"] == "caps" || $_GET["t"] == "c")
 		$function = "c";			
+	elseif ($_GET["t"] == "tvsearch" || $_GET["t"] == "tv")
+		$function = "tv";			
 	else
 		showApiError(202);
 }
@@ -116,19 +118,53 @@ switch ($function)
 		break;
 	
 	//
+	// search releases
+	//
+	case "tv":
+		if (isset($_GET["q"]) && $_GET["q"]=="")
+			showApiError(200);	
+
+		$categoryId = array();
+		if (isset($_GET["cat"]))
+			$categoryId = explode(",",$_GET["cat"]);
+		else
+			$categoryId[] = -1;
+		
+		if (isset($_GET["rid"]) && $_GET["rid"]=="")
+			showApiError(200);	
+		if (isset($_GET["season"]) && $_GET["season"]=="")
+			showApiError(200);	
+		if (isset($_GET["ep"]) && $_GET["ep"]=="")
+			showApiError(200);	
+
+
+		$limit = 100;
+		if (isset($_GET["limit"]) && is_numeric($_GET["limit"]) && $_GET["limit"] < 100)
+			$limit = $_GET["limit"];
+		
+		$reldata = $releases->searchbyRageId((isset($_GET["rid"]) ? $_GET["rid"] : "-1"), (isset($_GET["season"]) ? $_GET["season"] : "")
+																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $limit, (isset($_GET["q"]) ? $_GET["q"] : "")  );
+				
+		if ($outputtype == "xml")
+		{
+			$page->smarty->assign('releases',$reldata);
+			header("Content-type: text/xml");
+			echo $page->smarty->fetch('apiresult.tpl');	
+		}
+		else
+		{
+			echo json_encode($reldata);//TODO:make that a more specific array of data to return rather than resultset
+		}
+		break;
+
+	//
 	// get nzb
 	//
 	case "g":
-		if (!isset($_GET["id"]) && !isset($_GET["rid"]))
+		if (!isset($_GET["id"]))
 			showApiError(200);
 
-		if (isset($_GET["id"]))
-			$reldata = $releases->getByGuid($_GET["id"]);
-		else
-			$reldata = $releases->getbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
-											, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
-
-											
+		$reldata = $releases->getByGuid($_GET["id"]);
 		if ($reldata)
 		{
 			header("Location:".WWW_TOP."/getnzb.php?i=".$uid."&r=".$apikey."&id=".$reldata["guid"]);
