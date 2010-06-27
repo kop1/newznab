@@ -63,6 +63,8 @@ else
 
 $page->smarty->assign("uid",$uid);
 $page->smarty->assign("rsstoken",$apikey);
+if (isset($_GET["extended"]) && $_GET["extended"] == "1")
+	$page->smarty->assign('extended','1');
 
 
 //
@@ -102,8 +104,6 @@ switch ($function)
 			$orderby[1] = "asc";
 			$reldata = $releases->getBrowseRange($categoryId, 0, $limit, "");
 		}
-			//$reldata = $releases->searchbyRageId($_GET["rid"], (isset($_GET["season"]) ? $_GET["season"] : "")
-			//								, (isset($_GET["ep"]) ? $_GET["ep"] : ""));
 				
 		if ($outputtype == "xml")
 		{

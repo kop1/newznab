@@ -26,12 +26,12 @@
 					<li>
 						<b>Search</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&q=linux">?t=search&q=linux</a></span>
 						<br/>
-						Returns a list of nzbs matching a query. You can also  filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&q=linux">?t=search&cat=123,456</a></span>
+						Returns a list of nzbs matching a query. You can also  filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&cat=1000,2000">?t=search&cat=1000,2000</a></span>. Include <span style="font-family:courier;">&extended=1</span> to return extended information in the search results.
 					</li>
 					<li>
 						<b>TV</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=tvsearch&q=law%20and%20order&season=7&ep=12">?t=tvsearch&q=law and order&season=7&ep=12</a></span>
 						<br/>
-						Returns a list of nzbs matching a query, tvrageid, season or episode. You can also filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=tvsearch&rid=2204&cat=1">?t=tvsearch&rid=2204&cat=123,456</a></span>
+						Returns a list of nzbs matching a query, category, tvrageid, season or episode. You can also filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=tvsearch&rid=2204&cat=1000,2000">?t=tvsearch&rid=2204&cat=1000,2000</a></span>.  Include <span style="font-family:courier;">&extended=1</span> to return extended information in the search results.
 					</li>
 					<li>
 						<b>Details</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>

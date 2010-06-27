@@ -182,6 +182,7 @@ TODO:
       limit=123         Upper limit for the number of items to be returned.
       cat=xxx           List of categories to search delimeted by ","
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
+      extended=1        Return extended information in the search results
 
     Examples:
       --> GET http://servername.com/api?t=search&apikey=xxxxx&q=a%20tv%20show
@@ -260,6 +261,7 @@ TODO:
      season=xxxx        Season string, e.g S13 or 13 for the item being queried.
      ep=xxx             Episode string, e.g E13 or 13 for the item being queried.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
+     extended=1         Return extended information in the search results
      
    Examples:
      --> GET http://servername.com/api?t=tvsearch&apikey=xxxq=lost&season=S03

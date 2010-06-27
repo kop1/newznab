@@ -276,11 +276,29 @@ class Releases
 		if (count($cat) > 0 && $cat[0] != -1)
 		{
 			$catsrch = " and (";
-			foreach ($cat as $c)
-				$catsrch.= sprintf(" releases.categoryID = %d or ", $c);
+			foreach ($cat as $category)
+			{
+				if ($category != -1)
+				{
+					$categ = new Category();
+					if ($categ->isParent($category))
+					{
+						$children = $categ->getChildren($category);
+						$chlist = "-99";
+						foreach ($children as $child)
+							$chlist.=", ".$child["ID"];
 
+						if ($chlist != "-99")
+								$catsrch .= " releases.categoryID in (".$chlist.") or ";
+					}
+					else
+					{
+						$catsrch .= sprintf(" releases.categoryID = %d or ", $category);
+					}
+				}
+			}
 			$catsrch.= "1=2 )";
-		}
+		}		
 		
 		//
 		// if the query starts with a ^ it indicates the search is looking for items which start with the term

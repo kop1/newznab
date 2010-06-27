@@ -29,6 +29,22 @@
 <newznab:attr name="category" value="{$cat}" />
 	{/foreach}
 <newznab:attr name="size" value="{$release.size}" />
+{if $extended=="1"}
+	<newznab:attr name="files" value="{$release.totalpart}" />
+	<newznab:attr name="poster" value="{$release.fromname|escape:html}" />
+	{if $release.season != ""}<newznab:attr name="season" value="{$release.season}" />
+{/if}
+	{if $release.episode != ""}<newznab:attr name="episode" value="{$release.episode}" />
+{/if}
+	{if $release.rageID != "-1" && $release.rageID != "-2"}<newznab:attr name="rageid" value="{$release.rageID}" />
+{/if}
+	{if $release.imdbID != ""}<newznab:attr name="imdb" value="{$release.imdbID}" />
+{/if}
+<newznab:attr name="grabs" value="{$release.grabs}" />
+	<newznab:attr name="comments" value="{$release.comments}" />
+	<newznab:attr name="usenetdate" value="{$release.postdate|phpdate_format:"DATE_RSS"}" />	
+	<newznab:attr name="group" value="{$release.group_name|escape:html}" />
+{/if}
 
 </item>
 {/foreach}
