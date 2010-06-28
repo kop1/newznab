@@ -21,7 +21,7 @@ CREATE TABLE `binaries` (
 		KEY `groupID` (`groupID`)
 		) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-CREATE INDEX ix_binary_name ON binaries (name);
+CREATE FULLTEXT INDEX ix_binary_name ON binaries (name);
 CREATE INDEX ix_binary_relname ON binaries (relname);
 CREATE INDEX ix_binary_procstat ON binaries (procstat);
 CREATE INDEX ix_binary_releaseID ON binaries (releaseID);
