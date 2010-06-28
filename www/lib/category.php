@@ -278,12 +278,12 @@ class Category
 
 		if (preg_match('/WII-/i', $binaryname)) 
 			return Category::CAT_GAME_WII;
-
-		if (preg_match('/xbox/i', $binaryname)) 
-			return Category::CAT_GAME_XBOX;
 		
 		if (preg_match('/xbox360/i', $binaryname)) 
 			return Category::CAT_GAME_XBOX360;
+		
+		if (preg_match('/xbox/i', $binaryname)) 
+			return Category::CAT_GAME_XBOX;
 		
 		
 		//
