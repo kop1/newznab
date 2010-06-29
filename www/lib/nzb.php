@@ -52,7 +52,7 @@ class NZB
 				$groups = array();
 				$groupsRaw = explode(' ', $binrow['xref']);
 				foreach($groupsRaw as $grp) 
-					if (preg_match('/^([a-z0-9\.\-_]+)(:\d+)?$/i', $grp, $match)) 
+					if (preg_match('/^([a-z0-9\.\-_]+):(\d+)?$/i', $grp, $match)) 
 						$groups[] = $match[1];
 				
 				if (count($groups) == 0)
@@ -212,7 +212,7 @@ class NZB
 						
 						//Filter for only u4all posts in boneless
 						if ($groupArr['name'] == 'alt.binaries.boneless' && !preg_match('/u4all|usenet4all/i', $msg['Subject'])) {
-							//continue; //Uncomment to enable
+							continue; //Uncomment to enable
 						}
 						
 						if(is_numeric($matches[1]) && is_numeric($matches[2])) 
