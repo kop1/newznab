@@ -328,7 +328,7 @@ class Releases
 		return $res;
 	}	
 	
-	public function searchbyRageId($rageId, $series="", $episode="", $limit=100, $name="")
+	public function searchbyRageId($rageId, $series="", $episode="", $limit=100, $name="", $cat=array(-1))
 	{			
 		$db = new DB();
 		
@@ -357,7 +357,36 @@ class Releases
 			$name = sprintf(" and MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) ", $db->escapeString($name));
 		}
 
-		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by adddate desc limit %d ", $rageId, $series, $episode, $name, $limit));		
+		$catsrch = "";
+		if (count($cat) > 0 && $cat[0] != -1)
+		{
+			$catsrch = " and (";
+			foreach ($cat as $category)
+			{
+				if ($category != -1)
+				{
+					$categ = new Category();
+					if ($categ->isParent($category))
+					{
+						$children = $categ->getChildren($category);
+						$chlist = "-99";
+						foreach ($children as $child)
+							$chlist.=", ".$child["ID"];
+
+						if ($chlist != "-99")
+								$catsrch .= " releases.categoryID in (".$chlist.") or ";
+					}
+					else
+					{
+						$catsrch .= sprintf(" releases.categoryID = %d or ", $category);
+					}
+				}
+			}
+			$catsrch.= "1=2 )";
+		}		
+		
+		
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s order by adddate desc limit %d ", $rageId, $series, $episode, $name, $catsrch, $limit));		
 
 		return $res;
 	}		

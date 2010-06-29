@@ -143,7 +143,7 @@ switch ($function)
 			$limit = $_GET["limit"];
 		
 		$reldata = $releases->searchbyRageId((isset($_GET["rid"]) ? $_GET["rid"] : "-1"), (isset($_GET["season"]) ? $_GET["season"] : "")
-																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $limit, (isset($_GET["q"]) ? $_GET["q"] : "")  );
+																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $limit, (isset($_GET["q"]) ? $_GET["q"] : ""), $categoryId );
 				
 		if ($outputtype == "xml")
 		{
