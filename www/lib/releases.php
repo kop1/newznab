@@ -268,7 +268,7 @@ class Releases
 			$db->escapeString($name), $db->escapeString($searchname), $db->escapeString($fromname), $category, $parts, $grabs, $size, $db->escapeString($posteddate), $db->escapeString($addeddate), $rageid, $db->escapeString($seriesfull), $db->escapeString($season), $db->escapeString($episode), $imdbid, $id));		
 	}	
 	
-	public function search($search, $cat=array(-1), $limit=1000)
+	public function search($search, $cat=array(-1), $limit=1000, $orderby='')
 	{			
 		$db = new DB();
 		
@@ -320,10 +320,13 @@ class Releases
 				$search = $firstword." ".implode(" ", $words);
 			}
 		}
-		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search), $catsrch, $startswith, $db->escapeString($search), $limit));				
+		
+		$order = $this->getBrowseOrder($orderby);
+		
+		$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, %s %s limit %d ", $db->escapeString($search), $catsrch, $startswith, $db->escapeString($search), $order[0], $order[1], $limit));				
 
 		if (!$res)
-			$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, adddate desc limit %d ", $db->escapeString($search."*"), $catsrch, $startswith, $db->escapeString($search."*"), $limit));		
+			$res = $db->query(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s order by MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) desc, %s %s limit %d ", $db->escapeString($search."*"), $catsrch, $startswith, $db->escapeString($search."*"), $order[0], $order[1], $limit));		
 
 		return $res;
 	}	

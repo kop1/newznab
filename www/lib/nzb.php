@@ -212,7 +212,7 @@ class NZB
 						
 						//Filter for only u4all posts in boneless
 						if ($groupArr['name'] == 'alt.binaries.boneless' && !preg_match('/u4all|usenet4all/i', $msg['Subject'])) {
-							continue; //Uncomment to enable
+							//continue; //Uncomment to enable
 						}
 						
 						if(is_numeric($matches[1]) && is_numeric($matches[2])) 
