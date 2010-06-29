@@ -38,8 +38,9 @@ function smarty_modifier_timeAgo( $date)
       echo ($debug == true) ? "hours: ".floor($hrs+0.5)."<br />" : ''; 
       if ( floor($hrs+0.5) < 2) return floor($hrs+0.5)." ".$timeStrings[5]; 
       if ( $hrs < 24) return floor($hrs+0.5)." ".$timeStrings[6]; 
-       
-      return date('d M, Y',strtotime($date)); ;
+      
+      $days = $sec/60/60/24;
+      return round($days, 1).'d';
 } 
 
 ?> 
