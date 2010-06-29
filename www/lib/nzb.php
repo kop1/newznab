@@ -196,63 +196,71 @@ class NZB
 				//get headers from newsgroup
 				echo " getting $first to $last: $n";
 				$msgs = $nntp->getOverview($first."-".$last, true, false);
-
-				//loop headers, figure out parts
-				foreach($msgs AS $msg) 
-				{
-                    $pattern = '/\((\d+)\/(\d+)\)$/i';
-                    if (!isset($msg['Subject']) || !preg_match($pattern, $msg['Subject'], $matches))
-                    {
-                        // not a binary post most likely.. continue with next
-                        continue;
-                    }
-
-					if(is_numeric($matches[1]) && is_numeric($matches[2])) 
+				
+				//check that we got the correct response				
+				if (is_array($msgs) && (sizeof($msgs)-1) == $fetchpartscount) {
+				
+					//loop headers, figure out parts
+					foreach($msgs AS $msg) 
 					{
-                        array_map('trim', $matches);
-                        $subject = trim(preg_replace($pattern, '', $msg['Subject']));
-
-						if(!isset($this->message[$subject])) 
-						{
-							$this->message[$subject] = $msg;
-							$this->message[$subject]['MaxParts'] = (int)$matches[2];
-							$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
+	                    $pattern = '/\((\d+)\/(\d+)\)$/i';
+	                    if (!isset($msg['Subject']) || !preg_match($pattern, $msg['Subject'], $matches))
+	                    {
+	                        // not a binary post most likely.. continue with next
+	                        continue;
+	                    }
+						
+						//Filter for only u4all posts in boneless
+						if ($groupArr['name'] == 'alt.binaries.boneless' && !preg_match('/u4all|usenet4all/i', $msg['Subject'])) {
+							//continue; //Uncomment to enable
 						}
-						if((int)$matches[1] > 0) 
+						
+						if(is_numeric($matches[1]) && is_numeric($matches[2])) 
 						{
-							$this->message[$subject]['Parts'][(int)$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => (int)$matches[1], 'size' => $msg['Bytes']);
+	                        array_map('trim', $matches);
+	                        $subject = trim(preg_replace($pattern, '', $msg['Subject']));
+	
+							if(!isset($this->message[$subject])) 
+							{
+								$this->message[$subject] = $msg;
+								$this->message[$subject]['MaxParts'] = (int)$matches[2];
+								$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
+							}
+							if((int)$matches[1] > 0) 
+							{
+								$this->message[$subject]['Parts'][(int)$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => (int)$matches[1], 'size' => $msg['Bytes']);
+							}
 						}
 					}
-				}
 
-				$count = 0;
-				$updatecount = 0;
-				$partcount = 0;
-
-				if(isset($this->message) && count($this->message)) 
-				{
-
-					//insert binaries and parts into database. when binary already exists; only insert new parts
-					foreach($this->message AS $subject => $data) 
+					$count = 0;
+					$updatecount = 0;
+					$partcount = 0;
+	
+					if(isset($this->message) && count($this->message)) 
 					{
-						if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '') 
+						//insert binaries and parts into database. when binary already exists; only insert new parts
+						foreach($this->message AS $subject => $data) 
 						{
-							$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
-							if(!$res) 
+							if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '') 
 							{
-								$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
-								$count++;
-							} 
-							else 
-							{
-								$binaryID = $res["ID"];
-								$updatecount++;
-							}
-
-							foreach($data['Parts'] AS $partdata) 
-							{
-								$partcount++;
-								$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, dateadded) VALUES (%d, %s, %s, %s, %s, now())", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
+								$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
+								if(!$res) 
+								{
+									$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
+									$count++;
+								} 
+								else 
+								{
+									$binaryID = $res["ID"];
+									$updatecount++;
+								}
+	
+								foreach($data['Parts'] AS $partdata) 
+								{
+									$partcount++;
+									$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, dateadded) VALUES (%d, %s, %s, %s, %s, now())", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
+								}
 							}
 						}
 					}
@@ -275,8 +283,7 @@ class NZB
 					unset($msgs);
 					unset($msg);
 					unset($data);
-					
-				} 
+				}
 				else 
 				{
                     // TODO: fix some max attemps variable.. somewhere
