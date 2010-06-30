@@ -52,7 +52,7 @@ class NZB
 				$groups = array();
 				$groupsRaw = explode(' ', $binrow['xref']);
 				foreach($groupsRaw as $grp) 
-					if (preg_match('/^([a-z0-9\.\-_]+):(\d+)?$/i', $grp, $match)) 
+					if (preg_match('/^([a-z0-9\.\-_]+):(\d+)?$/i', $grp, $match) && strtolower($grp) !== 'xref') 
 						$groups[] = $match[1];
 				
 				if (count($groups) == 0)

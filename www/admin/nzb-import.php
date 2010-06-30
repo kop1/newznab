@@ -83,7 +83,7 @@ if (!empty($argc) || $page->isPostBack() )
 				if ($groupID != -1)
 				{
 					
-					$xref = 'Xref: '.implode(': ', $groupArr);
+					$xref = 'Xref: '.implode(': ', $groupArr).':';
 							
 					$totalParts = sizeof($file->segments->segment);
 					
