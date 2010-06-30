@@ -32,6 +32,9 @@ class TvRage
 				$imgbytes = $tmpimg;
 			}
 		}
+		
+		$releasename = str_replace(array('.','_'), array(' ',' '), $releasename);
+		
 		$db = new DB();
 		return $db->queryInsert(sprintf("insert into tvrage (rageID, releasetitle, description, createddate, imgdata) values (%d, %s, %s, now(), %s)", 
 			$rageid, $db->escapeString($releasename), $db->escapeString($desc), $db->escapeString($imgbytes)));		
@@ -94,6 +97,11 @@ class TvRage
 	{
 		$db = new DB();
 		$res = $db->queryOneRow(sprintf("SELECT rageID from tvrage where lower(releasetitle) = lower(%s)", $db->escapeString($title)));
+		if ($res)
+			return $res["rageID"];
+		
+		$title2 = str_replace(' and ', ' & ', $title);
+		$res = $db->queryOneRow(sprintf("SELECT rageID from tvrage where lower(releasetitle) = lower(%s)", $db->escapeString($title2)));
 		if ($res)
 			return $res["rageID"];
 		

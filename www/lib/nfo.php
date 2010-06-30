@@ -4,6 +4,8 @@ require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/movie.php");
+require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/tvrage.php");
 
 class Nfo 
 {
@@ -52,14 +54,23 @@ class Nfo
 		return false;
 	}
 	
+	public function parseRageId($str) {
+		preg_match('/tvrage\.com\/shows\/id-(\d{1,6})/i', $str, $matches);
+		if (isset($matches[1])) {
+			return trim($matches[1]);
+		}
+		return false;
+	}
+	
 	public function processNfoFiles($processImdb=true)
 	{
 		$ret = 0;
 		$db = new DB();
 		$nzb = new Nzb();
 		$nntp = new Nntp();
-	
-		$res = $db->queryDirect(sprintf("SELECT * FROM releasenfo WHERE nfo IS NULL AND attempts < 5"));
+		$tvr = new Tvrage();
+		
+		$res = $db->queryDirect(sprintf("SELECT rn.*, r.searchname FROM releasenfo rn left outer join releases r ON r.ID = rn.releaseID WHERE rn.nfo IS NULL AND rn.attempts < 5"));
 
 		if ($res) 
 		{
@@ -90,6 +101,21 @@ class Nfo
 								$movieId = $movie->updateMovieInfo($imdbId);
 							}
 						}
+					}
+					
+					$rageId = $this->parseRageId($fetchedBinary);
+					if ($rageId !== false)
+					{	
+						//update release with rage id
+						$rel = new Releases();
+						$show = $rel->parseNameEpSeason($arr['searchname']);			
+						$db->query(sprintf("update releases set rageID = %d, seriesfull = %s, season = %s, episode = %s WHERE ID = %d", 
+							$rageId, $db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $arr["releaseID"]));
+						
+						$rid = $tvr->getByRageID($rageId);
+						if (!$rid)
+							$tvr->add($rageId, $show['name'], '', '');
+						
 					}
 				} 
 				else 

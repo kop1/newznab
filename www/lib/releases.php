@@ -701,14 +701,6 @@ class Releases
     	
     	if ($echooutput)
 			echo "found ".$nfocount." nfos in ".$retcount." releases\n";
-    	
-		//
-		// Process all TV related releases which will assign their series/episode/rage data
-		//
-		if ($echooutput)
-			echo "processing tv rage data\n";		
-
-		$this->processTvSeriesData($echooutput, ($page->site->lookuptvrage=="1"));
 		
 		//
 		// Process nfo files
@@ -725,6 +717,14 @@ class Releases
 
 			$nfo->processNfoFiles(($page->site->lookupimdb=="1"));
 		}
+		
+		//
+		// Process all TV related releases which will assign their series/episode/rage data
+		//
+		if ($echooutput)
+			echo "processing tv rage data\n";		
+
+		$this->processTvSeriesData($echooutput, ($page->site->lookuptvrage=="1"));
 		
 		//
 		// tidy away any binaries which have been attempted to be grouped into 
@@ -762,114 +762,25 @@ class Releases
 		$result = $db->queryDirect("SELECT searchname, ID from releases where rageID = -1");
 		while ($arr = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
-			$show = '';
-			$season = '';
-			$episode = '';
-
-			//S01E01
-			//S01.E01
-			if (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = intval($matches[2]);
-				$episode = intval($matches[3]);
-			//S01
-			} elseif (preg_match('/^(.*?)\.s(\d{1,2})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = intval($matches[2]);
-				$episode = 'all';
-			//1x01
-			} elseif (preg_match('/^(.*?)\.(\d{1,2})x(\d{1,3})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = intval($matches[2]);
-				$episode = intval($matches[3]);
-			//2009.01.01
-			} elseif (preg_match('/^(.*?)\.(19|20)(\d{2})\.(\d{2}).(\d{2})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = $matches[2].$matches[3];
-				$episode = $matches[4].'/'.$matches[5];
-			//01.01.2009
-			} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(19|20)(\d{2})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = $matches[4].$matches[5];
-				$episode = $matches[2].'/'.$matches[3];
-			//01.01.09
-			} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(\d{2})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = ($matches[4] <= 99 && $matches[4] > 15) ? '19'.$matches[4] : '20'.$matches[4];
-				$episode = $matches[2].'/'.$matches[3];
-			//2009.E01
-			} elseif (preg_match('/^(.*?)\.20(\d{2})\.e(\d{1,3})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = '20'.$matches[2];
-				$episode = intval($matches[3]);
-			//S01E01-E02
-			//S01E01-02
-			} elseif (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})-e?(\d{1,3})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = intval($matches[2]);
-				$episode = intval($matches[3]).'-'.intval($matches[4]);
-			//2009.Part1
-			} elseif (preg_match('/^(.*?)\.20(\d{2})\.Part(\d{1,2})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = '20'.$matches[2];
-				$episode = intval($matches[3]);
-			//Part1
-			} elseif (preg_match('/^(.*?)\.Part\.?(\d{1,2})\./i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = 1;
-				$episode = intval($matches[2]);
-			//The.Pacific.Pt.VI.HDTV.XviD-XII
-			} elseif (preg_match('/^(.*?)\.Pt\.([civx]+)/i', $arr['searchname'], $matches)) {
-				$show = $matches[1];
-				$season = 1;
-				$epLow = strtolower($matches[2]);
-				switch($epLow) {
-					case 'i': $e = 1; break;
-					case 'ii': $e = 2; break;
-					case 'iii': $e = 3; break;
-					case 'iv': $e = 4; break;
-					case 'v': $e = 5; break;
-					case 'vi': $e = 6; break;
-					case 'vii': $e = 7; break;
-					case 'viii': $e = 8; break;
-					case 'ix': $e = 9; break;
-					case 'x': $e = 10; break;
-				}
-				$episode = $e;
-			} 
-			elseif (preg_match('/^(.*?)\.(ws|hdtv|pdtv|dsr|dvdrip|bdrip|bluray|dvdcsr|internal|proper|repack)/i', $arr['searchname'], $matches)) 
-			{
-				$show = $matches[1];
-			}			
+			$show = $this->parseNameEpSeason($arr['searchname']);			
 			
 			//
 			// see if its in the existing rage list
 			// only process releases which have a searchname like S01E01 or S01E02-E03
 			// 
-			if ($season != '' && $episode != '')
+			if (is_array($show) && $show['name'] != '')
 			{
-				$seriesfull = "";
-				if (strlen($season) == 4)
-				{
-					$seriesfull = $season."/".$episode;
-				}
-				else
-				{
-					$season = sprintf('S%02d', $season);
-					$episode = sprintf('E%02d', $episode);
-					$seriesfull = $season.$episode;
-				}
-
 				if ($echooutput)
-					echo "tv series - ".$show."-".$seriesfull."\n";
+					echo "tv series - ".$show['name']."-".$show['seriesfull']."\n";
 				
 				//
 				// Get a clean name version of the release (the text upto the S01E01 part) and the series and episode parts
 				//
-				$relcleanname = str_replace(".", " ", $show);
+				$relcleanname = str_replace(".", " ", $show['name']);
+				$relcleanname = str_replace("_", " ", $relcleanname);
 				
 				$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s where ID = %d", 
-							$db->escapeString($seriesfull), $db->escapeString($season), $db->escapeString($episode), $arr["ID"]));
+							$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $arr["ID"]));
 
 				//
 				// try and retrieve the entry from tvrage
@@ -899,6 +810,106 @@ class Releases
 		}
 		
 		return $ret;
+	}
+	
+	public function parseNameEpSeason($relname)
+	{
+		$showInfo = array(
+			'name' => '',
+			'season' => '',
+			'episode' => '',
+			'seriesfull' => ''
+		);
+		
+		//S01E01
+		//S01.E01
+		if (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})\.?/i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = intval($matches[2]);
+			$showInfo['episode'] = intval($matches[3]);
+		//S01
+		} elseif (preg_match('/^(.*?)\.s(\d{1,2})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = intval($matches[2]);
+			$showInfo['episode'] = 'all';
+		//1x01
+		} elseif (preg_match('/^(.*?)\.(\d{1,2})x(\d{1,3})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = intval($matches[2]);
+			$showInfo['episode'] = intval($matches[3]);
+		//2009.01.01
+		} elseif (preg_match('/^(.*?)\.(19|20)(\d{2})\.(\d{2}).(\d{2})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = $matches[2].$matches[3];
+			$showInfo['episode'] = $matches[4].'/'.$matches[5];
+		//01.01.2009
+		} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(19|20)(\d{2})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = $matches[4].$matches[5];
+			$showInfo['episode'] = $matches[2].'/'.$matches[3];
+		//01.01.09
+		} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(\d{2})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = ($matches[4] <= 99 && $matches[4] > 15) ? '19'.$matches[4] : '20'.$matches[4];
+			$showInfo['episode'] = $matches[2].'/'.$matches[3];
+		//2009.E01
+		} elseif (preg_match('/^(.*?)\.20(\d{2})\.e(\d{1,3})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = '20'.$matches[2];
+			$showInfo['episode'] = intval($matches[3]);
+		//S01E01-E02
+		//S01E01-02
+		} elseif (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})-e?(\d{1,3})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = intval($matches[2]);
+			$showInfo['episode'] = intval($matches[3]).''.intval($matches[4]);
+		//2009.Part1
+		} elseif (preg_match('/^(.*?)\.20(\d{2})\.Part(\d{1,2})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = '20'.$matches[2];
+			$showInfo['episode'] = intval($matches[3]);
+		//Part1
+		} elseif (preg_match('/^(.*?)\.Part\.?(\d{1,2})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = 1;
+			$showInfo['episode'] = intval($matches[2]);
+		//The.Pacific.Pt.VI.HDTV.XviD-XII
+		} elseif (preg_match('/^(.*?)\.Pt\.([ivx]+)/i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = 1;
+			$epLow = strtolower($matches[2]);
+			switch($epLow) {
+				case 'i': $e = 1; break;
+				case 'ii': $e = 2; break;
+				case 'iii': $e = 3; break;
+				case 'iv': $e = 4; break;
+				case 'v': $e = 5; break;
+				case 'vi': $e = 6; break;
+				case 'vii': $e = 7; break;
+				case 'viii': $e = 8; break;
+				case 'ix': $e = 9; break;
+				case 'x': $e = 10; break;
+			}
+			$showInfo['episode'] = $e;
+		//Band.Of.Brothers.EP06.Bastogne.DVDRiP.XviD-DEiTY
+		} elseif (preg_match('/^(.*?)\.EP\.?(\d{1,3})/i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = 1;
+			$showInfo['episode'] = intval($matches[2]);
+		}
+		
+		if (!empty($showInfo['name'])) {
+			if (strlen($showInfo['season']) == 4) {
+				$showInfo['seriesfull'] = $showInfo['season']."/".$showInfo['episode'];
+			} else {
+				$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
+				$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
+				$showInfo['seriesfull'] = $showInfo['season'].$showInfo['episode'];
+			}
+			return $showInfo;
+		}
+		
+		return false;
 	}
 
 	public function getCommentById($id)
