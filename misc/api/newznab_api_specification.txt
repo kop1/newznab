@@ -183,6 +183,7 @@ TODO:
       cat=xxx           List of categories to search delimeted by ","
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
       extended=1        Return extended information in the search results
+      maxage=123        Only return results which were posted to usenet in the last x days.
 
     Examples:
       --> GET http://servername.com/api?t=search&apikey=xxxxx&q=a%20tv%20show
@@ -252,16 +253,17 @@ TODO:
 
    Parameters:
      t=tvsearch         TV-Search function, must always be "tvsearch".
-     q=xxxx             Search input (URL/UTF-8 encoded).
      apikey=xxx         User's key as provided by the service provider.
      
    Optional parameters:
      limit=123          Upper limit for the number of items to be returned, e.g. 123.
      rid=xxxx           TVRage id of the item being queried.
      season=xxxx        Season string, e.g S13 or 13 for the item being queried.
+     q=xxxx             Search input (URL/UTF-8 encoded).
      ep=xxx             Episode string, e.g E13 or 13 for the item being queried.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
      extended=1         Return extended information in the search results
+     maxage=123         Only return results which were posted to usenet in the last x days.
      
    Examples:
      --> GET http://servername.com/api?t=tvsearch&apikey=xxxq=lost&season=S03

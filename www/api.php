@@ -85,6 +85,17 @@ switch ($function)
 		if (isset($_GET["q"]) && $_GET["q"]=="")
 			showApiError(200);	
 
+		$maxage = -1;
+		if (isset($_GET["maxage"]))
+		{
+			if ($_GET["maxage"]=="")
+				showApiError(200);				
+			elseif (!is_numeric($_GET["maxage"]))
+				showApiError(201);				
+			else
+				$maxage = $_GET["maxage"];
+		}	
+
 		$categoryId = array();
 		if (isset($_GET["cat"]))
 			$categoryId = explode(",",$_GET["cat"]);
@@ -96,13 +107,13 @@ switch ($function)
 			$limit = $_GET["limit"];
 		
 		if (isset($_GET["q"]))
-			$reldata = $releases->search($_GET["q"], $categoryId, $limit);
+			$reldata = $releases->search($_GET["q"], $categoryId, $limit, "", $maxage);
 		else
 		{
 			$orderby = array();
 			$orderby[0] = "postdate";
 			$orderby[1] = "asc";
-			$reldata = $releases->getBrowseRange($categoryId, 0, $limit, "");
+			$reldata = $releases->getBrowseRange($categoryId, 0, $limit, "", $maxage);
 		}
 				
 		if ($outputtype == "xml")
@@ -129,6 +140,17 @@ switch ($function)
 			$categoryId = explode(",",$_GET["cat"]);
 		else
 			$categoryId[] = -1;
+
+		$maxage = -1;
+		if (isset($_GET["maxage"]))
+		{
+			if ($_GET["maxage"]=="")
+				showApiError(200);				
+			elseif (!is_numeric($_GET["maxage"]))
+				showApiError(201);				
+			else
+				$maxage = $_GET["maxage"];
+		}	
 		
 		if (isset($_GET["rid"]) && $_GET["rid"]=="")
 			showApiError(200);	
@@ -143,7 +165,7 @@ switch ($function)
 			$limit = $_GET["limit"];
 		
 		$reldata = $releases->searchbyRageId((isset($_GET["rid"]) ? $_GET["rid"] : "-1"), (isset($_GET["season"]) ? $_GET["season"] : "")
-																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $limit, (isset($_GET["q"]) ? $_GET["q"] : ""), $categoryId );
+																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $limit, (isset($_GET["q"]) ? $_GET["q"] : ""), $categoryId, $maxage );
 				
 		if ($outputtype == "xml")
 		{
