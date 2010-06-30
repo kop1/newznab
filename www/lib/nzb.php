@@ -18,7 +18,7 @@ class NZB
 		else
 			$this->n = "\n";
 		$this->maxMssgs = 20000; //fetch this amount of messages at the time
-		$this->howManyMsgsToGoBackForNewGroup = 50000000000; //how far back to go, use 0 to get all
+		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 	}
 	
 	//
