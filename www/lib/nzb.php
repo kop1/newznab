@@ -175,11 +175,11 @@ class NZB
 					if($first + $this->maxMssgs > $orglast) 
 						$last = $orglast;
 					else 
-						$last = $first + $this->maxMssgs;
+						$last = $first + $this->maxMssgs - 1;
 				}
 
-				if($last - $first < $this->maxMssgs) 
-					$fetchpartscount = $last - $first;
+				if($last - $first + 1 < $this->maxMssgs) 
+					$fetchpartscount = $last - $first + 1;
 				else 
 					$fetchpartscount = $this->maxMssgs;
 				echo "Getting {$fetchpartscount} parts (".($orglast - $last)." in queue)";
@@ -190,7 +190,7 @@ class NZB
 				$msgs = $nntp->getOverview($first."-".$last, true, false);
 				
 				//check that we got the correct response				
-				if (is_array($msgs) && (sizeof($msgs)-1) == $fetchpartscount) 
+				if (is_array($msgs)) //to within 2 parts per batch missing from server
 				{		//loop headers, figure out parts
 					foreach($msgs AS $msg) 
 					{
@@ -275,16 +275,9 @@ class NZB
 				else 
 				{
 				     // TODO: fix some max attemps variable.. somewhere
-					$attempts++;
-					echo "Debug: msgs is_array=".is_array($msgs)." and we got ".(sizeof($msgs)-1)." and asked for $fetchpartscount";
-					echo "\n"; print_r($msgs);
-					echo "No binary parts found in group.  Attempt {$attempts} of 1..$n";
-					if($attempts == 1) 
-					{
-						echo "Skipping group$n";
-						break;
-					}
-					sleep(1);
+					echo "Error: Can't get parts from server (msgs not array)\n";
+					echo "Skipping group$n";
+					break;
 				}
 			}
 			
