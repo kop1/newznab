@@ -18,12 +18,12 @@
 <table style="width:100%;margin-top:10px;" class="data highlight icons">
 	<tr>
 		<th><input type="checkbox" class="nzb_check_all" /></th>
-		<th>name<br/><a title="Sort Descending" href="{$orderbyname_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyname_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
-		<th>category<br/><a title="Sort Descending" href="{$orderbycat_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbycat_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
-		<th>posted<br/><a title="Sort Descending" href="{$orderbyposted_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyposted_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
-		<th>size<br/><a title="Sort Descending" href="{$orderbysize_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbysize_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
-		<th>files<br/><a title="Sort Descending" href="{$orderbyfiles_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyfiles_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
-		<th>stats<br/><a title="Sort Descending" href="{$orderbystats_desc}"><img src="images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbystats_asc}"><img src="images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>name<br/><a title="Sort Descending" href="{$orderbyname_desc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyname_asc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>category<br/><a title="Sort Descending" href="{$orderbycat_desc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbycat_asc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>posted<br/><a title="Sort Descending" href="{$orderbyposted_desc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyposted_asc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>size<br/><a title="Sort Descending" href="{$orderbysize_desc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbysize_asc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>files<br/><a title="Sort Descending" href="{$orderbyfiles_desc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyfiles_asc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>stats<br/><a title="Sort Descending" href="{$orderbystats_desc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbystats_asc}"><img src="{$smarty.const.WWW_TOP}/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th></th>
 	</tr>
 
