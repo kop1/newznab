@@ -107,6 +107,8 @@ VALUES (NULL, 'alt.binaries.multimedia', '/^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s([^\\s
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, 'alt.binaries.erotica*', '/.*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 );
 
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
+VALUES (NULL, 'alt.binaries.x264', '/^#(alt\\.binaries\\.x264):\\s([^\\s]*?)\\s"/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, NULL,  '/^(\\[).*?([^\\(\\[\\]#"][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i',  1 );
