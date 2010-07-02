@@ -115,23 +115,7 @@ class yenc
         	return false;
         
         $encoded = $encoded[1];
-       
-        // Extract the file size from the header.
-        preg_match("/^=ybegin.*size=([^ $]+)/im", $encoded, $header);
-        $headersize = $header[1];
-       
-        // Extract the file name from the header.
-        preg_match("/^=ybegin.*name=([^\\r\\n]+)/im", $encoded, $header);
-        $filename = trim($header[1]);
-       
-        // Extract the file size from the trailer.
-        preg_match("/^=yend.*size=([^ $\\r\\n]+)/im", $encoded, $trailer);
-        $trailersize = $trailer[1];
-       
-        // Extract the CRC32 checksum from the trailer (if any).
-        preg_match("/^=yend.*crc32=([^ $\\r\\n]+)/im", $encoded, $trailer);
-        $crc = @trim(@$trailer[1]);
-       
+
         // Remove the header and trailer from the string before parsing it.
         $encoded = preg_replace("/(^=ybegin.*\\r\\n)/im", "", $encoded, 1);
         $encoded = preg_replace("/(^=ypart.*\\r\\n)/im", "", $encoded, 1);
@@ -139,14 +123,7 @@ class yenc
  
         // Remove linebreaks from the string.
         $encoded = trim(str_replace("\r\n", "", $encoded));
-                /*
-        // Make sure the header and trailer filesizes match up.
-        if ($headersize != $trailersize)
-        {
-            $this->error = "Header and trailer file sizes do not match. This is a violation of the yEnc specification.<br>";
-            return false;
-        }
-        */
+
         // Decode
         $decoded = '';
         for( $i = 0; $i < strlen($encoded); $i++)

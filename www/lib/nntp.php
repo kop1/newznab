@@ -141,7 +141,8 @@ class Nntp extends Net_NNTP_Client
     	    }
 
     	    // Loop through all articles
-            foreach ($overview as $key => $article) {
+            foreach ($overview as $key => $article) 
+            {
 
     	        // Copy $format
     	        $f = $format;
@@ -149,16 +150,20 @@ class Nntp extends Net_NNTP_Client
     	        // Field counter
     	        $i = 0;
 		
-		// Loop through forld names in format
-    	        foreach ($f as $tag => $full) {
-
+							// Loop through forld names in format
+    	        foreach ($f as $tag => $full) 
+    	        {
+								if (isset($article[$i + 1]))
+								{
     	    	    //
     	            $f[$tag] = $article[$i++];
 
     	            // If prefixed by field name, remove it
-    	            if ($full === true) {
-	                $f[$tag] = ltrim( substr($f[$tag], strpos($f[$tag], ':') + 1), " \t");
+    	            if ($full === true) 
+    	            {
+	                	$f[$tag] = ltrim( substr($f[$tag], strpos($f[$tag], ':') + 1), " \t");
     	            }
+    	          }
     	        }
 
     	        // Replace article 
