@@ -131,7 +131,8 @@ class NZB
 		$db = new DB();
 		$n = $this->n;
 		$attempts = 0;
-
+		$startGroup = microtime(true);
+		
 		$data = $nntp->selectGroup($groupArr['name']);
 		if(PEAR::isError($data)) 
 		{
@@ -171,6 +172,7 @@ class NZB
 			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
 			while($done === false) 
 			{
+				$startLoop = microtime(true);
 				if($total > $this->maxMssgs) 
 				{
 					if($first + $this->maxMssgs > $orglast) 
@@ -185,14 +187,16 @@ class NZB
 					$fetchpartscount = $this->maxMssgs;
 				echo "Getting {$fetchpartscount} parts (".($orglast - $last)." in queue)";
 				flush();
-
+				
 				//get headers from newsgroup
 				echo " getting $first to $last: $n";
+				$startHeaders = microtime(true);
 				if ($this->compressedHeaders)
 					$msgs = $nntp->getXOverview($first."-".$last, true, false);
 				else
 					$msgs = $nntp->getOverview($first."-".$last, true, false);
-								
+				$timeHeaders = number_format(microtime(true)-$startHeaders, 2);
+							
 				if(PEAR::isError($msgs)) 
 				{
 					echo "Error {$msgs->code}: {$msgs->message}$n";
@@ -200,6 +204,7 @@ class NZB
 					break;
 				}
 				
+				$startUpdate = microtime(true);
 				//check that we got the correct response				
 				if (is_array($msgs)) //to within 2 parts per batch missing from server
 				{		//loop headers, figure out parts
@@ -268,10 +273,13 @@ class NZB
 					// update the group with the last update record.
 					//
 					$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
+					$timeUpdate = number_format(microtime(true)-$startUpdate, 2);
+					$timeLoop = number_format(microtime(true)-$startLoop, 2);
 					
 					echo "Received $count new binaries$n";
 					echo "Updated $updatecount binaries$n";
-
+					echo "Info Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
+					
 					//when last = orglast; all headers are downloaded; not ? than go on with next $this->maxMssgs messages
 					if($last == $orglast) 
 						$done = true;
@@ -291,7 +299,8 @@ class NZB
 					break;
 				}
 			}
-			
+			$timeGroup = number_format(microtime(true)-$startGroup, 2);
+			echo "Group processed in $timeGroup seconds $n";	
 		} 
 		else 
 		{
