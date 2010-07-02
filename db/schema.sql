@@ -118,9 +118,10 @@ INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, NULL,  '/^(\\()(.*)\\).*?\\[(\\d{2,3}\\/\\d{2,3})/i',  3 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^\\[.*?(u4all).*?\\s([^\\[]*?)\\[(\\d{2,4}\\/\\d{2,4})/i',  3 );
+VALUES (NULL, NULL,  '/^\\[.*?(u4all).*?\\s([^\\[]*?)\\[(\\d{2,4}\\/\\d{2,4})/i',  4 );
 
-
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
+VALUES (NULL, NULL,  '/^!!.*?(usenet4all).*?-\\s(.*?)\\[(\\d{1,4}\\/\\d{1,4})/i',  5 );
 
 
 DROP TABLE IF EXISTS `tvrage`;
