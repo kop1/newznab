@@ -159,10 +159,10 @@
 </tr>
 
 <tr>
-	<td><label for="binretentiondays">Binary Retention Days</label>:</td>
+	<td><label for="rawretentiondays">Raw Search Retention</label>:</td>
 	<td>
-		<input class="small" id="binretentiondays" name="binretentiondays" type="text" value="{$fsite->binretentiondays}" />
-		<div class="hint">The number of days binary and part data will be retained for use in raw search, and making releases.</div>
+		<input class="small" id="rawretentiondays" name="rawretentiondays" type="text" value="{$fsite->rawretentiondays}" />
+		<div class="hint">The number of days binary and part data will be retained for use in raw search, regardless of other processes.</div>
 	</td>
 </tr>
 

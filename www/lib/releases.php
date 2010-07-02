@@ -739,9 +739,9 @@ class Releases
 		// delete any parts and binaries which are older than the site's retention days
 		//
 		if ($echooutput)
-			echo "deleting binaries which are older than ".$page->site->binretentiondays." days\n";			
-		$db->query(sprintf("delete from parts where dateadded < now() - interval %d day", $page->site->binretentiondays));
-		$db->query(sprintf("delete from binaries where dateadded < now() - interval %d day", $page->site->binretentiondays));
+			echo "deleting binaries which are older than ".$page->site->rawretentiondays." days\n";			
+		$db->query(sprintf("delete from parts where dateadded < now() - interval %d day", $page->site->rawretentiondays));
+		$db->query(sprintf("delete from binaries where dateadded < now() - interval %d day", $page->site->rawretentiondays));
 		
 
 		if ($echooutput)

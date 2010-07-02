@@ -318,7 +318,7 @@ CREATE TABLE site (
 `style` VARCHAR(50) NULL,
 `dereferrer_link` VARCHAR(255) NULL,
 `nzbpath` VARCHAR(500) NOT NULL,
-`binretentiondays` INT NOT NULL DEFAULT 3,
+`rawretentiondays` INT NOT NULL DEFAULT 3,
 `attemptgroupbindays` INT NOT NULL DEFAULT 2,
 `lookuptvrage` INT NOT NULL DEFAULT 1,
 `lookupimdb` INT NOT NULL DEFAULT 1,
@@ -348,7 +348,7 @@ INSERT INTO `site`
 	`style`,
 	`dereferrer_link`,
 	`nzbpath`,
-	`binretentiondays`,
+	`rawretentiondays`,
 	`attemptgroupbindays`
 	)
 	VALUES
