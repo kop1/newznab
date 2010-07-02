@@ -577,7 +577,7 @@ class Releases
 					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
 					//
 					else if (count($matches) == 3 && time() - strtotime($rowbin['date']) > 10800)
-						$parts = explode("/", "01/10");
+						$parts = explode("/", "01/01");
 					else
 					{
 						if ($echooutput)
