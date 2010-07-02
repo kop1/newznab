@@ -19,6 +19,7 @@ class NZB
 			$this->n = "\n";
 		$this->maxMssgs = 20000; //fetch this amount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
+		$this->compressedHeaders = false; //use compressed headers (only enable if supported by usp)
 	}
 	
 	//
@@ -164,7 +165,7 @@ class NZB
 		{
 
 			echo "Group ".$data["group"]." has ".$data['first']." - ".$last." = {$total} (Total parts) - Local last = ".$groupArr['last_record'].$n;
-
+			echo 'Using compressed: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
 
 			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
@@ -187,7 +188,17 @@ class NZB
 
 				//get headers from newsgroup
 				echo " getting $first to $last: $n";
-				$msgs = $nntp->getOverview($first."-".$last, true, false);
+				if ($this->compressedHeaders)
+					$msgs = $nntp->getXOverview($first."-".$last, true, false);
+				else
+					$msgs = $nntp->getOverview($first."-".$last, true, false);
+								
+				if(PEAR::isError($msgs)) 
+				{
+					echo "Error {$msgs->code}: {$msgs->message}$n";
+					echo "Skipping group$n";
+					break;
+				}
 				
 				//check that we got the correct response				
 				if (is_array($msgs)) //to within 2 parts per batch missing from server
