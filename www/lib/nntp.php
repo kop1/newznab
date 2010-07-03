@@ -84,7 +84,7 @@ class Nntp extends Net_NNTP_Client
     	if (PEAR::isError($overview)) {
     	    return $overview;
     	}
-    	
+
     	// Use field names from overview format as keys?
     	if ($_names) 
     	{
@@ -95,10 +95,10 @@ class Nntp extends Net_NNTP_Client
     	        if (PEAR::isError($format)){
     	            return $format;
     	        }
-
+				
     	    	// Prepend 'Number' field
     	    	$format = array_merge(array('Number' => false), $format);
-
+				
     	    	// Cache format
     	        $this->_overviewFormatCache = $format;
     	    } 
@@ -106,33 +106,23 @@ class Nntp extends Net_NNTP_Client
     	    {
     	        $format = $this->_overviewFormatCache;
     	    }
-
+			
     	    // Loop through all articles
             foreach ($overview as $key => $article) 
-            {
-				// Copy $format
-				$f = $format;
-				
-				// Field counter
-				$i = 0;
-				
-				// Loop through forld names in format
-				foreach ($f as $tag => $full) 
-				{
-					if (isset($article[$i + 1]))
-					{
-					    //
-				        $f[$tag] = $article[$i++];
-				
-				        // If prefixed by field name, remove it
-				        if ($full === true) 
-				        {
-				        	$f[$tag] = ltrim( substr($f[$tag], strpos($f[$tag], ':') + 1), " \t");
-				        }
-					}
+            {	
+            	$f = $format;
+            	// If article prefixed by field name, remove it
+            	foreach($article as $kpart=>$vpart)
+            	{
+            		if ($vpart === true) {
+            			$article[$kpart] = ltrim(substr($vpart, strpos($vpart, ':') + 1), " \t");
+            		}
+            	}
+            	
+            	if (sizeof($f) == sizeof($article)) {
+            		//Replace overview using $format as keys, $article as values
+					$overview[$key] = array_combine(array_keys($f), $article);
 				}
-    	        // Replace article 
-	        	$overview[$key] = $f;
     	    }
     	}
 
