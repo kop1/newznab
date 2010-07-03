@@ -110,18 +110,19 @@ class Nntp extends Net_NNTP_Client
     	    // Loop through all articles
             foreach ($overview as $key => $article) 
             {	
-            	$f = $format;
-            	// If article prefixed by field name, remove it
-            	foreach($article as $kpart=>$vpart)
+            	if (sizeof($format) == sizeof($article))
             	{
-            		if ($vpart === true) {
-            			$article[$kpart] = ltrim(substr($vpart, strpos($vpart, ':') + 1), " \t");
-            		}
-            	}
-            	
-            	if (sizeof($f) == sizeof($article)) {
             		//Replace overview using $format as keys, $article as values
-					$overview[$key] = array_combine(array_keys($f), $article);
+					$overview[$key] = array_combine(array_keys($format), $article);
+					
+					// If article prefixed by field name, remove it
+					foreach($format as $fkey=>$fval) 
+					{
+						if ($fval === true) 
+						{
+							$overview[$key][$fkey] = trim(str_replace($fkey.':', '', $overview[$key][$fkey]));
+						}
+					}
 				}
     	    }
     	}
