@@ -17,8 +17,8 @@ class NZB
 			$this->n = "\n<BR>";
 		else
 			$this->n = "\n";
-		$this->maxMssgs = 10000; //fetch this amount of messages at the time
-		$this->howManyMsgsToGoBackForNewGroup = 10000; //how far back to go, use 0 to get all
+		$this->maxMssgs = 20000; //fetch this amount of messages at the time
+		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 		$this->compressedHeaders = false; //use compressed headers (only enable if supported by usp)
 	}
 	
