@@ -111,6 +111,12 @@ INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, 'alt.binaries.x264', '/^#(alt\\.binaries\\.x264):\\s([^\\s]*?)\\s"/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
+VALUES (NULL, 'alt.binaries.sounds.mp3.dance', '/^\\[(\\d{4})\\]([^\\s]*?)\\s"/i',  1 );
+
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
+VALUES (NULL, 'alt.binaries.movies.divx', '/^()(.*?)\\s==\\s\\((\\d{1,3}\\/\\d{1,3})/i',  1 );
+
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
 VALUES (NULL, NULL,  '/^(\\[).*?([^\\(\\[\\]#"][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
