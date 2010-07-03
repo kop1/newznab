@@ -99,37 +99,37 @@ CREATE TABLE `releaseregex` (
 
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.sounds.mp3.opera', '/()(.*)(\\d{2,3}\\/\\d{1,3})/i',  1 );
+VALUES (NULL, 'alt.binaries.sounds.mp3.opera', '/(?P<name>.*)(?P<parts>\\d{2,3}\\/\\d{1,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.multimedia', '/^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s([^\\s]*?)\\s.*?(\\d{1,4}\\/\\d{1,4})/i', 1);
+VALUES (NULL, 'alt.binaries.multimedia', '/^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s(?P<name>[^\\s]*?)\\s.*?(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 1);
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.erotica*', '/.*?(\\d{6}).*?<(.*?)>.*?(\\d{2,3}\\/\\d{2,3})/i',  1 );
+VALUES (NULL, 'alt.binaries.erotica*', '/.*?(\\d{6}).*?<(?P<name>.*?)>.*?(?P<parts>\\d{2,3}\\/\\d{2,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.x264', '/^#(alt\\.binaries\\.x264):\\s([^\\s]*?)\\s"/i',  1 );
+VALUES (NULL, 'alt.binaries.x264', '/^#alt\\.binaries\\.x264:\\s(?P<name>[^\\s]*?)\\s"/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.sounds.mp3.dance', '/^\\[(\\d{4})\\]([^\\s]*?)\\s"/i',  1 );
+VALUES (NULL, 'alt.binaries.sounds.mp3.dance', '/^\\[(\\d{4})\\](?P<name>[^\\s]*?)\\s"/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.movies.divx', '/^()(.*?)\\s==\\s\\((\\d{1,3}\\/\\d{1,3})/i',  1 );
+VALUES (NULL, 'alt.binaries.movies.divx', '/^(?P<name>.*?)\\s==\\s\\((?P<parts>\\d{1,3}\\/\\d{1,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^(\\[).*?([^\\(\\[\\]#"][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(\\d{1,3}\\/\\d{1,3})/i',  1 );
+VALUES (NULL, NULL,  '/^\\[.*?(?P<name>[^\\(\\[\\]#"][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(?P<parts>\\d{1,3}\\/\\d{1,3})/i',  1 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^(.*?)\\((\\d{2,3}\\/\\d{2,3}).*?wrestlingbay/i',  2 );
+VALUES (NULL, NULL,  '/^(?P<name>.*?)\\((?P<parts>\\d{2,3}\\/\\d{2,3}).*?wrestlingbay/i',  2 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^(\\()(.*)\\).*?\\[(\\d{2,3}\\/\\d{2,3})/i',  3 );
+VALUES (NULL, NULL,  '/^\\((?P<name>.*)\\).*?\\[(?P<parts>\\d{2,3}\\/\\d{2,3})/i',  3 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^\\[.*?(u4all).*?\\s([^\\[]*?)\\[(\\d{2,4}\\/\\d{2,4})/i',  4 );
+VALUES (NULL, NULL,  '/^\\[.*?u4all.*?\\s(?P<name>[^\\[]*?)\\[(?P<parts>\\d{2,4}\\/\\d{2,4})/i',  4 );
 
 INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^!!.*?(usenet4all).*?-\\s(.*?)\\[(\\d{1,4}\\/\\d{1,4})/i',  5 );
+VALUES (NULL, NULL,  '/^!!.*?usenet4all.*?-\\s(?P<name>.*?)\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i',  5 );
 
 
 DROP TABLE IF EXISTS `tvrage`;

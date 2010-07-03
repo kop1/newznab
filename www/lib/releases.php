@@ -564,29 +564,28 @@ class Releases
 
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
 			{
-				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches) > 0) 
+				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches)) 
 				{
 					$matches = array_map("trim", $matches);
-
-					//
-					// normally formed release title with parts
-					//
-					if (count($matches) > 3)
-						$parts = explode("/", $matches[3]);
-					//
-					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
-					//
-					else if (count($matches) == 3 && time() - strtotime($rowbin['date']) > 10800)
-						$parts = explode("/", "01/01");
-					else
-					{
-						if ($echooutput)
+					
+					if (!isset($matches['name']) || empty($matches['name'])) {
+						if ($echooutput) {
 							echo "bad regex applied which didnt return right number of capture groups - ".$regexrow["regex"]."\n";
-						break;
+							print_r($matches);
+							break; //end loop
+						}
 					}
 					
-					$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
-						$db->escapeString($matches[2]), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $rowbin["ID"] ));
+					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
+					if (!isset($matches['parts']) && time() - strtotime($rowbin['date']) > 10800) {
+						 $matches['parts'] = "01/01";
+					}
+					
+					if (isset($matches['name']) && isset($matches['parts'])) {
+						$parts = explode("/", $matches['parts']);
+						$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
+						$db->escapeString($matches['name']), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $rowbin["ID"] ));
+					}
 				}
 			}
 			if ($echooutput)
