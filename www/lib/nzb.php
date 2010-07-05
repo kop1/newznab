@@ -10,16 +10,17 @@ class NZB
 {
 	function NZB() 
 	{
-		//
-		// TODO:Move all these to site table.
-		//
 		if(isset($_SERVER['HTTP_USER_AGENT']) && strlen($_SERVER['HTTP_USER_AGENT']) > 0)
 			$this->n = "\n<BR>";
 		else
 			$this->n = "\n";
+			
+		$s = new Sites();
+		$site = $s->get();
+		$this->compressedHeaders = ($site->compressedheaders == "1" ? true : false);	
+		
 		$this->maxMssgs = 20000; //fetch this amount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
-		$this->compressedHeaders = false; //use compressed headers (only enable if supported by usp)
 	}
 	
 	//
@@ -85,7 +86,7 @@ class NZB
 	{
 		if ($sitenzbpath == "")
 		{
-			$s = new Site;
+			$s = new Sites;
 			$site = $s->get();
 			$sitenzbpath = $site->nzbpath;
 		}
@@ -132,7 +133,7 @@ class NZB
 		$n = $this->n;
 		$attempts = 0;
 		$startGroup = microtime(true);
-		
+
 		$data = $nntp->selectGroup($groupArr['name']);
 		if(PEAR::isError($data)) 
 		{

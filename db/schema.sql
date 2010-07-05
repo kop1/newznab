@@ -328,7 +328,8 @@ CREATE TABLE site (
 `attemptgroupbindays` INT NOT NULL DEFAULT 2,
 `lookuptvrage` INT NOT NULL DEFAULT 1,
 `lookupimdb` INT NOT NULL DEFAULT 1,
-`lookupnfo` INT NOT NULL DEFAULT 1
+`lookupnfo` INT NOT NULL DEFAULT 1,
+`compressedheaders` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 

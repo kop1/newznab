@@ -199,6 +199,14 @@
 	</td>
 </tr>
 
+<tr>
+	<td><label for="compressedheaders">Use Compressed Headers</label>:</td>
+	<td>
+		{html_radios id="compressedheaders" name='compressedheaders' values=$yesno_ids output=$yesno_names selected=$fsite->compressedheaders separator='<br />'}
+		<div class="hint">Some USPs allow the use of XZOVER to download the message headers in gzipped format. If enabled this will use much less bandwidth, but not be significantly faster.</div>
+	</td>
+</tr>
+
 </table>
 </fieldset>
 
