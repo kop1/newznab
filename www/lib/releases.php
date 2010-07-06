@@ -409,9 +409,7 @@ class Releases
 	
 	public function searchSimilar($currentid, $name, $limit=6)
 	{			
-		$words = str_word_count(str_replace(".", " ", $name), 2);
-		$firstwords = array_slice($words, 0, 2);
-		$name = implode(' ', $firstwords);
+		$name = $this->getSimilarName($name);
 		$results = $this->search($name, array(-1), $limit);
 		if (!$results)
 			return $results;
@@ -423,6 +421,13 @@ class Releases
 
 		return $ret;
 	}	
+	
+	public function getSimilarName($name)
+	{
+		$words = str_word_count(str_replace(array(".","_"), " ", $name), 2);
+		$firstwords = array_slice($words, 0, 2);
+		return implode(' ', $firstwords);
+	}
 	
 	public function getByGuid($guid)
 	{			
@@ -579,6 +584,9 @@ class Releases
 					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
 					if (!isset($matches['parts']) && time() - strtotime($rowbin['date']) > 10800) {
 						 $matches['parts'] = "01/01";
+						 if ($echooutput) {
+							//echo "adding post without parts - bin: ".date("Y-m-d H:i:s", strtotime($rowbin['date']))." now: ".date("Y-m-d H:i:s")."\n";
+						}
 					}
 					
 					if (isset($matches['name']) && isset($matches['parts'])) {

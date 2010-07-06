@@ -44,6 +44,7 @@
 			{foreach from=$similars item=similar}
 				<a title="View similar Nzb details" href="{$smarty.const.WWW_TOP}/details/{$similar.searchname|escape:"htmlall"}/viewnzb/{$similar.guid}">{$similar.searchname|escape:"htmlall"}</a><br/>
 			{/foreach}
+			<a title="Search similar Nzbs" href="{$smarty.const.WWW_TOP}/search.php?search={$searchname|escape:"htmlall"}.">Search similar NZBs...</a><br/>
 		</td>
 	</tr>
 	{/if}

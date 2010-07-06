@@ -38,6 +38,7 @@ if (isset($_GET["id"]))
 	$page->smarty->assign('movie',$mov);
 	$page->smarty->assign('comments',$comments);
 	$page->smarty->assign('similars',$similars);
+	$page->smarty->assign('searchname',$releases->getSimilarName($data['searchname']));
 
 	$page->meta_title = "View NZB";
 	$page->meta_keywords = "view,nzb,description,details";
