@@ -23,13 +23,6 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 4.2 Attribute example
 5.  Newznab Error Codes
 
-TODO:
-  - tv-rage ??
-  - authorization
-  - error codes
-  - standard category names?
-
-
 1. Introduction
    
    This document describes the NEWZNAB Usenet Searching Web API. The API is designed to be implemented
