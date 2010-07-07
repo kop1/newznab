@@ -690,7 +690,7 @@ class Releases
 			//
 			// find an .nfo in the release
 			//
-			$relnfo = $nfo->determineReleaseNfo($bin->getForReleaseId($relid));
+			$relnfo = $nfo->determineReleaseNfo($relid);
 			if ($relnfo !== false) 
 			{
 				$nfo->addReleaseNfo($relid, $relnfo['ID']);

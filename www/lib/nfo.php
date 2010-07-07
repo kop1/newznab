@@ -20,16 +20,15 @@ class Nfo
      * @param array $nzbdata  array of nzb binary data
      * @return array
      */
-	public function determineReleaseNfo($nzbdata)
+	public function determineReleaseNfo($relid)
 	{
 		$nfos = array();
-		foreach ($nzbdata as $bin) 
-		{
-			if (preg_match('/.*\.nfo[ "\)\]\-]/i', $bin['name'])) 
-			{
-				$nfos[$bin['name']] = $bin;
-			}
-		}
+		$db = new DB();
+		$result = $db->queryDirect(sprintf("select binaries.* from binaries where releaseID = %d order by relpart", $relid));		
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+			if (preg_match('/.*\.nfo[ "\)\]\-]/i', $row['name'])) 
+				$nfos[$row['name']] = $row;
+
 		ksort($nfos);
 		return (is_array($nfos) && !empty($nfos)) ? array_shift($nfos) : false;
 	}
