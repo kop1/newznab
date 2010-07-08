@@ -330,7 +330,8 @@ CREATE TABLE site (
 `lookuptvrage` INT NOT NULL DEFAULT 1,
 `lookupimdb` INT NOT NULL DEFAULT 1,
 `lookupnfo` INT NOT NULL DEFAULT 1,
-`compressedheaders` INT NOT NULL DEFAULT 0
+`compressedheaders` INT NOT NULL DEFAULT 0,
+`storeuserips` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 

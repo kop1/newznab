@@ -222,6 +222,14 @@
 	</td>
 </tr>
 
+<tr>
+	<td><label for="storeuserips">Store User Ip</label>:</td>
+	<td>
+		{html_radios id="storeuserips" name='storeuserips' values=$yesno_ids output=$yesno_names selected=$fsite->storeuserips separator='<br />'}
+		<div class="hint">Whether to store the users ip address when they signup or login.</div>
+	</td>
+</tr>
+
 </table>
 </fieldset>
 

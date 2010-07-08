@@ -46,7 +46,7 @@ else
 				$ret = $users->signup($_POST['username'], $_POST['password'], $_POST['email'], $_SERVER['REMOTE_ADDR']);
 				if ($ret > 0)
 				{
-					$users->login($ret);
+					$users->login($ret, $_SERVER['REMOTE_ADDR']);
 					header("Location: ".WWW_TOP."/");
 				}
 				else

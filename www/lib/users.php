@@ -4,11 +4,6 @@ require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/releases.php");
 
-//
-// Thanks to gizmore@wechall.net for the user password hashing code.
-//
-
-
 class Users
 {	
 	const ERR_SIGNUP_BADUNAME = -1;
@@ -65,6 +60,12 @@ class Users
 	public function add($uname, $pass, $email, $role, $host)
 	{			
 		$db = new DB();
+		
+		$site = new Sites();
+		$s = $site->get();
+		if ($s->storeuserips != "1")
+			$host = "";
+			
 		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken) values (%s, %s, lower(%s), %d, now(), %s, md5(%s))", 
 			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid())));		
 	}	
@@ -228,9 +229,17 @@ class Users
 		session_destroy();
 	}
 	
-	public function login($uid)
+	public function login($uid, $host="")
 	{
 		$_SESSION['uid'] = $uid;
+		
+		$site = new Sites();
+		$s = $site->get();
+		if ($s->storeuserips == "1")
+		{
+			$db = new DB();
+			$db->query(sprintf("update users set host = %s where ID = %d ", $db->escapeString($host), $uid));		
+		}		
 	}
 	
 	public function addCart($uid, $releaseid)
