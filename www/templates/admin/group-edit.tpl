@@ -9,7 +9,8 @@
 	<td>Name:</td>
 	<td>
 		<input type="hidden" name="id" value="{$group.ID}" />
-		{$group.name}
+		<input id="name" class="long" name="name" type="text" value="{$group.name}" />
+		<div class="hint">Changing the name to an invalid group will break things.</div>		
 	</td>
 </tr>
 
@@ -21,9 +22,34 @@
 </tr>
 
 <tr>
+	<td>First Record:</td>
+	<td>
+		<input id="first_record" name="first_record" type="text" value="{$group.first_record}" />
+		<div class="hint">Only manually edit the last message numbers if you know what your doing. Leave as 0 for new groups.</div>		
+	</td>
+</tr>
+
+<tr>
+	<td>Last Record:</td>
+	<td>
+		<input id="last_record" name="last_record" type="text" value="{$group.last_record}" />
+		<div class="hint">Only manually edit the last message numbers if you know what your doing. Leave as 0 for new groups.</div>		
+	</td>
+</tr>
+
+<tr>
+	<td><label for="category">Category</label>:</td>
+	<td>
+		{html_options id="category" name=category options=$catlist selected=$group.categoryID}
+		<div class="hint">Leave blank if the group contains releases for multiple categories.</div>		
+	</td>
+</tr>
+
+<tr>
 	<td><label for="active">Active</label>:</td>
 	<td>
 		{html_radios id="active" name='active' values=$yesno_ids output=$yesno_names selected=$group.active separator='<br />'}
+		<div class="hint">Inactive groups will not have headers downloaded for them.</div>		
 	</td>
 </tr>
 

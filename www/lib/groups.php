@@ -71,10 +71,21 @@ class Groups
 		return $db->query("SELECT * FROM groups WHERE active = 1 ORDER BY name");		
 	}
 
+	public function add($group)
+	{			
+		//TODO:insert a new group. update the nzb.php updategroups to use this function.
+	}	
+	
 	public function update($group)
 	{			
 		$db = new DB();
-		return $db->query(sprintf("update groups set description = %s, active=%d where ID = %d ",$db->escapeString($group["description"]), $group["active"] , $group["id"] ));		
+		
+		if ($group["category"] == "-1")
+			$category = " categoryID = null ";
+		else
+			$category = sprintf(" categoryID = %d ", $group["category"]);
+		
+		return $db->query(sprintf("update groups set name=%s, description = %s, first_record=%s, last_record=%s, %s , active=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $category, $group["active"] , $group["id"] ));		
 	}	
 
 	//
