@@ -8,6 +8,7 @@ pre-reqs
 	php GD imaging library
 	php memory limit set to 256 
 	php recommended minimum execution time of at least 60 seconds
+	php + mysql set to same timezone
 	iis
 		iis is currently broke due to config/require() problems.
 		urlrewriter isapi in \misc\ installed
@@ -60,12 +61,13 @@ sample apache config for your your VHOST.
 how it works
 	groups are specified, message headers (binaries and parts) are downloaded for the 
 	groups, releases are created from completed sets of binaries by applying regex to the message subject.
-	releases are categorised by the group they came from, or by the regexing message subject
+	releases are categorised by the group they came from, or by the regexing message subject. 
 	
 choosing newsgroups
 	which newsgroups are indexed is specified as a regular expression in the column 
 	site.groupfilter. so if you want to index the groups alt.bin.blah.* and alt.bin.other
-	use the value 'alt.bin.blah.*|alt.bin.other'
+	use the value 'alt.bin.blah.*|alt.bin.other'. groups can also be manually entered if you know 
+	the name.
 	
 categorisation
 	\www\lib\category.php contains the logic which attempts to map a group or a release to a 
@@ -74,14 +76,11 @@ categorisation
 	function determineCategory()
 	
 updating index (populating binaries + parts)
-	updating the index can take ages depending on how much retention you require
-	as such its not recommended to run update scripts from web browsers, as typically
-	timeouts will occur. the recommended way to schedule updates is via a cron task 
-	similar to that in /misc/cron_update.
-	crontab -e
-	*/15 * * * * /path/to/newznab/misc/cron_update/newznab_update.sh
-	if you move around the files, you may need to set the path to the root of the newznab
-	www files in the config.php file
+	updating the index can a long time depending on how much retention you require
+	as such its not recommended to run update scripts from web browsers, as timeouts
+	will occur. the recommended way to schedule updates is via a init.d script
+	/path/to/newznab/misc/cron_update/newznab.sh
+	make sure you set the paths to your installation.
 	
 regex matching
 	releases are created by applying regexs to binary message subjects. different regexes 
@@ -93,14 +92,16 @@ nzb file store
 	first char of the release guid, this just makes the dirs a bit easier to manage when you have thousands
 	of nzb.gz files
 
-importing nzbs
+importing/exporting nzbs
 	.nzb files can be imported from the admin interface. importing is a convenient way to fill the
 	index without trawling a large backdated number of usenet messages. after running an import 
-	the process_releases() function must be ran to create valid releases.
+	the process_releases() function must be ran to create valid releases. nzbs can also be exported
+	based on system categories.
 
 updating newsgroups
 	updating the list of available newsgroups is only worthwhile if you change your 
 	site.groupfilter or categorisation. It can be done via web browser in /admin/groups-update. 
+	groups can be manually entered, but make sure you get the group names exactly right.
 	
 google ads/analytics
 	to integrate google analytics and adsense provide enter the adsense ad module ids 
@@ -142,9 +143,10 @@ skinning
 	should always be loaded in.
 	
 api
-	www.newznab.com/api? provides api access to query and retrieve nzbs.
-	call with no parameters to see help doc with all available options. users either have to be logged in
+	www.sitename.com/api? provides api access to query and retrieve nzbs.
+	call www.sitename.com/apihelp to see help doc with all available options. users either have to be logged in
 	or provide their rsstoken. users can use their rsstoken to access both rss + api.
+	full details of the api and how to implement it are provided in /misc/api/
 	
 faqs
 	* authorisation rejected from nntp server - check you have enough available connections 
@@ -154,6 +156,7 @@ faqs
 	the regexes used to create a release. The message headers must follow popular formats in order for releases
 	to be created.
 	* search and rawsearch requests lose page css styling - use the provided apache vhost settings.
+	* releases generated with fewer parts than expected - check timezone of mysql + php match
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
@@ -175,17 +178,19 @@ development
 (just some of the) people who've helped along the way. full(er) list at http://code.google.com/p/newznab/source/list
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
-	gizmore@wechall.net				password,hash
-	lhbandit@nzbs.org					yenc,nntp,bokko,dev	
-	jayhawk@nzb.su						testing,icons	
-	midgetspy@sickbeard				rage integration,api
-	ueland@newznab						installer
-	ensi@ensisoft.com					api
-	michael@newznab						dev
-	sakarias@newznab					testing
-	pairdime@sabnzbd					jquery,css
-	pmow@newznab							headers,backfill
-	bigdave@newznab						testing
-	duv@sabnzbd								yenc
-	inpheaux@sabnzbd					design,nzb
-	spooge@newznab						testing
+	gizmore@wechall.net			password,hash
+	lhbandit@nzbs.org			yenc,nntp,bokko,dev	
+	jayhawk@nzb.su				testing,icons	
+	midgetspy@sickbeard			rage integration,api
+	ueland@newznab				installer
+	ensi@ensisoft.com			api
+	michael@newznab				dev
+	sakarias@newznab			testing
+	pairdime@sabnzbd			jquery,css
+	pmow@sabnzbd				headers,backfill
+	bigdave@newznab				testing
+	duz@sabnzbd					yenc
+	inpheaux@sabnzbd			design,nzb
+	spooge@newznab				testing
+	sy@newznab					testing, regexs
+	fubaarr@newznab				testing
