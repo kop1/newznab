@@ -35,7 +35,7 @@ switch($action)
     	if (isset($_REQUEST["regex"]))
 		{
 			$db = new Db();
-			$unreleasedSql = ($gunreleased != '') ? ' and binaries.releaseID IS NULL' : '';
+			$unreleasedSql = ($gunreleased != '') ? ' and binaries.procstat NOT IN (6,4) and binaries.releaseID IS NULL' : '';
 			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name from binaries where binaries.groupID = %d%s order by dateadded", $gselected, $unreleasedSql));
 			$matches = array();
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
