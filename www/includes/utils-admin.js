@@ -39,3 +39,27 @@ function ajax_group_status(id, what)
     }
 }
 
+/**
+ * ajax_group_status()
+ *
+ * @param id        group id
+ */
+function ajax_group_delete(id)
+{
+    // no caching of results
+    var rand_no = Math.random();
+	$.ajax({
+	  url       : WWW_TOP + '/admin/ajax_group-edit.php?action=2&rand=' + rand_no,
+	  data      : { group_id: id},
+	  dataType  : "html",
+	  success   : function(data)
+	  {
+		  $('div#message').html(data);
+		  $('div#message').show('fast', function() {});
+		  $('#grouprow-'+id).fadeOut(2000);
+		  $('#message').fadeOut(5000);
+	  },
+	  error: function(xhr,err,e) { alert( "Error in ajax_group_status: " + err ); }
+	});
+}
+

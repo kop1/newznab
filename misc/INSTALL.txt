@@ -68,6 +68,7 @@ choosing newsgroups
 	site.groupfilter. so if you want to index the groups alt.bin.blah.* and alt.bin.other
 	use the value 'alt.bin.blah.*|alt.bin.other'. groups can also be manually entered if you know 
 	the name.
+	newsgroups can also be manually entered if you know the exact name of the group you want to index.
 	
 categorisation
 	\www\lib\category.php contains the logic which attempts to map a group or a release to a 

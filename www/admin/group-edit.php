@@ -33,10 +33,18 @@ switch($action)
 
 			if (isset($_GET["id"]))
 			{
-				$page->title = "Group Edit";
+				$page->title = "Newsgroup Edit";
 				$id = $_GET["id"];
-				
 				$group = $groups->getByID($id);
+				$page->smarty->assign('group', $group);	
+			}
+			else
+			{
+				$page->title = "Newsgroup Add";
+				$group = array();
+				$group["active"] = "1";
+				$group["first_record"] = "0";
+				$group["last_record"] = "0";
 				$page->smarty->assign('group', $group);	
 			}
 

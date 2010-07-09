@@ -98,40 +98,43 @@ CREATE TABLE `releaseregex` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.sounds.mp3.opera', '/(?P<name>.*)(?P<parts>\\d{2,3}\\/\\d{1,3})/i',  1 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.multimedia', '/^#a\\.b\\.mm.*?(\\d{5,}).*?-\\s(?P<name>[^\\s]*?)\\s.*?(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 1);
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.erotica*', '/.*?(\\d{6}).*?<(?P<name>.*?)>.*?(?P<parts>\\d{2,3}\\/\\d{2,3})/i',  1 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.x264', '/^#alt\\.binaries\\.x264:\\s(?P<name>[^\\s]*?)\\s"/i',  1 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.sounds.mp3.dance', '/^\\[(\\d{4})\\](?P<name>[^\\s]*?)\\s"/i',  1 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, 'alt.binaries.movies.divx', '/^(?P<name>.*?)\\s==\\s\\((?P<parts>\\d{1,3}\\/\\d{1,3})/i',  1 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^\\[.*?(?P<name>[^\\(\\[\\]#"][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(?P<parts>\\d{1,3}\\/\\d{1,3})/i',  1 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^(?P<name>.*?)\\((?P<parts>\\d{2,3}\\/\\d{2,3}).*?wrestlingbay/i',  2 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^\\((?P<name>.*)\\).*?\\[(?P<parts>\\d{2,3}\\/\\d{2,3})/i',  3 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^\\[.*?u4all.*?\\s(?P<name>[^\\[]*?)\\[(?P<parts>\\d{2,4}\\/\\d{2,4})/i',  4 );
-
-INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`)
-VALUES (NULL, NULL,  '/^!!.*?usenet4all.*?-\\s(?P<name>.*?)\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i',  5 );
-
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^\\[(?P<name>.*?)\\]\\-\\[.*?(?P<parts>\\d{3,3}\\/\\d{1,3})/i', '9', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.sony.psp', '/^\\[\\d{2,6}\\]\\-\\[.*?\\]\\-\\[(?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '2', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.sony.psp', '/^\\[(PSP4U\\]).*?\\[(?P<name>.*?)\\].*?\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^()(?P<name>.*?) \\>.*?\\((?P<parts>\\d{1,4}\\/\\d{1,4})/i', '2', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^(WII4U) \\- (?P<name>.*?) \\- \\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '3', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^()(?P<name>.*?) \\- .*? \\- \\((?P<parts>\\d{1,4}\\/\\d{1,4})/i', '4', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.game.wii', '/^()(?P<name>.*?)\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '5', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^()(?P<name>.*?)\\- \\\".*?\\[(?P<parts>\\d{1,4}\\-\\d{1,4})/i', '6', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^()(?P<name>.*?)\\- \\\".*?\\((?P<parts>\\d{1,4}\\/\\d{1,4})/i', '7', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^()(?P<name>.*?)\\- \\\".*?\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '8', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.wii', '/^()(?P<name>.*?)\\\".*?\\((?P<parts>\\d{1,4}\\/\\d{1,4})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.sounds.mp3.opera', '/(?P<name>.*)(?P<parts>\\d{2,3}\\/\\d{1,3})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.wii', '/^()(?P<name>.*?)\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '2', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.dvd.image.wii', '/^\\<(.*?)\\<(?P<name>.*?)\\>/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.nintendo.ds', '/^()(?P<name>.*?)\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.nintendo.ds', '/^\\\"(\\d{2,6}) \\- (?P<name>.*?\\)).*?(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '2', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.nintendo.ds', '/^\\\"(.*?) \\- (.*?\\(?P<name>.*?) \\(/i', '3', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.nintendo.ds', '/^\\((.*?)\\\"(?P<name>.*?)\\).*?/i', '4', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.x264', '/^#alt\\.binaries\\.x264:\\s(?P<name>[^\\s]*?)\\s\"/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.xbox', '/^\\[.*?(a.b.g.x\\]\\-\\[).*?(?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '2', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^\\[REQ.\\d{4}\\.(?P<name>.*?WII).*?(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.xbox360', '/^.*? present (?P<name>.*?360).*?(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '2', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^(\\d{2,6} \\- \\d{2,6})\\.(?P<name>.*?\\-).*?(?P<parts>\\d{2,4}\\/\\d{2,4})/i', '10', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.xbox', '/^\\[.*?(abgx\\]).*?(?P<name>.*?)\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.xbox360', '/^.*?\\[(?P<parts>\\d{2,4}\\/\\d{2,4})\\].*?\\\"(?P<name>.*?360)/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.erotica*', '/.*?(\\d{6}).*?<(?P<name>.*?)>.*?(?P<parts>\\d{2,3}\\/\\d{2,3})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^(\\[\\d{2,6}\\])\\-\\[.*?\\]\\-\\[(?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '3', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.sounds.mp3.dance', '/^\\[(\\d{4})\\](?P<name>[^\\s]*?)\\s\"/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.movies.divx', '/^(?P<name>.*?)\\s==\\s\\((?P<parts>\\d{1,3}\\/\\d{1,3})/i', '6', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', null, '/^\\[.*?(?P<name>[^\\(\\[\\]#\"][A-Z0-9\\.\\-_\\(\\)]{10,}\\-[A-Z0-9&]+).*?(?P<parts>\\d{1,3}\\/\\d{1,3})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', null, '/^(?P<name>.*?)\\((?P<parts>\\d{2,3}\\/\\d{2,3}).*?wrestlingbay/i', '2', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', null, '/^\\((?P<name>.*)\\).*?\\[(?P<parts>\\d{2,3}\\/\\d{2,3})/i', '3', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', null, '/^\\[.*?u4all.*?\\s(?P<name>[^\\[]*?)\\[(?P<parts>\\d{2,4}\\/\\d{2,4})/i', '4', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', null, '/^!!.*?usenet4all.*?-\\s(?P<name>.*?)\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '5', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.movies.divx', '/^(\\[\\d{2,6}\\])\\-\\[.*?\\]\\-\\[.*?\\]\\-\\[ (?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '5', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.moovee', '/^(\\[\\d{2,6}\\])\\-\\[.*?\\]\\-\\[.*?\\]\\-\\[ (?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '1', '1', null);
+INSERT INTO `releaseregex` (`ID`,`groupname`,`regex`, `ordinal`, `status`, `description`) VALUES ('', 'alt.binaries.games.wii', '/^\\[\\d{2,6}\\]\\-\\[.*?\\]\\-\\[FULL\\]\\-\\[(?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', '1', '1', null);
 
 DROP TABLE IF EXISTS `tvrage`;
 CREATE TABLE `tvrage` 

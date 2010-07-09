@@ -73,7 +73,20 @@ class Groups
 
 	public function add($group)
 	{			
-		//TODO:insert a new group. update the nzb.php updategroups to use this function.
+		$db = new DB();
+		
+		if ($group["category"] == "-1")
+			$category = " null ";
+		else
+			$category = sprintf(" %d ", $group["category"]);
+		
+		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active, categoryID) values (%s, %s, %s, %s, null, %d, %s) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"], $category ));		
+	}	
+	
+	public function delete($id)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("delete from groups where ID = %d", $id));		
 	}	
 	
 	public function update($group)
