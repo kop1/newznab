@@ -84,7 +84,7 @@ class DB
 		foreach ($alltables as $tablename) 
 		{
 			$ret[] = $tablename[0];
-			$this->query("OPTIMIZE TABLE '".$tablename[0]."'"); 
+			$this->queryDirect("OPTIMIZE TABLE `".$tablename[0]."`"); 
 		}
 			
 		return $ret;
