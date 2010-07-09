@@ -19,15 +19,12 @@
 		<input id="headsearch" name="headsearch" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
 		<label style="display:none;" for="headcat">Search Category</label>
 		<select id="headcat" name="headcat">
-			<optgroup label="All">
-				<option value="-1">-- Everything --</option>
-			</optgroup>
+			<option class="grouping" value="-1">-- Everything --</option>
 		{foreach from=$parentcatlist item=parentcat}
-			<optgroup label="{$parentcat.title}">
-				{foreach from=$parentcat.subcatlist item=subcat}
-					<option {if $header_menu_cat==$subcat.ID}selected{/if} value="{$subcat.ID}">{$subcat.title}</option>
-				{/foreach}
-			</optgroup>
+			<option class="grouping" value="{$parentcat.ID}">{$parentcat.title}</option>
+			{foreach from=$parentcat.subcatlist item=subcat}
+				<option {if $header_menu_cat==$subcat.ID}selected{/if} value="{$subcat.ID}">&nbsp;&nbsp;&nbsp;{$subcat.title}</option>
+			{/foreach}
 		{/foreach}
 		</select>
 		<input id="headsearch_go" type="submit" value="Go"/>

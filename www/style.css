@@ -61,6 +61,9 @@ page structure
 #statusbar { float:right; padding-right:10px; padding-top:2px;}
 #statusbar a { text-decoration: none; color: #515151;}
 
+select#headcat option { padding-left: 10px; }
+select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
+
 #content { float: right; width: 585px;}
 #content h1 { font-size: 28px;}
 #content p { margin-bottom:20px;}
