@@ -9,7 +9,6 @@
 
 <table class="input">
 
-
 <tr>
 	<td>Group:</td>
 	<td>
@@ -57,7 +56,7 @@
 	{foreach from=$matches item=match}
 	<tr class="{cycle values=",alt"}">
 		<td>{$match.bininfo.ID}</td>
-		<td>{$match.name|escape:html}<br /><small>{$match.bininfo.subject|escape:html}</small></td>
+		<td>{$match.name|escape:html}<br /><small>{$match.bininfo.name|escape:html}</small></td>
 		<td>{$match.parts}</td>
 	</tr>
 	{/foreach}

@@ -29,7 +29,7 @@
 		<td>active</td>
 		<td style="text-align:center;">{$regex.ordinal}</td>
 		<td><a href="#">up</a> | <a href="#">down</a></td>
-		<td><a href="#">delete</a></td>
+		<td><a href="#">delete</a> {if $regex.groupname != ""}<a href="{$smarty.const.WWW_TOP}/regex-test.php?action=submit&groupname={$regex.groupID}&regex={$regex.regex|urlencode}">test</a>{/if}</td>
 	</tr>
 	{/foreach}
 
