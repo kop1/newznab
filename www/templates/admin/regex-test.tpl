@@ -35,10 +35,9 @@
 <tr>
 	<td></td>
 	<td>
-		<input type="submit" value="Test Regex" />
+		<input type="submit" value="Test Regex" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$smarty.const.WWW_TOP}/regex-edit.php?action=addtest&regex={$gregex|urlencode}&groupname={$gname.$gselected}">Add Regex</a>
 	</td>
 </tr>
-
 </table>
 
 </form>

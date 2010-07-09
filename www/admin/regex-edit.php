@@ -17,6 +17,12 @@ switch($action)
 		$ret = $reg->update($_POST["id"], $_POST["status"], $_POST["description"]);
 		header("Location:".WWW_TOP."/regex-list.php");
 		break;
+    case 'addtest':
+    	if (isset($_GET['regex']) && isset($_GET['groupname'])) {
+    		$r = array('groupname'=>$_GET['groupname'], 'regex'=>$_GET['regex'], 'ordinal'=>'1', 'status'=>'1');
+    		$page->smarty->assign('regex', $r);	
+    	}
+    	break;
     case 'view':
     default:
 
