@@ -53,20 +53,21 @@ class DB
 			return $rows;		
 	}	
 		
-	public function query($query)
+	public function query($query, $blah=false)
 	{
 		$result = mysql_query($query);
 		
 		if ($result === false || $result === true)
-			return $result;
+			return array();
 		
 		$rows = array();
-		
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		{
 			$rows[] = $row;	
 		}
 		mysql_free_result($result);
-		
+
 		return $rows;
 	}	
 	

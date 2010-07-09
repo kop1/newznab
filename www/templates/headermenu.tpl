@@ -21,7 +21,7 @@
 		<select id="headcat" name="headcat">
 			<option class="grouping" value="-1">-- Everything --</option>
 		{foreach from=$parentcatlist item=parentcat}
-			<option class="grouping" value="{$parentcat.ID}">{$parentcat.title}</option>
+			<option {if $header_menu_cat==$parentcat.ID}selected{/if} class="grouping" value="{$parentcat.ID}">{$parentcat.title}</option>
 			{foreach from=$parentcat.subcatlist item=subcat}
 				<option {if $header_menu_cat==$subcat.ID}selected{/if} value="{$subcat.ID}">&nbsp;&nbsp;&nbsp;{$subcat.title}</option>
 			{/foreach}
