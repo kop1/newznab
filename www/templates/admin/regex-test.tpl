@@ -50,13 +50,15 @@
 		<th>ID</th>
 		<th>name</th>
 		<th>parts</th>
+		<th>count</th>
 	</tr>
 	
 	{foreach from=$matches item=match}
 	<tr class="{cycle values=",alt"}">
-		<td>{$match.bininfo.ID}</td>
-		<td>{$match.name|escape:html}<br /><small>{$match.bininfo.name|escape:html}</small></td>
+		<td>{$match.bininfo.binID}</td>
+		<td>{$match.name|escape:html}<br /><small>{$match.bininfo.binName|escape:html}</small></td>
 		<td>{$match.parts}</td>
+		<td>{$match.count}</td>
 	</tr>
 	{/foreach}
 

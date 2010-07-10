@@ -36,23 +36,24 @@ switch($action)
 		{
 			$db = new Db();
 			$unreleasedSql = ($gunreleased != '') ? ' and binaries.procstat NOT IN (6,4) and binaries.releaseID IS NULL' : '';
-			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name from binaries where binaries.groupID = %d%s order by dateadded", $gselected, $unreleasedSql));
+			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID as binID, binaries.name as binName from binaries where binaries.groupID = %d%s order by dateadded", $gselected, $unreleasedSql));
 			$matches = array();
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
 			{
-				if (preg_match ($gregex, $rowbin["name"], $binmatch)) 
+				if (preg_match ($gregex, $rowbin["binName"], $binmatch)) 
 				{
 					$binmatch = array_map("trim", $binmatch);
 					
 					if (!isset($binmatch['name']) || empty($binmatch['name'])) {
 						//echo "bad regex applied which didnt return right number of capture groups<br />";
 					} else {
+						$binmatch['count'] = (isset($matches[$binmatch['name']]['count'])) ? $matches[$binmatch['name']]['count']+1 : 1;
 						$binmatch['bininfo'] = $rowbin;
 						$matches[$binmatch['name']] = $binmatch;
 					}
 				}
 			}
-			
+
 			$offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 			$page->smarty->assign('pagertotalitems',sizeof($matches));
 			$page->smarty->assign('pageroffset',$offset);
