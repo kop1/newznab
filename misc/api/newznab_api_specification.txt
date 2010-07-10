@@ -206,9 +206,9 @@ TODO:
               <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
     
               <!-- Additional attributes -->
-              <newznab:attr name="category" value="2000" /> 
-              <newznab:attr name="category" value="2030" /> 
-              <newznab:attr name="size" value="4294967295" />
+              <newznab:attr name="category" value="2000"/> 
+              <newznab:attr name="category" value="2030"/> 
+              <newznab:attr name="size"     value="4294967295"/>
            </item>
          </channel>
          </rss>
@@ -478,7 +478,7 @@ TODO:
    grabs           ALL                     Number of times item downloaded         "1"
    comments        ALL                     Number of comments                      "2"
    usenetdate      ALL                     Date posted to usenet                   "Tue, 22 Jun 2010 06:54:22 +0100"
-   info            ALL                     INFO (.nfo) file URL                    "http://somesite/stuff/info.php?id=1234"
+   info            ALL                     Info (.nfo) file URL                    "http://somesite/stuff/info.php?id=1234"
    season          TV                      Numeric season                          "1"
    episode         TV                      Numeric episode within the season       "1"
    rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
