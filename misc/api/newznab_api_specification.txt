@@ -22,6 +22,11 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 4.1 List of Attributes
 4.2 Attribute example
 5.  Newznab Error Codes
+5.1 Error code example
+
+TODO:
+  - search wild cards
+  - console/pc/xxx attributes
 
 1. Introduction
    
@@ -32,7 +37,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    to facilitate direct downloading from Usenet without having to download any NTTP headers.
    
    This document does not describe the actual implementation of either the client or the server but just
-   describes the HTTP interface and request/response sequences.
+   describes the HTTP(S) interface and request/response sequences.
 
    Intended readers are server and client implementers.
 
@@ -46,7 +51,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 
 2. Functions
    
-   All functions are executed as HTTP requests over TCP. All parameters are to be passed
+   All functions are executed as HTTP(S) requests over TCP. All parameters are to be passed
    as query parmeters unless otherwise indicated. All returned XML/JSON data is UTF-8 encoded
    unless otherwise specified. All query parameters should be UTF-8 and URL encoded, i.e.
    query-param = URL-ENCODE(UTF8-ENCODE(param=value)).
@@ -61,7 +66,8 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 
    Important fields of the returned data:
       server/version                    The version of the protocol implemented by the server. All implementations should be backwards compatible. 
-	  limits                            The limit and defaults to the number of search results returned.
+      limits                            The limit and defaults to the number of search results returned.
+      retention                         Server retention (how many days NZB information is stored before being purged).
       category                          Defines a searchable category which might have any number of subcategories.
       category/id                       Unique category ID, can be either one of the standard category IDs or a site specific ID.
       category/name                     Any descriptive name for the category. Can be site/language specific.
@@ -88,12 +94,26 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
      <-- 200 OK
         <?xml version="1.0" encoding="UTF-8"?>
           <caps>
+            <!-- server information -->
             <server version="1.0" title="Newznab" strapline="A great usenet indexer" 
                     email="info@newznab.com" url="http://servername.com/" 
                     image="http://servername.com/theme/black/images/banner.jpg"/>
 
             <!-- limit parameter range -->
             <limits max="100" default="50"/>
+
+            <!-- the server NZB retention -->
+            <retention days="400"/>
+
+            <!-- 
+                 The search functions available at the server 
+                 The only currently defined search functions are SEARCH and TV-SEARCH.
+                 Any conforming implementation should at least support one search function.
+            -->
+            <searching>
+                <search available="yes"/>
+                <tv-search available="yes"/>
+            </searching>
 
             <!-- supported categories -->
             <categories>
@@ -111,18 +131,8 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
                   <subcat id="1000003" name="Fifa 2010 HD" description="HD stuff"/>
                   <subcat id="1000004" name="Fifa 2010 SD" description="SD stuff"/>
                 </category>
-                ...
+                <!-- etc.. -->
             </categories>               
-
-            <!-- additionally available searching functions  -->
-            <searching tv="yes"/>
-
-            <!-- TBD
-                 - more searching options?
-                 - tvrage?
-                 - wild cards/regex?
-                 - categories when searching, union vs. intersection?
-            -->
           </caps>
         </xml>
 
@@ -175,7 +185,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
       limit=123         Upper limit for the number of items to be returned.
       cat=xxx           List of categories to search delimeted by ","
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
-      extended=1        Return extended information in the search results
+      extended=1        Return extended information in the search results. (See DETAILS).
       maxage=123        Only return results which were posted to usenet in the last x days.
 
     Examples:
@@ -196,10 +206,9 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
               <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
     
               <!-- Additional attributes -->
-	          <newznab:attr name="category" value="2000" /> 
-	          <newznab:attr name="category" value="2030" /> 
-	          <newznab:attr name="size" value="4294967295" />
-			  
+              <newznab:attr name="category" value="2000" /> 
+              <newznab:attr name="category" value="2030" /> 
+              <newznab:attr name="size" value="4294967295" />
            </item>
          </channel>
          </rss>
@@ -276,13 +285,10 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
               <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" />               
 
               <!-- Additional attributes -->
-              <report:size>154653309</report:size>
-              <report:categories>
-                <report:category>5030</report:category>
-              </report:categories>
-              
-              <tv:season>3</tv:season>
-              <tv:episode>2</tv:episode>
+              <newznab:attr name="category" value="5030"/>
+              <newznab:attr name="size"     value="154653309"/>
+              <newznab:attr name="season"   value="3"/>
+              <newznab:attr name="episode"  value="2"/>
             </item>         
 
             <item>
@@ -297,11 +303,15 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
               <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" />               
 
               <!-- Additional attributes -->
-	          <newznab:attr name="category" value="2000" /> 
-	          <newznab:attr name="category" value="2030" /> 
-	          <newznab:attr name="size" value="4294967295" /> 
+              <newznab:attr name="category" value="2000" /> 
+              <newznab:attr name="category" value="2030" /> 
+              <newznab:attr name="size"     value="4294967295" /> 
+              <newznab:attr name="season"   value="3"/>
+              <newznab:attr name="episode"  value="1"/>
             </item>         
-            ....
+
+            <!-- more items to follow -->
+
          </channel>
          </rss>
 
@@ -343,16 +353,20 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
                 <description>Some TV show</description>
                 <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" /> 
 
-                <!-- additional attributes -->
-	            <newznab:attr name="category" value="2000" /> 
-	            <newznab:attr name="category" value="2030" /> 
-	            <newznab:attr name="size" value="4294967295" /> 
-	            <newznab:attr name="files" value="107" /> 
-	            <newznab:attr name="poster" value="example@4u.net (example)" /> 
-	            <newznab:attr name="grabs" value="1" /> 
-	            <newznab:attr name="comments" value="0" /> 
-	            <newznab:attr name="usenetdate" value="Tue, 22 Jun 2010 06:54:22 +0100" />	
-	            <newznab:attr name="group" value="alt.binaries.movies.divx" /> 
+                <!-- 
+                     Additional attributes 
+                     Details function returns all possible attributes that are 1) known and 2) applicable
+                     for the item requested.
+                -->
+                <newznab:attr name="category"   value="2000" /> 
+                <newznab:attr name="category"   value="2030" /> 
+                <newznab:attr name="size"       value="4294967295" /> 
+                <newznab:attr name="files"      value="107" /> 
+                <newznab:attr name="poster"     value="example@4u.net (example)" /> 
+                <newznab:attr name="grabs"      value="1" /> 
+                <newznab:attr name="comments"   value="0" /> 
+                <newznab:attr name="usenetdate" value="Tue, 22 Jun 2010 06:54:22 +0100" />  
+                <newznab:attr name="group"      value="alt.binaries.movies.divx" /> 
                 
               </item>  
             </channel>
@@ -464,6 +478,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    grabs           ALL                     Number of times item downloaded         "1"
    comments        ALL                     Number of comments                      "2"
    usenetdate      ALL                     Date posted to usenet                   "Tue, 22 Jun 2010 06:54:22 +0100"
+   info            ALL                     INFO (.nfo) file URL                    "http://somesite/stuff/info.php?id=1234"
    season          TV                      Numeric season                          "1"
    episode         TV                      Numeric episode within the season       "1"
    rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
@@ -476,17 +491,14 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    imdb            TV, Movies              IMDb ID  (www.imdb.com)                 "0104409"
    genre           TV, Movies              Genre                                   "Horror"
    
-
-   TODO:
-   - console/PC/XXX
    
    4.2 Attribute Example
    
-    Example attribute declarations within <item> element.
+   Example attribute declarations within <item> element.
    
-    <newznab:attr name="category" value="2000" /> 
-    <newznab:attr name="category" value="2030" /> 
-    <newznab:attr name="size" value="4294967295" /> 
+   <newznab:attr name="category" value="2000" /> 
+   <newznab:attr name="category" value="2030" /> 
+   <newznab:attr name="size"     value="4294967295" /> 
   
    
 5. Newznab Error Codes
@@ -517,6 +529,8 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    300                  No such item. 
    
    900                  Unknown error
+
+   5.1 Error code example
 
    // Query could not be completed because user credentials are broken
    --> GET http://servername.com/api?t=details&apikey=xxxxx&guid=xxxxxxxxx
