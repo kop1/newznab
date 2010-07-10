@@ -28,7 +28,7 @@
 <tr>
 	<td></td>
 	<td>
-		<input type="checkbox" name="unreleased"{if $gunreleased == 'on'}checked="checked"{/if} /> Ignore Released and Duplicate binaries
+		<input type="checkbox" name="unreleased"{if $gunreleased == 'on'}checked="checked"{/if} /> Ignore binaries that are released, duplicates, or already matched by a regex
 	</td>
 </tr>
 

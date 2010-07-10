@@ -35,7 +35,7 @@ switch($action)
     	if (isset($_REQUEST["regex"]))
 		{
 			$db = new Db();
-			$unreleasedSql = ($gunreleased != '') ? ' and binaries.procstat NOT IN (6,4) and binaries.releaseID IS NULL' : '';
+			$unreleasedSql = ($gunreleased != '') ? ' and binaries.procstat NOT IN (4,5,6) and binaries.releaseID IS NULL' : '';
 			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID as binID, binaries.name as binName from binaries where binaries.groupID = %d%s order by dateadded", $gselected, $unreleasedSql));
 			$matches = array();
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
@@ -53,7 +53,6 @@ switch($action)
 					}
 				}
 			}
-
 			$offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 			$page->smarty->assign('pagertotalitems',sizeof($matches));
 			$page->smarty->assign('pageroffset',$offset);
