@@ -7,23 +7,20 @@ require_once(WWW_DIR."/lib/groups.php");
 $admin = new AdminPage;
 $group  = new Groups();
 
-if (isset($_GET['action']))
+if (isset($_GET['action']) && $_GET['action'] == "2")
 {
-	if ($_GET['action'] == "2")
-	{
 		$id     = (int)$_GET['group_id'];
 		$group->delete($id);	
 		print "Group $id deleted.";
-	}
-	else
+}
+else
+{
+	if (isset($_GET['group_id']))
 	{
-		if (isset($_GET['group_id']))
-		{
-			$id     = (int)$_GET['group_id'];
-			$status = isset($_GET['group_status']) ? (int)$_GET['group_status'] : 0;
-			print $group->updateGroupStatus($id, $status);
-		}	
-	}
+		$id     = (int)$_GET['group_id'];
+		$status = isset($_GET['group_status']) ? (int)$_GET['group_status'] : 0;
+		print $group->updateGroupStatus($id, $status);
+	}	
 }
 
 
