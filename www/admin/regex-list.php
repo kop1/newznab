@@ -10,7 +10,7 @@ $reg = new ReleaseRegex();
 
 $page->title = "Release Regex List";
 
-$regexlist = $reg->get();
+$regexlist = $reg->get(false);
 $page->smarty->assign('regexlist', $regexlist);	
 
 $page->content = $page->smarty->fetch('admin/regex-list.tpl');

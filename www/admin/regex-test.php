@@ -19,7 +19,8 @@ $gid = $gname = array();
 $gselected = isset($_REQUEST['groupname']) ? $_REQUEST['groupname'] : '0';
 $gregex = (isset($_REQUEST['regex']) && !empty($_REQUEST['regex'])) ? $_REQUEST['regex'] : '/^(?P<name>.*)$/i';
 $gunreleased = isset($_REQUEST['unreleased']) ? $_REQUEST['unreleased'] : '';
-foreach($groupList as $group) {
+foreach($groupList as $group) 
+{
 	$gid[] = $group["ID"];
 	$gname[] = $group["name"];
 }

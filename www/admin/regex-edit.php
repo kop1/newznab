@@ -14,7 +14,14 @@ $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'view';
 switch($action) 
 {
     case 'submit':
-		$ret = $reg->update($_POST["id"], $_POST["status"], $_POST["description"]);
+	    if ($_POST["id"] == "")
+    	{
+			$reg->add($_POST);
+		}
+		else
+		{
+			$ret = $reg->update($_POST);
+		}	
 		header("Location:".WWW_TOP."/regex-list.php");
 		break;
     case 'addtest':

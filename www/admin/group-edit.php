@@ -19,14 +19,12 @@ switch($action)
 	    if ($_POST["id"] == "")
     	{
 			$groups->add($_POST);
-			header("Location:".WWW_TOP."/group-list.php");
 		}
 		else
 		{
 			$groups->update($_POST);
-			header("Location:".WWW_TOP."/group-list.php");
 		}
-		
+		header("Location:".WWW_TOP."/group-list.php");
         break;
     case 'view':
     default:
