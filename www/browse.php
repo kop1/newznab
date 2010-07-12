@@ -34,7 +34,7 @@ $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_RE
 $results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby);
 $browsecount = 0;
 if (count($results) > 0)
-	$browsecount = $results["_totalrows"];
+	$browsecount = $results[0]["_totalrows"];
 
 $page->smarty->assign('pagertotalitems',$browsecount);
 $page->smarty->assign('pageroffset',$offset);

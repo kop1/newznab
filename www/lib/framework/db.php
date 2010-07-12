@@ -73,7 +73,7 @@ class DB
 		{
 			$rows[] = $row;	
 			if ($addtotalcount)
-				$rows["_totalrows"] = $totalRow;
+				$rows[count($rows)-1]["_totalrows"] = $totalRow;
 		}
 		mysql_free_result($result);
 		return $rows;
