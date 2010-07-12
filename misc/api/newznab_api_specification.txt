@@ -162,6 +162,15 @@ TODO:
       The returned XML data stream is RSS 2.0 compliant and also contains additional information
       in the extra namespace.
       
+      Response-offset field identifies the current subset of all the matches that are being
+      transmitted in the response. In other words, if a search for "disco" finds more matches
+      than the server is capable of transmitting in a single response, the response needs to be
+      split into several responses. Then it is's the clients responsibility to repeat the same
+      query with same parameters but specify an increased offset in order to return the next
+      set of results. 
+      
+      If offset query parameter is not used response data contains items between 0 offset - limit.
+      If offset query parameter is out of bounds an empty result set is returned.
       
    Important fields of the returned data (RSS):
      title              Title of the found item.
@@ -187,13 +196,26 @@ TODO:
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
       extended=1        Return extended information in the search results. (See DETAILS).
       maxage=123        Only return results which were posted to usenet in the last x days.
+      offset=50         The 0 based query offset defining which part of the response we want.
 
     Examples:
       --> GET http://servername.com/api?t=search&apikey=xxxxx&q=a%20tv%20show
       <-- 200 OK
           <?xml version="1.0" encoding="UTF-8"?>
           <rss version="2.0">
+   
           <channel>
+            <title>example.com</tile>
+            <description>example.com API results</description>
+            <!--  
+               More RSS content
+             -->          
+                 
+            <!-- offset is the current offset of the response
+                 total is the total number of items found by the query 
+             --> 
+            <newznab:response offset="0" total="2344"/>
+
             <item>        
               <!-- Standard RSS 2.0 Data -->
               <title>A.Tv.Show.S06E05.DVDRIP.XviD</title> 
@@ -219,7 +241,9 @@ TODO:
       <-- 200 OK
           <?xml version="1.0" encoding="UTF-8"?>
           <rss>
-            <channel/>
+            <channel>
+                <newznab:response offset="0" total="0"/>
+            </channel>
           </rss>
 
      // Query could not be completed because user credentials are broken
