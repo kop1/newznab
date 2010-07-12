@@ -207,7 +207,7 @@ class Releases
 		elseif ($category == -2)
 			$cat = sprintf(" where releases.ID in (select releaseID from usercart where userID = %d)", $uid);
 			
-		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID %s order by postdate desc %s" ,$cat, $limit));
+		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID %s order by postdate desc %s" ,$cat, $limit));
 	}
 		
 	public function getCount()
