@@ -568,6 +568,9 @@ class Releases
 					}
 					
 					if (isset($matches['name']) && isset($matches['parts'])) {
+						if (strpos($matches['parts'], '/') === false) {
+							$matches['parts'] = str_replace(array('-','~',' of '), '/', $matches['parts']);
+						}
 						$parts = explode("/", $matches['parts']);
 						$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d where ID = %d", 
 						$db->escapeString($matches['name']), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $rowbin["ID"] ));
