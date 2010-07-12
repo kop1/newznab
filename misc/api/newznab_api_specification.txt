@@ -16,7 +16,8 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 2.1 CAPS
 2.2 SEARCH
 2.3 TV-SEARCH
-2.4 DETAILS
+2.4 Search Modifiers
+2.5 DETAILS
 3.  Predefined Categories
 4.  Predefined Attributes
 4.1 List of Attributes
@@ -190,7 +191,7 @@ TODO:
       apikey=xxxx       User's key as provided by the service provider.
       
    Optional parameters:
-      q=xxxx            Search input (URL/UTF-8 encoded).
+      q=xxxx            Search input (URL/UTF-8 encoded). Case insensitive.
       limit=123         Upper limit for the number of items to be returned.
       cat=xxx           List of categories to search delimeted by ","
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
@@ -285,11 +286,12 @@ TODO:
      limit=123          Upper limit for the number of items to be returned, e.g. 123.
      rid=xxxx           TVRage id of the item being queried.
      season=xxxx        Season string, e.g S13 or 13 for the item being queried.
-     q=xxxx             Search input (URL/UTF-8 encoded).
+     q=xxxx             Search input (URL/UTF-8 encoded). Case insensitive.
      ep=xxx             Episode string, e.g E13 or 13 for the item being queried.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
      extended=1         Return extended information in the search results
      maxage=123         Only return results which were posted to usenet in the last x days.
+     offset=50          The 0 based query offset defining whcih part of the response we want.
      
    Examples:
      --> GET http://servername.com/api?t=tvsearch&apikey=xxxq=lost&season=S03
@@ -297,6 +299,17 @@ TODO:
          <?xml version="1.0" encoding="UTF-8"?>
          <rss version="2.0">
          <channel>
+            <title>example.com</title>
+            <description>example.com API results</description>
+            <!-- 
+              More RSS content
+            -->
+            
+            <!-- offset is the current offset of the response
+                 total is the total number of items found by the query
+            -->
+            <newznab:response offset="0" total="1234"/>
+
             <item>
               <!-- Standard RSS 2.0 data -->
               <title>Land.of.the.Lost.S03E02.Survival.Kit.iNTERNAL.DVDRip.XViD-SPRiNTER</title> 
@@ -339,8 +352,26 @@ TODO:
          </channel>
          </rss>
 
+   2.4 Search Modifiers
+   
+   The following search modifiers/operators are defined to enhance the searching functionality. The modifiers are submitted
+   part of the query parameter (q).
+   
+   +  A leading plus sign indicates that this word must be present in each item returned.
+   -  A leading minus sign indicates that this word must not be present in any items returned.
+   *  A trailing asterisk servers as the truncation (or wildcard) operator and matches any words partially.
+   "" A phrase enclosed in double quotes matches only items that contain the phrase completely.
+   
+   Examples:
+   
+   apple banana         Matches items that contain either apple or banana
+   +apple +juice        Matches items that cotain both apple and banana
+   +apple -juice        Matches items that contain apple but not juice
+   "apple banana"       Matches items that contain apple banana completely
+   
 
-   2.4 DETAILS
+
+   2.5 DETAILS
    
    Description:
       DETAILS function returns all information for a particular Usenet (NZB) item. The response
