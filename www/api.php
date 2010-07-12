@@ -106,18 +106,23 @@ switch ($function)
 		if (isset($_GET["limit"]) && is_numeric($_GET["limit"]) && $_GET["limit"] < 100)
 			$limit = $_GET["limit"];
 		
+		$offset = 0;
+		if (isset($_GET["offset"]) && is_numeric($_GET["offset"]))
+			$offset = $_GET["offset"];
+
 		if (isset($_GET["q"]))
-			$reldata = $releases->search($_GET["q"], $categoryId, $limit, "", $maxage);
+			$reldata = $releases->search($_GET["q"], $categoryId, $offset, $limit, "", $maxage);
 		else
 		{
 			$orderby = array();
 			$orderby[0] = "postdate";
 			$orderby[1] = "asc";
-			$reldata = $releases->getBrowseRange($categoryId, 0, $limit, "", $maxage);
+			$reldata = $releases->getBrowseRange($categoryId, $offset, $limit, "", $maxage);
 		}
 				
 		if ($outputtype == "xml")
 		{
+			$page->smarty->assign('offset',$offset);
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
 			echo $page->smarty->fetch('apiresult.tpl');	
@@ -129,7 +134,7 @@ switch ($function)
 		break;
 	
 	//
-	// search releases
+	// search tv releases
 	//
 	case "tv":
 		if (isset($_GET["q"]) && $_GET["q"]=="")
@@ -159,16 +164,20 @@ switch ($function)
 		if (isset($_GET["ep"]) && $_GET["ep"]=="")
 			showApiError(200);	
 
-
 		$limit = 100;
 		if (isset($_GET["limit"]) && is_numeric($_GET["limit"]) && $_GET["limit"] < 100)
 			$limit = $_GET["limit"];
 		
+		$offset = 0;
+		if (isset($_GET["offset"]) && is_numeric($_GET["offset"]))
+			$offset = $_GET["offset"];		
+			
 		$reldata = $releases->searchbyRageId((isset($_GET["rid"]) ? $_GET["rid"] : "-1"), (isset($_GET["season"]) ? $_GET["season"] : "")
-																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $limit, (isset($_GET["q"]) ? $_GET["q"] : ""), $categoryId, $maxage );
+																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $offset, $limit, (isset($_GET["q"]) ? $_GET["q"] : ""), $categoryId, $maxage );
 				
 		if ($outputtype == "xml")
 		{
+			$page->smarty->assign('offset',$offset);
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
 			echo $page->smarty->fetch('apiresult.tpl');	

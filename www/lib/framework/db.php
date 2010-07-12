@@ -53,9 +53,16 @@ class DB
 			return $rows;		
 	}	
 		
-	public function query($query, $blah=false)
+	public function query($query, $addtotalcount=false)
 	{
 		$result = mysql_query($query);
+		
+		if ($addtotalcount)
+		{
+			$totalResult = mysql_query("Select FOUND_ROWS()");
+			$totalRow = mysql_fetch_array($totalResult);
+			$totalRow = $totalRow[0];
+		}
 		
 		if ($result === false || $result === true)
 			return array();
@@ -65,9 +72,10 @@ class DB
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$rows[] = $row;	
+			if ($addtotalcount)
+				$rows["_totalrows"] = $totalRow;
 		}
 		mysql_free_result($result);
-
 		return $rows;
 	}	
 	

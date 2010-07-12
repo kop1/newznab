@@ -24,10 +24,18 @@ $category = -1;
 if (isset($_REQUEST["t"]))
 	$category = $_REQUEST["t"] + 0;
 
-$browsecount = $releases->getBrowseCount($category);
+$catarray = array();
+$catarray[] = $category;	
+	
 $offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 $ordering = $releases->getBrowseOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
+
+$results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby);
+$browsecount = 0;
+if (count($results) > 0)
+	$browsecount = $results["_totalrows"];
+
 $page->smarty->assign('pagertotalitems',$browsecount);
 $page->smarty->assign('pageroffset',$offset);
 $page->smarty->assign('pageritemsperpage',ITEMS_PER_PAGE);
@@ -37,10 +45,6 @@ $page->smarty->assign('pagerquerysuffix', "#results");
 $pager = $page->smarty->fetch("pager.tpl");
 $page->smarty->assign('pager', $pager);
 
-$catarray = array();
-$catarray[] = $category;
-
-$results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby);
 if ($category == -1)
 	$page->smarty->assign("catname","All");			
 else
