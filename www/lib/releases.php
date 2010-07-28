@@ -650,9 +650,9 @@ class Releases
 					$sizeSql.= " binaryID = ".$binSizeId["ID"]." or ";
 				$sizeSql.=" 1=2) ";
 				$temp = $db->queryOneRow($sizeSql);
-				$totalSize = $temp["totalSize"]."";
+				$totalSize = ($temp["totalSize"]+0)."";
 			}
-			
+
 			//
 			// insert the release
 			// 
