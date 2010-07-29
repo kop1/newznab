@@ -10,6 +10,7 @@ class Category
 	const CAT_GAME_WII = 1030;
 	const CAT_GAME_XBOX = 1040;
 	const CAT_GAME_XBOX360 = 1050;
+	const CAT_GAME_WIIWARE = 1060;
 	const CAT_MOVIE_DVD = 2010;
 	const CAT_MOVIE_WMV_HD = 2020;
 	const CAT_MOVIE_XVID = 2030;
@@ -21,6 +22,7 @@ class Category
 	const CAT_PC_0DAY = 4010;
 	const CAT_PC_ISO = 4020;
 	const CAT_PC_MAC = 4030;
+	const CAT_PC_PHONE = 4040;
 	const CAT_TV_DVD = 5010;
 	const CAT_TV_SWE = 5020;
 	const CAT_TV_XVID = 5030;

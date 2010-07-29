@@ -473,6 +473,7 @@ TODO:
    1030                                 Console/Wii                     Nintendo Wii
    1040                                 Console/XBox                    Microsoft XBox
    1050                                 Console/Xb0x 360                Microsoft XBox 360
+   1050                                 Console/Wiiware                 Wii homebrew
    2000                                 Movies                          All of movies
    2010                                 Movies/DVD                      
    2020                                 Movies/WMV-HD
@@ -487,6 +488,7 @@ TODO:
    4010                                 PC/0day                         Apps and games not released in ISO.
    4020                                 PC/ISO                          CD-ROM images/DVD Images
    4030                                 PC/Mac                          
+   4030                                 PC/Phone                        Mobile phone software 
    5000                                 TV                              All of TV
    5010                                 TV/DVD                          TV Series on DVD
    5020                                 TV/SWE                          Swedish TV

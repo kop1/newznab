@@ -364,6 +364,7 @@ INSERT INTO category (ID, title, parentID) VALUES (1020, 'PSP', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1030, 'Wii', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1040, 'Xbox', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1050, 'Xbox 360', 1000);
+INSERT INTO category (ID, title, parentID) VALUES (1060, 'WiiWare/VC', 1000);
 
 INSERT INTO category (ID, title, parentID) VALUES (2010, 'DVD', 2000);
 INSERT INTO category (ID, title, parentID) VALUES (2020, 'WMV-HD', 2000);
@@ -378,6 +379,7 @@ INSERT INTO category (ID, title, parentID) VALUES (3040, 'Lossless', 3000);
 INSERT INTO category (ID, title, parentID) VALUES (4010, '0day', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4020, 'ISO', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4030, 'Mac', 4000);
+INSERT INTO category (ID, title, parentID) VALUES (4040, 'Phone', 7000);
 
 INSERT INTO category (ID, title, parentID) VALUES (5010, 'DVD', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5020, 'SWE', 5000);
