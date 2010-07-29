@@ -21,6 +21,7 @@ class NZB
 		
 		$this->maxMssgs = 20000; //fetch this amount of messages at the time
 		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
+		$this->NewGroupDaysToScan = 3;	//how many days back to scan for new groups
 	}
 	
 	//
@@ -148,11 +149,8 @@ class NZB
 			//
 			// for new newsgroups - determine here how far you want to go back.
 			//
-			if($data['first'] > ($data['last'] - $this->howManyMsgsToGoBackForNewGroup))
-				$first = $data['first'];
-			else
-				$first = $data['last'] - $this->howManyMsgsToGoBackForNewGroup;	
-		$db->query(sprintf("UPDATE groups SET first_record = %s WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
+			$first = $this->daytopost($nntp,$groupArr['name'],$this->NewGroupDaysToScan);
+			$db->query(sprintf("UPDATE groups SET first_record = %s WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 		} 
 		else 
 		{
@@ -163,6 +161,8 @@ class NZB
 		$total = $last - $first;
 
 		//if total is bigger than 0 it means we have new parts in the newsgroup
+		if(($data['last']-$data['first'])<=5) //deactivate empty groups
+			$db->query(sprintf("UPDATE groups SET active = %s, last_updated = now() WHERE ID = %d", $db->escapeString('0'), $groupArr['ID']));
 		if($total > 0) 
 		{
 
@@ -306,6 +306,7 @@ class NZB
 		else 
 		{
 			echo "No new records for ".$data["group"]." (first $first last $last total $total) grouplast ".$groupArr['last_record']."$n";
+
 		}
 	}
 
@@ -317,17 +318,16 @@ class NZB
 	 $date = strtotime($date);
 	 return $date;
 	}
-	function daytopost($group,$days)
+	function daytopost($nntp,$group,$days)
 	{
-	 $nntp = new Nntp();
-	 $nntp->doConnect();
+		echo "INFO: daytopost finding post for $group $days days back.\n";
 	 $data = $nntp->selectGroup($group);
 	 $goaldate = date('U')-(86400*$days); //goaltimestamp
 	 if($goaldate < $this->postdate($nntp,$data['first']) || $goaldate > $this->postdate($nntp,$data['last']))
 	 {
-	         echo "Daytopost: Goal date out of range.\n";
-	         echo "Debug: goaldate=$datedate\nFirstdate:".$this->postdate($nntp,$data['first'])."\nLastdate:".$this->postdate($nntp,$data['last'])."\n";
-	         return false;
+	         echo "WARNING: daytopost: Goal date out of range. Returning start post.\n";
+		echo "Debug: goaldate=$goaldate\nFirstdate:".$this->postdate($nntp,$data['first'])."\nLastdate:".$this->postdate($nntp,$data['last'])."\n";
+	         return $data['first'];
 	 }
 	 $startdate = $this->postdate($nntp,$data['first']); $enddate = $this->postdate($nntp,$data['last']);
 	 echo("Start  =".$data['first']."\nSrtdate=$startdate\nEnd    =".$data['last']."\nEndDate=$enddate\n");
