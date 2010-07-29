@@ -233,7 +233,7 @@ class Category
 		//S01.E01
 		//1x01
 		//S1.D1
-		if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $binaryname)) {
+		if (preg_match('/S?(\d{1,2})(E|X)(\d{1,3})/i', $binaryname)) {
 			if (preg_match('/720p|1080p|x264/i', $binaryname)) { return Category::CAT_TV_X264; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_TV_XVID;
