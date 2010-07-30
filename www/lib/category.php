@@ -138,7 +138,7 @@ class Category
 	// Work out which category is applicable for either a group or a binary.
 	// returns -1 if no category is appropriate from the group name.
 	// 
-	function determineCategory($group, $binaryname = "")
+	function determineCategory($group, $releasename = "")
 	{
 		$ret = Category::CAT_MISC;
 
@@ -152,7 +152,7 @@ class Category
 			return Category::CAT_MUSIC_MP3;
 
 		if (preg_match('/alt\.binaries\.games\.xbox360/i', $group)) {
-			if (!empty($binaryname) && preg_match('/wmv/i', $binaryname)) {return Category::CAT_MOVIE_WMV_HD; }
+			if (!empty($releasename) && preg_match('/wmv/i', $releasename)) {return Category::CAT_MOVIE_WMV_HD; }
 			return Category::CAT_GAME_XBOX360;
 		}
 		
@@ -160,12 +160,12 @@ class Category
 			return Category::CAT_GAME_XBOX;
 
 		if (preg_match('/alt\.binaries\.dvd.*?/i', $group)) {
-			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $binaryname)) { return Category::CAT_TV_DVD; }
+			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $releasename)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_MOVIE_DVD;	
 		}
 		
 		if (preg_match('/alt\.binaries\.hdtv\.x264|alt\.binaries\.x264/i', $group)) {
-			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $binaryname)) { return Category::CAT_TV_X264; }
+			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $releasename)) { return Category::CAT_TV_X264; }
 			return Category::CAT_MOVIE_X264;	
 		}
 			
@@ -176,12 +176,12 @@ class Category
 			return Category::CAT_MISC_EBOOK;
 
 		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries\.inner\-sanctum/i', $group)) {
-			if (preg_match('/osx|os\.x|\.mac\./i', $binaryname)) { return Category::CAT_PC_MAC; }
+			if (preg_match('/osx|os\.x|\.mac\./i', $releasename)) { return Category::CAT_PC_MAC; }
 			return Category::CAT_PC_0DAY;
 		}
 		
 		if (preg_match('/alt\.binaries\.cd\.image|alt\.binaries\.audio\.warez/i', $group)) {
-			if (preg_match('/osx|os\.x|\.mac\./i', $binaryname)) { return Category::CAT_PC_MAC; }
+			if (preg_match('/osx|os\.x|\.mac\./i', $releasename)) { return Category::CAT_PC_MAC; }
 			return Category::CAT_PC_ISO;		
 		}
 		
@@ -216,28 +216,28 @@ class Category
 			return Category::CAT_TV_SPORT;		
 
 		//
-		// If nothing can be done, try on binaryname
+		// If nothing can be done, try on releasename
 		//
 
 		//
 		// Tv 
 		//
 		if (preg_match('/alt\.binaries\.(teevee|multimedia|tv|tvseries)/i', $group)) {
-			if (preg_match('/ESPN/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/WWE\./', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/MMA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/TNA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/EPL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/NASCAR\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/NBA\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/NHL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/NRL\.(\d{4})/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/Superleague\.Formula/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/FIFA\./', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/netball\.anz/', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/motogp/i', $binaryname)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_TV_X264; }
-			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_TV_DVD; }
+			if (preg_match('/ESPN/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/WWE\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/MMA\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/TNA\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/EPL\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NASCAR\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NBA\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NHL\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NRL\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/Superleague\.Formula/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/FIFA\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/netball\.anz/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/motogp/i', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_TV_X264; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_TV_XVID;
 		}
 		
@@ -245,14 +245,14 @@ class Category
 		//S01.E01
 		//1x01
 		//S1.D1
-		if (preg_match('/S?(\d{1,2})(E|X)(\d{1,3})/i', $binaryname)) {
-			if (preg_match('/720p|1080p|x264/i', $binaryname)) { return Category::CAT_TV_X264; }
-			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_TV_DVD; }
+		if (preg_match('/S?(\d{1,2})(E|X)(\d{1,3})/i', $releasename)) {
+			if (preg_match('/720p|1080p|x264/i', $releasename)) { return Category::CAT_TV_X264; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_TV_XVID;
 		}
 		
-		if (preg_match('/\.S\d{2}\./i', $binaryname)) {
-			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_TV_X264; }
+		if (preg_match('/\.S\d{2}\./i', $releasename)) {
+			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_TV_X264; }
 			return Category::CAT_TV_XVID;
 		}
 		
@@ -260,48 +260,48 @@ class Category
 		// XXX 
 		//
 		if (preg_match('/erotica/i', $group)) { 
-			if (preg_match('/720p|1080p/i', $binaryname)) { return Category::CAT_XXX_X264; }
-			if (preg_match('/xvid|divx/i', $binaryname)) { return Category::CAT_XXX_XVID; }
-			if (preg_match('/wmv|pack\-/i', $binaryname)) { return Category::CAT_XXX_WMV; }
-			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $binaryname)) { return Category::CAT_XXX_DVD; }
+			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_XXX_X264; }
+			if (preg_match('/xvid|divx/i', $releasename)) { return Category::CAT_XXX_XVID; }
+			if (preg_match('/wmv|pack\-/i', $releasename)) { return Category::CAT_XXX_WMV; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_XXX_DVD; }
 			return Category::CAT_XXX_XVID;
 		}
 
 		//
 		// Movie 
 		//		
-		if (preg_match('/xvid|dvdscr|extrascene|dvdrip|r5/i', $binaryname)) 
+		if (preg_match('/xvid|dvdscr|extrascene|dvdrip|r5/i', $releasename)) 
 			return Category::CAT_MOVIE_XVID;
 
-		if (preg_match('/dvdr|dvd9|dvd5/i', $binaryname) && !preg_match('/dvdrip/i', $binaryname)) 
+		if (preg_match('/dvdr|dvd9|dvd5/i', $releasename) && !preg_match('/dvdrip/i', $releasename)) 
 			return Category::CAT_MOVIE_DVD;
 		
-		if (preg_match('/720p|1080p/i', $binaryname) || preg_match('/x264/i', $binaryname)) 
+		if (preg_match('/720p|1080p/i', $releasename) || preg_match('/x264/i', $releasename)) 
 			return Category::CAT_MOVIE_X264;
 					
-		if (preg_match('/wmv/i', $binaryname)) 
+		if (preg_match('/wmv/i', $releasename)) 
 			return Category::CAT_MOVIE_WMV_HD;
 		
 		//
 		// Console 
 		//	
-		if (preg_match('/PSP-/', $binaryname)) 
+		if (preg_match('/PSP-/', $releasename)) 
 			return Category::CAT_GAME_PSP;
 
-		if (preg_match('/WII-/i', $binaryname)) 
+		if (preg_match('/WII-/i', $releasename)) 
 			return Category::CAT_GAME_WII;
 		
-		if (preg_match('/xbox360/i', $binaryname)) 
+		if (preg_match('/xbox360/i', $releasename)) 
 			return Category::CAT_GAME_XBOX360;
 		
-		if (preg_match('/xbox/i', $binaryname)) 
+		if (preg_match('/xbox/i', $releasename)) 
 			return Category::CAT_GAME_XBOX;
 		
 		
 		//
-		// If no binary name provided and the group wasnt determined, then return -1
+		// If no release name provided and the group wasnt determined, then return -1
 		//
-		if (($binaryname == "") && ($ret == Category::CAT_MISC))
+		if (($releasename == "") && ($ret == Category::CAT_MISC))
 			$ret = -1;
 
 		return $ret;
