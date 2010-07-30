@@ -166,8 +166,12 @@ class NZB
 		if($total > 0) 
 		{
 
-			echo "Group ".$data["group"]." has ".$data['first']." - ".$last." = {$total} (Total parts) - Local last = ".$groupArr['last_record'].$n;
-			echo 'Using compressed: '.(($this->compressedHeaders)?'Yes':'No').$n;
+			echo "Group ".$data["group"]." has ".$data['first']." - ".$data['last'].", or ~";
+			echo((int) (($this->postdate($nntp,$data['last']) - $this->postdate($nntp,$data['first']))/86400));
+			echo " days - Local last = ".$groupArr['last_record'];
+			if($groupArr['last_record']==0)
+				echo(", we are getting ".$this->NewGroupDaysToScan." days worth.");
+			echo $n.'Using compressed: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
 
 			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
