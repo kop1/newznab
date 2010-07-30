@@ -592,20 +592,20 @@ class Releases
 				{
 					$matches = array_map("trim", $matches);
 					
-					if (!isset($matches['name']) || empty($matches['name'])) {
-						if ($echooutput) {
-							echo "bad regex applied which didnt return right number of capture groups - ".$regexrow["regex"]."\n";
+					if (!isset($matches['name']) || empty($matches['name'])) 
+					{
+						if ($echooutput) 
+						{
+							echo "regex applied which didnt return right number of capture groups - ".$regexrow["regex"]."\n";
 							print_r($matches);
-							break; //end loop
+							continue;
 						}
 					}
 					
 					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
-					if (!isset($matches['parts']) && time() - strtotime($rowbin['date']) > 10800) {
+					if (!isset($matches['parts']) && time() - strtotime($rowbin['date']) > 10800) 
+					{
 						 $matches['parts'] = "01/01";
-						 if ($echooutput) {
-							//echo "adding post without parts - bin: ".date("Y-m-d H:i:s", strtotime($rowbin['date']))." now: ".date("Y-m-d H:i:s")."\n";
-						}
 					}
 					
 					if (isset($matches['name']) && isset($matches['parts'])) 
