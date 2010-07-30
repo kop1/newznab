@@ -99,11 +99,21 @@ class Category
 		foreach ($ret as $key => $parent)
 		{
 			$subcatlist = array();
+			$subcatnames = array();
 			foreach ($arr as $a)
+			{
 				if ($a["parentID"] == $parent["ID"])
+				{
 					$subcatlist[] = $a;
-
-			$ret[$key]["subcatlist"] = $subcatlist;
+					$subcatnames[] = $a["title"];
+				}
+			}
+			
+			if (count($subcatlist > 0))
+			{
+				array_multisort($subcatnames, SORT_ASC, $subcatlist);
+				$ret[$key]["subcatlist"] = $subcatlist;
+			}
 		}
 		return $ret;
 	}	
