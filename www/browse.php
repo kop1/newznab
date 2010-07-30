@@ -27,14 +27,13 @@ if (isset($_REQUEST["t"]))
 $catarray = array();
 $catarray[] = $category;	
 	
+$browsecount = $releases->getBrowseCount($catarray);
+
 $offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 $ordering = $releases->getBrowseOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 
 $results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby);
-$browsecount = 0;
-if (count($results) > 0)
-	$browsecount = $results[0]["_totalrows"];
 
 $page->smarty->assign('pagertotalitems',$browsecount);
 $page->smarty->assign('pageroffset',$offset);

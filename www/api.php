@@ -117,7 +117,10 @@ switch ($function)
 			$orderby = array();
 			$orderby[0] = "postdate";
 			$orderby[1] = "asc";
+			$totrows = $releases->getBrowseCount($categoryId, $maxage);
 			$reldata = $releases->getBrowseRange($categoryId, $offset, $limit, "", $maxage);
+			if ($totrows > 0 && count($reldata))
+				$reldata[0]["_totalrows"] = $totrows;
 		}
 				
 		if ($outputtype == "xml")

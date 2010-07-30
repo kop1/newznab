@@ -57,6 +57,47 @@ class Releases
 		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by postdate desc".$limit);		
 	}
 	
+	public function getBrowseCount($cat, $maxage=-1)
+	{
+		$db = new DB();
+
+		$catsrch = "";
+		if (count($cat) > 0 && $cat[0] != -1)
+		{
+			$catsrch = " where (";
+			foreach ($cat as $category)
+			{
+				if ($category != -1)
+				{
+					$categ = new Category();
+					if ($categ->isParent($category))
+					{
+						$children = $categ->getChildren($category);
+						$chlist = "-99";
+						foreach ($children as $child)
+							$chlist.=", ".$child["ID"];
+
+						if ($chlist != "-99")
+								$catsrch .= " releases.categoryID in (".$chlist.") or ";
+					}
+					else
+					{
+						$catsrch .= sprintf(" releases.categoryID = %d or ", $category);
+					}
+				}
+			}
+			$catsrch.= "1=2 )";
+		}			
+
+		if ($maxage > 0)
+			$maxage = sprintf(" and postdate < now() - interval %d day ", $maxage);
+		else
+			$maxage = "";		
+		
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases %s", $catsrch));		
+		return $res["num"];	
+	}	
+	
 	public function getBrowseRange($cat, $start, $num, $orderby, $maxage=-1)
 	{		
 		$db = new DB();
@@ -101,7 +142,7 @@ class Releases
 			
 		$order = $this->getBrowseOrder($orderby);
 		
-		return $db->query(sprintf(" SELECT SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s order by %s %s".$limit, $catsrch, $maxage, $order[0], $order[1]), true);		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s order by %s %s".$limit, $catsrch, $maxage, $order[0], $order[1]));		
 	}
 	
 	public function getBrowseOrder($orderby)
