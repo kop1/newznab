@@ -10,6 +10,7 @@ CREATE TABLE `binaries` (
 		`groupID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
 		`procstat` INT DEFAULT 0,
 		`procattempts` INT DEFAULT 0,
+		`categoryID` INT NULL,
 		`relpart` INT DEFAULT 0,
 		`reltotalpart` INT DEFAULT 0,
 		`relname` VARCHAR(255) NULL,
@@ -95,6 +96,7 @@ CREATE TABLE `releaseregex` (
   `ordinal` INT(11) UNSIGNED NOT NULL,
   `status` INT(11) UNSIGNED NOT NULL DEFAULT 1,
   `description` VARCHAR(1000) NULL,
+  `categoryID` INT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 

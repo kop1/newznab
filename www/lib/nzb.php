@@ -337,6 +337,8 @@ class NZB
 
 	 echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
 	 $interval = (int)(($upperbound - $lowerbound) * 0.5);
+	 $dateofnextone = "";
+	 $templowered = "";
 	 while(!$dateofnextone)
 	 {  $dateofnextone = $this->postdate($nntp,($upperbound-1)); }
 

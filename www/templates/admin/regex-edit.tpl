@@ -36,6 +36,14 @@
 </tr>
 
 <tr>
+	<td><label for="category">Category</label>:</td>
+	<td>
+		{html_options id="category" name=category options=$catlist selected=$regex.categoryID}
+		<div class="hint">If this regex indicates the release category then supply it here. If left blank the standard method of determining the category will apply.</div>	
+	</td>
+</tr>
+
+<tr>
 	<td>Ordinal:</td>
 	<td>
 		<input id="ordinal" class="short" name="ordinal" value="{$regex.ordinal|escape:html}" />

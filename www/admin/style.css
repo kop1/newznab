@@ -17,7 +17,7 @@ table.input td { vertical-align:top;}
 div#group_list {
 }
 
-    div#group_list div#message {
+div#message {
         display: none;
         margin: 0 0 10px 0;
         color: #fff;

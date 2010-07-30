@@ -3,8 +3,10 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/releaseregex.php");
+require_once(WWW_DIR."/lib/category.php");
 
 $page = new AdminPage();
+$category = new Category();
 $reg = new ReleaseRegex();
 $id = 0;
 
@@ -48,6 +50,8 @@ switch($action)
 
 $page->smarty->assign('status_ids', array(Category::STATUS_ACTIVE,Category::STATUS_INACTIVE));
 $page->smarty->assign('status_names', array( 'Yes', 'No'));
+
+$page->smarty->assign('catlist',$category->getForSelect(true));
 
 $page->content = $page->smarty->fetch('admin/regex-edit.tpl');
 $page->render();
