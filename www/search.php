@@ -31,7 +31,7 @@ if (isset($_REQUEST["search"]))
 	$ordering = $releases->getBrowseOrdering();
 	$orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 	foreach($ordering as $ordertype) {
-		$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/search.php?search=".$_REQUEST["search"]."&amp;t=".(implode(',',$categoryId))."&amp;ob=".$ordertype);
+		$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/search.php?search=".htmlentities($_REQUEST["search"])."&amp;t=".(implode(',',$categoryId))."&amp;ob=".$ordertype);
 	}
 	$page->smarty->assign('search', $_REQUEST["search"]);
 	$results = $releases->search($_REQUEST["search"], $categoryId, 0, 1000, $orderby);
