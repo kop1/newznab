@@ -138,8 +138,8 @@ class NZB
 		$data = $nntp->selectGroup($groupArr['name']);
 		if(PEAR::isError($data)) 
 		{
-			echo "Could not select group: {$groupArr['name']}$n";
-			die();
+			echo "Could not select group (bad name?): {$groupArr['name']}$n";
+			return;
 		}
 		
 		//get first and last part numbers from newsgroup
