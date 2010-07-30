@@ -86,7 +86,9 @@ updating index (populating binaries + parts)
 regex matching
 	releases are created by applying regexs to binary message subjects. different regexes 
 	are applied to binaries from different newsgroups. catchall regexes are applied to any
-	binaries left unmatched after the group specific matching.
+	binaries left unmatched after the group specific matching. a category can be associated
+	with a regex, which will allow the processing of groups like inner-sanctum which contain a 
+	combination of different binary types.
 	
 nzb file store
 	nzbs are saved to disk gzipped at the location specified by site.nzbpath in subdirs based on the 
