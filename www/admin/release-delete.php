@@ -11,7 +11,10 @@ if (isset($_GET['id']))
 	$releases->delete($_GET['id']);
 }
 
-$referrer = $_SERVER['HTTP_REFERER'];
+if (isset($_GET['from']))
+	$referrer = $_GET['from'];
+else
+	$referrer = $_SERVER['HTTP_REFERER'];
 header("Location: " . $referrer);
 
 ?>
