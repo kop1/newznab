@@ -141,7 +141,6 @@ class Releases
 			$maxage = "";
 			
 		$order = $this->getBrowseOrder($orderby);
-		
 		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s order by %s %s".$limit, $catsrch, $maxage, $order[0], $order[1]));		
 	}
 	
@@ -619,7 +618,7 @@ class Releases
 							$regcatid = $regexrow["categoryID"];
 							
 						$parts = explode("/", $matches['parts']);
-						$db->query(sprintf("update binaries set relname = %s, relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s where ID = %d", 
+						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s where ID = %d", 
 						$db->escapeString($matches['name']), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $regcatid, $rowbin["ID"] ));
 					}
 				}
