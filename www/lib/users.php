@@ -271,5 +271,16 @@ class Users
 		$db = new DB();
 		$db->query(sprintf("delete from usercart where releaseID = %d", $rid));		
 	}	
+	
+	public function getTopGrabbers()
+	{
+		$db = new DB();
+		return $db->query("SELECT ID, username, SUM(grabs) as grabs FROM users
+							GROUP BY ID, username
+							HAVING SUM(grabs) > 0
+							ORDER BY grabs DESC
+							LIMIT 10");		
+	}
+	
 }
 ?>

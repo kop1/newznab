@@ -1060,5 +1060,26 @@ class Releases
 		
 		return $db->query(sprintf(" SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID where userID = %d order by releasecomment.createddate desc ".$limit, $uid));		
 	}
+	
+	public function getTopDownloads()
+	{
+		$db = new DB();
+		return $db->query("SELECT ID, searchname, adddate, SUM(grabs) as grabs FROM releases
+							GROUP BY ID, searchname, adddate
+							HAVING SUM(grabs) > 0
+							ORDER BY grabs DESC
+							LIMIT 10");		
+	}	
+
+	public function getTopComments()
+	{
+		$db = new DB();
+		return $db->query("SELECT ID, searchname, adddate, SUM(comments) as comments FROM releases
+							GROUP BY ID, searchname, adddate
+							HAVING SUM(comments) > 0
+							ORDER BY comments DESC
+							LIMIT 10");		
+	}	
+
 }
 ?>
