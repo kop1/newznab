@@ -618,8 +618,8 @@ class Releases
 							$regcatid = $regexrow["categoryID"];
 							
 						$parts = explode("/", $matches['parts']);
-						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s where ID = %d", 
-						$db->escapeString($matches['name']), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $regcatid, $rowbin["ID"] ));
+						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s, regexID=%d where ID = %d", 
+							$db->escapeString($matches['name']), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $regcatid, $regexrow["ID"], $rowbin["ID"] ));
 					}
 				}
 			}

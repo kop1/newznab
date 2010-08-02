@@ -11,6 +11,7 @@ CREATE TABLE `binaries` (
 		`procstat` INT DEFAULT 0,
 		`procattempts` INT DEFAULT 0,
 		`categoryID` INT NULL,
+		`regexID` INT NULL,
 		`relpart` INT DEFAULT 0,
 		`reltotalpart` INT DEFAULT 0,
 		`relname` VARCHAR(255) NULL,
