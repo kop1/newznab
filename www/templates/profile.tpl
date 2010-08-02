@@ -5,6 +5,7 @@
 	<tr><th>Username:</th><td>{$user.username|escape:"htmlall"}</td></tr>
 	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Email:</th><td>{$user.email}</td></tr>{/if}
 	<tr><th>Registered:</th><td title="{$user.createddate}">{$user.createddate|date_format}</td></tr>
+	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Site Api/Rss Key:</th><td>{$user.rsstoken}</td></tr>{/if}
 	<tr><th>Grabs:</th><td>{$user.grabs}</td></tr>
 </table>
 
