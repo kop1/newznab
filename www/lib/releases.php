@@ -719,7 +719,10 @@ class Releases
 			// 
 			$relguid = md5(uniqid());
 			if ($regexAppliedCategoryID == "")
+			{
 				$catId = $cat->determineCategory($row["group_name"], $row["relname"]);
+				$regexID = " null ";
+			}
 			else
 			{
 				$catId = $regexAppliedCategoryID;
