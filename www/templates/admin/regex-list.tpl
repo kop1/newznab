@@ -28,7 +28,8 @@
 	<tr id="row-{$regex.ID}" class="{cycle values=",alt"}">
 		<td>{$regex.ID}</td>
 		<td title="{$regex.description}">{if $regex.groupname==""}all{else}{$regex.groupname|replace:"alt.binaries":"a.b"}{/if}</td>
-		<td title="Edit regex"><a href="{$smarty.const.WWW_TOP}/regex-edit.php?id={$regex.ID}">{$regex.regex|escape:html}</a></td>
+		<td title="Edit regex"><a href="{$smarty.const.WWW_TOP}/regex-edit.php?id={$regex.ID}">{$regex.regex|escape:html}</a><br>
+			{$regex.description}</td>
 		<td title="{$regex.categoryID}">{if $regex.categoryID!=""}{$regex.categoryTitle}{/if}</td>
 		<td>{if $regex.status==1}active{else}disabled{/if}</td>
 		<td style="text-align:center;">{$regex.ordinal}</td>
