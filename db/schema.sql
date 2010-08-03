@@ -176,7 +176,7 @@ INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `descript
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.movies.divx', '/^\\[\\d{1,5}\\]\\-\\[\\#a.*?\\]\\-\\[FULL\\]\\-\\[(?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 1, 1, '[3143]-[#a.b.moovee@EFNet]-[FULL]-[ Ip.Man.2.2010.DVDRip.XviD-GiNJi ]-[71/72] \"ginji-ip2.vol083+24.PAR2\" yEnc', 2030);
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.games.xbox360', '/^\\((?P<parts>\\d{1,3}\\/\\d{1,3})\\) \\<.*?\\> (?P<name>.*?) \\\"/i', 10, 0, '', 1050);
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.wmvhd', '/^#HD-WMV.*?Presents(?P<name>.*?)\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 2, 1, '#HD-WMV.COM on Efnet Presents A.Christmas.Carol.2009.BluRay.1080p.VC1.5.1.WMV-INSECTS [89/89] - \"insects-cc.1080p.vc1.5.1.vol153+24.par2\" yEnc', 2020);
-INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.tevee', '/^#?a\\.b\\.m+@efnet \\- (?:req [\\dx]{4,} (?:repost |parpack )?\\- )?(?P<name>.*?) ?(?:- ?)?\\[?(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 2, 1, 'Something to do with TV', NULL);
+INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.teevee', '/^#?a\\.b\\.m+@efnet \\- (?:req [\\dx]{4,} (?:repost |parpack )?\\- )?(?P<name>.*?) ?(?:- ?)?\\[?(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 2, 1, 'Something to do with TV', NULL);
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.teevee', '/^www\\.Bin\\-Req\\.net Presents: #\\d{5} \\- (?P<name>.*?) \\- \\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 3, 1, 'Something to do with TV', NULL);
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.teevee', '/^\\[\\d{4,}\\]\\-\\[FULL\\]\\-\\[#a\\.b\\.teevee@EFNet\\]\\-\\[(?P<name>.*?)\\]\\-\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 4, 1, 'Something to do with TV', NULL);
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.teevee', '/^#alt\\.bin\\.mm@efnet \\[REQ \\d{5}\\] (?P<name>.*?) \\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 5, 1, 'Something to do with TV', NULL);
@@ -345,7 +345,7 @@ INSERT INTO category (ID, title, parentID) VALUES (3040, 'Lossless', 3000);
 INSERT INTO category (ID, title, parentID) VALUES (4010, '0day', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4020, 'ISO', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4030, 'Mac', 4000);
-INSERT INTO category (ID, title, parentID) VALUES (4040, 'Phone', 7000);
+INSERT INTO category (ID, title, parentID) VALUES (4040, 'Phone', 4000);
 
 INSERT INTO category (ID, title, parentID) VALUES (5010, 'DVD', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5020, 'SWE', 5000);
