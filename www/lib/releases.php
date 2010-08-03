@@ -719,15 +719,15 @@ class Releases
 			// 
 			$relguid = md5(uniqid());
 			if ($regexAppliedCategoryID == "")
-			{
 				$catId = $cat->determineCategory($row["group_name"], $row["relname"]);
-				$regexID = " null ";
-			}
 			else
-			{
 				$catId = $regexAppliedCategoryID;
+			
+			if ($regexIDused == "")				
+				$regexID = " null ";
+			else
 				$regexID = $regexIDused;
-			}
+			
 			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s)", 
 										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
 
