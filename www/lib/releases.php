@@ -688,7 +688,8 @@ class Releases
 			//
 			$totalSize = "0";
 			$regexAppliedCategoryID = "";
-			$binariesForSize = $db->query(sprintf("select ID, categoryID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d", 
+			$regexIDused = "";
+			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d", 
 									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE ));
 			if (count($binariesForSize) > 0)
 			{
@@ -702,6 +703,11 @@ class Releases
 					//					
 					if ($binSizeId["categoryID"] != "" && $regexAppliedCategoryID == "")
 						$regexAppliedCategoryID = $binSizeId["categoryID"];
+					//
+					// get RegexID if one has been allocated to this 
+					//					
+					if ($binSizeId["regexID"] != "" && $regexIDused == "")
+						$regexIDused = $binSizeId["regexID"];
 				}
 				$sizeSql.=" 1=2) ";
 				$temp = $db->queryOneRow($sizeSql);
@@ -717,9 +723,10 @@ class Releases
 			else
 			{
 				$catId = $regexAppliedCategoryID;
+				$regexID = $regexIDused;
 			}
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, -1, %s, %s, %s)", 
-										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s)", 
+										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
 
 			//
 			// tag every binary for this release with its parent release id
