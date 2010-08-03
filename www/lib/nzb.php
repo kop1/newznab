@@ -219,7 +219,7 @@ class NZB
 						if (!isset($msg['Subject']) || !preg_match($pattern, $msg['Subject'], $matches)) // not a binary post most likely.. continue with next
 							continue;
 						//Filter for only u4all posts in boneless
-						if ($groupArr['name'] == 'alt.binaries.boneless' && !preg_match('/u4all|usenet4all/i', $msg['Subject'])) 
+						if ($groupArr['name'] == 'alt.binaries.boneless' && !preg_match('/usenet-4all|u4all|usenet4all/i', $msg['Subject'])) 
 						{
 							//continue; //Uncomment to enable
 						}
