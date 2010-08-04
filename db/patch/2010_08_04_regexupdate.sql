@@ -1,3 +1,15 @@
+DROP TABLE IF EXISTS `releaseregex`;
+CREATE TABLE `releaseregex` (
+  `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `groupname` VARCHAR(255) NULL,
+  `regex` VARCHAR(2000) NOT NULL,
+  `ordinal` INT(11) UNSIGNED NOT NULL,
+  `status` INT(11) UNSIGNED NOT NULL DEFAULT 1,
+  `description` VARCHAR(1000) NULL,
+  `categoryID` INT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
+
 INSERT INTO `releaseregex` VALUES (1, 'alt.binaries.sony.psp', '/^\\[(PSP4U\\]).*?\\[(?P<name>.*?)\\].*?\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 10, 0, '', 1020, NULL);
 INSERT INTO `releaseregex` VALUES (2, 'alt.binaries.games.wii', '/^()(?P<name>.*?) \\>.*?\\((?P<parts>\\d{1,4}\\/\\d{1,4})/i', 2, 1, 'Lego.Harry.Potter.Years.1-4.USA.Wii-CLANDESTiNE >usenetrevolution.info sponsored by newsconnection.eu< (109/109) - \"clan-legohp.vol134+16.par2\" - 4,81 GB yEnc', 1030, NULL);
 INSERT INTO `releaseregex` VALUES (3, 'alt.binaries.games.wii', '/^(WII4U) \\- (?P<name>.*?) \\- \\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 1, 1, 'WII4U - thinkSMART.Family.USA.WII-dumpTruck - [15/15] - \"dumptruck-tf.vol225+27.par2\" yEnc', 1030, NULL);
