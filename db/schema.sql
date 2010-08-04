@@ -43,6 +43,7 @@ CREATE TABLE `releases`
 `guid` VARCHAR(50) NOT NULL,
 `fromname` VARCHAR(255) NULL,
 `categoryID` INT DEFAULT 0,
+`regexID` INT DEFAULT 0,
 `rageID` INT NULL,
 `seriesfull` VARCHAR(15) NULL,
 `season` VARCHAR(10) NULL,
