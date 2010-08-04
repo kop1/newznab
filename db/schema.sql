@@ -99,7 +99,7 @@ CREATE TABLE `releaseregex` (
   `description` VARCHAR(1000) NULL,
   `categoryID` INT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
 
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.sony.psp', '/^\\[(PSP4U\\]).*?\\[(?P<name>.*?)\\].*?\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 10, 0, '', 1020);
 INSERT INTO `releaseregex` (`groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES ('alt.binaries.games.wii', '/^()(?P<name>.*?) \\>.*?\\((?P<parts>\\d{1,4}\\/\\d{1,4})/i', 2, 1, 'Lego.Harry.Potter.Years.1-4.USA.Wii-CLANDESTiNE >usenetrevolution.info sponsored by newsconnection.eu< (109/109) - \"clan-legohp.vol134+16.par2\" - 4,81 GB yEnc', 1030);
