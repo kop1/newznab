@@ -98,7 +98,6 @@ CREATE TABLE `releaseregex` (
   `status` INT(11) UNSIGNED NOT NULL DEFAULT 1,
   `description` VARCHAR(1000) NULL,
   `categoryID` INT NULL,
-  `regexID` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
 
