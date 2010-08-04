@@ -1,14 +1,14 @@
-DROP TABLE IF EXISTS `releaseregex`;
 CREATE TABLE `releaseregex` (
-  `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `groupname` VARCHAR(255) NULL,
-  `regex` VARCHAR(2000) NOT NULL,
-  `ordinal` INT(11) UNSIGNED NOT NULL,
-  `status` INT(11) UNSIGNED NOT NULL DEFAULT 1,
-  `description` VARCHAR(1000) NULL,
-  `categoryID` INT NULL,
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `groupname` varchar(255) DEFAULT NULL,
+  `regex` varchar(2000) NOT NULL,
+  `ordinal` int(11) unsigned NOT NULL,
+  `status` int(11) unsigned NOT NULL DEFAULT '1',
+  `description` varchar(1000) DEFAULT NULL,
+  `categoryID` int(11) DEFAULT NULL,
+  `regexID` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
+) ENGINE=MyISAM AUTO_INCREMENT=100000 DEFAULT CHARSET=latin1;
 
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`, `regexID`) VALUES (1, 'alt.binaries.sony.psp', '/^\\[(PSP4U\\]).*?\\[(?P<name>.*?)\\].*?\\[(?P<parts>\\d{1,4}\\/\\d{1,4})/i', 10, 0, '', 1020, NULL);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`, `regexID`) VALUES (2, 'alt.binaries.games.wii', '/^()(?P<name>.*?) \\>.*?\\((?P<parts>\\d{1,4}\\/\\d{1,4})/i', 2, 1, 'Lego.Harry.Potter.Years.1-4.USA.Wii-CLANDESTiNE >usenetrevolution.info sponsored by newsconnection.eu< (109/109) - \"clan-legohp.vol134+16.par2\" - 4,81 GB yEnc', 1030, NULL);
