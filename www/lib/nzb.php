@@ -225,7 +225,7 @@ class NZB
 	}
 	
 
-function scan($nntp,$db,$first=0,$last=0)
+function scan($nntp,$db,$groupArr,$first,$last)
 {
 	$n = $this->n;
 	echo " getting $first to $last: $n";
@@ -305,10 +305,7 @@ function scan($nntp,$db,$first=0,$last=0)
 				}
 			}
 		}	
-
-		//
 		// update the group with the last update record.
-		//
 		$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
 		$timeUpdate = number_format(microtime(true) - $this->startUpdate, 2);
 		$timeLoop = number_format(microtime(true)-$this->startLoop, 2);
@@ -399,7 +396,7 @@ function scan($nntp,$db,$first=0,$last=0)
 				flush();
 
 				//get headers from newsgroup
-				$this->scan($nntp,$db,$first,$last);
+				$this->scan($nntp,$db,$groupArr,$first,$last);
 				if($last==$orglast)
 					$done = true;
 				else
