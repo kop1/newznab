@@ -18,9 +18,7 @@ class NZB
 		$s = new Sites();
 		$site = $s->get();
 		$this->compressedHeaders = ($site->compressedheaders == "1" ? true : false);	
-		
 		$this->maxMssgs = 20000; //fetch this amount of messages at the time
-		$this->howManyMsgsToGoBackForNewGroup = 50000; //how far back to go, use 0 to get all
 		$this->NewGroupDaysToScan = 3;	//how many days back to scan for new groups
 	}
 	
@@ -103,6 +101,31 @@ class NZB
 	//
 	// Update all active groups categories and descriptions
 	//
+        function backfillAllGroups()
+        {
+                $n = $this->n;
+                $groups = new Groups;
+                $res = $groups->getActive();
+
+                if ($res)
+                {
+                        $nntp = new Nntp();
+                        $nntp->doConnect();
+
+                        foreach($res as $groupArr)
+                        {
+                                $this->message = array();
+                                $this->backfillGroup($nntp, $groupArr);
+                        }
+
+                        $nntp->doQuit();
+                }
+                else
+                {
+                        echo "No groups specified. Ensure groups are added to newznab's database for updating.$n";
+                }
+        }
+
 	function updateAllGroups() 
 	{
 		$n = $this->n;
@@ -129,62 +152,58 @@ class NZB
 	}	
 
 
-	function postdate($nntp,$post) //returns single timestamp from a local article number
+	function postdate($nntp,$post,$debug=true) //returns single timestamp from a local article number
 	{
-	 $msgs = $nntp->getOverview($post."-".$post,true,false);
-	 $date = $msgs[0]['Date'];
-	 $date = strtotime($date);
+		$msgs = $nntp->getOverview($post."-".$post,true,false);
+		$date = $msgs[0]['Date'];
+		if($debug) echo "DEBUG: postdate for post $post came back $date (or ";
+		$date = strtotime($date);
+		if($debug) echo "$date seconds unixtime)".$this->n;
 	 return $date;
 	}
-	function daytopost($nntp,$group,$days)
+	function daytopost($nntp,$group,$days,$debug=true)
 	{
-		echo "INFO: daytopost finding post for $group $days days back.\n";
-	 $data = $nntp->selectGroup($group);
-	 $goaldate = date('U')-(86400*$days); //goaltimestamp
-	 if($goaldate < $this->postdate($nntp,$data['first']) || $goaldate > $this->postdate($nntp,$data['last']))
-	 {
-		 echo "WARNING: daytopost: Goal date out of range. Returning start post.\n";
-		echo "Debug: goaldate=$goaldate\nFirstdate:".$this->postdate($nntp,$data['first'])."\nLastdate:".$this->postdate($nntp,$data['last'])."\n";
-		 return $data['first'];
-	 }
-	 $this->startdate = $this->postdate($nntp,$data['first']); $enddate = $this->postdate($nntp,$data['last']);
-	 echo("Start  =".$data['first']."\nSrtdate=".$this->startdate."\nEnd    =".$data['last']."\nEndDate=$enddate\n");
-	 $totalnumberofarticles = $data['last'] - $data['first'];
-	 $upperbound = $data['last'];
-	 $lowerbound = $data['first'];
+		$pddebug = 0; //DEBUG every postdate call?!?!
+		if($debug) echo "INFO: daytopost finding post for $group $days days back.\n";
+		$data = $nntp->selectGroup($group);
+		$goaldate = date('U')-(86400*$days); //goaltimestamp
+		if($goaldate < $this->postdate($nntp,$data['first'],$pddebug) || $goaldate > $this->postdate($nntp,$data['last'],$pddebug))
+		{
+			echo "WARNING: daytopost: Goal date out of range. Returning start post.\n";
+			if($debug) echo "Debug: goaldate=$goaldate\nFirstdate:".$this->postdate($nntp,$data['first'],$pddebug)."\nLastdate:".$this->postdate($nntp,$data['last'],$pddebug)."\n";
+			return $data['first'];
+		}
+		$this->startdate = $this->postdate($nntp,$data['first'],$pddebug); $enddate = $this->postdate($nntp,$data['last'],$pddebug);
+		if($debug) echo("Start  =".$data['first']."\nSrtdate=".$this->startdate."\nEnd    =".$data['last']."\nEndDate=$enddate\n");
+		$totalnumberofarticles = $data['last'] - $data['first'];
+		$upperbound = $data['last'];
+		$lowerbound = $data['first'];
 
-	 echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
-	 $interval = (int)(($upperbound - $lowerbound) * 0.5);
-	 $dateofnextone = "";
-	 $templowered = "";
-	 while(!$dateofnextone)
-	 {  $dateofnextone = $this->postdate($nntp,($upperbound-1)); }
+		if($debug) echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
+		$interval = (int)(($upperbound - $lowerbound) * 0.5);
+		$dateofnextone = "";
+		$templowered = "";
+		while(!$dateofnextone)
+		{  $dateofnextone = $this->postdate($nntp,($upperbound-1),$pddebug); }
 
-	 while($dateofnextone > $goaldate)  //while upperbound is not right above timestamp
-	 {
-		 while($this->postdate($nntp,($upperbound-$interval))>$goaldate)
-		 {
-			 $upperbound = $upperbound - $interval;
-			 echo "Lowered upperbound $interval articles.\n";
-		 }
-		 if(!$templowered)
-		 {
-			 $interval = ceil(($interval /2));
-			 echo "Set interval to $interval articles. DEBUG: $upperbound\n";
-		 }
-		 /*if($interval==0)
-		 {
-			 $interval=1;
-			 echo "Reset interval to $interval articles.\n";
-		 }*/
-		 $dateofnextone = $this->postdate($nntp,($upperbound-1));
-		 while(!$dateofnextone)
-		 {  $dateofnextone = $this->postdate($nntp,($upperbound-1)); }
-	 }
-	 echo "Determined to be article $upperbound\n";
-	 return $upperbound;
-
-	 $nntp->doQuit();
+		while($dateofnextone > $goaldate)  //while upperbound is not right above timestamp
+		{
+			while($this->postdate($nntp,($upperbound-$interval),$pddebug)>$goaldate)
+			{
+				$upperbound = $upperbound - $interval;
+				if($debug) echo "Lowered upperbound $interval articles.\n";
+			}
+			if(!$templowered)
+			{
+				$interval = ceil(($interval /2));
+				if($debug) echo "Set interval to $interval articles. DEBUG: $upperbound\n";
+		 	}
+		 	$dateofnextone = $this->postdate($nntp,($upperbound-1),$pddebug);
+			while(!$dateofnextone)
+			{  $dateofnextone = $this->postdate($nntp,($upperbound-1),$pddebug); }
+	 	}
+		echo "Determined to be article $upperbound\n";
+		return $upperbound;
 	}
 
 
@@ -306,7 +325,8 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			}
 		}	
 		// update the group with the last update record.
-		$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
+		//commented by pmow to make this bi-directional.  see the following line in updateGroup
+		//$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
 		$timeUpdate = number_format(microtime(true) - $this->startUpdate, 2);
 		$timeLoop = number_format(microtime(true)-$this->startLoop, 2);
 
@@ -351,7 +371,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			//
 			// for new newsgroups - determine here how far you want to go back.
 			//
-			$first = $this->daytopost($nntp,$groupArr['name'],$this->NewGroupDaysToScan);
+			$first = $this->daytopost($nntp,$groupArr['name'],$this->NewGroupDaysToScan,TRUE);
 			$db->query(sprintf("UPDATE groups SET first_record = %s WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 		}
 		else
@@ -369,38 +389,36 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		{
 
 			echo "Group ".$data["group"]." has ".$data['first']." - ".$data['last'].", or ~";
-			echo((int) (($this->postdate($nntp,$data['last']) - $this->postdate($nntp,$data['first']))/86400));
+			echo((int) (($this->postdate($nntp,$data['last'],FALSE) - $this->postdate($nntp,$data['first'],FALSE))/86400));
 			echo " days - Local last = ".$groupArr['last_record'];
 			if($groupArr['last_record']==0)
 				echo(", we are getting ".$this->NewGroupDaysToScan." days worth.");
 			echo $n.'Using compression: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
+			$last = $first + $this->maxMssgs - 1;
+			if($last > $orglast)
+				$last = $orglast;
 
 			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
 			while($done === false)
 			{
 				$this->startLoop = microtime(true);
-				if($total > $this->maxMssgs)
-				{
-					if($first + $this->maxMssgs > $orglast)
-						$last = $orglast;
-					else
-						$last = $first + $this->maxMssgs - 1;
-				}
 
-				if($last - $first + 1 < $this->maxMssgs)
-					$fetchpartscount = $last - $first + 1;
-				else
-					$fetchpartscount = $this->maxMssgs;
-				echo "Getting {$fetchpartscount} parts (".($orglast - $last)." in queue)";
+				echo "Getting ".($last-$first+1)." parts (".($orglast - $last)." in queue)";
 				flush();
 
 				//get headers from newsgroup
 				$this->scan($nntp,$db,$groupArr,$first,$last);
+				$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
 				if($last==$orglast)
 					$done = true;
 				else
+				{
 					$first = $last + 1;
+					$last = $first + $this->maxMssgs - 1;
+					if($last > $orglast)
+						$last = $orglast;
+				}
 			}
 			$timeGroup = number_format(microtime(true) - $this->startGroup, 2);
 			echo "Group processed in $timeGroup seconds $n";
@@ -410,6 +428,70 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			echo "No new records for ".$data["group"]." (first $first last $last total $total) grouplast ".$groupArr['last_record']."$n";
 
 		}
+	}
+	function backfillGroup($nntp, $groupArr)
+	{
+		$db = new DB();
+		$n = $this->n;
+		$attempts = 0;
+		$this->startGroup = microtime(true);
+
+		$data = $nntp->selectGroup($groupArr['name']);
+		if(PEAR::isError($data))
+		{
+			echo "Could not select group (bad name?): {$groupArr['name']}$n";
+			return;
+		}
+		$targetpost = $this->daytopost($nntp,$groupArr['name'],$groupArr['backfill_target'],TRUE); //get targetpost based on days target
+	       if($groupArr['first_record'] == 0 || $groupArr['backfill_target'] == 0)
+		{
+			echo "Group ".$groupArr['name']." has invalid numbers.  Have you run update on it?  Have you set the backfill days amount?$n";
+			return;
+		}
+		
+		echo "Group ".$data["group"].": server has ".$data['first']." - ".$data['last'].", or ~";
+		echo((int) (($this->postdate($nntp,$data['last'],FALSE) - $this->postdate($nntp,$data['first'],FALSE))/86400));
+		echo " days.".$n."Local first = ".$groupArr['first_record']." (";
+		echo((int) ((date('U') - $this->postdate($nntp,$groupArr['first_record'],FALSE))/86400));
+		echo " days).  Backfill target of ".$GroupArr['backfill_target']."days is post $targetpost.$n";
+
+		if($targetpost >= $groupArr['first_record'])	//if our estimate comes back with stuff we already have, finish
+		{
+			echo "Nothing to do, we already have the target post.$n";
+		}
+		//get first and last part numbers from newsgroup
+		if($targetpost < $data['first'])
+		{
+			echo "WARNING: Backfill came back as before server's first.  Setting targetpost to server first.$n";
+			$targetpost = $data['first'];
+		}
+		//calculate total number of parts
+		$total = $groupArr['first_record'] - $targetpost;
+		$done = false;
+		//set first and last, moving the window by maxxMssgs
+		$last = $groupArr['first_record'] - 1;
+		$first = $last - $this->maxMssgs + 1; //set initial "chunk"
+		if($targetpost > $first)	//just in case this is the last chunk we needed
+			$first = $targetpost;
+		while($done === false)
+		{
+			$this->startLoop = microtime(true);
+			echo "Getting ".($last-$first+1)." parts (".($first-$targetpost)." in queue)";
+			flush();
+			$this->scan($nntp,$db,$groupArr,$first,$last);
+			$db->query(sprintf("UPDATE groups SET first_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
+			if($first==$targetpost)
+				$done = true;
+			else
+			{	//Keep going: set new last, new first, check for last chunk.
+				$last = $first - 1;
+				$first = $last - $this->maxMssgs + 1;
+				if($targetpost > $first)
+					$first = $targetpost;
+			}
+		}
+		$timeGroup = number_format(microtime(true) - $this->startGroup, 2);
+		echo "Group processed in $timeGroup seconds $n";
 	}
 
 
