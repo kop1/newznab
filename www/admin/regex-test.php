@@ -21,8 +21,8 @@ $gregex = (isset($_REQUEST['regex']) && !empty($_REQUEST['regex'])) ? $_REQUEST[
 $gunreleased = isset($_REQUEST['unreleased']) ? $_REQUEST['unreleased'] : '';
 foreach($groupList as $group) 
 {
-	$gid[] = $group["ID"];
-	$gname[] = $group["name"];
+	$gid[$group["ID"]] = $group["ID"];
+	$gname[$group["ID"]] = $group["name"];
 }
 $page->smarty->assign('gid', $gid);
 $page->smarty->assign('gname', $gname);
