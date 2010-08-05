@@ -675,7 +675,7 @@ class Releases
 				if ($echooutput)
 					echo "found duplicate of existing release - ".$row["relname"]."\n";
 				
-				$db->query(sprintf("update binaries set relname = null, procstat = %d where relname = %s and procstat = %d and groupID = %d ", 
+				$db->query(sprintf("update binaries set procstat = %d where relname = %s and procstat = %d and groupID = %d ", 
 									Releases::PROCSTAT_DUPLICATE, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 
 				continue;
@@ -735,7 +735,7 @@ class Releases
 			// tag every binary for this release with its parent release id
 			// remove the release name from the binary as its no longer required
 			//
-			$db->query(sprintf("update binaries set relname = null, procstat = %d, releaseID = %d where relname = %s and procstat = %d and groupID = %d ", 
+			$db->query(sprintf("update binaries set procstat = %d, releaseID = %d where relname = %s and procstat = %d and groupID = %d ", 
 								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
 
 			//
