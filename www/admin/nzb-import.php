@@ -88,9 +88,9 @@ if (!empty($argc) || $page->isPostBack() )
 					$totalParts = sizeof($file->segments->segment);
 					
 					//insert binary
-					$binarySql = sprintf("INSERT INTO binaries (name, fromname, date, xref, totalParts, groupID, dateadded) values (%s, %s, %s, %s, %s, %s, NOW())", 
+					$binarySql = sprintf("INSERT INTO binaries (name, fromname, date, xref, totalParts, groupID, dateadded, importname) values (%s, %s, %s, %s, %s, %s, NOW(), %s)", 
 							$db->escapeString($name), $db->escapeString($fromname), $db->escapeString($date),
-							$db->escapeString($xref), $db->escapeString($totalParts), $db->escapeString($groupID) );
+							$db->escapeString($xref), $db->escapeString($totalParts), $db->escapeString($groupID), $db->escapeString($nzbFile) );
 					
 					$binaryId = $db->queryInsert($binarySql);
 					

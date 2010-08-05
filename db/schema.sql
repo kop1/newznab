@@ -15,6 +15,7 @@ CREATE TABLE `binaries` (
 		`relpart` INT DEFAULT 0,
 		`reltotalpart` INT DEFAULT 0,
 		`relname` VARCHAR(255) NULL,
+		`importname` VARCHAR(255) NULL,
 		`releaseID` INT NULL,
 		`dateadded` DATETIME DEFAULT NULL,
 		PRIMARY KEY  (`ID`),
