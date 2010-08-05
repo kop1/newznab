@@ -583,6 +583,7 @@ class Releases
 				$groupmatch = " 1 = 1 ";
 				
 			// Get out all binaries of STAGE0 for current group
+			$arrNoPartBinaries = array();
 			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date from binaries inner join groups on groups.ID = binaries.groupID where %s and procstat = %d", $groupmatch, Releases::PROCSTAT_NEW));
 
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
@@ -602,9 +603,14 @@ class Releases
 					}
 					
 					// if theres no parts data, put it into a release if it was posted to usenet longer than three hours ago.
-					if (!isset($matches['parts']) && time() - strtotime($rowbin['date']) > 10800) 
+					if ((!isset($matches['parts']) && time() - strtotime($rowbin['date']) > 10800) || isset($arrNoPartBinaries[$matches['name']]))
 					{
-						 $matches['parts'] = "01/01";
+						//
+						// Take a copy of the name of this no-part release found. This can be used
+						// next time round the loop to find parts of this set, but which have not yet reached 3 hours.
+						//
+						$arrNoPartBinaries[$matches['name']] = "1";
+						$matches['parts'] = "01/01";
 					}
 					
 					if (isset($matches['name']) && isset($matches['parts'])) 
