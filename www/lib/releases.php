@@ -636,21 +636,21 @@ class Releases
 		//
 		// move all binaries which have the correct number of parts on to the next stage.
 		//
-		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart", Releases::PROCSTAT_TITLEMATCHED));
+		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID", Releases::PROCSTAT_TITLEMATCHED));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
 			if ($row["num"] >= $row["reltotalpart"])
 			{
-				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d", 
-					Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED));
+				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d", 
+					Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
 			}
 			else
 			{
 				if ($echooutput)
 					echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
 					
-				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED ));
+				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"] ));
 			}
 			if ($echooutput && ($retcount % 100 == 0))
 				echo "processed ".$retcount." binaries stage two\n";
@@ -695,8 +695,8 @@ class Releases
 			$totalSize = "0";
 			$regexAppliedCategoryID = "";
 			$regexIDused = "";
-			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d", 
-									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE ));
+			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d and groupID = %d", 
+									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"] ));
 			if (count($binariesForSize) > 0)
 			{
 				$sizeSql = "select sum(size) as totalSize from parts where (";
