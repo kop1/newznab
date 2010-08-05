@@ -668,8 +668,8 @@ class Releases
 			//
 			// get the last post date and the poster name from the binary
 			//
-			$bindata = $db->queryOneRow(sprintf("select fromname, MAX(date) as date from binaries where relname = %s and procstat = %d group by fromname", 
-										$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE ));
+			$bindata = $db->queryOneRow(sprintf("select fromname, MAX(date) as date from binaries where relname = %s and procstat = %d and groupID = %d group by fromname", 
+										$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"] ));
 
 			//
 			// get all releases with the same name with a usenet posted date in a +1-1 date range.
