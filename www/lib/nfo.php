@@ -125,6 +125,10 @@ class Nfo
 					//nfo download failed, increment attempts
 					$db->query(sprintf("UPDATE releasenfo SET attempts = attempts+1 WHERE ID = %d", $arr["ID"]));
 				}
+				
+				if ($ret != 0 && $this->echooutput && ($ret % 5 == 0))
+					echo "processed ".$ret." nfos\n";
+				
 			}
 			$nntp->doQuit();
 		}

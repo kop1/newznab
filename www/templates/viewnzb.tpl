@@ -48,6 +48,9 @@
 		</td>
 	</tr>
 	{/if}
+	{if $isadmin}
+	<tr><th>Additional Info:</th><td>Regex Id ({$release.regexID})</td></tr>
+	{/if}
 </table>
 
 <div class="comments">
