@@ -228,6 +228,8 @@ class Category
 			if (preg_match('/MMA\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/UFC\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/FIA\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/PGA\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NFL\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/Rugby\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/TNA\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/EPL\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
