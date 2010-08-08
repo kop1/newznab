@@ -98,7 +98,7 @@ nzb file store
 importing/exporting nzbs
 	.nzb files can be imported from the admin interface. importing is a convenient way to fill the
 	index without trawling a large backdated number of usenet messages. after running an import 
-	the process_releases() function must be ran to create valid releases. nzbs can also be exported
+	the processReleases() function must be run to create valid releases. nzbs can also be exported
 	based on system categories.
 
 updating newsgroups
