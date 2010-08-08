@@ -332,7 +332,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 
 		echo "Received $count new binaries$n";
 		echo "Updated $updatecount binaries$n";
-		echo "Info Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
+		echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
 	
 		unset($this->message);
 		unset($msgs);
