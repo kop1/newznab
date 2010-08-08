@@ -421,7 +421,11 @@ class Releases
 			$maxage = "";		
 		
 		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $name, $catsrch, $maxage, $offset, $limit));		
-
+		
+		$resCount = $db->queryOneRow("SELECT FOUND_ROWS()");
+		if ($resCount[0] > 0) {
+			$res[0]['_totalrows'] = $resCount[0];
+		}
 		return $res;
 	}		
 	
