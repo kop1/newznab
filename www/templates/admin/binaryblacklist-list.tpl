@@ -2,7 +2,7 @@
 <h1>{$page->title}</h1>
 
 <p>
-	Binaries can be prevented from being added to the index at all if they match a regex provided in the blacklist.
+	Binaries can be prevented from being added to the index at all if they match a regex provided in the blacklist. They can also be included only if they match a regex (whitelist).
 </p>
 
 <div id="message">hi mom!</div>
@@ -13,6 +13,7 @@
 		<th style="width:20px;">id</th>
 		<th>group</th>
 		<th>regex</th>
+		<th>type</th>
 		<th>status</th>
 		<th style="width:75px;">Options</th>
 	</tr>
@@ -23,6 +24,7 @@
 		<td title="{$bin.description}">{if $bin.groupname==""}all{else}{$bin.groupname|replace:"alt.binaries":"a.b"}{/if}</td>
 		<td title="Edit regex"><a href="{$smarty.const.WWW_TOP}/binaryblacklist-edit.php?id={$bin.ID}">{$bin.regex|escape:html}</a><br>
 		{$bin.description}</td>
+		<td>{if $bin.optype==1}black{else}white{/if}</td>
 		<td>{if $bin.status==1}active{else}disabled{/if}</td>
 		<td><a href="javascript:ajax_binaryblacklist_delete({$bin.ID})">delete</a></td>
 	</tr>

@@ -44,6 +44,14 @@
 </tr>
 
 <tr>
+	<td><label for="optype">Type</label>:</td>
+	<td>
+		{html_radios id="optype" name='optype' values=$optype_ids output=$optype_names selected=$regex.optype separator='<br />'}
+		<div class="hint">Black will exclude all messages for a group which match this regex. White will include only those which match.</div>		
+	</td>
+</tr>
+
+<tr>
 	<td></td>
 	<td>
 		<input type="submit" value="Save" />

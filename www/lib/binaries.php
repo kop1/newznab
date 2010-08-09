@@ -52,7 +52,7 @@ class Binaries
 		if ($activeonly)
 			$where = " where binaryblacklist.status = 1 ";
 			
-		return $db->query("SELECT binaryblacklist.ID, binaryblacklist.status, binaryblacklist.description, binaryblacklist.groupname AS groupname, binaryblacklist.regex, 
+		return $db->query("SELECT binaryblacklist.ID, binaryblacklist.optype, binaryblacklist.status, binaryblacklist.description, binaryblacklist.groupname AS groupname, binaryblacklist.regex, 
 												groups.ID AS groupID FROM binaryblacklist 
 												left outer JOIN groups ON groups.name = binaryblacklist.groupname 
 												".$where."
@@ -81,7 +81,7 @@ class Binaries
 		else
 			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
 			
-		$db->query(sprintf("update binaryblacklist set groupname=%s, regex=%s, status=%d, description=%s where ID = %d ", $groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["id"]));	
+		$db->query(sprintf("update binaryblacklist set groupname=%s, regex=%s, status=%d, description=%s, optype=%d where ID = %d ", $groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"], $regex["id"]));	
 	}
 	
 	public function addBlacklist($regex)
@@ -94,8 +94,8 @@ class Binaries
 		else
 			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
 			
-		return $db->queryInsert(sprintf("insert into binaryblacklist (groupname, regex, status, description) values (%s, %s, %d, %s) ", 
-			$groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"])));	
+		return $db->queryInsert(sprintf("insert into binaryblacklist (groupname, regex, status, description, optype) values (%s, %s, %d, %s, %d) ", 
+			$groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"]));	
 		
 	}	
 }

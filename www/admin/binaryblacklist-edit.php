@@ -35,7 +35,7 @@ switch($action)
 
 			if (isset($_GET["id"]))
 			{
-				$page->title = "Binary Blacklist Edit";
+				$page->title = "Binary Black/Whitelist Edit";
 				$id = $_GET["id"];
 				
 				$r = $bin->getBlacklistByID($id);
@@ -48,6 +48,9 @@ switch($action)
 
 $page->smarty->assign('status_ids', array(Category::STATUS_ACTIVE,Category::STATUS_INACTIVE));
 $page->smarty->assign('status_names', array( 'Yes', 'No'));
+
+$page->smarty->assign('optype_ids', array(1,2));
+$page->smarty->assign('optype_names', array( 'Black', 'White'));
 
 $page->content = $page->smarty->fetch('admin/binaryblacklist-edit.tpl');
 $page->render();
