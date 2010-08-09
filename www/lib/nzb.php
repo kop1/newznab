@@ -101,30 +101,30 @@ class NZB
 	//
 	// Update all active groups categories and descriptions
 	//
-        function backfillAllGroups()
-        {
-                $n = $this->n;
-                $groups = new Groups;
-                $res = $groups->getActive();
+	function backfillAllGroups()
+	{
+			$n = $this->n;
+			$groups = new Groups;
+			$res = $groups->getActive();
 
-                if ($res)
-                {
-                        $nntp = new Nntp();
-                        $nntp->doConnect();
+			if ($res)
+			{
+				$nntp = new Nntp();
+				$nntp->doConnect();
 
-                        foreach($res as $groupArr)
-                        {
-                                $this->message = array();
-                                $this->backfillGroup($nntp, $groupArr);
-                        }
+				foreach($res as $groupArr)
+				{
+					$this->message = array();
+					$this->backfillGroup($nntp, $groupArr);
+				}
 
-                        $nntp->doQuit();
-                }
-                else
-                {
-                        echo "No groups specified. Ensure groups are added to newznab's database for updating.$n";
-                }
-        }
+				$nntp->doQuit();
+			}
+			else
+			{
+				echo "No groups specified. Ensure groups are added to newznab's database for updating.$n";
+			}
+	}
 
 	function updateAllGroups() 
 	{
@@ -205,9 +205,7 @@ class NZB
 		echo "Determined to be article $upperbound\n";
 		return $upperbound;
 	}
-
-
-    // TODO: check if the new regex for extracting parts is working.. as per updateGroup() function
+    
 	function nzbFileList($nzb) 
 	{
 	    $result = array();
@@ -216,28 +214,26 @@ class NZB
 	   	$num_pars = 0;
 	    $xml = @simplexml_load_string($nzb);
 	    if (!$xml || strtolower($xml->getName()) != 'nzb') 
-	    {
 	      return false;
-	    }
 
 	    $i=0;
 	    foreach($xml->file as $file) 
 	    {
-	  //subject
-	  $title = $file->attributes()->subject;
-	  if (preg_match('/\.par2/i', $title)) 
-	  	$num_pars++;
+			//subject
+			$title = $file->attributes()->subject;
+			if (preg_match('/\.par2/i', $title)) 
+				$num_pars++;
 
-	  $result[$i]['title'] = "$title";
- 
-	  //filesize
-	  $filesize = 0;
-	  foreach($file->segments->segment as $segment)
-	  	$filesize += $segment->attributes()->bytes;
+			$result[$i]['title'] = "$title";
 
-	  $result[$i]['size'] = $filesize;
-	 
-	  $i++;
+			//filesize
+			$filesize = 0;
+			foreach($file->segments->segment as $segment)
+				$filesize += $segment->attributes()->bytes;
+
+			$result[$i]['size'] = $filesize;
+
+			$i++;
 	    }
 	   
 	    return $result;

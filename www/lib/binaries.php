@@ -44,5 +44,59 @@ class Binaries
 		return $db->queryOneRow(sprintf("select binaries.*, groups.name as groupname from binaries left outer join groups on binaries.groupID = groups.ID where binaries.ID = %d ", $id));		
 	}
 
+	public function getBlacklist($activeonly=true)
+	{			
+		$db = new DB();
+		
+		$where = "";
+		if ($activeonly)
+			$where = " where binaryblacklist.status = 1 ";
+			
+		return $db->query("SELECT binaryblacklist.ID, binaryblacklist.status, binaryblacklist.description, binaryblacklist.groupname AS groupname, binaryblacklist.regex, 
+												groups.ID AS groupID FROM binaryblacklist 
+												left outer JOIN groups ON groups.name = binaryblacklist.groupname 
+												".$where."
+												ORDER BY coalesce(groupname,'zzz')");		
+	}
+
+	public function getBlacklistByID($id)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("select * from binaryblacklist where ID = %d ", $id));		
+	}
+
+	public function deleteBlacklist($id)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("delete from binaryblacklist where ID = %d", $id));		
+	}		
+	
+	public function updateBlacklist($regex)
+	{			
+		$db = new DB();
+		
+		$groupname = $regex["groupname"];
+		if ($groupname == "")
+			$groupname = "null";
+		else
+			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
+			
+		$db->query(sprintf("update binaryblacklist set groupname=%s, regex=%s, status=%d, description=%s where ID = %d ", $groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["id"]));	
+	}
+	
+	public function addBlacklist($regex)
+	{			
+		$db = new DB();
+		
+		$groupname = $regex["groupname"];
+		if ($groupname == "")
+			$groupname = "null";
+		else
+			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
+			
+		return $db->queryInsert(sprintf("insert into binaryblacklist (groupname, regex, status, description) values (%s, %s, %d, %s) ", 
+			$groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"])));	
+		
+	}	
 }
 ?>

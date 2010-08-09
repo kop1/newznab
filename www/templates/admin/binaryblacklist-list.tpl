@@ -1,0 +1,31 @@
+
+<h1>{$page->title}</h1>
+
+<p>
+	Binaries can be prevented from being added to the index at all if they match a regex provided in the blacklist.
+</p>
+
+<div id="message">hi mom!</div>
+
+<table style="margin-top:10px;" class="data Sortable highlight">
+
+	<tr>
+		<th style="width:20px;">id</th>
+		<th>group</th>
+		<th>regex</th>
+		<th>status</th>
+		<th style="width:75px;">Options</th>
+	</tr>
+	
+	{foreach from=$binlist item=bin}
+	<tr id="row-{$bin.ID}" class="{cycle values=",alt"}">
+		<td>{$bin.ID}</td>
+		<td title="{$bin.description}">{if $bin.groupname==""}all{else}{$bin.groupname|replace:"alt.binaries":"a.b"}{/if}</td>
+		<td title="Edit regex"><a href="{$smarty.const.WWW_TOP}/binaryblacklist-edit.php?id={$bin.ID}">{$bin.regex|escape:html}</a><br>
+		{$bin.description}</td>
+		<td>{if $bin.status==1}active{else}disabled{/if}</td>
+		<td><a href="javascript:ajax_binaryblacklist_delete({$bin.ID})">delete</a></td>
+	</tr>
+	{/foreach}
+
+</table>

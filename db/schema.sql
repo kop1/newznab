@@ -91,6 +91,16 @@ CREATE TABLE `releasenfo` (
 
 CREATE UNIQUE INDEX ix_releasenfo_releaseID ON releasenfo (`releaseID`);
 
+DROP TABLE IF EXISTS `binaryblacklist`;
+CREATE TABLE `binaryblacklist` (
+  `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `groupname` VARCHAR(255) NULL,
+  `regex` VARCHAR(2000) NOT NULL,
+  `status` INT(11) UNSIGNED NOT NULL DEFAULT 1,
+  `description` VARCHAR(1000) NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
+
 DROP TABLE IF EXISTS `releaseregex`;
 CREATE TABLE `releaseregex` (
   `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
