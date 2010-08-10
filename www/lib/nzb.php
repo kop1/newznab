@@ -167,6 +167,12 @@ class NZB
 		if($debug) echo "INFO: daytopost finding post for $group $days days back.\n";
 		$data = $nntp->selectGroup($group);
 		$goaldate = date('U')-(86400*$days); //goaltimestamp
+                $totalnumberofarticles = $data['last'] - $data['first'];
+                $upperbound = $data['last'];
+                $lowerbound = $data['first'];
+
+                if($debug) echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
+
 		if($goaldate < $this->postdate($nntp,$data['first'],$pddebug) || $goaldate > $this->postdate($nntp,$data['last'],$pddebug))
 		{
 			echo "WARNING: daytopost: Goal date out of range. Returning start post.\n";
@@ -175,11 +181,6 @@ class NZB
 		}
 		$this->startdate = $this->postdate($nntp,$data['first'],$pddebug); $enddate = $this->postdate($nntp,$data['last'],$pddebug);
 		if($debug) echo("Start  =".$data['first']."\nSrtdate=".$this->startdate."\nEnd    =".$data['last']."\nEndDate=$enddate\n");
-		$totalnumberofarticles = $data['last'] - $data['first'];
-		$upperbound = $data['last'];
-		$lowerbound = $data['first'];
-
-		if($debug) echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
 		$interval = (int)(($upperbound - $lowerbound) * 0.5);
 		$dateofnextone = "";
 		$templowered = "";
