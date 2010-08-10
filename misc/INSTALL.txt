@@ -3,7 +3,7 @@ pre-reqs
 	mysql
 		max_allowed_packet=12582912
 		ft_min_word_len=3 - allows searching for matches of 3characters
-	pear net_nntp module
+	pear net_nntp-alpha component (i.e., "pear install Net_NNTP-alpha")
 	php sessions enabled
 	php GD imaging library
 	php memory limit set to 256 
