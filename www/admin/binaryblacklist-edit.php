@@ -42,6 +42,10 @@ switch($action)
 
 				$page->smarty->assign('regex', $r);	
 			}
+			else
+			{
+				$page->title = "Binary Black/Whitelist Add";
+			}
 
       break;   
 }

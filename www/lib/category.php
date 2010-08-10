@@ -302,6 +302,11 @@ class Category
 		if (preg_match('/xbox/i', $releasename)) 
 			return Category::CAT_GAME_XBOX;
 		
+		//
+		// Phone
+		//
+		if (preg_match('/iPhone\.iPod\.Touch/i', $releasename)) 
+			return Category::CAT_PC_PHONE;
 		
 		//
 		// If no release name provided and the group wasnt determined, then return -1
