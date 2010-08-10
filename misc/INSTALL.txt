@@ -3,7 +3,20 @@ pre-reqs
 	mysql
 		max_allowed_packet=12582912
 		ft_min_word_len=3 - allows searching for matches of 3characters
-	pear net_nntp-alpha component (i.e., "pear install Net_NNTP-alpha")
+	Install pear net_nntp-alpha component and patch
+		1. Run "pear install Net_NNTP-alpha"
+		2.Run "pear list-files NET_NNTP-alpha"
+		3.Edit the following lines in your  /Net/NNTP/Protocol/Client.php location:
+			lines 816, 817, and 818:
+				'first' => (int) $response_arr[1],
+				'last'  => (int) $response_arr[2],
+				'count' => (int) $response_arr[0]);
+		4.Change to:
+                             'first' => $response_arr[1],
+                             'last'  => $response_arr[2],
+                             'count' => $response_arr[0]);
+		(You've now removed (int) from three lines.)
+
 	php sessions enabled
 	php GD imaging library
 	php memory limit set to 256 

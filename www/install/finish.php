@@ -46,12 +46,12 @@ else
 		<div class="error">
 			Warning!<br />
 			We have detected a bug in your NNTP-version handling large numbers used by some newsgroups.<br />
-			Run the following command:  <b>pear list-files NET_NNTP</b><br />
+			Run the following command:  <b>pear list-files NET_NNTP-alpha</b><br />
 			This will give you the location of the NNTP installation<br />
 			<br />
 			locate the following file under /Net/NNTP/Protocol/Client.php	
 			<br />
-			edit the following lines 754, 755, 756:<br />
+			edit the following lines 816, 817, and 818:<br />
 			=========================================<br />
                              'first' => (int) $response_arr[1],<br />
                              'last'  => (int) $response_arr[2],<br />
