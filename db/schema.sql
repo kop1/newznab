@@ -399,6 +399,7 @@ CREATE TABLE `users` (
   `grabs` INT NOT NULL DEFAULT 0,
   `rsstoken` VARCHAR(32) NOT NULL,
   `createddate` DATETIME NOT NULL,
+  `resetguid` VARCHAR(50) NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
