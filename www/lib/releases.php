@@ -824,52 +824,55 @@ class Releases
 			echo "lookup tv rage from the web (".($lookupTvRage?"true)\n":"false)\n");
 		
 		$result = $db->queryDirect("SELECT searchname, ID from releases where rageID = -1");
+
 		while ($arr = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$show = $this->parseNameEpSeason($arr['searchname']);			
-			
-			//
-			// see if its in the existing rage list
-			// only process releases which have a searchname like S01E01 or S01E02-E03
-			// 
-			if (is_array($show) && $show['name'] != '')
-			{
-				if ($echooutput)
-					echo "tv series - ".$show['name']."-".$show['seriesfull']."\n";
-				
-				//
-				// Get a clean name version of the release (the text upto the S01E01 part) and the series and episode parts
-				//
-				$relcleanname = str_replace(".", " ", $show['name']);
-				$relcleanname = str_replace("_", " ", $relcleanname);
-				
-				$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s where ID = %d", 
-							$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $arr["ID"]));
-
-				//
-				// try and retrieve the entry from tvrage
-				//
-				$id = $rage->getRageId($relcleanname, $echooutput, $lookupTvRage);
-				if ($id != -1)
-				{
-					$db->query(sprintf("update releases set rageID = %d where ID = %d", $id, $arr["ID"]));
-				}
-				else
-				{
-					//
-					// Cant find rageid, so set rageid to na
-					// 
-					$db->query(sprintf("update releases set rageID = -2 where ID = %d", $arr["ID"]));
-				}
-
-				$ret++;
-			}
-			else
+			if (!$show)
 			{
 				//
 				// Not a tv episode, so set rageid to na
 				// 
 				$db->query(sprintf("update releases set rageID = -2 where ID = %d", $arr["ID"]));
+			}
+			else
+			{
+				//
+				// see if its in the existing rage list
+				// only process releases which have a searchname like S01E01 or S01E02-E03
+				// 
+				if (is_array($show) && $show['name'] != '')
+				{
+					if ($echooutput)
+						echo "tv series - ".$show['name']."-".$show['seriesfull']."\n";
+					
+					//
+					// Get a clean name version of the release (the text upto the S01E01 part) and the series and episode parts
+					//
+					$relcleanname = str_replace(".", " ", $show['name']);
+					$relcleanname = str_replace("_", " ", $relcleanname);
+					
+					$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s where ID = %d", 
+								$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $arr["ID"]));
+
+					//
+					// try and retrieve the entry from tvrage
+					//
+					$id = $rage->getRageId($relcleanname, $echooutput, $lookupTvRage);
+					if ($id != -1)
+					{
+						$db->query(sprintf("update releases set rageID = %d where ID = %d", $id, $arr["ID"]));
+					}
+					else
+					{
+						//
+						// Cant find rageid, so set rageid to na
+						// 
+						$db->query(sprintf("update releases set rageID = -2 where ID = %d", $arr["ID"]));
+					}
+
+					$ret++;
+				}
 			}
 		}
 		
