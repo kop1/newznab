@@ -11,8 +11,8 @@ h3 { padding-top:10px;padding-bottom:5px;}
 p, ul, ol { margin-top: 0; line-height: 240%;	text-align: justify; }
 ul, ol { }
 blockquote { }
-a { color: #4D9408; }
-a:hover { text-decoration: none; }
+a { color: #4D9408; text-decoration: none;}
+a:hover { text-decoration: underline; }
 a img { border: none; }
 img.left { float: left; margin: 7px 30px 0 0; }
 img.right { float: right; margin: 7px 0 0 30px; }
