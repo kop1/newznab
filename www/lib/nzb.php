@@ -494,7 +494,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			}
 		}
 		$first_record_postdate = $this->postdate($nntp,$first,false);
-		$db->query(sprintf("UPDATE groups SET last_record_postdate = FROM_UNIXTIME(".$first_record_postdate."), last_updated = now() WHERE ID = %d", $groupArr['ID']));  //Set group's first postdate
+		$db->query(sprintf("UPDATE groups SET first_record_postdate = FROM_UNIXTIME(".$first_record_postdate."), last_updated = now() WHERE ID = %d", $groupArr['ID']));  //Set group's first postdate
 
 		$timeGroup = number_format(microtime(true) - $this->startGroup, 2);
 		echo "Group processed in $timeGroup seconds $n";
