@@ -90,7 +90,7 @@ class Releases
 		}			
 
 		if ($maxage > 0)
-			$maxage = sprintf(" and postdate < now() - interval %d day ", $maxage);
+			$maxage = sprintf(" and postdate > now() - interval %d day ", $maxage);
 		else
 			$maxage = "";		
 		
@@ -136,7 +136,7 @@ class Releases
 		}	
 		
 		if ($maxage > 0)
-			$maxage = sprintf(" and postdate < now() - interval %d day ", $maxage);
+			$maxage = sprintf(" and postdate > now() - interval %d day ", $maxage);
 		else
 			$maxage = "";
 			
@@ -416,7 +416,7 @@ class Releases
 		}		
 		
 		if ($maxage > 0)
-			$maxage = sprintf(" and postdate < now() - interval %d day ", $maxage);
+			$maxage = sprintf(" and postdate > now() - interval %d day ", $maxage);
 		else
 			$maxage = "";		
 		
