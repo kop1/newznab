@@ -9,7 +9,8 @@
         <tr>
             <th>group</th>
             <th>category</th>
-            <th>last record</th>
+            <th>First Post</th>
+	    <th>Last Post</th>
             <th>last updated</th>
             <th>active</th>
             <th>releases</th>
@@ -20,8 +21,9 @@
         <tr id="grouprow-{$group.ID}" class="{cycle values=",alt"}">
             <td><a href="{$smarty.const.WWW_TOP}/group-edit.php?id={$group.ID}">{$group.name|replace:"alt.binaries":"a.b"}</a></td>
             <td class="less">{$group.category_name}</td>
-            <td class="less">{$group.last_record}</td>
-            <td class="less">{$group.last_updated}</td>
+            <td class="less">{$group.first_record_postdate|timeago}</td>
+	    <td class="less">{$group.last_record_postdate|timeago}</td>
+            <td class="less">{$group.last_updated|timeago} ago</td>
             <td class="less" id="group-{$group.ID}">{if $group.active=="1"}<a href="javascript:ajax_group_status({$group.ID}, 0)" class="group_active">Deactivate</a>{else}<a href="javascript:ajax_group_status({$group.ID}, 1)" class="group_deactive">Activate</a>{/if}</td>
             <td class="less">{$group.num_releases}</td>
             <td class="less" id="groupdel-{$group.ID}"><a href="javascript:ajax_group_delete({$group.ID})" class="group_delete">Delete</a></td>

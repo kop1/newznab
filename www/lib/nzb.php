@@ -322,9 +322,6 @@ function scan($nntp,$db,$groupArr,$first,$last)
 				}
 			}
 		}	
-		// update the group with the last update record.
-		//commented by pmow to make this bi-directional.  see the following line in updateGroup
-		//$db->query(sprintf("UPDATE groups SET last_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($last), $groupArr['ID']));
 		$timeUpdate = number_format(microtime(true) - $this->startUpdate, 2);
 		$timeLoop = number_format(microtime(true)-$this->startLoop, 2);
 
@@ -370,12 +367,17 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			// for new newsgroups - determine here how far you want to go back.
 			//
 			$first = $this->daytopost($nntp,$groupArr['name'],$this->NewGroupDaysToScan,TRUE);
-			$db->query(sprintf("UPDATE groups SET first_record = %s WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
+			$first_record_postdate = $this->postdate($nntp,$first,false);
+			$db->query(sprintf("UPDATE groups SET first_record = %s, first_record_postdate = FROM_UNIXTIME(".$first_record_postdate.") WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 		}
 		else
 		{
 			$first = $groupArr['last_record'] + 1;
 		}
+		//generate postdates for first and last records, for those that upgraded
+		if(is_null($groupArr['first_record_postdate']) || is_null($groupArr['last_record_postdate']))
+			 $db->query(sprintf("UPDATE groups SET first_record_postdate = FROM_UNIXTIME(".$this->postdate($nntp,$groupArr['first_record'],false)."), last_record_postdate = FROM_UNIXTIME(".$this->postdate($nntp,$groupArr['last_record'],false).") WHERE ID = %d", $groupArr['ID']));
+
 
 		//calculate total number of parts
 		$total = $last - $first;
@@ -418,6 +420,8 @@ function scan($nntp,$db,$groupArr,$first,$last)
 						$last = $orglast;
 				}
 			}
+			$last_record_postdate = $this->postdate($nntp,$last,false);
+			$db->query(sprintf("UPDATE groups SET last_record_postdate = FROM_UNIXTIME(".$last_record_postdate."), last_updated = now() WHERE ID = %d", $groupArr['ID']));	//Set group's last postdate
 			$timeGroup = number_format(microtime(true) - $this->startGroup, 2);
 			echo "Group processed in $timeGroup seconds $n";
 		}
@@ -477,6 +481,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			echo "Getting ".($last-$first+1)." parts (".($first-$targetpost)." in queue)";
 			flush();
 			$this->scan($nntp,$db,$groupArr,$first,$last);
+
 			$db->query(sprintf("UPDATE groups SET first_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 			if($first==$targetpost)
 				$done = true;
@@ -488,6 +493,9 @@ function scan($nntp,$db,$groupArr,$first,$last)
 					$first = $targetpost;
 			}
 		}
+		$first_record_postdate = $this->postdate($nntp,$first,false);
+		$db->query(sprintf("UPDATE groups SET last_record_postdate = FROM_UNIXTIME(".$first_record_postdate."), last_updated = now() WHERE ID = %d", $groupArr['ID']));  //Set group's first postdate
+
 		$timeGroup = number_format(microtime(true) - $this->startGroup, 2);
 		echo "Group processed in $timeGroup seconds $n";
 	}
