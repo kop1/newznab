@@ -113,30 +113,39 @@ class TvRage
 			$xml = file_get_contents($this->searchUrl.urlencode($title));
 			$xmlObj = simplexml_load_string($xml);
 			$arrXml = objectsIntoArray($xmlObj);
-		
+
 			if (isset($arrXml["show"]))
 			{
-				$first = "";
-				$best = "";
-				foreach ($arrXml["show"] as $arr)
+				if (isset($arrXml["show"]["showid"]))
 				{
-					if ($first == "")
-						$first = $arr["showid"];
-					if (isset($arr["name"]) && $arr["name"] == $title)
+					return $arrXml["show"]["showid"];
+				}
+				else
+				{
+					$first = "";
+					$best = "";
+					
+					foreach ($arrXml["show"] as $arr)
 					{
-						$best = $arr["showid"];
-						break;
+						if ($first == "")
+							$first = $arr["showid"];
+
+						if (isset($arr["name"]) && $arr["name"] == $title)
+						{
+							$best = $arr["showid"];
+							break;
+						}
 					}
-				}
-				if ($best != "")
-				{
-					$this->add($best, $title, "", "");
-					return $best;
-				}
-				elseif ($first != "")
-				{
-					$this->add($first, $title, "", "");
-					return $first;
+					if ($best != "")
+					{
+						$this->add($best, $title, "", "");
+						return $best;
+					}
+					elseif ($first != "")
+					{
+						$this->add($first, $title, "", "");
+						return $first;
+					}		
 				}				
 			}
 			else
