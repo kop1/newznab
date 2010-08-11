@@ -172,6 +172,7 @@ class NZB
                 $lowerbound = $data['first'];
 
                 if($debug) echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
+		if($data['last']==PHP_INT_MAX) { echo "ERROR: Group data is coming back as php's max value.  Did you patch your PEAR Net_NNTP Package?  Check install notes for more details.$n"; die(); }
 
 		if($goaldate < $this->postdate($nntp,$data['first'],$pddebug) || $goaldate > $this->postdate($nntp,$data['last'],$pddebug))
 		{
@@ -181,7 +182,7 @@ class NZB
 		}
 		$this->startdate = $this->postdate($nntp,$data['first'],$pddebug); $enddate = $this->postdate($nntp,$data['last'],$pddebug);
 		if($debug) echo("Start  =".$data['first']."\nSrtdate=".$this->startdate."\nEnd    =".$data['last']."\nEndDate=$enddate\n");
-		$interval = (int)(($upperbound - $lowerbound) * 0.5);
+		$interval = floor(($upperbound - $lowerbound) * 0.5);
 		$dateofnextone = "";
 		$templowered = "";
 		while(!$dateofnextone)
