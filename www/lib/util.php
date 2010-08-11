@@ -3,6 +3,16 @@
 //
 // general util functions
 //
+
+//
+// central function for sending site email
+//
+function sendEmail($to, $subject, $contents, $from)
+{
+	$from_header = "From: ".$from;
+	mail($to, $subject, $contents, $from_header);
+}
+
 function objectsIntoArray($arrObjData, $arrSkipIndices = array())
 {
     $arrData = array();

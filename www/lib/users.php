@@ -93,16 +93,36 @@ class Users
 			if ($res["ID"] != $id)
 				return Users::ERR_SIGNUP_EMAILINUSE;		
 		
-		$db->queryInsert(sprintf("update users set username = %s, email = %s, grabs = %d where id = %d", 
+		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d where id = %d", 
 			$db->escapeString($uname), $db->escapeString($email), $grabs, $id));		
 			
 		return Users::SUCCESS;
 	}	
 	
+	public function updatePassResetGuid($id, $guid)
+	{			
+		$db = new DB();
+		$db->query(sprintf("update users set resetguid = %s where id = %d", $db->escapeString($guid), $id));		
+		return Users::SUCCESS;
+	}	
+	
+	public function updatePassword($id, $password)
+	{			
+		$db = new DB();
+		$db->query(sprintf("update users set password = %s where id = %d", $db->escapeString($this->hashPassword($password)), $id));		
+		return Users::SUCCESS;
+	}		
+	
 	public function getByEmail($email)
 	{			
 		$db = new DB();
 		return $db->queryOneRow(sprintf("select * from users where lower(email) = lower(%s) ", $db->escapeString($email)));		
+	}	
+	
+	public function getByPassResetGuid($guid)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("select * from users where lower(resetguid) = lower(%s) ", $db->escapeString($guid)));		
 	}	
 	
 	public function getByUsername($uname)

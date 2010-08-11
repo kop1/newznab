@@ -16,6 +16,7 @@ class BasePage
 	public $page_template = ''; 
 	public $smarty = '';
 	public $userdata = array();
+	public $serverurl = '';
 		
 	function BasePage()
 	{			
@@ -37,7 +38,10 @@ class BasePage
 
 		$this->smarty->assign('page',$this);
 		if (isset($_SERVER["SERVER_NAME"]))
-			$this->smarty->assign('serverroot',(isset($_SERVER["HTTPS"]) ? "https://" : "http://").$_SERVER["SERVER_NAME"].($_SERVER["SERVER_PORT"] != "80" ? ":".$_SERVER["SERVER_PORT"] : "").WWW_TOP.'/');
+		{
+			$this->serverurl = (isset($_SERVER["HTTPS"]) ? "https://" : "http://").$_SERVER["SERVER_NAME"].($_SERVER["SERVER_PORT"] != "80" ? ":".$_SERVER["SERVER_PORT"] : "").WWW_TOP.'/';
+			$this->smarty->assign('serverroot', $this->serverurl);
+		}
 
 		$users = new Users();
 		if ($users->isLoggedIn())
