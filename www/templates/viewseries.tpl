@@ -41,7 +41,7 @@
 			</div>
 		</td>
 		<td width="40" class="less" nowrap="nowrap"><a title="View comments for {$result.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}#comments">{$result.comments} cmt{if $result.comments != 1}s{/if}</a><br/>{$result.grabs} grab{if $result.grabs != 1}s{/if}</td>
-		<td style="text-align:center;" class="less" width="70" title="{$result.postdate}">{$result.postdate|date_format}</td>
+		<td style="text-align:center;" class="less" width="40" title="{$result.postdate}">{$result.postdate|timeago}</td>
 			<td class="icons">
 				<div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}">&nbsp;</a></div>
 				<div class="icon icon_cart" title="Add to Cart"></div>
