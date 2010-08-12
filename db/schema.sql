@@ -102,6 +102,8 @@ CREATE TABLE `binaryblacklist` (
   PRIMARY KEY (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=100000 ;
 
+INSERT INTO `binaryblacklist` (`ID`, `groupname`, `regex`, `optype`, `status`, `description`) VALUES (100000, 'alt.binaries.boneless', 'usenet-4all|u4all|usenet4all', 2, 0, 'only allow u4all posts in boneless');
+
 DROP TABLE IF EXISTS `releaseregex`;
 CREATE TABLE `releaseregex` (
   `ID` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
