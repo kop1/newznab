@@ -5,6 +5,7 @@ require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/groups.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/category.php");
+//require_once(WWW_DIR."/lib/binaries.php");
 
 class NZB 
 {
@@ -21,7 +22,7 @@ class NZB
 		$this->maxMssgs = 20000; //fetch this amount of messages at the time
 		$this->NewGroupDaysToScan = 3;	//how many days back to scan for new groups
 		
-		$this->blackList = array();
+		$this->binary = (object) NULL;
 	}
 	
 	//
@@ -133,11 +134,11 @@ class NZB
 		$n = $this->n;
 		$groups = new Groups;
 		$res = $groups->getActive();
-		
-		$db = new DB();
-		
-		$this->blackList = $this->getBlackList();
-		
+			
+		$binary = new Binaries();
+		$binary->retrieveBlackList();
+		$this->binary = $binary;
+
 		if ($res)
 		{
 			$nntp = new Nntp();
@@ -246,40 +247,6 @@ class NZB
 	   
 	    return $result;
 	}
-	
-	function getBlackList($groupName="") {
-		$db = new DB();
-		$groupName = ($groupName !='') ? sprintf(' AND groupname = %s ', $groupName) : $groupName;
-		$blackList = $db->query(sprintf("SELECT * FROM binaryblacklist WHERE 1=1 %s AND status = 1", $groupName));
-		$result = array();
-		foreach($blackList as $bl) {
-			$result[$bl['groupname']][$bl['optype']][] = $bl;
-		}
-		return $result;
-	}
-	
-	function binaryIsBlackListed($subject, $groupName) {
-		$omitBinary = false;
-		//whitelist
-		if (isset($this->blackList[$groupName][2])) {
-			foreach ($this->blackList[$groupName][2] as $whiteList) {
-				if (!preg_match('/'.$whiteList['regex'].'/i', $subject))
-				{
-					$omitBinary = true;
-				}
-			}
-		}
-		//blacklist
-		if (isset($this->blackList[$groupName][1])) {
-			foreach ($this->blackList[$groupName][1] as $blackList) {
-				if (preg_match('/'.$blackList['regex'].'/i', $subject))
-				{
-					$omitBinary = true;
-				}
-			}
-		}
-		return $omitBinary;
-	}
 
 function scan($nntp,$db,$groupArr,$first,$last)
 {
@@ -320,7 +287,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 				continue;
 			
 			//Filter binaries based on black/white list
-			if ($this->binaryIsBlackListed($msg['Subject'], $groupArr['name'])) {
+			if ($this->binary->isBlackListed($msg['Subject'], $groupArr['name'], $this->binary->blackList)) {
 				continue;
 			}
 

@@ -5,6 +5,44 @@ require_once(WWW_DIR."/lib/releases.php");
 
 class Binaries
 {	
+	function Binaries() {
+		$this->blackList = array();
+	}
+	
+	public function retrieveBlackList() {
+		if (is_array($this->blackList) && !empty($this->blackList)) { return $this->blackList; }
+		$blackList = $this->getBlacklist(true);
+		$result = array();
+		foreach($blackList as $bl) {
+			$result[$bl['groupname']][$bl['optype']][] = $bl;
+		}
+		$this->blackList = $result;
+		return $result;
+	}
+	
+	public function isBlackListed($subject, $groupName, $blackList) {
+		$omitBinary = false;
+		//whitelist
+		if (isset($blackList[$groupName][2])) {
+			foreach ($blackList[$groupName][2] as $wList) {
+				if (!preg_match('/'.$wList['regex'].'/i', $subject))
+				{
+					$omitBinary = true;
+				}
+			}
+		}
+		//blacklist
+		if (isset($blackList[$groupName][1])) {
+			foreach ($blackList[$groupName][1] as $bList) {
+				if (preg_match('/'.$bList['regex'].'/i', $subject))
+				{
+					$omitBinary = true;
+				}
+			}
+		}
+		return $omitBinary;
+	}
+	
 	public function search($search, $limit=1000)
 	{			
 		$db = new DB();
