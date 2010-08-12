@@ -3,7 +3,7 @@
 			<h2>Getting in touch</h2>
 
 			<p>
-				Please send any questions or comments you have in an email to <a href="mailto:{$site->email}">{$site->title}</a>.
+				Please send any questions or comments you have in an email to {mailto address=$site->email text=$site->title}.
 			</p>
 
 			{$msg}
