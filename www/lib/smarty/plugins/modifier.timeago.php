@@ -17,6 +17,9 @@
  */ 
 function smarty_modifier_timeAgo( $date) 
 { 
+	if ($date == "")
+		return "n/a";
+		
       $timeStrings = array(   'now',      // 0
                         'Sec', 'Secs',    // 1,1 
                         'Min','Mins',     // 3,3 
