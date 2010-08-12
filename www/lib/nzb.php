@@ -18,8 +18,8 @@ class NZB
 		$s = new Sites();
 		$site = $s->get();
 		$this->compressedHeaders = ($site->compressedheaders == "1" ? true : false);	
-		$this->maxMssgs = 10000; //fetch this amount of messages at the time
-		$this->NewGroupDaysToScan = 1;	//how many days back to scan for new groups
+		$this->maxMssgs = 20000; //fetch this amount of messages at the time
+		$this->NewGroupDaysToScan = 3;	//how many days back to scan for new groups
 		
 		$this->blackList = array();
 	}
