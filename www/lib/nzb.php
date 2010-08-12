@@ -18,8 +18,10 @@ class NZB
 		$s = new Sites();
 		$site = $s->get();
 		$this->compressedHeaders = ($site->compressedheaders == "1" ? true : false);	
-		$this->maxMssgs = 20000; //fetch this amount of messages at the time
-		$this->NewGroupDaysToScan = 3;	//how many days back to scan for new groups
+		$this->maxMssgs = 10000; //fetch this amount of messages at the time
+		$this->NewGroupDaysToScan = 1;	//how many days back to scan for new groups
+		
+		$this->blackList = array();
 	}
 	
 	//
@@ -131,7 +133,11 @@ class NZB
 		$n = $this->n;
 		$groups = new Groups;
 		$res = $groups->getActive();
-
+		
+		$db = new DB();
+		
+		$this->blackList = $this->getBlackList();
+		
 		if ($res)
 		{
 			$nntp = new Nntp();
@@ -241,6 +247,39 @@ class NZB
 	    return $result;
 	}
 	
+	function getBlackList($groupName="") {
+		$db = new DB();
+		$groupName = ($groupName !='') ? sprintf(' AND groupname = %s ', $groupName) : $groupName;
+		$blackList = $db->query(sprintf("SELECT * FROM binaryblacklist WHERE 1=1 %s AND status = 1", $groupName));
+		$result = array();
+		foreach($blackList as $bl) {
+			$result[$bl['groupname']][$bl['optype']][] = $bl;
+		}
+		return $result;
+	}
+	
+	function binaryIsBlackListed($subject, $groupName) {
+		$omitBinary = false;
+		//whitelist
+		if (isset($this->blackList[$groupName][2])) {
+			foreach ($this->blackList[$groupName][2] as $whiteList) {
+				if (!preg_match('/'.$whiteList['regex'].'/i', $subject))
+				{
+					$omitBinary = true;
+				}
+			}
+		}
+		//blacklist
+		if (isset($this->blackList[$groupName][1])) {
+			foreach ($this->blackList[$groupName][1] as $blackList) {
+				if (preg_match('/'.$blackList['regex'].'/i', $subject))
+				{
+					$omitBinary = true;
+				}
+			}
+		}
+		return $omitBinary;
+	}
 
 function scan($nntp,$db,$groupArr,$first,$last)
 {
@@ -252,7 +291,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 	else
 		$msgs = $nntp->getOverview($first."-".$last, true, false);
 	$timeHeaders = number_format(microtime(true) - $this->startHeaders, 2);
-
+	
 	if(PEAR::isError($msgs))
 	{
 		echo "Error {$msgs->code}: {$msgs->message}$n";
@@ -269,11 +308,12 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			$pattern = '/\((\d+)\/(\d+)\)$/i';
 			if (!isset($msg['Subject']) || !preg_match($pattern, $msg['Subject'], $matches)) // not a binary post most likely.. continue
 				continue;
-				//Filter for only u4all posts in boneless, uncomment the next few lines to enable.
-//			if (preg_match('/alt.binaries.boneless/i',$msg['Xref']) && !preg_match('/usenet-4all|u4all|usenet4all/i', $msg['Subject']))
-//			{
-//				continue;
-//			}
+			
+			//Filter binaries based on black/white list
+			if ($this->binaryIsBlackListed($msg['Subject'], $groupArr['name'])) {
+				continue;
+			}
+
 			if(is_numeric($matches[1]) && is_numeric($matches[2]))
 			{
 				array_map('trim', $matches);
