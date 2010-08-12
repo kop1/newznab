@@ -290,6 +290,16 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		$msgs = $nntp->getXOverview($first."-".$last, true, false);
 	else
 		$msgs = $nntp->getOverview($first."-".$last, true, false);
+	if(PEAR::isError($msgs) && $msgs->code==400)
+	{
+		echo "INFO: NNTP connection timed out.  Reconnecting. $n";
+		$nntp->doConnect();
+		$nntp->selectGroup($groupArr['name']);
+		if ($this->compressedHeaders)
+			$msgs = $nntp->getXOverview($first."-".$last, true, false);
+		else
+			$msgs = $nntp->getOverview($first."-".$last, true, false);
+	}
 	$timeHeaders = number_format(microtime(true) - $this->startHeaders, 2);
 	
 	if(PEAR::isError($msgs))
