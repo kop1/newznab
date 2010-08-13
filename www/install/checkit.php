@@ -19,6 +19,11 @@ if(is_writable("../lib/smarty/templates_c") == false) {
 	$errors[] = "The template cache folder must be writable. A quick solution is to run:<br />chmod 777 ".realpath("../lib/smarty/templates_c");
 }
 
+//the cd covers dir must be writable
+if(is_writable("../images/covers") == false) {
+	$errors[] = "The images/covers dir must be writable. A quick solution is to run:<br />chmod 777 ".realpath("../images/covers");
+}
+
 //A PEAR package is needed
 if(!include('Net/NNTP/Client.php')) {
         $errors[] = "The PEAR package 'Net_NNTP' is missing. This can normally be fixed by running:<br />pear install Net_NNTP";
