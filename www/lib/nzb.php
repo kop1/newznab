@@ -5,7 +5,6 @@ require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/groups.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/category.php");
-//require_once(WWW_DIR."/lib/binaries.php");
 
 class NZB 
 {
@@ -18,9 +17,11 @@ class NZB
 			
 		$s = new Sites();
 		$site = $s->get();
-		$this->compressedHeaders = ($site->compressedheaders == "1" ? true : false);	
-		$this->maxMssgs = 20000; //fetch this amount of messages at the time
-		$this->NewGroupDaysToScan = 3;	//how many days back to scan for new groups
+		$this->compressedHeaders = ($site->compressedheaders == "1") ? true : false;	
+		$this->maxMssgs = (!empty($site->maxmssgs)) ? $site->maxmssgs : 20000;
+		$this->NewGroupMsgsToScan = (!empty($site->newgroupmsgstoscan)) ? $site->newgroupmsgstoscan : 50000;
+		$this->NewGroupScanByDays = ($site->newgroupscanmethod == "1") ? true : false;
+		$this->NewGroupDaysToScan = (!empty($site->newgroupdaystoscan)) ? $site->newgroupdaystoscan : 3;
 		
 		$this->binary = (object) NULL;
 	}
@@ -383,7 +384,14 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			//
 			// for new newsgroups - determine here how far you want to go back.
 			//
-			$first = $this->daytopost($nntp,$groupArr['name'],$this->NewGroupDaysToScan,TRUE);
+			if ($this->NewGroupScanByDays) {
+				$first = $this->daytopost($nntp,$groupArr['name'],$this->NewGroupDaysToScan,TRUE);
+			} else {
+				if($data['first'] > ($data['last'] - $this->NewGroupMsgsToScan))
+					$first = $data['first'];
+				else
+					$first = $data['last'] - $this->NewGroupMsgsToScan;	
+			}	
 			$first_record_postdate = $this->postdate($nntp,$first,false);
 			$db->query(sprintf("UPDATE groups SET first_record = %s, first_record_postdate = FROM_UNIXTIME(".$first_record_postdate.") WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 		}
@@ -409,7 +417,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			echo((int) (($this->postdate($nntp,$data['last'],FALSE) - $this->postdate($nntp,$data['first'],FALSE))/86400));
 			echo " days - Local last = ".$groupArr['last_record'];
 			if($groupArr['last_record']==0)
-				echo(", we are getting ".$this->NewGroupDaysToScan." days worth.");
+				echo(", we are getting ".(($this->NewGroupScanMethod == 0) ? $this->NewGroupMsgsToScan." messages" : $this->NewGroupDaysToScan." days")." worth.");
 			echo $n.'Using compression: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
 			$last = $first + $this->maxMssgs - 1;

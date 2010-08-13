@@ -207,6 +207,39 @@
 	</td>
 </tr>
 
+
+<tr>
+	<td><label for="maxmssgs">Max Messages</label>:</td>
+	<td>
+		<input class="small" id="maxmssgs" name="maxmssgs" type="text" value="{$fsite->maxmssgs}" />
+		<div class="hint">The number of messages to fetch per cycle.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="newgroupmsgstoscan">Messages to Scan</label>:</td>
+	<td>
+		<input class="small" id="newgroupmsgstoscan" name="newgroupmsgstoscan" type="text" value="{$fsite->newgroupmsgstoscan}" />
+		<div class="hint">For newly added groups, define how many messages to fetch for the initial scan.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="newgroupscanmethod">Use Days For Initial Scan</label>:</td>
+	<td>
+		{html_radios id="newgroupscanmethod" name='newgroupscanmethod' values=$yesno_ids output=$yesno_names selected=$fsite->newgroupscanmethod separator='<br />'}
+		<div class="hint">For newly added groups, the below setting to define in days how far to go back for the initial scan (overrides above).</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="newgroupdaystoscan">Days to Scan</label>:</td>
+	<td>
+		<input class="small" id="newgroupdaystoscan" name="newgroupdaystoscan" type="text" value="{$fsite->newgroupdaystoscan}" />
+		<div class="hint">For newly added groups, define how many days to fetch for the initial scan (with above setting).</div>
+	</td>
+</tr>
+
 </table>
 </fieldset>
 
