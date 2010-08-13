@@ -31,7 +31,7 @@ switch($action)
 
 $page->smarty->assign('yesno_ids', array(1,0));
 $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
-
+$page->smarty->assign('newgroupscan_names', array('Days','Posts'));
 $page->smarty->assign('registerstatus_ids', array(Sites::REGISTER_STATUS_OPEN, Sites::REGISTER_STATUS_INVITE, Sites::REGISTER_STATUS_CLOSED));
 $page->smarty->assign('registerstatus_names', array( 'Open', 'Invite', 'Closed'));
 
