@@ -17,7 +17,8 @@ a img { border: none; }
 img.left { float: left; margin: 7px 30px 0 0; }
 img.right { float: right; margin: 7px 0 0 30px; }
 hr { display: none; }
-
+.small { width: 50px; }
+.tiny { width: 25px; }
 /*
 page structure
 */
