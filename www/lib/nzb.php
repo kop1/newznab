@@ -166,12 +166,20 @@ class NZB
 
 	function postdate($nntp,$post,$debug=true) //returns single timestamp from a local article number
 	{
+		//
+		// Why are zeros getting passed in here!?
+		//
+		if ($post == 0)
+		{
+			echo " ** BUG ** - value 0 passed as a postid to postdate function\n";
+			return "";
+		}
 		$msgs = $nntp->getOverview($post."-".$post,true,false);
 		$date = $msgs[0]['Date'];
 		if($debug) echo "DEBUG: postdate for post $post came back $date (or ";
 		$date = strtotime($date);
 		if($debug) echo "$date seconds unixtime)".$this->n;
-	 return $date;
+		return $date;
 	}
 	function daytopost($nntp,$group,$days,$debug=true)
 	{
@@ -421,7 +429,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			echo((int) (($this->postdate($nntp,$data['last'],FALSE) - $this->postdate($nntp,$data['first'],FALSE))/86400));
 			echo " days - Local last = ".$groupArr['last_record'];
 			if($groupArr['last_record']==0)
-				echo(", we are getting ".(($this->NewGroupScanMethod == 0) ? $this->NewGroupMsgsToScan." messages" : $this->NewGroupDaysToScan." days")." worth.");
+				echo(", we are getting ".(($this->NewGroupScanByDays) ? $this->NewGroupMsgsToScan." messages" : $this->NewGroupDaysToScan." days")." worth.");
 			echo $n.'Using compression: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
 			$last = $first + $this->maxMssgs - 1;
