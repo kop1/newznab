@@ -85,7 +85,7 @@ class TvRage
 		if (isset($arrXml['image']) && $arrXml['image'] != '')
 		{
 			$img = file_get_contents($arrXml['image']);
-			$im = imagecreatefromstring($img);
+			$im = @imagecreatefromstring($img);
 			if($im !== false) {
 				return $img;
 			}
