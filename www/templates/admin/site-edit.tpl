@@ -169,7 +169,7 @@
 <tr>
 	<td><label for="attemptgroupbindays">Days to Attempt To Group</label>:</td>
 	<td>
-		<input class="small" id="attemptgroupbindays" name="attemptgroupbindays" type="text" value="{$fsite->attemptgroupbindays}" />
+		<input class="tiny" id="attemptgroupbindays" name="attemptgroupbindays" type="text" value="{$fsite->attemptgroupbindays}" />
 		<div class="hint">The number of days an attempt will be made to group binaries into releases after being added.</div>
 	</td>
 </tr>
@@ -212,34 +212,18 @@
 	<td><label for="maxmssgs">Max Messages</label>:</td>
 	<td>
 		<input class="small" id="maxmssgs" name="maxmssgs" type="text" value="{$fsite->maxmssgs}" />
-		<div class="hint">The number of messages to fetch per cycle.</div>
+		<div class="hint">The maximum number of messages to fetch at a time from the server.</div>
 	</td>
 </tr>
-
 <tr>
-	<td><label for="newgroupmsgstoscan">Messages to Scan</label>:</td>
-	<td>
-		<input class="small" id="newgroupmsgstoscan" name="newgroupmsgstoscan" type="text" value="{$fsite->newgroupmsgstoscan}" />
-		<div class="hint">For newly added groups, define how many messages to fetch for the initial scan.</div>
-	</td>
-</tr>
+        <td><label for="newgroupscanmethod">Where to start new groups</label>:</td>
+        <td>
+                <label><input type="radio" name="newgroupscanmethod" value="1" id="newgroupscanmethod" /><input class="tiny" id="newgroupdaystoscan" name="newgroupdaystoscan" type="text" value="3" /> Days</label><br />
 
-<tr>
-	<td><label for="newgroupscanmethod">Use Days For Initial Scan</label>:</td>
-	<td>
-		{html_radios id="newgroupscanmethod" name='newgroupscanmethod' values=$yesno_ids output=$yesno_names selected=$fsite->newgroupscanmethod separator='<br />'}
-		<div class="hint">For newly added groups, the below setting to define in days how far to go back for the initial scan (overrides above).</div>
-	</td>
+<label><input type="radio" name="newgroupscanmethod" value="0" checked="checked" id="newgroupscanmethod" /><input class="small" id="newgroupmsgstoscan" name="newgroupmsgstoscan" type="text" value="50000" /> Posts</label><br />
+                <div class="hint">For newly added groups, do we go back _ days or _ posts?</div>
+        </td>
 </tr>
-
-<tr>
-	<td><label for="newgroupdaystoscan">Days to Scan</label>:</td>
-	<td>
-		<input class="small" id="newgroupdaystoscan" name="newgroupdaystoscan" type="text" value="{$fsite->newgroupdaystoscan}" />
-		<div class="hint">For newly added groups, define how many days to fetch for the initial scan (with above setting).</div>
-	</td>
-</tr>
-
 </table>
 </fieldset>
 
