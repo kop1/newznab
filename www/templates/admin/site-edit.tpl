@@ -216,13 +216,12 @@
 	</td>
 </tr>
 <tr>
-        <td><label for="newgroupscanmethod">Where to start new groups</label>:</td>
-        <td>
-                <label><input type="radio" name="newgroupscanmethod" value="1" id="newgroupscanmethod" /><input class="tiny" id="newgroupdaystoscan" name="newgroupdaystoscan" type="text" value="{$fsite->newgroupdaystoscan}" /> Days</label><br />
-
-<label><input type="radio" name="newgroupscanmethod" value="0" checked="checked" id="newgroupscanmethod" /><input class="small" id="newgroupmsgstoscan" name="newgroupmsgstoscan" type="text" value="{$fsite->newgroupmsgstoscan}" /> Posts</label><br />
-                <div class="hint">For newly added groups, do we go back _ days or _ posts?</div>
-        </td>
+	<td><label for="newgroupscanmethod">Where to start new groups</label>:</td>
+	<td>
+		<label><input type="radio" name="newgroupscanmethod" value="1" id="newgroupscanmethod" /><input class="tiny" id="newgroupdaystoscan" name="newgroupdaystoscan" type="text" value="{$fsite->newgroupdaystoscan}" /> Days</label><br />
+		<label><input type="radio" name="newgroupscanmethod" value="0" checked="checked" id="newgroupscanmethod" /><input class="small" id="newgroupmsgstoscan" name="newgroupmsgstoscan" type="text" value="{$fsite->newgroupmsgstoscan}" /> Posts</label><br />
+		<div class="hint">For newly added groups, do we go back _ days or _ posts?</div>
+	</td>
 </tr>
 </table>
 </fieldset>
