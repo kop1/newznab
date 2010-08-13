@@ -40,7 +40,7 @@ function ajax_group_status(id, what)
 }
 
 /**
- * ajax_group_status()
+ * ajax_group_delete()
  *
  * @param id        group id
  */
@@ -60,6 +60,30 @@ function ajax_group_delete(id)
 		  $('#message').fadeOut(5000);
 	  },
 	  error: function(xhr,err,e) { alert( "Error in ajax_group_delete: " + err ); }
+	});
+}
+
+/**
+ * ajax_group_reset()
+ *
+ * @param id        group id
+ */
+function ajax_group_reset(id)
+{
+    // no caching of results
+    var rand_no = Math.random();
+	$.ajax({
+	  url       : WWW_TOP + '/admin/ajax_group-edit.php?action=3&rand=' + rand_no,
+	  data      : { group_id: id},
+	  dataType  : "html",
+	  success   : function(data)
+	  {
+		  $('div#message').html(data);
+		  $('div#message').show('fast', function() {});
+		  $('#grouprow-'+id).fadeTo(2000, 0.5);
+		  $('#message').fadeOut(5000);
+	  },
+	  error: function(xhr,err,e) { alert( "Error in ajax_group_reset: " + err ); }
 	});
 }
 

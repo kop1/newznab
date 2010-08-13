@@ -89,6 +89,12 @@ class Groups
 		return $db->query(sprintf("delete from groups where ID = %d", $id));		
 	}	
 	
+	public function reset($id)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("update groups set backfill_target=0, first_record=0, first_record_updated=null, last_record=0, last_record_updated=null, last_updated=null where ID = %d", $id));		
+	}		
+	
 	public function update($group)
 	{			
 		$db = new DB();

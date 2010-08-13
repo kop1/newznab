@@ -13,6 +13,12 @@ if (isset($_GET['action']) && $_GET['action'] == "2")
 		$group->delete($id);	
 		print "Group $id deleted.";
 }
+elseif (isset($_GET['action']) && $_GET['action'] == "3")
+{
+		$id     = (int)$_GET['group_id'];
+		$group->reset($id);	
+		print "Group $id reset.";
+}
 else
 {
 	if (isset($_GET['group_id']))
