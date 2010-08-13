@@ -470,6 +470,10 @@ CREATE TABLE site (
 `lookupimdb` INT NOT NULL DEFAULT 1,
 `lookupnfo` INT NOT NULL DEFAULT 1,
 `compressedheaders` INT NOT NULL DEFAULT 0,
+`maxmssgs` INT NOT NULL DEFAULT 20000,
+`newgroupscanmethod` INT NOT NULL DEFAULT 0,
+`newgroupdaystoscan` INT NOT NULL DEFAULT 3,
+`newgroupmsgstoscan` INT NOT NULL DEFAULT 50000,
 `storeuserips` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
