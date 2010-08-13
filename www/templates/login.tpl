@@ -12,6 +12,7 @@
 			<td>
 				<input id="password" name="password" type="password"/>
 			</td></tr>
+		<tr><th><label for="rememberme">Remember Me</label>:</th><td><input id="rememberme" {if $rememberme == 1}checked="checked"{/if} name="rememberme" type="checkbox"/></td>
 		<tr><th></th><td><input type="submit" value="Login"/></td></tr>
 	</table>
 </form>

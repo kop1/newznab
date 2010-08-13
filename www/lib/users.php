@@ -234,6 +234,15 @@ class Users
 		
 	public function isLoggedIn()
 	{
+		if (isset($_SESSION['uid'])) {
+			return true;
+		} elseif (isset($_COOKIE['uid']) && isset($_COOKIE['idh'])) {
+		 	$site = new Sites();
+			$s = $site->get();
+		 	if ($_COOKIE['idh'] == $this->hashSHA1($s->siteseed.$_COOKIE['uid'])) {
+				$this->login($_COOKIE['uid'], $_SERVER['REMOTE_ADDR']);
+			}
+		}
 		return isset($_SESSION['uid']);
 	}
 	
@@ -247,9 +256,11 @@ class Users
 		session_start();
 		session_unset();
 		session_destroy();
+		setcookie('uid', '', (time()-2592000));
+		setcookie('idh', '', (time()-2592000));
 	}
 	
-	public function login($uid, $host="")
+	public function login($uid, $host="", $remember="")
 	{
 		$_SESSION['uid'] = $uid;
 		
@@ -259,7 +270,18 @@ class Users
 		{
 			$db = new DB();
 			$db->query(sprintf("update users set host = %s where ID = %d ", $db->escapeString($host), $uid));		
-		}		
+		}
+		
+		if ($remember == 1) {
+			$this->setCookies($uid, $s->siteseed);
+		}	
+	}
+	
+	public function setCookies($uid, $seed)
+	{			
+		$idh = $this->hashSHA1($seed.$uid);
+		setcookie('uid', $uid, (time()+2592000));
+		setcookie('idh', $idh, (time()+2592000));
 	}
 	
 	public function addCart($uid, $releaseid)

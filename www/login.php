@@ -21,7 +21,8 @@ if ($page->isPostBack())
 		{
 			if ($users->checkPassword($_POST["password"], $res["password"]))
 			{
-				$users->login($res["ID"], $_SERVER['REMOTE_ADDR']);
+				$rememberMe = (isset($_POST['rememberme']) && $_POST['rememberme'] == 'on') ? 1 : 0;
+				$users->login($res["ID"], $_SERVER['REMOTE_ADDR'], $rememberMe);
 				header("Location: ".WWW_TOP."/");
 			}
 			else
