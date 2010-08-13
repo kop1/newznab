@@ -203,7 +203,7 @@
 	<td><label for="compressedheaders">Use Compressed Headers</label>:</td>
 	<td>
 		{html_radios id="compressedheaders" name='compressedheaders' values=$yesno_ids output=$yesno_names selected=$fsite->compressedheaders separator='<br />'}
-		<div class="hint">Some USPs allow the use of XZOVER to download the message headers in gzipped format. If enabled this will use much less bandwidth, but not be significantly faster.</div>
+		<div class="hint">Some servers allow headers to be sent over in a compressed format.  If enabled this will use much less bandwidth, but processing times may increase.</div>
 	</td>
 </tr>
 
@@ -218,9 +218,10 @@
 <tr>
 	<td><label for="newgroupscanmethod">Where to start new groups</label>:</td>
 	<td>
-		<label><input type="radio" name="newgroupscanmethod" value="1" id="newgroupscanmethod" /><input class="tiny" id="newgroupdaystoscan" name="newgroupdaystoscan" type="text" value="{$fsite->newgroupdaystoscan}" /> Days</label><br />
-		<label><input type="radio" name="newgroupscanmethod" value="0" checked="checked" id="newgroupscanmethod" /><input class="small" id="newgroupmsgstoscan" name="newgroupmsgstoscan" type="text" value="{$fsite->newgroupmsgstoscan}" /> Posts</label><br />
-		<div class="hint">For newly added groups, do we go back _ days or _ posts?</div>
+		{html_radios id="newgroupscanmethod" name='newgroupscanmethod' values=$yesno_ids output=$newgroupscan_names selected=$fsite->newgroupscanmethod separator='<br />'}
+		<input class="tiny" id="newgroupdaystoscan" name="newgroupdaystoscan" type="text" value="{$fsite->newgroupdaystoscan}" /> Days</label> or 
+		<input class="small" id="newgroupmsgstoscan" name="newgroupmsgstoscan" type="text" value="{$fsite->newgroupmsgstoscan}" /> Posts</label><br />
+		<div class="hint">Scan back X (posts/days) for each new group?  Can backfill to scan further.</div>
 	</td>
 </tr>
 </table>
