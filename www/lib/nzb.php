@@ -107,27 +107,31 @@ class NZB
 	//
 	function backfillAllGroups()
 	{
-			$n = $this->n;
-			$groups = new Groups;
-			$res = $groups->getActive();
+		$n = $this->n;
+		$groups = new Groups;
+		$res = $groups->getActive();
+		
+		$binary = new Binaries();
+		$binary->retrieveBlackList();
+		$this->binary = $binary;
+			
+		if ($res)
+		{
+			$nntp = new Nntp();
+			$nntp->doConnect();
 
-			if ($res)
+			foreach($res as $groupArr)
 			{
-				$nntp = new Nntp();
-				$nntp->doConnect();
-
-				foreach($res as $groupArr)
-				{
-					$this->message = array();
-					$this->backfillGroup($nntp, $groupArr);
-				}
-
-				$nntp->doQuit();
+				$this->message = array();
+				$this->backfillGroup($nntp, $groupArr);
 			}
-			else
-			{
-				echo "No groups specified. Ensure groups are added to newznab's database for updating.$n";
-			}
+
+			$nntp->doQuit();
+		}
+		else
+		{
+			echo "No groups specified. Ensure groups are added to newznab's database for updating.$n";
+		}
 	}
 
 	function updateAllGroups() 
