@@ -429,7 +429,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			echo((int) (($this->postdate($nntp,$data['last'],FALSE) - $this->postdate($nntp,$data['first'],FALSE))/86400));
 			echo " days - Local last = ".$groupArr['last_record'];
 			if($groupArr['last_record']==0)
-				echo(", we are getting ".(($this->NewGroupScanByDays) ? $this->NewGroupMsgsToScan." messages" : $this->NewGroupDaysToScan." days")." worth.");
+				echo(", we are getting ".(($this->NewGroupScanByDays) ? $this->NewGroupDaysToScan." days" : $this->NewGroupMsgsToScan." messages")." worth.");
 			echo $n.'Using compression: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
 			$last = $first + $this->maxMssgs - 1;
