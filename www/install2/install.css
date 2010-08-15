@@ -1,0 +1,78 @@
+body { 
+	margin: 0;
+	padding: 0;
+	background: #FFFFFF url(../images/menu.gif) repeat-x;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #515151;
+}
+
+a {
+	text-decoration: none;
+	color: blue;
+}
+h1, h2, h3 {
+	margin: 0;
+	font-weight: normal;
+	color: #485459;
+}
+
+li {
+	padding-top:10px;
+}
+
+textarea { font-family: Arial, Helvetica, sans-serif; height:100px; width:300px;}
+
+h1 { 
+	font-size: 36px; padding-bottom:10px;
+}
+
+h2 {
+		
+}
+
+#logo {
+	margin-left: 200px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.content {
+	border: 1px solid #515151;
+	width: 600px;
+	padding: 10px;
+    	margin-left: auto;
+	margin-right: auto;
+}
+
+.footer {
+	font-size: 10px;
+	text-align: center;
+}
+
+div.error {
+	color: red;
+	padding: 20px;
+}
+
+span.error {
+	color: red;
+}
+
+span.success {
+	color: green;
+}
+
+table.data { border-collapse:collapse; }
+table.data th { text-align:left; vertical-align:top; background-color:#DDD; border-color: #AAA; border-width: 1px; border-style: solid; padding:3px; font-style:bolder; text-transform:capitalize;}
+table.data td { white-space:normal; vertical-align:top; padding:5px; border-color: #AAA; border-width: 1px; border-style: solid; }
+table.data td.less { color: #888; font-size: 0.8em; white-space:nowrap; }
+table.data td.icons { white-space:nowrap; padding-left:0px; padding-right:0px; width:60px; }
+table.highlight tr:hover td { background-color: #E1F0D9; }
+table tr.alt { background-color: #EEE; }
+table.data em {font-weight:bolder; color:red;}
+div.hint, div.hint a {font-size:0.9em; font-style:italic; color:#999;}
+div.hint { margin-bottom:10px;}
+input.long {width:400px; }
+input.short { width:40px; }
+input.date { width:70px; }
