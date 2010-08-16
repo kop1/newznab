@@ -1043,7 +1043,9 @@ VALUES
 (495,5405,'SuperFriends: The Legendary Super Powers Show',NULL,now(),NULL,70913),
 (496,6227,'The Super Powers Team: Galactic Guardians',NULL,now(),NULL,70914),
 (497,18289,'The Last Precinct',NULL,now(),NULL,70915),
-(498,3177,'Crossroads (1992)',NULL,now(),NULL,70916),
+(498,3177,'Crossroads (1992)',NULL,now(),NULL,70916);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (499,4721,'One On One',NULL,now(),NULL,70919),
 (500,618,'Animal Crackers',NULL,now(),NULL,70920),
 (501,9300,'The Estate Agents',NULL,now(),NULL,70921),
@@ -1541,7 +1543,9 @@ VALUES
 (993,5016,'Road Rovers',NULL,now(),NULL,71526),
 (994,5474,'Taxi',NULL,now(),NULL,71527),
 (995,2779,'Bewitched',NULL,now(),NULL,71528),
-(996,3423,'Edge of Darkness',NULL,now(),NULL,71529),
+(996,3423,'Edge of Darkness',NULL,now(),NULL,71529);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (997,1091,'The Dick Clark Show',NULL,now(),NULL,71530),
 (998,15499,'Hollywood Beat',NULL,now(),NULL,71533),
 (999,817,'Love Thy Neighbour',NULL,now(),NULL,71534),
@@ -2039,7 +2043,9 @@ VALUES
 (1491,12619,'Oh Boy!',NULL,now(),NULL,72162),
 (1492,3200,'Da Ali G Show',NULL,now(),NULL,72165),
 (1493,8332,'Today with Des and Mel',NULL,now(),NULL,72166),
-(1494,18436,'Andra Avenyn',NULL,now(),NULL,80703),
+(1494,18436,'Andra Avenyn',NULL,now(),NULL,80703);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (1495,3024,'Century City',NULL,now(),NULL,72168),
 (1496,23145,'The Mayor of Casterbridge',NULL,now(),NULL,72169),
 (1497,5755,'The Equalizer',NULL,now(),NULL,72170),
@@ -2537,7 +2543,9 @@ VALUES
 (1989,4518,'Monster House',NULL,now(),NULL,72838),
 (1990,1191,'The Savage Dragon',NULL,now(),NULL,72839),
 (1991,5648,'The Brendan Leonard Show',NULL,now(),NULL,72840),
-(1992,153,'Scorch',NULL,now(),NULL,72841),
+(1992,153,'Scorch',NULL,now(),NULL,72841);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (1993,3706,'Gokudo',NULL,now(),NULL,72843),
 (1994,1196,'Zenki',NULL,now(),NULL,72844),
 (1995,1197,'Cyber Team in Akihabara',NULL,now(),NULL,72845),
@@ -3035,7 +3043,9 @@ VALUES
 (2487,2932,'The Bugaloos',NULL,now(),NULL,73515),
 (2488,17864,'Stranger from Space',NULL,now(),NULL,73516),
 (2489,1416,'Fireman Sam',NULL,now(),NULL,73517),
-(2490,23,'Empire (1962)',NULL,now(),NULL,73519),
+(2490,23,'Empire (1962)',NULL,now(),NULL,73519);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (2491,9400,'Headbangers Ball',NULL,now(),NULL,73520),
 (2492,3364,'Dr. Shrinker',NULL,now(),NULL,73521),
 (2493,6017,'The New Adventures of Gilligan',NULL,now(),NULL,73523),
@@ -3533,7 +3543,9 @@ VALUES
 (2985,7077,'Hero to Zero',NULL,now(),NULL,74224),
 (2986,15943,'Hey Jeannie!',NULL,now(),NULL,74225),
 (2987,13393,'Thorndyke',NULL,now(),NULL,74226),
-(2988,8761,'If It Moves, File It',NULL,now(),NULL,74229),
+(2988,8761,'If It Moves, File It',NULL,now(),NULL,74229);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (2989,2623,'Anna Lee',NULL,now(),NULL,74230),
 (2990,8363,'If You See God, Tell Him',NULL,now(),NULL,74231),
 (2991,10680,'The Neighbors',NULL,now(),NULL,74232),
@@ -4031,7 +4043,9 @@ VALUES
 (3483,4823,'Picket Fences',NULL,now(),NULL,74969),
 (3484,3191,'Curse of Dracula',NULL,now(),NULL,74970),
 (3485,7285,'Zillion',NULL,now(),NULL,74973),
-(3486,6356,'Tilt',NULL,now(),NULL,74974),
+(3486,6356,'Tilt',NULL,now(),NULL,74974);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (3487,7386,'Waste Not',NULL,now(),NULL,74979),
 (3488,3965,'Inside Dish with Rachael Ray',NULL,now(),NULL,74980),
 (3489,2226,'Miracle\'s Boys',NULL,now(),NULL,74982),
@@ -4529,7 +4543,9 @@ VALUES
 (3981,3181,'Crumbs',NULL,now(),NULL,75743),
 (3982,6354,'Thunderstone',NULL,now(),NULL,75746),
 (3983,299,'The Wayne Manifesto',NULL,now(),NULL,75747),
-(3984,9553,'The Culture Show',NULL,now(),NULL,75748),
+(3984,9553,'The Culture Show',NULL,now(),NULL,75748);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (3985,2385,'Miss Popularity',NULL,now(),NULL,75754),
 (3986,7775,'Bumper Stumpers',NULL,now(),NULL,75755),
 (3987,7037,'Courting Alex',NULL,now(),NULL,75757),
@@ -5027,7 +5043,9 @@ VALUES
 (4479,8336,'Journey to the Unknown',NULL,now(),NULL,76472),
 (4480,5289,'Spencer\'s Pilots',NULL,now(),NULL,76473),
 (4481,12678,'Rafferty',NULL,now(),NULL,76474),
-(4482,17999,'The Public Defender',NULL,now(),NULL,76475),
+(4482,17999,'The Public Defender',NULL,now(),NULL,76475);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (4483,4539,'Mr. Lucky',NULL,now(),NULL,76476),
 (4484,15617,'Going My Way',NULL,now(),NULL,76477),
 (4485,391,'The Lux Video Theatre',NULL,now(),NULL,76478),
@@ -5525,7 +5543,9 @@ VALUES
 (4977,5652,'The Broker\'s Man',NULL,now(),NULL,77052),
 (4978,2653,'Arthur of the Britons',NULL,now(),NULL,77053),
 (4979,1667,'Sabrina (1970)',NULL,now(),NULL,77056),
-(4980,6179,'The Secret Lives of Waldo Kitty',NULL,now(),NULL,77057),
+(4980,6179,'The Secret Lives of Waldo Kitty',NULL,now(),NULL,77057);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (4981,4358,'Mama\'s Family',NULL,now(),NULL,77059),
 (4982,14591,'Classic Concentration',NULL,now(),NULL,77060),
 (4983,7448,'Win, Lose or Draw',NULL,now(),NULL,77061),
@@ -6023,7 +6043,9 @@ VALUES
 (5475,3527,'Father Knows Best',NULL,now(),NULL,77621),
 (5476,3795,'Harry and the Hendersons',NULL,now(),NULL,77624),
 (5477,6388,'Totally Spies',NULL,now(),NULL,77625),
-(5478,5989,'The Mommies',NULL,now(),NULL,77626),
+(5478,5989,'The Mommies',NULL,now(),NULL,77626);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (5479,19594,'Motown Revue',NULL,now(),NULL,77627),
 (5480,5202,'Simon',NULL,now(),NULL,77628),
 (5481,11035,'The Baileys of Balboa',NULL,now(),NULL,77629),
@@ -6521,7 +6543,9 @@ VALUES
 (5973,1939,'Sugar and Spice',NULL,now(),NULL,78252),
 (5974,5245,'Someone Like Me',NULL,now(),NULL,78253),
 (5975,6088,'The Phoenix',NULL,now(),NULL,78254),
-(5976,4982,'Rescue 911',NULL,now(),NULL,78256),
+(5976,4982,'Rescue 911',NULL,now(),NULL,78256);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (5977,5504,'That\'s So Raven',NULL,now(),NULL,78258),
 (5978,5760,'The Faculty',NULL,now(),NULL,78263),
 (5979,9948,'Vic Reeves Big Night Out',NULL,now(),NULL,78264),
@@ -7019,7 +7043,9 @@ VALUES
 (6471,8132,'The Living Planet',NULL,now(),NULL,78864),
 (6472,4127,'Killer Instinct',NULL,now(),NULL,78865),
 (6473,630,'The Croc Files',NULL,now(),NULL,78867),
-(6474,3642,'Game Over',NULL,now(),NULL,78871),
+(6474,3642,'Game Over',NULL,now(),NULL,78871);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (6475,1340,'Seven Wonders of the Industrial World',NULL,now(),NULL,78873),
 (6476,9591,'Connections',NULL,now(),NULL,78875),
 (6477,3740,'Greg the Bunny',NULL,now(),NULL,78877),
@@ -7517,7 +7543,9 @@ VALUES
 (6969,4551,'Mummies Alive!',NULL,now(),NULL,73721),
 (6970,16623,'Stromberg',NULL,now(),NULL,79656),
 (6971,3245,'Darkwing Duck',NULL,now(),NULL,75475),
-(6972,15465,'Ruddy Hell! It\'s Harry And Paul',NULL,now(),NULL,80101),
+(6972,15465,'Ruddy Hell! It\'s Harry And Paul',NULL,now(),NULL,80101);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (6973,3737,'Green Green Grass',NULL,now(),NULL,80102),
 (6974,7191,'The Wombles',NULL,now(),NULL,80104),
 (6975,11210,'Top Design',NULL,now(),NULL,80107),
@@ -8015,7 +8043,9 @@ VALUES
 (7467,16522,'The States',NULL,now(),NULL,81125),
 (7468,12778,'Little Miss Jocelyn',NULL,now(),NULL,81127),
 (7469,17772,'Fairy Tales',NULL,now(),NULL,81132),
-(7470,22259,'The Blue and the Gray',NULL,now(),NULL,81133),
+(7470,22259,'The Blue and the Gray',NULL,now(),NULL,81133);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (7471,2287,'School Rumble',NULL,now(),NULL,79194),
 (7472,15265,'100 Greatest Discoveries',NULL,now(),NULL,81134),
 (7473,5092,'Samurai 7',NULL,now(),NULL,79127),
@@ -8513,7 +8543,9 @@ VALUES
 (7965,2481,'According to Jim',NULL,now(),NULL,75926),
 (7966,11063,'Stand Up!!',NULL,now(),NULL,82326),
 (7967,14091,'Water Boys',NULL,now(),NULL,82330),
-(7968,14092,'Wonderful Life',NULL,now(),NULL,82331),
+(7968,14092,'Wonderful Life',NULL,now(),NULL,82331);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (7969,14099,'Yamato Nadeshiko',NULL,now(),NULL,82334),
 (7970,8038,'The Alan Clark Diaries',NULL,now(),NULL,82335),
 (7971,16296,'Shiawase ni Naritai!',NULL,now(),NULL,82324),
@@ -8908,7 +8940,7 @@ VALUES
 (8360,16348,'1,000 Places to See Before You Die',NULL,now(),NULL,83346),
 (8361,18516,'Freaky Eaters',NULL,now(),NULL,83349),
 (8362,19697,'Down and Dirty with Jim Norton',NULL,now(),NULL,83355),
-(8363,20189,'Chaos;head',NULL,now(),NULL,83358),
+(8363,20189,'Chaos head',NULL,now(),NULL,83358),
 (8364,20133,'Ga-Rei: Zero',NULL,now(),NULL,83359),
 (8365,20190,'Tytania',NULL,now(),NULL,83364),
 (8366,22229,'The Conquerors',NULL,now(),NULL,83365),
@@ -9011,7 +9043,9 @@ VALUES
 (8463,9358,'Grumpy Old Men',NULL,now(),NULL,83625),
 (8464,2680,'Avatar: The Last Airbender',NULL,now(),NULL,74852),
 (8465,5962,'The Magnificent Seven',NULL,now(),NULL,75093),
-(8466,17971,'Apparitions',NULL,now(),NULL,83734),
+(8466,17971,'Apparitions',NULL,now(),NULL,83734);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (8467,8015,'Mouse',NULL,now(),NULL,83635),
 (8468,15671,'The Winds of War',NULL,now(),NULL,83637),
 (8469,21144,'The American Future: A History, by Simon Schama',NULL,now(),NULL,83640),
@@ -9509,7 +9543,9 @@ VALUES
 (8961,7194,'Academy Awards',NULL,now(),NULL,85269),
 (8962,17190,'Dumped',NULL,now(),NULL,91141),
 (8963,12662,'True Blood',NULL,now(),NULL,82283),
-(8964,11092,'Saturday Kitchen',NULL,now(),NULL,85284),
+(8964,11092,'Saturday Kitchen',NULL,now(),NULL,85284);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (8965,3591,'Fraggle Rock',NULL,now(),NULL,76085),
 (8966,21063,'The Tonight Show with Conan O\'Brien',NULL,now(),NULL,85285),
 (8967,15138,'Primeval',NULL,now(),NULL,79809),
@@ -10007,7 +10043,9 @@ VALUES
 (9459,9581,'Hi No Tori',NULL,now(),NULL,98161),
 (9460,3267,'Deadwood',NULL,now(),NULL,72023),
 (9461,18813,'90210',NULL,now(),NULL,82716),
-(9462,15361,'Once Upon a Time... The Americas',NULL,now(),NULL,81661),
+(9462,15361,'Once Upon a Time... The Americas',NULL,now(),NULL,81661);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (9463,12641,'Mark Williams\' Big Bangs',NULL,now(),NULL,98291),
 (9464,22936,' Empire of Cricket',NULL,now(),NULL,98301),
 (9465,12984,'Trawlermen',NULL,now(),NULL,102551),
@@ -10505,7 +10543,9 @@ VALUES
 (9957,23176,'The Dating Guy',NULL,now(),NULL,114571),
 (9958,23894,'Merlin Secrets And Magic',NULL,now(),NULL,114661),
 (9959,23034,'The League',NULL,now(),NULL,114701),
-(9960,23815,'Trinity (UK)',NULL,now(),NULL,114711),
+(9960,23815,'Trinity (UK)',NULL,now(),NULL,114711);
+INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
+VALUES 
 (9961,21975,'Yellowstone',NULL,now(),NULL,85527),
 (9962,18331,'Satisfaction',NULL,now(),NULL,81053),
 (9963,5328,'Starman',NULL,now(),NULL,73794),
