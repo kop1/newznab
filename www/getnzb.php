@@ -78,7 +78,7 @@ if (isset($_GET["id"]))
 	header("X-DNZB-Category: ".$reldata["category_name"]);
 	header("X-DNZB-MoreInfo: "); //TODO:
 	header("X-DNZB-NFO: "); //TODO:
-	header("Content-Disposition: attachment; filename=".$reldata["searchname"].".nzb");
+	header("Content-Disposition: attachment; filename=".str_replace(" ", "_", $reldata["searchname"]).".nzb");
 	
 	readgzfile($nzbpath);
 }
