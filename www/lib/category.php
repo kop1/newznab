@@ -36,6 +36,14 @@ class Category
 	const CAT_MISC = 7010;
 	const CAT_MISC_EBOOK = 7020;
 	
+	const CAT_PARENT_GAME = 1000;
+	const CAT_PARENT_MOVIE = 2000;
+	const CAT_PARENT_MUSIC = 3000;
+	const CAT_PARENT_PC = 4000;
+	const CAT_PARENT_TV = 5000;
+	const CAT_PARENT_XXX = 6000;
+	const CAT_PARENT_MISC = 7000;
+
 	const STATUS_INACTIVE = 0;
 	const STATUS_ACTIVE = 1;
 
