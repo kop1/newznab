@@ -21,6 +21,7 @@ RewriteRule ^searchraw/(.*)$ searchraw.php?search=$1
 RewriteRule ^searchraw$ searchraw.php
 RewriteRule ^browse$ browse.php
 RewriteRule ^profile$ profile.php
+RewriteRule ^profileedit$ profileedit.php
 RewriteRule ^api$ api.php
 RewriteRule ^apihelp$ apihelp.php
 RewriteRule ^cart$ cart.php

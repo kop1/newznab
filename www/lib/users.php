@@ -99,6 +99,13 @@ class Users
 		return Users::SUCCESS;
 	}	
 	
+	public function updateRssKey($uid)
+	{
+		$db = new DB();
+		return $db->query(sprintf("update users set rsstoken = md5(%s) where id = %d", 
+			$db->escapeString(uniqid()), $uid));		
+	}
+	
 	public function updatePassResetGuid($id, $guid)
 	{			
 		$db = new DB();
