@@ -166,14 +166,6 @@ class NZB
 
 	function postdate($nntp,$post,$debug=true) //returns single timestamp from a local article number
 	{
-		//
-		// Why are zeros getting passed in here!?
-		//
-		if ($post == 0)
-		{
-			echo " ** BUG ** - value 0 passed as a postid to postdate function\n";
-			return "";
-		}
 		$msgs = $nntp->getOverview($post."-".$post,true,false);
 		$date = $msgs[0]['Date'];
 		if($debug) echo "DEBUG: postdate for post $post came back $date (or ";
@@ -412,7 +404,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			$first = $groupArr['last_record'] + 1;
 		}
 		//generate postdates for first and last records, for those that upgraded
-		if(is_null($groupArr['first_record_postdate']) || is_null($groupArr['last_record_postdate']))
+		if ((is_null($groupArr['first_record_postdate']) || is_null($groupArr['last_record_postdate'])) && ($groupArr['last_record'] != "0" && $groupArr['first_record'] != "0"))
 			 $db->query(sprintf("UPDATE groups SET first_record_postdate = FROM_UNIXTIME(".$this->postdate($nntp,$groupArr['first_record'],false)."), last_record_postdate = FROM_UNIXTIME(".$this->postdate($nntp,$groupArr['last_record'],false).") WHERE ID = %d", $groupArr['ID']));
 
 
