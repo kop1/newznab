@@ -3,6 +3,7 @@
 {if !$cfg->doCheck || $cfg->error}
 
 <p>We need some information about your MySQL database, please provide the following information</p>
+<p>Note: If your database already exists, <u>it will be overwritten</u> with this version.</p>
 <form action="?" method="post">
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="">

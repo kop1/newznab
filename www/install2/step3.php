@@ -25,11 +25,11 @@ if  ($page->isPostBack()) {
 	include('Net/NNTP/Client.php');
 	$test = new Net_NNTP_Client();
 	$cfg->nntpCheck = $test->connect($cfg->NNTP_SERVER, false, $cfg->NNTP_PORT);
-	if (strlen($cfg->nntpCheck->message) > 0) {
+	if(PEAR::isError($cfg->nntpCheck)){
 		$cfg->error = true;	
 	} else {
 		$cfg->nntpCheck = $test->authenticate($cfg->NNTP_USERNAME, $cfg->NNTP_PASSWORD);
-		if (strlen($cfg->nntpCheck->message) > 0) {
+		if(PEAR::isError($cfg->nntpCheck)){
 			$cfg->error = true;	
 		}
 	}
