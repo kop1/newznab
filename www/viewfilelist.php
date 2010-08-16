@@ -5,10 +5,8 @@ require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/releases.php");
-require_once(WWW_DIR."/lib/nzb.php");
 
 $page = new Page;
-$nzb = new NZB;
 $users = new Users;
 $releases = new Releases;
 $nzb = new Nzb;

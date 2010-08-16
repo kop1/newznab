@@ -22,6 +22,7 @@ RewriteRule ^searchraw$ searchraw.php
 RewriteRule ^browse$ browse.php
 RewriteRule ^profile$ profile.php
 RewriteRule ^profileedit$ profileedit.php
+RewriteRule ^queue$ viewqueue.php
 RewriteRule ^api$ api.php
 RewriteRule ^apihelp$ apihelp.php
 RewriteRule ^cart$ cart.php

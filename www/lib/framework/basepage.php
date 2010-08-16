@@ -49,6 +49,8 @@ class BasePage
 			$this->userdata = $users->getById($users->currentUserId());
 			$this->smarty->assign('userdata',$this->userdata);	
 			$this->smarty->assign('loggedin',"true");
+			if (isset($_COOKIE['sabnzbd_'.$users->currentUserId().'__apikey']) && $_COOKIE['sabnzbd_'.$users->currentUserId().'__apikey'] != "")
+				$this->smarty->assign('sabintegrated',"true");
 			if ($this->userdata["role"] == Users::ROLE_ADMIN)
 				$this->smarty->assign('isadmin',"true");	
 		}

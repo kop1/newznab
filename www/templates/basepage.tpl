@@ -113,6 +113,9 @@
 				{/if}
 				<li><a title="Your Nzb Cart" href="{$smarty.const.WWW_TOP}/cart">My Cart</a></li>
 				<li><a title="View your Profile " href="{$smarty.const.WWW_TOP}/profile">Profile</a></li>
+				{if $sabintegrated=="true"}
+					<li><a title="Your Sabnzbd Queue" href="{$smarty.const.WWW_TOP}/queue">Download Queue</a></li>
+				{/if}
 				<li><a title="Logout" href="{$smarty.const.WWW_TOP}/logout">Logout</a></li>
 			{else}
 				<li><a title="Login" href="{$smarty.const.WWW_TOP}/login">Login</a></li>
