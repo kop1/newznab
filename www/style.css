@@ -19,6 +19,7 @@ img.right { float: right; margin: 7px 0 0 30px; }
 hr { display: none; }
 .small { width: 50px; }
 .tiny { width: 25px; }
+
 /*
 page structure
 */
@@ -40,14 +41,7 @@ page structure
 
 #page { width: 940px; margin: 0 auto; padding: 50px 0px 0px 0px;}
 
-#logo { width: 940px;
-        height: 67px;
-        margin: 0 auto;
-        padding-left:5px;
-        margin-top:4px;
-        background:url("images/banner.jpg")
-        no-repeat bottom left;
-}
+#logo { width: 940px; height: 67px; margin: 0 auto; padding-left:5px; margin-top:4px; background:url("images/banner.jpg") no-repeat bottom left; }
 
 #logo h1, #logo p { display:none; margin: 0px; line-height: normal; text-transform: lowercase; font-weight: normal; color: #485459;}
 
@@ -127,6 +121,8 @@ div.nzb_multi_operations input.nzb_multi_operations_sab { display:none; }
 div.nzb_multi_operations input:hover { color:#000; border:1px solid #000; cursor:pointer; }
 
 div.pager {display:inline;}
+div.pager a {font-weight:bold; background-color:#DDD; padding:0 3px 0px 4px; border:1px #CCC solid;}
+div.pager .current {font-weight:bold; background-color:#CCC; padding:0 4px 0px 4px; border:1px #CCC solid;}
 
 
 /* icons */
