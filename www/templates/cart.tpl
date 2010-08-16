@@ -2,7 +2,7 @@
 <h1>My Cart</h1>
 
 <p>
-Your cart can be downloaded as an <a href="{$smarty.const.WWW_TOP}/rss?t=-2&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed</a>.
+Your cart can be downloaded as an <a href="{$smarty.const.WWW_TOP}/rss?t=-2&amp;dl=1&amp;i={$userdata.ID}&amp;r={$userdata.rsstoken}">Rss Feed</a>.
 </p>
 
 {if $results|@count > 0}
