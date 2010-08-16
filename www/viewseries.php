@@ -28,7 +28,7 @@ if (isset($_GET["id"]))
 		$season[$rlk] = $rlv['season'];
 		$episode[$rlk] = $rlv['episode'];
 	}
-	array_multisort($season, SORT_DESC, $episode, SORT_ASC, $rel);
+	array_multisort($season, SORT_DESC, $episode, SORT_DESC, $rel);
 	$page->smarty->assign('rel', $rel);
 	
 	$page->smarty->assign('rage', $rage);

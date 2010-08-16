@@ -2,7 +2,7 @@
 <h1>{$page->title}</h1>
 
 {if $rage[0].imgdata != ""}
-	<img style="display:block;" src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&id={$rage[0].ID}">
+	<img alt="{$rage[0].releasetitle} Logo" style="display:block;" src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&amp;id={$rage[0].ID}" />
 {/if}
 
 <p>
@@ -14,22 +14,23 @@
 <form id="nzb_multi_operations_form" action="get">
 
 <table style="width:100%;" class="data highlight icons">
-	<tr>
-		<th>Ep</th>
-		<th>Name</th>
-		<th>Size</th>
-		<th>Stats</th>
-		<th style="text-align:center;">Posted</th>
-		<th></th>
-	</tr>
 	{capture name="season"}{/capture}
 	{foreach from=$rel item=result}
 	{if $smarty.capture.season ne $result.season}
-	<tr class="{cycle values=",alt"}" id="guid{$result.guid}">
-		<td colspan="5">Season {$result.season}</td>
-	</tr>
+		<tr id="guid{$result.guid}">
+			<td style="padding-top:15px;" colspan="10"><h2>Season {$result.season}</h2></td>
+		</tr>
+		<tr>
+			<th>Ep</th>
+			<th>Name</th>
+			<th>Size</th>
+			<th>Stats</th>
+			<th style="text-align:center;">Posted</th>
+			<th>Options</th>
+		</tr>
 	{/if}
 	{capture name="season"}{$result.season}{/capture}
+
 	<tr class="{cycle values=",alt"}" id="guid{$result.guid}">
 		<td width="20">{$result.episode}</td>
 		<td>
