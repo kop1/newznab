@@ -17,6 +17,7 @@
 	<tr>
 		<th>Ep</th>
 		<th>Name</th>
+		<th>Size</th>
 		<th>Stats</th>
 		<th style="text-align:center;">Posted</th>
 		<th></th>
@@ -40,6 +41,7 @@
 				{if $isadmin}<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a>{/if}
 			</div>
 		</td>
+		<td width="40" class="less">{$result.size|fsize_format:"MB"}</td>
 		<td width="40" class="less" nowrap="nowrap"><a title="View comments for {$result.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}#comments">{$result.comments} cmt{if $result.comments != 1}s{/if}</a><br/>{$result.grabs} grab{if $result.grabs != 1}s{/if}</td>
 		<td style="text-align:center;" class="less" width="40" title="{$result.postdate}">{$result.postdate|timeago}</td>
 			<td class="icons">
