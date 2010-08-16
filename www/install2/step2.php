@@ -32,19 +32,19 @@ if  ($page->isPostBack()) {
 	
 	if (!$cfg->error) {
 		$cfg->setSession();
-	}
 	
-	//Load schema.sql
-	if (file_exists($cfg->WWW_DIR.'/../db/schema.sql')) {
-		$dbData = file_get_contents($cfg->WWW_DIR.'/../db/schema.sql');
-		$bom = pack("CCC", 0xef, 0xbb, 0xbf);
-		if (0 == strncmp($dbData, $bom, 3)) {
-			$dbData = substr($dbData, 3);
-		}
-		$queries = explode(";", $dbData);
-		$queries = array_map("trim", $queries);
-		foreach($queries as $q) {
-			mysql_query($q);
+		//Load schema.sql
+		if (file_exists($cfg->WWW_DIR.'/../db/schema.sql')) {
+			$dbData = file_get_contents($cfg->WWW_DIR.'/../db/schema.sql');
+			$bom = pack("CCC", 0xef, 0xbb, 0xbf);
+			if (0 == strncmp($dbData, $bom, 3)) {
+				$dbData = substr($dbData, 3);
+			}
+			$queries = explode(";", $dbData);
+			$queries = array_map("trim", $queries);
+			foreach($queries as $q) {
+				mysql_query($q);
+			}
 		}
 	}
 }

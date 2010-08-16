@@ -9,10 +9,8 @@ class Config {
 	public $NNTP_USERNAME;
 	public $NNTP_PASSWORD;
 	public $NNTP_SERVER;
-	public $NNTP_PORT;
-	
-	public $GOOGLE_ADSENSE_ACC;
-	
+	public $NNTP_PORT = 119;
+		
 	public $WWW_DIR;
 	public $SMARTY_DIR;
 	public $DB_DIR;
@@ -21,6 +19,8 @@ class Config {
 	public $ADMIN_USER;
 	public $ADMIN_PASS;
 	public $ADMIN_EMAIL;
+	
+	public $NZB_PATH;
 	
 	public $doCheck = false;
 	
@@ -36,8 +36,8 @@ class Config {
 	public $dbNameCheck;
 	
 	public $nntpCheck;
-	
 	public $adminCheck;
+	public $nzbPathCheck;
 	
 	public $error = false;
 	
@@ -46,6 +46,7 @@ class Config {
 		$this->SMARTY_DIR = $this->WWW_DIR.'/lib/smarty';
 		$this->DB_DIR = dirname(realpath('..')).'/db';
 		$this->MISC_DIR = dirname(realpath('..')).'/misc';
+		$this->NZB_PATH = dirname(realpath('..')).'/nzbfiles';
 	}
 	
 	public function setSession() {

@@ -28,6 +28,7 @@ if  ($page->isPostBack()) {
 		define('DB_USER', $cfg->DB_USER);
 		define('DB_PASSWORD', $cfg->DB_PASSWORD);
 		define('DB_NAME', $cfg->DB_NAME);
+		define('WWW_DIR', $cfg->WWW_DIR);
 		require_once($cfg->WWW_DIR.'/lib/framework/db.php');
 		require_once($cfg->WWW_DIR.'/lib/users.php');
 		
@@ -53,11 +54,12 @@ if  ($page->isPostBack()) {
 				$cfg->error = true;
 			} else {
 				$user->login($cfg->adminCheck, "", 1);
-				if (!$cfg->error) {
-					$cfg->setSession();
-				}
 			}
 		}
+	}
+	
+	if (!$cfg->error) {
+		$cfg->setSession();
 	}
 }
 

@@ -2,10 +2,8 @@
 
 <div align="center">
 {if !$cfg->error}
-	<h2>Install Complete</h2>
-	<p>Please proceed to configure your site.</p>
-	<p>Make sure to set the NZB File Path.</p>
-	<form action="../admin/site-edit.php"><input type="submit" value="Configure Site" /></form>              
+	<p>The configuration has been saved, you may continue to the next step.</p>
+	<form action="step6.php"><input type="submit" value="Step six: Set NZB File Path" /></form>
 {else}
 	<div class="error">Error saving {$cfg->WWW_DIR}/config.php.</div> 
 {/if}
