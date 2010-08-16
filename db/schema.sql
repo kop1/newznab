@@ -544,7 +544,6 @@ INSERT INTO `site`
 	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
 	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2);
 
-DROP TABLE IF EXISTS `tvrage`;
 INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
 VALUES 
 (1,6318,'The Young and the Restless',NULL,now(),NULL,70328),
