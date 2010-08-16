@@ -22,7 +22,7 @@ class Nntp extends Net_NNTP_Client
 		if(!defined(NNTP_USERNAME) && NNTP_USERNAME!="" )
 		{
 			$ret2 = $this->authenticate(NNTP_USERNAME, NNTP_PASSWORD);
-			if(PEAR::isError($ret) || PEAR::isError($ret2)) 
+			if(PEAR::isError($ret2)) 
 			{
 				echo "Cannot authenticate to server ".NNTP_SERVER." - ".NNTP_USERNAME." ($ret $ret2)";
 				die();
