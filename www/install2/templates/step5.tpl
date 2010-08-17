@@ -4,16 +4,16 @@
 <form action="?" method="post">
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="alt">
-			<td>Username:</td>
-			<td><input type="text" name="user" value="{$cfg->ADMIN_USER}" /></td>
+			<td><label for="user">Username:</label></td>
+			<td><input type="text" name="user" id="user" value="{$cfg->ADMIN_USER}" /></td>
 		</tr>
 		<tr class="">
-			<td>Password:</td>
-			<td><input type="text" name="pass" value="{$cfg->ADMIN_PASS}" /></td>
+			<td><label for="pass">Password:</label></td>
+			<td><input type="text" name="pass" id="pass" value="{$cfg->ADMIN_PASS}" /></td>
 		</tr>
 		<tr class="alt">
-			<td>Email: </td>
-			<td><input type="text" name="email" value="{$cfg->ADMIN_EMAIL}" /></td>
+			<td><label for="email">Email:</label> </td>
+			<td><input type="text" name="email" id="email" value="{$cfg->ADMIN_EMAIL}" /></td>
 		</tr>
 		<tr class="">
 			<td colspan="2">

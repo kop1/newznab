@@ -5,20 +5,20 @@
 <form action="?" method="post">
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="">
-			<td>Hostname: </td>
-			<td><input type="text" name="host" value="{$cfg->DB_HOST}" /></td>
+			<td><label for="host">Hostname:</label></td>
+			<td><input type="text" name="host" id="host" value="{$cfg->DB_HOST}" /></td>
 		</tr>
 		<tr class="alt">
-			<td>Username:</td>
-			<td><input type="text" name="user" value="{$cfg->DB_USER}" /></td>
+			<td><label for="user">Username:</label></td>
+			<td><input type="text" name="user" id="user" value="{$cfg->DB_USER}" /></td>
 		</tr>
 		<tr class="">
-			<td>Password:</td>
-			<td><input type="text" name="pass" value="{$cfg->DB_PASSWORD}" /></td>
+			<td><label for="pass">Password:</label></td>
+			<td><input type="text" name="pass" id="pass" value="{$cfg->DB_PASSWORD}" /></td>
 		</tr>
 		<tr class="alt">
-			<td>Database: </td>
-			<td><input type="text" name="db" value="{$cfg->DB_NAME}" /></td>
+			<td><label for="db">Database:</label></td>
+			<td><input type="text" name="db" id="db" value="{$cfg->DB_NAME}" /></td>
 		</tr>
 		<tr class="">
 			<td colspan="2">

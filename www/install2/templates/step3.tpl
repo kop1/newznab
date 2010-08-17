@@ -4,20 +4,20 @@
 <form action="?" method="post">
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="">
-			<td>Server: </td>
-			<td><input type="text" name="server" value="{$cfg->NNTP_SERVER}" /></td>
+			<td><label for="server">Server:</label></td>
+			<td><input type="text" name="server" id="server" value="{$cfg->NNTP_SERVER}" /></td>
 		</tr>
 		<tr class="alt">
-			<td>Username:</td>
-			<td><input type="text" name="user" value="{$cfg->NNTP_USERNAME}" /></td>
+			<td><label for="user">Username:</label></td>
+			<td><input type="text" name="user" id="user" value="{$cfg->NNTP_USERNAME}" /></td>
 		</tr>
 		<tr class="">
-			<td>Password:</td>
-			<td><input type="text" name="pass" value="{$cfg->NNTP_PASSWORD}" /></td>
+			<td><label for="pass">Password:</label></td>
+			<td><input type="text" name="pass" id="pass" value="{$cfg->NNTP_PASSWORD}" /></td>
 		</tr>
 		<tr class="alt">
-			<td>Port: </td>
-			<td><input type="text" name="port" value="{$cfg->NNTP_PORT}" /></td>
+			<td><label for="port">Port:</label></td>
+			<td><input type="text" name="port" id="port" value="{$cfg->NNTP_PORT}" /></td>
 		</tr>
 		<tr class="">
 			<td colspan="2">
