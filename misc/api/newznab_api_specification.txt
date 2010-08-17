@@ -4,8 +4,8 @@
                     NEWZNAB Usenet Searching Web API 
 
 
-                               v0.1
-                             30/6/2010
+                               v0.2
+                             17/8/2010
 
 
 Owner:  bb   at #newznab        (irc.synirc.org)   info@newznab.com
@@ -16,8 +16,9 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 2.1 CAPS
 2.2 SEARCH
 2.3 TV-SEARCH
-2.4 Search Modifiers
-2.5 DETAILS
+2.4 MOVIE-SEARCH
+2.5 Search Modifiers
+2.6 DETAILS
 3.  Predefined Categories
 4.  Predefined Attributes
 4.1 List of Attributes
@@ -352,7 +353,77 @@ TODO:
          </channel>
          </rss>
 
-   2.4 Search Modifiers
+   2.4 MOVIE-SEARCH
+
+   Description:
+     MOVIE-SEARCH function searches the index for items matching an imdb id.
+     On succesful search the response contains a list of items that matched the query. Even if the 
+     search matched nothing an empty but valid response is created and returned. This function
+     requires passing the user credentials.
+     
+     The returned XML data stream is RSS 2.0 compliant and also contains additional information
+     in the extra namespace and in addition TV specific information in the tv namespace.
+
+   HTTP Method:
+     GET
+  
+   HTTP Response:
+     200 OK
+
+   Parameters:
+     t=movie            MOVIE-Search function, must always be "movie".
+     apikey=xxx         User's key as provided by the service provider.
+     
+   Optional parameters:
+     limit=123          Upper limit for the number of items to be returned, e.g. 123.
+     rid=xxxx           TVRage id of the item being queried.
+     o=xml              Output format, either "JSON" or "XML". Default is "XML".
+     extended=1         Return extended information in the search results
+     maxage=123         Only return results which were posted to usenet in the last x days.
+     offset=50          The 0 based query offset defining whcih part of the response we want.
+     
+   Examples:
+     --> GET http://servername.com/api?t=movie&apikey=xxx&imdbid=00123456
+     <-- 200 OK
+         <?xml version="1.0" encoding="UTF-8"?>
+         <rss version="2.0">
+         <channel>
+            <title>example.com</title>
+            <description>example.com API results</description>
+            <!-- 
+              More RSS content
+            -->
+            
+            <!-- offset is the current offset of the response
+                 total is the total number of items found by the query
+            -->
+            <newznab:response offset="0" total="1234"/>
+
+            <item>
+              <!-- Standard RSS 2.0 data -->
+              <title>Movie.Name.720p.BluRay.DTS.x264</title> 
+              <guid isPermaLink="true">http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c</guid> 
+              <link>http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9</link> 
+              <comments>http://servername.com/rss/viewnzb/e9c515e02346086e3a477a5436d7bc8c#comments</comments>  
+              <pubDate>Sun, 06 Jun 2010 17:29:23 +0100</pubDate> 
+              <category>Movie > XviD</category>  
+              <description>Some movie</description>
+              <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" />               
+
+              <!-- Additional attributes -->
+              <newznab:attr name="category" value="2000" /> 
+              <newznab:attr name="category" value="2030" /> 
+              <newznab:attr name="size"     value="4294967295" /> 
+              <newznab:attr name="season"   value="3"/>
+              <newznab:attr name="episode"  value="1"/>
+            </item>         
+
+            <!-- more items to follow -->
+
+         </channel>
+         </rss>
+
+   2.5 Search Modifiers
    
    The following search modifiers/operators are defined to enhance the searching functionality. The modifiers are submitted
    part of the query parameter (q).
@@ -371,7 +442,7 @@ TODO:
    
 
 
-   2.5 DETAILS
+   2.6 DETAILS
    
    Description:
       DETAILS function returns all information for a particular Usenet (NZB) item. The response
