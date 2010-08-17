@@ -15,12 +15,15 @@ class Install {
 	public $SMARTY_DIR;
 	public $DB_DIR;
 	public $MISC_DIR;
+	public $INSTALL_DIR;
 	
 	public $ADMIN_USER;
 	public $ADMIN_PASS;
 	public $ADMIN_EMAIL;
 	
 	public $NZB_PATH;
+	
+	public $COMPILED_CONFIG;
 	
 	public $doCheck = false;
 	
@@ -29,6 +32,7 @@ class Install {
 	public $cacheCheck;
 	public $coversCheck;
 	public $configCheck;
+	public $lockCheck;
 	public $pearCheck;
 	public $schemaCheck;
 	
@@ -39,6 +43,9 @@ class Install {
 	public $adminCheck;
 	public $nzbPathCheck;
 	
+	public $saveConfigCheck;
+	public $saveLockCheck;
+	
 	public $error = false;
 	
 	function Install() {
@@ -47,6 +54,7 @@ class Install {
 		$this->DB_DIR = dirname(realpath('..')).'/db';
 		$this->MISC_DIR = dirname(realpath('..')).'/misc';
 		$this->NZB_PATH = str_replace('\\', '/', dirname(realpath('..'))).'/nzbfiles';
+		$this->INSTALL_DIR = $this->WWW_DIR.'/install2';
 	}
 	
 	public function setSession() {
@@ -62,6 +70,10 @@ class Install {
 	
 	public function isInitialized() {
 		return (isset($_SESSION['cfg']) && is_object(unserialize($_SESSION['cfg'])));
+	}
+	
+	public function isLocked() {
+		return (file_exists($this->INSTALL_DIR.'/install.lock') ? true : false);
 	}
 	
 	public function setConfig($tmpCfg) {
@@ -83,7 +95,7 @@ class Install {
 	}
 	
 	public function saveConfig() {
-		$tmpCfg = file_get_contents($this->WWW_DIR.'/install2/config.php.tpl');
+		$tmpCfg = file_get_contents($this->INSTALL_DIR.'/config.php.tpl');
 		$tmpCfg = str_replace('%%DB_HOST%%', $this->DB_HOST, $tmpCfg);
 		$tmpCfg = str_replace('%%DB_USER%%', $this->DB_USER, $tmpCfg);
 		$tmpCfg = str_replace('%%DB_PASSWORD%%', $this->DB_PASSWORD, $tmpCfg);
@@ -94,6 +106,11 @@ class Install {
 		$tmpCfg = str_replace('%%NNTP_SERVER%%', $this->NNTP_SERVER, $tmpCfg);
 		$tmpCfg = str_replace('%%NNTP_PORT%%', $this->NNTP_PORT, $tmpCfg);
 		
-		return file_put_contents($this->WWW_DIR.'/config.php', $tmpCfg);
+		$this->COMPILED_CONFIG = $tmpCfg;
+		return @file_put_contents($this->WWW_DIR.'/config.php', $tmpCfg);
+	}
+	
+	public function saveInstallLock() {
+		return @file_put_contents($this->INSTALL_DIR.'/install.lock', '');
 	}
 }

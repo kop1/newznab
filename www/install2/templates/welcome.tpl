@@ -14,7 +14,10 @@
 		privileges and knowledge to solve any challenges that might appear.
 	</strong>
 </p>
-
 <div align="center">
-	<form action="step1.php"><input type="submit" value="Go to step one: Pre flight check" /></form>		
+{if !$cfg->error}
+	<form action="step1.php"><input type="submit" value="Go to step one: Pre flight check" /></form>              
+{else}
+	<div class="error">Installation Locked!</div> 
+{/if}
 </div>

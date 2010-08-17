@@ -14,8 +14,18 @@ if (!$cfg->isInitialized()) {
 
 $cfg = $cfg->getSession();
 
-if ($cfg->saveConfig() === false) {
+$cfg->saveConfigCheck = $cfg->saveConfig();
+if ($cfg->saveConfigCheck === false) {
+	 $cfg->error = true;
+}
+
+$cfg->saveLockCheck = $cfg->saveInstallLock();
+if ($cfg->saveLockCheck === false) {
 	$cfg->error = true;
+}
+
+if (!$cfg->error) {
+	$cfg->setSession();
 }
 
 $page->smarty->assign('cfg', $cfg);

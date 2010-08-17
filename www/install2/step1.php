@@ -7,6 +7,13 @@ $page->title = "Preflight Checklist";
 
 $cfg = new Install();
 
+if (!$cfg->isInitialized()) {
+	header("Location: index.php");
+	die();
+}
+
+$cfg = $cfg->getSession();
+
 // Start checks
 $cfg->sha1Check = function_exists('sha1');
 if ($cfg->sha1Check === false) { $cfg->error = true; }
@@ -29,6 +36,20 @@ if($cfg->configCheck === false) {
 	} else {
 		$cfg->configCheck = is_writable($cfg->WWW_DIR);
 		if($cfg->configCheck === false) {
+			$cfg->error = true;
+		}
+	}
+}
+
+$cfg->lockCheck = is_writable($cfg->INSTALL_DIR.'/install.lock');
+if ($cfg->lockCheck === false) { 
+	$cfg->lockCheck = is_file($cfg->INSTALL_DIR.'/install.lock');
+	if($cfg->lockCheck === true) {
+		$cfg->lockCheck = false;
+		$cfg->error = true;
+	} else {
+		$cfg->lockCheck = is_writable($cfg->INSTALL_DIR);
+		if($cfg->lockCheck === false) {
 			$cfg->error = true;
 		}
 	}

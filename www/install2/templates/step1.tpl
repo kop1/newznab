@@ -24,11 +24,14 @@
 		<td>{if $cfg->configCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="alt">
+		<td>Checking that install.lock is writeable:{if !$cfg->lockCheck}<br /><span class="error">The installer cannot write to {$cfg->INSTALL_DIR}/install.lock. A quick solution is to run:<br />chmod 777 {$cfg->INSTALL_DIR}</span>{/if}</td>
+		<td>{if $cfg->configCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
+	</tr>
+	<tr class="">
 		<td>Checking for Pear Net_NNTP:{if !$cfg->pearCheck}<br /><span class="error">The PEAR package 'Net_NNTP' is missing. This can normally be fixed by running:<br />pear install Net_NNTP</span>{/if}</td>
 		<td>{if $cfg->pearCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
-	
-	<tr class="">
+	<tr class="alt">
 		<td>Checking for schema.sql file:{if !$cfg->schemaCheck}<br /><span class="error">The schema.sql file is missing, please make sure it is placed in: {$cfg->DB_DIR}/schema.sql</span>{/if}</td>
 		<td>{if $cfg->schemaCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
