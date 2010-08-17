@@ -9,6 +9,7 @@
 <body>
 	<h1 id="logo"><img alt="Newznab" src="../images/banner.jpg" /></h1>
 	<div class="content">	
+		<h2>{$page->title}</h2>
 		{$page->content}
 	
 		<div class="footer">

@@ -1,12 +1,12 @@
 <?php
-require_once './lib/installpage.php';
-require_once('./lib/config.php');
 require_once('../config.php');
+require_once('../lib/installpage.php');
+require_once('../lib/install.php');
 
 $page = new Installpage();
 $page->title = "NZB files path";
 
-$cfg = new Config();
+$cfg = new Install();
 
 if (!$cfg->isInitialized()) {
 	header("Location: index.php");

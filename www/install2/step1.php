@@ -1,12 +1,13 @@
 <?php
-require_once './lib/installpage.php';
-require_once('./lib/config.php');
+require_once('../lib/installpage.php');
+require_once('../lib/install.php');
 
 $page = new Installpage();
 $page->title = "Preflight Checklist";
 
-$cfg = new Config();
+$cfg = new Install();
 
+// Start checks
 $cfg->sha1Check = function_exists('sha1');
 if ($cfg->sha1Check === false) { $cfg->error = true; }
 
@@ -36,7 +37,7 @@ if($cfg->configCheck === false) {
 $cfg->pearCheck = @include('Net/NNTP/client.php');
 if ($cfg->pearCheck === false) { $cfg->error = true; }
 
-$cfg->schemaCheck = is_readable($cfg->WWW_DIR.'/../db/schema.sql');
+$cfg->schemaCheck = is_readable($cfg->DB_DIR.'/schema.sql');
 if ($cfg->schemaCheck === false) { $cfg->error = true; }
 
 if (file_exists($cfg->WWW_DIR.'/config.php') && is_readable($cfg->WWW_DIR.'/config.php')) {

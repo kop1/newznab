@@ -1,5 +1,5 @@
 <?php
-class Config {
+class Install {
 	public $DB_TYPE;
 	public $DB_HOST;
 	public $DB_USER;
@@ -41,7 +41,7 @@ class Config {
 	
 	public $error = false;
 	
-	function Config() {
+	function Install() {
 		$this->WWW_DIR = dirname(realpath('.'));
 		$this->SMARTY_DIR = $this->WWW_DIR.'/lib/smarty';
 		$this->DB_DIR = dirname(realpath('..')).'/db';

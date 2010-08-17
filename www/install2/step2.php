@@ -1,11 +1,11 @@
 <?php
-require_once './lib/installpage.php';
-require_once('./lib/config.php');
+require_once('../lib/installpage.php');
+require_once('../lib/install.php');
 
 $page = new Installpage();
 $page->title = "Database setup";
 
-$cfg = new Config();
+$cfg = new Install();
 
 if (!$cfg->isInitialized()) {
 	header("Location: index.php");
@@ -34,8 +34,9 @@ if  ($page->isPostBack()) {
 		$cfg->setSession();
 	
 		//Load schema.sql
-		if (file_exists($cfg->WWW_DIR.'/../db/schema.sql')) {
-			$dbData = file_get_contents($cfg->WWW_DIR.'/../db/schema.sql');
+		if (file_exists($cfg->DB_DIR.'/schema.sql')) {
+			$dbData = file_get_contents($cfg->DB_DIR.'/schema.sql');
+			//fix to remove BOM in UTF8 files
 			$bom = pack("CCC", 0xef, 0xbb, 0xbf);
 			if (0 == strncmp($dbData, $bom, 3)) {
 				$dbData = substr($dbData, 3);

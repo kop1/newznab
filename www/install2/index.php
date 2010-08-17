@@ -1,5 +1,5 @@
 <?php
-require_once './lib/installpage.php';
+require_once('../lib/installpage.php');
 
 $page = new Installpage();
 $page->title = "Welcome";

@@ -1,5 +1,3 @@
-<h1>{$page->title}</h1>
-
 {if !$cfg->doCheck || $cfg->error}
 
 <p>We need some information about your MySQL database, please provide the following information</p>
@@ -27,7 +25,8 @@
 			{if $cfg->error}
 				The following error(s) were encountered:<br />
 				{if $cfg->dbConnCheck === false}<span class="error">&bull; Unable to connect to database</span><br />{/if}
-				{if $cfg->dbNameCheck === false}<span class="error">&bull; Unable to select database</span><br /><br />{/if}
+				{if $cfg->dbNameCheck === false}<span class="error">&bull; Unable to select database</span><br />{/if}
+				<br />
 			{/if}
 			<input type="submit" value="Setup Database" />
 			</td>

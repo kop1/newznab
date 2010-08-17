@@ -1,5 +1,3 @@
-<h1>{$page->title}</h1>
-
 {if !$cfg->doCheck || $cfg->error}
 
 <p>We need some information about your News server (NNTP), please provide the following information:</p>
@@ -38,6 +36,6 @@
 {if $cfg->doCheck && !$cfg->error}
 	<div align="center">
 		<p>The news server setup is correct, you may continue to the next step.</p>
-		<form action="step4.php"><input type="submit" value="Step four: Setup admin user" /></form> 
+		<form action="step4.php"><input type="submit" value="Step four: Save Settings" /></form> 
 	</div>             
 {/if}

@@ -1,5 +1,3 @@
-<h1>{$page->title}</h1>
-
 {if !$cfg->doCheck || $cfg->error}
 
 <p>You must set the NZB file path. This is the location where the NZB files are stored:</p>
@@ -27,6 +25,10 @@
 {if $cfg->doCheck && !$cfg->error}
 	<div align="center">
 		<p>The NZB File Path has been set, you may continue to the next step.</p>
-		<form action="../admin/group-edit.php"><input type="submit" value="Step seven: Add Groups" /></form> 
+		
+		<h1>Install Complete!</h1>
+		<p>First time users may want to install some sample data to get started:<br /><a href="#">Install Sample Data</a></p>
+		<p>or</p>
+		<h3>Continue to <a href="../admin/site-edit.php">Site Edit</a></h3>
 	</div>             
 {/if}

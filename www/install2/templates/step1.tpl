@@ -1,5 +1,3 @@
-<h1>{$page->title}</h1>
-
 <table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 	<tr>
 		<th>check</th>

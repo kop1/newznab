@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 require_once('../lib/smarty/Smarty.class.php');
 
 class Installpage 
@@ -14,13 +16,14 @@ class Installpage
 	function Installpage()
 	{			
 		@session_start();
-				
+		
 		$this->smarty = new Smarty();
 
-		$this->smarty->template_dir = 'templates/';
-		$this->smarty->compile_dir  = '../lib/smarty/templates_c/';
-		$this->smarty->config_dir   = '../lib/smarty/configs/';
-		$this->smarty->cache_dir    = '../lib/smarty/cache/';
+		$this->smarty->template_dir = realpath('templates/');
+				
+		$this->smarty->compile_dir  = realpath('../lib/smarty/templates_c/');
+		$this->smarty->config_dir   = realpath('../lib/smarty/configs/');
+		$this->smarty->cache_dir    = realpath('../lib/smarty/cache/');
 	}    
 	
 	public function addToHead($headcontent) 

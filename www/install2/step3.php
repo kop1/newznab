@@ -1,11 +1,11 @@
 <?php
-require_once './lib/installpage.php';
-require_once('./lib/config.php');
+require_once('../lib/installpage.php');
+require_once('../lib/install.php');
 
 $page = new Installpage();
 $page->title = "News server setup";
 
-$cfg = new Config();
+$cfg = new Install();
 
 if (!$cfg->isInitialized()) {
 	header("Location: index.php");
