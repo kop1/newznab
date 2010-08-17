@@ -22,9 +22,9 @@ function getQueue()
 	  },
 	  error: function ()
 	  {
-		$(".sab_queue").html("Could not contact your queue.");
+		$(".sab_queue").html("Could not contact your queue. <a href=\"javascript:location.reload(true)\">Refresh</a>");
 	  },
-	  timeout:2000
+	  timeout:5000
 	});
 }
 
