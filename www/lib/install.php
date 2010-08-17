@@ -46,7 +46,7 @@ class Install {
 		$this->SMARTY_DIR = $this->WWW_DIR.'/lib/smarty';
 		$this->DB_DIR = dirname(realpath('..')).'/db';
 		$this->MISC_DIR = dirname(realpath('..')).'/misc';
-		$this->NZB_PATH = dirname(realpath('..')).DIRECTORY_SEPARATOR.'nzbfiles';
+		$this->NZB_PATH = str_replace('\\', '/', dirname(realpath('..'))).'/nzbfiles';
 	}
 	
 	public function setSession() {
