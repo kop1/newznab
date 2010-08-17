@@ -376,7 +376,7 @@ TODO:
      
    Optional parameters:
      limit=123          Upper limit for the number of items to be returned, e.g. 123.
-     rid=xxxx           TVRage id of the item being queried.
+     imdbid=xxxx        IMDB id of the item being queried.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
      extended=1         Return extended information in the search results
      maxage=123         Only return results which were posted to usenet in the last x days.
