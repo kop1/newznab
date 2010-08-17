@@ -34,6 +34,11 @@
 						Returns a list of nzbs matching a query, category, tvrageid, season or episode. You can also filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=tvsearch&rid=2204&cat=1000,2000">?t=tvsearch&rid=2204&cat=1000,2000</a></span>.  Include <span style="font-family:courier;">&extended=1</span> to return extended information in the search results.
 					</li>
 					<li>
+						<b>Movies</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=movie&imdbid=1418646">?t=movie&imdbid=1418646</a></span>
+						<br/>
+						Returns a list of nzbs matching an imdbid and optionally a category. You can also filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=movie&imdbid=1418646&cat=2030,2040">?t=movie&imdbid=1418646&cat=2030,2040</a></span>.  Include <span style="font-family:courier;">&extended=1</span> to return extended information in the search results.
+					</li>
+					<li>
 						<b>Details</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>
 						<br/>
 						Returns detailed information about an nzb.

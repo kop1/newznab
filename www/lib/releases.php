@@ -423,7 +423,57 @@ class Releases
 		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $name, $catsrch, $maxage, $offset, $limit), true);		
 		
 		return $res;
-	}		
+	}
+	
+	public function searchbyImdbId($imdbId, $offset=0, $limit=100, $cat=array(-1), $maxage=-1)
+	{			
+		$db = new DB();
+		
+		if ($imdbId != "-1" && is_numeric($imdbId)) {
+			//pad id with zeros just in case
+			$imdbId = str_pad($imdbId, 7, "0",STR_PAD_LEFT);
+			$imdbId = sprintf(" and imdbID = %d ", $imdbId);
+		} else {
+			$imdbId = "";
+		}
+
+		$catsrch = "";
+		if (count($cat) > 0 && $cat[0] != -1)
+		{
+			$catsrch = " and (";
+			foreach ($cat as $category)
+			{
+				if ($category != -1)
+				{
+					$categ = new Category();
+					if ($categ->isParent($category))
+					{
+						$children = $categ->getChildren($category);
+						$chlist = "-99";
+						foreach ($children as $child)
+							$chlist.=", ".$child["ID"];
+
+						if ($chlist != "-99")
+								$catsrch .= " releases.categoryID in (".$chlist.") or ";
+					}
+					else
+					{
+						$catsrch .= sprintf(" releases.categoryID = %d or ", $category);
+					}
+				}
+			}
+			$catsrch.= "1=2 )";
+		}		
+		
+		if ($maxage > 0)
+			$maxage = sprintf(" and postdate > now() - interval %d day ", $maxage);
+		else
+			$maxage = "";		
+		
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s order by postdate desc limit %d, %d ", $imdbId, $catsrch, $maxage, $offset, $limit), true);		
+		
+		return $res;
+	}			
 	
 	public function searchSimilar($currentid, $name, $limit=6)
 	{			

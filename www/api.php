@@ -27,7 +27,9 @@ if (isset($_GET["t"]))
 	elseif ($_GET["t"] == "caps" || $_GET["t"] == "c")
 		$function = "c";			
 	elseif ($_GET["t"] == "tvsearch" || $_GET["t"] == "tv")
-		$function = "tv";			
+		$function = "tv";
+	elseif ($_GET["t"] == "movie" || $_GET["t"] == "m")
+		$function = "m";			
 	else
 		showApiError(202);
 }
@@ -177,6 +179,51 @@ switch ($function)
 			
 		$reldata = $releases->searchbyRageId((isset($_GET["rid"]) ? $_GET["rid"] : "-1"), (isset($_GET["season"]) ? $_GET["season"] : "")
 																						, (isset($_GET["ep"]) ? $_GET["ep"] : ""), $offset, $limit, (isset($_GET["q"]) ? $_GET["q"] : ""), $categoryId, $maxage );
+				
+		if ($outputtype == "xml")
+		{
+			$page->smarty->assign('offset',$offset);
+			$page->smarty->assign('releases',$reldata);
+			header("Content-type: text/xml");
+			echo $page->smarty->fetch('apiresult.tpl');	
+		}
+		else
+		{
+			echo json_encode($reldata);//TODO:make that a more specific array of data to return rather than resultset
+		}
+		break;
+
+	//
+	// search imdb releases
+	//
+	case "m":
+		$categoryId = array();
+		if (isset($_GET["cat"]))
+			$categoryId = explode(",",$_GET["cat"]);
+		else
+			$categoryId[] = -1;
+
+		$maxage = -1;
+		if (isset($_GET["maxage"]))
+		{
+			if ($_GET["maxage"]=="")
+				showApiError(200);				
+			elseif (!is_numeric($_GET["maxage"]))
+				showApiError(201);				
+			else
+				$maxage = $_GET["maxage"];
+		}	
+		if (isset($_GET["imdbid"]) && $_GET["imdbid"]=="")
+			showApiError(200);	
+
+		$limit = 100;
+		if (isset($_GET["limit"]) && is_numeric($_GET["limit"]) && $_GET["limit"] < 100)
+			$limit = $_GET["limit"];
+		
+		$offset = 0;
+		if (isset($_GET["offset"]) && is_numeric($_GET["offset"]))
+			$offset = $_GET["offset"];		
+		$reldata = $releases->searchbyImdbId((isset($_GET["imdbid"]) ? $_GET["imdbid"] : "-1"), $offset, $limit, $categoryId, $maxage );
 				
 		if ($outputtype == "xml")
 		{
