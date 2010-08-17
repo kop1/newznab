@@ -1,7 +1,7 @@
 {if !$cfg->doCheck || $cfg->error}
 
 <p>We need some information about your MySQL database, please provide the following information</p>
-<p>Note: If your database already exists, <u>it will be overwritten</u> with this version.</p>
+<p>Note: If your database already exists, <u>it will be overwritten</u> with this version. If not it will be created.</p>
 <form action="?" method="post">
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="">

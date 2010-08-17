@@ -24,11 +24,9 @@
 
 {if $cfg->doCheck && !$cfg->error}
 	<div align="center">
-		<p>The NZB File Path has been set, you may continue to the next step.</p>
-		
 		<h1>Install Complete!</h1>
 		<p>First time users may want to install some sample data to get started:<br /><a href="#placeholder">Install Sample Data</a></p>
 		<p>or</p>
-		<h3>Continue to <a href="../admin/site-edit.php">Site Edit</a></h3>
+		<h3>Continue to <a href="../admin/site-edit.php">Site Edit</a> to give your site a name.</h3>
 	</div>             
 {/if}

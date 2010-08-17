@@ -26,8 +26,14 @@ if  ($page->isPostBack()) {
 		$cfg->error = true;
 	}
 	$cfg->dbNameCheck = mysql_select_db($cfg->DB_NAME);
-	if ($cfg->dbNameCheck === false) {
-		$cfg->error = true;
+	if ($cfg->dbNameCheck === false) 
+	{
+		$result = @mysql_query("CREATE DATABASE ".$cfg->DB_NAME);	
+		$cfg->dbNameCheck = mysql_select_db($cfg->DB_NAME);
+		if ($cfg->dbNameCheck === false) 
+		{
+			$cfg->error = true;
+		}
 	}
 	
 	if (!$cfg->error) {
