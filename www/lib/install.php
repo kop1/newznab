@@ -29,12 +29,15 @@ class Install {
 	
 	public $sha1Check;
 	public $mysqlCheck;
+	public $gdCheck;
 	public $cacheCheck;
 	public $coversCheck;
 	public $configCheck;
 	public $lockCheck;
 	public $pearCheck;
 	public $schemaCheck;
+	public $timelimitCheck;
+	public $memlimitCheck;
 	
 	public $dbConnCheck;
 	public $dbNameCheck;

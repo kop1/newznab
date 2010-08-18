@@ -11,6 +11,10 @@
 		<td>Checking for mysql_connect():{if !$cfg->mysqlCheck}<br /><span class="error">The PHP installation lacks support for MySQL(mysql_connect).</span>{/if}</td>
 		<td>{if $cfg->mysqlCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
+	<tr class="alt">
+		<td>Checking for GD support:{if !$cfg->gdCheck}<br /><span class="warn">The PHP installation lacks support for GD.</span>{/if}</td>
+		<td>{if $cfg->gdCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
+	</tr>
 	<tr class="">
 		<td>Checking that Smarty cache is writeable:{if !$cfg->cacheCheck}<br /><span class="error">The template cache folder must be writable. A quick solution is to run:<br />chmod 777 {$cfg->SMARTY_DIR}/templates_c</span>{/if}</td>
 		<td>{if $cfg->cacheCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
@@ -34,6 +38,14 @@
 	<tr class="alt">
 		<td>Checking for schema.sql file:{if !$cfg->schemaCheck}<br /><span class="error">The schema.sql file is missing, please make sure it is placed in: {$cfg->DB_DIR}/schema.sql</span>{/if}</td>
 		<td>{if $cfg->schemaCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
+	</tr>
+	<tr class="">
+		<td>Checking max_execution_time:{if !$cfg->timelimitCheck}<br /><span class="warn">Your PHP installation's max_execution_time setting is low, please consider increasing it</span>{/if}</td>
+		<td>{if $cfg->timelimitCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
+	</tr>
+	<tr class="alt">
+		<td>Checking PHP's memory_limit:{if !$cfg->memlimitCheck}<br /><span class="warn">Your PHP installation's memory_limit setting is low, please consider increasing it</span>{/if}</td>
+		<td>{if $cfg->memlimitCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
 	</tr>
 </table>
 

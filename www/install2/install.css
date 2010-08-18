@@ -59,6 +59,10 @@ span.error {
 	color: red;
 }
 
+span.warn {
+	color: orange;
+}
+
 span.success {
 	color: green;
 }

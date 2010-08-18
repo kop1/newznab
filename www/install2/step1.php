@@ -21,6 +21,8 @@ if ($cfg->sha1Check === false) { $cfg->error = true; }
 $cfg->mysqlCheck = function_exists('mysql_connect');
 if ($cfg->mysqlCheck === false) { $cfg->error = true; }
 
+$cfg->gdCheck = function_exists('imagecreatetruecolor');
+
 $cfg->cacheCheck = is_writable($cfg->SMARTY_DIR.'/templates_c');
 if ($cfg->cacheCheck === false) { $cfg->error = true; }
 
@@ -61,6 +63,11 @@ if ($cfg->pearCheck === false) { $cfg->error = true; }
 $cfg->schemaCheck = is_readable($cfg->DB_DIR.'/schema.sql');
 if ($cfg->schemaCheck === false) { $cfg->error = true; }
 
+$cfg->timelimitCheck = (ini_get('max_execution_time') >= 60) ? true : false;
+
+$cfg->memlimitCheck = (ini_get('memory_limit') >= 256) ? true : false;
+
+//Load previous config.php
 if (file_exists($cfg->WWW_DIR.'/config.php') && is_readable($cfg->WWW_DIR.'/config.php')) {
 	$tmpCfg = file_get_contents($cfg->WWW_DIR.'/config.php');
 	$cfg->setConfig($tmpCfg);
