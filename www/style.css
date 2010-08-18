@@ -124,6 +124,10 @@ div.pager {display:inline;}
 div.pager a {font-weight:bold; background-color:#DDD; padding:0 3px 0px 4px; border:1px #CCC solid;}
 div.pager .current {font-weight:bold; background-color:#CCC; padding:0 4px 0px 4px; border:1px #CCC solid;}
 
+.left { text-align:left;}
+.right { text-align:right;}
+.mid { text-align:center;}
+
 
 /* icons */
 div.icon { width:16px; height:16px; background-repeat:no-repeat; cursor:pointer; position:relative; float:left; margin:2px; }

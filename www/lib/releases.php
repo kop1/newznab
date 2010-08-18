@@ -288,7 +288,7 @@ class Releases
 	public function search($search, $cat=array(-1), $offset=0, $limit=1000, $orderby='', $maxage=-1)
 	{			
 		$db = new DB();
-		
+
 		$catsrch = "";
 		if (count($cat) > 0 && $cat[0] != -1)
 		{
@@ -353,8 +353,9 @@ class Releases
 
 		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search), $catsrch, $startswith, $maxage, $order[0], $order[1], $offset, $limit), true);				
 		if (!$res)
-			$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search."*"), $catsrch, $startswith, $maxage, $db->escapeString($search."*"), $order[0], $order[1], $offset, $limit), true);		
-
+		{
+			$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search."*"), $catsrch, $startswith, $maxage, $order[0], $order[1], $offset, $limit), true);		
+		}
 		return $res;
 	}	
 	
