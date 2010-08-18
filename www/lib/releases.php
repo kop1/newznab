@@ -351,9 +351,9 @@ class Releases
 		else
 			$order = $this->getBrowseOrder($orderby);
 
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search), $catsrch, $startswith, $maxage, $order[0], $order[1], $offset, $limit), true);				
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search), $catsrch, $startswith, $maxage, $order[0], $order[1], $offset, $limit), true);				
 		if (!$res)
-			$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search."*"), $catsrch, $startswith, $maxage, $db->escapeString($search."*"), $order[0], $order[1], $offset, $limit), true);		
+			$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search."*"), $catsrch, $startswith, $maxage, $db->escapeString($search."*"), $order[0], $order[1], $offset, $limit), true);		
 
 		return $res;
 	}	
@@ -420,23 +420,31 @@ class Releases
 		else
 			$maxage = "";		
 		
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $name, $catsrch, $maxage, $offset, $limit), true);		
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $name, $catsrch, $maxage, $offset, $limit), true);		
 		
 		return $res;
 	}
 	
-	public function searchbyImdbId($imdbId, $offset=0, $limit=100, $cat=array(-1), $maxage=-1)
+	public function searchbyImdbId($imdbId, $offset=0, $limit=100, $name="", $cat=array(-1), $maxage=-1)
 	{			
 		$db = new DB();
 		
-		if ($imdbId != "-1" && is_numeric($imdbId)) {
+		if ($imdbId != "-1" && is_numeric($imdbId)) 
+		{
 			//pad id with zeros just in case
 			$imdbId = str_pad($imdbId, 7, "0",STR_PAD_LEFT);
 			$imdbId = sprintf(" and imdbID = %d ", $imdbId);
-		} else {
+		} 
+		else 
+		{
 			$imdbId = "";
 		}
 
+		if ($name != "")
+		{
+			$name = sprintf(" and MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) ", $db->escapeString($name));
+		}
+		
 		$catsrch = "";
 		if (count($cat) > 0 && $cat[0] != -1)
 		{
@@ -470,8 +478,8 @@ class Releases
 		else
 			$maxage = "";		
 		
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s order by postdate desc limit %d, %d ", $imdbId, $catsrch, $maxage, $offset, $limit), true);		
-		
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by postdate desc limit %d, %d ", $name, $imdbId, $catsrch, $maxage, $offset, $limit), true);		
+
 		return $res;
 	}			
 	

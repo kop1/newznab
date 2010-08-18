@@ -36,7 +36,7 @@
 					<li>
 						<b>Movies</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=movie&imdbid=1418646">?t=movie&imdbid=1418646</a></span>
 						<br/>
-						Returns a list of nzbs matching an imdbid and optionally a category. You can also filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=movie&imdbid=1418646&cat=2030,2040">?t=movie&imdbid=1418646&cat=2030,2040</a></span>.  Include <span style="font-family:courier;">&extended=1</span> to return extended information in the search results.
+						Returns a list of nzbs matching a query, an imdbid and optionally a category. Filter by site category by including a comma separated list of categories as follows <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=movie&imdbid=1418646&cat=2030,2040">?t=movie&imdbid=1418646&cat=2030,2040</a></span>.  Include <span style="font-family:courier;">&extended=1</span> to return extended information in the search results.
 					</li>
 					<li>
 						<b>Details</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda">?t=details&id=9ca52909ba9b9e5e6758d815fef4ecda</a></span>

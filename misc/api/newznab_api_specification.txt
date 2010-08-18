@@ -271,7 +271,7 @@ TODO:
      requires passing the user credentials.
      
      The returned XML data stream is RSS 2.0 compliant and also contains additional information
-     in the extra namespace and in addition TV specific information in the tv namespace.
+     in the extra namespace and optionally TV specific information
 
    HTTP Method:
      GET
@@ -341,8 +341,8 @@ TODO:
               <enclosure url="http://servername.com/rss/nzb/e9c515e02346086e3a477a5436d7bc8c&amp;i=1&amp;r=18cf9f0a736041465e3bd521d00a90b9" length="154653309" type="application/x-nzb" />               
 
               <!-- Additional attributes -->
-              <newznab:attr name="category" value="2000" /> 
-              <newznab:attr name="category" value="2030" /> 
+              <newznab:attr name="category" value="5000" /> 
+              <newznab:attr name="category" value="5030" /> 
               <newznab:attr name="size"     value="4294967295" /> 
               <newznab:attr name="season"   value="3"/>
               <newznab:attr name="episode"  value="1"/>
@@ -356,13 +356,13 @@ TODO:
    2.4 MOVIE-SEARCH
 
    Description:
-     MOVIE-SEARCH function searches the index for items matching an imdb id.
+     MOVIE-SEARCH function searches the index for items matching an imdb id or search query.
      On succesful search the response contains a list of items that matched the query. Even if the 
      search matched nothing an empty but valid response is created and returned. This function
      requires passing the user credentials.
      
      The returned XML data stream is RSS 2.0 compliant and also contains additional information
-     in the extra namespace and in addition TV specific information in the tv namespace.
+     in the extra namespace and optionally movie specific information.
 
    HTTP Method:
      GET
@@ -371,19 +371,20 @@ TODO:
      200 OK
 
    Parameters:
-     t=movie            MOVIE-Search function, must always be "movie".
+     t=movie            Movie-Search function, must always be "movie".
      apikey=xxx         User's key as provided by the service provider.
      
    Optional parameters:
      limit=123          Upper limit for the number of items to be returned, e.g. 123.
-     imdbid=xxxx        IMDB id of the item being queried.
+     imdbid=xxxx        IMDB id of the item being queried e.g. 0058935.
+     q=xxxx             Search input (URL/UTF-8 encoded). Case insensitive.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
      extended=1         Return extended information in the search results
      maxage=123         Only return results which were posted to usenet in the last x days.
      offset=50          The 0 based query offset defining whcih part of the response we want.
      
    Examples:
-     --> GET http://servername.com/api?t=movie&apikey=xxx&imdbid=00123456
+     --> GET http://servername.com/api?t=movie&apikey=xxx&imdbid=0058935
      <-- 200 OK
          <?xml version="1.0" encoding="UTF-8"?>
          <rss version="2.0">
@@ -414,11 +415,7 @@ TODO:
               <newznab:attr name="category" value="2000" /> 
               <newznab:attr name="category" value="2030" /> 
               <newznab:attr name="size"     value="4294967295" /> 
-              <newznab:attr name="season"   value="3"/>
-              <newznab:attr name="episode"  value="1"/>
             </item>         
-
-            <!-- more items to follow -->
 
          </channel>
          </rss>

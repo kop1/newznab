@@ -68,7 +68,6 @@ $page->smarty->assign("rsstoken",$apikey);
 if (isset($_GET["extended"]) && $_GET["extended"] == "1")
 	$page->smarty->assign('extended','1');
 
-
 //
 // output is either json or xml
 //
@@ -76,7 +75,6 @@ $outputtype = "xml";
 if (isset($_GET["o"]))
 	if ($_GET["o"] == "json")
 		$outputtype = "json";
-
 		
 switch ($function)
 {
@@ -194,9 +192,12 @@ switch ($function)
 		break;
 
 	//
-	// search imdb releases
+	// search movie releases
 	//
 	case "m":
+		if (isset($_GET["q"]) && $_GET["q"]=="")
+			showApiError(200);	
+	
 		$categoryId = array();
 		if (isset($_GET["cat"]))
 			$categoryId = explode(",",$_GET["cat"]);
@@ -223,8 +224,8 @@ switch ($function)
 		$offset = 0;
 		if (isset($_GET["offset"]) && is_numeric($_GET["offset"]))
 			$offset = $_GET["offset"];		
-		$reldata = $releases->searchbyImdbId((isset($_GET["imdbid"]) ? $_GET["imdbid"] : "-1"), $offset, $limit, $categoryId, $maxage );
-				
+		$reldata = $releases->searchbyImdbId((isset($_GET["imdbid"]) ? $_GET["imdbid"] : "-1"), $offset, $limit, (isset($_GET["q"]) ? $_GET["q"] : ""), $categoryId, $maxage );
+			
 		if ($outputtype == "xml")
 		{
 			$page->smarty->assign('offset',$offset);
