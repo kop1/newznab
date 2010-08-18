@@ -7,11 +7,10 @@ require_once(WWW_DIR."/lib/releases.php");
 
 $page = new Page;
 $users = new Users;
+$releases = new Releases;
 
 if (!$users->isLoggedIn())
 	$page->show403();
-
-$releases = new Releases;
 
 $page->meta_title = "Search Nzbs";
 $page->meta_keywords = "search,nzb,description,details";

@@ -8,17 +8,10 @@ define("ITEMS_PER_PAGE", "50");
 
 $page = new Page;
 $users = new Users;
+$releases = new Releases;
 
 if (!$users->isLoggedIn())
 	$page->show403();
-
-$releases = new Releases;
-
-$page->meta_title = "Browse Nzbs";
-$page->meta_keywords = "browse,nzb,description,details";
-$page->meta_description = "Browse for Nzbs";
-
-$results = array();
 
 $category = -1;
 if (isset($_REQUEST["t"]))
@@ -33,6 +26,7 @@ $offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 $ordering = $releases->getBrowseOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 
+$results = array();
 $results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby);
 
 $page->smarty->assign('pagertotalitems',$browsecount);
@@ -56,11 +50,14 @@ else
 		$page->show404();
 }
 
-foreach($ordering as $ordertype) {
+foreach($ordering as $ordertype) 
 	$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/browse?t=".$category."&amp;ob=".$ordertype."&amp;offset=0");
-}
 
 $page->smarty->assign('results',$results);		
+
+$page->meta_title = "Browse Nzbs";
+$page->meta_keywords = "browse,nzb,description,details";
+$page->meta_description = "Browse for Nzbs";
 	
 $page->content = $page->smarty->fetch('browse.tpl');
 $page->render();

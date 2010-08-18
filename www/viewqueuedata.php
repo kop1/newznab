@@ -45,8 +45,8 @@ if (count($queue) > 0)
 			print "<td style='text-align:right;'>".number_format(round($item->{'mb'}))."</td>";
 			if ($count ==1)
 			{
-				print "<td style='text-align:right;'>".number_format(round($item->{'mbleft'}))."</td>";
-				print "<td style='text-align:right;'>".round($item->{'mbleft'}/$item->{'mb'}*100)."%</td>";
+				print "<td class='right'>".number_format(round($item->{'mbleft'}))."</td>";
+				print "<td class='right'>".round($item->{'mbleft'}/$item->{'mb'}*100)."%</td>";
 			}
 			else
 			{

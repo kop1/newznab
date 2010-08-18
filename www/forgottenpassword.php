@@ -8,11 +8,6 @@ require_once(WWW_DIR."/lib/util.php");
 $page = new Page();
 $users = new Users();
 
-$page->title = "Forgotten Password";
-$page->meta_title = "Forgotten Password";
-$page->meta_keywords = "forgotten,password,signup,registration";
-$page->meta_description = "Forgotten Password";
-
 if ($users->isLoggedIn())
 	$page->show404();
 	
@@ -93,6 +88,11 @@ switch($action)
 		break;
 	
 }
+
+$page->title = "Forgotten Password";
+$page->meta_title = "Forgotten Password";
+$page->meta_keywords = "forgotten,password,signup,registration";
+$page->meta_description = "Forgotten Password";
 
 $page->content = $page->smarty->fetch('forgottenpassword.tpl');
 $page->render();

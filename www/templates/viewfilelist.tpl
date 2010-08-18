@@ -15,7 +15,7 @@
 	<tr class="{cycle values=",alt"}">
 		<td width="20">{$smarty.foreach.iteration.index+1}</td>
 		<td>{$file.title|escape:'htmlall'}</td>
-		<td style="text-align:right;" class="less">{$file.size|fsize_format:"MB"}</td>
+		<td class="less right">{$file.size|fsize_format:"MB"}</td>
 	</tr>
 	{/foreach}
 

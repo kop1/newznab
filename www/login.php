@@ -4,10 +4,6 @@ require_once(WWW_DIR."/lib/page.php");
 
 $page = new Page();
 
-$page->meta_title = "Login";
-$page->meta_keywords = "Login";
-$page->meta_description = "Login";
-
 if ($page->isPostBack())
 {
 	if (!isset($_POST["username"]) || !isset($_POST["password"]))
@@ -36,6 +32,10 @@ if ($page->isPostBack())
 		}
 	}
 }
+
+$page->meta_title = "Login";
+$page->meta_keywords = "Login";
+$page->meta_description = "Login";
 
 $page->content = $page->smarty->fetch('login.tpl');
 $page->render();

@@ -15,19 +15,16 @@ require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/content.php");
 
 $page = new Page();
-
-$contentid = $_GET["id"];
-
 $contents = new Contents();
 
+$contentid = 0;
+if (isset($_GET["id"]))
+	$contentid = $_GET["id"];
+
 if ($contentid == 0)
-{
-$content = $contents->getIndex();
-}
+	$content = $contents->getIndex();
 else
-{
-$content = $contents->getByID($contentid);
-}
+	$content = $contents->getByID($contentid);
 
 $page->smarty->assign('content',$content);	
 $page->meta_title = $content->title;

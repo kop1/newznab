@@ -16,7 +16,6 @@ if (!$users->isLoggedIn())
 
 if (!isset($_GET["type"]) || !isset($_GET["id"]))
 	$page->show404();
-
 	
 //
 // user requested a tvrage image.

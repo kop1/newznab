@@ -11,7 +11,7 @@ $users = new Users;
 $category = new Category;
 
 //
-// user has to either be logged in, or using magic token
+// user has to either be logged in, or using rsskey
 //
 
 //

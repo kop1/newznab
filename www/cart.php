@@ -23,11 +23,8 @@ if (isset($_GET["add"]))
 }
 else
 {
-	
 	if (isset($_GET["delete"]))
-	{
 		$users->delCart($_GET["delete"], $users->currentUserId());
-	}
 	
 	$page->meta_title = "My Nzb Cart";
 	$page->meta_keywords = "search,add,to,cart,nzb,description,details";

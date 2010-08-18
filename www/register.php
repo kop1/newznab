@@ -8,10 +8,6 @@ require_once(WWW_DIR."/lib/site.php");
 $page = new Page();
 $users = new Users();
 
-$page->meta_title = "Register";
-$page->meta_keywords = "register,signup,registration";
-$page->meta_description = "Register";
-
 if ($users->isLoggedIn())
 	$page->show404();
 
@@ -78,6 +74,11 @@ else
 		
 	}
 }
+
+$page->meta_title = "Register";
+$page->meta_keywords = "register,signup,registration";
+$page->meta_description = "Register";
+
 $page->content = $page->smarty->fetch('register.tpl');
 $page->render();
 
