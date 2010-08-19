@@ -104,7 +104,7 @@ class Groups
 		else
 			$category = sprintf(" categoryID = %d ", $group["category"]);
 		
-		return $db->query(sprintf("update groups set name=%s, description = %s, first_record=%s, last_record=%s, %s , active=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $category, $group["active"] , $group["id"] ));		
+		return $db->query(sprintf("update groups set name=%s, description = %s, backfill_target = %s , active=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["backfill_target"]), $category, $group["active"] , $group["id"] ));		
 	}	
 
 	//
