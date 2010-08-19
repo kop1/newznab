@@ -541,12 +541,14 @@ TODO:
    1030                                 Console/Wii                     Nintendo Wii
    1040                                 Console/XBox                    Microsoft XBox
    1050                                 Console/Xb0x 360                Microsoft XBox 360
-   1050                                 Console/Wiiware                 Wii homebrew
+   1060                                 Console/Wiiware                 Wii homebrew
+   1070                                 Console/Xb0x 360 DLC            Microsoft XBox 360 Downloadable Content
    2000                                 Movies                          All of movies
    2010                                 Movies/DVD                      
    2020                                 Movies/WMV-HD
    2030                                 Movies/XViD
    2040                                 Movies/x264                     HD movies with AVC encoding
+   2050                                 Movies/HD Other                 Other HD movie content
    3000                                 Audio                           All of audio
    3010                                 Audio/MP3
    3020                                 Audio/Video                     Music videos
