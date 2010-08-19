@@ -38,7 +38,7 @@ if(isset($_GET['do']) && $_GET['do'] == 'run') {
                 	$conf = file("../config.php");
         	        $i = 0;
 	                foreach($conf as $c) {
-				if(stristr($c, "NNTP_USERNAME")) {
+				if(stristr($c, "define('NNTP_USERNAME")) {
 					$conf[$i] = "define('NNTP_USERNAME', '{$user}');\n";
 				} else if(stristr($c, "NNTP_PASSWORD")) {
 					$conf[$i] = "define('NNTP_PASSWORD', '{$pass}');\n";
