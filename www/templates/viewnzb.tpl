@@ -6,17 +6,22 @@
 	<tr><th>Admin Functions:</th><td><a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Delete Release">[Delete]</a></td></tr>
 	{/if}
 	<tr><th>Name:</th><td>{$release.name|escape:"htmlall"}</td></tr>
+	{if $release.rageID > 0}
+	<tr><th>Episode:</th><td>{$release.seriesfull|replace:"S":"Series "|replace:"E":" Episode "} <a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">View All Episodes</a></td></tr>
+	<tr><th>Tv Info:</th><td>
+	{if $rage.imgdata != ""}
+	<img src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&id={$rage.ID}" width="180" align="left" style="padding-right:10px;"  />
+	{/if}
+	<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage"><div style="padding-right:5px;" class="icon icon_tvrage"></div>View in TV Rage</a></td></tr>
+	{/if}
 	<tr><th>Group:</th><td title="{$release.group_name}">{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
 	<tr><th>Category:</th><td><a title="Browse by {$release.category_name}" href="{$smarty.const.WWW_TOP}/browse?t={$release.categoryID}">{$release.category_name}</a></td></tr>
-	<tr><th>Size:</th><td>{$release.size|fsize_format:"MB"}</td></tr>
-	<tr><th>Grabs:</th><td>{$release.grabs} time{if $release.grabs==1}{else}s{/if}</td></tr>
-	<tr><th>Files:</th><td><a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$release.guid}">{$release.totalpart} file{if $release.totalpart==1}{else}s{/if}</a></td></tr>
 	{if $nfo.ID|@count > 0}
 	<tr><th>Nfo:</th><td><a href="{$smarty.const.WWW_TOP}/nfo/{$release.guid}" title="View Nfo">View Nfo</a></td></tr>
 	{/if}
-	{if $release.rageID > 0}
-	<tr><th>Tv Info:</th><td>[<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage"><div style="padding-right:5px;" class="icon icon_tvrage"></div>Rage Id {$release.rageID}</a>] [<a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">Series Info</a>] [{$release.seriesfull}]</td></tr>
-	{/if}
+	<tr><th>Size:</th><td>{$release.size|fsize_format:"MB"}</td></tr>
+	<tr><th>Grabs:</th><td>{$release.grabs} time{if $release.grabs==1}{else}s{/if}</td></tr>
+	<tr><th>Files:</th><td><a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$release.guid}">{$release.totalpart} file{if $release.totalpart==1}{else}s{/if}</a></td></tr>
 	
 	{if $movie.imdbID > 0}
 	<tr><th>Movie Info:</th><td>

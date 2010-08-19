@@ -4,6 +4,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/tvrage.php");
 
 $page = new Page;
 $users = new Users;
@@ -14,6 +15,7 @@ if (!$users->isLoggedIn())
 if (isset($_GET["id"]))
 {
 	$releases = new Releases;
+	$tvrage = new TvRage;
 	$data = $releases->getByGuid($_GET["id"]);
 
 	if (!$data)
@@ -25,6 +27,12 @@ if (isset($_GET["id"]))
 	$nfo = $releases->getReleaseNfo($data["ID"], false);
 	$comments = $releases->getComments($data["ID"]);
 	$similars = $releases->searchSimilar($data["ID"], $data["searchname"]);
+	if ($data["rageID"] != "")
+	{
+		$rage = $tvrage->getByRageID($data["rageID"]);
+		if (count($rage) > 0)
+			$page->smarty->assign('rage',$rage[0]);
+	}
 	
 	$mov = '';
 	if ($data['imdbID'] != '') {
