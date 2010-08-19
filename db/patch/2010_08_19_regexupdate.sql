@@ -5,6 +5,7 @@ UPDATE releases set categoryID = 2050 where name LIKE '%BD%' and name like '%50%
 UPDATE releases set categoryID = 1070 where name LIKE '%DLC%' and categoryID = 1050;
 DELETE from releases where name like '%abgx%' and regexid = 202; 
 UPDATE binaries set procstat = 0 where regexID = 202 and name like '%abgx%';
+DELETE FROM releaseregex where ID < 100000;
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (224, 'alt.binaries.hdtv.x264', '/^\\\"(?P<name>.*?(BD25|BD  25|BD 50|VC-1).*?)\\.(vol|par|rar|nfo|sfv)/i', 1, 1, NULL, 2050);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (241, 'alt.binaries.games.xbox360', '/^\\[\\d{5}\\]\\-\\[FULL\\]\\-\\[#a.b.*?\\]\\-\\[(?P<name>.*?DLC.*?)\\]\\-\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 1, 1, NULL, 1070);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (221, 'alt.binaries.sounds.mp3.complete_cd', '/^.*?NMR.*?(?P<parts>\\d{1,3}\\/\\d{1,3})\\] \\- \\\"(?P<name>.*? \\- .*?) \\-/i', 1, 1, 'Andemund Orchestra DR @320- NMR [18/58] - \"Andemund Orchestra - Andemund Orchestra Vol1 - cover.jpg\" yEnc', 3010);
