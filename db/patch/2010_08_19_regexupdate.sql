@@ -1,10 +1,5 @@
-INSERT INTO `category` VALUES ('2050', 'HD Other', '2000', '1', null);
-INSERT INTO `category` VALUES ('1070', 'XBOX 360 DLC', '1000', '1', null);
-UPDATE releases set categoryID = 2050 where name LIKE '%BD%' and name like '%25%';
-UPDATE releases set categoryID = 2050 where name LIKE '%BD%' and name like '%50%';
-UPDATE releases set categoryID = 1070 where name LIKE '%DLC%' and categoryID = 1050;
-DELETE from releases where name like '%abgx%' and regexid = 202; 
-UPDATE binaries set procstat = 0 where regexID = 202 and name like '%abgx%';
+DELETE from releases where name like '%#alt%' and regexid = 156; 
+UPDATE binaries set procstat = 0 where regexID = 156 and name like '%#alt%';
 DELETE FROM releaseregex where ID < 100000;
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (224, 'alt.binaries.hdtv.x264', '/^\\\"(?P<name>.*?(BD25|BD  25|BD 50|VC-1).*?)\\.(vol|par|rar|nfo|sfv)/i', 1, 1, NULL, 2050);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (241, 'alt.binaries.games.xbox360', '/^\\[\\d{5}\\]\\-\\[FULL\\]\\-\\[#a.b.*?\\]\\-\\[(?P<name>.*?DLC.*?)\\]\\-\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 1, 1, NULL, 1070);
@@ -54,7 +49,6 @@ INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `de
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (157, 'alt.binaries.games.nintendods', '/^\\(\\d{4}\\) \\[abgx.*?\\] \\- \\\"(?P<name>.*?NDS.*?)\\.(rar|vol|par|sfv|srr|nfo)/i', 1, 1, '(2929) [abgx@Efnet] - \"Know_How_Multi5_EUR_NDS-iND.vol2+2.PAR2\" yEnc', 1010);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (158, 'alt.binaries.games.nintendods', '/^(?P<name>NDS \\- .*?)\\\"/i', 1, 1, 'NDS - Alice In Wonderland EUR \"4794_-_Alice_In_Wonderland_EUR_NDS-RFTD_B3D03A91.vol1+2.par2\" yEnc', 1010);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (161, 'alt.binaries.movies.xvid', '/^www\\.avchd\\.co\\.uk Presents (?P<name>.*?)\\./i', 1, 1, 'www.avchd.co.uk Presents The Rookie 1990 BluRay 1080p VC-1 DTS HD MA 5.1 BD25 Mastercode.vol107+14.PAR2', 2040);
-INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (156, 'alt.binaries.dvdr', '/^(?P<name>.*?(NTSC|PAL).*?)\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 9, 1, 'Hard.Four.2007.COMPLETE.NTSC.DVDR-KART3LDVD - Original ISO Repacked, sorry! - [93/93] - \"kart3l-hf.vol188+27.par2\" yEnc yEnc', 2010);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (162, 'alt.binaries.wii', '/^\\(WIIISO\\) \\[(?P<parts>\\d{1,3}\\/\\d{1,3})\\] \\- \\\".*?\\\" \\- (?P<name>.*?)$/i', 1, 1, '(WiiISO) [105/105] - \"qf-pes10.vol127+125.PAR2\" - Pro_Evolution_Soccer_2010_USA_Wii-QwiiF', 1030);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (154, 'alt.binaries.boneless', '/^.*?usenet4all.*? - (?P<name>.*?X264.*?)\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 1, 1, '!!www.usenet4all.eu!! - G.I.Joe.The.Movie.1987.RERIP.720p.BluRay.x264-BRMP[106/106] - \"g.i.joe.the.movie.1987.rerip.720p.bluray.x264-brmp.vol63+36.par2\" yEnc', 2040);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (155, 'alt.binaries.dvdr', '/^\\[\\d{4}\\]\\-\\[FULL\\]\\-\\[\\#a.*?\\]\\-\\[(?P<name>.*?(NTSC|PAL).*?)\\]\\-\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 1, 1, '[3264]-[FULL]-[#a.b.moovee@EFNet]-[ Happiness.Runs.2010.NTSC.DVDR-SADPANDA ]-[1/1] \"Happiness.Runs.2010.NTSC.DVDR-SADPANDA.nzb\" yEnc', 2010);
