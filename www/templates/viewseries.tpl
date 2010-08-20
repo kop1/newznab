@@ -38,7 +38,7 @@
 		
 			<div class="resextra">
 				{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="modal_nfo" rel="nfo">[Nfo]</a>{/if}
-				{if $result.tvairdate != ""}<span title="{$result.tvtitle} Aired on {$result.tvairdate|date_format}">[Aired {$result.tvairdate|timeago} ago]</span>{/if}
+				{if $result.tvairdate != ""}<span title="{$result.tvtitle} Aired on {$result.tvairdate|date_format}">[Aired {if $result.tvairdate|strtotime > $smarty.now}in future{else}{$result.tvairdate|timeago} ago{/if}]</span>{/if}
 
 				{if $isadmin}<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a>{/if}
 			</div>
