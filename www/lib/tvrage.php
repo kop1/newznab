@@ -6,10 +6,13 @@ require_once(WWW_DIR."/lib/framework/db.php");
 
 class TvRage
 {	
+	const APIKEY = '7FwjZ8loweFcOhHfnU3E';
+
 	function TvRage()
 	{
 		$this->searchUrl = "http://services.tvrage.com/feeds/search.php?show=";
 		$this->showInfoUrl = "http://services.tvrage.com/feeds/full_show_info.php?sid="; 	
+		$this->episodeInfoUrl = "http://services.tvrage.com/myfeeds/episodeinfo.php?key=".TvRage::APIKEY;
 	}
 	
 	public function getByID($id)
@@ -67,6 +70,17 @@ class TvRage
 			$limit = " LIMIT ".$start.",".$num;
 		
 		return $db->query(" SELECT ID, rageID, releasetitle, description, createddate from tvrage order by rageID asc".$limit);		
+	}
+	
+	public function getEpisodeInfo($rageid, $series, $episode)
+	{
+		$series = str_ireplace("s", "", $series);
+		$episode = str_ireplace("e", "", $episode);
+		$xml = file_get_contents($this->episodeInfoUrl."&sid=".$rageid."&ep=".$series."x".$episode);
+		if (preg_match('/no show found/i', $xml))
+			return "";
+			
+		return $xml;
 	}
 	
 	public function getCount()

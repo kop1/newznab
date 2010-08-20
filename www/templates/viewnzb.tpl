@@ -7,12 +7,22 @@
 	{/if}
 	<tr><th>Name:</th><td>{$release.name|escape:"htmlall"}</td></tr>
 	{if $release.rageID > 0}
-	<tr><th>Episode:</th><td>{$release.seriesfull|replace:"S":"Series "|replace:"E":" Episode "} <a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">View All Episodes</a></td></tr>
-	<tr><th>Tv Info:</th><td>
-	{if $rage.imgdata != ""}
-	<img src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&id={$rage.ID}" width="180" align="left" style="padding-right:10px;"  />
-	{/if}
-	<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage"><div style="padding-right:5px;" class="icon icon_tvrage"></div>View in TV Rage</a></td></tr>
+		<tr><th>Episode:</th><td>{$release.seriesfull|replace:"S":"Series "|replace:"E":" Episode "} <a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">View All Episodes</a></td></tr>
+		<tr><th>Tv Info:</th><td>
+		{if $rage.imgdata != ""}
+			<img src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&id={$rage.ID}" width="180" align="left" style="padding-right:10px;"  />
+		{/if}
+
+		{if $release.tvtitle != ""}
+			<strong>{$release.tvtitle}</strong>
+			<br/>
+		{/if}
+		{if $release.tvairdate != ""}
+			<strong>Aired:</strong> {$release.tvairdate|date_format}
+			<br/>
+		{/if}
+		<strong>More:</strong> <a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage">[TV Rage]</a>
+		</td></tr>
 	{/if}
 	<tr><th>Group:</th><td title="{$release.group_name}">{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
 	<tr><th>Category:</th><td><a title="Browse by {$release.category_name}" href="{$smarty.const.WWW_TOP}/browse?t={$release.categoryID}">{$release.category_name}</a></td></tr>

@@ -45,6 +45,7 @@
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="modal_nfo" rel="nfo">[Nfo]</a>{/if}
 					{if $result.imdbID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="name{$result.imdbID}" title="View movie info" class="modal_imdb" rel="movie" >[Cover]</a>{/if}
 					{if $result.rageID > 0}<a href="{$smarty.const.WWW_TOP}/series/{$result.rageID}" title="View all episodes">[View Series]</a>{/if}
+					{if $result.tvairdate != ""}<span title="{$result.tvtitle} Aired on {$result.tvairdate|date_format}">[Aired {$result.tvairdate|timeago} ago]</span>{/if}
 
 					{if $isadmin}<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">[Edit]</a>{/if}
 				</div>

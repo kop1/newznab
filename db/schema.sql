@@ -49,6 +49,8 @@ CREATE TABLE `releases`
 `seriesfull` VARCHAR(15) NULL,
 `season` VARCHAR(10) NULL,
 `episode` VARCHAR(10) NULL,
+`tvtitle` varchar(255) null,
+`tvairdate` datetime null,
 `imdbID` MEDIUMINT(7) UNSIGNED ZEROFILL NULL,
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
 `comments` INT NOT NULL DEFAULT 0,

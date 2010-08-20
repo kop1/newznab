@@ -923,7 +923,27 @@ class Releases
 					$id = $rage->getRageId($relcleanname, $echooutput, $lookupTvRage);
 					if ($id != -1)
 					{
-						$db->query(sprintf("update releases set rageID = %d where ID = %d", $id, $arr["ID"]));
+						//
+						// try and get the episode info from tvrage
+						//
+						$tvairdate = "null";
+						$tvtitle = "null";
+
+						if ($lookupTvRage)
+						{
+							$epinfo = $rage->getEpisodeInfo($id, $show['season'], $show['episode']);
+							if ($epinfo != "")
+							{
+								$xmlObj = simplexml_load_string($epinfo);
+								$arrXml = objectsIntoArray($xmlObj);
+								if (isset($arrXml['episode']['airdate']))
+									$tvairdate = $db->escapeString($arrXml['episode']['airdate']);
+								if (isset($arrXml['episode']['title']))
+									$tvtitle = $db->escapeString($arrXml['episode']['title']);
+							}
+						}
+						
+						$db->query(sprintf("update releases set tvtitle=trim(%s), tvairdate=%s, rageID = %d where ID = %d", $tvtitle, $tvairdate, $id, $arr["ID"]));
 					}
 					else
 					{
