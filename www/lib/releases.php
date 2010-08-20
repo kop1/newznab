@@ -936,7 +936,7 @@ class Releases
 							{
 								$xmlObj = simplexml_load_string($epinfo);
 								$arrXml = objectsIntoArray($xmlObj);
-								if (isset($arrXml['episode']['airdate']))
+								if (isset($arrXml['episode']['airdate']) && $arrXml['episode']['airdate'] != '0000-00-00')
 									$tvairdate = $db->escapeString($arrXml['episode']['airdate']);
 								if (isset($arrXml['episode']['title']))
 									$tvtitle = $db->escapeString($arrXml['episode']['title']);
