@@ -23,7 +23,14 @@ class DB
 				
 	public function escapeString($str, $allowEmptyString=false)
 	{
-		return "'".mysql_real_escape_string($str)."'";
+		try
+		{
+			return "'".mysql_real_escape_string($str)."'";
+		}
+		catch (Exception $e) 
+		{
+			var_dump($e->getTrace());
+		}
 	}		
 
 	public function makeLookupTable($rows, $keycol)
