@@ -69,12 +69,20 @@ class DB
 		
 		$rows = array();
 
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		try
 		{
-			$rows[] = $row;	
-			if ($addtotalcount)
-				$rows[count($rows)-1]["_totalrows"] = $totalRow;
+			while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+			{
+				$rows[] = $row;	
+				if ($addtotalcount)
+					$rows[count($rows)-1]["_totalrows"] = $totalRow;
+			}
 		}
+		catch (Exception $e) 
+		{
+			var_dump($e->getTrace());
+		}
+		
 		mysql_free_result($result);
 		return $rows;
 	}	
