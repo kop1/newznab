@@ -1,9 +1,9 @@
-DELETE FROM RELEASES WHERE name like '%FULL%' and regexid = 137;
-DELETE FROM RELEASES WHERE NAME not like '%NDS%' and regexid =102;
-UPDATE BINARIES SET procstat = 0 WHERE name like '%FULL%' and regexid = 137;
-DELETE FROM RELEASES WHERE name like '%FULL%' and regexid = 64;
-UPDATE BINARIES SET procstat = 0 WHERE name like '%FULL%' and regexid = 64;
-UPDATE BINARIES SET procstat = 0 WHERE regexid = 55;
+DELETE FROM releases WHERE name like '%FULL%' and regexid = 137;
+DELETE FROM releases WHERE NAME not like '%NDS%' and regexid =102;
+UPDATE binaries SET procstat = 0 WHERE name like '%FULL%' and regexid = 137;
+DELETE FROM releases WHERE name like '%FULL%' and regexid = 64;
+UPDATE binaries SET procstat = 0 WHERE name like '%FULL%' and regexid = 64;
+UPDATE binaries SET procstat = 0 WHERE regexid = 55;
 DELETE FROM releaseregex where ID < 100000;
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (250, 'alt.binaries.dvdr', '/^(RE\\:|)(?P<name>.*?DVDR(\\-|\\.).*?)\\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 1, 1, 'Creation.2009.PROPER.NTSC.DVDR-SADPANDA [023/111] - \"sp-creation.r20\" yEnc', 2010);
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (251, 'alt.binaries.games.wii', '/^\\(VBP (?P<name>.*?)\\) \\[(?P<parts>\\d{1,3}\\/\\d{1,3})/i', 2, 1, '(VBP Kart Racer Wii PAL) [107/107] - \"icon-kr-wii.vol173+27.PAR2\" yEnc', 1030);
