@@ -4,8 +4,8 @@
                     NEWZNAB Usenet Searching Web API 
 
 
-                               v0.2
-                             17/8/2010
+                               v0.3
+                             22/8/2010
 
 
 Owner:  bb   at #newznab        (irc.synirc.org)   info@newznab.com
@@ -14,21 +14,18 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 1.  Introduction
 2.  Functions
 2.1 CAPS
-2.2 SEARCH
-2.3 TV-SEARCH
-2.4 MOVIE-SEARCH
-2.5 Search Modifiers
-2.6 DETAILS
+2.2 REGISTER
+2.3 SEARCH
+2.4 TV-SEARCH
+2.5 MOVIE-SEARCH
+2.6 Search Modifiers
+2.7 DETAILS
 3.  Predefined Categories
 4.  Predefined Attributes
 4.1 List of Attributes
 4.2 Attribute example
 5.  Newznab Error Codes
 5.1 Error code example
-
-TODO:
-  - search wild cards
-  - console/pc/xxx attributes
 
 1. Introduction
    
@@ -58,6 +55,13 @@ TODO:
    unless otherwise specified. All query parameters should be UTF-8 and URL encoded, i.e.
    query-param = URL-ENCODE(UTF8-ENCODE(param=value)).
    
+   The functions are divided into two categories. Functions specific to searching and retrieving of items
+   and the their information such as SEARCH and TV-SEARCH and functions that are for site/user account
+   management such as CAPS and REGISTER.
+   
+   Any conforming implementation should support the CAPS and SEARCH functions. Other functions are optional     
+   and if not supported will return the "203 Function Not Available" when invoked. 
+
 
    2.1 CAPS
 
@@ -107,14 +111,19 @@ TODO:
             <!-- the server NZB retention -->
             <retention days="400"/>
 
+            <!-- registration available or not -->
+            <registration 
+
             <!-- 
                  The search functions available at the server 
                  The only currently defined search functions are SEARCH and TV-SEARCH.
-                 Any conforming implementation should at least support one search function.
+                 Any conforming implementation should at least support the basic search.
+                 Other search functions are optional.
             -->
             <searching>
                 <search available="yes"/>
                 <tv-search available="yes"/>
+                <movie-search available="no"/>
             </searching>
 
             <!-- supported categories -->
@@ -138,7 +147,55 @@ TODO:
           </caps>
         </xml>
 
-   2.2 SEARCH
+   2.2 REGISTER
+
+   Description:
+
+       REGISTER function is used for automatically creating and registering user account. 
+       This is an optional function and may or may not be available at a site. It is also possible 
+       that function is available but currently registrations at the site are closed. 
+
+       The only prerequisite for registering an account is a valid email address and any server policies.
+       It is at the server administration discretion to allow or deny registrations based on
+       for example the validity of the email address or the the current client host address.
+       
+       On succesful registration a valid username, password and api key are returned to the caller
+       On error an appropriate error code is returned.
+
+   HTTP Method:
+      GET
+
+   HTTP Response:
+      200 OK
+
+   Parameters:
+      t=register        Register function, must always be "register"
+      email=xxx         A valid email address to be used for registration. (URL/UTF-8 encoded).
+      
+   Examples:
+      --> GET HTTP://servername.com/api?t=register&email=john.joe%40acme.com
+      <-- 200 OK
+          <?xml version="1.0" encoding="UTF-8"?>
+             <register username="user123" password="pass123" apikey="abcabcd11234abc"/>
+          </register>
+
+      --> GET HTTP://servername.com/api?t=register&email=john.joe%40acme.com
+      <-- 200 OK
+          <?xml version="1.0" encoding="UTF-8"?>
+          <error code="103" description="Registration denied"/>
+          
+      --> GET HTTP://servername.com/api?t=register&email=john.joe%40acme.com
+      <-- 200 OK
+         <?xml version="1.0" encoding="UTF-8"?>
+         <error code="104" description="No more registrations allowed"/>
+         
+      --> GET HTTP://servername.com/api?t=register&email=john.joe%40acme.com
+      <-- 200 OK
+         <?xml version="1.0" encoding="UTF-8"?>
+         <error code="203" description="Function not available"/>
+
+
+   2.3 SEARCH
    
    Description:
       SEARCH function searches the index for items matching the search criteria. On succesful
@@ -261,7 +318,7 @@ TODO:
          <?xml version="1.0" encoding="UTF-8"/>
          <error code="200" description="Missing parameter: key"/>
 
-   2.3 TV-SEARCH
+   2.4 TV-SEARCH
 
    Description:
      TV-SEARCH function searches the index in the TV category for items matching the search criteria.
@@ -353,7 +410,7 @@ TODO:
          </channel>
          </rss>
 
-   2.4 MOVIE-SEARCH
+   2.5 MOVIE-SEARCH
 
    Description:
      MOVIE-SEARCH function searches the index for items matching an imdb id or search query.
@@ -420,7 +477,7 @@ TODO:
          </channel>
          </rss>
 
-   2.5 Search Modifiers
+   2.6 Search Modifiers
    
    The following search modifiers/operators are defined to enhance the searching functionality. The modifiers are submitted
    part of the query parameter (q).
@@ -512,6 +569,8 @@ TODO:
      <-- 200 OK
          <?xml version="1.0" encoding="UTF-8"/>
          <error code="100" description="Incorrect user credentials"/>     
+
+   
 
 3. Predefined Categories
    
@@ -606,6 +665,7 @@ TODO:
    comments        ALL                     Number of comments                      "2"
    usenetdate      ALL                     Date posted to usenet                   "Tue, 22 Jun 2010 06:54:22 +0100"
    info            ALL                     Info (.nfo) file URL                    "http://somesite/stuff/info.php?id=1234"
+   year            ALL                     Release year                            "2009"
    season          TV                      Numeric season                          "1"
    episode         TV                      Numeric episode within the season       "1"
    rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
@@ -617,6 +677,7 @@ TODO:
    subs            TV, Movies              Subtitles                               "English, Spanish"
    imdb            TV, Movies              IMDb ID  (www.imdb.com)                 "0104409"
    genre           TV, Movies              Genre                                   "Horror"
+
    
    
    4.2 Attribute Example
@@ -647,11 +708,15 @@ TODO:
    100                  Incorrect user credentials
    101                  Account suspended
    102                  Insufficient priviledges/not authorized
+   103                  Registration denied
+   104                  Registrations are closed
+   105                  Invalid registration (paremeters did not pass validation).
+   
 
    200                  Missing parameter
    201                  Incorrect parameter
    202                  No such function. (Function not defined in this specification).
-   203                  Function not available. (Optional function is not implemented 
+   203                  Function not available. (Optional function is not implemented).
    
    300                  No such item. 
    
@@ -662,6 +727,6 @@ TODO:
    // Query could not be completed because user credentials are broken
    --> GET http://servername.com/api?t=details&apikey=xxxxx&guid=xxxxxxxxx
    <-- 200 OK
-       <?xml version="1.0" encoding="UTF-8"/>
+       <?xml version="1.0" encoding="UTF-8"?>
        <error code="100" description="Incorrect user credentials"/>     
 
