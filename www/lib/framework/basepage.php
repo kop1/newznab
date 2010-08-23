@@ -18,6 +18,9 @@ class BasePage
 	public $userdata = array();
 	public $serverurl = '';
 		
+	const FLOOD_MIN_WAIT_BETWEEN_REQUESTS_SECONDS = 0.250;
+	const FLOOD_PUNISHMENT_SECONDS = 3.0;
+	
 	function BasePage()
 	{			
 		@session_start();
@@ -42,7 +45,7 @@ class BasePage
 			$this->serverurl = (isset($_SERVER["HTTPS"]) ? "https://" : "http://").$_SERVER["SERVER_NAME"].($_SERVER["SERVER_PORT"] != "80" ? ":".$_SERVER["SERVER_PORT"] : "").WWW_TOP.'/';
 			$this->smarty->assign('serverroot', $this->serverurl);
 		}
-
+		
 		$users = new Users();
 		if ($users->isLoggedIn())
 		{
@@ -53,13 +56,69 @@ class BasePage
 				$this->smarty->assign('sabintegrated',"true");
 			if ($this->userdata["role"] == Users::ROLE_ADMIN)
 				$this->smarty->assign('isadmin',"true");	
+				
+			$this->floodCheck(true, $this->userdata["role"]);
 		}
 		else
 		{
 			$this->smarty->assign('isadmin',"false");	
 			$this->smarty->assign('loggedin',"false");	
+
+			$this->floodCheck(false, "");
 		}
 	}    
+	
+	public function floodCheck($loggedin, $role)
+	{
+		//
+		// if flood wait set, the user must wait x seconds until they can access a page
+		//
+		if (empty($argc) && 
+			$role != Users::ROLE_ADMIN &&
+			isset($_SESSION['flood_wait_until']) && 
+			$_SESSION['flood_wait_until'] > microtime(true))
+			{
+				$this->showFloodWarning();
+			}
+		else
+		{
+			//
+			// Dont flood check command line calls or admins
+			//
+			if(empty($argc) && isset($_SESSION['last_session_request']) && 
+				$role != Users::ROLE_ADMIN && 
+				$_SESSION['last_session_request'] > microtime(true) - BasePage::FLOOD_MIN_WAIT_BETWEEN_REQUESTS_SECONDS)
+			{
+				$_SESSION['flood_wait_until'] = microtime(true) + BasePage::FLOOD_PUNISHMENT_SECONDS;
+				$this->showFloodWarning();
+			}
+			$_SESSION['last_session_request'] = microtime(true);
+			$_SESSION['flood_wait_until'] = 0;
+		}
+	}
+	
+	//
+	// Done in html here to reduce any smart processing burden if a large flood is underway
+	//
+	public function showFloodWarning()
+	{
+		echo "
+			<html>
+			<head>
+				<title>Service Unavailable</title>
+			</head>
+
+			<body>
+				<h1>Service Unavailable</h1>
+
+				<p>Too many requests!</p> 
+
+				<p>You must <b>wait ".BasePage::FLOOD_PUNISHMENT_SECONDS." seconds</b> before trying again.</p> 
+
+			</body>
+		</html>";
+		die();
+	}
 	
 	public function addToHead($headcontent) 
 	{			

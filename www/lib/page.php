@@ -7,6 +7,8 @@ require_once(WWW_DIR."/lib/category.php");
 
 class Page extends BasePage
 {    
+	public $site = "";
+	
 	function Page()
 	{	
 		parent::BasePage();
