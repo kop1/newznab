@@ -13,6 +13,10 @@ if ($page->isPostBack())
 		$page->smarty->assign('username', $_POST["username"]);
 		$users = new Users();
 		$res = $users->getByUsername($_POST["username"]);
+		
+		if (!$res)
+			$res = $users->getByEmail($_POST["username"]);
+		
 		if ($res)
 		{
 			if ($users->checkPassword($_POST["password"], $res["password"]))

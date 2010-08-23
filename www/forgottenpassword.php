@@ -34,7 +34,7 @@ switch($action)
 			// reset the password, inform the user, send out the email
 			//
 			$users->updatePassResetGuid($ret["ID"], "");
-			$newpass = substr(md5(uniqid()), 0, 8);
+			$newpass = $users->generatePassword();
 			$users->updatePassword($ret["ID"], $newpass);
 
 			$to = $ret["email"];

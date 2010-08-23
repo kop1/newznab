@@ -23,6 +23,15 @@
 						<br/>
 						Capabilities does not require any credentials in order to be ran.
 					</li>	
+					
+					<li>
+						<b>Register</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=register&email=user@newznab.com">?t=register&email=user@newznab.com</a></span>
+						<br/>
+						Registers a new user account. Does not require any credentials in order to be ran.
+						<br/>
+						Returns either the registered username and password if successful or an error code.
+					</li>						
+					
 					<li>
 						<b>Search</b> <span style="font-family:courier;"><a href="{$smarty.const.WWW_TOP}/api?t=search&q=linux">?t=search&q=linux</a></span>
 						<br/>

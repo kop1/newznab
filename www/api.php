@@ -30,6 +30,8 @@ if (isset($_GET["t"]))
 		$function = "tv";
 	elseif ($_GET["t"] == "movie" || $_GET["t"] == "m")
 		$function = "m";			
+	elseif ($_GET["t"] == "register" || $_GET["t"] == "r")
+		$function = "r";			
 	else
 		showApiError(202);
 }
@@ -43,7 +45,7 @@ $user="";
 $apikey="";
 if (!$users->isLoggedIn())
 {
-	if ($function != "c")
+	if ($function != "c" && $function != "r")
 	{
 		if (!isset($_GET["apikey"]))
 			showApiError(200);
@@ -290,7 +292,50 @@ switch ($function)
 		$page->smarty->assign('parentcatlist',$parentcatlist);
 		header("Content-type: text/xml");
 		echo $page->smarty->fetch('apicaps.tpl');	
-		break;		
+		break;	
+
+	//
+	// register request
+	//
+	case "r":
+		if (!isset($_GET["email"]) || $_GET["email"]=="")
+			showApiError(200);		
+
+		if ($page->site->registerstatus != Sites::REGISTER_STATUS_OPEN)
+			showApiError(104);		
+		
+		//
+		// Check email is valid format
+		//
+		if (!$users->isValidEmail($_GET["email"]))
+			showApiError(106);		
+			
+		//
+		// check email isnt taken
+		//
+		$ret = $users->getByEmail($_GET["email"]);
+		if (isset($ret["ID"]))
+			showApiError(105);			
+
+		//
+		// create uname/pass and register
+		//
+		$username = $users->generateUsername($_GET["email"]);
+		$password = $users->generatePassword();
+		
+		//
+		// register
+		//
+		$uid = $users->signup($username, $password, $_GET["email"], $_SERVER['REMOTE_ADDR']);
+		$userdata = $users->getById($uid);
+		if (!$userdata)
+			showApiError(107);	
+			
+		header("Content-type: text/xml");
+		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		echo "<register username=\"".$username."\" password=\"".$password."\" apikey=\"".$userdata["rsstoken"]."\"/>\n";
+		
+		break;			
 	
 	default:
 		showApiError(202);
@@ -310,6 +355,21 @@ function showApiError($errcode=900, $errtext="")
 		case 102:
 			$errtext = "Insufficient priviledges/not authorized";
 			break;
+		case 103:
+			$errtext = "Registration denied";
+			break;			
+		case 104:
+			$errtext = "Registrations are closed";
+			break;			
+		case 105:
+			$errtext = "Invalid registration (Email Address Taken)";
+			break;			
+		case 106:
+			$errtext = "Invalid registration (Email Address Bad Format)";
+			break;			
+		case 107:
+			$errtext = "Registration Failed (Data error)";
+			break;			
 		case 200:
 			$errtext = "Missing parameter";
 			break;

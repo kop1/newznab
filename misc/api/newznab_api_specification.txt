@@ -112,7 +112,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
             <retention days="400"/>
 
             <!-- registration available or not -->
-            <registration 
+            <registration available="yes" open="yes" />
 
             <!-- 
                  The search functions available at the server 
@@ -710,8 +710,9 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    102                  Insufficient priviledges/not authorized
    103                  Registration denied
    104                  Registrations are closed
-   105                  Invalid registration (paremeters did not pass validation).
-   
+   105                  Invalid registration (Email Address Taken)
+   106                  Invalid registration (Email Address Bad Format)
+   107                  Registration Failed (Data error)
 
    200                  Missing parameter
    201                  Incorrect parameter

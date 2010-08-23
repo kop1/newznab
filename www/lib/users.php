@@ -183,6 +183,17 @@ class Users
 		return (!preg_match('/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i', $url)) ? false : true;
 	}
 
+	public function generateUsername($email)
+	{
+		//TODO: Make this generate a more friendly username based on the email address.
+		return "u".substr(md5(uniqid()), 0, 7);
+	}
+	
+	public function generatePassword()
+	{
+		return substr(md5(uniqid()), 0, 8);
+	}
+	
 	public function signup($uname, $pass, $email, $host)
 	{
 		$uname = trim($uname);
