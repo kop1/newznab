@@ -719,7 +719,7 @@ class Releases
 		//
 		// Get out all distinct relname, group from binaries of STAGE2 
 		// 
-		$result = $db->queryDirect(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID", Releases::PROCSTAT_READYTORELEASE));
+		$result = $db->queryDirect(sprintf("SELECT distinct relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID ORDER BY COUNT(binaries.ID) desc", Releases::PROCSTAT_READYTORELEASE));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
