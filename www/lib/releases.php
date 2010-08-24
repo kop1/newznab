@@ -695,7 +695,7 @@ class Releases
 		//
 		// move all binaries which have the correct number of parts on to the next stage.
 		//
-		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID", Releases::PROCSTAT_TITLEMATCHED));
+		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID ORDER BY reltotalpart + COUNT(ID) DESC ", Releases::PROCSTAT_TITLEMATCHED));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
