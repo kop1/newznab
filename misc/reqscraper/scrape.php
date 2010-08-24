@@ -17,7 +17,6 @@ while ($row = mysql_fetch_array($result, MYSQL_BOTH))
 	foreach ($rss->items as $item) 
 	{
 		$link = mysql_real_escape_string($item['link']);
-		$title = mysql_real_escape_string($item['title']);	
 		$description = mysql_real_escape_string($item['description']);	
 		$feedID = $row["ID"];
 		$pubdate = date("Y-m-d H:i:s", strtotime($item['pubdate']));
@@ -28,8 +27,12 @@ while ($row = mysql_fetch_array($result, MYSQL_BOTH))
 		//
 		$reqid = 0;
 		$matches = "";
-		if (preg_match("/^ReqId: (?P<reqid>\d{3,6})/i", $description, $matches))
+		if (preg_match($row["reqidregex"], $row[$row["reqidtitle"]], $matches))
 			$reqid = mysql_real_escape_string($matches["reqid"]);	
+
+		$title = "";
+		if (preg_match($row["titleregex"], $row[$row["titlecol"]], $matches))
+			$title = mysql_real_escape_string($matches["title"]);	
 
 		$res = mysql_query("insert into item (feedID, reqid, title, link, description, pubdate, guid, adddate) values ($feedID, '$reqid', '$title', '$link', '$description', '$pubdate', '$guid', now())");	
 	}

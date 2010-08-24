@@ -5,6 +5,10 @@ CREATE TABLE `feed`
 	`code` VARCHAR(50) NULL,
 	`name` VARCHAR(255) NULL,
 	`url` VARCHAR(1000) NOT NULL,
+	`reqidcol` VARCHAR(255) NULL,
+	`reqidregex` VARCHAR(2000) NOT NULL,
+	`titlecol` VARCHAR(255) NULL,
+	`titleregex` VARCHAR(2000) NOT NULL,
 	`lastupdate` DATETIME NULL,
 	`status` INT NOT NULL DEFAULT 1,
 	PRIMARY KEY  (`ID`)
@@ -12,10 +16,10 @@ CREATE TABLE `feed`
 
 CREATE INDEX ix_feed_code ON feed (code);
 
-insert into feed (code, name, url, lastupdate) values ('tv', 'abteevee', 'http://abteevee.allfilled.com/rss.php', null);
-insert into feed (code, name, url, lastupdate) values ('xxx', 'aberotica', 'http://aberotica.allfilled.com/rss.php', null);
-insert into feed (code, name, url, lastupdate) values ('abgx', 'abgx', 'http://www.abgx.net/rss/abgw/reqs.rss', null);
-
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('tv', 'abteevee', 'http://abteevee.allfilled.com/rss.php', 'title', '/.*/i', 'description', '/^ReqId: (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('xxx', 'aberotica', 'http://aberotica.allfilled.com/rss.php', 'title', '/.*/i', 'description', '/^ReqId: (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('abgw', 'abgwii', 'http://www.abgx.net/rss/abgw/posted.rss', 'title', '/.*/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('x360', 'abg360', 'http://www.abgx.net/rss/x360/posted.rss', 'title', '/.*/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
 
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE `item` 
