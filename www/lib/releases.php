@@ -699,11 +699,32 @@ class Releases
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
-			if ($row["num"] >= $row["reltotalpart"])
+			
+			//
+			// Less than the site permitted number of files in a release. Dont discard it, as it may
+			// be part of a set being uploaded.
+			//
+			if ($row["num"] < $page->site->minfilestoformrelease)
+			{
+				if ($echooutput)
+					echo "Number of files in release ".$row["num"]." less that site setting ".$page->site->minfilestoformrelease."\n";
+					
+				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"] ));
+			}
+			
+			//
+			// There are the same or more parts in our release than the parts specified in the message subject
+			// so go ahead and make a release
+			//
+			elseif ($row["num"] >= $row["reltotalpart"])
 			{
 				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d", 
 					Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
 			}
+			
+			//
+			// Theres less than the expected number of parts, so update the attempts and move on.
+			//
 			else
 			{
 				if ($echooutput)
@@ -711,7 +732,7 @@ class Releases
 					
 				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"] ));
 			}
-			if ($echooutput && ($retcount % 100 == 0))
+			if ($echooutput && ($retcount % 10 == 0))
 				echo "processed ".$retcount." binaries stage two\n";
 		}
 		$retcount=$nfocount=0;

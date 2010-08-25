@@ -161,7 +161,7 @@
 <tr>
 	<td><label for="rawretentiondays">Raw Search Retention</label>:</td>
 	<td>
-		<input class="small" id="rawretentiondays" name="rawretentiondays" type="text" value="{$fsite->rawretentiondays}" />
+		<input class="tiny" id="rawretentiondays" name="rawretentiondays" type="text" value="{$fsite->rawretentiondays}" />
 		<div class="hint">The number of days binary and part data will be retained for use in raw search, regardless of other processes.</div>
 	</td>
 </tr>
@@ -171,6 +171,14 @@
 	<td>
 		<input class="tiny" id="attemptgroupbindays" name="attemptgroupbindays" type="text" value="{$fsite->attemptgroupbindays}" />
 		<div class="hint">The number of days an attempt will be made to group binaries into releases after being added.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="minfilestoformrelease">Minimum Files to Make a Release</label>:</td>
+	<td>
+		<input class="tiny" id="minfilestoformrelease" name="minfilestoformrelease" type="text" value="{$fsite->minfilestoformrelease}" />
+		<div class="hint">The minimum number of files to make a release. i.e. if set to two, then releases which only contain one file will not be created.</div>
 	</td>
 </tr>
 

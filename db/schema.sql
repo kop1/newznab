@@ -522,7 +522,8 @@ CREATE TABLE site (
 `newgroupscanmethod` INT NOT NULL DEFAULT 0,
 `newgroupdaystoscan` INT NOT NULL DEFAULT 3,
 `newgroupmsgstoscan` INT NOT NULL DEFAULT 50000,
-`storeuserips` INT NOT NULL DEFAULT 0
+`storeuserips` INT NOT NULL DEFAULT 0,
+`minfilestoformrelease` INT NOT NULL DEFAULT 1
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
