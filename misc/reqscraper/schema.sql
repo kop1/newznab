@@ -16,10 +16,10 @@ CREATE TABLE `feed`
 
 CREATE INDEX ix_feed_code ON feed (code);
 
-insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('tv', 'abteevee', 'http://abteevee.allfilled.com/rss.php', 'title', '/.*/i', 'description', '/^ReqId: (?P<reqid>\\d{3,6})/i', null);
-insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('xxx', 'aberotica', 'http://aberotica.allfilled.com/rss.php', 'title', '/.*/i', 'description', '/^ReqId: (?P<reqid>\\d{3,6})/i', null);
-insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('abgw', 'abgwii', 'http://www.abgx.net/rss/abgw/posted.rss', 'title', '/.*/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
-insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('x360', 'abg360', 'http://www.abgx.net/rss/x360/posted.rss', 'title', '/.*/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('tv', 'abteevee', 'http://abteevee.allfilled.com/rss.php', 'title', '/(?P<title>.*)/i', 'description', '/^ReqId: (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('xxx', 'aberotica', 'http://aberotica.allfilled.com/rss.php', 'title', '/(?P<title>.*)/i', 'description', '/^ReqId: (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('abgw', 'abgwii', 'http://www.abgx.net/rss/abgw/posted.rss', 'title', '/^Req\\s\\d{1,6}\\s\\-\\s(?P<title>.\\S*)/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('x360', 'abg360', 'http://www.abgx.net/rss/x360/posted.rss', 'title', '/^Req\\s\\d{1,6}\\s\\-\\s(?P<title>.\\S*)/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
 
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE `item` 
