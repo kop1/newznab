@@ -5,7 +5,7 @@
 	<div class="error">{$error}</div>
 {/if}
 
-{if $confirmed == ''}
+{if $confirmed == '' && $sent == ''}
 	<p>
 		Please enter the email address you used to register and we will send an email to reset your password. If you cannot remember your email, or no longer have access to it, please <a href="{$smarty.const.WWW_TOP}/contact-us.php">contact us</a>.
 	</p>
@@ -21,6 +21,10 @@
 			<tr><th></th><td><input type="submit" /><div style="float:right;" class="hint"><em>*</em> Indicates mandatory field.</div></td></tr>
 		</table>
 	</form>
+{elseif $sent != ''}
+	<p>
+		A password reset request has been sent to your email.
+	</p>
 {else}
 	<p>
 		Your password has been reset and sent to you in an email.

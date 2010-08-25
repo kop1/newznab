@@ -10,7 +10,9 @@
 function sendEmail($to, $subject, $contents, $from)
 {
 	$from_header = "From: ".$from;
-	mail($to, $subject, $contents, $from_header);
+	$ret = mail($to, $subject, $contents, $from_header);
+	if (!$ret)
+		echo "mail sending failed";
 }
 
 function objectsIntoArray($arrObjData, $arrSkipIndices = array())

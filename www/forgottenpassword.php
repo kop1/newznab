@@ -81,12 +81,12 @@ switch($action)
 				$to = $ret["email"];
 				$subject = $page->site->title." Forgotten Password Request";
 				$contents = "Someone has requested a password reset for this email address. To reset the password use the following link.\n\n ".$page->serverurl."forgottenpassword.php?action=reset&guid=".$guid;
+				$page->smarty->assign('sent', "true");
 				sendEmail($to, $subject, $contents, $page->site->email);
 				break;
 			}
 		}
 		break;
-	
 }
 
 $page->title = "Forgotten Password";
