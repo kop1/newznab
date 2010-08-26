@@ -321,20 +321,22 @@ class Releases
 		// if the query starts with a ^ it indicates the search is looking for items which start with the term
 		// still do the fulltext match, but mandate that all items returned must start with the provided word
 		//
-		$startswith = "";
-		if (strpos($search, "^") === 0)
+		$words = explode(" ", $search);
+		$searchsql = "";
+		$intwordcount = 0;
+		if (count($words) > 0)
 		{
-			$words = explode(" ", $search);
-			if (count($words) > 0)
+			foreach ($words as $word)
 			{
-				$firstword = substr($words[0], 1);
-				$startswith = sprintf(" and releases.searchname like %s ", $db->escapeString($firstword."%"));
-				
 				//
-				// put the query back together with the caret removed
+				// see if the first word had a caret, which indicates search must start with term
 				//
-				unset($words[0]);
-				$search = $firstword." ".implode(" ", $words);
+				if ($intwordcount == 0 && (strpos($word, "^") === 0))
+					$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString(substr($word, 1)."%"));
+				else
+					$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString("%".$word."%"));
+
+				$intwordcount++;
 			}
 		}
 		
@@ -345,17 +347,14 @@ class Releases
 		
 		if ($orderby == "")
 		{
-			$order[0] = sprintf(" MATCH (searchname) AGAINST (%s IN BOOLEAN MODE) ", $db->escapeString($search));
+			$order[0] = " postdate ";
 			$order[1] = " desc ";
 		}	
 		else
 			$order = $this->getBrowseOrder($orderby);
 
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search), $catsrch, $startswith, $maxage, $order[0], $order[1], $offset, $limit), true);				
-		if (!$res)
-		{
-			$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) %s %s %s order by %s %s limit %d, %d ", $db->escapeString($search."*"), $catsrch, $startswith, $maxage, $order[0], $order[1], $offset, $limit), true);		
-		}
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s order by %s %s limit %d, %d ", $searchsql, $catsrch, $maxage, $order[0], $order[1], $offset, $limit), true);
+
 		return $res;
 	}	
 	
@@ -383,9 +382,27 @@ class Releases
 			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
 		}
 
-		if ($name != "")
+		//
+		// if the query starts with a ^ it indicates the search is looking for items which start with the term
+		// still do the fulltext match, but mandate that all items returned must start with the provided word
+		//
+		$words = explode(" ", $name);
+		$searchsql = "";
+		$intwordcount = 0;
+		if (count($words) > 0)
 		{
-			$name = sprintf(" and MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) ", $db->escapeString($name));
+			foreach ($words as $word)
+			{
+				//
+				// see if the first word had a caret, which indicates search must start with term
+				//
+				if ($intwordcount == 0 && (strpos($word, "^") === 0))
+					$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString(substr($word, 1)."%"));
+				else
+					$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString("%".$word."%"));
+
+				$intwordcount++;
+			}
 		}
 
 		$catsrch = "";
@@ -421,7 +438,7 @@ class Releases
 		else
 			$maxage = "";		
 		
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $name, $catsrch, $maxage, $offset, $limit), true);		
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $searchsql, $catsrch, $maxage, $offset, $limit), true);		
 		
 		return $res;
 	}
@@ -441,9 +458,27 @@ class Releases
 			$imdbId = "";
 		}
 
-		if ($name != "")
+		//
+		// if the query starts with a ^ it indicates the search is looking for items which start with the term
+		// still do the fulltext match, but mandate that all items returned must start with the provided word
+		//
+		$words = explode(" ", $name);
+		$searchsql = "";
+		$intwordcount = 0;
+		if (count($words) > 0)
 		{
-			$name = sprintf(" and MATCH(searchname) AGAINST (%s IN BOOLEAN MODE) ", $db->escapeString($name));
+			foreach ($words as $word)
+			{
+				//
+				// see if the first word had a caret, which indicates search must start with term
+				//
+				if ($intwordcount == 0 && (strpos($word, "^") === 0))
+					$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString(substr($word, 1)."%"));
+				else
+					$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString("%".$word."%"));
+
+				$intwordcount++;
+			}
 		}
 		
 		$catsrch = "";
@@ -479,7 +514,7 @@ class Releases
 		else
 			$maxage = "";		
 		
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by postdate desc limit %d, %d ", $name, $imdbId, $catsrch, $maxage, $offset, $limit), true);		
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by postdate desc limit %d, %d ", $searchsql, $imdbId, $catsrch, $maxage, $offset, $limit), true);		
 
 		return $res;
 	}			
