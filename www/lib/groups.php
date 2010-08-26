@@ -49,14 +49,12 @@ class Groups
 	{			
 		$db = new DB();
 		
-		return $db->query("SELECT groups.*, concat(cp.title,' > ',c.title) as category_name, COALESCE(rel.num, 0) AS num_releases
+		return $db->query("SELECT groups.*, COALESCE(rel.num, 0) AS num_releases
 							FROM groups
 							LEFT OUTER JOIN
 							(
 							SELECT groupID, COUNT(ID) AS num FROM releases group by groupID
-							) rel ON rel.groupID = groups.ID
-							left outer join category c on c.ID = groups.categoryID
-							left outer join category cp on c.parentID = cp.ID");
+							) rel ON rel.groupID = groups.ID");
 	}	
 	
 	public function getByID($id)
@@ -80,7 +78,7 @@ class Groups
 		else
 			$category = sprintf(" %d ", $group["category"]);
 		
-		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active, categoryID) values (%s, %s, %s, %s, null, %d, %s) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"], $category ));		
+		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active) values (%s, %s, %s, %s, null, %d) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"]));		
 	}	
 	
 	public function delete($id)
@@ -99,12 +97,7 @@ class Groups
 	{			
 		$db = new DB();
 		
-		if ($group["category"] == "-1")
-			$category = " categoryID = null ";
-		else
-			$category = sprintf(" categoryID = %d ", $group["category"]);
-		
-		return $db->query(sprintf("update groups set name=%s, description = %s, backfill_target = %s , active=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["backfill_target"]), $category, $group["active"] , $group["id"] ));		
+		return $db->query(sprintf("update groups set name=%s, description = %s, backfill_target = %s , active=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["backfill_target"]),$group["active"] , $group["id"] ));		
 	}	
 
 	//
@@ -159,11 +152,7 @@ class Groups
 							$desc = $group['desc'];
 						}
 						
-						$cat = $category->determineCategory($group['group']);
-						if ($cat == -1)
-							$cat = "null";
-							
-						$db->queryInsert(sprintf("INSERT INTO groups (name, description, active, categoryID) VALUES (%s, %s, 1, %s)", $db->escapeString($group['group']), $db->escapeString($desc), $cat));
+						$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, 1)", $db->escapeString($group['group']), $db->escapeString($desc), $cat));
 						$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 					}
 				}

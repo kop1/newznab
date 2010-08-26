@@ -51,7 +51,6 @@ switch($action)
 
 $page->smarty->assign('yesno_ids', array(1,0));
 $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
-$page->smarty->assign('catlist',$category->getForSelect(true));
 
 $page->content = $page->smarty->fetch('admin/group-edit.tpl');
 $page->render();

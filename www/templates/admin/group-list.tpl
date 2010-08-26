@@ -8,19 +8,17 @@
 
         <tr>
             <th>group</th>
-            <th>category</th>
             <th>First Post</th>
-			<th>Last Post</th>
+						<th>Last Post</th>
             <th>last updated</th>
             <th>active</th>
             <th>releases</th>
-			<th>options</th>
+						<th>options</th>
         </tr>
         
         {foreach from=$grouplist item=group}
         <tr id="grouprow-{$group.ID}" class="{cycle values=",alt"}">
             <td><a href="{$smarty.const.WWW_TOP}/group-edit.php?id={$group.ID}">{$group.name|replace:"alt.binaries":"a.b"}</a></td>
-            <td class="less">{$group.category_name}</td>
             <td class="less">{$group.first_record_postdate|timeago}</td>
 			<td class="less">{$group.last_record_postdate|timeago}</td>
             <td class="less">{$group.last_updated|timeago} ago</td>

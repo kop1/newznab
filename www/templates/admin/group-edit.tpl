@@ -38,14 +38,6 @@
 </tr>
 
 <tr>
-	<td><label for="category">Category</label>:</td>
-	<td>
-		{html_options id="category" name=category options=$catlist selected=$group.categoryID}
-		<div class="hint">Leave blank if the group contains releases for multiple categories.</div>		
-	</td>
-</tr>
-
-<tr>
 	<td><label for="active">Active</label>:</td>
 	<td>
 		{html_radios id="active" name='active' values=$yesno_ids output=$yesno_names selected=$group.active separator='<br />'}
