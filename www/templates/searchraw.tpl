@@ -17,6 +17,9 @@
 		<th>filename</th>
 		<th>group</th>
 		<th>posted</th>
+		{if $isadmin}
+		<th>Misc</th>
+		{/if}
 		<th>Nzb</th>
 	</tr>
 
@@ -26,6 +29,9 @@
 			<td title="{$result.xref|escape:"htmlall"}">{$result.name|escape:"htmlall"}</td>
 			<td class="less">{$result.group_name|replace:"alt.binaries":"a.b"}</td>
 			<td class="less" title="{$result.date}">{$result.date|date_format}</td>
+			{if $isadmin}
+			<td><span title="procstat">{$result.procstat}</span>/<span title="procattempts">{$result.procattempts}</span>/<span title="totalparts">{$result.totalParts}</span>/<span title="regex">{if $result.regexID==""}_{else}{$result.regexID}{/if}</span>/<span title="relpart">{$result.relpart}</span>/<span title="reltotalpart">{$result.reltotalpart}</span></td>
+			{/if}			
 			<td class="less">{if $result.releaseID > 0}<a title="View Nzb details" href="{$smarty.const.WWW_TOP}/details/{$result.filename|escape:"htmlall"}/viewnzb/{$result.guid}">Yes</a>{/if}</td>
 		</tr>
 	{/foreach}
