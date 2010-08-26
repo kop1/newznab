@@ -57,7 +57,7 @@ class Install {
 		$this->DB_DIR = dirname(realpath('..')).'/db';
 		$this->MISC_DIR = dirname(realpath('..')).'/misc';
 		$this->NZB_PATH = str_replace('\\', '/', dirname(realpath('..'))).'/nzbfiles';
-		$this->INSTALL_DIR = $this->WWW_DIR.'/install2';
+		$this->INSTALL_DIR = $this->WWW_DIR.'/install';
 	}
 	
 	public function setSession() {
