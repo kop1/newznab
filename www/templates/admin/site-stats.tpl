@@ -41,6 +41,25 @@
 
 <br/><br/>
 
+<h2>Releases Added In Last 7 Days</h2>
+
+<table style="width:100%;margin-top:10px;" class="data highlight">
+	<tr>
+		<th>Category</th>
+		<th>Releases</th>
+	</tr>
+
+	{foreach from=$recent item=result}
+		<tr class="{cycle values=",alt"}">
+			<td width="75%">{$result.title}</td>
+			<td>{$result.count}</td>
+		</tr>
+	{/foreach}
+	
+</table>
+
+<br/><br/>
+
 <h2>Top Comments</h2>
 
 <table style="width:100%;margin-top:10px;" class="data highlight">

@@ -1238,5 +1238,16 @@ class Releases
 							LIMIT 10");		
 	}	
 
+	public function getRecentlyAdded()
+	{
+		$db = new DB();
+		return $db->query("SELECT title, COUNT(*) AS count
+FROM category
+INNER JOIN releases ON releases.categoryID = category.ID
+WHERE releases.adddate > NOW() - INTERVAL 1 WEEK
+GROUP BY title
+ORDER BY COUNT(*) DESC");	
+	}
+
 }
 ?>
