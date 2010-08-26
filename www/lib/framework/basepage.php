@@ -18,7 +18,7 @@ class BasePage
 	public $userdata = array();
 	public $serverurl = '';
 		
-	const FLOOD_MIN_WAIT_BETWEEN_REQUESTS_SECONDS = 0.250;
+	const FLOOD_WAIT_SECONDS = 1.000;
 	const FLOOD_PUNISHMENT_SECONDS = 3.0;
 	
 	function BasePage()
@@ -82,18 +82,36 @@ class BasePage
 			}
 		else
 		{
-			//
-			// Dont flood check command line calls or admins
-			//
-			if(empty($argc) && isset($_SESSION['last_session_request']) && 
-				$role != Users::ROLE_ADMIN && 
-				$_SESSION['last_session_request'] > microtime(true) - BasePage::FLOOD_MIN_WAIT_BETWEEN_REQUESTS_SECONDS)
+			if(empty($argc) && $role != Users::ROLE_ADMIN)
 			{
-				$_SESSION['flood_wait_until'] = microtime(true) + BasePage::FLOOD_PUNISHMENT_SECONDS;
-				$this->showFloodWarning();
+				if (!isset($_SESSION['flood_check']))
+				{
+					$_SESSION['flood_check'] = "1_".microtime(true);
+				}
+				else
+				{
+					$hit = substr($_SESSION['flood_check'], 0, strpos($_SESSION['flood_check'], "_", 0));
+					if ($hit >= 3)
+					{
+						$onetime = substr($_SESSION['flood_check'], strpos($_SESSION['flood_check'], "_") + 1);
+						if ($onetime + BasePage::FLOOD_WAIT_SECONDS > microtime(true))
+						{
+							$_SESSION['flood_wait_until'] = microtime(true) + BasePage::FLOOD_PUNISHMENT_SECONDS;
+							unset($_SESSION['flood_check']);
+							$this->showFloodWarning();
+						}
+						else 
+						{
+							$_SESSION['flood_check'] = "1_".microtime(true);
+						}
+					}
+					else
+					{
+						$hit++;
+						$_SESSION['flood_check'] = $hit.substr($_SESSION['flood_check'], strpos($_SESSION['flood_check'], "_", 0));
+					}
+				}
 			}
-			$_SESSION['last_session_request'] = microtime(true);
-			$_SESSION['flood_wait_until'] = 0;
 		}
 	}
 	
