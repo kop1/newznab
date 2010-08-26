@@ -57,7 +57,7 @@ if ($cfg->lockCheck === false) {
 	}
 }
 
-$cfg->pearCheck = @include('Net/NNTP/client.php');
+$cfg->pearCheck = @include('Net/NNTP/Client.php');
 if (!$cfg->pearCheck) { $cfg->error = true; }
 
 $cfg->schemaCheck = is_readable($cfg->DB_DIR.'/schema.sql');
