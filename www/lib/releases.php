@@ -1241,11 +1241,12 @@ class Releases
 	public function getRecentlyAdded()
 	{
 		$db = new DB();
-		return $db->query("SELECT title, COUNT(*) AS count
+		return $db->query("SELECT concat(cp.title, ' > ', category.title) as title, COUNT(*) AS count
 FROM category
+left outer join category cp on cp.ID = category.parentID
 INNER JOIN releases ON releases.categoryID = category.ID
 WHERE releases.adddate > NOW() - INTERVAL 1 WEEK
-GROUP BY title
+GROUP BY concat(cp.title, ' > ', category.title)
 ORDER BY COUNT(*) DESC");	
 	}
 
