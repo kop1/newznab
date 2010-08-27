@@ -990,12 +990,15 @@ class Releases
 							$epinfo = $rage->getEpisodeInfo($id, $show['season'], $show['episode']);
 							if ($epinfo != "")
 							{
-								$xmlObj = simplexml_load_string($epinfo);
+								$xmlObj = @simplexml_load_string($epinfo);
 								$arrXml = objectsIntoArray($xmlObj);
-								if (isset($arrXml['episode']['airdate']) && $arrXml['episode']['airdate'] != '0000-00-00')
-									$tvairdate = $db->escapeString($arrXml['episode']['airdate']);
-								if (isset($arrXml['episode']['title']))
-									$tvtitle = $db->escapeString($arrXml['episode']['title']);
+								if (is_array($arrXml))
+								{
+									if (isset($arrXml['episode']['airdate']) && $arrXml['episode']['airdate'] != '0000-00-00')
+										$tvairdate = $db->escapeString($arrXml['episode']['airdate']);
+									if (isset($arrXml['episode']['title']))
+										$tvtitle = $db->escapeString($arrXml['episode']['title']);
+								}
 							}
 						}
 						
