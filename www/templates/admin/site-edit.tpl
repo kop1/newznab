@@ -215,14 +215,6 @@
 	</td>
 </tr>
 
-
-<tr>
-	<td><label for="maxmssgs">Max Messages</label>:</td>
-	<td>
-		<input class="small" id="maxmssgs" name="maxmssgs" type="text" value="{$fsite->maxmssgs}" />
-		<div class="hint">The maximum number of messages to fetch at a time from the server.</div>
-	</td>
-</tr>
 <tr>
 	<td><label for="newgroupscanmethod">Where to start new groups</label>:</td>
 	<td>

@@ -18,7 +18,6 @@ class NZB
 		$s = new Sites();
 		$site = $s->get();
 		$this->compressedHeaders = ($site->compressedheaders == "1") ? true : false;	
-		$this->maxMssgs = (!empty($site->maxmssgs)) ? $site->maxmssgs : 20000;
 		$this->NewGroupMsgsToScan = (!empty($site->newgroupmsgstoscan)) ? $site->newgroupmsgstoscan : 50000;
 		$this->NewGroupScanByDays = ($site->newgroupscanmethod == "1") ? true : false;
 		$this->NewGroupDaysToScan = (!empty($site->newgroupdaystoscan)) ? $site->newgroupdaystoscan : 3;
@@ -424,11 +423,11 @@ function scan($nntp,$db,$groupArr,$first,$last)
 				echo(", we are getting ".(($this->NewGroupScanByDays) ? $this->NewGroupDaysToScan." days" : $this->NewGroupMsgsToScan." messages")." worth.");
 			echo $n.'Using compression: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
-			$last = $first + $this->maxMssgs - 1;
+			$last = $first + $groupArr['maxmsgs'] - 1;
 			if($last > $orglast)
 				$last = $orglast;
 
-			//get all the parts (in portions of $this->maxMssgs to not use too much memory)
+			//get all the parts (in portions of $groupArr['maxmsgs'] to not use too much memory)
 			while($done === false)
 			{
 				$this->startLoop = microtime(true);
@@ -444,7 +443,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 				else
 				{
 					$first = $last + 1;
-					$last = $first + $this->maxMssgs - 1;
+					$last = $first + $groupArr['maxmsgs'] - 1;
 					if($last > $orglast)
 						$last = $orglast;
 				}
@@ -501,7 +500,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		$done = false;
 		//set first and last, moving the window by maxxMssgs
 		$last = $groupArr['first_record'] - 1;
-		$first = $last - $this->maxMssgs + 1; //set initial "chunk"
+		$first = $last - $groupArr['maxmsgs'] + 1; //set initial "chunk"
 		if($targetpost > $first)	//just in case this is the last chunk we needed
 			$first = $targetpost;
 		while($done === false)
@@ -517,7 +516,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			else
 			{	//Keep going: set new last, new first, check for last chunk.
 				$last = $first - 1;
-				$first = $last - $this->maxMssgs + 1;
+				$first = $last - $groupArr['maxmsgs'] + 1;
 				if($targetpost > $first)
 					$first = $targetpost;
 			}
