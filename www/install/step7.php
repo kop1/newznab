@@ -31,16 +31,19 @@ if  ($page->isPostBack()) {
 	$group['description'] = '';
 	$group['first_record'] = 0;
 	$group['last_record'] = 0;
-	$group['category'] = '';
 	$group['active'] = 1;
-	$groups->add($group);
-		
+	$group['maxmsgs'] = 20000;
+	var_dump($groups->add($group));
+	print_r($group);
+	
+	
+	
 	ob_start();
 	$nzb->updateAllGroups();
 	$proccount = $releases->processReleases(true);
 	$results = ob_get_contents();
 	ob_end_clean();
-	
+
 	$page->smarty->assign('proccount', $proccount);
 	//$page->smarty->assign('output', $output);
 	

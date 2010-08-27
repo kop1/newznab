@@ -360,7 +360,7 @@ CREATE TABLE `groups` (
   `last_updated` DATETIME DEFAULT NULL,
   `active` TINYINT(1) NOT NULL DEFAULT '0',
   `description` VARCHAR(255) NULL DEFAULT '',
-  `maxmssgs` INT NOT NULL DEFAULT 20000,
+  `maxmsgs` INT NOT NULL DEFAULT 20000,
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;

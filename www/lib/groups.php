@@ -73,11 +73,6 @@ class Groups
 	{			
 		$db = new DB();
 		
-		if ($group["category"] == "-1")
-			$category = " null ";
-		else
-			$category = sprintf(" %d ", $group["category"]);
-		
 		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active, maxmsgs) values (%s, %s, %s, %s, null, %d, %d) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"], $group["maxmsgs"]));		
 	}	
 	
