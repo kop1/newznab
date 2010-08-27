@@ -33,11 +33,8 @@ if  ($page->isPostBack()) {
 	$group['last_record'] = 0;
 	$group['active'] = 1;
 	$group['maxmsgs'] = 20000;
-	var_dump($groups->add($group));
-	print_r($group);
-	
-	
-	
+	$groups->add($group);
+
 	ob_start();
 	$nzb->updateAllGroups();
 	$proccount = $releases->processReleases(true);
