@@ -51,7 +51,6 @@
 		<th>name</th>
 		<th>parts</th>
 		<th>count</th>
-		<th>misc</th>
 	</tr>
 	
 	{foreach from=$matches item=match}
@@ -60,7 +59,6 @@
 		<td>{$match.name|escape:html}<br /><small>{$match.bininfo.binName|escape:html}</small></td>
 		<td>{$match.parts}</td>
 		<td>{$match.count}</td>
-		<td><span title="procstat">{$match.procstat}</span>/<span title="procattempts">{$match.procattempts}</span>/<span title="totalparts">{$match.totalParts}</span>/<span title="regex">{if $match.regexID==""}_{else}{$match.regexID}{/if}</span>/<span title="relpart">{$match.relpart}</span>/<span title="reltotalpart">{$match.reltotalpart}</span></td>
 	</tr>
 	{/foreach}
 
