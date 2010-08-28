@@ -32,7 +32,6 @@ if  ($page->isPostBack()) {
 	$group['first_record'] = 0;
 	$group['last_record'] = 0;
 	$group['active'] = 1;
-	$group['maxmsgs'] = 20000;
 	$groups->add($group);
 
 	ob_start();
