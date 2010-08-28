@@ -43,7 +43,15 @@ function smarty_modifier_timeAgo( $date)
       if ( $hrs < 24) return floor($hrs+0.5)." ".$timeStrings[6]; 
       
       $days = $sec/60/60/24;
-      return round($days, 1).'d';
+      
+      if ($days > 90)
+      {
+      	return round($days/7).' Wks';
+      }
+      else
+      {
+      	return round($days, 1).'d';
+      }
 } 
 
 ?> 
