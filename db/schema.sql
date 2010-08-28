@@ -360,7 +360,6 @@ CREATE TABLE `groups` (
   `last_updated` DATETIME DEFAULT NULL,
   `active` TINYINT(1) NOT NULL DEFAULT '0',
   `description` VARCHAR(255) NULL DEFAULT '',
-  `maxmsgs` INT NOT NULL DEFAULT 20000,
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
@@ -517,6 +516,7 @@ CREATE TABLE site (
 `lookupimdb` INT NOT NULL DEFAULT 1,
 `lookupnfo` INT NOT NULL DEFAULT 1,
 `compressedheaders` INT NOT NULL DEFAULT 0,
+`maxmssgs` INT NOT NULL DEFAULT 20000,
 `newgroupscanmethod` INT NOT NULL DEFAULT 0,
 `newgroupdaystoscan` INT NOT NULL DEFAULT 3,
 `newgroupmsgstoscan` INT NOT NULL DEFAULT 50000,

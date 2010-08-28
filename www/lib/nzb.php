@@ -18,6 +18,7 @@ class NZB
 		$s = new Sites();
 		$site = $s->get();
 		$this->compressedHeaders = ($site->compressedheaders == "1") ? true : false;	
+		$this->messagebuffer = (!empty($site->maxmssgs)) ? $site->maxmssgs : 20000;
 		$this->NewGroupMsgsToScan = (!empty($site->newgroupmsgstoscan)) ? $site->newgroupmsgstoscan : 50000;
 		$this->NewGroupScanByDays = ($site->newgroupscanmethod == "1") ? true : false;
 		$this->NewGroupDaysToScan = (!empty($site->newgroupdaystoscan)) ? $site->newgroupdaystoscan : 3;
@@ -281,8 +282,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 	}
 
 	$this->startUpdate = microtime(true);
-	//check that we got the correct response
-	if (is_array($msgs)) //to within 2 parts per batch missing from server
+	if (is_array($msgs))
 	{	       //loop headers, figure out parts
 		foreach($msgs AS $msg)
 		{
@@ -350,9 +350,8 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		echo "Updated $updatecount binaries$n";
 		echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
 	
+		unset($msg); unset($msgs);
 		unset($this->message);
-		unset($msgs);
-		unset($msg);
 		unset($data);	
 	}
 	else
@@ -423,11 +422,11 @@ function scan($nntp,$db,$groupArr,$first,$last)
 				echo(", we are getting ".(($this->NewGroupScanByDays) ? $this->NewGroupDaysToScan." days" : $this->NewGroupMsgsToScan." messages")." worth.");
 			echo $n.'Using compression: '.(($this->compressedHeaders)?'Yes':'No').$n;
 			$done = false;
-			$last = $first + $groupArr['maxmsgs'] - 1;
+			$last = $first + $this->messagebuffer - 1;
 			if($last > $orglast)
 				$last = $orglast;
 
-			//get all the parts (in portions of $groupArr['maxmsgs'] to not use too much memory)
+			//get all the parts (in portions of $this->messagebuffer to not use too much memory)
 			while($done === false)
 			{
 				$this->startLoop = microtime(true);
@@ -443,7 +442,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 				else
 				{
 					$first = $last + 1;
-					$last = $first + $groupArr['maxmsgs'] - 1;
+					$last = $first + $this->messagebuffer - 1;
 					if($last > $orglast)
 						$last = $orglast;
 				}
@@ -500,7 +499,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		$done = false;
 		//set first and last, moving the window by maxxMssgs
 		$last = $groupArr['first_record'] - 1;
-		$first = $last - $groupArr['maxmsgs'] + 1; //set initial "chunk"
+		$first = $last - $this->messagebuffer + 1; //set initial "chunk"
 		if($targetpost > $first)	//just in case this is the last chunk we needed
 			$first = $targetpost;
 		while($done === false)
@@ -516,7 +515,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			else
 			{	//Keep going: set new last, new first, check for last chunk.
 				$last = $first - 1;
-				$first = $last - $groupArr['maxmsgs'] + 1;
+				$first = $last - $this->messagebuffer + 1;
 				if($targetpost > $first)
 					$first = $targetpost;
 			}

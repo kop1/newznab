@@ -38,14 +38,6 @@
 </tr>
 
 <tr>
-	<td>Number of Msgs To Process:</td>
-	<td>
-		<input id="maxmsgs" name="maxmsgs" type="text" value="{$group.maxmsgs}" />
-		<div class="hint">The number of messages which will be processed for a group in one go. Use a low number for groups with many parts, or leave around 20,000 for average newsgroups.</div>		
-	</td>
-</tr>
-
-<tr>
 	<td><label for="active">Active</label>:</td>
 	<td>
 		{html_radios id="active" name='active' values=$yesno_ids output=$yesno_names selected=$group.active separator='<br />'}

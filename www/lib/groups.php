@@ -73,7 +73,7 @@ class Groups
 	{			
 		$db = new DB();
 		
-		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active, maxmsgs) values (%s, %s, %s, %s, null, %d, %d) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"], $group["maxmsgs"]));		
+		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active) values (%s, %s, %s, %s, null, %d) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"]));		
 	}	
 	
 	public function delete($id)
@@ -92,7 +92,7 @@ class Groups
 	{			
 		$db = new DB();
 		
-		return $db->query(sprintf("update groups set name=%s, description = %s, backfill_target = %s , active=%d, maxmsgs=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["backfill_target"]),$group["active"] , $group["id"], $group["maxmsgs"] ));		
+		return $db->query(sprintf("update groups set name=%s, description = %s, backfill_target = %s , active=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["backfill_target"]),$group["active"] , $group["id"] ));		
 	}	
 
 	//
@@ -156,6 +156,14 @@ class Groups
 		return $ret;
 	}
 
+
+    /**
+     * updateGroupStatus();
+     *
+     * @param id        group id
+     * @param status    0 = deactive, 1 = activate
+     * return string
+     */
     public function updateGroupStatus($id, $status = 0)
     {
         $db = new DB();
