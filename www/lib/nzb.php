@@ -312,6 +312,8 @@ function scan($nntp,$db,$groupArr,$first,$last)
 				}
 			}
 		}
+		unset($msg);
+		unset($msgs);
 		$count = 0;
 		$updatecount = 0;
 		$partcount = 0;
@@ -349,8 +351,6 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		echo "Received $count new binaries$n";
 		echo "Updated $updatecount binaries$n";
 		echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
-	
-		unset($msg); unset($msgs);
 		unset($this->message);
 		unset($data);	
 	}
