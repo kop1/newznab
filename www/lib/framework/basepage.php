@@ -120,6 +120,8 @@ class BasePage
 	//
 	public function showFloodWarning()
 	{
+		header('HTTP/1.1 503 Service Temporarily Unavailable');
+		header('Retry-After: '.BasePage::FLOOD_PUNISHMENT_SECONDS);
 		echo "
 			<html>
 			<head>
