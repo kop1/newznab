@@ -44,7 +44,11 @@ function smarty_modifier_timeAgo( $date)
       
       $days = $sec/60/60/24;
       
-      if ($days > 90)
+      if ($days > 365)
+      {
+      	return round(($days/365), 1).' Yrs';
+      }
+      else if ($days > 90)
       {
       	return round($days/7).' Wks';
       }
