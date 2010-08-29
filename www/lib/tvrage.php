@@ -76,7 +76,7 @@ class TvRage
 	{
 		$series = str_ireplace("s", "", $series);
 		$episode = str_ireplace("e", "", $episode);
-		$xml = file_get_contents($this->episodeInfoUrl."&sid=".$rageid."&ep=".$series."x".$episode);
+		$xml = @file_get_contents($this->episodeInfoUrl."&sid=".$rageid."&ep=".$series."x".$episode);
 		if (preg_match('/no show found/i', $xml))
 			return "";
 			
@@ -124,7 +124,7 @@ class TvRage
 			if ($echooutput)
 				echo "didnt find rageid for ".$title." in local db, checking web\n";
 
-			$xml = file_get_contents($this->searchUrl.urlencode($title));
+			$xml = @file_get_contents($this->searchUrl.urlencode($title));
 			$xmlObj = simplexml_load_string($xml);
 			$arrXml = objectsIntoArray($xmlObj);
 

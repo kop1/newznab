@@ -261,6 +261,15 @@ class Releases
 		$res = $db->queryOneRow("select count(ID) as num from releases");		
 		return $res["num"];
 	}
+
+	public function rebuild($id)
+	{
+		$this->delete($id);
+		
+		$db = new DB();
+		$db->query(sprintf("update binaries set procstat = 0,procattempts=0, categoryID=null, regexID=null,relpart=null,reltotalpart=null,relname=null,releaseID=null where releaseID = %d", $id));
+
+	}
 	
 	public function delete($id)
 	{			
