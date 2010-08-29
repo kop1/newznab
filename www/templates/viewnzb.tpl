@@ -3,7 +3,7 @@
 
 <table class="data">
 	{if $isadmin}
-	<tr><th>Admin Functions:</th><td><a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Delete Release">[Delete]</a></td></tr>
+	<tr><th>Admin Functions:</th><td><a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Delete Release">[Delete]</a> <a href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">[Rebuild]</a></td></tr>
 	{/if}
 	<tr><th>Name:</th><td>{$release.name|escape:"htmlall"}</td></tr>
 	{if $release.rageID > 0}
@@ -21,7 +21,7 @@
 			<strong>Aired:</strong> {$release.tvairdate|date_format}
 			<br/>
 		{/if}
-		<strong>More:</strong> <a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage">[TV Rage]</a>
+		<strong>More:</strong> <a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View in TvRage">[TV Rage]</a> 
 		</td></tr>
 	{/if}
 	<tr><th>Group:</th><td title="{$release.group_name}">{$release.group_name|replace:"alt.binaries":"a.b"}</td></tr>
@@ -52,6 +52,13 @@
 		<div class="icon icon_cart" title="Add to Cart"></div>
 		<div class="icon icon_sab" title="Send to my Sabnzbd"></div>
 	</td></tr>
+
+	{if $release.rageID > 0}
+	<tr>
+		<th>Rss:</th><td><a href="{$smarty.const.WWW_TOP}/rss?rage={$release.rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a></td>
+	</tr>
+	{/if}
+
 	{if $similars|@count > 1}
 	<tr>
 		<th>Similar:</th>

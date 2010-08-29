@@ -48,3 +48,12 @@
 				</ul>
 			</p>
 			
+			<h2>Additional Feeds</h2>
+			<p>
+				<ul style="text-align: left;">
+					<li>
+						Tv Series Feed (Use the tv rage id)<br/>
+						<a href="{$smarty.const.WWW_TOP}/rss?rage=1234&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss/?rage=1234&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
+					</li>
+				</ul>
+			</p>

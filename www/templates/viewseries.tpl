@@ -8,7 +8,10 @@
 <p>
 	{$seriesdescription}
 	<br/>
-	<a style="float:right;" target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a>
+	<div style="float:right;padding-bottom:10px;" >
+	<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a>
+	| <a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
+	</div>
 </p>
 
 <form id="nzb_multi_operations_form" action="get">

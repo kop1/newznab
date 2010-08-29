@@ -17,7 +17,7 @@ $category = new Category;
 //
 // if no content id provided then show user the rss selection page
 //
-if (!isset($_GET["t"]))
+if (!isset($_GET["t"]) && !isset($_GET["rage"]))
 {
 	//
 	// must be logged in to view this help page
@@ -72,6 +72,10 @@ else
 	if (isset($_GET["t"]))
 		$usercat = ($_GET["t"]==0 ? -1 : $_GET["t"]+0);
 		
+	$userrage = -1;
+	if (isset($_GET["rage"]))
+		$userrage = ($_GET["rage"]==0 ? -1 : $_GET["rage"]+0);
+
 	$usernum = 100;
 	if (isset($_GET["num"]))
 		$usernum = $_GET["num"]+0;		
@@ -81,7 +85,7 @@ else
 	$page->smarty->assign('rsstoken',$rsstoken);		
 		
 	$releases = new Releases;
-	$reldata = $releases->getRss($usercat, $usernum, $uid);
+	$reldata = $releases->getRss($usercat, $usernum, $uid, $userrage);
 	$page->smarty->assign('releases',$reldata);
 	header("Content-type: text/xml");
 	echo $page->smarty->fetch('rss.tpl');

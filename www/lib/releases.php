@@ -236,18 +236,23 @@ class Releases
 		return $temp_array;
 	}
 	
-	public function getRss($category, $num, $uid=0)
+	public function getRss($category, $num, $uid=0, $rageid)
 	{		
 		$db = new DB();
 		
 		$limit = " LIMIT 0,".($num > 100 ? 100 : $num);
 		$cat = "";
 		if ($category > 0)
-			$cat = sprintf(" where releases.categoryID = %d", $category);
+			$cat = sprintf(" and releases.categoryID = %d", $category);
 		elseif ($category == -2)
-			$cat = sprintf(" where releases.ID in (select releaseID from usercart where userID = %d)", $uid);
+			$cat = sprintf(" and releases.ID in (select releaseID from usercart where userID = %d)", $uid);
+		
+		$rage = "";
+		if ($rageid > 0)
+			$rage = sprintf(" and releases.rageID = %d", $rageid);
+
 			
-		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID %s order by postdate desc %s" ,$cat, $limit));
+		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID where 1=1 %s %s order by postdate desc %s" ,$cat, $rage, $limit));
 	}
 		
 	public function getCount()
