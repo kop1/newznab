@@ -92,7 +92,7 @@ class TvRage
 	
 	function getRageImage($showId)
 	{
-		$xml = file_get_contents($this->showInfoUrl.$showId);
+		$xml = @file_get_contents($this->showInfoUrl.$showId);
 		$xmlObj = simplexml_load_string($xml);
 		$arrXml = objectsIntoArray($xmlObj);
 

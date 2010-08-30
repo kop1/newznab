@@ -720,6 +720,7 @@ class Releases
 						$arrNoPartBinaries[$matches['name']] = "1";
 						$matches['parts'] = "01/01";
 					}
+
 					
 					if (isset($matches['name']) && isset($matches['parts'])) 
 					{
@@ -727,13 +728,18 @@ class Releases
 						{
 							$matches['parts'] = str_replace(array('-','~',' of '), '/', $matches['parts']);
 						}
+
 						$regcatid = "null ";
 						if ($regexrow["categoryID"] != "")
 							$regcatid = $regexrow["categoryID"];
 							
+						$reqid = " null ";
+						if (isset($matches['reqid'])) 
+							$reqid = $matches['reqid'];
+
 						$parts = explode("/", $matches['parts']);
-						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s, regexID=%d where ID = %d", 
-							$db->escapeString($matches['name']), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $regcatid, $regexrow["ID"], $rowbin["ID"] ));
+						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s, regexID=%d, reqID=%s where ID = %d", 
+							$db->escapeString($matches['name']), $parts[0], $parts[1], Releases::PROCSTAT_TITLEMATCHED, $regcatid, $regexrow["ID"], $reqid, $rowbin["ID"] ));
 					}
 				}
 			}
@@ -824,7 +830,8 @@ class Releases
 			$totalSize = "0";
 			$regexAppliedCategoryID = "";
 			$regexIDused = "";
-			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d and groupID = %d", 
+			$reqIDused = "";
+			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID, reqID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d and groupID = %d", 
 									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"] ));
 			if (count($binariesForSize) > 0)
 			{
@@ -843,6 +850,11 @@ class Releases
 					//					
 					if ($binSizeId["regexID"] != "" && $regexIDused == "")
 						$regexIDused = $binSizeId["regexID"];
+					//
+					// get requestID if one has been allocated to this 
+					//					
+					if ($binSizeId["reqID"] != "" && $reqIDused == "")
+						$reqIDused = $binSizeId["reqID"];
 				}
 				$sizeSql.=" 1=2) ";
 				$temp = $db->queryOneRow($sizeSql);
@@ -863,8 +875,13 @@ class Releases
 			else
 				$regexID = $regexIDused;
 			
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s)", 
-										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize));
+			if ($reqIDused == "")				
+				$reqID = " null ";
+			else
+				$reqID = $reqIDused;
+
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s)", 
+										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID));
 
 			//
 			// tag every binary for this release with its parent release id
