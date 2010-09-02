@@ -330,11 +330,13 @@ function scan($nntp,$db,$groupArr,$first,$last)
 					{
 						$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
 						$count++;
+						if($count%500==0) echo ("$count bin adds...");
 					}
 					else
 					{
 						$binaryID = $res["ID"];
 						$updatecount++;
+						if($updatecount%500==0) echo("$updatecount bin updates...");
 					}
 
 					foreach($data['Parts'] AS $partdata)
@@ -348,7 +350,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		$timeUpdate = number_format(microtime(true) - $this->startUpdate, 2);
 		$timeLoop = number_format(microtime(true)-$this->startLoop, 2);
 
-		echo "Received $count new binaries$n";
+		echo $n."Received $count new binaries$n";
 		echo "Updated $updatecount binaries$n";
 		echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
 		unset($this->message);
