@@ -46,6 +46,31 @@ class Binaries
 	public function search($search, $limit=1000)
 	{			
 		$db = new DB();
+
+		//
+		// if the query starts with a ^ it indicates the search is looking for items which start with the term
+		// still do the fulltext match, but mandate that all items returned must start with the provided word
+		//
+		$words = explode(" ", $search);
+		$searchsql = "";
+		$intwordcount = 0;
+		if (count($words) > 0)
+		{
+			foreach ($words as $word)
+			{
+				//
+				// see if the first word had a caret, which indicates search must start with term
+				//
+				if ($intwordcount == 0 && (strpos($word, "^") === 0))
+					$searchsql.= sprintf(" and b.name like %s", $db->escapeString(substr($word, 1)."%"));
+				else
+					$searchsql.= sprintf(" and b.name like %s", $db->escapeString("%".$word."%"));
+
+				$intwordcount++;
+			}
+		}
+
+
 		$res = $db->query(sprintf("
 					SELECT b.*, 
 					g.name AS group_name,
@@ -53,20 +78,9 @@ class Binaries
 					FROM binaries b
 					INNER JOIN groups g ON g.ID = b.groupID
 					LEFT OUTER JOIN releases r ON r.ID = b.releaseID
-					WHERE MATCH(b.name) AGAINST (%s IN BOOLEAN MODE) ORDER BY MATCH (b.name) AGAINST (%s IN BOOLEAN MODE) DESC, DATE DESC LIMIT %d ", 
-					$db->escapeString($search), $db->escapeString($search), $limit));		
-
-		if (!$res)
-			$res = $db->query(sprintf("
-					SELECT b.*, 
-					g.name AS group_name,
-					r.guid
-					FROM binaries b
-					INNER JOIN groups g ON g.ID = b.groupID
-					LEFT OUTER JOIN releases r ON r.ID = b.releaseID
-					WHERE MATCH(b.name) AGAINST (%s IN BOOLEAN MODE) ORDER BY MATCH (b.name) AGAINST (%s IN BOOLEAN MODE) DESC, DATE DESC LIMIT %d ", 
-					$db->escapeString($search."*"), $db->escapeString($search."*"), $limit));		
-
+					WHERE 1=1 %s order by DATE DESC LIMIT %d ", 
+					$searchsql, $limit));		
+		
 		return $res;
 	}	
 
