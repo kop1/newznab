@@ -39,6 +39,11 @@ class Releases
 	//(with the same name posted in a similar date range)
 	const PROCSTAT_DUPLICATE = 6;
 
+	//
+	// after a series of attempts to lookup the allfilled style reqid
+	// to get a name, its given up
+	const PROCSTAT_NOREQIDNAMELOOKUPFOUND = 7;
+
 	public function get()
 	{			
 		$db = new DB();
@@ -750,7 +755,7 @@ class Releases
 		//
 		// move all binaries which have the correct number of parts on to the next stage.
 		//
-		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID ORDER BY reltotalpart + COUNT(ID) DESC ", Releases::PROCSTAT_TITLEMATCHED));
+		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, reqID, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID, reqID ORDER BY reltotalpart + COUNT(ID) DESC ", Releases::PROCSTAT_TITLEMATCHED));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
@@ -773,8 +778,49 @@ class Releases
 			//
 			elseif ($row["num"] >= $row["reltotalpart"])
 			{
-				$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d", 
-					Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
+
+				//
+				// right number of parts, but see if the binary is a allfilled/reqid post, in which case it needs its name looked up
+				// 
+				if ($row["reqID"] != "" && $page->site->reqidurl != "")
+				{
+					//
+					// try and get the name using the group
+					//
+					$binGroup = $db->queryOneRow(sprintf("SELECT name FROM groups WHERE ID = %d", $row["groupID"]));		
+					$newtitle = $this->getReleaseNameForReqId($page->site->reqidurl, $binGroup["name"], $row["reqID"], $echooutput);
+					
+					//
+					// valid release with right parts and title now, so move it on
+					//
+					if ($newtitle != "")						
+					{
+						$db->query(sprintf("update binaries set relname = %s, procstat=%d where relname = %s and procstat = %d and groupID = %d", 
+							$db->escapeString($newtitle), Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
+					}
+					else
+					{
+						//
+						// item not found, if the binary was added to the index yages ago, then give up.
+						//
+						$maxaddeddate = $db->queryOneRow(sprintf("SELECT MAX(dateadded) as dateadded FROM binaries WHERE relname = %s and procstat = %d and groupID = %d", 
+																				$db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));		
+						
+						//
+						// if added to the index over 48 hours ago, give up trying to determine the title
+						//
+						if (time() - strtotime($maxaddeddate['dateadded']) > (60*60*48))
+						{
+							$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d", 
+								Releases::PROCSTAT_NOREQIDNAMELOOKUPFOUND, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
+						}
+					}
+				}
+				else
+				{
+					$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d", 
+						Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
+				}
 			}
 			
 			//
@@ -791,6 +837,7 @@ class Releases
 				echo "processed ".$retcount." binaries stage two\n";
 		}
 		$retcount=$nfocount=0;
+
 
 		//
 		// Get out all distinct relname, group from binaries of STAGE2 
@@ -1049,6 +1096,34 @@ class Releases
 		}
 		
 		return $ret;
+	}
+
+	public function getReleaseNameForReqId($url, $groupname, $reqid, $echooutput=false)
+	{
+		$url = str_ireplace("[GROUP]", urlencode($groupname), $url);
+		$url = str_ireplace("[REQID]", urlencode($reqid), $url);
+
+		$xml = "";
+		$arrXml = "";
+		$xml = @file_get_contents($url);
+		if ($xml != "")
+		{
+			$xmlObj = @simplexml_load_string($xml);
+			$arrXml = objectsIntoArray($xmlObj);
+
+			if (isset($arrXml["item"]) && is_array($arrXml["item"]) && is_array($arrXml["item"]["@attributes"]))
+			{
+				if ($echooutput)
+					echo "found title for reqid ".$reqid." - ".$arrXml["item"]["@attributes"]["title"]."\n";
+					
+				return $arrXml["item"]["@attributes"]["title"];
+			}
+		}
+
+		if ($echooutput)
+			echo "no title found for reqid ".$reqid."\n";
+
+		return "";		
 	}
 	
 	public function parseNameEpSeason($relname)

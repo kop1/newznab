@@ -595,7 +595,8 @@ CREATE TABLE site (
 `newgroupdaystoscan` INT NOT NULL DEFAULT 3,
 `newgroupmsgstoscan` INT NOT NULL DEFAULT 50000,
 `storeuserips` INT NOT NULL DEFAULT 0,
-`minfilestoformrelease` INT NOT NULL DEFAULT 1
+`minfilestoformrelease` INT NOT NULL DEFAULT 1,
+`reqidurl` VARCHAR(1000) NOT NULL DEFAULT 'http://allfilled.newznab.com/query.php?t=[GROUP]&reqid=[REQID]' 
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
