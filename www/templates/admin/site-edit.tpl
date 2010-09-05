@@ -191,6 +191,14 @@
 </tr>
 
 <tr>
+	<td><label for="reqidurl">Latest Regex Lookup URL</label>:</td>
+	<td>
+		<input class="long" id="latestregexurl" name="latestregexurl" type="text" value="{$fsite->latestregexurl}" />
+		<div class="hint">The url to use to get the latest default regexs. Leave blank to not perform lookup.</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="lookupnfo">Lookup Nfo</label>:</td>
 	<td>
 		{html_radios id="lookupnfo" name='lookupnfo' values=$yesno_ids output=$yesno_names selected=$fsite->lookupnfo separator='<br />'}

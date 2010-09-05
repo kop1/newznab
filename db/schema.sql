@@ -644,7 +644,9 @@ CREATE TABLE site (
 `newgroupmsgstoscan` INT NOT NULL DEFAULT 50000,
 `storeuserips` INT NOT NULL DEFAULT 0,
 `minfilestoformrelease` INT NOT NULL DEFAULT 1,
-`reqidurl` VARCHAR(1000) NOT NULL DEFAULT 'http://allfilled.newznab.com/query.php?t=[GROUP]&reqid=[REQID]' 
+`reqidurl` VARCHAR(1000) NOT NULL DEFAULT 'http://allfilled.newznab.com/query.php?t=[GROUP]&reqid=[REQID]',
+`latestregexurl` VARCHAR(1000) NOT NULL DEFAULT 'http://www.newznab.com/latestregex.sql',
+`latestregexrevision` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 
