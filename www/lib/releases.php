@@ -1236,7 +1236,7 @@ class Releases
 			if ($regfile != "")
 			{
 				/*$Rev: 728 $*/
-				if (preg_match('/^\/\*\$Rev: (\d{3,4})/i', $regfile, $matches))
+				if (preg_match('/\/\*\$Rev: (\d{3,4})/i', $regfile, $matches))
 				{ 
 					$serverrev = intval($matches[1]);
 					if ($serverrev > $rev)
@@ -1263,12 +1263,12 @@ class Releases
 				else
 				{
 						if ($echooutput)
-							echo "Error Processing Regex File";
+							echo "Error Processing Regex File\n";
 				}
 			}
 			else
 			{
-				echo "Error Regex File Does Not Exist";
+				echo "Error Regex File Does Not Exist\n";
 			}
 		}
 	}
