@@ -39,6 +39,7 @@ class Site
 	public $minfilestoformrelease = '';
 	public $reqidurl = '';
 	public $latestregexurl = '';
+	public $latestregexrevision = '';
 }
 
 class Sites
@@ -113,6 +114,7 @@ class Sites
 		$obj->minfilestoformrelease = $row["minfilestoformrelease"];
 		$obj->reqidurl = $row["reqidurl"];
 		$obj->latestregexurl = $row["latestregexurl"];
+		$obj->latestregexrevision = $row["latestregexrevision"];
 
 		return $obj;
 	}
@@ -134,5 +136,12 @@ class Sites
 		$db = new DB();
 		return $db->queryOneRow("select * from site limit 1");		
 	}	
+	
+	public function updateLatestRegexRevision($rev)
+	{
+		$db = new DB();
+
+		return $db->query(sprintf("update site set latestregexrevision = %d", $rev));
+	}
 }
 ?>

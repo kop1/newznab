@@ -667,6 +667,8 @@ class Releases
 			return;
 		}
 		
+		$this->checkRegexesUptoDate($page->site->latestregexurl, $page->site->latestregexrevision, $echooutput);
+		
 		//
 		// Get all regexes for all groups which are to be applied to new binaries
 		// in order of how they should be applied
@@ -1224,6 +1226,42 @@ class Releases
 		}
 		
 		return false;
+	}
+
+	public function checkRegexesUptoDate($url, $rev, $echooutput=false)
+	{
+		if ($url != "")
+		{
+			$regfile = file_get_contents($url);
+			if ($regfile != "")
+			{
+				/*$Rev: 728 $*/
+				if (preg_match("/^\/\*\$Rev\: \d{3,4}/i", $regfile, $matches))
+				{
+					$serverrev = $matches[0];
+					if ($serverrev > $rev)
+					{
+						$db = new DB();
+						$site = new Sites;
+						
+						$queries = explode(";", $regfile);
+						$queries = array_map("trim", $queries);
+						foreach($queries as $q) 
+							$db->query($q);
+
+						$site->updateLatestRegexRevision($serverrev);
+
+						if ($echooutput)
+							echo "updated regexes to revision ".$serverrev."\n";
+					}
+				}
+				else
+				{
+						if ($echooutput)
+							echo "using latest regex revision ".$rev."\n";
+				}
+			}
+		}
 	}
 
 	public function getCommentById($id)
