@@ -1236,9 +1236,9 @@ class Releases
 			if ($regfile != "")
 			{
 				/*$Rev: 728 $*/
-				if (preg_match("/^\/\*\$Rev\: \d{3,4}/i", $regfile, $matches))
-				{
-					$serverrev = $matches[0];
+				if (preg_match('/^\/\*\$Rev: (\d{3,4})/i', $regfile, $matches))
+				{ 
+					$serverrev = intval($matches[1]);
 					if ($serverrev > $rev)
 					{
 						$db = new DB();
@@ -1254,12 +1254,21 @@ class Releases
 						if ($echooutput)
 							echo "updated regexes to revision ".$serverrev."\n";
 					}
+					else
+					{
+						if ($echooutput)
+							echo "using latest regex revision ".$rev."\n";
+					}
 				}
 				else
 				{
 						if ($echooutput)
-							echo "using latest regex revision ".$rev."\n";
+							echo "Error Processing Regex File";
 				}
+			}
+			else
+			{
+				echo "Error Regex File Does Not Exist";
 			}
 		}
 	}
