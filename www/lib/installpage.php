@@ -42,5 +42,10 @@ class Installpage
 		return (strtoupper($_SERVER["REQUEST_METHOD"]) === "POST");	
 	}
 	
+	public function isSuccess()
+	{
+		return isset($_GET['success']);	
+	}
+	
 }
 ?>

@@ -1,4 +1,9 @@
-{if !$cfg->doCheck || $cfg->error}
+{if $page->isSuccess()}
+	<div align="center">
+		<p>The news server setup is correct, you may continue to the next step.</p>
+		<form action="step4.php"><input type="submit" value="Step four: Save Settings" /></form> 
+	</div>
+{else}
 
 <p>We need some information about your News server (NNTP), please provide the following information:</p>
 <form action="?" method="post">
@@ -31,11 +36,4 @@
 	</table>
 </form>
 
-{/if}
-
-{if $cfg->doCheck && !$cfg->error}
-	<div align="center">
-		<p>The news server setup is correct, you may continue to the next step.</p>
-		<form action="step4.php"><input type="submit" value="Step four: Save Settings" /></form> 
-	</div>             
 {/if}

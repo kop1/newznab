@@ -52,6 +52,8 @@ if  ($page->isPostBack()) {
 			foreach($queries as $q) {
 				mysql_query($q);
 			}
+			header("Location: ?success");
+			die();
 		}
 	}
 }

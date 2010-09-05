@@ -1,4 +1,9 @@
-{if !$cfg->doCheck || $cfg->error}
+{if $page->isSuccess()}
+	<div align="center">
+		<p>The admin user has been setup, you may continue to the next step.</p>
+		<form action="step6.php"><input type="submit" value="Step Six: Set NZB File Path" /></form>
+	</div>
+{else}
 
 <p>You must setup an admin user. Please provide the following information:</p>
 <form action="?" method="post">
@@ -30,11 +35,4 @@
 	</table>
 </form>
 
-{/if}
-
-{if $cfg->doCheck && !$cfg->error}
-	<div align="center">
-		<p>The admin user has been setup, you may continue to the next step.</p>
-		<form action="step6.php"><input type="submit" value="Step Six: Set NZB File Path" /></form> 
-	</div>             
 {/if}

@@ -24,5 +24,5 @@
 		<p><a href="../browse">Browse</a> the sample data</p>
 		<p>or</p>
 		<p>Continue to <a href="../admin/site-edit.php">Site Edit</a> to give your site a name.</p>
-	</div>             
+	</div>
 {/if}

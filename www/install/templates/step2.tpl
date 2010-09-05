@@ -1,4 +1,9 @@
-{if !$cfg->doCheck || $cfg->error}
+{if $page->isSuccess()}
+	<div align="center">
+		<p>The database setup is correct, you may continue to the next step.</p>
+		<form action="step3.php"><input type="submit" value="Step three: Setup news server connection" /></form> 
+	</div>
+{else}
 
 <p>We need some information about your MySQL database, please provide the following information</p>
 <p>Note: If your database already exists, <u>it will be overwritten</u> with this version. If not it will be created.</p>
@@ -34,11 +39,4 @@
 	</table>
 </form>
 
-{/if}
-
-{if $cfg->doCheck && !$cfg->error}
-	<div align="center">
-		<p>The database setup is correct, you may continue to the next step.</p>
-		<form action="step3.php"><input type="submit" value="Step three: Setup news server connection" /></form> 
-	</div>             
 {/if}

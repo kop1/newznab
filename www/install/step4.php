@@ -35,5 +35,4 @@ $page->smarty->assign('page', $page);
 $page->content = $page->smarty->fetch('step4.tpl');
 $page->render();
 
-
 ?>

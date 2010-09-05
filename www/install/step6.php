@@ -40,6 +40,8 @@ if  ($page->isPostBack()) {
 	
 	if (!$cfg->error) {
 		$cfg->setSession();
+		header("Location: ?success");
+		die();
 	}
 }
 
