@@ -166,8 +166,18 @@ class NZB
 
 	function postdate($nntp,$post,$debug=true) //returns single timestamp from a local article number
 	{
-		$msgs = $nntp->getOverview($post."-".$post,true,false);
-		$date = $msgs[0]['Date'];
+		$attempts=0;
+		do
+		{
+			$msgs = $nntp->getOverview($post."-".$post,true,false);
+			$date = $msgs[0]['Date'];
+			if($date=="" || is_null($date))
+				$success=false;
+			else
+				$success=true;
+			$attempts++;
+		} while($attempts <= 3 && $success == false);
+
 		if($debug) echo "DEBUG: postdate for post $post came back $date (or ";
 		$date = strtotime($date);
 		if($debug) echo "$date seconds unixtime)".$this->n;
