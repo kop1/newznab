@@ -2,9 +2,8 @@ pre-reqs
 	php
 	mysql
 		max_allowed_packet=12582912
-		ft_min_word_len=3 - allows searching for matches of 3characters
 	Install pear net_nntp-alpha component and patch
-		1. Run "pear install Net_NNTP-alpha"
+		1.Run "pear install Net_NNTP-alpha"
 		2.Run "pear list-files NET_NNTP-alpha"
 		3.Edit the following lines in your  /Net/NNTP/Protocol/Client.php location:
 			lines 816, 817, and 818:
@@ -19,13 +18,12 @@ pre-reqs
 
 	php sessions enabled
 	php GD imaging library
-	php memory limit set to 256 
+	php memory limit set to minimum of 256 
 	php recommended minimum execution time of at least 60 seconds
 	php + mysql set to same timezone
 	iis
 		iis is currently broke due to config/require() problems.
 		urlrewriter isapi in \misc\ installed
-		script timeout of at least 60 seconds
 	apache
 		script timeout of at least 60 seconds
 		mod_rewrite enabled
@@ -35,13 +33,14 @@ installation
 
 	there is an installer in \install\ try it first, before manual.
 
+manual install
 	create new database newznab
 	add new user with only rights to newznab db
 	import \db\schema.sql into newznab db (if this doesnt work piping in, use a query editor)
 	copy \www\config.php.dist to \www\config.php and edit all settings
 	chmod -R 777 \www\lib\smarty\template_c
 	chmod -R 777 \www\lib\smarty\cache
-	restart iis/apache
+	restart apache
 	browse to http://localhost/ and should see newznab homepage with default content.
 	newznab.site database table contains configurable info about your site.
 	register and update the users.role to 2 to set that user as administrator
@@ -72,20 +71,21 @@ sample apache config for your your VHOST.
 	</VirtualHost>
 
 how it works
-	groups are specified, message headers (binaries and parts) are downloaded for the 
+	usenet groups are specified, message headers (binaries and parts) are downloaded for the 
 	groups, releases are created from completed sets of binaries by applying regex to the message subject.
-	releases are categorised by the group they came from, or by the regexing message subject. 
+	releases are categorised by regexing the message subject. metadata from tvrage and tmdb are applied to
+	each created release.
 	
 choosing newsgroups
 	which newsgroups are indexed is specified as a regular expression in the column 
 	site.groupfilter. so if you want to index the groups alt.bin.blah.* and alt.bin.other
 	use the value 'alt.bin.blah.*|alt.bin.other'. groups can also be manually entered if you know 
 	the name.
-	newsgroups can also be manually entered if you know the exact name of the group you want to index.
 	
 categorisation
-	\www\lib\category.php contains the logic which attempts to map a group or a release to a 
-	site category. site categories are used to make browsing nzbs easier. add new categories
+	most categorisation of releases is done at the time of applying the regex. however if no category
+	is supplied for a regex then \www\lib\category.php contains the logic which attempts to map a 
+	release to a site category. site categories are used to make browsing nzbs easier. add new categories
 	by updating the category table, and adding a new Category::constant. Then map it in the
 	function determineCategory()
 	
@@ -93,7 +93,7 @@ updating index (populating binaries + parts)
 	updating the index can a long time depending on how much retention you require
 	as such its not recommended to run update scripts from web browsers, as timeouts
 	will occur. the recommended way to schedule updates is via a init.d script
-	/path/to/newznab/misc/cron_update/newznab.sh
+	/path/to/newznab/misc/cron_update/newznab.sh start
 	make sure you set the paths to your installation.
 	
 regex matching
@@ -103,13 +103,18 @@ regex matching
 	with a regex, which will allow the processing of groups like inner-sanctum which contain a 
 	combination of different binary types.
 	
+regex updating
+	regexes in the system in the range 0-10000 are system defined and are updated centrally.
+	everytime processreleases is ran, a check will be performed to see if you have the latest regexs.
+	if you do not want this check to be made then set site.latestregexurl to null
+	
 nzb file store
 	nzbs are saved to disk gzipped at the location specified by site.nzbpath in subdirs based on the 
 	first char of the release guid, this just makes the dirs a bit easier to manage when you have thousands
-	of nzb.gz files
+	of nzb.gz files. the default path is /path/to/newznab/nzbfiles
 
 importing/exporting nzbs
-	.nzb files can be imported from the admin interface. importing is a convenient way to fill the
+	.nzb files can be imported from the admin interface (or cli). importing is a convenient way to fill the
 	index without trawling a large backdated number of usenet messages. after running an import 
 	the processReleases() function must be run to create valid releases. nzbs can also be exported
 	based on system categories.
@@ -138,6 +143,11 @@ tvrage
 	when tv is processed, the rageid either goes to the best guess, or to -2, which indicates no match 
 	could be made, or the release isnt percieved to by tv.
 
+tvrage - series/episode info
+	information about a particular episode of a series is requested from services.tvrage.com a shared 
+	newznab api key is used to retrieve this data. it assigns an 'aired date' to each release if a match
+	is found.
+	
 nfo
 	nfos are attempted to be retrieved using a queuing method. there will be a number of attempts to get
 	an nfo before giving up
@@ -181,6 +191,8 @@ development
 	\db\schema.sql is latest database schema. should be able to rerun in and create new blank schema
 	\misc\ for general docs and useful info, nothing in here is referenced by the application
 	\misc\cron_update shell script and php files to call the updating of index from cli
+	\nzbfiles default folder for all gzipped nzbs to be stored
+	\www\install installer files
 	\www\lib\framework few general classes for db/http code
 	\www\lib\smarty copy of a fairly recent smarty lib
 	\www\lib\ all classes used in the app, typically named same as its database entity
