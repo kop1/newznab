@@ -30,6 +30,7 @@ CREATE INDEX ix_binary_relname ON binaries (relname);
 CREATE INDEX ix_binary_procstat ON binaries (procstat);
 CREATE INDEX ix_binary_releaseID ON binaries (releaseID);
 CREATE INDEX ix_binary_dateadded ON binaries (dateadded);
+CREATE INDEX ix_name_fromname_groupID ON binaries (name, fromname, groupID);
 
 DROP TABLE IF EXISTS `releases`;
 CREATE TABLE `releases` 
