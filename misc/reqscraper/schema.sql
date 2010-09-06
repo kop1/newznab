@@ -20,6 +20,9 @@ insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, l
 insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('alt.binaries.erotica', 'aberotica', 'http://aberotica.allfilled.com/rss.php', 'title', '/(?P<title>.*)/i', 'description', '/^ReqId: (?P<reqid>\\d{3,6})/i', null);
 insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('alt.binaries.games.wii', 'abgwii', 'http://www.abgx.net/rss/abgw/posted.rss', 'title', '/^Req\\s\\d{1,6}\\s\\-\\s(?P<title>.\\S*)/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
 insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('alt.binaries.games.xbox360', 'abg360', 'http://www.abgx.net/rss/x360/posted.rss', 'title', '/^Req\\s\\d{1,6}\\s\\-\\s(?P<title>.\\S*)/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
+insert into feed (code, name, url, titlecol, titleregex, reqidcol, reqidregex, lastupdate) values ('alt.binaries.console.ps3', 'ps3', 'http://www.abgx.net/rss/abcp/posted.rss', 'title', '/^Req\\s\\d{1,6}\\s\\-\\s(?P<title>.\\S*)/i', 'title', '/^Req (?P<reqid>\\d{3,6})/i', null);
+
+
 
 DROP TABLE IF EXISTS `item`;
 CREATE TABLE `item` 
