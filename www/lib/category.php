@@ -11,6 +11,8 @@ class Category
 	const CAT_GAME_XBOX = 1040;
 	const CAT_GAME_XBOX360 = 1050;
 	const CAT_GAME_WIIWARE = 1060;
+	const CAT_GAME_XBOX360DLC = 1070;
+	const CAT_GAME_PS3 = 1080;
 	const CAT_MOVIE_DVD = 2010;
 	const CAT_MOVIE_WMV_HD = 2020;
 	const CAT_MOVIE_XVID = 2030;

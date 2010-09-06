@@ -530,6 +530,7 @@ INSERT INTO category (ID, title, parentID) VALUES (1040, 'Xbox', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1050, 'Xbox 360', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1060, 'WiiWare/VC', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1070, 'XBOX 360 DLC', 1000);
+INSERT INTO category (ID, title, parentID) VALUES (1080, 'PS3', 1000);
 
 INSERT INTO category (ID, title, parentID) VALUES (2010, 'DVD', 2000);
 INSERT INTO category (ID, title, parentID) VALUES (2020, 'WMV-HD', 2000);
