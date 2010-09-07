@@ -1,0 +1,32 @@
+URL: http://pear.php.net/package/Net_NNTP
+
+Index: Net_NNTP/NNTP/Protocol/Client.php
+===================================================================
+--- Net_NNTP/NNTP/Protocol/Client.php   (revision 743)
++++ Net_NNTP/NNTP/Protocol/Client.php   (working copy)
+@@ -77,7 +77,7 @@
+  */
+ require_once 'PEAR.php';
+ //require_once 'Net/NNTP/Error.php';
+-require_once 'Net/NNTP/Protocol/Responsecode.php';
++require_once 'Responsecode.php';
+
+
+ // {{{ constants
+Index: Net_NNTP/NNTP/Client.php
+===================================================================
+--- Net_NNTP/NNTP/Client.php    (revision 743)
++++ Net_NNTP/NNTP/Client.php    (working copy)
+@@ -72,9 +72,9 @@
+ /**
+  *
+  */
+-require_once 'Net/NNTP/Protocol/Client.php';
++//require_once 'Net/NNTP/Protocol/Client.php';
++require_once 'Protocol/Client.php';
+
+-
+ // {{{ Net_NNTP_Client
+
+ /**
+
