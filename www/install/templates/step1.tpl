@@ -29,7 +29,7 @@
 	</tr>
 	<tr class="alt">
 		<td>Checking that install.lock is writeable:{if !$cfg->lockCheck}<br /><span class="error">The installer cannot write to {$cfg->INSTALL_DIR}/install.lock. A quick solution is to run:<br />chmod 777 {$cfg->INSTALL_DIR}</span>{/if}</td>
-		<td>{if $cfg->configCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
+		<td>{if $cfg->lockCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="">
 		<td>Checking for Pear Net_NNTP:{if !$cfg->pearCheck}<br /><span class="error">The PEAR package 'Net_NNTP' is missing. This can normally be fixed by running:<br />pear install Net_NNTP</span>{/if}</td>
