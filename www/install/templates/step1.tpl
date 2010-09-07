@@ -24,7 +24,7 @@
 		<td>{if $cfg->coversCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="">
-		<td>Checking that config.php is writeable:{if !$cfg->configCheck}<br /><span class="error">The installer cannot write to {$cfg->WWW_DIR}/config.php. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}/config.php</span>{/if}</td>
+		<td>Checking that config.php is writeable:{if !$cfg->configCheck}<br /><span class="error">The installer cannot write to {$cfg->WWW_DIR}/config.php. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}</span>{/if}</td>
 		<td>{if $cfg->configCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="alt">
