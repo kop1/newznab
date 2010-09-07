@@ -475,7 +475,7 @@ DROP TABLE IF EXISTS `groups`;
 CREATE TABLE `groups` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL DEFAULT '',
-  `backfill_target` INT(4) NOT NULL DEFAULT '0',
+  `backfill_target` INT(4) NOT NULL DEFAULT '1',
   `first_record` BIGINT UNSIGNED NOT NULL DEFAULT '0',
   `first_record_postdate` DATETIME DEFAULT NULL,
   `last_record` BIGINT UNSIGNED NOT NULL DEFAULT '0',

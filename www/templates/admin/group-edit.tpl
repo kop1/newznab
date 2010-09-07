@@ -22,20 +22,12 @@
 </tr>
 
 <tr>
-	<td>First Record:</td>
+	<td>Backfill Days</td>
 	<td>
-		<input id="first_record" name="first_record" type="text" value="{$group.first_record}" />
-		<div class="hint">Only manually edit the last message numbers if you know what your doing. Leave as 0 for new groups.</div>		
+		<input id="backfill_target" name="backfill_target" type-"text" value="{$group.backfill_target}" />
+		<div class="hint">Number of days to attempt to backfill this group.  Adjust as necessary.</div>
 	</td>
-</tr>
-
-<tr>
-	<td>Last Record:</td>
-	<td>
-		<input id="last_record" name="last_record" type="text" value="{$group.last_record}" />
-		<div class="hint">Only manually edit the last message numbers if you know what your doing. Leave as 0 for new groups.</div>		
-	</td>
-</tr>
+</td>
 
 <tr>
 	<td><label for="active">Active</label>:</td>
