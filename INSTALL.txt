@@ -1,30 +1,18 @@
 pre-reqs
-	php
-	mysql
-		max_allowed_packet=12582912
-	Install pear net_nntp-alpha component and patch
-		1.Run "pear install Net_NNTP-alpha"
-		2.Run "pear list-files NET_NNTP-alpha"
-		3.Edit the following lines in your  /Net/NNTP/Protocol/Client.php location:
-			lines 816, 817, and 818:
-				'first' => (int) $response_arr[1],
-				'last'  => (int) $response_arr[2],
-				'count' => (int) $response_arr[0]);
-		4.Change to:
-                             'first' => $response_arr[1],
-                             'last'  => $response_arr[2],
-                             'count' => $response_arr[0]);
-		(You've now removed (int) from three lines.)
+	PHP
+		sessions enabled
+		memory limit at 256MB or more
+		minimum execution time of 60+ seconds
 
-	php sessions enabled
-	php GD imaging library
-	php memory limit set to minimum of 256 
-	php recommended minimum execution time of at least 60 seconds
-	php + mysql set to same timezone
-	iis
-		iis is currently broke due to config/require() problems.
-		urlrewriter isapi in \misc\ installed
-	apache
+	GD Imaging Library w/PHP integration
+
+	PEAR
+
+	MySQL
+		max_allowed_packet=12582912
+		timezone set to php's
+	
+	Apache
 		script timeout of at least 60 seconds
 		mod_rewrite enabled
 		.htaccess allow override on
