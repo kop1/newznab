@@ -62,7 +62,7 @@
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @copyright  2002-2005 Heino H. Gehlsen <heino@gehlsen.dk>. All Rights Reserved.
  * @license    http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231 W3C® SOFTWARE NOTICE AND LICENSE
- * @version    CVS: $Id: Client.php 208233 2006-02-28 17:44:11Z heino $
+ * @version    CVS: $Id: Client.php 302639 2010-08-22 16:14:38Z heino $
  * @link       http://pear.php.net/package/Net_NNTP
  * @see        
  *
@@ -84,8 +84,8 @@ require_once 'Net/NNTP/Protocol/Client.php';
  *
  * @category   Net
  * @package    Net_NNTP
- * @version    package: 1.5.0a1 (alpha) 
- * @version    api: 0.8.1 (alpha)
+ * @version    package: @package_version@ (@package_state@) 
+ * @version    api: @api_version@ (@api_state@)
  * @access     public
  * @see        Net_NNTP_Protocol_Client
  */
@@ -699,7 +699,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
         // Construct header
         $header  = "Newsgroups: $groups\r\n";
         $header .= "Subject: $subject\r\n";
-        $header .= "X-poster: PEAR::Net_NNTP v1.5.0a1 (alpha)\r\n";
+        $header .= "X-poster: PEAR::Net_NNTP v@package_version@ (@package_state@)\r\n";
     	if ($additional !== null) {
     	    $header .= $additional;
     	}
@@ -1346,7 +1346,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * {@example docs/examples/phpdoc/count.php}
      *
      * @return mixed <br>
-     *  - (integer)	the number of article in group
+     *  - (string)	the number of article in group
      *  - (object)	Pear_Error on failure
      * @access public
      * @see Net_NNTP_Client::group()
@@ -1370,7 +1370,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * {@example docs/examples/phpdoc/last.php}
      *
      * @return mixed <br>
-     *  - (integer)	the last article's number
+     *  - (string)	the last article's number
      *  - (object)	Pear_Error on failure
      * @access public
      * @see Net_NNTP_Client::first()
@@ -1394,7 +1394,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * {@example docs/examples/phpdoc/first.php}
      *
      * @return mixed <br>
-     *  - (integer)	the first article's number
+     *  - (string)	the first article's number
      *  - (object)	Pear_Error on failure
      * @access public
      * @see Net_NNTP_Client::last()

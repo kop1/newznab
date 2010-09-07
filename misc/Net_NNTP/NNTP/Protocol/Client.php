@@ -2,8 +2,8 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker: */
 
 /**
- * 
- * 
+ *
+ *
  * PHP versions 4 and 5
  *
  * <pre>
@@ -62,15 +62,15 @@
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @copyright  2002-2005 Heino H. Gehlsen <heino@gehlsen.dk>. All Rights Reserved.
  * @license    http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231 W3C® SOFTWARE NOTICE AND LICENSE
- * @version    CVS: $Id: Client.php 289173 2009-10-04 09:38:29Z heino $
+ * @version    CVS: $Id: Client.php 302639 2010-08-22 16:14:38Z heino $
  * @link       http://pear.php.net/package/Net_NNTP
- * @see        
+ * @see
  */
 
 // Warn about PHP bugs
-//if (version_compare(PHP_VERSION, '5.2.11') === 1) {
-//    trigger_error('PHP bug #16657 breaks feof() on socket streams! Connection consistency might be compromised!', E_USER_WARNING);
-//}
+if (version_compare(PHP_VERSION, '5.2.11') === 1) {
+    trigger_error('PHP bug #16657 breaks feof() on socket streams! Connection consistency might be compromised!', E_USER_WARNING);
+}
 
 /**
  *
@@ -124,8 +124,8 @@ define('NET_NNTP_PROTOCOL_CLIENT_DEFAULT_PORT', '119');
  * @category   Net
  * @package    Net_NNTP
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
- * @version    package: 1.5.0a1 (alpha)
- * @version    api: 0.8.1 (alpha)
+ * @version    package: @package_version@ (@package_state@)
+ * @version    api: @api_version@ (@api_state@)
  * @access     private
  * @see        Net_NNTP_Client
  */
@@ -150,7 +150,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     var $_currentStatusResponse = null;
 
     /**
-     * 
+     *
      *
      * @var     object
      * @access  private
@@ -159,7 +159,7 @@ class Net_NNTP_Protocol_Client extends PEAR
 
     // }}}
     // {{{ constructor
-	    
+
     /**
      * Constructor
      *
@@ -181,7 +181,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      * @access public
      */
     function getPackageVersion() {
-	return '1.5.0a1';
+	return '@package_version@';
     }
 
     // }}}
@@ -193,7 +193,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      * @access public
      */
     function getApiVersion() {
-	return '0.8.1';
+	return '@api_version@';
     }
 
     // }}}
@@ -262,7 +262,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	//
     	return $this->_getStatusResponse();
     }
-    
+
     // }}}
     // {{{ _getStatusResponse()
 
@@ -296,7 +296,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	//
     	return $this->_currentStatusResponse[0];
     }
-    
+
     // }}}
     // {{{ _getTextResponse()
 
@@ -320,14 +320,14 @@ class Net_NNTP_Protocol_Client extends PEAR
         while (!feof($this->_socket)) {
 
             // Retrieve and append up to 1024 characters from the server.
-            $recieved = @fgets($this->_socket, 1024); 
+            $recieved = @fgets($this->_socket, 1024);
 
             if ($recieved === false) {
                 return $this->throwError('Failed to read line from socket.', null);
     	    }
 
             $line .= $recieved;
-	    
+
             // Continue if the line is not terminated by CRLF
             if (substr($line, -2) != "\r\n" || strlen($line) < 2) {
                 continue;
@@ -362,7 +362,7 @@ class Net_NNTP_Protocol_Client extends PEAR
             if (substr($line, 0, 2) == '..') {
                 $line = substr($line, 1);
             }
-            
+
     	    //
     	    if ($debug) {
     	    	$this->_logger->debug('T: ' . $line);
@@ -394,7 +394,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     function _sendArticle($article)
     {
     	/* data should be in the format specified by RFC850 */
-	    
+
     	switch (true) {
     	case is_string($article):
     	    //
@@ -474,7 +474,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     {
     	return $this->_currentStatusResponse[1];
     }
-    
+
     // }}}
     // {{{ _handleUnexpectedResponse()
 
@@ -516,9 +516,9 @@ class Net_NNTP_Protocol_Client extends PEAR
      * Connect to a NNTP server
      *
      * @param string	$host	(optional) The address of the NNTP-server to connect to, defaults to 'localhost'.
-     * @param mixed	$encryption	(optional) 
+     * @param mixed	$encryption	(optional)
      * @param int	$port	(optional) The port number to connect to, defaults to 119.
-     * @param int	$timeout	(optional) 
+     * @param int	$timeout	(optional)
      *
      * @return mixed (bool) on success (true when posting allowed, otherwise false) or (object) pear_error on failure
      * @access protected
@@ -631,7 +631,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     /**
      * Returns servers capabilities
      *
-     * @return mixed (array) list of capabilities on success or (object) pear_error on failure 
+     * @return mixed (array) list of capabilities on success or (object) pear_error on failure
      * @access protected
      */
     function cmdCapabilities()
@@ -641,7 +641,7 @@ class Net_NNTP_Protocol_Client extends PEAR
         if (PEAR::isError($response)) {
             return $response;
         }
-	
+
     	switch ($response) {
             case NET_NNTP_PROTOCOL_RESPONSECODE_CAPABILITIES_FOLLOW: // 101, Draft: 'Capability list follows'
     	    	$data = $this->_getTextResponse();
@@ -659,9 +659,9 @@ class Net_NNTP_Protocol_Client extends PEAR
     // {{{ cmdModeReader()
 
     /**
-     * 
      *
-     * @return mixed (bool) true when posting allowed, false when postind disallowed or (object) pear_error on failure 
+     *
+     * @return mixed (bool) true when posting allowed, false when postind disallowed or (object) pear_error on failure
      * @access protected
      */
     function cmdModeReader()
@@ -671,7 +671,7 @@ class Net_NNTP_Protocol_Client extends PEAR
         if (PEAR::isError($response)) {
             return $response;
         }
-	
+
     	switch ($response) {
             case NET_NNTP_PROTOCOL_RESPONSECODE_READY_POSTING_ALLOWED: // 200, RFC2980: 'Hello, you can post'
 
@@ -702,7 +702,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     /**
      * Disconnect from the NNTP server
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure 
+     * @return mixed (bool) true on success or (object) pear_error on failure
      * @access protected
      */
     function cmdQuit()
@@ -712,7 +712,7 @@ class Net_NNTP_Protocol_Client extends PEAR
         if (PEAR::isError($response)) {
             return $response;
     	}
-	
+
         switch ($response) {
     	    case 205: // RFC977: 'closing connection - goodbye!'
     	    	// If socket is still open, close it.
@@ -735,7 +735,7 @@ class Net_NNTP_Protocol_Client extends PEAR
 
 /* */
 
-    // {{{ _cmdStartTLS()
+    // {{{ cmdStartTLS()
 
     /**
      *
@@ -743,7 +743,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      * @return mixed (bool) on success or (object) pear_error on failure
      * @access protected
      */
-    function _cmdStartTLS()
+    function cmdStartTLS()
     {
         $response = $this->_sendCommand('STARTTLS');
         if (PEAR::isError($response)) {
@@ -806,7 +806,7 @@ class Net_NNTP_Protocol_Client extends PEAR
 
     	switch ($response) {
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_GROUP_SELECTED: // 211, RFC977: 'n f l s group selected'
-    	    	$response_arr = split(' ', trim($this->_currentStatusResponse()));
+    	    	$response_arr = explode(' ', trim($this->_currentStatusResponse()));
 
     	    	if ($this->_logger) {
     	    	    $this->_logger->info('Group selected: '.$response_arr[3]);
@@ -831,8 +831,8 @@ class Net_NNTP_Protocol_Client extends PEAR
     /**
      *
      *
-     * @param optional string $newsgroup 
-     * @param optional mixed $range 
+     * @param optional string $newsgroup
+     * @param optional mixed $range
      *
      * @return optional mixed (array) on success or (object) pear_error on failure
      * @access protected
@@ -861,11 +861,11 @@ class Net_NNTP_Protocol_Client extends PEAR
     	        if (PEAR::isError($articles)) {
     	            return $articles;
     	        }
-		
-    	        $response_arr = split(' ', trim($this->_currentStatusResponse()), 4);
+
+    	        $response_arr = explode(' ', trim($this->_currentStatusResponse()), 4);
 
 		// If server does not return group summary in status response, return null'ed array
-    	    	if (!is_int($response_arr[0]) || !is_int($response_arr[1]) || !is_int($response_arr[2]) || is_empty($response_arr[3])) {
+    	    	if (!is_numeric($response_arr[0]) || !is_numeric($response_arr[1]) || !is_numeric($response_arr[2]) || empty($response_arr[3])) {
     	    	    return array('group'    => null,
     	        	         'first'    => null,
     	    	    	         'last'     => null,
@@ -874,9 +874,9 @@ class Net_NNTP_Protocol_Client extends PEAR
 		}
 
     	    	return array('group'    => $response_arr[3],
-    	                     'first'    => (int) $response_arr[1],
-    	    	             'last'     => (int) $response_arr[2],
-    	    	             'count'    => (int) $response_arr[0],
+    	                     'first'    => $response_arr[1],
+    	    	             'last'     => $response_arr[2],
+    	    	             'count'    => $response_arr[0],
     	    	             'articles' => $articles);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC2980: 'Not currently in newsgroup'
@@ -894,14 +894,14 @@ class Net_NNTP_Protocol_Client extends PEAR
     // {{{ cmdLast()
 
     /**
-     * 
+     *
      *
      * @return mixed (array) or (string) or (int) or (object) pear_error on failure
      * @access protected
      */
     function cmdLast()
     {
-        // 
+        //
         $response = $this->_sendCommand('LAST');
         if (PEAR::isError($response)) {
             return $response;
@@ -909,13 +909,13 @@ class Net_NNTP_Protocol_Client extends PEAR
 
     	switch ($response) {
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_ARTICLE_SELECTED: // 223, RFC977: 'n a article retrieved - request text separately (n = article number, a = unique article id)'
-    	    	$response_arr = split(' ', trim($this->_currentStatusResponse()));
+    	    	$response_arr = explode(' ', trim($this->_currentStatusResponse()));
 
     	    	if ($this->_logger) {
     	    	    $this->_logger->info('Selected previous article: ' . $response_arr[0] .' - '. $response_arr[1]);
     	    	}
 
-    	    	return array((int) $response_arr[0], (string) $response_arr[1]);
+    	    	return array($response_arr[0], (string) $response_arr[1]);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
     	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
@@ -935,14 +935,14 @@ class Net_NNTP_Protocol_Client extends PEAR
     // {{{ cmdNext()
 
     /**
-     * 
+     *
      *
      * @return mixed (array) or (string) or (int) or (object) pear_error on failure
      * @access protected
      */
     function cmdNext()
     {
-        // 
+        //
         $response = $this->_sendCommand('NEXT');
         if (PEAR::isError($response)) {
             return $response;
@@ -950,13 +950,13 @@ class Net_NNTP_Protocol_Client extends PEAR
 
     	switch ($response) {
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_ARTICLE_SELECTED: // 223, RFC977: 'n a article retrieved - request text separately (n = article number, a = unique article id)'
-    	    	$response_arr = split(' ', trim($this->_currentStatusResponse()));
+    	    	$response_arr = explode(' ', trim($this->_currentStatusResponse()));
 
     	    	if ($this->_logger) {
     	    	    $this->_logger->info('Selected previous article: ' . $response_arr[0] .' - '. $response_arr[1]);
     	    	}
 
-    	    	return array((int) $response_arr[0], (string) $response_arr[1]);
+    	    	return array($response_arr[0], (string) $response_arr[1]);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
     	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
@@ -983,7 +983,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      *
      * @param mixed $article Either a message-id or a message-number of the article to fetch. If null or '', then use current article.
      *
-     * @return mixed (array) article on success or (object) pear_error on failure 
+     * @return mixed (array) article on success or (object) pear_error on failure
      * @access protected
      */
     function cmdArticle($article = null)
@@ -999,14 +999,14 @@ class Net_NNTP_Protocol_Client extends PEAR
         if (PEAR::isError($response)) {
             return $response;
         }
-	
+
     	switch ($response) {
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_ARTICLE_FOLLOWS:  // 220, RFC977: 'n <a> article retrieved - head and body follow (n = article number, <a> = message-id)'
     	    	$data = $this->_getTextResponse();
     	    	if (PEAR::isError($data)) {
     	    	    return $data;
     	    	}
-    	    	
+
     	    	if ($this->_logger) {
     	    	    $this->_logger->info(($article == null ? 'Fetched current article' : 'Fetched article: '.$article));
     	    	}
@@ -1037,7 +1037,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      *
      * @param mixed $article Either a message-id or a message-number of the article to fetch the headers from. If null or '', then use current article.
      *
-     * @return mixed (array) headers on success or (object) pear_error on failure 
+     * @return mixed (array) headers on success or (object) pear_error on failure
      * @access protected
      */
     function cmdHead($article = null)
@@ -1060,11 +1060,11 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	if (PEAR::isError($data)) {
     	    	    return $data;
     	    	}
-    	    	
+
     	    	if ($this->_logger) {
     	    	    $this->_logger->info(($article == null ? 'Fetched current article header' : 'Fetched article header for article: '.$article));
     	    	}
-    	    	
+
     	        return $data;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
@@ -1092,7 +1092,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      *
      * @param mixed $article Either a message-id or a message-number of the article to fetch the body from. If null or '', then use current article.
      *
-     * @return mixed (array) body on success or (object) pear_error on failure 
+     * @return mixed (array) body on success or (object) pear_error on failure
      * @access protected
      */
     function cmdBody($article = null)
@@ -1115,11 +1115,11 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	if (PEAR::isError($data)) {
     	    	    return $data;
     	    	}
-    	    	
+
     	    	if ($this->_logger) {
     	    	    $this->_logger->info(($article == null ? 'Fetched current article body' : 'Fetched article body for article: '.$article));
     	    	}
-    	    	
+
     	        return $data;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
@@ -1143,11 +1143,11 @@ class Net_NNTP_Protocol_Client extends PEAR
     // {{{ cmdStat
 
     /**
-     * 
      *
-     * @param mixed $article 
      *
-     * @return mixed (array) or (string) or (int) or (object) pear_error on failure 
+     * @param mixed $article
+     *
+     * @return mixed (array) or (string) or (int) or (object) pear_error on failure
      * @access protected
      */
     function cmdStat($article = null)
@@ -1166,13 +1166,13 @@ class Net_NNTP_Protocol_Client extends PEAR
 
     	switch ($response) {
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_ARTICLE_SELECTED: // 223, RFC977: 'n <a> article retrieved - request text separately' (actually not documented, but copied from the ARTICLE command)
-    	    	$response_arr = split(' ', trim($this->_currentStatusResponse()));
+    	    	$response_arr = explode(' ', trim($this->_currentStatusResponse()));
 
     	    	if ($this->_logger) {
     	    	    $this->_logger->info('Selected article: ' . $response_arr[0].' - '.$response_arr[1]);
     	    	}
 
-    	    	return array((int) $response_arr[0], (string) $response_arr[1]);
+    	    	return array($response_arr[0], (string) $response_arr[1]);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected' (actually not documented, but copied from the ARTICLE command)
     	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
@@ -1308,7 +1308,7 @@ class Net_NNTP_Protocol_Client extends PEAR
 
     	//
     	$this->_sendArticle($article);
-	    
+
     	// Retrive server's response.
     	$response = $this->_getStatusResponse();
     	if (PEAR::isError($response)) {
@@ -1363,7 +1363,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     /**
      * Returns the server's help text
      *
-     * @return mixed (array) help text on success or (object) pear_error on failure 
+     * @return mixed (array) help text on success or (object) pear_error on failure
      * @access protected
      */
     function cmdHelp()
@@ -1373,7 +1373,7 @@ class Net_NNTP_Protocol_Client extends PEAR
         if (PEAR::isError($response)) {
             return $response;
         }
-	
+
     	switch ($response) {
             case NET_NNTP_PROTOCOL_RESPONSECODE_HELP_FOLLOWS: // 100
     	    	$data = $this->_getTextResponse();
@@ -1426,8 +1426,8 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	    $arr = explode(' ', trim($line));
 
     	    	    $group = array('group'   => $arr[0],
-    	    	                   'last'    => (int) $arr[1],
-    	    	                   'first'   => (int) $arr[2],
+    	    	                   'last'    => $arr[1],
+    	    	                   'first'   => $arr[2],
     	    	                   'posting' => $arr[3]);
 
     	    	    $groups[$group['group']] = $group;
@@ -1451,7 +1451,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      * @param mixed $newsgroups (string or array of strings)
      * @param mixed $distribution (string or array of strings)
      *
-     * @return mixed 
+     * @return mixed
      * @access protected
      */
     function cmdNewnews($time, $newsgroups, $distribution = null)
@@ -1473,7 +1473,7 @@ class Net_NNTP_Protocol_Client extends PEAR
         }
 
 	// TODO: the lenght of the request string may not exceed 510 chars
-	
+
         $response = $this->_sendCommand($command);
         if (PEAR::isError($response)){
             return $response;
@@ -1523,8 +1523,8 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	    $arr = explode(' ', trim($line));
 
     	    	    $group = array('group'   => $arr[0],
-    	    	                   'last'    => (int) $arr[1],
-    	    	                   'first'   => (int) $arr[2],
+    	    	                   'last'    => $arr[1],
+    	    	                   'first'   => $arr[2],
     	    	                   'posting' => $arr[3]);
 
     	    	    $groups[$group['group']] = $group;
@@ -1542,7 +1542,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     /**
      * Fetches a list of all avaible newsgroups
      *
-     * @param string $wildmat 
+     * @param string $wildmat
      *
      * @return mixed (array) nested array with informations about existing newsgroups on success or (object) pear_error on failure
      * @access protected
@@ -1572,17 +1572,17 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	    $arr = explode(' ', trim($line));
 
     	    	    $group = array('group'   => $arr[0],
-    	    	                   'last'    => (int) $arr[1],
-    	    	                   'first'   => (int) $arr[2],
+    	    	                   'last'    => $arr[1],
+    	    	                   'first'   => $arr[2],
     	    	                   'posting' => $arr[3]);
 
     	    	    $groups[$group['group']] = $group;
     	    	}
-    	    	
+
     	    	if ($this->_logger) {
     	    	    $this->_logger->info('Fetched list of available groups');
     	    	}
-    	    	
+
     	        return $groups;
     	    	break;
     	    default:
@@ -1710,7 +1710,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-    
+
     // }}}
     // {{{ cmdXOver()
 
@@ -1773,7 +1773,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-    
+
     // }}}
     // {{{ cmdListOverviewFmt()
 
@@ -1810,7 +1810,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    		$format[substr($line, 0, -1)] = false;
     	            }
     	        }
-    	
+
     	        if ($this->_logger) {
     	            $this->_logger->info('Fetched overview format');
     	        }
@@ -1828,12 +1828,12 @@ class Net_NNTP_Protocol_Client extends PEAR
     // {{{ cmdXHdr()
 
     /**
-     * 
+     *
      *
      * The format of the returned array is:
      * $messages[message_id]
      *
-     * @param optional string $field 
+     * @param optional string $field
      * @param optional string $range articles to fetch
      *
      * @return mixed (array) nested array of message and there headers on success or (object) pear_error on failure
@@ -1883,7 +1883,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-    
+
     // }}}
 
 
@@ -1935,7 +1935,7 @@ class Net_NNTP_Protocol_Client extends PEAR
 
     	        return $groups;
     	    	break;
-		  
+
     	    case 481: // RFC2980: 'Groups and descriptions unavailable'
     	    	return $this->throwError('Groups and descriptions unavailable', $response, $this->_currentStatusResponse());
     	    	break;
@@ -2009,9 +2009,9 @@ class Net_NNTP_Protocol_Client extends PEAR
     // {{{ cmdXPat()
 
     /**
-     * 
      *
-     * @param string $field 
+     *
+     * @param string $field
      * @param string $range
      * @param mixed $wildmat
      *
@@ -2054,7 +2054,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-    
+
     // }}}
     // {{{ cmdAuthinfo()
 
@@ -2064,7 +2064,7 @@ class Net_NNTP_Protocol_Client extends PEAR
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure 
+     * @return mixed (bool) true on success or (object) pear_error on failure
      * @access protected
      */
     function cmdAuthinfo($user, $pass)
@@ -2111,7 +2111,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-	
+
     // }}}
     // {{{ cmdAuthinfoSimple()
 
@@ -2121,14 +2121,14 @@ class Net_NNTP_Protocol_Client extends PEAR
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure 
+     * @return mixed (bool) true on success or (object) pear_error on failure
      * @access protected
      */
     function cmdAuthinfoSimple($user, $pass)
     {
         return $this->throwError("The auth mode: 'simple' is has not been implemented yet", null);
     }
-	
+
     // }}}
     // {{{ cmdAuthinfoGeneric()
 
@@ -2138,14 +2138,14 @@ class Net_NNTP_Protocol_Client extends PEAR
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure 
+     * @return mixed (bool) true on success or (object) pear_error on failure
      * @access protected
      */
     function cmdAuthinfoGeneric($user, $pass)
     {
         return $this->throwError("The auth mode: 'generic' is has not been implemented yet", null);
     }
-	
+
     // }}}
     // {{{ _isConnected()
 

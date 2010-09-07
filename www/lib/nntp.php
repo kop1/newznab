@@ -4,7 +4,7 @@ require_once(WWW_DIR."/lib/yenc.php");
 require_once(WWW_DIR."/lib/binaries.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 
-if(!include('Net/NNTP/Client.php')) 
+if(!include(WWW_DIR."/../misc/Net_NNTP/NNTP/Client.php")) 
 {
 	exit("Error: <b>You must install the pear package 'Net_NNTP'.</b>");	
 }
