@@ -22,7 +22,7 @@ if  ($page->isPostBack()) {
 	$cfg->NNTP_PASSWORD = trim($_POST['pass']);
 	$cfg->NNTP_PORT = (trim($_POST['port']) == '') ? 119 : trim($_POST['port']);
 
-	include('Net/NNTP/Client.php');
+	include('../../misc/Net_NNTP/NNTP/Client.php');
 	$test = new Net_NNTP_Client();
 	$cfg->nntpCheck = $test->connect($cfg->NNTP_SERVER, false, $cfg->NNTP_PORT);
 	if(PEAR::isError($cfg->nntpCheck)){
