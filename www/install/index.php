@@ -51,7 +51,7 @@ if (!$cfg->error) {
 			if (!$cfg->cacheCheck) { ?>
 				<div class="error">The template cache folder must be writable. A quick solution is to run:<br />chmod 777 <?php echo $cfg->SMARTY_DIR; ?>/templates_c</div>
 			<?php } else { ?>
-				<div class="error">Installation Locked!</div> 
+				<div class="error">Installation Locked! If reinstalling, please remove www/install/install.lock.</div> 
 			<?php }
 			} ?>
 		</div>
