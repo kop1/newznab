@@ -696,7 +696,10 @@ class Releases
 			//
 			else
 				$groupmatch = " 1 = 1 ";
-				
+			
+			// Get current mysql time for date comparison checks in case php is in a different time zone
+			$currTime = $db->queryOneRow("SELECT NOW() as now");
+			
 			// Get out all binaries of STAGE0 for current group
 			$arrNoPartBinaries = array();
 			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date, binaries.totalParts from binaries inner join groups on groups.ID = binaries.groupID where %s and procstat = %d", $groupmatch, Releases::PROCSTAT_NEW));
@@ -726,7 +729,7 @@ class Releases
 						}
 						
 						// Allow to binary to release if posted to usenet longer than three hours ago and we still don't have all the parts
-						if (time() - strtotime($rowbin['date']) > 10800)
+						if (strtotime($currTime['now']) - strtotime($rowbin['date']) > 10800)
 						{
 							if ($echooutput) {
 								echo "allowing incomplete binary ".$rowbin['ID']."\n";
@@ -737,7 +740,7 @@ class Releases
 					}
 
 					// If theres no number of files data in the subject, put it into a release if it was posted to usenet longer than three hours ago.
-					if ((!isset($matches['parts']) && time() - strtotime($rowbin['date']) > 10800) || isset($arrNoPartBinaries[$matches['name']]))
+					if ((!isset($matches['parts']) && strtotime($currTime['now']) - strtotime($rowbin['date']) > 10800) || isset($arrNoPartBinaries[$matches['name']]))
 					{
 						//
 						// Take a copy of the name of this no-part release found. This can be used
