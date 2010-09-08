@@ -288,7 +288,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 	{
 		echo "Error {$msgs->code}: {$msgs->message}$n";
 		echo "Skipping group$n";
-		break;
+		return;
 	}
 
 	$this->startUpdate = microtime(true);
@@ -371,7 +371,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		// TODO: fix some max attemps variable.. somewhere
 		echo "Error: Can't get parts from server (msgs not array)\n";
 		echo "Skipping group$n";
-		break;
+		return;
 	}
 
 
