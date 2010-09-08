@@ -35,7 +35,7 @@ manual install (ONLY ATTEMPT AFTER INSTALLER)
 	newznab.site database table contains configurable info about your site.
 	register and update the users.role to 2 to set that user as administrator
 	goto \admin\site-edit.php and customise fields to your installation.
-	call \admin\group-update.php to populate database with your groups based on your groupfilter.
+	call \admin\group-edit.php to add a group to your installation.
 	call from cli \misc\cron\update_binaries.php to populate database with binaries + parts.
 	call from cli \misc\cron\update_releases.php to create releases from all complete binary sets.
 	
@@ -67,10 +67,9 @@ how it works
 	each created release.
 	
 choosing newsgroups
-	which newsgroups are indexed is specified as a regular expression in the column 
-	site.groupfilter. so if you want to index the groups alt.bin.blah.* and alt.bin.other
-	use the value 'alt.bin.blah.*|alt.bin.other'. groups can also be manually entered if you know 
-	the name.
+	groups can be manually entered if you know the name. groups can also be bulk added when
+	specified as a regular expression. for example if you want to index the groups alt.bin.blah.* and alt.bin.other
+	use the value 'alt.bin.blah.*|alt.bin.other'. 
 	
 categorisation
 	most categorisation of releases is done at the time of applying the regex. however if no category
@@ -108,11 +107,6 @@ importing/exporting nzbs
 	index without trawling a large backdated number of usenet messages. after running an import 
 	the processReleases() function must be run to create valid releases. nzbs can also be exported
 	based on system categories.
-
-updating newsgroups
-	updating the list of available newsgroups is only worthwhile if you change your 
-	site.groupfilter or categorisation. It can be done via web browser in /admin/groups-update. 
-	groups can be manually entered, but make sure you get the group names exactly right.
 	
 google ads/analytics
 	to integrate google analytics and adsense provide enter the adsense ad module ids 

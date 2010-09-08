@@ -159,7 +159,7 @@ class NZB
 		}
 		else
 		{
-			echo "No groups specified. Ensure site.groupfilter is populated and run group-update.$n";
+			echo "No groups specified. Ensure groups are added to newznab's database for updating.$n";
 		}		
 	}	
 
