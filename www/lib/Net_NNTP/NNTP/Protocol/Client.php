@@ -118,8 +118,8 @@ define('NET_NNTP_PROTOCOL_CLIENT_DEFAULT_PORT', '119');
  * @category   Net
  * @package    Net_NNTP
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
- * @version    package: @package_version@ (@package_state@)
- * @version    api: @api_version@ (@api_state@)
+ * @version    package: 1.5.0a1 (alpha)
+ * @version    api: 0.8.1 (alpha)
  * @access     private
  * @see        Net_NNTP_Client
  */

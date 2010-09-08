@@ -3,11 +3,8 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/yenc.php");
 require_once(WWW_DIR."/lib/binaries.php");
 require_once(WWW_DIR."/lib/framework/db.php");
+require_once(WWW_DIR."/lib/Net_NNTP/NNTP/Client.php");
 
-if(!include(WWW_DIR."/lib/Net_NNTP/NNTP/Client.php")) 
-{
-	exit("Error: <b>You must install the pear package 'Net_NNTP'.</b>");	
-}
 
 class Nntp extends Net_NNTP_Client
 {    

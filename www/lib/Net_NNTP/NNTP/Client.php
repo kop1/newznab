@@ -83,8 +83,8 @@ require_once 'Protocol/Client.php';
  *
  * @category   Net
  * @package    Net_NNTP
- * @version    package: @package_version@ (@package_state@) 
- * @version    api: @api_version@ (@api_state@)
+ * @version    package: 1.5.0a1 (alpha)
+ * @version    api: 0.8.1 (alpha)
  * @access     public
  * @see        Net_NNTP_Protocol_Client
  */
