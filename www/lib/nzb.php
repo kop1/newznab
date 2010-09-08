@@ -170,6 +170,13 @@ class NZB
 		do
 		{
 			$msgs = $nntp->getOverview($post."-".$post,true,false);
+			if(PEAR::isError($msgs))
+			{
+				echo "Error {$msgs->code}: {$msgs->message}$n";
+				echo "Returning from postdate$n";
+				return "";
+			}
+
 			$date = $msgs[0]['Date'];
 			if($date=="" || is_null($date))
 				$success=false;
