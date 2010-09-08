@@ -49,6 +49,7 @@
 	<tr>
 		<th>ID</th>
 		<th>name</th>
+		<th>req</th>
 		<th>parts</th>
 		<th>count</th>
 	</tr>
@@ -57,6 +58,7 @@
 	<tr class="{cycle values=",alt"}">
 		<td>{$match.bininfo.binID}</td>
 		<td>{$match.name|escape:html}<br /><small>{$match.bininfo.binName|escape:html}</small></td>
+		<td>{$match.reqid}</td>
 		<td>{$match.parts}</td>
 		<td>{$match.count}</td>
 	</tr>
