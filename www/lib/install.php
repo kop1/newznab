@@ -38,6 +38,7 @@ class Install {
 	public $schemaCheck;
 	public $timelimitCheck;
 	public $memlimitCheck;
+	public $rewriteCheck;
 	
 	public $dbConnCheck;
 	public $dbNameCheck;

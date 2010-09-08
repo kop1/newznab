@@ -64,9 +64,12 @@ if (!$cfg->pearCheck) { $cfg->error = true; }
 $cfg->schemaCheck = is_readable($cfg->DB_DIR.'/schema.sql');
 if ($cfg->schemaCheck === false) { $cfg->error = true; }
 
+// Dont set error = true for these as we only want to display a warning
 $cfg->timelimitCheck = (ini_get('max_execution_time') >= 60) ? true : false;
-
 $cfg->memlimitCheck = (ini_get('memory_limit') >= 256) ? true : false;
+
+$cfg->rewriteCheck = in_array("mod_rewrite", apache_get_modules());
+if (!$cfg->rewriteCheck) { $cfg->error = true; }
 
 //Load previous config.php
 if (file_exists($cfg->WWW_DIR.'/config.php') && is_readable($cfg->WWW_DIR.'/config.php')) {
