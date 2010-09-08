@@ -18,10 +18,12 @@ pre-reqs
 		.htaccess allow override on
 		
 installation
+	there is an installer in \install\ try it first by creating your website
+	copying the application files there and browsing to http://yournewznabserver/install.
+	it is much preferred to use the installer, as it will check your system for
+	pre-requisites.
 
-	there is an installer in \install\ try it first, before manual.
-
-manual install
+manual install (ONLY ATTEMPT AFTER INSTALLER)
 	create new database newznab
 	add new user with only rights to newznab db
 	import \db\schema.sql into newznab db (if this doesnt work piping in, use a query editor)

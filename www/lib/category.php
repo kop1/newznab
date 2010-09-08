@@ -26,7 +26,7 @@ class Category
 	const CAT_PC_MAC = 4030;
 	const CAT_PC_PHONE = 4040;
 	const CAT_TV_DVD = 5010;
-	const CAT_TV_SWE = 5020;
+	const CAT_TV_FOREIGN = 5020;
 	const CAT_TV_XVID = 5030;
 	const CAT_TV_X264 = 5040;
 	const CAT_TV_IPOD = 5050;
@@ -214,7 +214,7 @@ class Category
 			return Category::CAT_TV_IPOD;	
 
 		if (preg_match('/alt\.binaries\.tv\.swedish/i', $group)) 
-			return Category::CAT_TV_SWE;						
+			return Category::CAT_TV_FOREIGN;						
 
 		if (preg_match('/alt\.binaries\.games\.wii/i', $group)) 
 			return Category::CAT_GAME_WII;				
