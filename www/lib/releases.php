@@ -1206,13 +1206,13 @@ class Releases
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = '20'.$matches[2];
 			$showInfo['episode'] = intval($matches[3]);
-		//Part1
-		} elseif (preg_match('/^(.*?)\.Part\.?(\d{1,2})\./i', $relname, $matches)) {
+		//Part1/Pt1
+		} elseif (preg_match('/^(.*?)\.(?:Part|Pt)\.?(\d{1,2})\./i', $relname, $matches)) {
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = 1;
 			$showInfo['episode'] = intval($matches[2]);
-		//The.Pacific.Pt.VI.HDTV.XviD-XII
-		} elseif (preg_match('/^(.*?)\.Pt\.([ivx]+)/i', $relname, $matches)) {
+		//The.Pacific.Pt.VI.HDTV.XviD-XII / Part.IV
+		} elseif (preg_match('/^(.*?)\.(?:Part|Pt)\.?([ivx]+)/i', $relname, $matches)) {
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = 1;
 			$epLow = strtolower($matches[2]);
