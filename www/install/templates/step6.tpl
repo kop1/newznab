@@ -4,6 +4,8 @@
 		<p>First time users may want to install some sample data to get started:<br /><a href="step7.php">Install Sample Data</a></p>
 		<p>or</p>
 		<h3>Continue to <a href="../admin/site-edit.php">Site Edit</a> to give your site a name.</h3>
+		<p>&nbsp;</p>
+		<h3><b >Note:</b> It is a good idea to remove the www/install directory after setup</h3>
 	</div>   
 {else}
 

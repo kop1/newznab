@@ -622,7 +622,6 @@ CREATE TABLE site (
 `metakeywords` VARCHAR(1000) NOT NULL,
 `footer` VARCHAR(2000) NOT NULL,
 `email` VARCHAR(1000) NOT NULL,
-`groupfilter` VARCHAR(2000) NOT NULL,
 `lastupdate` DATETIME NOT NULL,
 `google_adsense_menu` VARCHAR(255) NULL,
 `google_adsense_search` VARCHAR(255) NULL,
@@ -662,7 +661,6 @@ INSERT INTO `site`
 	`metakeywords`,
 	`footer`, 
 	`email`, 
-	`groupfilter`, 
 	`lastupdate`, 
 	`google_adsense_menu`, 
 	`google_adsense_search`, 
@@ -682,7 +680,6 @@ INSERT INTO `site`
 	'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
-	'alt.binaries.teevee',
 	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
 	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2);
 

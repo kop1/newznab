@@ -98,26 +98,23 @@ class Groups
 	//
 	// update the list of newsgroups and return an array of messages.
 	//
-	function updateGroupList($blnUpdateCategory = true, $blnExpandGroupName = false) 
+	function addBulk($groupList, $active = 1) 
 	{
 		$ret = array();
-		$s = new Sites();
-		$site = $s->get(); // $site->groupfilter is regex of newsgroups to match on
 	
-		if ($site->groupfilter == "")
+		if ($groupList == "")
 		{
-			$ret[] = "No groupfilter specified in site table.";
+			$ret[] = "No group list provided.";
 		}
 		else
 		{
 			$db = new DB();
-			$category = new Category();
 			$nntp = new Nntp;
 			$nntp->doConnect();
 			$groups = $nntp->getGroups();
 			$nntp->doQuit();
 				
-			$regfilter = "/(" . str_replace (array ('.','*'), array ('\.','.*?'), $site->groupfilter) . ")".(!$blnExpandGroupName ? "$" : "")."/";
+			$regfilter = "/(" . str_replace (array ('.','*'), array ('\.','.*?'), $groupList) . ")$/";
 
 			foreach($groups AS $group) 
 			{
@@ -126,28 +123,14 @@ class Groups
 					$res = $db->queryOneRow(sprintf("SELECT ID FROM groups WHERE name = %s ", $db->escapeString($group['group'])));
 					if($res) 
 					{
-						$cat = "";
-						if($blnUpdateCategory)
-						{
-							$cat = $category->determineCategory($group['group']);
-							if ($cat == -1)
-								$cat = " categoryID = null, ";
-							else
-								$cat = " categoryID = ".$cat.", ";
-						}
 						
-						$db->query(sprintf("UPDATE groups SET %s description = %s where ID = %d", $cat, $db->escapeString((isset($group['desc']) ? $group['desc'] : "description")), $res["ID"]));
+						$db->query(sprintf("UPDATE groups SET active = %d where ID = %d", $active, $res["ID"]));
 						$ret[] = array ('group' => $group['group'], 'msg' => 'Updated');
 					} 
 					else 
 					{
 						$desc = "";
-						if (isset($group['desc']))
-						{
-							$desc = $group['desc'];
-						}
-						
-						$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, 1)", $db->escapeString($group['group']), $db->escapeString($desc), $cat));
+						$db->queryInsert(sprintf("INSERT INTO groups (name, description, active) VALUES (%s, %s, %d)", $db->escapeString($group['group']), $db->escapeString($desc), $active));
 						$ret[] = array ('group' => $group['group'], 'msg' => 'Created');
 					}
 				}

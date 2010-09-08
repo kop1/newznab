@@ -143,14 +143,6 @@
 <table class="input">
 
 <tr>
-	<td style="width:160px;"><label for="groupfilter">Usenet Group Filter</label>:</td>
-	<td>
-		<textarea id="groupfilter" name="groupfilter">{$fsite->groupfilter}</textarea>
-		<div class="hint">Regex of groups which are to be polled for binaries. e.g. alt.binaries.cd.image.linux|alt.binaries.warez.linux</div>
-	</td>
-</tr>
-
-<tr>
 	<td><label for="nzbpath">Nzb File Path</label>:</td>
 	<td>
 		<input id="nzbpath" class="long" name="nzbpath" type="text" value="{$fsite->nzbpath}" />
