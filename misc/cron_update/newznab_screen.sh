@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # call this script from within screen to get binaries and processes releases
 
 set -e
