@@ -25,7 +25,7 @@ manual install
 	create new database newznab
 	add new user with only rights to newznab db
 	import \db\schema.sql into newznab db (if this doesnt work piping in, use a query editor)
-	copy \www\config.php.dist to \www\config.php and edit all settings
+	copy \www\install\config.php.tpl to \www\config.php and edit all settings
 	chmod -R 777 \www\lib\smarty\template_c
 	chmod -R 777 \www\lib\smarty\cache
 	restart apache

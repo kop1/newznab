@@ -11,9 +11,13 @@
 		<td>Checking for mysql_connect():{if !$cfg->mysqlCheck}<br /><span class="error">The PHP installation lacks support for MySQL(mysql_connect).</span>{/if}</td>
 		<td>{if $cfg->mysqlCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
-	<tr class="alt">
+	<tr class="">
 		<td>Checking for GD support:{if !$cfg->gdCheck}<br /><span class="warn">The PHP installation lacks support for GD.</span>{/if}</td>
 		<td>{if $cfg->gdCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
+	</tr>
+	<tr class="alt">
+		<td>Checking for Pear:{if !$cfg->pearCheck}<br /><span class="error">Cannot find PEAR. To install PEAR follow the instructions at <a href="http://pear.php.net/manual/en/installation.php" target="_blank">http://pear.php.net/manual/en/installation.php</a></span>{/if}</td>
+		<td>{if $cfg->pearCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="">
 		<td>Checking that Smarty cache is writeable:{if !$cfg->cacheCheck}<br /><span class="error">The template cache folder must be writable. A quick solution is to run:<br />chmod 777 {$cfg->SMARTY_DIR}/templates_c</span>{/if}</td>
@@ -32,18 +36,14 @@
 		<td>{if $cfg->lockCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="">
-		<td>Checking for Pear Net_NNTP:{if !$cfg->pearCheck}<br /><span class="error">The PEAR package 'Net_NNTP' is missing. This can normally be fixed by running:<br />pear install Net_NNTP</span>{/if}</td>
-		<td>{if $cfg->pearCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
-	</tr>
-	<tr class="alt">
 		<td>Checking for schema.sql file:{if !$cfg->schemaCheck}<br /><span class="error">The schema.sql file is missing, please make sure it is placed in: {$cfg->DB_DIR}/schema.sql</span>{/if}</td>
 		<td>{if $cfg->schemaCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
-	<tr class="">
+	<tr class="alt">
 		<td>Checking max_execution_time:{if !$cfg->timelimitCheck}<br /><span class="warn">Your PHP installation's max_execution_time setting is low, please consider increasing it >= 60</span>{/if}</td>
 		<td>{if $cfg->timelimitCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
 	</tr>
-	<tr class="alt">
+	<tr class="">
 		<td>Checking PHP's memory_limit:{if !$cfg->memlimitCheck}<br /><span class="warn">Your PHP installation's memory_limit setting is low, please consider increasing it >= 256MB</span>{/if}</td>
 		<td>{if $cfg->memlimitCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
 	</tr>
