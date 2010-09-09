@@ -112,12 +112,12 @@ if (!empty($argc) || $page->isPostBack() )
 					$importfailed = true;
 					if (!empty($argc))
 					{
-						echo ("no group found for ".$name."\n");
+						echo ("no group found for ".$name." (one of ".implode(', ', $groupArr)." are missing)\n");
 						flush();
 					}
 					else
 					{
-						$retval.= "no group found for ".$name."<br />";
+						$retval.= "no group found for ".$name." (one of ".implode(', ', $groupArr)." are missing)<br />";
 					}
 					break;
 				}
@@ -126,7 +126,7 @@ if (!empty($argc) || $page->isPostBack() )
 			if (!$importfailed)
 			{
 				$nzbCount++;
-				unlink($nzbFile);
+				@unlink($nzbFile);
 
 				if (!empty($argc))
 				{
