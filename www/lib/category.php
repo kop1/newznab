@@ -233,6 +233,7 @@ class Category
 		// Tv 
 		//
 		if (preg_match('/alt\.binaries\.(teevee|multimedia|tv|tvseries)/i', $group)) {
+			// Sports
 			if (preg_match('/ESPN/', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/WWE\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/MMA\./', $releasename)) { return Category::CAT_TV_SPORT; }
@@ -251,7 +252,11 @@ class Category
 			if (preg_match('/FIFA\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/netball\.anz/', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/motogp/i', $releasename)) { return Category::CAT_TV_SPORT; }
+			// Foreign
+			if (preg_match('/(danish|flemish|dutch|nlsubbed|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename)) { return Category::CAT_TV_FOREIGN; }
+			// x264
 			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_TV_X264; }
+			// DVDR
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_TV_XVID;
 		}
