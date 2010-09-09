@@ -10,6 +10,18 @@ if (isset($_GET["t"]))
 if (isset($_GET["reqid"]))
 	$reqid = explode(",",$_GET["reqid"]);
 
+$result = mysql_query("select count(ID) as num from feed where code = '" + mysql_real_escape_string($type) + "'");
+while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+{
+	if ($row["num"] == 0)
+	{
+		header("Content-type: text/xml");
+		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		echo "<error>no feed</error>";
+		die();	
+	}
+}
+
 //
 // query can include multiple comma sep reqids
 //
