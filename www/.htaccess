@@ -20,6 +20,7 @@ RewriteRule ^search$ search.php
 RewriteRule ^searchraw/(.*)$ searchraw.php?search=$1
 RewriteRule ^searchraw$ searchraw.php
 RewriteRule ^browse$ browse.php
+RewriteRule ^profile/(.*)$ profile.php?name=$1
 RewriteRule ^profile$ profile.php
 RewriteRule ^profileedit$ profileedit.php
 RewriteRule ^queue$ viewqueue.php
