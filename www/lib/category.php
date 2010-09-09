@@ -160,11 +160,6 @@ class Category
 
 		if (preg_match('/alt\.binaries\.sounds.*?|alt\.binaries\.mp3.*?/i', $group)) 
 			return Category::CAT_MUSIC_MP3;
-
-		if (preg_match('/alt\.binaries\.games\.xbox360/i', $group)) {
-			if (!empty($releasename) && preg_match('/wmv/i', $releasename)) {return Category::CAT_MOVIE_WMV_HD; }
-			return Category::CAT_GAME_XBOX360;
-		}
 		
 		if (preg_match('/alt\.binaries\.games\.xbox/i', $group))
 			return Category::CAT_GAME_XBOX;
@@ -185,7 +180,7 @@ class Category
 		if (preg_match('/alt\.binaries\.e-book.*?/i', $group)) 
 			return Category::CAT_MISC_EBOOK;
 
-		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries\.inner\-sanctum/i', $group)) {
+		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries/i', $group)) {
 			if (preg_match('/osx|os\.x|\.mac\./i', $releasename)) { return Category::CAT_PC_MAC; }
 			return Category::CAT_PC_0DAY;
 		}
@@ -214,10 +209,7 @@ class Category
 			return Category::CAT_TV_IPOD;	
 
 		if (preg_match('/alt\.binaries\.tv\.swedish/i', $group)) 
-			return Category::CAT_TV_FOREIGN;						
-
-		if (preg_match('/alt\.binaries\.games\.wii/i', $group)) 
-			return Category::CAT_GAME_WII;				
+			return Category::CAT_TV_FOREIGN;									
 			
 		if (preg_match('/alt\.binaries\.erotica\.divx/i', $group)) 
 			return Category::CAT_XXX_XVID;				
@@ -308,9 +300,15 @@ class Category
 		if (preg_match('/PSP-/', $releasename)) 
 			return Category::CAT_GAME_PSP;
 
-		if (preg_match('/WII-/i', $releasename)) 
+		if (preg_match('/(WIIWARE|VC|CONSOLE)/i', $releasename)) 
+			return Category::CAT_GAME_WIIWARE;
+			
+		if (preg_match('/WII/i', $releasename)) 
 			return Category::CAT_GAME_WII;
 		
+		if (preg_match('/(.*?DLC.*?|)xbox360(.*?DLC|)/i', $releasename)) 
+			return Category::CAT_GAME_XBOX360DLC;
+			
 		if (preg_match('/xbox360/i', $releasename)) 
 			return Category::CAT_GAME_XBOX360;
 		
