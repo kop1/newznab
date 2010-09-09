@@ -813,7 +813,13 @@ class Releases
 					//
 					$binGroup = $db->queryOneRow(sprintf("SELECT name FROM groups WHERE ID = %d", $row["groupID"]));		
 					$newtitle = $this->getReleaseNameForReqId($page->site->reqidurl, $binGroup["name"], $row["reqID"], $echooutput);
-					
+
+					//
+					// if the feed/group wasnt supported by the scraper, then just use the release name as the title.
+					//					
+					if ($newtitle == "no feed")
+						$newtitle = $row["relname"];
+
 					//
 					// Valid release with right number of files and title now, so move it on
 					//
@@ -1130,17 +1136,23 @@ class Releases
 		$xml = "";
 		$arrXml = "";
 		$xml = @file_get_contents($url);
-		if ($xml != "")
-		{
-			$xmlObj = @simplexml_load_string($xml);
-			$arrXml = objectsIntoArray($xmlObj);
-
-			if (isset($arrXml["item"]) && is_array($arrXml["item"]) && is_array($arrXml["item"]["@attributes"]))
+		
+		if (preg_match('/no feed/i', $xml)) 
+			return "no feed";
+		else
+		{		
+			if ($xml != "")
 			{
-				if ($echooutput)
-					echo "found title for reqid ".$reqid." - ".$arrXml["item"]["@attributes"]["title"]."\n";
-					
-				return $arrXml["item"]["@attributes"]["title"];
+				$xmlObj = @simplexml_load_string($xml);
+				$arrXml = objectsIntoArray($xmlObj);
+	
+				if (isset($arrXml["item"]) && is_array($arrXml["item"]) && is_array($arrXml["item"]["@attributes"]))
+				{
+					if ($echooutput)
+						echo "found title for reqid ".$reqid." - ".$arrXml["item"]["@attributes"]["title"]."\n";
+						
+					return $arrXml["item"]["@attributes"]["title"];
+				}
 			}
 		}
 
