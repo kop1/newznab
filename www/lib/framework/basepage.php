@@ -18,7 +18,7 @@ class BasePage
 	public $userdata = array();
 	public $serverurl = '';
 		
-	const FLOOD_WAIT_SECONDS = 1.000;
+	const FLOOD_THREE_REQUESTS_WITHIN_X_SECONDS = 1.000;
 	const FLOOD_PUNISHMENT_SECONDS = 3.0;
 	
 	function BasePage()
@@ -35,9 +35,9 @@ class BasePage
 		$this->smarty = new Smarty();
 		
 		$this->smarty->template_dir = WWW_DIR.'templates/';
-		$this->smarty->compile_dir  = SMARTY_DIR.'templates_c/';
-		$this->smarty->config_dir   = SMARTY_DIR.'configs/';
-		$this->smarty->cache_dir    = SMARTY_DIR.'cache/';				
+		$this->smarty->compile_dir = SMARTY_DIR.'templates_c/';
+		$this->smarty->config_dir = SMARTY_DIR.'configs/';
+		$this->smarty->cache_dir = SMARTY_DIR.'cache/';				
 
 		$this->smarty->assign('page',$this);
 		if (isset($_SERVER["SERVER_NAME"]))
@@ -82,6 +82,9 @@ class BasePage
 			}
 		else
 		{
+			//
+			// if user not an admin, they are allowed three requests in FLOOD_THREE_REQUESTS_WITHIN_X_SECONDS seconds
+			//
 			if(empty($argc) && $role != Users::ROLE_ADMIN)
 			{
 				if (!isset($_SESSION['flood_check']))
@@ -94,7 +97,7 @@ class BasePage
 					if ($hit >= 3)
 					{
 						$onetime = substr($_SESSION['flood_check'], strpos($_SESSION['flood_check'], "_") + 1);
-						if ($onetime + BasePage::FLOOD_WAIT_SECONDS > microtime(true))
+						if ($onetime + BasePage::FLOOD_THREE_REQUESTS_WITHIN_X_SECONDS > microtime(true))
 						{
 							$_SESSION['flood_wait_until'] = microtime(true) + BasePage::FLOOD_PUNISHMENT_SECONDS;
 							unset($_SESSION['flood_check']);
@@ -116,7 +119,7 @@ class BasePage
 	}
 	
 	//
-	// Done in html here to reduce any smart processing burden if a large flood is underway
+	// Done in html here to reduce any smarty processing burden if a large flood is underway
 	//
 	public function showFloodWarning()
 	{
@@ -136,15 +139,21 @@ class BasePage
 				<p>You must <b>wait ".BasePage::FLOOD_PUNISHMENT_SECONDS." seconds</b> before trying again.</p> 
 
 			</body>
-		</html>";
+			</html>";
 		die();
 	}
 	
+	//
+	// Inject content into the html head
+	//
 	public function addToHead($headcontent) 
 	{			
 		$this->head = $this->head."\n".$headcontent;
 	}	
 	
+	//
+	// Inject js/attributes into the html body tag
+	//
 	public function addToBody($attr) 
 	{			
 		$this->body = $this->body." ".$attr;

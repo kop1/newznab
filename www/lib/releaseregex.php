@@ -73,6 +73,5 @@ class ReleaseRegex
 			$groupname, $db->escapeString($regex["regex"]), $regex["ordinal"], $regex["status"], $db->escapeString($regex["description"]), $catid));	
 		
 	}	
-
 }
 ?>

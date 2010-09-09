@@ -5,26 +5,32 @@ require_once(WWW_DIR."/lib/releases.php");
 
 class Binaries
 {	
-	function Binaries() {
+	function Binaries() 
+	{
 		$this->blackList = array();
 	}
 	
-	public function retrieveBlackList() {
+	public function retrieveBlackList() 
+	{
 		if (is_array($this->blackList) && !empty($this->blackList)) { return $this->blackList; }
 		$blackList = $this->getBlacklist(true);
 		$result = array();
-		foreach($blackList as $bl) {
+		foreach($blackList as $bl) 
+		{
 			$result[$bl['groupname']][$bl['optype']][] = $bl;
 		}
 		$this->blackList = $result;
 		return $result;
 	}
 	
-	public function isBlackListed($subject, $groupName, $blackList) {
+	public function isBlackListed($subject, $groupName, $blackList) 
+	{
 		$omitBinary = false;
 		//whitelist
-		if (isset($blackList[$groupName][2])) {
-			foreach ($blackList[$groupName][2] as $wList) {
+		if (isset($blackList[$groupName][2])) 
+		{
+			foreach ($blackList[$groupName][2] as $wList) 
+			{
 				if (!preg_match('/'.$wList['regex'].'/i', $subject))
 				{
 					$omitBinary = true;
@@ -32,8 +38,10 @@ class Binaries
 			}
 		}
 		//blacklist
-		if (isset($blackList[$groupName][1])) {
-			foreach ($blackList[$groupName][1] as $bList) {
+		if (isset($blackList[$groupName][1])) 
+		{
+			foreach ($blackList[$groupName][1] as $bList) 
+			{
 				if (preg_match('/'.$bList['regex'].'/i', $subject))
 				{
 					$omitBinary = true;
@@ -49,7 +57,7 @@ class Binaries
 
 		//
 		// if the query starts with a ^ it indicates the search is looking for items which start with the term
-		// still do the fulltext match, but mandate that all items returned must start with the provided word
+		// still do the like match, but mandate that all items returned must start with the provided word
 		//
 		$words = explode(" ", $search);
 		$searchsql = "";
@@ -69,7 +77,6 @@ class Binaries
 				$intwordcount++;
 			}
 		}
-
 
 		$res = $db->query(sprintf("
 					SELECT b.*, 

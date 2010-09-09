@@ -5,6 +5,8 @@ require_once(WWW_DIR."/lib/TMDb.php");
 
 class Movie
 {
+	const TMDBAPIKEY = '9a4e16adddcd1e86da19bcaf5ff3c2a3';
+	
 	function Movie($echooutput=false)
 	{
 		$this->echooutput = $echooutput;
@@ -50,7 +52,8 @@ class Movie
 		
 		//check themoviedb for imdb info
 		$imdb = $this->fetchTmdbProperties($imdbId);
-		if (!$imdb) {
+		if (!$imdb) 
+		{
 			if ($this->echooutput)
 				echo "not found in tmdb... trying from imdb - ".$imdbId."\n";
 			
@@ -115,7 +118,8 @@ class Movie
 	public function saveCoverImage($imgUrl, $imdbId, $type='cover')
 	{
 		$cover = $this->fetchCoverImage($imgUrl);
-		if ($cover !== false) {
+		if ($cover !== false) 
+		{
 			$coverSave = file_put_contents(WWW_DIR.'images/covers/'.$imdbId.'-'.$type.'.jpg', $cover);
 			return ($coverSave !== false) ? 1 : 0;
 		}
@@ -124,7 +128,7 @@ class Movie
 	
 	public function fetchTmdbProperties($imdbId)
 	{
-		$tmdb = new TMDb('9a4e16adddcd1e86da19bcaf5ff3c2a3');
+		$tmdb = new TMDb(Movie::TMDBAPIKEY);
 		$lookupId = 'tt'.$imdbId;
 		$tmdbLookup = json_decode($tmdb->getMovie($lookupId, TMDb::IMDB));
 		if (!$tmdbLookup) { return false; }
@@ -138,25 +142,33 @@ class Movie
 		$ret['plot'] = $movie->overview;
 		$ret['year'] = date("Y", strtotime($movie->released));
 		$ret['genre'] = '';
-		if (isset($movie->genres) && sizeof($movie->genres) > 0) {
+		if (isset($movie->genres) && sizeof($movie->genres) > 0) 
+		{
 			$genres = array();
-			foreach($movie->genres as $genre) {
+			foreach($movie->genres as $genre) 
+			{
 				$genres[] = $genre->name;
 			}
 			$ret['genre'] = implode(', ', $genres);
 		}
 		$ret['cover'] = '';
-		if (isset($movie->posters) && sizeof($movie->posters) > 0) {
-			foreach($movie->posters as $poster) {
-				if ($poster->image->size == 'cover') {
+		if (isset($movie->posters) && sizeof($movie->posters) > 0) 
+		{
+			foreach($movie->posters as $poster) 
+			{
+				if ($poster->image->size == 'cover') 
+				{
 					$ret['cover'] = $poster->image->url;
 				}
 			}
 		}
 		$ret['backdrop'] = '';
-		if (isset($movie->backdrops) && sizeof($movie->backdrops) > 0) {
-			foreach($movie->backdrops as $backdrop) {
-				if ($backdrop->image->size == 'original') {
+		if (isset($movie->backdrops) && sizeof($movie->backdrops) > 0) 
+		{
+			foreach($movie->backdrops as $backdrop) 
+			{
+				if ($backdrop->image->size == 'original') 
+				{
 					$ret['backdrop'] = $backdrop->image->url;
 				}
 			}
@@ -164,13 +176,9 @@ class Movie
 		return $ret;
 	}
 	
-	/**
-     * fetchImdbProperties()
-     *
-     * @link http://code.google.com/p/moving-pictures/source/browse/trunk/MovingPictures/DataProviders/ScraperScripts/IMDb.xml?spec=svn920&r=920
-     * @param int $imdb_id  imdb id
-     * @return array
-     */
+	//
+	// ref http://code.google.com/p/moving-pictures/source/browse/trunk/MovingPictures/DataProviders/ScraperScripts/IMDb.xml?spec=svn920&r=920
+	//
     public function fetchImdbProperties($imdbId)
     {
         $imdb_regex = array(

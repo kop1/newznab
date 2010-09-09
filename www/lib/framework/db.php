@@ -21,16 +21,9 @@ class DB
 		}			
 	}	
 				
-	public function escapeString($str, $allowEmptyString=false)
+	public function escapeString($str)
 	{
-		try
-		{
-			return "'".mysql_real_escape_string($str)."'";
-		}
-		catch (Exception $e) 
-		{
-			var_dump($e->getTrace());
-		}
+		return "'".mysql_real_escape_string($str)."'";
 	}		
 
 	public function makeLookupTable($rows, $keycol)
@@ -76,18 +69,11 @@ class DB
 		
 		$rows = array();
 
-		try
+		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
-			while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
-			{
-				$rows[] = $row;	
-				if ($addtotalcount)
-					$rows[count($rows)-1]["_totalrows"] = $totalRow;
-			}
-		}
-		catch (Exception $e) 
-		{
-			var_dump($e->getTrace());
+			$rows[] = $row;	
+			if ($addtotalcount)
+				$rows[count($rows)-1]["_totalrows"] = $totalRow;
 		}
 		
 		mysql_free_result($result);
@@ -108,6 +94,7 @@ class DB
 		foreach ($alltables as $tablename) 
 		{
 			$ret[] = $tablename[0];
+			$this->queryDirect("REPAIR TABLE `".$tablename[0]."`"); 
 			$this->queryDirect("OPTIMIZE TABLE `".$tablename[0]."`"); 
 		}
 			

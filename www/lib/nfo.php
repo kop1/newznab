@@ -14,12 +14,6 @@ class Nfo
 		$this->echooutput = $echooutput;
 	}
 	
-	/**
-     * determineReleaseNfo()
-     *
-     * @param array $nzbdata  array of nzb binary data
-     * @return array
-     */
 	public function determineReleaseNfo($relid)
 	{
 		$nfos = array();
@@ -45,17 +39,21 @@ class Nfo
 		return $db->query(sprintf("delete from releasenfo where releaseID = %d", $relid));		
 	}
 	
-	public function parseImdb($str) {
+	public function parseImdb($str) 
+	{
 		preg_match('/imdb.*?(tt|Title\?)(\d{7})/i', $str, $matches);
-		if (isset($matches[2]) && !empty($matches[2])) {
+		if (isset($matches[2]) && !empty($matches[2])) 
+		{
 			return trim($matches[2]);
 		}
 		return false;
 	}
 	
-	public function parseRageId($str) {
+	public function parseRageId($str) 
+	{
 		preg_match('/tvrage\.com\/shows\/id-(\d{1,6})/i', $str, $matches);
-		if (isset($matches[1])) {
+		if (isset($matches[1])) 
+		{
 			return trim($matches[1]);
 		}
 		return false;

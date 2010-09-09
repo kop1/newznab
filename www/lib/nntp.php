@@ -189,6 +189,5 @@ class Nntp extends Net_NNTP_Client
 	        return $this->_handleUnexpectedResponse($response);
 	    }
 	}
-	
 }
 ?>

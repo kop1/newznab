@@ -9,7 +9,7 @@
 	
 	{foreach from=$tablelist item=table}
 	<tr>
-		<td>{$table} optimised</td>
+		<td>{$table} optimised/repaired</td>
 	</tr>
 	{/foreach}
 
