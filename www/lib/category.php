@@ -160,9 +160,19 @@ class Category
 
 		if (preg_match('/alt\.binaries\.sounds.*?|alt\.binaries\.mp3.*?/i', $group)) 
 			return Category::CAT_MUSIC_MP3;
+			
+		if (preg_match('/alt\.binaries\.console.ps3/i', $group)) 
+			return Category::CAT_GAME_PS3;
 		
-		if (preg_match('/alt\.binaries\.games\.xbox/i', $group))
+		if (preg_match('/alt\.binaries\.games\.xbox/i', $group)) {
+			if (preg_match('/(.*?DLC.*?|)xbox360(.*?DLC|)/i', $releasename)) {
+				return Category::CAT_GAME_XBOX360DLC;
+			}
+			if (preg_match('/xbox360/i', $releasename)) {
+				return Category::CAT_GAME_XBOX360;
+			}
 			return Category::CAT_GAME_XBOX;
+		}
 
 		if (preg_match('/alt\.binaries\.dvd.*?/i', $group)) {
 			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $releasename)) { return Category::CAT_TV_DVD; }
@@ -299,7 +309,10 @@ class Category
 		//	
 		if (preg_match('/PSP-/', $releasename)) 
 			return Category::CAT_GAME_PSP;
-
+		
+		if (preg_match('/PS3-/', $releasename)) 
+			return Category::CAT_GAME_PS3;
+		
 		if (preg_match('/(WIIWARE|VC|CONSOLE)/i', $releasename)) 
 			return Category::CAT_GAME_WIIWARE;
 			
