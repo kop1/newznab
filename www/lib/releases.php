@@ -702,7 +702,7 @@ class Releases
 			
 			// Get out all binaries of STAGE0 for current group
 			$arrNoPartBinaries = array();
-			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date, binaries.totalParts from binaries inner join groups on groups.ID = binaries.groupID where %s and procstat = %d", $groupmatch, Releases::PROCSTAT_NEW));
+			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date, binaries.totalParts from binaries inner join groups on groups.ID = binaries.groupID where %s and procstat = %d order by binaries.date asc", $groupmatch, Releases::PROCSTAT_NEW));
 
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
 			{

@@ -18,7 +18,12 @@
         
         {foreach from=$grouplist item=group}
         <tr id="grouprow-{$group.ID}" class="{cycle values=",alt"}">
-            <td><a href="{$smarty.const.WWW_TOP}/group-edit.php?id={$group.ID}">{$group.name|replace:"alt.binaries":"a.b"}</a></td>
+            <td>
+							<a href="{$smarty.const.WWW_TOP}/group-edit.php?id={$group.ID}">{$group.name|replace:"alt.binaries":"a.b"}</a>
+							<div class="hint">
+								{$group.description}
+							</div>
+						</td>
             <td class="less">{$group.first_record_postdate|timeago}</td>
 			<td class="less">{$group.last_record_postdate|timeago}</td>
             <td class="less">{$group.last_updated|timeago} ago</td>
