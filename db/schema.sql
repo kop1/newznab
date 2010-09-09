@@ -551,7 +551,7 @@ INSERT INTO category (ID, title, parentID) VALUES (5010, 'DVD', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5020, 'SWE', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5030, 'XviD', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5040, 'x264', 5000);
-INSERT INTO category (ID, title, parentID) VALUES (5050, 'Ipod', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5050, 'Mobile', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5060, 'Sport', 5000);
 
 INSERT INTO category (ID, title, parentID) VALUES (6010, 'DVD', 6000);
