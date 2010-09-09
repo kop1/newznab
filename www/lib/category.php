@@ -180,7 +180,7 @@ class Category
 		if (preg_match('/alt\.binaries\.e-book.*?/i', $group)) 
 			return Category::CAT_MISC_EBOOK;
 
-		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries/i', $group)) {
+		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day/i', $group)) {
 			if (preg_match('/osx|os\.x|\.mac\./i', $releasename)) { return Category::CAT_PC_MAC; }
 			return Category::CAT_PC_0DAY;
 		}
