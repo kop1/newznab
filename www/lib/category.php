@@ -29,7 +29,7 @@ class Category
 	const CAT_TV_FOREIGN = 5020;
 	const CAT_TV_XVID = 5030;
 	const CAT_TV_X264 = 5040;
-	const CAT_TV_IPOD = 5050;
+	const CAT_TV_MOBILE = 5050;
 	const CAT_TV_SPORT = 5060;
 	const CAT_XXX_DVD = 6010;
 	const CAT_XXX_WMV = 6020;
@@ -206,7 +206,7 @@ class Category
 			return Category::CAT_PC_ISO;
 
 		if (preg_match('/alt\.binaries\.ipod\.videos\.tvshows/i', $group)) 
-			return Category::CAT_TV_IPOD;	
+			return Category::CAT_TV_MOBILE;	
 
 		if (preg_match('/alt\.binaries\.tv\.swedish/i', $group)) 
 			return Category::CAT_TV_FOREIGN;									
