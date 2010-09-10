@@ -18,22 +18,16 @@ $cfg = $cfg->getSession();
 if  ($page->isPostBack()) {
 	$cfg->doCheck = true;
 	
-	require_once($cfg->WWW_DIR.'/lib/groups.php');
 	require_once($cfg->WWW_DIR.'/lib/nzb.php');
 	require_once($cfg->WWW_DIR.'/lib/releases.php');
 	
-	$groups = new Groups();
 	$nzb = new NZB();
 	$releases = new Releases();
-
-	$group = array();
-	$group['name'] = 'alt.binaries.teevee';
-	$group['description'] = '';
-	$group['first_record'] = 0;
-	$group['last_record'] = 0;
-	$group['active'] = 1;
-	$groups->add($group);
-
+	
+	//activate teevee
+	$db = new DB();
+	$db->query("INSERT INTO groups (name, description, active) VALUES ('alt.binaries.teevee', '', 1) ON DUPLICATE KEY UPDATE active = 1");
+	
 	ob_start();
 	$nzb->updateAllGroups();
 	$proccount = $releases->processReleases(true);
