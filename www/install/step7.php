@@ -31,11 +31,11 @@ if  ($page->isPostBack()) {
 	ob_start();
 	$nzb->updateAllGroups();
 	$proccount = $releases->processReleases(true);
-	$results = ob_get_contents();
+	$output = ob_get_contents();
 	ob_end_clean();
 
 	$page->smarty->assign('proccount', $proccount);
-	//$page->smarty->assign('output', $output);
+	$page->smarty->assign('output', str_replace('<BR>', '', $output));
 	
 	if (!$cfg->error) {
 		$cfg->setSession();

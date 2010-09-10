@@ -24,5 +24,10 @@
 		<p><a href="../browse">Browse</a> the sample data</p>
 		<p>or</p>
 		<p>Continue to <a href="../admin/site-edit.php">Site Edit</a> to give your site a name.</p>
+		
+		<h3>Results</h3>
+		<textarea style="height:400px; width:600px;">
+			{$output}
+		</textarea>
 	</div>
 {/if}
