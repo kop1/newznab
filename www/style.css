@@ -180,7 +180,7 @@ div.icon_check			{ background-image:url('images/icons/check.png'); }
     #cboxMiddleRight{width:25px; background:url(images/colorbox/border2.png) -25px 0 repeat-y;}
     #cboxContent{background:#fff;}
         #cboxLoadedContent{background:#fff; margin-top:32px; padding:1px; }
-        #cboxLoadingGraphic{background:url(images/loading.gif) center center no-repeat;}
+        /*#cboxLoadingGraphic{background:url(images/loading.gif) center center no-repeat;}*/
         #cboxLoadingOverlay{background:#fff;}
         #cboxTitle{position:absolute; font-size:125%; top:-2px; left:0; color:#000; }
         #cboxCurrent{position:absolute; top:-1px; right:205px; text-indent:-9999px;}
