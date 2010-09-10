@@ -165,7 +165,7 @@ class Category
 			return Category::CAT_GAME_PS3;
 		
 		if (preg_match('/alt\.binaries\.games\.xbox/i', $group)) {
-			if (preg_match('/(.*?DLC.*?|)xbox360(.*?DLC|)/i', $releasename)) {
+			if (preg_match('/DLC.*?xbox360|xbox360.*?DLC/i', $releasename)) {
 				return Category::CAT_GAME_XBOX360DLC;
 			}
 			if (preg_match('/xbox360/i', $releasename)) {
@@ -319,7 +319,7 @@ class Category
 		if (preg_match('/WII/i', $releasename)) 
 			return Category::CAT_GAME_WII;
 		
-		if (preg_match('/(.*?DLC.*?|)xbox360(.*?DLC|)/i', $releasename)) 
+		if (preg_match('/(DLC.*?xbox360|xbox360.*?DLC)/i', $releasename)) 
 			return Category::CAT_GAME_XBOX360DLC;
 			
 		if (preg_match('/xbox360/i', $releasename)) 
