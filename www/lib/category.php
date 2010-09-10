@@ -260,6 +260,8 @@ class Category
 			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_TV_X264; }
 			// DVDR
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
+			// Mobile
+			if (preg_match('/itouch\-/i', $releasename)) { return Category::CAT_TV_MOBILE; }
 			return Category::CAT_TV_XVID;
 		}
 		
@@ -270,7 +272,6 @@ class Category
 		if (preg_match('/S?(\d{1,2})(E|X)(\d{1,3})/i', $releasename)) {
 			if (preg_match('/720p|1080p|x264/i', $releasename)) { return Category::CAT_TV_X264; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
-			if (preg_match('/itouch\-/i', $releasename)) { return Category::CAT_TV_MOBILE; }
 			return Category::CAT_TV_XVID;
 		}
 		
