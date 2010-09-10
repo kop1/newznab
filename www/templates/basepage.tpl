@@ -162,9 +162,6 @@
 		<li>
 			<a title="Sabznbd - A great usenet binary downloader" href="http://www.sabnzbd.org/"><img class="menupic" alt="Sabznbd - A great usenet binary downloader" src="{$smarty.const.WWW_TOP}/images/sabnzbd.png" /></a>
 		</li>
-		<li>
-			<a title="Astraweb - 20 Connections, Unlimited, Free SSL" href="http://affiliate.astraweb.com/10457.html"><img class="menupic" alt="Astraweb - 20 Connections, Unlimited, Free SSL" src="{$smarty.const.WWW_TOP}/images/astra.png" /></a>
-		</li>
 		
 		</ul>
 		</div>
@@ -173,10 +170,10 @@
 		<div  style="clear: both;text-align:right;padding-bottom:10px;">
 			<a class="w3validator" href="http://validator.w3.org/check?uri=referer">
 			<img src="{$smarty.const.WWW_TOP}/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
-			</a>
+			</a> 
 		</div>
 
-		
+		 
 		
 	</div>
 	<!-- end #page -->
