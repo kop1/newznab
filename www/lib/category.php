@@ -190,8 +190,9 @@ class Category
 		if (preg_match('/alt\.binaries\.e-book.*?/i', $group)) 
 			return Category::CAT_MISC_EBOOK;
 
-		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day/i', $group)) {
+		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries\.warez/i', $group)) {
 			if (preg_match('/osx|os\.x|\.mac\./i', $releasename)) { return Category::CAT_PC_MAC; }
+			if (preg_match('/[\.\-_](IPHONE|ITOUCH|ANDROID|COREPDA|symbian|xscale|wm5|wm6)[\.\-_]/i', $releasename)) { return Category::CAT_PC_PHONE; }
 			return Category::CAT_PC_0DAY;
 		}
 		
@@ -329,6 +330,12 @@ class Category
 		
 		if (preg_match('/xbox/i', $releasename)) 
 			return Category::CAT_GAME_XBOX;
+		
+		//
+		// PC
+		//
+		if (preg_match('/[\.\-_ ](winnt|win9x|win2k|winxp|winnt2k2003serv|win9xnt|win9xme|winnt2kxp|win2kxp|win2kxp2k3|keygen|regged|keymaker|winall|win32|template|Patch|GAMEGUiDE|unix|irix|solaris|freebsd|hpux|linux|windows|multilingual)[\.\-_ ]/i', $releasename)) 
+			return Category::CAT_PC_0DAY;
 		
 		//
 		// Phone
