@@ -162,6 +162,9 @@
 		<li>
 			<a title="Sabznbd - A great usenet binary downloader" href="http://www.sabnzbd.org/"><img class="menupic" alt="Sabznbd - A great usenet binary downloader" src="{$smarty.const.WWW_TOP}/images/sabnzbd.png" /></a>
 		</li>
+		<li>
+			<a title="Astraweb - 20 Connections, Unlimited, Free SSL" href="http://affiliate.astraweb.com/10457.html"><img class="menupic" alt="Astraweb - 20 Connections, Unlimited, Free SSL" src="{$smarty.const.WWW_TOP}/images/astra.png" /></a>
+		</li>
 		
 		</ul>
 		</div>
