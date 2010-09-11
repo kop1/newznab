@@ -10,6 +10,7 @@
 		<li><a href="{$smarty.const.WWW_TOP}/binaryblacklist-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/binaryblacklist-edit.php?action=add">Add</a> Blacklist</li>
 		<li><a onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/binary-update.php">Get Latest Headers</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/release-list.php">View</a> <a style="padding:0;" onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/release-update.php">Update</a> Releases</li>
+		<li><a onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/backfill.php">Launch Backfill</a> </li>
 		<li><a href="{$smarty.const.WWW_TOP}/rage-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/rage-edit.php?action=add">Add</a> TVRage List</li>
 		<li><a href="{$smarty.const.WWW_TOP}/rage-process.php">Process</a> TV Manually</li>
 		<li><a href="{$smarty.const.WWW_TOP}/movie-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/movie-add.php">Add</a> Movie List</li>
