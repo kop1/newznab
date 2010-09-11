@@ -52,6 +52,7 @@
 		<th>req</th>
 		<th>parts</th>
 		<th>count</th>
+		<th>cat</th>
 	</tr>
 	
 	{foreach from=$matches item=match}
@@ -61,6 +62,7 @@
 		<td>{$match.reqid}</td>
 		<td>{$match.parts}</td>
 		<td>{$match.count}</td>
+		<td>{$match.catname}</td>
 	</tr>
 	{/foreach}
 

@@ -4,11 +4,13 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/releaseregex.php");
 require_once(WWW_DIR."/lib/groups.php");
+require_once(WWW_DIR."/lib/category.php");
 define("ITEMS_PER_PAGE", "50");
 
 $page = new AdminPage();
 $reg = new ReleaseRegex();
 $groups = new Groups();
+$cat = new Category();
 $id = 0;
 
 // set the current action
@@ -35,6 +37,7 @@ switch($action)
     case 'submit':
     	if (isset($_REQUEST["regex"]))
 		{
+			$catList = $cat->getForSelect();
 			$db = new Db();
 			$unreleasedSql = ($gunreleased != '') ? ' and binaries.procstat NOT IN (4,5,6) and binaries.releaseID IS NULL' : '';
 			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID as binID, binaries.name as binName from binaries where binaries.groupID = %d%s order by dateadded", $gselected, $unreleasedSql));
@@ -50,6 +53,7 @@ switch($action)
 					} else {
 						$binmatch['count'] = (isset($matches[$binmatch['name']]['count'])) ? $matches[$binmatch['name']]['count']+1 : 1;
 						$binmatch['bininfo'] = $rowbin;
+						$binmatch['catname'] = $catList[$cat->determineCategory($gname[$gselected], $binmatch['name'])];
 						$matches[$binmatch['name']] = $binmatch;
 					}
 				}
