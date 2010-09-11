@@ -1078,8 +1078,10 @@ class Releases
 					$relcleanname = str_replace(".", " ", $show['name']);
 					$relcleanname = str_replace("_", " ", $relcleanname);
 					
-					$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s where ID = %d", 
-								$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $arr["ID"]));
+					$tvairdate = (!empty($show['airdate'])) ? $show['airdate'] : "null";
+					
+					$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s, tvairdate=%s where ID = %d", 
+								$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $db->escapeString($tvairdate), $arr["ID"]));
 
 					//
 					// try and retrieve the entry from tvrage
@@ -1090,7 +1092,7 @@ class Releases
 						//
 						// try and get the episode info from tvrage
 						//
-						$tvairdate = "null";
+						$tvairdate = $tvairdate;
 						$tvtitle = "null";
 
 						if ($lookupTvRage)
@@ -1168,7 +1170,8 @@ class Releases
 			'name' => '',
 			'season' => '',
 			'episode' => '',
-			'seriesfull' => ''
+			'seriesfull' => '',
+			'airdate' => ''
 		);
 		
 		//S01E01
@@ -1192,16 +1195,19 @@ class Releases
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = $matches[2].$matches[3];
 			$showInfo['episode'] = $matches[4].'/'.$matches[5];
+			$showInfo['airdate'] = $matches[2].$matches[3].'-'.$matches[4].'-'.$matches[5]; //yy-m-d
 		//01.01.2009
 		} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(19|20)(\d{2})\./i', $relname, $matches)) {
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = $matches[4].$matches[5];
 			$showInfo['episode'] = $matches[2].'/'.$matches[3];
+			$showInfo['airdate'] = $matches[4].$matches[5].'-'.$matches[2].'-'.$matches[3]; //yy-m-d
 		//01.01.09
 		} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(\d{2})\./i', $relname, $matches)) {
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = ($matches[4] <= 99 && $matches[4] > 15) ? '19'.$matches[4] : '20'.$matches[4];
 			$showInfo['episode'] = $matches[2].'/'.$matches[3];
+			$showInfo['airdate'] = $showInfo['season'].'-'.$matches[2].'-'.$matches[3]; //yy-m-d
 		//2009.E01
 		} elseif (preg_match('/^(.*?)\.20(\d{2})\.e(\d{1,3})\./i', $relname, $matches)) {
 			$showInfo['name'] = $matches[1];
@@ -1251,6 +1257,7 @@ class Releases
 		if (!empty($showInfo['name'])) {
 			if (strlen($showInfo['season']) == 4) {
 				$showInfo['seriesfull'] = $showInfo['season']."/".$showInfo['episode'];
+				$showInfo['airdate'] = (!empty($showInfo['airdate'])) ? $showInfo['airdate'].' 00:00:00' : '';
 			} else {
 				$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
 				$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
