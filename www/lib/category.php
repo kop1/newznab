@@ -17,6 +17,7 @@ class Category
 	const CAT_MOVIE_WMV_HD = 2020;
 	const CAT_MOVIE_XVID = 2030;
 	const CAT_MOVIE_X264 = 2040;
+	const CAT_MOVIE_HDOTHER = 2050;
 	const CAT_MUSIC_MP3 = 3010;
 	const CAT_MUSIC_VIDEO = 3020;
 	const CAT_MUSIC_AUDIOBOOK = 3030;
@@ -175,13 +176,17 @@ class Category
 		}
 
 		if (preg_match('/alt\.binaries\.dvd.*?/i', $group)) {
-			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $releasename)) { return Category::CAT_TV_DVD; }
+			if ($this->isTv($releasename)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_MOVIE_DVD;	
 		}
 		
 		if (preg_match('/alt\.binaries\.hdtv\.x264|alt\.binaries\.x264/i', $group)) {
-			if (preg_match('/S?(\d{1,2})\.?(E|X|D)(\d{1,3})/i', $releasename)) { return Category::CAT_TV_X264; }
-			return Category::CAT_MOVIE_X264;	
+			if ($this->isTv($releasename)) {
+				if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
+				return Category::CAT_TV_X264;
+			}
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_X264; }
+			return Category::CAT_MOVIE_HDOTHER;
 		}
 			
 		if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx/i', $group)) 
@@ -191,13 +196,13 @@ class Category
 			return Category::CAT_MISC_EBOOK;
 
 		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries\.warez/i', $group)) {
-			if (preg_match('/osx|os\.x|\.mac\./i', $releasename)) { return Category::CAT_PC_MAC; }
+			if ($this->isMac($releasename)) { return Category::CAT_PC_MAC; }
 			if (preg_match('/[\.\-_](IPHONE|ITOUCH|ANDROID|COREPDA|symbian|xscale|wm5|wm6)[\.\-_]/i', $releasename)) { return Category::CAT_PC_PHONE; }
 			return Category::CAT_PC_0DAY;
 		}
 		
 		if (preg_match('/alt\.binaries\.cd\.image|alt\.binaries\.audio\.warez/i', $group)) {
-			if (preg_match('/osx|os\.x|\.mac\./i', $releasename)) { return Category::CAT_PC_MAC; }
+			if ($this->isMac($releasename)) { return Category::CAT_PC_MAC; }
 			return Category::CAT_PC_ISO;		
 		}
 		
@@ -256,9 +261,12 @@ class Category
 			if (preg_match('/netball\.anz/', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/motogp/i', $releasename)) { return Category::CAT_TV_SPORT; }
 			// Foreign
-			if (preg_match('/(danish|flemish|dutch|nlsubbed|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename)) { return Category::CAT_TV_FOREIGN; }
+			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
 			// x264
-			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_TV_X264; }
+			if ($this->isHd($releasename)) { 
+				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_X264; }
+				return Category::CAT_TV_X264; //HD-Other?
+			}
 			// DVDR
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
 			// Mobile
@@ -270,14 +278,19 @@ class Category
 		//S01.E01
 		//1x01
 		//S1.D1
-		if (preg_match('/S?(\d{1,2})(E|X)(\d{1,3})/i', $releasename)) {
-			if (preg_match('/720p|1080p|x264/i', $releasename)) { return Category::CAT_TV_X264; }
+		if ($this->isTv($releasename)) {
+			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
+			if ($this->isHd($releasename)) { 
+				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_X264; }
+				return Category::CAT_TV_X264; //HD-Other?
+			}
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
 			return Category::CAT_TV_XVID;
 		}
 		
 		if (preg_match('/\.S\d{2}\./i', $releasename)) {
-			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_TV_X264; }
+			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
+			if ($this->isHd($releasename)) { return Category::CAT_TV_X264; }
 			return Category::CAT_TV_XVID;
 		}
 		
@@ -285,7 +298,7 @@ class Category
 		// XXX 
 		//
 		if (preg_match('/erotica/i', $group)) { 
-			if (preg_match('/720p|1080p/i', $releasename)) { return Category::CAT_XXX_X264; }
+			if ($this->isHd($releasename)) { return Category::CAT_XXX_X264; }
 			if (preg_match('/xvid|divx/i', $releasename)) { return Category::CAT_XXX_XVID; }
 			if (preg_match('/wmv|pack\-/i', $releasename)) { return Category::CAT_XXX_WMV; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_XXX_DVD; }
@@ -301,19 +314,24 @@ class Category
 		if (preg_match('/dvdr|dvd9|dvd5/i', $releasename) && !preg_match('/dvdrip/i', $releasename)) 
 			return Category::CAT_MOVIE_DVD;
 		
-		if (preg_match('/720p|1080p/i', $releasename) || preg_match('/x264/i', $releasename)) 
-			return Category::CAT_MOVIE_X264;
-					
+		if ($this->isHd($releasename)) {
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_X264; }
+			return Category::CAT_MOVIE_HDOTHER;
+		}
+		
+		if (preg_match('/bluray\-/i', $releasename)) 
+			return Category::CAT_MOVIE_HDOTHER;
+		
 		if (preg_match('/wmv/i', $releasename)) 
 			return Category::CAT_MOVIE_WMV_HD;
 		
 		//
 		// Console 
 		//	
-		if (preg_match('/PSP-/', $releasename)) 
+		if (preg_match('/PSP\-/', $releasename)) 
 			return Category::CAT_GAME_PSP;
 		
-		if (preg_match('/PS3-/', $releasename)) 
+		if (preg_match('/PS3\-/', $releasename)) 
 			return Category::CAT_GAME_PS3;
 		
 		if (preg_match('/(WIIWARE|VC|CONSOLE)/i', $releasename)) 
@@ -334,7 +352,7 @@ class Category
 		//
 		// PC
 		//
-		if (preg_match('/[\.\-_ ](winnt|win9x|win2k|winxp|winnt2k2003serv|win9xnt|win9xme|winnt2kxp|win2kxp|win2kxp2k3|keygen|regged|keymaker|winall|win32|template|Patch|GAMEGUiDE|unix|irix|solaris|freebsd|hpux|linux|windows|multilingual)[\.\-_ ]/i', $releasename)) 
+		if ($this->is0day($releasename))
 			return Category::CAT_PC_0DAY;
 		
 		//
@@ -350,6 +368,26 @@ class Category
 			$ret = -1;
 
 		return $ret;
+	}
+	
+	private function isTv($releasename) {
+		return preg_match('/(S?(\d{1,2})\.?(?!x264)(E|X|D)(\d{1,3}))|(hdtv|dsr|pdtv)[\.\-_]/i', $releasename);
+	}
+	
+	private function isForeign($releasename) {
+		return preg_match('/(danish|flemish|dutch|nl\.?subbed|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename);
+	}
+	
+	private function is0day($releasename) {
+		return preg_match('/[\.\-_ ](winnt|win9x|win2k|winxp|winnt2k2003serv|win9xnt|win9xme|winnt2kxp|win2kxp|win2kxp2k3|keygen|regged|keymaker|winall|win32|template|Patch|GAMEGUiDE|unix|irix|solaris|freebsd|hpux|linux|windows|multilingual)[\.\-_ ]/i', $releasename);
+	}
+	
+	private function isMac($releasename) {
+		return preg_match('/osx|os\.x|\.mac\./i', $releasename);
+	}
+	
+	private function isHd($releasename) {
+		return preg_match('/720p|1080p|1080i/i', $releasename);
 	}
 }
 ?>
