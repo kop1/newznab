@@ -166,12 +166,9 @@ class Category
 			return Category::CAT_GAME_PS3;
 		
 		if (preg_match('/alt\.binaries\.games\.xbox/i', $group)) {
-			if (preg_match('/DLC.*?xbox360|xbox360.*?DLC/i', $releasename)) {
-				return Category::CAT_GAME_XBOX360DLC;
-			}
-			if (preg_match('/xbox360/i', $releasename)) {
-				return Category::CAT_GAME_XBOX360;
-			}
+			if (preg_match('/DLC.*?xbox360|xbox360.*?DLC/i', $releasename)) { return Category::CAT_GAME_XBOX360DLC; }
+			if (preg_match('/xbox360/i', $releasename)) { return Category::CAT_GAME_XBOX360; }
+			if (preg_match('/wmv/i', $releasename)) { return Category::CAT_MOVIE_WMV_HD; }
 			return Category::CAT_GAME_XBOX;
 		}
 
