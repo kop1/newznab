@@ -48,6 +48,10 @@ switch($action)
 				{
 					$binmatch = array_map("trim", $binmatch);
 					
+					if ((isset($binmatch['reqid']) && ctype_digit($binmatch['reqid'])) && (!isset($binmatch['name']) || empty($binmatch['name']))) {
+						$binmatch['name'] = $binmatch['reqid'];
+					}
+					
 					if (!isset($binmatch['name']) || empty($binmatch['name'])) {
 						//echo "bad regex applied which didnt return right number of capture groups<br />";
 					} else {

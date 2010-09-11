@@ -710,6 +710,10 @@ class Releases
 				{
 					$matches = array_map("trim", $matches);
 					
+					if ((isset($matches['reqid']) && ctype_digit($matches['reqid'])) && (!isset($matches['name']) || empty($matches['name']))) {
+						$matches['name'] = $matches['reqid'];
+					}
+					
 					// Check that the regex provided the correct parameters
 					if (!isset($matches['name']) || empty($matches['name'])) 
 					{
@@ -806,7 +810,7 @@ class Releases
 				//
 				// Right number of files, but see if the binary is a allfilled/reqid post, in which case it needs its name looked up
 				// 
-				if ($row["reqID"] != "" && $page->site->reqidurl != "")
+				if ($row['reqID'] !='' && $page->site->reqidurl != "")
 				{
 					//
 					// Try and get the name using the group
