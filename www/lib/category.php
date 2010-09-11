@@ -298,9 +298,9 @@ class Category
 		// XXX 
 		//
 		if (preg_match('/erotica/i', $group)) { 
-			if ($this->isHd($releasename)) { return Category::CAT_XXX_X264; }
-			if (preg_match('/xvid|divx/i', $releasename)) { return Category::CAT_XXX_XVID; }
-			if (preg_match('/wmv|pack\-/i', $releasename)) { return Category::CAT_XXX_WMV; }
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_XXX_X264; }
+			if (preg_match('/xvid|divx|dvdrip/i', $releasename)) { return Category::CAT_XXX_XVID; }
+			if (preg_match('/wmv|pack\-|mp4|f4v|flv|mov|h264/i', $releasename)) { return Category::CAT_XXX_WMV; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_XXX_DVD; }
 			return Category::CAT_XXX_XVID;
 		}

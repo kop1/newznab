@@ -166,6 +166,7 @@ class NZB
 
 	function postdate($nntp,$post,$debug=true) //returns single timestamp from a local article number
 	{
+		$n = $this->n;
 		$attempts=0;
 		do
 		{
@@ -177,17 +178,20 @@ class NZB
 				return "";
 			}
 
-			$date = $msgs[0]['Date'];
-			if($date=="" || is_null($date))
+			if(!isset($msgs[0]['Date']) || $msgs[0]['Date']=="" || is_null($msgs[0]['Date']))
+			{
 				$success=false;
-			else
+				$post = $post++; //increment post number, assume non existant article on error so try the next one
+			} else {
+				$date = $msgs[0]['Date'];
 				$success=true;
+			}
 			$attempts++;
 		} while($attempts <= 3 && $success == false);
 
 		if($debug) echo "DEBUG: postdate for post $post came back $date (or ";
 		$date = strtotime($date);
-		if($debug) echo "$date seconds unixtime)".$this->n;
+		if($debug) echo "$date seconds unixtime)".$n;
 		return $date;
 	}
 	function daytopost($nntp,$group,$days,$debug=true)
