@@ -181,65 +181,92 @@ class NZB
 			if(!isset($msgs[0]['Date']) || $msgs[0]['Date']=="" || is_null($msgs[0]['Date']))
 			{
 				$success=false;
-				$post = $post++; //increment post number, assume non existant article on error so try the next one
 			} else {
 				$date = $msgs[0]['Date'];
 				$success=true;
 			}
+			if($debug && $attempts > 0) echo "retried $attempts time(s)".$n;
 			$attempts++;
 		} while($attempts <= 3 && $success == false);
-
-		if($debug) echo "DEBUG: postdate for post $post came back $date (or ";
+		
+		if (!$success) { return ""; }
+		
+		if($debug) echo "DEBUG: postdate for post: $post came back $date (";
 		$date = strtotime($date);
-		if($debug) echo "$date seconds unixtime)".$n;
+		if($debug) echo "$date seconds unixtime or ".$this->daysOld($date)." days)".$n;
 		return $date;
 	}
-	function daytopost($nntp,$group,$days,$debug=true)
+	
+	function daytopost($nntp, $group, $days, $debug=true)
 	{
-		$pddebug = 0; //DEBUG every postdate call?!?!
-		if($debug) echo "INFO: daytopost finding post for $group $days days back.\n";
+		$n = $this->n;
+		$pddebug = false; //DEBUG every postdate call?!?!
+		if ($debug) echo "INFO: daytopost finding post for $group $days days back.".$n;
+		
 		$data = $nntp->selectGroup($group);
-		$goaldate = date('U')-(86400*$days); //goaltimestamp
-                $totalnumberofarticles = $data['last'] - $data['first'];
-                $upperbound = $data['last'];
-                $lowerbound = $data['first'];
-
-                if($debug) echo("Total# =$totalnumberofarticles\nUpper  =$upperbound\nLower  =$lowerbound\nGoal   =$goaldate\n");
-		if($data['last']==PHP_INT_MAX) { echo "ERROR: Group data is coming back as php's max value.  Did you patch your PEAR Net_NNTP Package?  Check install notes for more details.$n"; die(); }
-
-		if($goaldate < $this->postdate($nntp,$data['first'],$pddebug) || $goaldate > $this->postdate($nntp,$data['last'],$pddebug))
+		if(PEAR::isError($data))
 		{
-			echo "WARNING: daytopost: Goal date out of range. Returning start post.\n";
-			if($debug) echo "Debug: goaldate=$goaldate\nFirstdate:".$this->postdate($nntp,$data['first'],$pddebug)."\nLastdate:".$this->postdate($nntp,$data['last'],$pddebug)."\n";
-			return $data['first'];
+			echo "Error {$data->code}: {$data->message}$n";
+			echo "Returning from daytopost$n";
+			return "";
 		}
-		$this->startdate = $this->postdate($nntp,$data['first'],$pddebug); $enddate = $this->postdate($nntp,$data['last'],$pddebug);
-		if($debug) echo("Start  =".$data['first']."\nSrtdate=".$this->startdate."\nEnd    =".$data['last']."\nEndDate=$enddate\n");
+		$goaldate = date('U')-(86400*$days); //goaltimestamp
+		$totalnumberofarticles = $data['last'] - $data['first'];
+		$upperbound = $data['last'];
+		$lowerbound = $data['first'];
+		
+		if ($debug) echo "Total Articles: $totalnumberofarticles $n Upper: $upperbound $n Lower: $lowerbound $n Goal: ".date("r", $goaldate)." ($goaldate) $n";
+		if ($data['last']==PHP_INT_MAX) { echo "ERROR: Group data is coming back as php's max value.  You should not see this since we use a patched Net_NNTP that fixes this bug.$n"; die(); }
+		
+		$firstDate = $this->postdate($nntp, $data['first'], $pddebug);
+		$lastDate = $this->postdate($nntp, $data['last'], $pddebug);
+		if ($goaldate < $firstDate)
+		{
+			echo "WARNING: Backfill target of $days day(s) is older than the first article stored on your news server.$n";
+			echo "Starting from the first available article (".date("r", $firstDate)." or ".$this->daysOld($firstDate)." days).$n";
+			return $data['first'];
+		} else
+		if ($goaldate > $lastDate)
+		{
+			echo "ERROR: Backfill target of $days day(s) is newer than the last article stored on your news server.$n";
+			echo "To backfill this group you need to set Backfill Days to at least ".ceil($this->daysOld($lastDate)+1)." days (".date("r", $lastDate-86400).").$n";
+			return "";
+		}
+		if ($debug) echo "DEBUG: Searching for postdate $n Goaldate: $goaldate (".date("r", $goaldate).") $n Firstdate: $firstDate (".date("r", $firstDate).") $n Lastdate: $lastDate (".date("r", $lastDate).") $n";
+				
 		$interval = floor(($upperbound - $lowerbound) * 0.5);
 		$dateofnextone = "";
 		$templowered = "";
-		while(!$dateofnextone)
-		{  $dateofnextone = $this->postdate($nntp,($upperbound-1),$pddebug); }
-
-		while($dateofnextone > $goaldate)  //while upperbound is not right above timestamp
-		{
-			while($this->postdate($nntp,($upperbound-$interval),$pddebug)>$goaldate)
+		
+		if ($debug) echo "Start: ".$data['first']." $n End: ".$data['last']." $n Interval: $interval $n";
+		
+		$dateofnextone = $lastDate;
+		
+		while($this->daysOld($dateofnextone) < $days)  //match on days not timestamp to speed things up
+		{		
+			while(($tmpDate = $this->postdate($nntp,($upperbound-$interval),$pddebug))>$goaldate)
 			{
 				$upperbound = $upperbound - $interval;
-				if($debug) echo "Lowered upperbound $interval articles.\n";
+				if($debug) echo "New upperbound ($upperbound) is ".$this->daysOld($tmpDate)." days old. $n";
 			}
 			if(!$templowered)
 			{
-				$interval = ceil(($interval /2));
-				if($debug) echo "Set interval to $interval articles. DEBUG: $upperbound\n";
+				$interval = ceil(($interval/2));
+				if($debug) echo "Set interval to $interval articles. $n";
 		 	}
 		 	$dateofnextone = $this->postdate($nntp,($upperbound-1),$pddebug);
 			while(!$dateofnextone)
 			{  $dateofnextone = $this->postdate($nntp,($upperbound-1),$pddebug); }
 	 	}
-		echo "Determined to be article $upperbound\n";
+		echo "Determined to be article $upperbound which is ".$this->daysOld($dateofnextone)." days old (".date("r", $dateofnextone).") $n";
+		//echo round((($dateofnextone-$goaldate)/60), 0)." minutes off of orginal goal.$n";
 		return $upperbound;
 	}
+    
+    private function daysOld($timestamp)
+    {
+    	return round((time()-$timestamp)/86400, 1);
+    }
     
 	function nzbFileList($nzb) 
 	{
@@ -274,119 +301,118 @@ class NZB
 	    return $result;
 	}
 
-function scan($nntp,$db,$groupArr,$first,$last)
-{
-	$n = $this->n;
-	echo " getting $first to $last: $n";
-	$this->startHeaders = microtime(true);
-	if ($this->compressedHeaders)
-		$msgs = $nntp->getXOverview($first."-".$last, true, false);
-	else
-		$msgs = $nntp->getOverview($first."-".$last, true, false);
-	if(PEAR::isError($msgs) && $msgs->code==400)
+	function scan($nntp,$db,$groupArr,$first,$last)
 	{
-		echo "INFO: NNTP connection timed out.  Reconnecting. $n";
-		$nntp->doConnect();
-		$nntp->selectGroup($groupArr['name']);
+		$n = $this->n;
+		echo " getting $first to $last: $n";
+		$this->startHeaders = microtime(true);
 		if ($this->compressedHeaders)
 			$msgs = $nntp->getXOverview($first."-".$last, true, false);
 		else
 			$msgs = $nntp->getOverview($first."-".$last, true, false);
-	}
-	$timeHeaders = number_format(microtime(true) - $this->startHeaders, 2);
-	
-	if(PEAR::isError($msgs))
-	{
-		echo "Error {$msgs->code}: {$msgs->message}$n";
-		echo "Skipping group$n";
-		return;
-	}
-
-	$this->startUpdate = microtime(true);
-	if (is_array($msgs))
-	{	       //loop headers, figure out parts
-		foreach($msgs AS $msg)
+		if(PEAR::isError($msgs) && $msgs->code==400)
 		{
-			$pattern = '/\((\d+)\/(\d+)\)$/i';
-			if (!isset($msg['Subject']) || !preg_match($pattern, $msg['Subject'], $matches)) // not a binary post most likely.. continue
-				continue;
-			
-			//Filter binaries based on black/white list
-			if ($this->binary->isBlackListed($msg['Subject'], $groupArr['name'], $this->binary->blackList)) {
-				continue;
-			}
-
-			if(is_numeric($matches[1]) && is_numeric($matches[2]))
-			{
-				array_map('trim', $matches);
-				$subject = trim(preg_replace($pattern, '', $msg['Subject']));
-	
-				if(!isset($this->message[$subject]))
-				{
-					$this->message[$subject] = $msg;
-					$this->message[$subject]['MaxParts'] = (int)$matches[2];
-					$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
-				}
-				if((int)$matches[1] > 0)
-				{
-					$this->message[$subject]['Parts'][(int)$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => (int)$matches[1], 'size' => $msg['Bytes']);
-				}
-			}
+			echo "INFO: NNTP connection timed out.  Reconnecting. $n";
+			$nntp->doConnect();
+			$nntp->selectGroup($groupArr['name']);
+			if ($this->compressedHeaders)
+				$msgs = $nntp->getXOverview($first."-".$last, true, false);
+			else
+				$msgs = $nntp->getOverview($first."-".$last, true, false);
 		}
-		unset($msg);
-		unset($msgs);
-		$count = 0;
-		$updatecount = 0;
-		$partcount = 0;
-
-		if(isset($this->message) && count($this->message))
+		$timeHeaders = number_format(microtime(true) - $this->startHeaders, 2);
+		
+		if(PEAR::isError($msgs))
 		{
-			//insert binaries and parts into database. when binary already exists; only insert new parts
-			foreach($this->message AS $subject => $data)
+			echo "Error {$msgs->code}: {$msgs->message}$n";
+			echo "Skipping group$n";
+			return;
+		}
+	
+		$this->startUpdate = microtime(true);
+		if (is_array($msgs))
+		{	       //loop headers, figure out parts
+			foreach($msgs AS $msg)
 			{
-				if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '')
+				$pattern = '/\((\d+)\/(\d+)\)$/i';
+				if (!isset($msg['Subject']) || !preg_match($pattern, $msg['Subject'], $matches)) // not a binary post most likely.. continue
+					continue;
+				
+				//Filter binaries based on black/white list
+				if ($this->binary->isBlackListed($msg['Subject'], $groupArr['name'], $this->binary->blackList)) {
+					continue;
+				}
+	
+				if(is_numeric($matches[1]) && is_numeric($matches[2]))
 				{
-					$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
-					if(!$res)
+					array_map('trim', $matches);
+					$subject = trim(preg_replace($pattern, '', $msg['Subject']));
+		
+					if(!isset($this->message[$subject]))
 					{
-						$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
-						$count++;
-						if($count%500==0) echo ("$count bin adds...");
+						$this->message[$subject] = $msg;
+						$this->message[$subject]['MaxParts'] = (int)$matches[2];
+						$this->message[$subject]['Date'] = strtotime($this->message[$subject]['Date']);
 					}
-					else
+					if((int)$matches[1] > 0)
 					{
-						$binaryID = $res["ID"];
-						$updatecount++;
-						if($updatecount%500==0) echo("$updatecount bin updates...");
-					}
-
-					foreach($data['Parts'] AS $partdata)
-					{
-						$partcount++;
-						$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, dateadded) VALUES (%d, %s, %s, %s, %s, now())", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
+						$this->message[$subject]['Parts'][(int)$matches[1]] = array('Message-ID' => substr($msg['Message-ID'],1,-1), 'number' => $msg['Number'], 'part' => (int)$matches[1], 'size' => $msg['Bytes']);
 					}
 				}
 			}
-		}	
-		$timeUpdate = number_format(microtime(true) - $this->startUpdate, 2);
-		$timeLoop = number_format(microtime(true)-$this->startLoop, 2);
+			unset($msg);
+			unset($msgs);
+			$count = 0;
+			$updatecount = 0;
+			$partcount = 0;
+	
+			if(isset($this->message) && count($this->message))
+			{
+				//insert binaries and parts into database. when binary already exists; only insert new parts
+				foreach($this->message AS $subject => $data)
+				{
+					if(isset($data['Parts']) && count($data['Parts']) > 0 && $subject != '')
+					{
+						$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE name = %s AND fromname = %s AND groupID = %d", $db->escapeString($subject), $db->escapeString($data['From']), $groupArr['ID']));
+						if(!$res)
+						{
+							$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID']));
+							$count++;
+							if($count%500==0) echo ("$count bin adds...");
+						}
+						else
+						{
+							$binaryID = $res["ID"];
+							$updatecount++;
+							if($updatecount%500==0) echo("$updatecount bin updates...");
+						}
+	
+						foreach($data['Parts'] AS $partdata)
+						{
+							$partcount++;
+							$db->queryInsert(sprintf("INSERT INTO parts (binaryID, messageID, number, partnumber, size, dateadded) VALUES (%d, %s, %s, %s, %s, now())", $binaryID, $db->escapeString($partdata['Message-ID']), $db->escapeString($partdata['number']), $db->escapeString(round($partdata['part'])), $db->escapeString($partdata['size'])));
+						}
+					}
+				}
+			}	
+			$timeUpdate = number_format(microtime(true) - $this->startUpdate, 2);
+			$timeLoop = number_format(microtime(true)-$this->startLoop, 2);
+	
+			echo $n."Received $count new binaries$n";
+			echo "Updated $updatecount binaries$n";
+			echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
+			unset($this->message);
+			unset($data);	
+		}
+		else
+		{
+			// TODO: fix some max attemps variable.. somewhere
+			echo "Error: Can't get parts from server (msgs not array) $n";
+			echo "Skipping group$n";
+			return;
+		}
 
-		echo $n."Received $count new binaries$n";
-		echo "Updated $updatecount binaries$n";
-		echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
-		unset($this->message);
-		unset($data);	
 	}
-	else
-	{
-		// TODO: fix some max attemps variable.. somewhere
-		echo "Error: Can't get parts from server (msgs not array)\n";
-		echo "Skipping group$n";
-		return;
-	}
-
-
-}
 
 	function updateGroup($nntp, $groupArr)
 	{
@@ -411,12 +437,16 @@ function scan($nntp,$db,$groupArr,$first,$last)
 			//
 			if ($this->NewGroupScanByDays) {
 				$first = $this->daytopost($nntp,$groupArr['name'],$this->NewGroupDaysToScan,TRUE);
+				if ($first == '') {
+					echo "Skipping group: {$groupArr['name']}$n";
+					return;
+				}
 			} else {
 				if($data['first'] > ($data['last'] - $this->NewGroupMsgsToScan))
 					$first = $data['first'];
 				else
 					$first = $data['last'] - $this->NewGroupMsgsToScan;	
-			}	
+			}
 			$first_record_postdate = $this->postdate($nntp,$first,false);
 			$db->query(sprintf("UPDATE groups SET first_record = %s, first_record_postdate = FROM_UNIXTIME(".$first_record_postdate.") WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 		}
@@ -481,6 +511,7 @@ function scan($nntp,$db,$groupArr,$first,$last)
 
 		}
 	}
+	
 	function backfillGroup($nntp, $groupArr)
 	{
 		$db = new DB();
@@ -549,7 +580,6 @@ function scan($nntp,$db,$groupArr,$first,$last)
 		$timeGroup = number_format(microtime(true) - $this->startGroup, 2);
 		echo "Group processed in $timeGroup seconds $n";
 	}
-
 
 }
 ?>
