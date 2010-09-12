@@ -15,6 +15,7 @@ class Users
 	
 	const ROLE_USER = 1;
 	const ROLE_ADMIN = 2;
+	const ROLE_DISABLED = 3;
 	
 	const SALTLEN = 4;
 	const SHA1LEN = 40;
@@ -65,22 +66,6 @@ class Users
 		$s = $site->get();
 		if ($s->storeuserips != "1")
 			$host = "";
-		
-		if (!$this->isValidUsername($uname))
-			return Users::ERR_SIGNUP_BADUNAME;
-			
-		if (!$this->isValidEmail($email))
-			return Users::ERR_SIGNUP_BADEMAIL;			
-
-		$res = $this->getByUsername($uname);
-		if ($res)
-			if ($res["ID"] != $id)
-				return Users::ERR_SIGNUP_UNAMEINUSE;
-		
-		$res = $this->getByEmail($email);
-		if ($res)
-			if ($res["ID"] != $id)
-				return Users::ERR_SIGNUP_EMAILINUSE;	
 				
 		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken) values (%s, %s, lower(%s), %d, now(), %s, md5(%s))", 
 			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid())));		
@@ -193,7 +178,7 @@ class Users
 	{
 	  $db = new DB();
  		$role = $db->queryOneRow(sprintf("select role as role from users where username = %s ", $db->escapeString($username)));
- 		return ($role[role] == 3);
+ 		return ($role["role"] == Users::ROLE_DISABLED);
 	}
 	
 	public function isValidEmail($email)
@@ -217,7 +202,7 @@ class Users
 		return substr(md5(uniqid()), 0, 8);
 	}
 	
-	public function signup($uname, $pass, $email, $host)
+	public function signup($uname, $pass, $email, $host, $role = Users::ROLE_USER)
 	{
 		$uname = trim($uname);
 		$pass = trim($pass);
@@ -240,7 +225,7 @@ class Users
 		if ($res)
 			return Users::ERR_SIGNUP_EMAILINUSE;
 
-		return $this->add($uname, $pass, $email, Users::ROLE_USER, $host);
+		return $this->add($uname, $pass, $email, $role, $host);
 	}
 	
 	function randomKey($amount)

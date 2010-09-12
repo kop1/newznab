@@ -14,12 +14,16 @@ $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'view';
 switch($action) 
 {
     case 'add':
+				$user = array();
+				$user["role"] = Users::ROLE_USER;
+				$page->smarty->assign('user', $user);	
+
 			break;
     case 'submit':
     
     	if ($_POST["id"] == "")
     	{
-				$ret = $users->add($_POST["username"], $_POST["password"], $_POST["email"], $_POST["role"], '');
+				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '', $_POST["role"]);
     	}
     	else
     	{
@@ -67,7 +71,6 @@ switch($action)
 			{
 				$page->title = "User Edit";
 				$id = $_GET["id"];
-				$role = $_GET["role"];
 				$user = $users->getByID($id);
 
 				$page->smarty->assign('user', $user);	
@@ -79,7 +82,7 @@ switch($action)
 $page->smarty->assign('yesno_ids', array(1,0));
 $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
 
-$page->smarty->assign('role_ids', array(2,1,3));
+$page->smarty->assign('role_ids', array(Users::ROLE_ADMIN, Users::ROLE_USER, Users::ROLE_DISABLED));
 $page->smarty->assign('role_names', array( 'Admin', 'User', 'Disabled'));
 
 $page->content = $page->smarty->fetch('admin/user-edit.tpl');
