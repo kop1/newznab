@@ -19,11 +19,11 @@ switch($action)
     
     	if ($_POST["id"] == "")
     	{
-				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '');
+				$ret = $users->add($_POST["username"], $_POST["password"], $_POST["email"], $_POST["role"], '');
     	}
     	else
     	{
-				$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"]);
+				$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"], $_POST["role"]);
 			}
 
 				if ($ret >= 0)
@@ -56,6 +56,7 @@ switch($action)
 					$user["username"] = $_POST["username"];
 					$user["email"] = $_POST["email"];
 					$user["grabs"] = $_POST["grabs"];
+					$user["role"] = $_POST["role"];
 					$page->smarty->assign('user', $user);	
 				}
         break;
@@ -66,7 +67,7 @@ switch($action)
 			{
 				$page->title = "User Edit";
 				$id = $_GET["id"];
-				
+				$role = $_GET["role"];
 				$user = $users->getByID($id);
 
 				$page->smarty->assign('user', $user);	
@@ -77,6 +78,9 @@ switch($action)
 
 $page->smarty->assign('yesno_ids', array(1,0));
 $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
+
+$page->smarty->assign('role_ids', array(2,1));
+$page->smarty->assign('role_names', array( 'Admin', 'User'));
 
 $page->content = $page->smarty->fetch('admin/user-edit.tpl');
 $page->render();

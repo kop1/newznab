@@ -40,9 +40,10 @@
 </tr>
 {/if}
 <tr>
-	<td>Role:</td>
+	<td><label for="role">Role</label>:</td>
 	<td>
-		{if $user.role == "2"}Admin{else}User{/if}
+		{html_radios id="role" name='role' values=$role_ids output=$role_names selected=$user.role separator='<br />'}
+		<div class="hint">Please Select a Role.</div>		
 	</td>
 </tr>
 

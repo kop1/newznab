@@ -65,12 +65,28 @@ class Users
 		$s = $site->get();
 		if ($s->storeuserips != "1")
 			$host = "";
+		
+		if (!$this->isValidUsername($uname))
+			return Users::ERR_SIGNUP_BADUNAME;
 			
+		if (!$this->isValidEmail($email))
+			return Users::ERR_SIGNUP_BADEMAIL;			
+
+		$res = $this->getByUsername($uname);
+		if ($res)
+			if ($res["ID"] != $id)
+				return Users::ERR_SIGNUP_UNAMEINUSE;
+		
+		$res = $this->getByEmail($email);
+		if ($res)
+			if ($res["ID"] != $id)
+				return Users::ERR_SIGNUP_EMAILINUSE;	
+				
 		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken) values (%s, %s, lower(%s), %d, now(), %s, md5(%s))", 
 			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid())));		
 	}	
 	
-	public function update($id, $uname, $email, $grabs)
+	public function update($id, $uname, $email, $grabs, $role)
 	{			
 		$db = new DB();
 		
@@ -93,8 +109,8 @@ class Users
 			if ($res["ID"] != $id)
 				return Users::ERR_SIGNUP_EMAILINUSE;		
 		
-		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d where id = %d", 
-			$db->escapeString($uname), $db->escapeString($email), $grabs, $id));		
+		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d, role = %d where id = %d", 
+			$db->escapeString($uname), $db->escapeString($email), $grabs, $role, $id));		
 			
 		return Users::SUCCESS;
 	}	
