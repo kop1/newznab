@@ -13,13 +13,18 @@ if ($page->isPostBack())
 		$page->smarty->assign('username', $_POST["username"]);
 		$users = new Users();
 		$res = $users->getByUsername($_POST["username"]);
+		$dis = $users->isDisabled($_POST["username"]);
 		
 		if (!$res)
 			$res = $users->getByEmail($_POST["username"]);
 		
 		if ($res)
 		{
-			if ($users->checkPassword($_POST["password"], $res["password"]))
+			if ($dis)
+			{
+			$page->smarty->assign('error', "Your account has been disabled.");
+			}
+			else if ($users->checkPassword($_POST["password"], $res["password"]))
 			{
 				$rememberMe = (isset($_POST['rememberme']) && $_POST['rememberme'] == 'on') ? 1 : 0;
 				$users->login($res["ID"], $_SERVER['REMOTE_ADDR'], $rememberMe);
