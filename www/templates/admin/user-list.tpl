@@ -23,8 +23,8 @@
 		<td>{$user.host}</td>
 		<td>{$user.createddate|date_format}</td>
 		<td>{$user.grabs}</td>
-		<td>{if $user.role=="1"}User{/if}{if $user.role=="2"}Admin{/if}</td>
-		<td>{if $user.role=="1"}<a class="confirm_action" href="{$smarty.const.WWW_TOP}/user-delete.php?id={$user.ID}">delete</a>{/if}</td>
+		<td>{if $user.role=="1"}User{/if}{if $user.role=="2"}Admin{/if}{if $user.role=="3"}Disabled{/if}</td>
+		<td>{if $user.role=="1" or $user.role=="3"}<a class="confirm_action" href="{$smarty.const.WWW_TOP}/user-delete.php?id={$user.ID}">delete</a>{/if}</td>
 	</tr>
 	{/foreach}
 

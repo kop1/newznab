@@ -189,6 +189,13 @@ class Users
 		return (strlen($pass) > 5);
 	}
 	
+	public function isDisabled($username)
+	{
+	  $db = new DB();
+ 		$role = $db->queryOneRow(sprintf("select role as role from users where username = %s ", $db->escapeString($username)));
+ 		return ($role[role] == 3);
+	}
+	
 	public function isValidEmail($email)
 	{
 		return preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i", $email);
