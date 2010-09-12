@@ -536,7 +536,7 @@ class NZB
 		echo((int) (($this->postdate($nntp,$data['last'],FALSE) - $this->postdate($nntp,$data['first'],FALSE))/86400));
 		echo " days.".$n."Local first = ".$groupArr['first_record']." (";
 		echo((int) ((date('U') - $this->postdate($nntp,$groupArr['first_record'],FALSE))/86400));
-		echo " days).  Backfill target of ".$GroupArr['backfill_target']."days is post $targetpost.$n";
+		echo " days).  Backfill target of ".$groupArr['backfill_target']."days is post $targetpost.$n";
 
 		if($targetpost >= $groupArr['first_record'])	//if our estimate comes back with stuff we already have, finish
 		{
