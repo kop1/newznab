@@ -23,7 +23,7 @@ switch($action)
     
     	if ($_POST["id"] == "")
     	{
-				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '', $_POST["role"]);
+				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '', 	$_POST["role"]);
     	}
     	else
     	{
