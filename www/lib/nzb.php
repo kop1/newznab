@@ -546,7 +546,8 @@ class NZB
 		if($targetpost < $data['first'])
 		{
 			echo "WARNING: Backfill came back as before server's first.  Setting targetpost to server first.$n";
-			$targetpost = $data['first'];
+			echo "Skipping Group $n";
+			return "";
 		}
 		//calculate total number of parts
 		$total = $groupArr['first_record'] - $targetpost;
