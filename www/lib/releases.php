@@ -1082,10 +1082,10 @@ class Releases
 					$relcleanname = str_replace(".", " ", $show['name']);
 					$relcleanname = str_replace("_", " ", $relcleanname);
 					
-					$tvairdate = (!empty($show['airdate'])) ? $show['airdate'] : "null";
+					$tvairdate = (!empty($show['airdate'])) ? $db->escapestring($show['airdate']) : "null";
 					
 					$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s, tvairdate=%s where ID = %d", 
-								$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $db->escapeString($tvairdate), $arr["ID"]));
+								$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $tvairdate, $arr["ID"]));
 
 					//
 					// try and retrieve the entry from tvrage
@@ -1261,12 +1261,12 @@ class Releases
 		if (!empty($showInfo['name'])) {
 			if (strlen($showInfo['season']) == 4) {
 				$showInfo['seriesfull'] = $showInfo['season']."/".$showInfo['episode'];
-				$showInfo['airdate'] = (!empty($showInfo['airdate'])) ? $showInfo['airdate'].' 00:00:00' : '';
 			} else {
 				$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
 				$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
 				$showInfo['seriesfull'] = $showInfo['season'].$showInfo['episode'];
 			}
+			$showInfo['airdate'] = (!empty($showInfo['airdate'])) ? $showInfo['airdate'].' 00:00:00' : '';
 			return $showInfo;
 		}
 		
