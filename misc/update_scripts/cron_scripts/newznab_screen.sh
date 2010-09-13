@@ -9,6 +9,7 @@ export NEWZNAB_SLEEP_TIME="600" # in seconds
 while :
 
  do
+cd ${NEWZNAB_PATH}
 /usr/bin/php5 ${NEWZNAB_PATH}/update_binaries.php
 /usr/bin/php5 ${NEWZNAB_PATH}/update_releases.php
 sleep ${NEWZNAB_SLEEP_TIME}
