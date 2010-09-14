@@ -1,23 +1,21 @@
 
 <h1>{$page->title}</h1>
-<br>
-	<ol style="list-style-type:decimal;">
-		Welcome to the Admin Hangout for Newznab! In this area you will be able to configure many aspects of your site.<br>
-		There are some unique features of Newznab that we would like to share with you. First we are going to go over the <br>
-		basic and most important parts of configuring a Newznab site. To return to this page, simply click Admin Home on the left<br>
-		toolbar.
-		
-		<p><p>
-		<li>The first thing you should do upon installing Newznab is to configure your <a href="{$smarty.const.WWW_TOP}/site-edit.php">site options</a></li>
-		<li>As a feature of Newznab we have provided you a default list of groups that only need to be enabled to work. To get started, you will need to <a href="{$smarty.const.WWW_TOP}/group-list.php">enable some groups.</a>
-		You can also feel free to <a href="{$smarty.const.WWW_TOP}/group-edit.php">add your own groups.</a></li>
-		<li>Next you will want to run <a onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/binary-update.php">Get Latest Headers.</a></li>
-		</li>
-		<li>After obtaining headers, the next step is to <a onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/release-update.php">Update Releases.</a>
-		</li>
-		<li>Once your site is up and running, you may want to backfill some of the groups. You will need to <a href="{$smarty.const.WWW_TOP}/group-list.php">edit the amount</a> of backfill days on a per group basis.	
-		Next you will want to run <a onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/backfill.php">Backfill.</a></li>
-		<p><p>
-		<b>Note: We recommend using Cron Scripts, or if you are a Windows user, Batch Files to Update Binaries and Releases, and to also Backfill.
-		Cron and Batch Scripts can be found in the Misc/Update_Scripts Folder. Backfill should be run as a seperate process from your normal Update Binaries / Releases routine.</b>
+
+<p>
+		Welcome to newznab. In this area you will be able to configure many aspects of your site.<br>
+		If this is your first time here, you need to start the scripts which will fill newznab.
 </p>
+
+		<ol style="list-style-type:decimal;">
+		<li>Configure your <a href="{$smarty.const.WWW_TOP}/site-edit.php">site options</a>. The defaults will probably work fine.</li>
+		<li>There a default list of usenet groups provided. To get started, you will need to <a href="{$smarty.const.WWW_TOP}/group-list.php">enable some groups.</a>
+		You can <a href="{$smarty.const.WWW_TOP}/group-edit.php">add your own groups</a> manually.</li>
+		<li>Next you will want to <a onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/binary-update.php">get the latest headers.</a> <b>This should be done from the command line</b>, using the linux or windows shell scripts, as it can take some time.</li>
+		</li>
+		<li>After obtaining headers, the next step is to <a onclick="return confirm('Are you sure? This is best performed from the command line.');" href="{$smarty.const.WWW_TOP}/release-update.php">create releases.</a> <b>This is best done from the command line.</b>
+		</li>
+		</ol>
+<br/><br/>
+	<p>
+	<b>Note: We recommend using the linux screen or init.d scripts, or if you are a Windows user, batch files to update headers and create releases. They can be found in /misc/update_scripts
+	</p>

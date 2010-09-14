@@ -10,7 +10,10 @@
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="">
 			<td><label for="server">Server:</label></td>
-			<td><input type="text" name="server" id="server" value="{$cfg->NNTP_SERVER}" /></td>
+			<td>
+				<input type="text" name="server" id="server" value="{$cfg->NNTP_SERVER}" />
+				<div class="hint">e.g. eu.news.astraweb.com</div>
+			</td>
 		</tr>
 		<tr class="alt">
 			<td><label for="user">Username:</label></td>
@@ -18,11 +21,16 @@
 		</tr>
 		<tr class="">
 			<td><label for="pass">Password:</label></td>
-			<td><input type="text" name="pass" id="pass" value="{$cfg->NNTP_PASSWORD}" /></td>
+			<td>
+				<input type="text" name="pass" id="pass" value="{$cfg->NNTP_PASSWORD}" />
+			</td>
 		</tr>
 		<tr class="alt">
 			<td><label for="port">Port:</label></td>
-			<td><input type="text" name="port" id="port" value="{$cfg->NNTP_PORT}" /></td>
+			<td>
+				<input type="text" name="port" id="port" value="{$cfg->NNTP_PORT}" />
+				<div class="hint">e.g. 119</div>
+			</td>
 		</tr>
 		<tr class="">
 			<td colspan="2">
