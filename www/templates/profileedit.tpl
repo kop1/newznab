@@ -28,8 +28,31 @@
 
 <h2>SABnzbd Integration</h2>
 <table class="data">
-	<tr><th title="Not public">SABnzbd API Key:</th><td><input id="profile_sab_apikey" type="text" size="40" /></td></tr>
-	<tr><th title="Not public">SABnzbd Host:</th><td><input id="profile_sab_host" type="text" size="40" value="http://localhost:8080/sabnzbd/"/><br/><small><i>for example:</i> http://localhost:8080/sabnzbd/</small></td></tr>
+	<tr>
+		<th title="Not public">API Key:</th>
+		<td>
+			<input id="profile_sab_apikey" type="text" size="40" />
+		</td>
+	</tr>
+	<tr>
+		<th title="Not public">Hostname:</th>
+		<td>
+			<input id="profile_sab_host" type="text" size="40" value="http://localhost:8080/sabnzbd/"/>
+			<div class="hint">for example: http://localhost:8080/sabnzbd/</div>
+		</td>
+	</tr>
+
+	<tr>
+		<th title="Not public">Added Priority:</th>
+		<td>
+			<select id="profile_sab_priority">
+				<option value="1">High</option>
+				<option value="2">Medium</option>
+				<option value="3">Low</option>
+			</select>
+		</td>
+	</tr>
+
 	<tr><th title="Not public"></th><td>
 		<input id="profile_sab_clear" type="button" value="Clear" style="float:right;" />
 		<input id="profile_sab_save" type="button" value="Save to Cookie" style="float:left;" />

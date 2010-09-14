@@ -26,7 +26,11 @@ jQuery(function($){
 		if ($(this).hasClass('icon_sab_clicked')) return false;
 
 		var guid = $(this).parent().parent().attr('id').substring(4);
-		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
+		var priority = $.cookie('sabnzbd_'+UID+'__priority');
+		if (priority == null || priority == "")
+			priority = "1";
+			
+		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=" + priority + "&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
 		var nzburl = SERVERROOT + "download/sab/nzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 
 		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
@@ -57,8 +61,9 @@ jQuery(function($){
 	    if (ids)
 			window.location = SERVERROOT + "getnzb.php?zip=1&id="+ids;
 	});
-	$('input.nzb_multi_operations_cart').click(function(){
-		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
+	$('input.nzb_multi_operations_cart').click(function()
+	{
+	
 	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
 	    	var $cartIcon = $(row).parent().parent().children('td.icons').children('.icon_cart');
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
@@ -69,8 +74,13 @@ jQuery(function($){
 			}
 		});
 	});
-	$('input.nzb_multi_operations_sab').click(function(){
-		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=1&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
+	$('input.nzb_multi_operations_sab').click(function()
+	{
+		var priority = $.cookie('sabnzbd_'+UID+'__priority');
+		if (priority == null || priority == "")
+			priority = "1";	
+
+		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=" + priority + "&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
 	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
 	    	var $sabIcon = $(row).parent().parent().children('td.icons').children('.icon_sab');
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
@@ -185,21 +195,26 @@ jQuery(function($){
 		$('table.data td.icons').addClass('icons_with_sab');
 		
 		// set profile.tpl credentials into profile on page load
-		if ($('#profile_sab_host').val()) {
+		if ($('#profile_sab_host').val()) 
+		{
 			$('#profile_sab_apikey').val($.cookie('sabnzbd_'+UID+'__apikey'));
 			$('#profile_sab_host').val($.cookie('sabnzbd_'+UID+'__host'));
+			if ($.cookie('sabnzbd_'+UID+'__priority') != null)
+				$('#profile_sab_priority').val($.cookie('sabnzbd_'+UID+'__priority'));
 		}
 	}
 	// profile.tpl
 	$('#profile_sab_save').click(function(){	// store sabnzbd info to cookie
 		$.cookie('sabnzbd_'+UID+'__apikey', $('#profile_sab_apikey').val(), { expires: 365 });
 		$.cookie('sabnzbd_'+UID+'__host', $('#profile_sab_host').val(), { expires: 365 });
+		$.cookie('sabnzbd_'+UID+'__priority', $('#profile_sab_priority').val(), { expires: 365 });
 		$(this).next('.icon').addClass('icon_check'); // save status notification
 	});
 	$('#profile_sab_clear').click(function(){	// store sabnzbd info to cookie
 		$.cookie('sabnzbd_'+UID+'__apikey', '');
 		$.cookie('sabnzbd_'+UID+'__host', '');
-		$('#profile_sab_apikey, #profile_sab_host').val('');
+		$.cookie('sabnzbd_'+UID+'__priority', '');
+		$('#profile_sab_apikey, #profile_sab_host, #profile_sab_priority').val('');
 		$('#profile_sab_save').next('.icon').removeClass('icon_check'); // save status notification
 	});
 
