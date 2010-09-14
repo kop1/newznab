@@ -1422,7 +1422,7 @@ class Releases
 	public function getTopDownloads()
 	{
 		$db = new DB();
-		return $db->query("SELECT ID, searchname, adddate, SUM(grabs) as grabs FROM releases
+		return $db->query("SELECT ID, searchname, guid, adddate, SUM(grabs) as grabs FROM releases
 							GROUP BY ID, searchname, adddate
 							HAVING SUM(grabs) > 0
 							ORDER BY grabs DESC
@@ -1432,7 +1432,7 @@ class Releases
 	public function getTopComments()
 	{
 		$db = new DB();
-		return $db->query("SELECT ID, searchname, adddate, SUM(comments) as comments FROM releases
+		return $db->query("SELECT ID, guid, searchname, adddate, SUM(comments) as comments FROM releases
 							GROUP BY ID, searchname, adddate
 							HAVING SUM(comments) > 0
 							ORDER BY comments DESC

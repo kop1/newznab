@@ -31,7 +31,8 @@
 
 	{foreach from=$topdownloads item=result}
 		<tr class="{cycle values=",alt"}">
-			<td width="75%"><a href="{$smarty.const.WWW_TOP}/release-edit.php?id={$result.ID}">{$result.searchname}</a></td>
+			<td width="75%"><a href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|replace:".":" "}</a>
+			{if $isadmin}<a href="{$smarty.const.WWW_TOP}/release-edit.php?id={$result.ID}">[Edit]</a>{/if}</td>
 			<td>{$result.grabs}</td>
 			<td>{$result.adddate|timeago}</td>
 		</tr>
@@ -71,7 +72,7 @@
 
 	{foreach from=$topcomments item=result}
 		<tr class="{cycle values=",alt"}">
-			<td width="75%"><a href="{$smarty.const.WWW_TOP}/release-edit.php?id={$result.ID}">{$result.searchname}</a></td>
+			<td width="75%"><a href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|replace:".":" "}</a></td>
 			<td>{$result.comments}</td>
 			<td>{$result.adddate|timeago}</td>
 		</tr>
