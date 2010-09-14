@@ -68,8 +68,7 @@ class Nfo
 		$tvr = new Tvrage();
 		
 		$res = $db->queryDirect(sprintf("SELECT rn.*, r.searchname FROM releasenfo rn left outer join releases r ON r.ID = rn.releaseID WHERE rn.nfo IS NULL AND rn.attempts < 5"));
-
-		if ($res) 
+		if (mysql_num_rows($res) > 0)
 		{
 			$nntp->doConnect();
 			while ($arr = mysql_fetch_array($res, MYSQL_BOTH)) 

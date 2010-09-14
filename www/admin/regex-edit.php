@@ -35,6 +35,8 @@ switch($action)
     case 'view':
     default:
 
+			$page->title = "Release Regex Add";
+
 			if (isset($_GET["id"]))
 			{
 				$page->title = "Release Regex Edit";

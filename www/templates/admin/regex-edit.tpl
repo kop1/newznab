@@ -1,6 +1,10 @@
 
 <h1>{$page->title}</h1>
 
+{if $regex.ID > 0 && $regex.ID < 100000 && $site->reqidurl != ""}
+	<div class="error">Warning: Editing system regex, these changes will be overwritten next update releases.</div>
+{/if}
+
 {if $error != ''}
 	<div class="error">{$error}</div>
 {/if}
