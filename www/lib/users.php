@@ -291,17 +291,28 @@ class Users
 		$_SESSION['uid'] = $uid;
 		
 		$site = new Sites();
+		$db = new DB();
 		$s = $site->get();
 		if ($s->storeuserips == "1")
 		{
-			$db = new DB();
-			$db->query(sprintf("update users set host = %s where ID = %d ", $db->escapeString($host), $uid));		
+			$db->query(sprintf("update users set lastlogin=now(), host = %s where ID = %d ", $db->escapeString($host), $uid));		
+		}
+		else
+		{
+			$db->query(sprintf("update users set lastlogin=now() where ID = %d ", $uid));		
 		}
 		
-		if ($remember == 1) {
+		if ($remember == 1) 
+		{
 			$this->setCookies($uid, $s->siteseed);
 		}	
 	}
+	
+	public function updateApiAccessed($uid)
+	{			
+		$db = new DB();
+		$db->query(sprintf("update users set apiaccess = now() where id = %d ", $uid));		
+	}		
 	
 	public function setCookies($uid, $seed)
 	{			

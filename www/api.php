@@ -42,6 +42,7 @@ else
 // page is accessible only by the apikey, or logged in users.
 //
 $user="";
+$uid="";
 $apikey="";
 if (!$users->isLoggedIn())
 {
@@ -64,6 +65,15 @@ else
 	$uid=$page->userdata["ID"];
 	$apikey=$page->userdata["rsstoken"];
 }
+
+//
+// record user access to the api, if its been called by a user (i.e. capabilities request do not require
+// a user to be logged in or key provided)
+//
+if ($uid != "")
+	$users->updateApiAccessed($uid);
+
+
 
 $page->smarty->assign("uid",$uid);
 $page->smarty->assign("rsstoken",$apikey);
