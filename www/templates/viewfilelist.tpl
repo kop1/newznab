@@ -15,7 +15,7 @@
 	<tr class="{cycle values=",alt"}">
 		<td width="20">{$smarty.foreach.iteration.index+1}</td>
 		<td>{$file.title|escape:'htmlall'}</td>
-		<td class="less right">{$file.size|fsize_format:"MB"}</td>
+		<td class="less right">{if $file.size < 100000}{$file.size|fsize_format:"KB"}{else}{$file.size|fsize_format:"MB"}{/if}</td>
 	</tr>
 	{/foreach}
 
