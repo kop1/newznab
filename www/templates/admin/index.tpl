@@ -17,5 +17,5 @@
 		</ol>
 <br/><br/>
 	<p>
-	<b>Note: We recommend using the linux screen or init.d scripts, or if you are a Windows user, batch files to update headers and create releases. They can be found in /misc/update_scripts
+	<b>Note:</b> We recommend using the linux screen or init.d scripts, or if you are a Windows user, batch files to update headers and create releases. They can be found in /misc/update_scripts
 	</p>
