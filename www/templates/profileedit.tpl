@@ -47,7 +47,7 @@
 		<td>
 			<select id="profile_sab_priority">
 				<option value="1">High</option>
-				<option value="2">Medium</option>
+				<option value="2">Normal</option>
 				<option value="3">Low</option>
 			</select>
 		</td>
