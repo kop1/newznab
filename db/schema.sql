@@ -696,6 +696,8 @@ CREATE TABLE `users` (
   `rsstoken` VARCHAR(32) NOT NULL,
   `createddate` DATETIME NOT NULL,
   `resetguid` VARCHAR(50) NULL,
+  `lastlogin` datetime default null,
+  `apiaccess` datetime default null,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
