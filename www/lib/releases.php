@@ -684,25 +684,39 @@ class Releases
 			if (preg_match("/\*$/i", $regexrow["groupname"]))
 			{
 				$groupname = substr($regexrow["groupname"], 0, -1);
-				$groupmatch = sprintf(" groups.name like %s ", $db->escapeString($groupname."%"));
+				$resgrps = $db->query(sprintf("select ID from groups where name like %s ", $db->escapeString($groupname."%")));
+				foreach ($resgrps as $resgrp)
+					$groupmatch.=" groupID = ".$resgrp["ID"]." or ";
+
+				$groupmatch.=" 1=2 ";
 			}
 			//
 			// A group name which doesnt end in a * needs an exact match
 			//
 			elseif ($regexrow["groupname"] != "")
-				$groupmatch = sprintf(" groups.name = %s ", $db->escapeString($regexrow["groupname"]));
+			{
+				$resgrp = $db->queryOneRow(sprintf("select ID from groups where name = %s ", $db->escapeString($regexrow["groupname"])));
+				
+				//
+				// if group not found, its a regex for a group we arent indexing.
+				//
+				if ($resgrp)
+					$groupmatch = " groupID = ".$resgrp["ID"];
+				else
+					$groupmatch = " 1=2 " ;
+			}
 			//
 			// No groupname specified (these must be the misc regexes applied to all groups)
 			//
 			else
-				$groupmatch = " 1 = 1 ";
+				$groupmatch = " 1=1 ";
 			
 			// Get current mysql time for date comparison checks in case php is in a different time zone
 			$currTime = $db->queryOneRow("SELECT NOW() as now");
 			
 			// Get out all binaries of STAGE0 for current group
 			$arrNoPartBinaries = array();
-			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date, binaries.totalParts from binaries inner join groups on groups.ID = binaries.groupID where %s and procstat = %d order by binaries.date asc", $groupmatch, Releases::PROCSTAT_NEW));
+			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date, binaries.totalParts from binaries where (%s) and procstat = %d order by binaries.date asc", $groupmatch, Releases::PROCSTAT_NEW));
 
 			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
 			{
