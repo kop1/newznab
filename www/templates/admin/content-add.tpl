@@ -49,6 +49,14 @@
 </tr>
 
 <tr>
+	<td><label for="role">Visible To</label>:</td>
+	<td>
+		{html_options id="role" name='role' options=$rolelist selected=$content->role}
+		<div class="hint">Only appropriate for articles and useful links</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="showinmenu">Show In Menu</label>:</td>
 	<td>
 		{html_radios id="showinmenu" name='showinmenu' values=$yesno_ids output=$yesno_names selected=$content->showinmenu separator='<br />'}

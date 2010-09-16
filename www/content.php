@@ -11,11 +11,16 @@ if(is_file("config.php")) {
 		exit("You have to setup config.php first.<br />quick fix: mv {$path}config.dist.php {$path}config.php");
 	}
 }
+
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/content.php");
 
 $page = new Page();
 $contents = new Contents();
+
+$role=0;
+if ($page->userdata != null)
+	$role = $page->userdata["role"];
 
 $contentid = 0;
 if (isset($_GET["id"]))
@@ -24,8 +29,11 @@ if (isset($_GET["id"]))
 if ($contentid == 0)
 	$content = $contents->getIndex();
 else
-	$content = $contents->getByID($contentid);
+	$content = $contents->getByID($contentid, $role);
 
+if ($content == null)
+	$page->show404();
+	
 $page->smarty->assign('content',$content);	
 $page->meta_title = $content->title;
 $page->meta_keywords = $content->metakeywords;

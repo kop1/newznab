@@ -1,5 +1,6 @@
 <?php
 require_once("config.php");
+require_once("users.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 
 class Content 
@@ -15,6 +16,7 @@ class Content
 	public $status = '';
 	public $ordinal = '';
 	public $createddate = '';
+	public $role = '';
 }
 
 class Contents
@@ -49,24 +51,11 @@ class Contents
 		return $arr; 		
 	}
 	
-	public function getAllNoIndex()
-	{
-		$arr = array();
-		$rows = $this->data_getAllNoIndex();
-		if ($rows === false)
-			return false;
-
-		foreach($rows as $row)
-			$arr[] = $this->row2Object($row);
-		
-		return $arr; 		
-	}	
-	
-	public function getForMenuByType($id)
+	public function getForMenuByTypeAndRole($id, $role)
 	{		
 
 		$arr = array();
-		$rows = $this->data_getForMenuByType($id);
+		$rows = $this->data_getForMenuByTypeAndRole($id, $role);
 		if ($rows === false)
 			return false;
 						
@@ -85,9 +74,9 @@ class Contents
 		return $this->row2Object($row);
 	}	
 
-	public function getByID($id)
+	public function getByID($id, $role)
 	{		
-		$row = $this->data_getByID($id);
+		$row = $this->data_getByID($id, $role);
 		if ($row === false)
 			return false;
 				
@@ -118,7 +107,8 @@ class Contents
 	
 	public function delete($id)
 	{		
-		return $this->data_delete($id);
+		$db = new DB();
+		return $db->query(sprintf("delete from content where id=%d", $id));
 	}	
 
 	public function update($form)
@@ -146,19 +136,20 @@ class Contents
 		$obj->ordinal = $row[$prefix."ordinal"];	
 		if (isset($row[$prefix."createddate"]))
 			$obj->createddate = $row[$prefix."createddate"];				
+		$obj->role = $row[$prefix."role"];	
 		return $obj;
 	}
 
 	public function data_update($content)
 	{		
 		$db = new DB();
-		return $db->query(sprintf("update content set	title = %s , 	url = %s , 	body = %s , 	metadescription = %s , 	metakeywords = %s , 	contenttype = %d , 	showinmenu = %d , 	status = %d , 	ordinal = %d	where	id = %d ", $db->escapeString($content->title), $db->escapeString($content->url), $db->escapeString($content->body), $db->escapeString($content->metadescription), $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal, $content->id ));
+		return $db->query(sprintf("update content set	role=%d, title = %s , 	url = %s , 	body = %s , 	metadescription = %s , 	metakeywords = %s , 	contenttype = %d , 	showinmenu = %d , 	status = %d , 	ordinal = %d	where	id = %d ", $content->role, $db->escapeString($content->title), $db->escapeString($content->url), $db->escapeString($content->body), $db->escapeString($content->metadescription), $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal, $content->id ));
 	}
 
 	public function data_add($content)
 	{		
 		$db = new DB();
-		return $db->queryInsert(sprintf("insert into content 	(title, 	url, 	body, 	metadescription, 	metakeywords, 	contenttype, 	showinmenu, 	status, 	ordinal	)	values	(%s, 	%s, 	%s, 	%s, 	%s, 	%d, 	%d, 	%d, 	%d 	)", $db->escapeString($content->title),  $db->escapeString($content->url),  $db->escapeString($content->body),  $db->escapeString($content->metadescription),  $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal ));
+		return $db->queryInsert(sprintf("insert into content 	(role, title, 	url, 	body, 	metadescription, 	metakeywords, 	contenttype, 	showinmenu, 	status, 	ordinal	)	values	(%s, 	%s, 	%s, 	%s, 	%s, 	%d, 	%d, 	%d, 	%d 	)", $content->role, $db->escapeString($content->title),  $db->escapeString($content->url),  $db->escapeString($content->body),  $db->escapeString($content->metadescription),  $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal ));
 	}
 
 	public function data_get()
@@ -172,23 +163,16 @@ class Contents
 		$db = new DB();
 		return $db->query(sprintf("select * from content order by contenttype, coalesce(ordinal, 1000000)"));		
 	}	
-	
-	public function data_getAllNoIndex()
-	{		
-		$db = new DB();
-		return $db->query(sprintf("select * from content where status=1 and contenttype != 3 order by createddate desc"));		
-	}	
-	
-	public function data_delete($id)
-	{		
-		$db = new DB();
-		return $db->query(sprintf("delete from content where id=%d", $id));		
-	}	
 
-	public function data_getByID($id)
+	public function data_getByID($id, $role)
 	{		
 		$db = new DB();
-		return $db->queryOneRow(sprintf("select * from content where id = %d", $id));		
+		if ($role == Users::ROLE_ADMIN)
+			$role = "";
+		else
+			$role = sprintf("and (role=%d or role=0)", $role);
+			
+		return $db->queryOneRow(sprintf("select * from content where id = %d %s", $id, $role));		
 	}		
 	
 	public function data_getIndex()
@@ -197,10 +181,14 @@ class Contents
 		return $db->queryOneRow(sprintf("select * from content where status=1 and contenttype = %d ", Contents::TYPEINDEX));		
 	}		
 
-	public function data_getForMenuByType($id)
+	public function data_getForMenuByTypeAndRole($id, $role)
 	{		
 		$db = new DB();
-		return $db->query(sprintf("select * from content where showinmenu=1 and status=1 and contenttype = %d ", $id));		
+		if ($role == Users::ROLE_ADMIN)
+			$role = "";
+		else
+			$role = sprintf("and (role=%d or role=0)", $role);		
+		return $db->query(sprintf("select * from content where showinmenu=1 and status=1 and contenttype = %d %s ", $id, $role));		
 	}		
 }
 ?>

@@ -13,6 +13,7 @@ class Users
 	const ERR_SIGNUP_EMAILINUSE = -5;
 	const SUCCESS = 1;
 	
+	const ROLE_GUEST = 0;
 	const ROLE_USER = 1;
 	const ROLE_ADMIN = 2;
 	const ROLE_DISABLED = 3;

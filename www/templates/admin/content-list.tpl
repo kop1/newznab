@@ -10,6 +10,7 @@
 		<th>url</th>
 		<th>type</th>
 		<th>status</th>
+		<th>role</th>
 		<th>in menu</th>
 		<th>body</th>
 		<th>options</th>
@@ -38,6 +39,15 @@
 				Disabled
 			{/if}
 		</td>
+		<td>
+			{if $content->role == "0"}
+				Everyone
+			{elseif $content->role == "1"}
+				Users
+			{elseif $content->role == "2"}
+				Admins
+			{/if}
+		</td>		
 		<td style="width:50px;">
 			{if $content->showinmenu == "1"}
 				Yes

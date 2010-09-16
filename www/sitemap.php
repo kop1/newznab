@@ -12,11 +12,15 @@ $arPages = array();
 $arPages[] = buildURL("Home", "Home Page", "/", 'daily', '1.0');
 
 
+$role=0;
+if ($page->userdata != null)
+	$role = $page->userdata["role"];
+
 //
 // useful links
 //
 $contents = new Contents();
-$contentlist =  $contents->getForMenuByType(Contents::TYPEUSEFUL);
+$contentlist =  $contents->getForMenuByTypeAndRole(Contents::TYPEUSEFUL, $role);
 foreach ($contentlist as $content)
 {
 	$arPages[] = buildURL("Useful Links", $content->title, $content->url."c".$content->id, 'monthly', '0.50');	
@@ -25,7 +29,7 @@ foreach ($contentlist as $content)
 //
 // articles
 //
-$contentlist =  $contents->getForMenuByType(Contents::TYPEARTICLE);
+$contentlist =  $contents->getForMenuByTypeAndRole(Contents::TYPEARTICLE, $role);
 foreach ($contentlist as $content)
 {
 	$arPages[] = buildURL("Articles", $content->title, $content->url."c".$content->id, 'monthly', '0.50');	

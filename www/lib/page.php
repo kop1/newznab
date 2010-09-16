@@ -4,6 +4,7 @@ require_once(WWW_DIR."/lib/framework/basepage.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/content.php");
 require_once(WWW_DIR."/lib/category.php");
+require_once(WWW_DIR."/lib/users.php");
 
 class Page extends BasePage
 {    
@@ -21,12 +22,17 @@ class Page extends BasePage
 		$this->site = $s->get();
 		$this->smarty->assign('site',$this->site);
 
+		$role=Users::ROLE_GUEST;
+		if ($this->userdata != null)
+			$role = $this->userdata["role"];
+
 		$content = new Contents();
-		$this->smarty->assign('usefulcontentlist',$content->getForMenuByType(Contents::TYPEUSEFUL));
+		$this->smarty->assign('usefulcontentlist',$content->getForMenuByTypeAndRole(Contents::TYPEUSEFUL, $role));
+		$this->smarty->assign('articlecontentlist',$content->getForMenuByTypeAndRole(Contents::TYPEARTICLE, $role));
+		
 		$usefullinks_menu = $this->smarty->fetch('usefullinksmenu.tpl');
 		$this->smarty->assign('useful_menu',$usefullinks_menu);		
 
-		$this->smarty->assign('articlecontentlist',$content->getForMenuByType(Contents::TYPEARTICLE));
 		$article_menu = $this->smarty->fetch('articlesmenu.tpl');
 		$this->smarty->assign('article_menu',$article_menu);	
 

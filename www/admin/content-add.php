@@ -47,7 +47,7 @@ switch($action)
 				$page->title = "Content Edit";
 				$id = $_GET["id"];
 				
-				$content = $contents->getByID($id);
+				$content = $contents->getByID($id, Users::ROLE_ADMIN);
 				$page->smarty->assign('content', $content);	
 			}
 
@@ -62,6 +62,9 @@ $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
 
 $contenttypelist = array("1" => "Useful Link", "2" => "Article", "3" => "Homepage");
 $page->smarty->assign('contenttypelist', $contenttypelist);
+
+$rolelist = array("0" => "Everyone", "1" => "Logged in Users", "2" => "Admins");
+$page->smarty->assign('rolelist', $rolelist);
 
 $page->content = $page->smarty->fetch('admin/content-add.tpl');
 $page->render();
