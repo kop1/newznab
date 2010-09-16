@@ -24,7 +24,7 @@
 <tr>
 	<td>Backfill Days</td>
 	<td>
-		<input id="backfill_target" name="backfill_target" type-"text" value="{$group.backfill_target}" />
+		<input class="small" id="backfill_target" name="backfill_target" type-"text" value="{$group.backfill_target}" />
 		<div class="hint">Number of days to attempt to backfill this group.  Adjust as necessary.</div>
 	</td>
 </td>

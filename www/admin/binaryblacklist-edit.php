@@ -40,12 +40,15 @@ switch($action)
 				
 				$r = $bin->getBlacklistByID($id);
 
-				$page->smarty->assign('regex', $r);	
 			}
 			else
 			{
 				$page->title = "Binary Black/Whitelist Add";
+				$r = array();
+				$r["status"] = 1;
+				$r["optype"] = 1;
 			}
+			$page->smarty->assign('regex', $r);	
 
       break;   
 }

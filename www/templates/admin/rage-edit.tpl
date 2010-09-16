@@ -10,13 +10,15 @@
 	<td>
 		<input type="hidden" name="id" value="{$rage.ID}" />
 		<input id="rageID" class="short" name="rageID" type="text" value="{$rage.rageID}" />
+		<div class="hint">The numeric TVRage Id.</div>
 	</td>
 </tr>
 
 <tr>
-	<td><label for="releasetitle">Release Name</label>:</td>
+	<td><label for="releasetitle">Show Name</label>:</td>
 	<td>
 		<input id="releasetitle" class="long" name="releasetitle" type="text" value="{$rage.releasetitle|escape:'htmlall'}" />
+		<div class="hint">The title of the TV show.</div>
 	</td>
 </tr>
 
@@ -34,6 +36,7 @@
 			<img style="max-width:200px; display:block;" src="{$smarty.const.WWW_TOP}/../getimage.php?type=tvrage&id={$rage.ID}">
 		{/if}
 		<input type="file" id="imagedata" name="imagedata">
+		<div class="hint">Shown in the TV series view page.</div>
 	</td>
 </tr>
 

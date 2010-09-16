@@ -34,7 +34,6 @@ switch($action)
 				$page->title = "Newsgroup Edit";
 				$id = $_GET["id"];
 				$group = $groups->getByID($id);
-				$page->smarty->assign('group', $group);	
 			}
 			else
 			{
@@ -43,8 +42,9 @@ switch($action)
 				$group["active"] = "1";
 				$group["first_record"] = "0";
 				$group["last_record"] = "0";
-				$page->smarty->assign('group', $group);	
+				$group["backfill_target"] = "0";
 			}
+			$page->smarty->assign('group', $group);	
 
       break;   
 }

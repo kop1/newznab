@@ -44,8 +44,13 @@ switch($action)
 				
 				$r = $reg->getByID($id);
 
-				$page->smarty->assign('regex', $r);	
 			}
+			else
+			{
+				$r = array();
+				$r["status"] = 1;
+			}
+			$page->smarty->assign('regex', $r);	
 
       break;   
 }
