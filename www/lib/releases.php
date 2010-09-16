@@ -1018,21 +1018,28 @@ class Releases
 		$this->processTvSeriesData($echooutput, ($page->site->lookuptvrage=="1"));
 		
 		//
+		// Get the current datetime again, as using now() in the housekeeping queries prevents the index being used.
+		//
+		$currTime = $db->queryOneRow("SELECT NOW() as now");		
+		
+		//
 		// Tidy away any binaries which have been attempted to be grouped into 
 		// a release more than x times
 		//
 		if ($echooutput)
 			echo "tidying away binaries which cant be grouped after ".$page->site->attemptgroupbindays." days\n";			
-		$db->query(sprintf("update binaries set procstat = %d where procstat = %d and dateadded < now() - interval %d day ", 
-			Releases::PROCSTAT_WRONGPARTS, Releases::PROCSTAT_NEW, $page->site->attemptgroupbindays));
+		$db->query(sprintf("update binaries set procstat = %d where procstat = %d and dateadded < %s - interval %d day ", 
+			Releases::PROCSTAT_WRONGPARTS, Releases::PROCSTAT_NEW, $db->escapeString($currTime["now"]), $page->site->attemptgroupbindays));
 		
 		//
 		// Delete any parts and binaries which are older than the site's retention days
 		//
 		if ($echooutput)
-			echo "deleting binaries which are older than ".$page->site->rawretentiondays." days\n";			
-		$db->query(sprintf("delete from parts where dateadded < now() - interval %d day", $page->site->rawretentiondays));
-		$db->query(sprintf("delete from binaries where dateadded < now() - interval %d day", $page->site->rawretentiondays));
+			echo "deleting binaries and parts which are older than ".$page->site->rawretentiondays." days\n";			
+		print(sprintf("delete from parts where dateadded < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->rawretentiondays));
+
+		$db->query(sprintf("delete from parts where dateadded < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->rawretentiondays));
+		$db->query(sprintf("delete from binaries where dateadded < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->rawretentiondays));
 		
 
 		if ($echooutput)
