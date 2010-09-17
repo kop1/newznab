@@ -82,7 +82,7 @@ updating index (populating binaries + parts)
 	updating the index can a long time depending on how much retention you require
 	as such its not recommended to run update scripts from web browsers, as timeouts
 	will occur. the recommended way to schedule updates is via a init.d script
-	/path/to/newznab/misc/cron_update/newznab.sh start
+	/path/to/newznab/misc/update_scripts/cron_scripts/newznab.sh start
 	make sure you set the paths to your installation.
 	
 regex matching
@@ -100,7 +100,7 @@ regex updating
 nzb file store
 	nzbs are saved to disk gzipped at the location specified by site.nzbpath in subdirs based on the 
 	first char of the release guid, this just makes the dirs a bit easier to manage when you have thousands
-	of nzb.gz files. the default path is /path/to/newznab/nzbfiles
+	of nzb.gz files. the default path is /website/../nzbfiles
 
 importing/exporting nzbs
 	.nzb files can be imported from the admin interface (or cli). importing is a convenient way to fill the
@@ -118,14 +118,13 @@ admin
 	set users.role to be 2 on the users you wish to be admins
 
 tvrage
-	after releases.processReleases() is called, an attempt to determine the tvrageids for every release
-	which looks like its tv. this also works out the series/episode columns. the data in the 
+	after releases.processReleases() is called, an attempt is made to determine the tvrageids for every release	which looks like its tv. this also works out the series/episode columns. the data in the 
 	tvrage table will become populated from best guesses from the rage search api. if some of these
 	guesses are wrong, you can manually edit the rage data in the admin interface, and use the 
 	remove link to wipe any releases which have that rageid and then manually call 'process tv' which
 	will attempt to relink rage data. when a new release is created it goes in with a release.rageid of -1
 	when tv is processed, the rageid either goes to the best guess, or to -2, which indicates no match 
-	could be made, or the release isnt percieved to by tv.
+	could be made, or the release isnt percieved to be tv.
 
 tvrage - series/episode info
 	information about a particular episode of a series is requested from services.tvrage.com a shared 
@@ -154,8 +153,7 @@ skinning
 	
 api
 	www.sitename.com/api? provides api access to query and retrieve nzbs.
-	call www.sitename.com/apihelp to see help doc with all available options. users either have to be logged in
-	or provide their rsstoken. users can use their rsstoken to access both rss + api.
+	call www.sitename.com/apihelp to see help doc with all available options. users either have to be logged in or provide their rsstoken. users can use their rsstoken to access both rss + api.
 	full details of the api and how to implement it are provided in /misc/api/
 	
 faqs
@@ -166,7 +164,6 @@ faqs
 	the regexes used to create a release. The message headers must follow popular formats in order for releases
 	to be created.
 	* search and rawsearch requests lose page css styling - use the provided apache vhost settings.
-	* releases generated with fewer parts than expected - check timezone of mysql + php match
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
@@ -192,6 +189,7 @@ development
 	enstyne@irc.cyberarmy.net	regexs
 	gizmore@wechall.net			password,hash
 	lhbandit@nzbs.org			yenc,nntp,bokko,dev	
+	bb@newznab						dev
 	jayhawk@nzb.su				testing,icons	
 	midgetspy@sickbeard			rage integration,api
 	ueland@newznab				installer
@@ -206,3 +204,4 @@ development
 	spooge@newznab				testing
 	sy@newznab					testing, regexs
 	fubaarr@newznab				testing
+	mobiKalw@newznab			testing
