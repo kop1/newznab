@@ -411,7 +411,8 @@ CREATE TABLE content
 `contenttype` INT NOT NULL,
 `showinmenu` INT NOT NULL,
 `status` INT NOT NULL,
-`ordinal` INT NULL
+`ordinal` INT NULL,
+`role` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
 
 INSERT INTO content (title, body, contenttype, STATUS, metadescription, metakeywords, showinmenu)
