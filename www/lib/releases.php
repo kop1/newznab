@@ -272,7 +272,7 @@ class Releases
 		$this->delete($id);
 		
 		$db = new DB();
-		$db->query(sprintf("update binaries set procstat = 0,procattempts=0, categoryID=null, regexID=null,relpart=null,reltotalpart=null,relname=null,releaseID=null where releaseID = %d", $id));
+		$db->query(sprintf("update binaries set procstat = 0,procattempts=0, categoryID=null, regexID=null,reqID=null,relpart=null,reltotalpart=null,relname=null,releaseID=null where releaseID = %d", $id));
 
 	}
 	

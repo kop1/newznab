@@ -398,9 +398,9 @@ class NZB
 			$timeUpdate = number_format(microtime(true) - $this->startUpdate, 2);
 			$timeLoop = number_format(microtime(true)-$this->startLoop, 2);
 	
-			echo $n."Received $count new binaries$n";
+			echo "Received $count new binaries$n";
 			echo "Updated $updatecount binaries$n";
-			echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n";
+			echo "Info: ".(str_replace('alt.binaries', 'a.b', $groupArr['name']))." Headers $timeHeaders, Update/Insert $timeUpdate, Range $timeLoop seconds$n$n";
 			unset($this->message);
 			unset($data);	
 		}
@@ -541,6 +541,7 @@ class NZB
 		if($targetpost >= $groupArr['first_record'])	//if our estimate comes back with stuff we already have, finish
 		{
 			echo "Nothing to do, we already have the target post.$n";
+			return "";
 		}
 		//get first and last part numbers from newsgroup
 		if($targetpost < $data['first'])

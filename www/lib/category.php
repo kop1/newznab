@@ -295,9 +295,9 @@ class Category
 		// XXX 
 		//
 		if (preg_match('/erotica/i', $group)) { 
+			if (preg_match('/wmv|pack\-|mp4|f4v|flv|mov|h264|mpeg|isom|mkv|realmedia|multiformat|divx|(e\d{2,})|(\d{2}\.\d{2}\.\d{2})|uhq|(issue\.\d{2,})/i', $releasename)) { return Category::CAT_XXX_WMV; }
 			if (preg_match('/x264/i', $releasename)) { return Category::CAT_XXX_X264; }
-			if (preg_match('/xvid|divx|dvdrip/i', $releasename)) { return Category::CAT_XXX_XVID; }
-			if (preg_match('/wmv|pack\-|mp4|f4v|flv|mov|h264/i', $releasename)) { return Category::CAT_XXX_WMV; }
+			if (preg_match('/xvid|dvdrip|bdrip|brrip|pornolation|swe6|nympho|detoxication|tesoro/i', $releasename)) { return Category::CAT_XXX_XVID; }
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_XXX_DVD; }
 			return Category::CAT_XXX_XVID;
 		}
@@ -368,7 +368,8 @@ class Category
 	}
 	
 	private function isTv($releasename) {
-		return preg_match('/(S?(\d{1,2})\.?(?!x264)(E|X|D)(\d{1,3}))|(hdtv|dsr|pdtv)[\.\-_]/i', $releasename);
+		return preg_match('/(S?(\d{1,2})\.?(?!x264)(E|X|D)(\d{1,3}))|(dsr|pdtv)[\.\-_]/i', $releasename);
+		//alternative (S(\d{1,2})\.?(E|D)(\d{1,3}))|([\._ ]((?!x264)\d{1,2}X\d{1,2})[\._ ])|(dsr|pdtv)[\.\-_]
 	}
 	
 	private function isForeign($releasename) {
