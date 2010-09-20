@@ -149,7 +149,7 @@ class Contents
 	public function data_add($content)
 	{		
 		$db = new DB();
-		return $db->queryInsert(sprintf("insert into content 	(role, title, 	url, 	body, 	metadescription, 	metakeywords, 	contenttype, 	showinmenu, 	status, 	ordinal	)	values	(%s, 	%s, 	%s, 	%s, 	%s, 	%d, 	%d, 	%d, 	%d 	)", $content->role, $db->escapeString($content->title),  $db->escapeString($content->url),  $db->escapeString($content->body),  $db->escapeString($content->metadescription),  $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal ));
+		return $db->queryInsert(sprintf("insert into content (role, title, url, body, metadescription, metakeywords, 	contenttype, 	showinmenu, 	status, 	ordinal	)	values	(%d, %s, 	%s, 	%s, 	%s, 	%s, 	%d, 	%d, 	%d, 	%d 	)", $content->role, $db->escapeString($content->title),  $db->escapeString($content->url),  $db->escapeString($content->body),  $db->escapeString($content->metadescription),  $db->escapeString($content->metakeywords), $content->contenttype, $content->showinmenu, $content->status, $content->ordinal ));
 	}
 
 	public function data_get()
