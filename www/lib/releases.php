@@ -812,27 +812,35 @@ class Releases
 				
 				// Check that the binary is complete
 				$binlist = $db->query(sprintf("SELECT ID, totalParts, date from binaries where relname = %s and procstat = %d and groupID = %d and fromname = %s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
-				foreach ($binlist as $rowbin) {
-					$incomplete = false;
+
+				$incomplete = false;
+				foreach ($binlist as $rowbin) 
+				{
 					$binParts = $db->queryOneRow(sprintf("SELECT COUNT(ID) AS num FROM parts WHERE binaryID = %d", $rowbin['ID']));
-					if ($binParts['num'] < $rowbin['totalParts']) {
-						if ($echooutput) {
+					if ($binParts['num'] < $rowbin['totalParts']) 
+					{
+						if ($echooutput) 
+						{
 							echo "binary ".$rowbin['ID']." from ".$row['relname']." has missing parts - ".$binParts['num']."/".$rowbin['totalParts']." (".number_format(($binParts['num']/$rowbin['totalParts'])*100, 1)."% complete)\n";
 						}
+						
 						// Allow to binary to release if posted to usenet longer than four hours ago and we still don't have all the parts
 						if (strtotime($currTime['now']) - strtotime($rowbin['date']) > 14400)
 						{
-							if ($echooutput) {
+							if ($echooutput) 
+							{
 								echo "allowing incomplete binary ".$rowbin['ID']."\n";
 							}
-						} else {
+						} 
+						else 
+						{
 							$incomplete = true;
 						}
 					}
 				}
 				
-				
-				if ($incomplete) {
+				if ($incomplete) 
+				{
 					if ($echooutput)
 						echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
 						
