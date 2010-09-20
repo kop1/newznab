@@ -786,7 +786,7 @@ class Releases
 		//
 		if ($echooutput)
 			echo "Stage 2\n";
-		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, reqID, fromname, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID, reqID, fromname ORDER BY reltotalpart + COUNT(ID) DESC ", Releases::PROCSTAT_TITLEMATCHED));
+		$result = $db->queryDirect(sprintf("SELECT relname, SUM(reltotalpart) AS reltotalpart, groupID, reqID, fromname, SUM(num) AS num FROM  ( SELECT relname, reltotalpart, groupID, reqID, fromname, COUNT(ID) AS num FROM binaries WHERE procstat = %d GROUP BY relname, reltotalpart, groupID, reqID, fromname) x GROUP BY relname, groupID, reqID, fromname", Releases::PROCSTAT_TITLEMATCHED));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
