@@ -786,7 +786,7 @@ class Releases
 		//
 		if ($echooutput)
 			echo "Stage 2\n";
-		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, reqID, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID, reqID ORDER BY reltotalpart + COUNT(ID) DESC ", Releases::PROCSTAT_TITLEMATCHED));
+		$result = $db->queryDirect(sprintf("SELECT relname, reltotalpart, groupID, reqID, fromname, count(ID) as num from binaries where procstat = %d group by relname, reltotalpart, groupID, reqID, fromname ORDER BY reltotalpart + COUNT(ID) DESC ", Releases::PROCSTAT_TITLEMATCHED));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
@@ -800,7 +800,7 @@ class Releases
 				if ($echooutput)
 					echo "Number of files in release ".$row["relname"]." less than site setting (".$row['num']."/".$page->site->minfilestoformrelease.")\n";
 					
-				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"] ));
+				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d and fromname = %s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 			}
 			
 			//
@@ -811,7 +811,7 @@ class Releases
 			{
 				
 				// Check that the binary is complete
-				$binlist = $db->query(sprintf("SELECT ID, totalParts, date from binaries where relname = %s and procstat = %d and groupID = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"] ));
+				$binlist = $db->query(sprintf("SELECT ID, totalParts, date from binaries where relname = %s and procstat = %d and groupID = %d and fromname = %s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 				foreach ($binlist as $rowbin) {
 					$incomplete = false;
 					$binParts = $db->queryOneRow(sprintf("SELECT COUNT(ID) AS num FROM parts WHERE binaryID = %d", $rowbin['ID']));
@@ -836,7 +836,7 @@ class Releases
 					if ($echooutput)
 						echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
 						
-					$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"] ));
+					$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d and fromname = %s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 				}
 				
 				//
@@ -867,24 +867,24 @@ class Releases
 					//
 					if ($newtitle != "")						
 					{
-						$db->query(sprintf("update binaries set relname = %s, procstat=%d where relname = %s and procstat = %d and groupID = %d", 
-							$db->escapeString($newtitle), Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
+						$db->query(sprintf("update binaries set relname = %s, procstat=%d where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
+							$db->escapeString($newtitle), Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"])));
 					}
 					else
 					{
 						//
 						// Item not found, if the binary was added to the index yages ago, then give up.
 						//
-						$maxaddeddate = $db->queryOneRow(sprintf("SELECT NOW() as now, MAX(dateadded) as dateadded FROM binaries WHERE relname = %s and procstat = %d and groupID = %d", 
-																				$db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));		
+						$maxaddeddate = $db->queryOneRow(sprintf("SELECT NOW() as now, MAX(dateadded) as dateadded FROM binaries WHERE relname = %s and procstat = %d and groupID = %d and fromname=%s", 
+																				$db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"])));		
 						
 						//
 						// If added to the index over 48 hours ago, give up trying to determine the title
 						//
 						if ($maxaddeddate['now'] - strtotime($maxaddeddate['dateadded']) > (60*60*48))
 						{
-							$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d", 
-								Releases::PROCSTAT_NOREQIDNAMELOOKUPFOUND, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
+							$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
+								Releases::PROCSTAT_NOREQIDNAMELOOKUPFOUND, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"])));
 							if ($echooutput)
 								echo "Not found in 48 hours\n";
 						}
@@ -892,8 +892,8 @@ class Releases
 				}
 				else
 				{
-					$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d", 
-						Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"]));
+					$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
+						Releases::PROCSTAT_READYTORELEASE, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"])));
 				}
 			}
 			
@@ -905,7 +905,7 @@ class Releases
 				if ($echooutput)
 					echo "Incorrect number of files for ".$row["relname"]." (".$row["num"]."/".$row["reltotalpart"].")\n";
 					
-				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"] ));
+				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d and fromname=%s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 			}
 			if ($echooutput && ($retcount % 10 == 0))
 				echo "-processed ".$retcount." binaries stage two\n";
@@ -917,7 +917,7 @@ class Releases
 		//
 		// Get out all distinct relname, group from binaries of STAGE2 
 		// 
-		$result = $db->queryDirect(sprintf("SELECT relname, groupID, g.name as group_name, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID ORDER BY COUNT(binaries.ID) desc", Releases::PROCSTAT_READYTORELEASE));
+		$result = $db->queryDirect(sprintf("SELECT relname, groupID, g.name as group_name, fromname, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID, fromname ORDER BY COUNT(binaries.ID) desc", Releases::PROCSTAT_READYTORELEASE));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
@@ -925,8 +925,8 @@ class Releases
 			//
 			// Get the last post date and the poster name from the binary
 			//
-			$bindata = $db->queryOneRow(sprintf("select fromname, MAX(date) as date from binaries where relname = %s and procstat = %d and groupID = %d group by fromname", 
-										$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"] ));
+			$bindata = $db->queryOneRow(sprintf("select fromname, MAX(date) as date from binaries where relname = %s and procstat = %d and groupID = %d and fromname = %s group by fromname", 
+										$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"], $db->escapeString($row["fromname"]) ));
 
 			//
 			// Get all releases with the same name with a usenet posted date in a +1-1 date range.
@@ -938,8 +938,8 @@ class Releases
 				if ($echooutput)
 					echo "Found duplicate release - ".$row["relname"]."\n";
 				
-				$db->query(sprintf("update binaries set procstat = %d where relname = %s and procstat = %d and groupID = %d ", 
-									Releases::PROCSTAT_DUPLICATE, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
+				$db->query(sprintf("update binaries set procstat = %d where relname = %s and procstat = %d and groupID = %d and fromname=%s ", 
+									Releases::PROCSTAT_DUPLICATE, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"], $db->escapeString($row["fromname"])));
 
 				continue;
 			}
@@ -953,8 +953,8 @@ class Releases
 			$regexAppliedCategoryID = "";
 			$regexIDused = "";
 			$reqIDused = "";
-			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID, reqID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d and groupID = %d", 
-									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"] ));
+			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID, reqID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
+									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"], $db->escapeString($row["fromname"]) ));
 			if (count($binariesForSize) > 0)
 			{
 				$sizeSql = "select sum(size) as totalSize from parts where (";
@@ -1011,8 +1011,8 @@ class Releases
 			// Tag every binary for this release with its parent release id
 			// remove the release name from the binary as its no longer required
 			//
-			$db->query(sprintf("update binaries set procstat = %d, releaseID = %d where relname = %s and procstat = %d and groupID = %d ", 
-								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"]));
+			$db->query(sprintf("update binaries set procstat = %d, releaseID = %d where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
+								Releases::PROCSTAT_RELEASED, $relid, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"], $db->escapeString($row["fromname"])));
 
 			//
 			// Find an .nfo in the release
