@@ -69,7 +69,10 @@ class Nfo
 		
 		$res = $db->queryDirect(sprintf("SELECT rn.*, r.searchname FROM releasenfo rn left outer join releases r ON r.ID = rn.releaseID WHERE rn.nfo IS NULL AND rn.attempts < 5"));
 		if (mysql_num_rows($res) > 0)
-		{
+		{	
+			if ($this->echooutput)
+				echo "Processing ".mysql_num_rows($res)." nfos\n";
+		
 			$nntp->doConnect();
 			while ($arr = mysql_fetch_array($res, MYSQL_BOTH)) 
 			{
@@ -117,14 +120,14 @@ class Nfo
 				else 
 				{
 					if ($this->echooutput)
-						echo "nfo download failed - release ".$arr['releaseID']." on attempt ".($arr["attempts"]++)."\n";
+						echo "NFO download failed - release ".$arr['releaseID']." on attempt ".($arr["attempts"]++)."\n";
 						
 					//nfo download failed, increment attempts
 					$db->query(sprintf("UPDATE releasenfo SET attempts = attempts+1 WHERE ID = %d", $arr["ID"]));
 				}
 				
 				if ($ret != 0 && $this->echooutput && ($ret % 5 == 0))
-					echo "processed ".$ret." nfos\n";
+					echo "-processed ".$ret." nfos\n";
 				
 			}
 			$nntp->doQuit();

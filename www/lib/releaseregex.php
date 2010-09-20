@@ -18,7 +18,7 @@ class ReleaseRegex
 												left outer JOIN groups ON groups.name = releaseregex.groupname 
 												left outer join category on category.ID = releaseregex.categoryID
 												".$where."
-												ORDER BY coalesce(groupname,'zzz'), ordinal");		
+												ORDER BY groupname LIKE '%*' ASC, coalesce(groupname,'zzz') DESC, ordinal ASC");		
 	}
 
 	public function getByID($id)
