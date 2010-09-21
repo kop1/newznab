@@ -14,11 +14,11 @@
 	</div>
 	
 	<div id="menusearchlink">
-	<form id="headsearch_form" action="get">
+	<form id="headsearch_form" action="search.php" method="get">
 		<label style="display:none;" for="headsearch">Search Text</label>
-		<input id="headsearch" name="headsearch" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
+		<input id="headsearch" name="search" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
 		<label style="display:none;" for="headcat">Search Category</label>
-		<select id="headcat" name="headcat">
+		<select id="headcat" name="t">
 			<option class="grouping" value="-1">-- Everything --</option>
 		{foreach from=$parentcatlist item=parentcat}
 			<option {if $header_menu_cat==$parentcat.ID}selected="selected"{/if} class="grouping" value="{$parentcat.ID}">{$parentcat.title}</option>
