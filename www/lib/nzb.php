@@ -339,7 +339,8 @@ class NZB
 					continue;
 				
 				//Filter binaries based on black/white list
-				if ($this->binary->isBlackListed($msg['Subject'], $groupArr['name'], $this->binary->blackList)) {
+				if ($this->binary->isBlackListed($msg, $groupArr['name'], $this->binary->blackList)) 
+				{
 					continue;
 				}
 	

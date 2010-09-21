@@ -5,6 +5,9 @@ require_once(WWW_DIR."/lib/releases.php");
 
 class Binaries
 {	
+	const BLACKLIST_FIELD_SUBJECT = 1;
+	const BLACKLIST_FIELD_FROM = 2;
+
 	function Binaries() 
 	{
 		$this->blackList = array();
@@ -23,15 +26,22 @@ class Binaries
 		return $result;
 	}
 	
-	public function isBlackListed($subject, $groupName, $blackList) 
+	public function isBlackListed($msg, $groupName, $blackList) 
 	{
+		$field = array();
+		if (isset($msg["Subject"]))
+			$field[Binaries::BLACKLIST_FIELD_SUBJECT] = $msg["Subject"];
+			
+		if (isset($msg["From"]))
+			$field[Binaries::BLACKLIST_FIELD_FROM] = $msg["From"];
+	
 		$omitBinary = false;
 		//whitelist
 		if (isset($blackList[$groupName][2])) 
 		{
 			foreach ($blackList[$groupName][2] as $wList) 
 			{
-				if (!preg_match('/'.$wList['regex'].'/i', $subject))
+				if (!preg_match('/'.$wList['regex'].'/i', $field[$wList['msgcol']]))
 				{
 					$omitBinary = true;
 				}
@@ -42,7 +52,7 @@ class Binaries
 		{
 			foreach ($blackList[$groupName][1] as $bList) 
 			{
-				if (preg_match('/'.$bList['regex'].'/i', $subject))
+				if (preg_match('/'.$bList['regex'].'/i', $field[$bList['msgcol']]))
 				{
 					$omitBinary = true;
 				}
@@ -112,7 +122,7 @@ class Binaries
 			$where = " where binaryblacklist.status = 1 ";
 			
 		return $db->query("SELECT binaryblacklist.ID, binaryblacklist.optype, binaryblacklist.status, binaryblacklist.description, binaryblacklist.groupname AS groupname, binaryblacklist.regex, 
-												groups.ID AS groupID FROM binaryblacklist 
+												groups.ID AS groupID, binaryblacklist.msgcol FROM binaryblacklist 
 												left outer JOIN groups ON groups.name = binaryblacklist.groupname 
 												".$where."
 												ORDER BY coalesce(groupname,'zzz')");		
@@ -140,7 +150,7 @@ class Binaries
 		else
 			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
 			
-		$db->query(sprintf("update binaryblacklist set groupname=%s, regex=%s, status=%d, description=%s, optype=%d where ID = %d ", $groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"], $regex["id"]));	
+		$db->query(sprintf("update binaryblacklist set groupname=%s, regex=%s, status=%d, description=%s, optype=%d, msgcol=%d where ID = %d ", $groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"], $regex["msgcol"], $regex["id"]));	
 	}
 	
 	public function addBlacklist($regex)
@@ -153,8 +163,8 @@ class Binaries
 		else
 			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
 			
-		return $db->queryInsert(sprintf("insert into binaryblacklist (groupname, regex, status, description, optype) values (%s, %s, %d, %s, %d) ", 
-			$groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"]));	
+		return $db->queryInsert(sprintf("insert into binaryblacklist (groupname, regex, status, description, optype, msgcol) values (%s, %s, %d, %s, %d, %d) ", 
+			$groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"], $regex["msgcol"]));	
 		
 	}	
 }

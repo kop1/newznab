@@ -36,6 +36,14 @@
 </tr>
 
 <tr>
+	<td><label for="msgcol">Message Field</label>:</td>
+	<td>
+		{html_radios id="msgcol" name='msgcol' values=$msgcol_ids output=$msgcol_names selected=$regex.msgcol separator='<br />'}
+		<div class="hint">Which field in the message to apply the black/white list to.</div>		
+	</td>
+</tr>
+
+<tr>
 	<td><label for="status">Active</label>:</td>
 	<td>
 		{html_radios id="status" name='status' values=$status_ids output=$status_names selected=$regex.status separator='<br />'}
