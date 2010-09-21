@@ -26,6 +26,7 @@ class Category
 	const CAT_PC_ISO = 4020;
 	const CAT_PC_MAC = 4030;
 	const CAT_PC_PHONE = 4040;
+	const CAT_PC_GAMES = 4050;
 	const CAT_TV_DVD = 5010;
 	const CAT_TV_FOREIGN = 5020;
 	const CAT_TV_XVID = 5030;

@@ -617,7 +617,8 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    4010                                 PC/0day                         Apps and games not released in ISO.
    4020                                 PC/ISO                          CD-ROM images/DVD Images
    4030                                 PC/Mac                          
-   4030                                 PC/Phone                        Mobile phone software 
+   4040                                 PC/Phone                        Mobile phone software 
+   4050                                 PC/Games                        PC Games
    5000                                 TV                              All of TV
    5010                                 TV/DVD                          TV Series on DVD
    5020                                 TV/SWE                          Swedish TV
