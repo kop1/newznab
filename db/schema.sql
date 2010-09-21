@@ -360,7 +360,7 @@ INSERT INTO category (ID, title, parentID) VALUES (4040, 'Phone', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4050, 'Games', 4000);
 
 INSERT INTO category (ID, title, parentID) VALUES (5010, 'DVD', 5000);
-INSERT INTO category (ID, title, parentID) VALUES (5020, 'SWE', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5020, 'Foreign', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5030, 'XviD', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5040, 'x264', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5050, 'Mobile', 5000);
