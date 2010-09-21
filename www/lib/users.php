@@ -40,7 +40,7 @@ class Users
 		$db->query(sprintf("delete from users where ID = %d", $id));		
 	}	
 	
-	public function getRange($start, $num)
+	public function getRange($start, $num, $orderby)
 	{		
 		$db = new DB();
 		
@@ -49,7 +49,43 @@ class Users
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query(" SELECT * from users".$limit);		
+		$order = $this->getBrowseOrder($orderby);
+		
+		return $db->query(sprintf(" SELECT * from users order by %s %s".$limit, $order[0], $order[1]));		
+	}	
+	
+	public function getBrowseOrder($orderby)
+	{
+		$order = ($orderby == '') ? 'username_desc' : $orderby;
+		$orderArr = explode("_", $order);
+		switch($orderArr[0]) {
+			case 'username':
+				$orderfield = 'username';
+			break;
+			case 'email':
+				$orderfield = 'email';
+			break;
+			case 'host':
+				$orderfield = 'host';
+			break;
+			case 'createddate':
+				$orderfield = 'createddate';
+			break;
+			case 'lastlogin':
+				$orderfield = 'lastlogin';
+			break;
+			case 'grabs':
+				$orderfield = 'grabs';
+			break;		
+			case 'role':
+				$orderfield = 'role';
+			break;				
+			default:
+				$orderfield = 'username';
+			break;
+		}
+		$ordersort = (isset($orderArr[1]) && preg_match('/^asc|desc$/i', $orderArr[1])) ? $orderArr[1] : 'desc';
+		return array($orderfield, $ordersort);
 	}	
 	
 	public function getCount()
@@ -163,6 +199,11 @@ class Users
 	{			
 		$db = new DB();
 		return $db->queryOneRow(sprintf("select * from users where lower(rsstoken) = lower(%s) ", $db->escapeString($rsstoken)));		
+	}	
+	
+	public function getBrowseOrdering()
+	{
+		return array('username_asc', 'username_desc', 'email_asc', 'email_desc', 'host_asc', 'host_desc', 'createddate_asc', 'createddate_desc', 'lastlogin_asc', 'lastlogin_desc', 'grabs_asc', 'grabs_desc', 'role_asc', 'role_desc');
 	}	
 	
 	public function isValidUsername($uname)
