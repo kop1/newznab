@@ -26,7 +26,7 @@
 		<td title="Edit regex"><a href="{$smarty.const.WWW_TOP}/binaryblacklist-edit.php?id={$bin.ID}">{$bin.regex|escape:html}</a><br>
 		{$bin.description}</td>
 		<td>{if $bin.optype==1}black{else}white{/if}</td>
-		<td>{if $bin.msgcol==1}subject{else}poster{/if}</td>
+		<td>{if $bin.msgcol==1}subject{elseif $bin.msgcol==2}poster{else}messageid{/if}</td>
 		<td>{if $bin.status==1}active{else}disabled{/if}</td>
 		<td><a href="javascript:ajax_binaryblacklist_delete({$bin.ID})">delete</a></td>
 	</tr>

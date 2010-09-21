@@ -60,8 +60,8 @@ $page->smarty->assign('status_names', array( 'Yes', 'No'));
 $page->smarty->assign('optype_ids', array(1,2));
 $page->smarty->assign('optype_names', array( 'Black', 'White'));
 
-$page->smarty->assign('msgcol_ids', array(Binaries::BLACKLIST_FIELD_SUBJECT, Binaries::BLACKLIST_FIELD_FROM));
-$page->smarty->assign('msgcol_names', array( 'Subject', 'Poster'));
+$page->smarty->assign('msgcol_ids', array(Binaries::BLACKLIST_FIELD_SUBJECT, Binaries::BLACKLIST_FIELD_FROM, Binaries::BLACKLIST_FIELD_MESSAGEID));
+$page->smarty->assign('msgcol_names', array( 'Subject', 'Poster', 'MessageId'));
 
 $page->content = $page->smarty->fetch('admin/binaryblacklist-edit.tpl');
 $page->render();

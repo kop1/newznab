@@ -7,6 +7,7 @@ class Binaries
 {	
 	const BLACKLIST_FIELD_SUBJECT = 1;
 	const BLACKLIST_FIELD_FROM = 2;
+	const BLACKLIST_FIELD_MESSAGEID = 3;
 
 	function Binaries() 
 	{
@@ -35,6 +36,9 @@ class Binaries
 		if (isset($msg["From"]))
 			$field[Binaries::BLACKLIST_FIELD_FROM] = $msg["From"];
 	
+		if (isset($msg["Message-ID"]))
+			$field[Binaries::BLACKLIST_FIELD_MESSAGEID] = $msg["Message-ID"];
+
 		$omitBinary = false;
 		//whitelist
 		if (isset($blackList[$groupName][2])) 
