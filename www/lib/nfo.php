@@ -1,7 +1,6 @@
 <?php
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
-require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/movie.php");
 require_once(WWW_DIR."/lib/releases.php");
@@ -63,7 +62,6 @@ class Nfo
 	{
 		$ret = 0;
 		$db = new DB();
-		$nzb = new Nzb();
 		$nntp = new Nntp();
 		$tvr = new Tvrage();
 		
