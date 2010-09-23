@@ -1,10 +1,10 @@
 <?php
 
 require("../../www/config.php");
-require_once(WWW_DIR."/lib/nzb.php");
+require_once(WWW_DIR."/lib/backfill.php");
 $nntp = new nntp;
 $nntp->doConnect();
-$nzb = new NZB;
-print_r($nzb->daytopost($nntp,"alt.binaries.teevee",1));
+$backfill = new Backfill();
+print_r($backfill->daytopost($nntp,"alt.binaries.teevee", 100));
 $nntp->doQuit();
 ?>

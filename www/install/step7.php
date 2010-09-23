@@ -18,10 +18,10 @@ $cfg = $cfg->getSession();
 if  ($page->isPostBack()) {
 	$cfg->doCheck = true;
 	
-	require_once($cfg->WWW_DIR.'/lib/nzb.php');
+	require_once($cfg->WWW_DIR.'/lib/binaries.php');
 	require_once($cfg->WWW_DIR.'/lib/releases.php');
 	
-	$nzb = new NZB();
+	$binaries = new Binaries();
 	$releases = new Releases();
 	
 	//activate teevee
@@ -29,7 +29,7 @@ if  ($page->isPostBack()) {
 	$db->query("INSERT INTO groups (name, description, active) VALUES ('alt.binaries.teevee', '', 1) ON DUPLICATE KEY UPDATE active = 1");
 	
 	ob_start();
-	$nzb->updateAllGroups();
+	$binaries->updateAllGroups();
 	$proccount = $releases->processReleases(true);
 	$output = ob_get_contents();
 	ob_end_clean();

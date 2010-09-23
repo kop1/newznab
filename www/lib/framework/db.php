@@ -34,10 +34,10 @@ class DB
 		return $arr;
 	}	
 	
-	public function queryInsert($query)
+	public function queryInsert($query, $returnlastid=true)
 	{
 		$result = mysql_query($query);
-		return mysql_insert_id();
+		return ($returnlastid) ? mysql_insert_id() : $result;
 	}
 	
 	public function queryOneRow($query)

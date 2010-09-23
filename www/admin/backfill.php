@@ -1,9 +1,9 @@
 <?php
 
 require("config.php");
-require_once(WWW_DIR."/lib/nzb.php");
+require_once(WWW_DIR."/lib/backfill.php");
 
-$nzb = new NZB;
-$nzb->backfillAllGroups();
+$backfill = new Backfill();
+$backfill->backfillAllGroups();
 
 ?>
