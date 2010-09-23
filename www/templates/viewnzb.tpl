@@ -45,8 +45,8 @@
 	{/if}
 	
 	<tr><th>Poster:</th><td>{$release.fromname|escape:"htmlall"}</td></tr>
-	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format}</td></tr>
-	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format}</td></tr>
+	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format} ({$release.postdate|daysago})</td></tr>
+	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format} ({$release.adddate|daysago})</td></tr>
 	<tr id="guid{$release.guid}"><th>Download:</th><td>
 		<div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$release.guid}">&nbsp;</a></div>
 		<div class="icon icon_cart" title="Add to Cart"></div>
@@ -72,7 +72,13 @@
 	</tr>
 	{/if}
 	{if $isadmin}
-	<tr><th>Additional Info:</th><td>Regex Id ({$release.regexID}) <br/> Request Id ({$release.reqID})</td></tr>
+	<tr><th>Additional Info:</th>
+		<td>
+			Regex Id (<a href="{$smarty.const.WWW_TOP}/admin/regex-list.php#{$release.regexID}">{$release.regexID}</a>) <br/> 
+			{if $release.reqID != ""}
+				Request Id ({$release.reqID})
+			{/if}
+		</td></tr>
 	{/if}
 </table>
 

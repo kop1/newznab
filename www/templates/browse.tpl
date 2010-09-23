@@ -38,7 +38,9 @@
 					{if $result.rageID > 0}<a href="{$smarty.const.WWW_TOP}/series/{$result.rageID}" title="View all episodes">[View Series]</a>{/if}
 					{if $result.tvairdate != ""}<span title="{$result.tvtitle} Aired on {$result.tvairdate|date_format}">[Aired {if $result.tvairdate|strtotime > $smarty.now}in future{else}{$result.tvairdate|daysago}{/if}]</span>{/if}
 					
-					{if $isadmin}<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">[Edit]</a>{/if}
+					{if $isadmin}
+						<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">[Edit</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Delete Release">Del</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">Reb]</a>
+					{/if}
 				</div>
 			</td>
 			<td class="less"><a title="Browse {$result.category_name}" href="{$smarty.const.WWW_TOP}/browse?t={$result.categoryID}">{$result.category_name}</a></td>
