@@ -401,6 +401,16 @@ CREATE TABLE `usercart` (
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 CREATE UNIQUE INDEX ix_usercart_userrelease ON usercart (userID, releaseID);
 
+DROP TABLE IF EXISTS `userexcat`;
+CREATE TABLE `userexcat` (
+  `ID` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userID` INT NOT NULL ,
+  `categoryID` INT NOT NULL,
+  `createddate` DATETIME NOT NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+CREATE UNIQUE INDEX ix_userexcat_usercat ON userexcat (userID, categoryID);
+
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE content
 (

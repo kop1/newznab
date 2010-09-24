@@ -33,6 +33,7 @@ class Users
 	{			
 		$db = new DB();
 		$this->delCartForUser($id);
+		$this->delUserCategoryExclusions($id);
 		
 		$releases = new Releases();
 		$releases->deleteCommentsForUser($id);
@@ -392,6 +393,24 @@ class Users
 		$db = new DB();
 		$db->query(sprintf("delete from usercart where releaseID = %d", $rid));		
 	}	
+	
+	public function addCategoryExclusion($uid, $catid)
+	{			
+		$db = new DB();
+		return $db->queryInsert(sprintf("insert into userexcat (userID, categoryID, createddate) values (%d, %d, now())", $uid, $catid));		
+	}
+
+	public function delCategoryExclusion($uid, $catid)
+	{			
+		$db = new DB();
+		return $db->queryInsert(sprintf("delete from userexcat where userID = %d and categoryID = %d", $uid, $catid));		
+	}
+	
+	public function delUserCategoryExclusions($uid)
+	{
+		$db = new DB();
+		$db->query(sprintf("delete from userexcat where userID = %d", $uid));		
+	}
 	
 	public function getTopGrabbers()
 	{
