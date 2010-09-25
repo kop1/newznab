@@ -93,6 +93,12 @@ class Category
 		return $db->queryOneRow(sprintf("SELECT c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));
 	}	
 	
+	public function getByIds($ids)
+	{			
+		$db = new DB();
+		return $db->query(sprintf("SELECT concat(cp.title, ' > ',c.title) as title from category c inner join category cp on cp.ID = c.parentID where c.ID in (%s)", implode(',', $ids)));
+	}	
+
 	public function update($id, $status, $desc)
 	{			
 		$db = new DB();

@@ -8,6 +8,7 @@
 	<tr><th>Last Login:</th><td title="{$user.lastlogin}">{$user.lastlogin|date_format}  ({$user.lastlogin|timeago} ago)</td></tr>
 	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Site Api/Rss Key:</th><td>{$user.rsstoken}</td></tr>{/if}
 	<tr><th>Grabs:</th><td>{$user.grabs}</td></tr>
+	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Excluded Categories:</th><td>{$exccats}</td></tr>{/if}
 	{if $user.ID==$userdata.ID}<tr><th></th><td><a href="{$smarty.const.WWW_TOP}/profileedit">Edit</a></td></tr>{/if}
 </table>
 

@@ -394,16 +394,44 @@ class Users
 		$db->query(sprintf("delete from usercart where releaseID = %d", $rid));		
 	}	
 	
-	public function addCategoryExclusion($uid, $catid)
+	public function addCategoryExclusions($uid, $catids)
 	{			
 		$db = new DB();
-		return $db->queryInsert(sprintf("insert into userexcat (userID, categoryID, createddate) values (%d, %d, now())", $uid, $catid));		
+		$this->delUserCategoryExclusions($uid);
+		foreach ($catids as $catid)
+		{
+			$db->queryInsert(sprintf("insert into userexcat (userID, categoryID, createddate) values (%d, %d, now())", $uid, $catid));		
+		}
+	}
+
+	public function getCategoryExclusion($uid)
+	{			
+		$db = new DB();
+		$ret = array();
+		$data = $db->query(sprintf("select categoryID from userexcat where userID = %d", $uid));		
+		foreach ($data as $d)
+			$ret[] = $d["categoryID"];
+		
+		return $ret;
+	}
+
+	public function getCategoryExclusionNames($uid)
+	{			
+		$data = $this->getCategoryExclusion($uid);
+		$db = new DB();
+		$category = new Category();
+		$data = $category->getByIds($data);
+		$ret = array();
+		foreach ($data as $d)
+			$ret[] = $d["title"];
+		
+		return $ret;
 	}
 
 	public function delCategoryExclusion($uid, $catid)
 	{			
 		$db = new DB();
-		return $db->queryInsert(sprintf("delete from userexcat where userID = %d and categoryID = %d", $uid, $catid));		
+		$db->query(sprintf("delete from userexcat where userID = %d and categoryID = %d", $uid, $catid));		
 	}
 	
 	public function delUserCategoryExclusions($uid)

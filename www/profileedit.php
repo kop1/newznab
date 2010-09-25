@@ -2,9 +2,11 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
+require_once(WWW_DIR."/lib/category.php");
 
 $page = new Page;
 $users = new Users;
+$category = new Category;
 
 if (!$users->isLoggedIn())
 	$page->show403();
@@ -48,8 +50,10 @@ switch($action)
 						$page->smarty->assign('error', "Sorry, the email is already in use.");	
 					else
 					{
-						$users->update($userid, $data["username"], $_POST['email'], $data["grabs"]);
+						$users->update($userid, $data["username"], $_POST['email'], $data["grabs"], $data["role"]);
 						
+						$users->addCategoryExclusions($userid, $_POST['exccat']);
+
 						if ($_POST['password'] != "")
 							$users->updatePassword($userid, $_POST['password']);
 						
@@ -67,11 +71,15 @@ switch($action)
 	break;   
 }
 
-$page->smarty->assign('user',$data);
+$page->smarty->assign('user', $data);
+$page->smarty->assign('userexccat', $users->getCategoryExclusion($userid));
 
 $page->meta_title = "Edit User Profile";
 $page->meta_keywords = "edit,profile,user,details";
 $page->meta_description = "Edit User Profile for ".$data["username"] ;
+
+
+$page->smarty->assign('catlist',$category->getForSelect(false));
 
 $page->content = $page->smarty->fetch('profileedit.tpl');
 $page->render();

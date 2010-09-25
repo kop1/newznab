@@ -19,6 +19,12 @@
 	<tr><th>Confirm Password:</th><td><input autocomplete="off" id="confirmpassword" name="confirmpassword" type="password" value=""></input>
 	</td></tr>
 	<tr><th>Site Api/Rss Key:</th><td>{$user.rsstoken}<br/><a onclick="return confirm('Are you sure?');" href="?action=newapikey">Generate</a></td></tr>
+	<tr><th>Excluded Categories:</th>
+		<td>
+			{html_options style="height:105px;" multiple=multiple name=exccat[] options=$catlist selected=$userexccat}
+			<div class="hint">Use Ctrl and click to exclude multiple categories.</div>
+		</td>
+	</tr>
 	<tr><th></th><td><input type="submit" value="Save" /></td></tr>
 </table>
 

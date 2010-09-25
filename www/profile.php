@@ -44,6 +44,9 @@ $page->smarty->assign('pager', $pager);
 $commentslist = $releases->getCommentsForUserRange($userid, $offset, ITEMS_PER_PAGE);
 $page->smarty->assign('commentslist',$commentslist);	
 
+$exccats = $users->getCategoryExclusionNames($userid);
+$page->smarty->assign('exccats', implode(",", $exccats));
+
 $page->meta_title = "View User Profile";
 $page->meta_keywords = "view,profile,user,details";
 $page->meta_description = "View User Profile for ".$data["username"] ;
