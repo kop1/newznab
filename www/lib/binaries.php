@@ -366,7 +366,8 @@ class Binaries
 		$res = $db->query(sprintf("
 					SELECT b.*, 
 					g.name AS group_name,
-					r.guid
+					r.guid,
+					(SELECT COUNT(ID) FROM parts p where p.binaryID = b.ID) as 'binnum'
 					FROM binaries b
 					INNER JOIN groups g ON g.ID = b.groupID
 					LEFT OUTER JOIN releases r ON r.ID = b.releaseID
