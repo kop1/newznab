@@ -429,8 +429,11 @@ class Binaries
 		if ($groupname == "")
 			$groupname = "null";
 		else
-			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
-			
+		{
+			$groupname = preg_replace("/a\.b\./i", "alt.binaries.", $groupname);
+			$groupname = sprintf("%s", $db->escapeString($groupname));
+		}
+		
 		$db->query(sprintf("update binaryblacklist set groupname=%s, regex=%s, status=%d, description=%s, optype=%d, msgcol=%d where ID = %d ", $groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"], $regex["msgcol"], $regex["id"]));	
 	}
 	
@@ -442,11 +445,12 @@ class Binaries
 		if ($groupname == "")
 			$groupname = "null";
 		else
-			$groupname = sprintf("%s", $db->escapeString($regex["groupname"]));
-			
+		{
+			$groupname = preg_replace("/a\.b\./i", "alt.binaries.", $groupname);
+			$groupname = sprintf("%s", $db->escapeString($groupname));
+		}
 		return $db->queryInsert(sprintf("insert into binaryblacklist (groupname, regex, status, description, optype, msgcol) values (%s, %s, %d, %s, %d, %d) ", 
 			$groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"], $regex["msgcol"]));	
-		
 	}	
 }
 ?>
