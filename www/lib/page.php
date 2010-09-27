@@ -37,7 +37,11 @@ class Page extends BasePage
 		$this->smarty->assign('article_menu',$article_menu);	
 
 		$category = new Category();
-		$parentcatlist = $category->getForMenu();
+		if ($this->userdata != null)
+			$parentcatlist = $category->getForMenu($this->userdata["categoryexclusions"]);
+		else
+			$parentcatlist = $category->getForMenu();
+
 		$this->smarty->assign('parentcatlist',$parentcatlist);
 		if (isset($_REQUEST["search"]))
 			$this->smarty->assign('header_menu_search',$_REQUEST["search"]);

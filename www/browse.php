@@ -19,15 +19,15 @@ if (isset($_REQUEST["t"]))
 
 $catarray = array();
 $catarray[] = $category;	
-	
-$browsecount = $releases->getBrowseCount($catarray);
+
+$browsecount = $releases->getBrowseCount($catarray, -1, $page->userdata["categoryexclusions"]);
 
 $offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 $ordering = $releases->getBrowseOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 
 $results = array();
-$results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby);
+$results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"]);
 
 $page->smarty->assign('pagertotalitems',$browsecount);
 $page->smarty->assign('pageroffset',$offset);

@@ -26,7 +26,7 @@ if (isset($_GET["id"]))
 	
 	$nfo = $releases->getReleaseNfo($data["ID"], false);
 	$comments = $releases->getComments($data["ID"]);
-	$similars = $releases->searchSimilar($data["ID"], $data["searchname"]);
+	$similars = $releases->searchSimilar($data["ID"], $data["searchname"], 6, $page->userdata["categoryexclusions"]);
 	if ($data["rageID"] != "")
 	{
 		$rage = $tvrage->getByRageID($data["rageID"]);

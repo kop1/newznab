@@ -336,7 +336,7 @@ class Binaries
 		return $omitBinary;
 	}
 	
-	public function search($search, $limit=1000)
+	public function search($search, $limit=1000, $excludedcats=array())
 	{			
 		$db = new DB();
 
@@ -363,6 +363,11 @@ class Binaries
 			}
 		}
 
+		
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and b.categoryID not in (".implode(",", $excludedcats).") ";
+
 		$res = $db->query(sprintf("
 					SELECT b.*, 
 					g.name AS group_name,
@@ -371,8 +376,8 @@ class Binaries
 					FROM binaries b
 					INNER JOIN groups g ON g.ID = b.groupID
 					LEFT OUTER JOIN releases r ON r.ID = b.releaseID
-					WHERE 1=1 %s order by DATE DESC LIMIT %d ", 
-					$searchsql, $limit));		
+					WHERE 1=1 %s %s order by DATE DESC LIMIT %d ", 
+					$searchsql, $exccatlist, $limit));		
 		
 		return $res;
 	}	

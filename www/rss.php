@@ -30,7 +30,7 @@ if (!isset($_GET["t"]) && !isset($_GET["rage"]))
 	$page->meta_keywords = "view,nzb,description,details,rss,atom";
 	$page->meta_description = "View available Rss Nzb feeds.";
 	
-	$categorylist = $category->get(true);
+	$categorylist = $category->get(true, $page->userdata["categoryexclusions"]);
 	$page->smarty->assign('categorylist',$categorylist);
 	
 	$page->content = $page->smarty->fetch('rssdesc.tpl');

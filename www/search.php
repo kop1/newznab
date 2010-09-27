@@ -33,7 +33,7 @@ if (isset($_REQUEST["search"]))
 		$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/search.php?search=".htmlentities($_REQUEST["search"])."&amp;t=".(implode(',',$categoryId))."&amp;ob=".$ordertype);
 	}
 	$page->smarty->assign('search', $_REQUEST["search"]);
-	$results = $releases->search($_REQUEST["search"], $categoryId, 0, 1000, $orderby);
+	$results = $releases->search($_REQUEST["search"], $categoryId, 0, 1000, $orderby, -1, $page->userdata["categoryexclusions"]);
 }
 
 $page->smarty->assign('results', $results);

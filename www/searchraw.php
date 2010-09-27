@@ -21,7 +21,7 @@ $results = array();
 if (isset($_REQUEST["search"]))
 {
 	$page->smarty->assign('search', $_REQUEST["search"]);
-	$results = $binaries->search($_REQUEST["search"]);
+	$results = $binaries->search($_REQUEST["search"], 1000, $page->userdata["categoryexclusions"]);
 }
 
 $page->smarty->assign('results', $results);

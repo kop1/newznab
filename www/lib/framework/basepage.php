@@ -50,10 +50,13 @@ class BasePage
 		if ($users->isLoggedIn())
 		{
 			$this->userdata = $users->getById($users->currentUserId());
+   		$this->userdata["categoryexclusions"] = $users->getCategoryExclusion($users->currentUserId());	
 			$this->smarty->assign('userdata',$this->userdata);	
 			$this->smarty->assign('loggedin',"true");
+			
 			if (isset($_COOKIE['sabnzbd_'.$users->currentUserId().'__apikey']) && $_COOKIE['sabnzbd_'.$users->currentUserId().'__apikey'] != "")
 				$this->smarty->assign('sabintegrated',"true");
+			
 			if ($this->userdata["role"] == Users::ROLE_ADMIN)
 				$this->smarty->assign('isadmin',"true");	
 				

@@ -51,12 +51,17 @@ class Category
 	const STATUS_INACTIVE = 0;
 	const STATUS_ACTIVE = 1;
 
-	public function get($activeonly=false)
+	public function get($activeonly=false, $excludedcats=array())
 	{			
 		$db = new DB();
+
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and c.ID not in (".implode(",", $excludedcats).")";
+
 		$act = "";
 		if ($activeonly)
-			$act = sprintf(" where c.status = %d ", Category::STATUS_ACTIVE ) ;
+			$act = sprintf(" where c.status = %d %s ", Category::STATUS_ACTIVE, $exccatlist ) ;
 			
 		return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, cp.ID as parentID, c.status from category c inner join category cp on cp.ID = c.parentID ".$act);		
 	}	
@@ -105,11 +110,16 @@ class Category
 		return $db->query(sprintf("update category set status = %d, description = %s where ID = %d", $status, $db->escapeString($desc), $id));
 	}	
 	
-	public function getForMenu()
+	public function getForMenu($excludedcats=array())
 	{			
 		$db = new DB();
 		$ret = array();
-		$arr = $db->query(sprintf("select * from category where status = %d", Category::STATUS_ACTIVE));	
+
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and ID not in (".implode(",", $excludedcats).")";
+
+		$arr = $db->query(sprintf("select * from category where status = %d %s", Category::STATUS_ACTIVE, $exccatlist));	
 		foreach ($arr as $a)
 			if ($a["parentID"] == "")
 				$ret[] = $a;
@@ -127,10 +137,14 @@ class Category
 				}
 			}
 			
-			if (count($subcatlist > 0))
+			if (count($subcatlist) > 0)
 			{
 				array_multisort($subcatnames, SORT_ASC, $subcatlist);
 				$ret[$key]["subcatlist"] = $subcatlist;
+			}
+			else
+			{
+				unset($ret[$key]);
 			}
 		}
 		return $ret;

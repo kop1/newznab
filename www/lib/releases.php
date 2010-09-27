@@ -62,7 +62,7 @@ class Releases
 		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by postdate desc".$limit);		
 	}
 	
-	public function getBrowseCount($cat, $maxage=-1)
+	public function getBrowseCount($cat, $maxage=-1, $excludedcats=array())
 	{
 		$db = new DB();
 
@@ -99,11 +99,15 @@ class Releases
 		else
 			$maxage = "";		
 		
-		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases %s", $catsrch));		
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and releases.categoryID not in (".implode(",", $excludedcats).")";
+		
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases %s %s %s", $catsrch, $maxage, $exccatlist));		
 		return $res["num"];	
 	}	
 	
-	public function getBrowseRange($cat, $start, $num, $orderby, $maxage=-1)
+	public function getBrowseRange($cat, $start, $num, $orderby, $maxage=-1, $excludedcats=array())
 	{		
 		$db = new DB();
 		
@@ -140,13 +144,16 @@ class Releases
 			$catsrch.= "1=2 )";
 		}	
 		
+		$maxage = "";
 		if ($maxage > 0)
 			$maxage = sprintf(" and postdate > now() - interval %d day ", $maxage);
-		else
-			$maxage = "";
+
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and releases.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getBrowseOrder($orderby);
-		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s order by %s %s".$limit, $catsrch, $maxage, $order[0], $order[1]));		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s order by %s %s".$limit, $catsrch, $maxage, $exccatlist, $order[0], $order[1]));		
 	}
 	
 	public function getBrowseOrder($orderby)
@@ -304,7 +311,7 @@ class Releases
 			$db->escapeString($name), $db->escapeString($searchname), $db->escapeString($fromname), $category, $parts, $grabs, $size, $db->escapeString($posteddate), $db->escapeString($addeddate), $rageid, $db->escapeString($seriesfull), $db->escapeString($season), $db->escapeString($episode), $imdbid, $id));		
 	}	
 	
-	public function search($search, $cat=array(-1), $offset=0, $limit=1000, $orderby='', $maxage=-1)
+	public function search($search, $cat=array(-1), $offset=0, $limit=1000, $orderby='', $maxage=-1, $excludedcats=array())
 	{			
 		$db = new DB();
 
@@ -364,6 +371,11 @@ class Releases
 		else
 			$maxage = "";
 		
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and releases.categoryID not in (".implode(",", $excludedcats).")";
+
+
 		if ($orderby == "")
 		{
 			$order[0] = " postdate ";
@@ -372,7 +384,7 @@ class Releases
 		else
 			$order = $this->getBrowseOrder($orderby);
 
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s order by %s %s limit %d, %d ", $searchsql, $catsrch, $maxage, $order[0], $order[1], $offset, $limit), true);
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by %s %s limit %d, %d ", $searchsql, $catsrch, $maxage, $exccatlist, $order[0], $order[1], $offset, $limit), true);
 
 		return $res;
 	}	
@@ -537,11 +549,11 @@ class Releases
 
 		return $res;
 	}			
-	
-	public function searchSimilar($currentid, $name, $limit=6)
+
+	public function searchSimilar($currentid, $name, $limit=6, $excludedcats=array())
 	{			
 		$name = $this->getSimilarName($name);
-		$results = $this->search($name, array(-1), 0, $limit);
+		$results = $this->search($name, array(-1), 0, $limit, '', -1, $excludedcats);
 		if (!$results)
 			return $results;
 
