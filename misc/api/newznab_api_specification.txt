@@ -18,8 +18,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 2.3 SEARCH
 2.4 TV-SEARCH
 2.5 MOVIE-SEARCH
-2.6 Search Modifiers
-2.7 DETAILS
+2.6 DETAILS
 3.  Predefined Categories
 4.  Predefined Attributes
 4.1 List of Attributes
@@ -343,6 +342,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    Optional parameters:
      limit=123          Upper limit for the number of items to be returned, e.g. 123.
      rid=xxxx           TVRage id of the item being queried.
+     cat=xxx            List of categories to search delimeted by ","
      season=xxxx        Season string, e.g S13 or 13 for the item being queried.
      q=xxxx             Search input (URL/UTF-8 encoded). Case insensitive.
      ep=xxx             Episode string, e.g E13 or 13 for the item being queried.
@@ -434,6 +434,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    Optional parameters:
      limit=123          Upper limit for the number of items to be returned, e.g. 123.
      imdbid=xxxx        IMDB id of the item being queried e.g. 0058935.
+     cat=xxx            List of categories to search delimeted by ","
      q=xxxx             Search input (URL/UTF-8 encoded). Case insensitive.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
      extended=1         Return extended information in the search results
@@ -476,25 +477,6 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
 
          </channel>
          </rss>
-
-   2.6 Search Modifiers
-   
-   The following search modifiers/operators are defined to enhance the searching functionality. The modifiers are submitted
-   part of the query parameter (q).
-   
-   +  A leading plus sign indicates that this word must be present in each item returned.
-   -  A leading minus sign indicates that this word must not be present in any items returned.
-   *  A trailing asterisk servers as the truncation (or wildcard) operator and matches any words partially.
-   "" A phrase enclosed in double quotes matches only items that contain the phrase completely.
-   
-   Examples:
-   
-   apple banana         Matches items that contain either apple or banana
-   +apple +juice        Matches items that cotain both apple and banana
-   +apple -juice        Matches items that contain apple but not juice
-   "apple banana"       Matches items that contain apple banana completely
-   
-
 
    2.6 DETAILS
    
