@@ -15,7 +15,7 @@ cd ${NEWZNAB_PATH}
 /usr/bin/php5 ${NEWZNAB_PATH}/update_binaries.php
 /usr/bin/php5 ${NEWZNAB_PATH}/update_releases.php
 
-DIFF=$[$CURRTIME-$LASTOPTIMIZE]
+DIFF=$(($CURRTIME-$LASTOPTIMIZE))
 if [ $DIFF -gt 86400 ]; then
 	LASTOPTIMIZE=`date +%s`
 	echo "Optimizing DB..."
