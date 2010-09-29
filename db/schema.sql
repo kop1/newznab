@@ -314,6 +314,7 @@ CREATE TABLE `parts` (
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_parts_dateadded ON parts (dateadded);
+CREATE INDEX ix_parts_number ON parts (number);
 
 DROP TABLE IF EXISTS `partrepair`;
 CREATE TABLE `partrepair` (
