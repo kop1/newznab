@@ -12,6 +12,7 @@
 		<th>join date<br/><a title="Sort Descending" href="{$orderbycreateddate_desc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbycreateddate_asc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>last login<br/><a title="Sort Descending" href="{$orderbylastlogin_desc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbylastlogin_asc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>grabs<br/><a title="Sort Descending" href="{$orderbygrabs_desc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbygrabs_asc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>invites</th>
 		<th>role<br/><a title="Sort Descending" href="{$orderbyrole_desc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyrole_asc}"><img src="{$smarty.const.WWW_TOP}/../images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>options</th>
 	</tr>
@@ -25,6 +26,7 @@
 		<td>{$user.createddate|date_format}</td>
 		<td>{$user.lastlogin|date_format}</td>
 		<td>{$user.grabs}</td>
+		<td>{$user.invites}</td>
 		<td>{if $user.role=="1"}User{elseif $user.role=="2"}Admin{elseif $user.role=="3"}Disabled{else}Unknown{/if}</td>
 		<td>{if $user.role!="2"}<a class="confirm_action" href="{$smarty.const.WWW_TOP}/user-delete.php?id={$user.ID}">delete</a>{/if}</td>
 	</tr>

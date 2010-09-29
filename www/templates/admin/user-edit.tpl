@@ -39,6 +39,14 @@
 	</td>
 </tr>
 {/if}
+
+<tr>
+	<td>Invites:</td>
+	<td>
+		<input class="short" name="invites" type="text" value="{$user.invites}" />
+	</td>
+</tr>
+
 <tr>
 	<td><label for="role">Role</label>:</td>
 	<td>

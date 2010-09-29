@@ -18,6 +18,8 @@ class Users
 	const ROLE_ADMIN = 2;
 	const ROLE_DISABLED = 3;
 	
+	const DEFAULT_INVITES = 1;
+
 	const SALTLEN = 4;
 	const SHA1LEN = 40;
 	const HASHLEN = 44;
@@ -96,7 +98,7 @@ class Users
 		return $res["num"];		
 	}	
 
-	public function add($uname, $pass, $email, $role, $host)
+	public function add($uname, $pass, $email, $role, $host, $invites=Users::DEFAULT_INVITES)
 	{			
 		$db = new DB();
 		
@@ -105,11 +107,11 @@ class Users
 		if ($s->storeuserips != "1")
 			$host = "";
 				
-		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken) values (%s, %s, lower(%s), %d, now(), %s, md5(%s))", 
-			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid())));		
+		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken, invites) values (%s, %s, lower(%s), %d, now(), %s, md5(%s), %d)", 
+			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid()), $invites));		
 	}	
 	
-	public function update($id, $uname, $email, $grabs, $role)
+	public function update($id, $uname, $email, $grabs, $role, $invites)
 	{			
 		$db = new DB();
 		
@@ -132,8 +134,8 @@ class Users
 			if ($res["ID"] != $id)
 				return Users::ERR_SIGNUP_EMAILINUSE;		
 		
-		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d, role = %d where id = %d", 
-			$db->escapeString($uname), $db->escapeString($email), $grabs, $role, $id));		
+		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d, role = %d, invites=%d where id = %d", 
+			$db->escapeString($uname), $db->escapeString($email), $grabs, $role, $invites, $id));		
 			
 		return Users::SUCCESS;
 	}	
@@ -245,7 +247,7 @@ class Users
 		return substr(md5(uniqid()), 0, 8);
 	}
 	
-	public function signup($uname, $pass, $email, $host, $role = Users::ROLE_USER)
+	public function signup($uname, $pass, $email, $host, $role = Users::ROLE_USER, $invites=Users::DEFAULT_INVITES)
 	{
 		$uname = trim($uname);
 		$pass = trim($pass);
@@ -268,7 +270,7 @@ class Users
 		if ($res)
 			return Users::ERR_SIGNUP_EMAILINUSE;
 
-		return $this->add($uname, $pass, $email, $role, $host);
+		return $this->add($uname, $pass, $email, $role, $host, $invites);
 	}
 	
 	function randomKey($amount)

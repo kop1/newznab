@@ -16,6 +16,7 @@ switch($action)
     case 'add':
 				$user = array();
 				$user["role"] = Users::ROLE_USER;
+				$user["invites"] = Users::DEFAULT_INVITES;
 				$page->smarty->assign('user', $user);	
 
 			break;
@@ -23,11 +24,11 @@ switch($action)
     
     	if ($_POST["id"] == "")
     	{
-				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '', 	$_POST["role"]);
+				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '', 	$_POST["role"], $_POST["invites"]);
     	}
     	else
     	{
-				$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"], $_POST["role"]);
+				$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"], $_POST["role"], $_POST["invites"]);
 			}
 
 				if ($ret >= 0)

@@ -8,6 +8,25 @@
 	<tr><th>Last Login:</th><td title="{$user.lastlogin}">{$user.lastlogin|date_format}  ({$user.lastlogin|timeago} ago)</td></tr>
 	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Site Api/Rss Key:</th><td>{$user.rsstoken}</td></tr>{/if}
 	<tr><th>Grabs:</th><td>{$user.grabs}</td></tr>
+	
+	{if ($user.ID==$userdata.ID || $userdata.role==2) && $site->registerstatus==1}
+	<tr>
+		<th title="Not public">Invites:</th>
+		<td>{$user.invites} 
+		{if $user.invites > 0}
+			[<a id="lnkSendInvite" href="#">Send Invite</a>]
+			<div style="display:none;" id="divInvite">
+				<form method="POST">
+					<label for="txtInvite">Email</label>:
+					<input type="text" id="txtInvite" />
+					<input onclick="alert('Not yet implemented');" type="submit" value="Send"/>
+				</form>
+			</div>
+		{/if}
+		</td>
+	</tr>
+	{/if}
+	
 	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Excluded Categories:</th><td>{$exccats|replace:",":"<br/>"}</td></tr>{/if}
 	{if $user.ID==$userdata.ID}<tr><th></th><td><a href="{$smarty.const.WWW_TOP}/profileedit">Edit</a></td></tr>{/if}
 </table>

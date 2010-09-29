@@ -399,6 +399,8 @@ CREATE TABLE `users` (
   `resetguid` VARCHAR(50) NULL,
   `lastlogin` datetime default null,
   `apiaccess` datetime default null,
+	`invites` int not null default 0,
+	`invitedby` int null,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 
@@ -421,6 +423,15 @@ CREATE TABLE `userexcat` (
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 CREATE UNIQUE INDEX ix_userexcat_usercat ON userexcat (userID, categoryID);
+
+DROP TABLE IF EXISTS `userinvite`;
+CREATE TABLE `userinvite` (
+  `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `guid` varchar(50) NOT NULL,
+  `userID` int(11) UNSIGNED NOT NULL,
+  `createddate` datetime not null,
+  PRIMARY KEY (`ID`)
+) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE content

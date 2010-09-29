@@ -50,7 +50,7 @@ switch($action)
 						$page->smarty->assign('error', "Sorry, the email is already in use.");	
 					else
 					{
-						$users->update($userid, $data["username"], $_POST['email'], $data["grabs"], $data["role"]);
+						$users->update($userid, $data["username"], $_POST['email'], $data["grabs"], $data["role"], $data["invites"]);
 						
 						$users->addCategoryExclusions($userid, $_POST['exccat']);
 

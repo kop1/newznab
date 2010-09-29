@@ -218,6 +218,15 @@ jQuery(function($){
 		$('#profile_sab_save').next('.icon').removeClass('icon_check'); // save status notification
 	});
 
+
+	// profile send invite
+	$('#lnkSendInvite').click(function()
+	{
+		$('#divInvite').slideToggle('fast', function() {
+  	});
+	});
+
+
 });
 
 
