@@ -315,6 +315,16 @@ CREATE TABLE `parts` (
 
 CREATE INDEX ix_parts_dateadded ON parts (dateadded);
 
+DROP TABLE IF EXISTS `partrepair`;
+CREATE TABLE `partrepair` (
+  `ID` int(16) unsigned NOT NULL AUTO_INCREMENT,
+  `numberID` int(11) unsigned NOT NULL,
+  `groupID` int(11) unsigned NOT NULL,
+  `attempts` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `ix_numberID_groupID` (`numberID`,`groupID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 
 DROP TABLE IF EXISTS `category`;
 CREATE TABLE category

@@ -95,7 +95,7 @@ class Backfill
 			$binaries->startLoop = microtime(true);
 			echo "Getting ".($last-$first+1)." parts (".($first-$targetpost)." in queue)".$n;
 			flush();
-			$binaries->scan($nntp, $groupArr, $first, $last);
+			$binaries->scan($nntp, $groupArr, $first, $last, 'backfill');
 
 			$db->query(sprintf("UPDATE groups SET first_record = %s, last_updated = now() WHERE ID = %d", $db->escapeString($first), $groupArr['ID']));
 			if($first==$targetpost)
