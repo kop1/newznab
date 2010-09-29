@@ -323,8 +323,8 @@ CREATE TABLE `partrepair` (
   `groupID` int(11) unsigned NOT NULL,
   `attempts` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`ID`),
-  UNIQUE KEY `ix_numberID_groupID` (`numberID`,`groupID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  UNIQUE KEY `ix_partrepair_numberID_groupID` (`numberID`,`groupID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 
 
 DROP TABLE IF EXISTS `category`;
