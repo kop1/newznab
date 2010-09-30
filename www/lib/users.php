@@ -467,7 +467,7 @@ class Users
 		$subject = $sitetitle." Invitation";
 		$contents = $sender["username"]." has sent an invite to join ".$sitetitle." to this email address. To accept the invition click the following link.\n\n ".$serverurl."register.php?invite=".$token;
 
-		//if (sendEmail($emailto, $subject, $contents, $siteemail))
+		if (sendEmail($emailto, $subject, $contents, $siteemail))
 			$this->addInvite($uid, $token);
 	}
 	
