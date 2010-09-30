@@ -13,7 +13,7 @@ function sendEmail($to, $subject, $contents, $from)
 	$ret = @mail($to, $subject, $contents, $from_header);
 	if (!$ret)
 	{
-		echo "mail sending failed";
+		//echo "mail sending failed";
 		return false;
 	}
 	

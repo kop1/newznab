@@ -12,8 +12,11 @@ if (!$users->isLoggedIn())
 if (isset($_GET['action']) && $_GET['action'] == "1" && isset($_GET['emailto']))
 {
 	$emailto = $_GET['emailto'];
-	$users->sendInvite($page->site->title, $page->site->email, $page->serverurl, $users->currentUserId(), $emailto);
-	print "Invite sent.";
+	$ret = $users->sendInvite($page->site->title, $page->site->email, $page->serverurl, $users->currentUserId(), $emailto);
+	if (!$ret)
+		print "Invite not sent.";
+	else
+		print "Invite sent. Alternatively paste them following link to register - ".$ret;
 }
 else
 {

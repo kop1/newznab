@@ -465,10 +465,12 @@ class Users
 		$sender = $this->getById($uid);
 		$token = $this->hashSHA1(uniqid());
 		$subject = $sitetitle." Invitation";
-		$contents = $sender["username"]." has sent an invite to join ".$sitetitle." to this email address. To accept the invition click the following link.\n\n ".$serverurl."register.php?invite=".$token;
+		$url = $serverurl."register.php?invite=".$token;
+		$contents = $sender["username"]." has sent an invite to join ".$sitetitle." to this email address. To accept the invition click the following link.\n\n ".$url;
 
-		if (sendEmail($emailto, $subject, $contents, $siteemail))
-			$this->addInvite($uid, $token);
+		sendEmail($emailto, $subject, $contents, $siteemail);
+		$this->addInvite($uid, $token);
+		return $url;
 	}
 	
 	public function getInvite($inviteToken)
