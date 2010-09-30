@@ -3,6 +3,7 @@ require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/util.php");
 
 class Users
 {	
@@ -11,6 +12,7 @@ class Users
 	const ERR_SIGNUP_BADEMAIL = -3;
 	const ERR_SIGNUP_UNAMEINUSE = -4;
 	const ERR_SIGNUP_EMAILINUSE = -5;
+	const ERR_SIGNUP_BADINVITECODE = -6;
 	const SUCCESS = 1;
 	
 	const ROLE_GUEST = 0;
@@ -19,6 +21,7 @@ class Users
 	const ROLE_DISABLED = 3;
 	
 	const DEFAULT_INVITES = 1;
+	const DEFAULT_INVITE_EXPIRY_DAYS = 7;
 
 	const SALTLEN = 4;
 	const SHA1LEN = 40;
@@ -98,7 +101,7 @@ class Users
 		return $res["num"];		
 	}	
 
-	public function add($uname, $pass, $email, $role, $host, $invites=Users::DEFAULT_INVITES)
+	public function add($uname, $pass, $email, $role, $host, $invites=Users::DEFAULT_INVITES, $invitedby=0)
 	{			
 		$db = new DB();
 		
@@ -106,9 +109,12 @@ class Users
 		$s = $site->get();
 		if ($s->storeuserips != "1")
 			$host = "";
-				
-		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken, invites) values (%s, %s, lower(%s), %d, now(), %s, md5(%s), %d)", 
-			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid()), $invites));		
+		
+		if ($invitedby == 0)
+			$invitedby = "null";
+			
+		return $db->queryInsert(sprintf("insert into users (username, password, email, role, createddate, host, rsstoken, invites, invitedby) values (%s, %s, lower(%s), %d, now(), %s, md5(%s), %d, %s)", 
+			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid()), $invites, $invitedby));		
 	}	
 	
 	public function update($id, $uname, $email, $grabs, $role, $invites)
@@ -247,7 +253,7 @@ class Users
 		return substr(md5(uniqid()), 0, 8);
 	}
 	
-	public function signup($uname, $pass, $email, $host, $role = Users::ROLE_USER, $invites=Users::DEFAULT_INVITES)
+	public function signup($uname, $pass, $email, $host, $role = Users::ROLE_USER, $invites=Users::DEFAULT_INVITES, $invitecode="")
 	{
 		$uname = trim($uname);
 		$pass = trim($pass);
@@ -270,7 +276,19 @@ class Users
 		if ($res)
 			return Users::ERR_SIGNUP_EMAILINUSE;
 
-		return $this->add($uname, $pass, $email, $role, $host, $invites);
+		//
+		// make sure this is the last check, as if a further validation check failed, 
+		// the invite would still have been used up
+		//
+		$invitedby = 0;
+		if ($invitecode!="")
+		{	
+			$invitedby = $this->checkAndUseInvite($invitecode);
+			if ($invitedby < 0)
+				return Users::ERR_SIGNUP_BADINVITECODE;
+		}
+		
+		return $this->add($uname, $pass, $email, $role, $host, $invites, $invitedby);
 	}
 	
 	function randomKey($amount)
@@ -440,6 +458,53 @@ class Users
 	{
 		$db = new DB();
 		$db->query(sprintf("delete from userexcat where userID = %d", $uid));		
+	}
+	
+	public function sendInvite($sitetitle, $siteemail, $serverurl, $uid, $emailto)
+	{	
+		$sender = $this->getById($uid);
+		$token = $this->hashSHA1(uniqid());
+		$subject = $sitetitle." Invitation";
+		$contents = $sender["username"]." has sent an invite to join ".$sitetitle." to this email address. To accept the invition click the following link.\n\n ".$serverurl."register.php?invite=".$token;
+
+		//if (sendEmail($emailto, $subject, $contents, $siteemail))
+			$this->addInvite($uid, $token);
+	}
+	
+	public function getInvite($inviteToken)
+	{
+		$db = new DB();
+
+		//
+		// Tidy any old invites sent greater than DEFAULT_INVITE_EXPIRY_DAYS days ago.
+		//
+		$db->query(sprintf("delete from userinvite where createddate < now() - interval %d day", Users::DEFAULT_INVITE_EXPIRY_DAYS));
+		
+		return $db->queryOneRow(sprintf("select * from userinvite where guid = %s", $db->escapeString($inviteToken)));
+	}
+	
+	public function addInvite($uid, $inviteToken)
+	{
+		$db = new DB();
+		$db->queryInsert(sprintf("insert into userinvite (guid, userID, createddate) values (%s, %d, now())", $db->escapeString($inviteToken), $uid));		
+	}
+	
+	public function deleteInvite($inviteToken)
+	{
+		$db = new DB();
+		$db->query(sprintf("delete from userinvite where guid = %s ", $db->escapeString($inviteToken)));		
+	}	
+	
+	public function checkAndUseInvite($invitecode)
+	{
+		$invite = $this->getInvite($invitecode);
+		if (!$invite)
+			return -1;
+		
+		$db = new DB();
+		$db->query(sprintf("update users set invites = invites-1 where id = %d ", $invite["userID"]));		
+		$this->deleteInvite($invitecode);
+		return $invite["userID"];
 	}
 	
 	public function getTopGrabbers()

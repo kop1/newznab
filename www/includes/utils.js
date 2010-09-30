@@ -219,13 +219,42 @@ jQuery(function($){
 	});
 
 
-	// profile send invite
+	// show/hide invite form
 	$('#lnkSendInvite').click(function()
 	{
-		$('#divInvite').slideToggle('fast', function() {
-  	});
+		$('#divInvite').slideToggle('fast');
 	});
 
+	// send an invite
+	$('#frmSendInvite').submit(function() 
+	{
+		var inputEmailto = $("#txtInvite").val();
+		if (isValidEmailAddress(inputEmailto))
+		{
+		
+			// no caching of results
+			var rand_no = Math.random();
+			$.ajax({
+			  url       : WWW_TOP + '/ajax_profile.php?action=1&rand=' + rand_no,
+			  data      : { emailto: inputEmailto},
+			  dataType  : "html",
+			  success   : function(data)
+			  {
+				$("#txtInvite").val("");
+				$('#divInvite').slideToggle('fast');
+				$("#divInviteSuccess").text(data).show();
+				$("#divInviteError").hide();
+			  },
+			  error: function(xhr,err,e) { alert( "Error in ajax_profile: " + err ); }
+			});			
+		}
+		else
+		{
+			$("#divInviteSuccess").hide();
+			$("#divInviteError").text("Invalid email").show();
+		}
+		return false;
+	});
 
 });
 
@@ -240,3 +269,10 @@ URLDecode:function(s){var o=s;var binVal,t;var r=/(%[^%]{2})/;
   while((m=r.exec(o))!=null && m.length>1 && m[1]!=''){b=parseInt(m[1].substr(1),16);
   t=String.fromCharCode(b);o=o.replace(m[1],t);}return o;}
 });
+
+
+function isValidEmailAddress(emailAddress) 
+{
+	var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+	return pattern.test(emailAddress);
+}

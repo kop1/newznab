@@ -11,13 +11,17 @@ $users = new Users();
 if ($users->isLoggedIn())
 	$page->show404();
 
-if ($page->site->registerstatus != Sites::REGISTER_STATUS_OPEN)
+if (($page->site->registerstatus != Sites::REGISTER_STATUS_OPEN) &&
+	($page->site->registerstatus == Sites::REGISTER_STATUS_INVITE && !isset($_GET["invite"])) && 
+	($page->site->registerstatus == Sites::REGISTER_STATUS_INVITE && !isset($_POST["invitecode"]))
+)
 {
 	$page->smarty->assign('error', "Registrations are currently disabled.");
 	$page->smarty->assign('showregister', "0");
 }
 else
 {	
+
 	$action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'view';
 
 	switch($action) 
@@ -28,6 +32,7 @@ else
 			$page->smarty->assign('password', $_POST['password']);
 			$page->smarty->assign('confirmpassword', $_POST['confirmpassword']);
 			$page->smarty->assign('email', $_POST['email']);
+			$page->smarty->assign('invitecode', $_POST["invitecode"]);
 			
 			//
 			// check uname/email isnt in use, password valid.
@@ -39,7 +44,7 @@ else
 			}
 			else
 			{
-				$ret = $users->signup($_POST['username'], $_POST['password'], $_POST['email'], $_SERVER['REMOTE_ADDR']);
+				$ret = $users->signup($_POST['username'], $_POST['password'], $_POST['email'], $_SERVER['REMOTE_ADDR'], Users::ROLE_USER, Users::DEFAULT_INVITES, $_POST['invitecode']);
 				if ($ret > 0)
 				{
 					$users->login($ret, $_SERVER['REMOTE_ADDR']);
@@ -64,6 +69,9 @@ else
 						case Users::ERR_SIGNUP_EMAILINUSE:
 							$page->smarty->assign('error', "Sorry, the email is already in use.");
 							break;
+						case Users::ERR_SIGNUP_BADINVITECODE:
+							$page->smarty->assign('error', "Sorry, the invite code is old or has been used.");
+							break;
 						default:
 							$page->smarty->assign('error', "Failed to register.");
 							break;
@@ -71,7 +79,26 @@ else
 				}
 			}
 			break;
-		
+			case "view":
+			{
+				if (isset($_GET["invite"]))
+				{
+					//
+					// see if its a valid invite
+					//
+					$invite = $users->getInvite($_GET["invite"]);
+					if (!$invite)
+					{
+						$page->smarty->assign('error', sprintf("Bad or invite code older than %d days.", Users::DEFAULT_INVITE_EXPIRY_DAYS));
+						$page->smarty->assign('showregister', "0");
+					}
+					else
+					{
+						$page->smarty->assign('invitecode', $invite["guid"]);
+					}
+				}
+				break;
+			}
 	}
 }
 

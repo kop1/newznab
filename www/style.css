@@ -128,6 +128,9 @@ div.pager .current {font-weight:bold; background-color:#CCC; padding:0 4px 0px 4
 .right { text-align:right;}
 .mid { text-align:center;}
 
+.invitesuccess {display:none;font-weight:bold;padding-left:10px;color:green;}
+.invitefailed {display:none;font-weight:bold;padding-left:10px;color:red;}
+
 
 /* icons */
 div.icon { width:16px; height:16px; background-repeat:no-repeat; cursor:pointer; position:relative; float:left; margin:2px; }

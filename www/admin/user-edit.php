@@ -62,6 +62,7 @@ switch($action)
 					$user["email"] = $_POST["email"];
 					$user["grabs"] = $_POST["grabs"];
 					$user["role"] = $_POST["role"];
+					$user["invites"] = $_POST["invites"];
 					$page->smarty->assign('user', $user);	
 				}
         break;

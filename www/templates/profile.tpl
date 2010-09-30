@@ -14,17 +14,23 @@
 		<th title="Not public">Invites:</th>
 		<td>{$user.invites} 
 		{if $user.invites > 0}
-			[<a id="lnkSendInvite" href="#">Send Invite</a>]
+			[<a id="lnkSendInvite" onclick="return false;" href="#">Send Invite</a>]
+			<span title="Your invites will be reduced when the invitation is claimed." class="invitesuccess" id="divInviteSuccess">Invite Sent</span>
+			<span class="invitefailed" id="divInviteError"></span>
 			<div style="display:none;" id="divInvite">
-				<form method="POST">
+				<form id="frmSendInvite" method="GET">
 					<label for="txtInvite">Email</label>:
 					<input type="text" id="txtInvite" />
-					<input onclick="alert('Not yet implemented');" type="submit" value="Send"/>
+					<input type="submit" value="Send"/>
 				</form>
 			</div>
 		{/if}
 		</td>
 	</tr>
+	{/if}
+	
+	{if $userinvitedby.username != ""}
+	<tr><th>Invited By:</th><td><a title="View {$userinvitedby.username}'s profile" href="{$smarty.const.WWW_TOP}/profile?name={$userinvitedby.username}">{$userinvitedby.username}</a></td>
 	{/if}
 	
 	{if $user.ID==$userdata.ID || $userdata.role==2}<tr><th title="Not public">Excluded Categories:</th><td>{$exccats|replace:",":"<br/>"}</td></tr>{/if}
