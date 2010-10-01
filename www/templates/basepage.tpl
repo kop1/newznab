@@ -157,10 +157,10 @@
 		{/if}
 		
 		<li>
-			<a title="Sickbeard - The ultimate usenet PVR" href="http://code.google.com/p/sickbeard/"><img class="menupic" alt="Sickbeard - The ultimate usenet PVR" src="{$smarty.const.WWW_TOP}/images/sickbeard.png" /></a>
+			<a title="Sickbeard - The ultimate usenet PVR" href="http://www.sickbeard.com/"><img class="menupic" alt="Sickbeard - The ultimate usenet PVR" src="{$smarty.const.WWW_TOP}/images/sickbeard.png" /></a>
 		</li>
 		<li>
-			<a title="CouchPotato - Automatic movie downloader" href="http://github.com/RuudBurger/CouchPotato/"><img style="padding-left:30px;"  class="menupic" alt="CouchPotato - Automatic Movie Downloader" src="{$smarty.const.WWW_TOP}/images/couchpotato.png" /></a>
+			<a title="CouchPotato - Automatic movie downloader" href="http://www.couchpotatoapp.com/"><img style="padding-left:30px;"  class="menupic" alt="CouchPotato - Automatic Movie Downloader" src="{$smarty.const.WWW_TOP}/images/couchpotato.png" /></a>
 		</li>
 		<li>
 			<a title="Sabznbd - A great usenet binary downloader" href="http://www.sabnzbd.org/"><img class="menupic" alt="Sabznbd - A great usenet binary downloader" src="{$smarty.const.WWW_TOP}/images/sabnzbd.png" /></a>
