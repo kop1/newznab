@@ -3,6 +3,7 @@ pre-reqs
 		sessions enabled
 		memory limit at 256MB or more
 		minimum execution time of 60+ seconds
+		make sure you update the php.ini for both web and cli
 
 	GD Imaging Library w/PHP integration
 
@@ -84,7 +85,19 @@ updating index (populating binaries + parts)
 	will occur. the recommended way to schedule updates is via a init.d script
 	/path/to/newznab/misc/update_scripts/cron_scripts/newznab.sh start
 	make sure you set the paths to your installation.
-	
+
+missing parts
+	when headers are requested from the usenet provider, they are asked for in number ranges
+	e.g. 1-1000, 1001-2000 etc. for various reasons sometimes the provider does not return 
+	a header, this is not always because the header does not exist, there may be some synchronisation
+	going on at the providers end. if a header is requested but not returned, we store a record of this
+	in the table partrepair. each time update_binaries is ran an attempt is made to go back and get the 
+	missing parts. if after five attempts the parts can still not be obtained, newznab gives up.
+	when update_releases runs, if a release is seen to have missing parts it will not be released until
+	four hours after it was uploaded to usenet. this is so a chance has been made to repair all missing
+	parts. after four hours a release will be created anyway and its down to the quality of the par files
+	to determine whether a release can be correctly unpacked.
+
 regex matching
 	releases are created by applying regexs to binary message subjects. different regexes 
 	are applied to binaries from different newsgroups. catchall regexes are applied to any
@@ -118,7 +131,8 @@ admin
 	set users.role to be 2 on the users you wish to be admins
 
 tvrage
-	after releases.processReleases() is called, an attempt is made to determine the tvrageids for every release	which looks like its tv. this also works out the series/episode columns. the data in the 
+	after releases.processReleases() is called, an attempt is made to determine the tvrageids for every 
+	release	which looks like its tv. this also works out the series/episode columns. the data in the 
 	tvrage table will become populated from best guesses from the rage search api. if some of these
 	guesses are wrong, you can manually edit the rage data in the admin interface, and use the 
 	remove link to wipe any releases which have that rageid and then manually call 'process tv' which
@@ -153,7 +167,8 @@ skinning
 	
 api
 	www.sitename.com/api? provides api access to query and retrieve nzbs.
-	call www.sitename.com/apihelp to see help doc with all available options. users either have to be logged in or provide their rsstoken. users can use their rsstoken to access both rss + api.
+	call www.sitename.com/apihelp to see help doc with all available options. users either have to be 
+	logged in or provide their rsstoken. users can use their rsstoken to access both rss + api.
 	full details of the api and how to implement it are provided in /misc/api/
 	
 faqs
@@ -164,6 +179,7 @@ faqs
 	the regexes used to create a release. The message headers must follow popular formats in order for releases
 	to be created.
 	* search and rawsearch requests lose page css styling - use the provided apache vhost settings.
+	* Server did not return article numbers 1234567 - this isnt necessarily a bad thing, see section on missing parts
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
