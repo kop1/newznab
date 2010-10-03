@@ -1,6 +1,6 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/">
 <channel>
-<atom:link href="{$serverroot}rss" rel="self" type="application/rss+xml" />
+<atom:link href="{$serverroot}api" rel="self" type="application/rss+xml" />
 <title>{$site->title|escape}</title>
 <description>{$site->title|escape} Api Detail</description>
 <link>{$serverroot}</link>
