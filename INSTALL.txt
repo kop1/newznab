@@ -180,6 +180,8 @@ faqs
 	to be created.
 	* search and rawsearch requests lose page css styling - use the provided apache vhost settings.
 	* Server did not return article numbers 1234567 - this isnt necessarily a bad thing, see section on missing parts
+	* connection timed out. Reconnecting... Cannot connect to server *******: Already connected, disconnect first! - 
+	disable compressed headers
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
