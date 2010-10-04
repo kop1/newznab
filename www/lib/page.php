@@ -14,9 +14,6 @@ class Page extends BasePage
 	{	
 		parent::BasePage();
 		
-		// set ad variables
-		$this->smarty->assign('google_adsense_acc',GOOGLE_ADSENSE_ACC);
-
 		// set site variable
 		$s = new Sites();
 		$this->site = $s->get();

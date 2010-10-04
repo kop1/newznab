@@ -6,7 +6,7 @@
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<title>{$page->meta_title} - {$site->meta_title}</title>
 	<link href="{$smarty.const.WWW_TOP}/style.css" rel="stylesheet" type="text/css" media="screen" />
-	{if $google_adsense_acc == ''}
+	{if $site->google_adsense_acc == ''}
 <link href="{$smarty.const.WWW_TOP}/style_noadsense.css" rel="stylesheet" type="text/css" media="screen" />
 {else}
 <link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
@@ -50,11 +50,11 @@
 				{$header_menu}
 			{/if}
 				
-			{if 1==2 && $google_adsense_acc != '' && $site->google_adsense_menu != ''}
+			{if 1==2 && $site->google_adsense_acc != '' && $site->google_adsense_menu != ''}
 			{literal}
 				<script type="text/javascript">
 						<!--
-						google_ad_client = "{/literal}{$google_adsense_acc}{literal}";
+						google_ad_client = "{/literal}{$site->google_adsense_acc}{literal}";
 						google_ad_slot = "{/literal}{$site->google_adsense_menu}{literal}";
 						google_ad_width = 728;
 						google_ad_height = 15;
@@ -74,11 +74,11 @@
 
 	<div id="adpanel">
 			&nbsp;
-			{if $google_adsense_acc != '' && $site->google_adsense_sidepanel != ''}
+			{if $site->google_adsense_acc != '' && $site->google_adsense_sidepanel != ''}
 			{literal}
 		
 				<script type="text/javascript"><!--
-				google_ad_client = "{/literal}{$google_adsense_acc}{literal}";
+				google_ad_client = "{/literal}{$site->google_adsense_acc}{literal}";
 				google_ad_slot = "{/literal}{$site->google_adsense_sidepanel}{literal}";
 				google_ad_width = 160;
 				google_ad_height = 600;
@@ -128,7 +128,7 @@
 
 		{$useful_menu}
 		
-		{if $google_adsense_acc != '' && $site->google_adsense_search != ''}
+		{if $site->google_adsense_acc != '' && $site->google_adsense_search != ''}
 		{literal}
 			<li>
 			<h2>Search for {/literal}{$site->term_plural}{literal}</h2> 
@@ -137,7 +137,7 @@
 				  <div class="cse-branding-form">
 				    <form action="http://www.google.co.uk/cse" id="cse-search-box" target="_blank">
 				      <div>
-				        <input type="hidden" name="cx" value="partner-{/literal}{$google_adsense_acc}{literal}:{/literal}{$site->google_adsense_search}{literal}" />
+				        <input type="hidden" name="cx" value="partner-{/literal}{$site->google_adsense_acc}{literal}:{/literal}{$site->google_adsense_search}{literal}" />
 				        <input type="hidden" name="ie" value="ISO-8859-1" />
 				        <input type="text" name="q" size="10" />
 				        <input type="submit" name="sa" value="Search" />

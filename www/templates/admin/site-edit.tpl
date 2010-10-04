@@ -112,6 +112,14 @@
 </tr>
 
 <tr>
+	<td style="width:160px;"><label for="google_adsense_acc">Google Adsense</label>:</td>
+	<td>
+		<input id="google_adsense_acc" name="google_adsense_acc" type="text" value="{$fsite->google_adsense_acc}" />
+		<div class="hint">e.g. pub-123123123123123</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="google_adsense_menu">Google Adsense Menu</label>:</td>
 	<td>
 		<input id="google_adsense_menu" name="google_adsense_menu" type="text" value="{$fsite->google_adsense_menu}" />

@@ -474,6 +474,7 @@ CREATE TABLE site (
 `google_adsense_search` VARCHAR(255) NULL,
 `google_adsense_sidepanel` VARCHAR(255) NULL,
 `google_analytics_acc` VARCHAR(255) NULL,
+`google_adsense_acc` VARCHAR(255) NULL,
 `siteseed` VARCHAR(50) NOT NULL,
 `tandc` VARCHAR(5000) NOT NULL,
 `registerstatus` INT NOT NULL DEFAULT 0,

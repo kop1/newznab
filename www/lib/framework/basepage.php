@@ -50,7 +50,7 @@ class BasePage
 		if ($users->isLoggedIn())
 		{
 			$this->userdata = $users->getById($users->currentUserId());
-   		$this->userdata["categoryexclusions"] = $users->getCategoryExclusion($users->currentUserId());	
+			$this->userdata["categoryexclusions"] = $users->getCategoryExclusion($users->currentUserId());	
 			$this->smarty->assign('userdata',$this->userdata);	
 			$this->smarty->assign('loggedin',"true");
 			
