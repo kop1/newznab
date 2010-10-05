@@ -40,6 +40,7 @@ class Install {
 	public $timelimitCheck;
 	public $memlimitCheck;
 	public $rewriteCheck;
+	public $opensslCheck;
 	
 	public $dbConnCheck;
 	public $dbNameCheck;

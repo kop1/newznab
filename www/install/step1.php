@@ -67,6 +67,7 @@ if ($cfg->schemaCheck === false) { $cfg->error = true; }
 // Dont set error = true for these as we only want to display a warning
 $cfg->timelimitCheck = (ini_get('max_execution_time') >= 60) ? true : false;
 $cfg->memlimitCheck = (ini_get('memory_limit') >= 256) ? true : false;
+$cfg->opensslCheck = !extension_loaded("opensssl");
 
 $cfg->rewriteCheck = in_array("mod_rewrite", apache_get_modules());
 if (!$cfg->rewriteCheck) { $cfg->error = true; }

@@ -47,6 +47,10 @@
 		<td>Checking PHP's memory_limit:{if !$cfg->memlimitCheck}<br /><span class="warn">Your PHP installation's memory_limit setting is low, please consider increasing it >= 256MB</span>{/if}</td>
 		<td>{if $cfg->memlimitCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
 	</tr>
+	<tr class="">
+		<td>Checking PHP OpenSSL Extension:{if !$cfg->opensslCheck}<br /><span class="warn">Your PHP installation does not have the openssl extension loaded. SSL Usenet connections will fail.</span>{/if}</td>
+		<td>{if $cfg->opensslCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
+	</tr>
 	<tr class="alt">
 		<td>Checking for Apache's mod_rewrite:{if !$cfg->rewriteCheck}<br /><span class="error">The Apache module mod_rewrite is not loaded. This module is required, please enable it.</span>{/if}</td>
 		<td>{if $cfg->rewriteCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
