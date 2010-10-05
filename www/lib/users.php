@@ -418,9 +418,12 @@ class Users
 	{			
 		$db = new DB();
 		$this->delUserCategoryExclusions($uid);
-		foreach ($catids as $catid)
+		if (count($catids) > 0)
 		{
-			$db->queryInsert(sprintf("insert into userexcat (userID, categoryID, createddate) values (%d, %d, now())", $uid, $catid));		
+			foreach ($catids as $catid)
+			{
+				$db->queryInsert(sprintf("insert into userexcat (userID, categoryID, createddate) values (%d, %d, now())", $uid, $catid));		
+			}
 		}
 	}
 
