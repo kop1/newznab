@@ -4,6 +4,7 @@ pre-reqs
 		memory limit at 256MB or more
 		minimum execution time of 60+ seconds
 		make sure you update the php.ini for both web and cli
+		OpenSSL (if connecting to ssl usenet provider)
 
 	GD Imaging Library w/PHP integration
 
@@ -115,6 +116,9 @@ nzb file store
 	first char of the release guid, this just makes the dirs a bit easier to manage when you have thousands
 	of nzb.gz files. the default path is /website/../nzbfiles
 
+ssl usenet connection
+	Install the OpenSSL extension, set config.php define ('NNTP_SSLENABLED', true);
+	
 importing/exporting nzbs
 	.nzb files can be imported from the admin interface (or cli). importing is a convenient way to fill the
 	index without trawling a large backdated number of usenet messages. after running an import 

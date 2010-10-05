@@ -5,15 +5,18 @@ require_once(WWW_DIR."/lib/binaries.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/Net_NNTP/NNTP/Client.php");
 
-
 class Nntp extends Net_NNTP_Client
 {    
 	function doConnect() 
 	{
-		$ret = $this->connect(NNTP_SERVER);
+		$enc = false;
+		if (defined("NNTP_SSLENABLED") && NNTP_SSLENABLED == true)
+			$enc = 'ssl';
+
+		$ret = $this->connect(NNTP_SERVER, $enc, NNTP_PORT);
 		if(PEAR::isError($ret))
 		{
-			echo "Cannot connect to server ".NNTP_SERVER.": ".$ret->getMessage();
+			echo "Cannot connect to server ".NNTP_SERVER.(!$enc?" (nonssl) ":"(ssl) ").": ".$ret->getMessage();
 			die();
 		}
 		if(!defined(NNTP_USERNAME) && NNTP_USERNAME!="" )
@@ -21,7 +24,7 @@ class Nntp extends Net_NNTP_Client
 			$ret2 = $this->authenticate(NNTP_USERNAME, NNTP_PASSWORD);
 			if(PEAR::isError($ret2)) 
 			{
-				echo "Cannot authenticate to server ".NNTP_SERVER." - ".NNTP_USERNAME." (".$ret2->getMessage().")";
+				echo "Cannot authenticate to server ".NNTP_SERVER.(!$enc?" (nonssl) ":" (ssl) ")." - ".NNTP_USERNAME." (".$ret2->getMessage().")";
 				die();
 			}
 		}

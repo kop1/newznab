@@ -14,17 +14,24 @@ if (!$cfg->isInitialized()) {
 
 $cfg = $cfg->getSession();
 
-if  ($page->isPostBack()) {
+if  ($page->isPostBack()) 
+{
 	$cfg->doCheck = true;
 	
 	$cfg->NNTP_SERVER = trim($_POST['server']);
 	$cfg->NNTP_USERNAME = trim($_POST['user']);
 	$cfg->NNTP_PASSWORD = trim($_POST['pass']);
 	$cfg->NNTP_PORT = (trim($_POST['port']) == '') ? 119 : trim($_POST['port']);
+	$cfg->NNTP_SSLENABLED = (trim($_POST['ssl']) == '1' ? true : false);
 	
 	include($cfg->WWW_DIR.'/lib/Net_NNTP/NNTP/Client.php');
 	$test = new Net_NNTP_Client();
-	$cfg->nntpCheck = $test->connect($cfg->NNTP_SERVER, false, $cfg->NNTP_PORT);
+	
+	$enc = false;
+	if ($cfg->NNTP_SSLENABLED)
+		$enc = "ssl";
+	
+	$cfg->nntpCheck = $test->connect($cfg->NNTP_SERVER, $enc, $cfg->NNTP_PORT);
 	if(PEAR::isError($cfg->nntpCheck)){
 		$cfg->error = true;	
 	} else {

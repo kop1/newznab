@@ -32,6 +32,12 @@
 				<div class="hint">e.g. 119</div>
 			</td>
 		</tr>
+		<tr>
+			<td><label for="port">SSL?:</label></td>
+			<td>
+				<input type="checkbox" name="ssl" id="ssl" value="1" {if $cfg->NNTP_SSLENABLED}checked="checked"{/if} />
+			</td>
+		</tr>		
 		<tr class="">
 			<td colspan="2">
 			{if $cfg->error}

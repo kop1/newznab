@@ -10,6 +10,7 @@ class Install {
 	public $NNTP_PASSWORD;
 	public $NNTP_SERVER;
 	public $NNTP_PORT = 119;
+	public $NNTP_SSLENABLED = false;
 		
 	public $WWW_DIR;
 	public $SMARTY_DIR;
@@ -80,25 +81,20 @@ class Install {
 		return (file_exists($this->INSTALL_DIR.'/install.lock') ? true : false);
 	}
 	
-	public function setConfig($tmpCfg) {
+	public function setConfig($tmpCfg) 
+	{
 		preg_match_all('/define\((.*?)\)/i', $tmpCfg, $matches);
 		$defines = $matches[1];
-		foreach ($defines as $define) {
+		foreach ($defines as $define) 
+		{
 			$define = str_replace('\'', '', $define);
 			list($defName,$defVal) = explode(',', $define);
-			switch($defName) {
-				case 'INSTALL_CHECK':
-				case 'WWW_DIR':
-				case 'SMARTY_DIR':
-				break;
-				default:
-					$this->{$defName} = trim($defVal);
-				break;
-			}
+			$this->{$defName} = trim($defVal);
 		}
 	}
 	
-	public function saveConfig() {
+	public function saveConfig() 
+	{
 		$tmpCfg = file_get_contents($this->INSTALL_DIR.'/config.php.tpl');
 		$tmpCfg = str_replace('%%DB_HOST%%', $this->DB_HOST, $tmpCfg);
 		$tmpCfg = str_replace('%%DB_USER%%', $this->DB_USER, $tmpCfg);
@@ -109,6 +105,7 @@ class Install {
 		$tmpCfg = str_replace('%%NNTP_PASSWORD%%', $this->NNTP_PASSWORD, $tmpCfg);
 		$tmpCfg = str_replace('%%NNTP_SERVER%%', $this->NNTP_SERVER, $tmpCfg);
 		$tmpCfg = str_replace('%%NNTP_PORT%%', $this->NNTP_PORT, $tmpCfg);
+		$tmpCfg = str_replace('%%NNTP_SSLENABLED%%', ($this->NNTP_SSLENABLED?"true":"false"), $tmpCfg);
 		
 		$this->COMPILED_CONFIG = $tmpCfg;
 		return @file_put_contents($this->WWW_DIR.'/config.php', $tmpCfg);

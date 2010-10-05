@@ -13,5 +13,6 @@ define('NNTP_USERNAME', '%%NNTP_USERNAME%%');
 define('NNTP_PASSWORD', '%%NNTP_PASSWORD%%');
 define('NNTP_SERVER', '%%NNTP_SERVER%%');
 define('NNTP_PORT', '%%NNTP_PORT%%');
+define('NNTP_SSLENABLED', %%NNTP_SSLENABLED%%);
 
 require("automated.config.php");
