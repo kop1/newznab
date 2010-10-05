@@ -218,6 +218,9 @@ class Binaries
 			//loop headers, figure out parts
 			foreach($msgs AS $msg)
 			{
+				if (!isset($msg['Number']))
+					continue;
+					
 				$msgsreceived[] = $msg['Number'];
 			
 				$pattern = '/\((\d+)\/(\d+)\)$/i';
