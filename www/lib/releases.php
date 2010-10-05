@@ -69,7 +69,7 @@ class Releases
 		$catsrch = "";
 		if (count($cat) > 0 && $cat[0] != -1)
 		{
-			$catsrch = " where (";
+			$catsrch = " and (";
 			foreach ($cat as $category)
 			{
 				if ($category != -1)
@@ -101,9 +101,9 @@ class Releases
 		
 		$exccatlist = "";
 		if (count($excludedcats) > 0)
-			$exccatlist = " and releases.categoryID not in (".implode(",", $excludedcats).")";
+			$exccatlist = " and categoryID not in (".implode(",", $excludedcats).")";
 		
-		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases %s %s %s", $catsrch, $maxage, $exccatlist));		
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases where 1=1 %s %s %s", $catsrch, $maxage, $exccatlist));		
 		return $res["num"];	
 	}	
 	
