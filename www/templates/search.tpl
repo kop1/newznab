@@ -1,7 +1,7 @@
 
 <h1>Search</h1>
 
-<form method="get" action="{$smarty.const.WWW_TOP}/search.php">
+<form method="get" action="{$smarty.const.WWW_TOP}/search">
 	<div style="text-align:center;">
 		<label for="search" style="display:none;">Search</label>
 		<input id="search" name="search" value="{$search|escape:'html'}" type="text"/>
@@ -13,7 +13,7 @@
 
 {if $results|@count > 0}
 
-<form id="nzb_multi_operations_form" method="get" action="{$smarty.const.WWW_TOP}/search.php">
+<form id="nzb_multi_operations_form" method="get" action="{$smarty.const.WWW_TOP}/search">
 
 <br/>
 <div class="nzb_multi_operations">

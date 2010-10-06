@@ -14,7 +14,7 @@
 	</div>
 	
 	<div id="menusearchlink">
-	<form id="headsearch_form" action="search.php" method="get">
+	<form id="headsearch_form" action="{$smarty.const.WWW_TOP}/search" method="get">
 		<label style="display:none;" for="headsearch">Search Text</label>
 		<input id="headsearch" name="search" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
 		<label style="display:none;" for="headcat">Search Category</label>

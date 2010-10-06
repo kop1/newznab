@@ -1,7 +1,7 @@
 
 <h1>Search Binaries</h1>
 
-<form method="get" action="{$smarty.const.WWW_TOP}/searchraw.php">
+<form method="get" action="{$smarty.const.WWW_TOP}/searchraw">
 	<div style="text-align:center;">
 		<label for="search" style="display:none;">Search</label>
 		<input id="search" name="search" value="{$search|escape:'htmlall'}" type="text"/>
@@ -10,7 +10,7 @@
 </form>
 
 {if $results|@count > 0}
-<form method="post" id="dl" name="dl" action="{$smarty.const.WWW_TOP}/searchraw.php">
+<form method="post" id="dl" name="dl" action="{$smarty.const.WWW_TOP}/searchraw">
 <table style="width:100%;margin-top:40px;margin-bottom:20px;" class="data">
 	<tr>
 		<!--<th width="10"></th>-->
