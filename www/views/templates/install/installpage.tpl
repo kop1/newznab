@@ -3,11 +3,12 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>{$page->title}</title>
-	<link href="install.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="../views/styles/install.css" rel="stylesheet" type="text/css" media="screen" />
+	<link rel="shortcut icon" type="image/ico" href="../views/images/favicon.ico"/>
 	{$page->head}
 </head>
 <body>
-	<h1 id="logo"><img alt="Newznab" src="../images/banner.jpg" /></h1>
+	<h1 id="logo"><img alt="Newznab" src="../views/images/banner.jpg" /></h1>
 	<div class="content">	
 		<h2>{$page->title}</h2>
 		{$page->content}

@@ -23,8 +23,8 @@ if (isset($_REQUEST["id"]))
 	switch($action) 
 	{
 	    case 'submit':
-	    	$coverLoc = WWW_DIR."images/covers/".$id.'-cover.jpg';
-	    	$backdropLoc = WWW_DIR."images/covers/".$id.'-backdrop.jpg';
+	    	$coverLoc = WWW_DIR."views/images/covers/".$id.'-cover.jpg';
+	    	$backdropLoc = WWW_DIR."views/images/covers/".$id.'-backdrop.jpg';
 	    	
 			if($_FILES['cover']['size'] > 0)
 			{
@@ -62,7 +62,7 @@ if (isset($_REQUEST["id"]))
 	}
 }
 
-$page->content = $page->smarty->fetch('admin/movie-edit.tpl');
+$page->content = $page->smarty->fetch('movie-edit.tpl');
 $page->render();
 
 ?>

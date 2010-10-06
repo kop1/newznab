@@ -13,7 +13,7 @@ $page->smarty->assign('grouplist',$grouplist);
 
 $page->title = "Group List";
 
-$page->content = $page->smarty->fetch('admin/group-list.tpl');
+$page->content = $page->smarty->fetch('group-list.tpl');
 $page->render();
 
 ?>

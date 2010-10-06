@@ -154,7 +154,7 @@ if (!empty($argc) || $page->isPostBack() )
 }
 
 $page->title = "Import Nzbs";
-$page->content = $page->smarty->fetch('admin/nzb-import.tpl');
+$page->content = $page->smarty->fetch('nzb-import.tpl');
 $page->render();
 
 ?>

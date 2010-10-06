@@ -23,7 +23,7 @@ $page->smarty->assign('topcomments', $topcomments);
 $recent = $releases->getRecentlyAdded();
 $page->smarty->assign('recent', $recent);
 
-$page->content = $page->smarty->fetch('admin/site-stats.tpl');
+$page->content = $page->smarty->fetch('site-stats.tpl');
 $page->render();
 
 ?>

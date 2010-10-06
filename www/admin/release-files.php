@@ -32,7 +32,7 @@ if (isset($_GET["id"]))
 	$page->meta_keywords = "view,nzb,file,list,description,details";
 	$page->meta_description = "View Nzb File List";
 	
-	$page->content = $page->smarty->fetch('admin/release-files.tpl');
+	$page->content = $page->smarty->fetch('release-files.tpl');
 	$page->render();
 }
 

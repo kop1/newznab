@@ -14,7 +14,7 @@ $num = $releases->processTvSeriesData(false, ($basepg->site->lookuptvrage=="1"))
 $page->smarty->assign('numtv',$num);	
 
 $page->title = "Process Tv Manually";
-$page->content = $page->smarty->fetch('admin/rage-process.tpl');
+$page->content = $page->smarty->fetch('rage-process.tpl');
 $page->render();
 
 ?>

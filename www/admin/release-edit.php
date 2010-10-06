@@ -47,7 +47,7 @@ $page->smarty->assign('yesno_ids', array(1,0));
 $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
 $page->smarty->assign('catlist',$category->getForSelect(false));
 
-$page->content = $page->smarty->fetch('admin/release-edit.tpl');
+$page->content = $page->smarty->fetch('release-edit.tpl');
 $page->render();
 
 ?>

@@ -8,6 +8,7 @@ class AdminPage extends BasePage
 {    
 	function AdminPage()
 	{	
+		$this->template_dir = 'admin';
 		parent::BasePage();
 		
 		$users = new Users();
@@ -25,10 +26,10 @@ class AdminPage extends BasePage
 	{			
 		$this->smarty->assign('page',$this);
 		
-		$admin_menu = $this->smarty->fetch('admin/adminmenu.tpl');
+		$admin_menu = $this->smarty->fetch('adminmenu.tpl');
 		$this->smarty->assign('admin_menu',$admin_menu);
 		
-		$this->page_template = "admin/baseadminpage.tpl";				
+		$this->page_template = "baseadminpage.tpl";				
 		
 		parent::render();
 	}

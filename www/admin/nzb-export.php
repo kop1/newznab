@@ -101,7 +101,7 @@ else
 $page->title = "Export Nzbs";
 $grouplist = $rel->getReleasedGroupsForSelect(true);
 $page->smarty->assign('grouplist', $grouplist);
-$page->content = $page->smarty->fetch('admin/nzb-export.tpl');
+$page->content = $page->smarty->fetch('nzb-export.tpl');
 $page->render();
 
 ?>

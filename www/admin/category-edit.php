@@ -36,7 +36,7 @@ switch($action)
 $page->smarty->assign('status_ids', array(Category::STATUS_ACTIVE,Category::STATUS_INACTIVE));
 $page->smarty->assign('status_names', array( 'Yes', 'No'));
 
-$page->content = $page->smarty->fetch('admin/category-edit.tpl');
+$page->content = $page->smarty->fetch('category-edit.tpl');
 $page->render();
 
 ?>

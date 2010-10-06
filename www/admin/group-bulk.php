@@ -27,7 +27,7 @@ $page->smarty->assign('yesno_ids', array(1,0));
 $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
 
 $page->title = "Bulk Add Newsgroups";
-$page->content = $page->smarty->fetch('admin/group-bulk.tpl');
+$page->content = $page->smarty->fetch('group-bulk.tpl');
 $page->render();
 
 ?>

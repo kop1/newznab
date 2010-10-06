@@ -31,7 +31,7 @@ foreach($ordering as $ordertype)
 $userlist = $users->getRange($offset, ITEMS_PER_PAGE, $orderby);
 $page->smarty->assign('userlist',$userlist);	
 
-$page->content = $page->smarty->fetch('admin/user-list.tpl');
+$page->content = $page->smarty->fetch('user-list.tpl');
 $page->render();
 
 ?>

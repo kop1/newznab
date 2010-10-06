@@ -24,7 +24,7 @@ $page->smarty->assign('pager', $pager);
 $tvragelist = $tvrage->getRange($offset, ITEMS_PER_PAGE);
 $page->smarty->assign('tvragelist',$tvragelist);	
 
-$page->content = $page->smarty->fetch('admin/rage-list.tpl');
+$page->content = $page->smarty->fetch('rage-list.tpl');
 $page->render();
 
 ?>

@@ -11,7 +11,7 @@ $tablelist = $db->optimise();
 
 $page->title = "DB Table Optimise";
 $page->smarty->assign('tablelist',$tablelist);	
-$page->content = $page->smarty->fetch('admin/db-optimise.tpl');
+$page->content = $page->smarty->fetch('db-optimise.tpl');
 $page->render();
 
 ?>

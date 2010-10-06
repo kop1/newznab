@@ -56,7 +56,7 @@ function ts_makeSortable(table) {
 		// adjust the first column so it displays as selected
 		if ( i==0 ) {
 			cell.className = "Selected";
-			str_HTML += ' sortdir="down"><img src="' + WWW_TOP + '/images/sorting/arrow_down.gif" alt="" />';
+			str_HTML += ' sortdir="down"><img src="' + WWW_TOP + '/views/images/sorting/arrow_down.gif" alt="" />';
 		}
 		else str_HTML += '>';		
 		

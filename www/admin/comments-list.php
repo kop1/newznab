@@ -23,7 +23,7 @@ $page->smarty->assign('pager', $pager);
 $commentslist = $releases->getCommentsRange($offset, ITEMS_PER_PAGE);
 $page->smarty->assign('commentslist',$commentslist);	
 
-$page->content = $page->smarty->fetch('admin/comments-list.tpl');
+$page->content = $page->smarty->fetch('comments-list.tpl');
 $page->render();
 
 ?>

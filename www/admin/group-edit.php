@@ -52,7 +52,7 @@ switch($action)
 $page->smarty->assign('yesno_ids', array(1,0));
 $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
 
-$page->content = $page->smarty->fetch('admin/group-edit.tpl');
+$page->content = $page->smarty->fetch('group-edit.tpl');
 $page->render();
 
 ?>

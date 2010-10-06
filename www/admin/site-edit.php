@@ -37,14 +37,14 @@ $page->smarty->assign('registerstatus_names', array( 'Open', 'Invite', 'Closed')
 
 $themelist = array();
 $themelist[] = "/";
-$themes = scandir(WWW_DIR."/theme");
+$themes = scandir(WWW_DIR."/views/themes");
 foreach ($themes as $theme)
-	if (strpos($theme, ".") === false && is_dir(WWW_DIR."/theme/".$theme))
+	if (strpos($theme, ".") === false && is_dir(WWW_DIR."/views/themes/".$theme))
 		$themelist[] = $theme;
 
 $page->smarty->assign('themelist', $themelist);
 
-$page->content = $page->smarty->fetch('admin/site-edit.tpl');
+$page->content = $page->smarty->fetch('site-edit.tpl');
 $page->render();
 
 ?>

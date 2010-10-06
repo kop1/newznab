@@ -21,10 +21,11 @@ if (!$cfg->error) {
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php echo $page_title; ?></title>
-	<link href="install.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="../views/styles/install.css" rel="stylesheet" type="text/css" media="screen" />
+	<link rel="shortcut icon" type="image/ico" href="../views/images/favicon.ico"/>
 </head>
 <body>
-	<h1 id="logo"><img alt="Newznab" src="../images/banner.jpg" /></h1>
+	<h1 id="logo"><img alt="Newznab" src="../views/images/banner.jpg" /></h1>
 	<div class="content">	
 		<h2>Newznab Install</h2>
 

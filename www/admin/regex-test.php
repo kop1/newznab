@@ -79,7 +79,7 @@ switch($action)
 
 $page->title = "Release Regex Test";
 
-$page->content = $page->smarty->fetch('admin/regex-test.tpl');
+$page->content = $page->smarty->fetch('regex-test.tpl');
 $page->render();
 
 ?>

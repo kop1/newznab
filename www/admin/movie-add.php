@@ -18,7 +18,7 @@ if (isset($_REQUEST['id']) && ctype_digit($_REQUEST['id']) && strlen($_REQUEST['
 	}
 }
 
-$page->content = $page->smarty->fetch('admin/movie-add.tpl');
+$page->content = $page->smarty->fetch('movie-add.tpl');
 $page->render();
 
 ?>

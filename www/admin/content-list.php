@@ -12,7 +12,7 @@ $page->smarty->assign('contentlist',$contentlist);
 
 $page->title = "Content List";
 
-$page->content = $page->smarty->fetch('admin/content-list.tpl');
+$page->content = $page->smarty->fetch('content-list.tpl');
 $page->render();
 
 ?>

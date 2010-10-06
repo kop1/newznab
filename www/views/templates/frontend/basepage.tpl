@@ -5,16 +5,17 @@
 	<meta name="keywords" content="{$page->meta_keywords},{$site->meta_keywords}" />
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<title>{$page->meta_title} - {$site->meta_title}</title>
-	<link href="{$smarty.const.WWW_TOP}/style.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="{$smarty.const.WWW_TOP}/views/styles/style.css" rel="stylesheet" type="text/css" media="screen" />
 	{if $site->google_adsense_acc == ''}
-<link href="{$smarty.const.WWW_TOP}/style_noadsense.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{$smarty.const.WWW_TOP}/views/styles/style_noadsense.css" rel="stylesheet" type="text/css" media="screen" />
 {else}
 <link href="http://www.google.com/cse/api/branding.css" rel="stylesheet" type="text/css" media="screen" />
 	{/if}
-	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/jquery.js"></script>
-	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/utils.js"></script>
-	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/includes/functions_sorttable.js"></script>
-	{if $site->style != "" && $site->style != "/"}<link href="{$smarty.const.WWW_TOP}/theme/{$site->style}/style.css" rel="stylesheet" type="text/css" media="screen" />
+	<link rel="shortcut icon" type="image/ico" href="{$smarty.const.WWW_TOP}/views/images/favicon.ico"/>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/views/scripts/jquery.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/views/scripts/utils.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/views/scripts/functions_sorttable.js"></script>
+	{if $site->style != "" && $site->style != "/"}<link href="{$smarty.const.WWW_TOP}/views/themes/{$site->style}/style.css" rel="stylesheet" type="text/css" media="screen" />
 	{/if}
 
 	<script type="text/javascript">
@@ -36,7 +37,7 @@
 	</div>
 
 	<div id="logo">
-		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/images/clearlogo.png" /></a>
+		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/views/images/clearlogo.png" /></a>
 		<h1><a href="{$smarty.const.WWW_TOP}/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
 	</div>
@@ -157,13 +158,13 @@
 		{/if}
 		
 		<li>
-			<a title="Sickbeard - The ultimate usenet PVR" href="http://www.sickbeard.com/"><img class="menupic" alt="Sickbeard - The ultimate usenet PVR" src="{$smarty.const.WWW_TOP}/images/sickbeard.png" /></a>
+			<a title="Sickbeard - The ultimate usenet PVR" href="http://www.sickbeard.com/"><img class="menupic" alt="Sickbeard - The ultimate usenet PVR" src="{$smarty.const.WWW_TOP}/views/images/sickbeard.png" /></a>
 		</li>
 		<li>
-			<a title="CouchPotato - Automatic movie downloader" href="http://www.couchpotatoapp.com/"><img style="padding-left:30px;"  class="menupic" alt="CouchPotato - Automatic Movie Downloader" src="{$smarty.const.WWW_TOP}/images/couchpotato.png" /></a>
+			<a title="CouchPotato - Automatic movie downloader" href="http://www.couchpotatoapp.com/"><img style="padding-left:30px;"  class="menupic" alt="CouchPotato - Automatic Movie Downloader" src="{$smarty.const.WWW_TOP}/views/images/couchpotato.png" /></a>
 		</li>
 		<li>
-			<a title="Sabznbd - A great usenet binary downloader" href="http://www.sabnzbd.org/"><img class="menupic" alt="Sabznbd - A great usenet binary downloader" src="{$smarty.const.WWW_TOP}/images/sabnzbd.png" /></a>
+			<a title="Sabznbd - A great usenet binary downloader" href="http://www.sabnzbd.org/"><img class="menupic" alt="Sabznbd - A great usenet binary downloader" src="{$smarty.const.WWW_TOP}/views/images/sabnzbd.png" /></a>
 		</li>
 		
 		</ul>
@@ -172,7 +173,7 @@
 	
 		<div  style="clear: both;text-align:right;padding-bottom:10px;">
 			<a class="w3validator" href="http://validator.w3.org/check?uri=referer">
-			<img src="{$smarty.const.WWW_TOP}/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
+			<img src="{$smarty.const.WWW_TOP}/views/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
 			</a> 
 		</div>
 

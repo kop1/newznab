@@ -17,6 +17,7 @@ class BasePage
 	public $smarty = '';
 	public $userdata = array();
 	public $serverurl = '';
+	public $template_dir = 'frontend';
 		
 	const FLOOD_THREE_REQUESTS_WITHIN_X_SECONDS = 1.000;
 	const FLOOD_PUNISHMENT_SECONDS = 3.0;
@@ -33,8 +34,8 @@ class BasePage
         }	
 		
 		$this->smarty = new Smarty();
-		
-		$this->smarty->template_dir = WWW_DIR.'templates/';
+
+		$this->smarty->template_dir = WWW_DIR.'views/templates/'.$this->template_dir;
 		$this->smarty->compile_dir = SMARTY_DIR.'templates_c/';
 		$this->smarty->config_dir = SMARTY_DIR.'configs/';
 		$this->smarty->cache_dir = SMARTY_DIR.'cache/';				

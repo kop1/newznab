@@ -97,7 +97,6 @@ jQuery(function($){
 	$('#headsearch')
 		.focus(function(){if(this.value == 'Enter keywords') this.value = '';})
 		.blur (function(){if(this.value == '') this.value = 'Enter keywords';});
-	/*
 	$('#headsearch_form').submit(function(){
 		$('headsearch_go').trigger('click');
 		return false;
@@ -122,7 +121,6 @@ jQuery(function($){
 			document.location=WWW_TOP + "/searchraw/" + $('#search').val();
 		return false;
 	});
-	*/
 	$('#searchraw_download_selected').click(function(){
 		if ($('#dl input:checked').length)
 			$('#dl').trigger('submit');

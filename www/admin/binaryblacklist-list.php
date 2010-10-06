@@ -13,7 +13,7 @@ $page->title = "Binary Black/Whitelist List";
 $binlist = $bin->getBlacklist(false);
 $page->smarty->assign('binlist', $binlist);	
 
-$page->content = $page->smarty->fetch('admin/binaryblacklist-list.tpl');
+$page->content = $page->smarty->fetch('binaryblacklist-list.tpl');
 $page->render();
 
 ?>

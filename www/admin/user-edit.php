@@ -87,7 +87,7 @@ $page->smarty->assign('yesno_names', array( 'Yes', 'No'));
 $page->smarty->assign('role_ids', array(Users::ROLE_ADMIN, Users::ROLE_USER, Users::ROLE_DISABLED));
 $page->smarty->assign('role_names', array( 'Admin', 'User', 'Disabled'));
 
-$page->content = $page->smarty->fetch('admin/user-edit.tpl');
+$page->content = $page->smarty->fetch('user-edit.tpl');
 $page->render();
 
 ?>

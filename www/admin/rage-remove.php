@@ -14,7 +14,7 @@ if (isset($_GET["id"]))
 $page->smarty->assign('numtv',$num);	
 
 $page->title = "Remove Rage Id from Releases";
-$page->content = $page->smarty->fetch('admin/rage-remove.tpl');
+$page->content = $page->smarty->fetch('rage-remove.tpl');
 $page->render();
 
 ?>

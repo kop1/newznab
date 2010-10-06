@@ -15,7 +15,7 @@ ob_end_clean();
 $page->title = "Updating Releases";
 $page->smarty->assign('proccount', $proccount);
 $page->smarty->assign('output', $output);
-$page->content = $page->smarty->fetch('admin/release-update.tpl');
+$page->content = $page->smarty->fetch('release-update.tpl');
 $page->render();
 
 ?>

@@ -24,7 +24,7 @@ $page->smarty->assign('pager', $pager);
 $releaselist = $releases->getRange($offset, ITEMS_PER_PAGE);
 $page->smarty->assign('releaselist',$releaselist);	
 
-$page->content = $page->smarty->fetch('admin/release-list.tpl');
+$page->content = $page->smarty->fetch('release-list.tpl');
 $page->render();
 
 ?>

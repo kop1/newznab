@@ -60,7 +60,7 @@ $page->smarty->assign('status_names', array( 'Yes', 'No'));
 
 $page->smarty->assign('catlist',$category->getForSelect(true));
 
-$page->content = $page->smarty->fetch('admin/regex-edit.tpl');
+$page->content = $page->smarty->fetch('regex-edit.tpl');
 $page->render();
 
 ?>

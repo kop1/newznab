@@ -5,11 +5,12 @@
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />	
 	<title>{$page->meta_title}</title>
-	<link href="../style.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="../admin/style.css" rel="stylesheet" type="text/css" media="screen" />
-	<script type="text/javascript" src="../includes/jquery.js"></script>
-	<script type="text/javascript" src="../includes/functions_sorttable.js"></script>
-	<script type="text/javascript" src="../includes/utils-admin.js"></script>
+	<link href="../views/styles/style.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="../views/styles/admin.css" rel="stylesheet" type="text/css" media="screen" />
+	<link rel="shortcut icon" type="image/ico" href="../views/images/favicon.ico"/>
+	<script type="text/javascript" src="../views/scripts/jquery.js"></script>
+	<script type="text/javascript" src="../views/scripts/functions_sorttable.js"></script>
+	<script type="text/javascript" src="../views/scripts/utils-admin.js"></script>
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}/..";</script>
 	{$page->head}
 </head>

@@ -81,7 +81,7 @@ switch($action)
 }
 
 $page->title="Add/Edit TV Rage Show Data";
-$page->content = $page->smarty->fetch('admin/rage-edit.tpl');
+$page->content = $page->smarty->fetch('rage-edit.tpl');
 $page->render();
 
 ?>

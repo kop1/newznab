@@ -66,7 +66,7 @@ $page->smarty->assign('contenttypelist', $contenttypelist);
 $rolelist = array("0" => "Everyone", "1" => "Logged in Users", "2" => "Admins");
 $page->smarty->assign('rolelist', $rolelist);
 
-$page->content = $page->smarty->fetch('admin/content-add.tpl');
+$page->content = $page->smarty->fetch('content-add.tpl');
 $page->render();
 
 ?>

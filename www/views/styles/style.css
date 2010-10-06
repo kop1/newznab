@@ -2,7 +2,7 @@
 /*
 site wide html styles
 */
-body { margin: 0; padding: 0; background: #FFF url(images/menu.gif) repeat-x left top; font-family: Arial, Helvetica, sans-serif;	font-size: 12px; color: #515151; }
+body { margin: 0; padding: 0; background: #FFF url(../images/menu.gif) repeat-x left top; font-family: Arial, Helvetica, sans-serif;	font-size: 12px; color: #515151; }
 h1, h2, h3 {	margin: 0;	font-weight: normal; color: #485459; }
 textarea { font-family: Arial, Helvetica, sans-serif; height:100px; width:300px;}
 h1 { font-size: 44px; padding-bottom:10px;}
@@ -41,7 +41,7 @@ page structure
 
 #page { width: 940px; margin: 0 auto; padding: 50px 0px 0px 0px;}
 
-#logo { width: 940px; height: 67px; margin: 0 auto; padding-left:5px; margin-top:4px; background:url("images/banner.jpg") no-repeat bottom left; }
+#logo { width: 940px; height: 67px; margin: 0 auto; padding-left:5px; margin-top:4px; background:url("../images/banner.jpg") no-repeat bottom left; }
 
 #logo h1, #logo p { display:none; margin: 0px; line-height: normal; text-transform: lowercase; font-weight: normal; color: #485459;}
 
@@ -69,7 +69,7 @@ select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 #sidebar ul {margin: 0; padding: 0; line-height: normal; list-style-type: none; text-align: left; }
 #sidebar li { margin-bottom: 30px; padding: 0 0 0px 0px;}
 #sidebar li ul { list-style-type: none;  list-style-position:inside; margin: 0px 10px; padding: 0; margin-left: 1em;}
-#sidebar li li { background-image: url('images/bullet.jpg'); background-repeat: no-repeat; background-position: 0.7em 1.1em; margin: 0;	padding-left: .5em; padding-top: .8em;padding-bottom:10px; border-bottom: 1px solid #E9E8DD;}
+#sidebar li li { background-image: url('../images/bullet.jpg'); background-repeat: no-repeat; background-position: 0.7em 1.1em; margin: 0;	padding-left: .5em; padding-top: .8em;padding-bottom:10px; border-bottom: 1px solid #E9E8DD;}
 #sidebar li li a {padding: 0px 0px 0px 20px; font-weight: normal; color: #808080;}
 #sidebar li li a:hover { color: #99B898;}
 #sidebar p { margin: 0; padding: 0px 14px;}
@@ -110,7 +110,7 @@ pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 
 div.resextra { padding-top:2px; color: #888; font-size: 0.8em; height:16px; }
 div.resextra a { color: #888; text-decoration:none; }
 
-div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
+div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(../images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
 
 div.comments { padding-top:20px; }
 
@@ -135,15 +135,15 @@ div.pager .current {font-weight:bold; background-color:#CCC; padding:0 4px 0px 4
 /* icons */
 div.icon { width:16px; height:16px; background-repeat:no-repeat; cursor:pointer; position:relative; float:left; margin:2px; }
 table.data td.icons div.icon { opacity:.20; }
-div.icon_cart			{ background-image:url('images/icons/cartup.png'); }
-div.icon_cart_clicked	{ background-image:url('images/icons/cartdown.png'); }
-div.icon_nzb			{ background-image:url('images/icons/nzbup.png'); }
-div.icon_nzb_clicked	{ background-image:url('images/icons/nzbdown.png'); }
+div.icon_cart			{ background-image:url('../images/icons/cartup.png'); }
+div.icon_cart_clicked	{ background-image:url('../images/icons/cartdown.png'); }
+div.icon_nzb			{ background-image:url('../images/icons/nzbup.png'); }
+div.icon_nzb_clicked	{ background-image:url('../images/icons/nzbdown.png'); }
 div.icon_nzb a			{ text-decoration:none; padding-bottom:2px; padding-right:12px; }
-div.icon_sab			{ background-image:url('images/icons/sabup.png'); display:none; }
-div.icon_sab_clicked	{ background-image:url('images/icons/sabdown.png'); }
-div.icon_tvrage			{ background-image:url('images/icons/tvrage.png'); }
-div.icon_check			{ background-image:url('images/icons/check.png'); }
+div.icon_sab			{ background-image:url('../images/icons/sabup.png'); display:none; }
+div.icon_sab_clicked	{ background-image:url('../images/icons/sabdown.png'); }
+div.icon_tvrage			{ background-image:url('../images/icons/tvrage.png'); }
+div.icon_check			{ background-image:url('../images/icons/check.png'); }
 
 
 
@@ -173,21 +173,21 @@ div.icon_check			{ background-image:url('images/icons/check.png'); }
 #cboxOverlay{background:#fff;}
 
 #colorbox{}
-    #cboxTopLeft{width:25px; height:25px; background:url(images/colorbox/border1.png) 0 0 no-repeat;}
-    #cboxTopCenter{height:25px; background:url(images/colorbox/border1.png) 0 -50px repeat-x;}
-    #cboxTopRight{width:25px; height:25px; background:url(images/colorbox/border1.png) -25px 0 no-repeat;}
-    #cboxBottomLeft{width:25px; height:25px; background:url(images/colorbox/border1.png) 0 -25px no-repeat;}
-    #cboxBottomCenter{height:25px; background:url(images/colorbox/border1.png) 0 -75px repeat-x;}
-    #cboxBottomRight{width:25px; height:25px; background:url(images/colorbox/border1.png) -25px -25px no-repeat;}
-    #cboxMiddleLeft{width:25px; background:url(images/colorbox/border2.png) 0 0 repeat-y;}
-    #cboxMiddleRight{width:25px; background:url(images/colorbox/border2.png) -25px 0 repeat-y;}
+    #cboxTopLeft{width:25px; height:25px; background:url(../images/colorbox/border1.png) 0 0 no-repeat;}
+    #cboxTopCenter{height:25px; background:url(../images/colorbox/border1.png) 0 -50px repeat-x;}
+    #cboxTopRight{width:25px; height:25px; background:url(../images/colorbox/border1.png) -25px 0 no-repeat;}
+    #cboxBottomLeft{width:25px; height:25px; background:url(../images/colorbox/border1.png) 0 -25px no-repeat;}
+    #cboxBottomCenter{height:25px; background:url(../images/colorbox/border1.png) 0 -75px repeat-x;}
+    #cboxBottomRight{width:25px; height:25px; background:url(../images/colorbox/border1.png) -25px -25px no-repeat;}
+    #cboxMiddleLeft{width:25px; background:url(../images/colorbox/border2.png) 0 0 repeat-y;}
+    #cboxMiddleRight{width:25px; background:url(../images/colorbox/border2.png) -25px 0 repeat-y;}
     #cboxContent{background:#fff;}
         #cboxLoadedContent{background:#fff; margin-top:32px; padding:1px; }
-        /*#cboxLoadingGraphic{background:url(images/loading.gif) center center no-repeat;}*/
+        /*#cboxLoadingGraphic{background:url(../images/loading.gif) center center no-repeat;}*/
         #cboxLoadingOverlay{background:#fff;}
         #cboxTitle{position:absolute; font-size:125%; top:-2px; left:0; color:#000; }
         #cboxCurrent{position:absolute; top:-1px; right:205px; text-indent:-9999px;}
-        #cboxSlideshow, #cboxPrevious, #cboxNext, #cboxClose{text-indent:-9999px; width:20px; height:20px; position:absolute; top:-1px; background:url(images/colorbox/controls.png) 0 0 no-repeat;}
+        #cboxSlideshow, #cboxPrevious, #cboxNext, #cboxClose{text-indent:-9999px; width:20px; height:20px; position:absolute; top:-1px; background:url(../images/colorbox/controls.png) 0 0 no-repeat;}
         #cboxPrevious{background-position:0px 0px; right:44px;}
         #cboxPrevious.hover{background-position:0px -25px;}
         #cboxNext{background-position:-25px 0px; right:22px;}
@@ -235,11 +235,11 @@ div.icon_check			{ background-image:url('images/icons/check.png'); }
     .cboxMovie #cboxMiddleLeft{display:none;}
     .cboxMovie #cboxMiddleRight{display:none;}
         .cboxMovie #cboxLoadedContent{margin-top: 5px; background:#888; padding:1px;}
-        .cboxMovie #cboxLoadingGraphic{background:url(images/loading.gif) center center no-repeat;}
+        .cboxMovie #cboxLoadingGraphic{background:url(../images/loading.gif) center center no-repeat;}
         .cboxMovie #cboxLoadingOverlay{background:#000;}
         .cboxMovie #cboxTitle{position:absolute; top:-22px; left:0; color:#000;}
         .cboxMovie #cboxCurrent{position:absolute; top:-22px; right:205px; text-indent:-9999px;}
-        .cboxMovie #cboxSlideshow, .cboxMovie #cboxPrevious, .cboxMovie #cboxNext, .cboxMovie #cboxClose{text-indent:-9999px; width:20px; height:20px; position:absolute; top:-20px; background:url(images/colorbox/controls2.png) 0 0 no-repeat;}
+        .cboxMovie #cboxSlideshow, .cboxMovie #cboxPrevious, .cboxMovie #cboxNext, .cboxMovie #cboxClose{text-indent:-9999px; width:20px; height:20px; position:absolute; top:-20px; background:url(../images/colorbox/controls2.png) 0 0 no-repeat;}
         .cboxMovie #cboxPrevious{background-position:0px 0px; right:44px;}
         .cboxMovie #cboxPrevious.hover{background-position:0px -25px;}
         .cboxMovie #cboxNext{background-position:-25px 0px; right:22px;}

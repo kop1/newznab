@@ -17,7 +17,7 @@ class Installpage
 		
 		$this->smarty = new Smarty();
 
-		$this->smarty->template_dir = realpath('templates/');
+		$this->smarty->template_dir = realpath('../views/templates/install/');
 				
 		$this->smarty->compile_dir  = realpath('../lib/smarty/templates_c/');
 		$this->smarty->config_dir   = realpath('../lib/smarty/configs/');
