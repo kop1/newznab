@@ -97,6 +97,7 @@ jQuery(function($){
 	$('#headsearch')
 		.focus(function(){if(this.value == 'Enter keywords') this.value = '';})
 		.blur (function(){if(this.value == '') this.value = 'Enter keywords';});
+	/*
 	$('#headsearch_form').submit(function(){
 		$('headsearch_go').trigger('click');
 		return false;
@@ -107,12 +108,6 @@ jQuery(function($){
 			document.location= WWW_TOP + "/search/" + $('#headsearch').val() + ($("#headcat").val()!=-1 ? "&t="+$("#headcat").val() : "");
 		}
 	});
-
-	// login.tpl, register.tpl, search.tpl, searchraw.tpl
-	if ($('#username').length)
-		$('#username').focus();
-	if ($('#search').length)
-		$('#search').focus();
 
 	// search.tpl
 	$('#search_search_button').click(function(){
@@ -127,11 +122,18 @@ jQuery(function($){
 			document.location=WWW_TOP + "/searchraw/" + $('#search').val();
 		return false;
 	});
+	*/
 	$('#searchraw_download_selected').click(function(){
 		if ($('#dl input:checked').length)
 			$('#dl').trigger('submit');
 		return false;
 	});
+
+	// login.tpl, register.tpl, search.tpl, searchraw.tpl
+	if ($('#username').length)
+		$('#username').focus();
+	if ($('#search').length)
+		$('#search').focus();
 
 	// viewfilelist.tpl
 	$('#viewfilelist_download_selected').click(function(){

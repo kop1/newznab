@@ -1,18 +1,19 @@
 
 <h1>Search</h1>
 
-<form method="get" action="{$smarty.const.WWW_TOP}/search/">
+<form method="get" action="{$smarty.const.WWW_TOP}/search.php">
 	<div style="text-align:center;">
 		<label for="search" style="display:none;">Search</label>
 		<input id="search" name="search" value="{$search|escape:'html'}" type="text"/>
 		<input id="search_search_button" type="submit" value="search" />
+		{if $header_menu_cat}<input type="hidden" name="t" value="{$header_menu_cat}" />{/if}
 	</div>
 </form>
 
 
 {if $results|@count > 0}
 
-<form id="nzb_multi_operations_form" method="get" action="{$smarty.const.WWW_TOP}/search/">
+<form id="nzb_multi_operations_form" method="get" action="{$smarty.const.WWW_TOP}/search.php">
 
 <br/>
 <div class="nzb_multi_operations">
