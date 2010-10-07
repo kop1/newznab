@@ -4,7 +4,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="{$page->meta_keywords},{$site->meta_keywords}" />
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
-	<meta name="newznab" content="{$site->version}" />
+	<meta name="newznab_version" content="{$site->version}" />
 	<title>{$page->meta_title} - {$site->meta_title}</title>
 	<link href="{$smarty.const.WWW_TOP}/views/styles/style.css" rel="stylesheet" type="text/css" media="screen" />
 	{if $site->google_adsense_acc == ''}
