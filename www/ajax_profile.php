@@ -18,14 +18,6 @@ if (isset($_GET['action']) && $_GET['action'] == "1" && isset($_GET['emailto']))
 	else
 		print "Invite sent. Alternatively paste them following link to register - ".$ret;
 }
-//
-// Send an nzb to sab.
-//
-else if (isset($_GET['action']) && $_GET['action'] == "2" && isset($_GET['sab']) && isset($_GET['name']))
-{
-	$url = urldecode($_GET['sab'])."&name=".$_GET['name'];
-	$rh = fopen($url, 'r');
-}
 else
 {
 	print "Invite not sent.";
