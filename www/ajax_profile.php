@@ -21,10 +21,12 @@ if (isset($_GET['action']) && $_GET['action'] == "1" && isset($_GET['emailto']))
 //
 // Send an nzb to sab.
 //
-else if (isset($_GET['action']) && $_GET['action'] == "2" && isset($_GET['sab']))
+else if (isset($_GET['action']) && $_GET['action'] == "2" && isset($_GET['sab']) && isset($_GET['name']))
 {
-	$rh = fopen($_GET['sab'], 'r');
-}else
+	$url = urldecode($_GET['sab'])."&name=".$_GET['name'];
+	$rh = fopen($url, 'r');
+}
+else
 {
 	print "Invite not sent.";
 }
