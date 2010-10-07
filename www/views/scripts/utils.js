@@ -33,9 +33,10 @@ jQuery(function($){
 		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=" + priority + "&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
 		var nzburl = SERVERROOT + "download/sab/nzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 
-		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
+		$.post( SERVERROOT + "ajax_profile.php?action=2&sab="+ escape(fullsaburl+"&name="+nzburl), function(resp){
 			$(e.target).addClass('icon_sab_clicked').attr('title','added to queue');
 		});
+
 		return false;
 	});
 	$("table.data a.modal_nfo").colorbox({	 // NFO modal
@@ -86,8 +87,9 @@ jQuery(function($){
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
 			if (guid && !$sabIcon.hasClass('icon_sab_clicked')){
 				var nzburl = SERVERROOT + "download/sab/nzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
-				$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
-					$sabIcon.addClass('icon_sab_clicked').attr('title','added to queue');
+
+				$.post( SERVERROOT + "ajax_profile.php?action=2&sab="+ escape(fullsaburl+"&name="+nzburl), function(resp){
+					$(e.target).addClass('icon_sab_clicked').attr('title','added to queue');
 				});
 			}
 		});
