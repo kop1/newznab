@@ -22,7 +22,7 @@ $page->smarty->assign('pageroffset',$offset);
 $page->smarty->assign('pageritemsperpage',ITEMS_PER_PAGE);
 $page->smarty->assign('pagerquerybase', WWW_TOP."/user-list.php?ob=".$orderby."&amp;offset=");
 
-$pager = $page->smarty->fetch("pager.tpl");
+$pager = $page->smarty->fetch($page->getCommonTemplate("pager.tpl"));
 $page->smarty->assign('pager', $pager);
 
 foreach($ordering as $ordertype) 

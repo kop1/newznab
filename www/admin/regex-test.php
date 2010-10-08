@@ -67,7 +67,7 @@ switch($action)
 			$page->smarty->assign('pageroffset',$offset);
 			$page->smarty->assign('pageritemsperpage',ITEMS_PER_PAGE);
 			$page->smarty->assign('pagerquerybase', WWW_TOP."/regex-test.php?action=submit&groupname={$gselected}&regex=".urlencode($gregex)."&unreleased={$gunreleased}&offset=");
-			$pager = $page->smarty->fetch("pager.tpl");
+			$pager = $page->smarty->fetch($page->getCommonTemplate("pager.tpl"));
 			$page->smarty->assign('pager', $pager);
 			
 			$matches = array_slice($matches, $offset, ITEMS_PER_PAGE);

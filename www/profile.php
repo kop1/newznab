@@ -44,7 +44,7 @@ $page->smarty->assign('pageritemsperpage',ITEMS_PER_PAGE);
 $page->smarty->assign('pagerquerybase', "/profile?id=".$userid."&offset=");
 $page->smarty->assign('pagerquerysuffix', "#comments");
 
-$pager = $page->smarty->fetch("pager.tpl");
+$pager = $page->smarty->fetch($page->getCommonTemplate("pager.tpl"));
 $page->smarty->assign('pager', $pager);
 
 $commentslist = $releases->getCommentsForUserRange($userid, $offset, ITEMS_PER_PAGE);

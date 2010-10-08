@@ -185,5 +185,10 @@ class BasePage
 		header("Location: $redirect_path/login");
 		die();
 	}
+	
+	public function getCommonTemplate($tpl)
+	{
+		return "../common/".$tpl;
+	}
 }
 ?>
