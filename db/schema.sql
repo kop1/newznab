@@ -522,8 +522,7 @@ INSERT INTO `site`
 	`dereferrer_link`,
 	`nzbpath`,
 	`rawretentiondays`,
-	`attemptgroupbindays`,
-	'releaseretentiondays'
+	`attemptgroupbindays`
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
@@ -531,7 +530,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
 	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
-	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2, 0);
+	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2);
 
 INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
 VALUES 
