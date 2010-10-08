@@ -67,7 +67,8 @@ how it works
 	usenet groups are specified, message headers (binaries and parts) are downloaded for the 
 	groups, releases are created from completed sets of binaries by applying regex to the message subject.
 	releases are categorised by regexing the message subject. metadata from tvrage and tmdb are applied to
-	each created release.
+	each created release. after a configurable number of days the header data is deleted from the database,
+	but the releases remain.
 	
 choosing newsgroups
 	groups can be manually entered if you know the name. groups can also be bulk added when
@@ -82,11 +83,10 @@ categorisation
 	function determineCategory()
 	
 updating index (populating binaries + parts)
-	updating the index can a long time depending on how much retention you require
-	as such its not recommended to run update scripts from web browsers, as timeouts
-	will occur. the recommended way to schedule updates is via a init.d script
-	/path/to/newznab/misc/update_scripts/cron_scripts/newznab.sh start
-	make sure you set the paths to your installation.
+	updating the index can take a long time so its not recommended to run update scripts 
+	from web browsers as timeouts will occur. the recommended way to schedule updates 
+	is via the dos and unix start scripts in /path/to/newznab/misc/update_scripts/.
+	make sure you set the paths correctly to your installation.
 
 missing parts
 	when headers are requested from the usenet provider, they are asked for in number ranges
