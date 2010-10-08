@@ -18,7 +18,7 @@
 <item>
 	<title>{$release.searchname|escape:html}</title>
 	<guid isPermaLink="true">{$serverroot}rss/viewnzb/{$release.guid}</guid>
-	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}&amp;i={$uid}&amp;r={$rsstoken}{/if}</link>
+	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}.nzb?i={$uid}&amp;r={$rsstoken}{/if}</link>
 	<comments>{$serverroot}rss/viewnzb/{$release.guid}#comments</comments> 	
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
 	<category>{$release.category_name|escape:html}</category> 	
@@ -34,7 +34,7 @@
 	</ul>]]>
 	{/if}
 </description>
-	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}
+	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}.nzb?i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}
 
 
 	{foreach from=$release.category_ids|parray:"," item=cat}

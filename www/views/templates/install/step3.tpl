@@ -35,7 +35,7 @@
 		<tr>
 			<td><label for="port">SSL?:</label></td>
 			<td>
-				<input type="checkbox" name="ssl" id="ssl" value="1" {if $cfg->NNTP_SSLENABLED}checked="checked"{/if} />
+				<input type="checkbox" name="ssl" id="ssl" value="1" {if $cfg->NNTP_SSLENABLED=="true"}checked="checked"{/if} />
 			</td>
 		</tr>		
 		<tr class="">

@@ -32,6 +32,14 @@ else
 }
 
 //
+// remove any suffixed id with .nzb which is added to help 
+// weblogging programs see nzb traffic
+//
+if (isset($_GET["id"]))
+	$_GET["id"] = preg_replace("/.nzb/i", "", $_GET["id"]);
+
+
+//
 // user requested a zip of guid,guid,guid releases
 //
 if (isset($_GET["id"]) && isset($_GET["zip"]) && $_GET["zip"] == "1")
