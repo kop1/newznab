@@ -175,6 +175,14 @@
 </tr>
 
 <tr>
+	<td><label for="releaseretentiondays">Release Retention</label>:</td>
+	<td>
+		<input class="tiny" id="releasedays" name="releaseretentiondays" type="text" value="{$fsite->releaseretentiondays}" />
+		<div class="hint">The number of days releases will be retained for use throughout site. Set to 0 to disable.</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="minfilestoformrelease">Minimum Files to Make a Release</label>:</td>
 	<td>
 		<input class="tiny" id="minfilestoformrelease" name="minfilestoformrelease" type="text" value="{$fsite->minfilestoformrelease}" />

@@ -495,7 +495,8 @@ CREATE TABLE site (
 `minfilestoformrelease` INT NOT NULL DEFAULT 1,
 `reqidurl` VARCHAR(1000) NOT NULL DEFAULT 'http://allfilled.newznab.com/query.php?t=[GROUP]&reqid=[REQID]',
 `latestregexurl` VARCHAR(1000) NOT NULL DEFAULT 'http://www.newznab.com/latestregex.sql',
-`latestregexrevision` INT NOT NULL DEFAULT 0
+`latestregexrevision` INT NOT NULL DEFAULT 0,
+`releaseretentiondays` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 
 
@@ -521,7 +522,8 @@ INSERT INTO `site`
 	`dereferrer_link`,
 	`nzbpath`,
 	`rawretentiondays`,
-	`attemptgroupbindays`
+	`attemptgroupbindays`,
+	'releaseretentiondays'
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
@@ -529,7 +531,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
 	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
-	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2);
+	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2, 0);
 
 INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
 VALUES 
