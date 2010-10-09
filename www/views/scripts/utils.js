@@ -205,8 +205,8 @@ jQuery(function($){
 	}
 	// profile.tpl
 	$('#profile_sab_save').click(function(){	// store sabnzbd info to cookie
-		$.cookie('sabnzbd_'+UID+'__apikey', $('#profile_sab_apikey').val(), { expires: 365 });
-		$.cookie('sabnzbd_'+UID+'__host', $('#profile_sab_host').val(), { expires: 365 });
+		$.cookie('sabnzbd_'+UID+'__apikey', $.trim($('#profile_sab_apikey').val()), { expires: 365 });
+		$.cookie('sabnzbd_'+UID+'__host', $.trim($('#profile_sab_host').val()), { expires: 365 });
 		$.cookie('sabnzbd_'+UID+'__priority', $('#profile_sab_priority').val(), { expires: 365 });
 		$(this).next('.icon').addClass('icon_check'); // save status notification
 	});
