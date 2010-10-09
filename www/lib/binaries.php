@@ -572,5 +572,12 @@ class Binaries
 		return $db->queryInsert(sprintf("insert into binaryblacklist (groupname, regex, status, description, optype, msgcol) values (%s, %s, %d, %s, %d, %d) ", 
 			$groupname, $db->escapeString($regex["regex"]), $regex["status"], $db->escapeString($regex["description"]), $regex["optype"], $regex["msgcol"]));	
 	}	
+	
+	public function delete($id)
+	{			
+		$db = new DB();
+			$db->query(sprintf("delete from parts where binaryID = %d", $id));
+			$db->query(sprintf("delete from binaries where ID = %d", $id));
+	}	
 }
 ?>

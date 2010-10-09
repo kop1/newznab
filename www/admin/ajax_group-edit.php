@@ -19,6 +19,12 @@ elseif (isset($_GET['action']) && $_GET['action'] == "3")
 		$group->reset($id);	
 		print "Group $id reset.";
 }
+elseif (isset($_GET['action']) && $_GET['action'] == "4")
+{
+		$id     = (int)$_GET['group_id'];
+		$group->purge($id);	
+		print "Group $id purged.";
+}
 else
 {
 	if (isset($_GET['group_id']))

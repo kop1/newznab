@@ -4,6 +4,8 @@ require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/binaries.php");
 
 class Groups
 {	
@@ -86,6 +88,24 @@ class Groups
 	{			
 		$db = new DB();
 		return $db->query(sprintf("update groups set backfill_target=0, first_record=0, first_record_postdate=null, last_record=0, last_record_postdate=null, last_updated=null where ID = %d", $id));		
+	}		
+	
+	public function purge($id)
+	{	
+		$db = new DB();
+		$releases = new Releases();		
+		$binaries = new Binaries();
+		$db->query(sprintf("update groups set backfill_target=0, first_record=0, first_record_postdate=null, last_record=0, last_record_postdate=null, last_updated=null where ID = %d", $id));											
+		$rels = $db->query(sprintf("select ID from releases where groupID = %d", $id));
+		$bins = $db->query(sprintf("select ID from binaries where groupID = %d", $id));
+		foreach ($rels as $rel)
+		 {
+			$releases->delete($rel["ID"]);
+		  }
+		foreach ($bins as $bin)
+		 {
+			$binaries->delete($bin["ID"]);
+		 }
 	}		
 	
 	public function update($group)
