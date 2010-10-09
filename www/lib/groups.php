@@ -95,17 +95,16 @@ class Groups
 		$db = new DB();
 		$releases = new Releases();		
 		$binaries = new Binaries();
-		$db->query(sprintf("update groups set backfill_target=0, first_record=0, first_record_postdate=null, last_record=0, last_record_postdate=null, last_updated=null where ID = %d", $id));											
+		
+		$this->reset($id);
+
 		$rels = $db->query(sprintf("select ID from releases where groupID = %d", $id));
-		$bins = $db->query(sprintf("select ID from binaries where groupID = %d", $id));
 		foreach ($rels as $rel)
-		 {
 			$releases->delete($rel["ID"]);
-		  }
+
+		$bins = $db->query(sprintf("select ID from binaries where groupID = %d", $id));
 		foreach ($bins as $bin)
-		 {
 			$binaries->delete($bin["ID"]);
-		 }
 	}		
 	
 	public function update($group)

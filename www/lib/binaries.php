@@ -576,8 +576,8 @@ class Binaries
 	public function delete($id)
 	{			
 		$db = new DB();
-			$db->query(sprintf("delete from parts where binaryID = %d", $id));
-			$db->query(sprintf("delete from binaries where ID = %d", $id));
+		$db->query(sprintf("delete from parts where binaryID = %d", $id));
+		$db->query(sprintf("delete from binaries where ID = %d", $id));
 	}	
 }
 ?>
