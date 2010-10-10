@@ -106,9 +106,11 @@ class Movie
 	public function fetchCoverImage($imgUrl)
 	{		
 		$img = @file_get_contents($imgUrl);
-		if ($img !== false) {
+		if ($img !== false)
+		{
 			$im = @imagecreatefromstring($img);
-			if ($im !== false) {
+			if ($im !== false)
+			{
 				return $img;
 			}
 		}
@@ -176,21 +178,18 @@ class Movie
 		return $ret;
 	}
 	
-	//
-	// ref http://code.google.com/p/moving-pictures/source/browse/trunk/MovingPictures/DataProviders/ScraperScripts/IMDb.xml?spec=svn920&r=920
-	//
     public function fetchImdbProperties($imdbId)
     {
         $imdb_regex = array(
             'title'    => '/<title>(.*?)\(.*?<\/title>/i',
-			'plot'     => '/plot\s?(?:outline|summary)?:<\/h5>\s<div.*?>([^<]*)/i',
-            'rating'   => '/<b>([0-9]{1,2}\.[0-9]{1,2})\/10<\/b>/i',
+			'plot'     => '/<p>\s<p>(.*?)\s<\/p>\s<\/p>/i',
+            'rating'   => '/<span class="rating\-rating">([0-9]{1,2}\.[0-9]{1,2})<span>/i',
 			'year'     => '/<title>.*?\((\d+).*?<\/title>/i',
-			'genre'    => '/\/Sections\/Genres\/(.+?)\//i',
-			'cover'    => '/<a name="poster".+title=".+">.*?src="([^"]*)"/i'
+			'genre'    => '/href="\/genre\/(.*?)"/i',
+			'cover'    => '/<a href="\/media\/.*?><img src="(.*?)"/i'
         );
 
-        $buffer = file_get_contents("http://www.imdb.com/title/tt$imdbId/");
+        $buffer = file_get_contents("http://akas.imdb.com/title/tt$imdbId/");
 
         // make sure we got some data
         if (strlen($buffer))
