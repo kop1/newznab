@@ -1092,8 +1092,10 @@ class Releases
 		// Delete any parts and binaries which are older than the site's retention days
 		//
 		if ($echooutput)
-			echo "Deleting binaries and parts which are older than ".$page->site->rawretentiondays." days\n";			
+			echo "Deleting parts which are older than ".$page->site->rawretentiondays." days\n";			
 		$db->query(sprintf("delete from parts where dateadded < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->rawretentiondays));
+		if ($echooutput)
+			echo "Deleting binaries which are older than ".$page->site->rawretentiondays." days\n";			
 		$db->query(sprintf("delete from binaries where dateadded < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->rawretentiondays));
 		
 		//
@@ -1102,15 +1104,15 @@ class Releases
 		if($page->site->releaseretentiondays != 0)
 		{
 			if($echooutput)
-			echo "Determining any releases past retention to be deleted.\n\n";
+				echo "Determining any releases past retention to be deleted.\n\n";
 
 			$result = $db->query(sprintf("select ID from releases where postdate < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->releaseretentiondays)); 		
 			foreach ($result as $row)
-			$this->delete($row["ID"]);
+				$this->delete($row["ID"]);
 		}
 		
 		if ($echooutput)
-		echo "Processed ". $retcount." releases\n\n";
+			echo "Processed ". $retcount." releases\n\n";
 			
 		return $retcount;	
 	}
