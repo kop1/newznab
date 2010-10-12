@@ -1466,7 +1466,7 @@ class Releases
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query(" SELECT releasecomment.*, users.username FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID order by releasecomment.createddate desc ".$limit);		
+		return $db->query(" SELECT releasecomment.*, users.username, releases.guid FROM releasecomment LEFT OUTER JOIN users ON users.ID = releasecomment.userID inner join releases on releases.ID = releasecomment.releaseID order by releasecomment.createddate desc ".$limit);		
 	}
 	
 	public function updateReleaseCommentCount($relid)
