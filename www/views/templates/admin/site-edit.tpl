@@ -191,6 +191,22 @@
 </tr>
 
 <tr>
+	<td><label for="checkpasswordedrar">Check For Passworded Releases</label>:</td>
+	<td>
+		{html_radios id="checkpasswordedrar" name='checkpasswordedrar' values=$yesno_ids output=$yesno_names selected=$fsite->checkpasswordedrar separator='<br />'}
+		<div class="hint">Whether to attempt to peek into every release, to see if rar files are password protected.<br/></div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="showpasswordedrelease">Show Passworded Releases</label>:</td>
+	<td>
+		{html_options id="showpasswordedrelease" name='showpasswordedrelease' values=$passworded_ids output=$passworded_names selected=$fsite->showpasswordedrelease}
+		<div class="hint">Whether to show passworded or potentially passworded releases in browse, search, api and rss feeds. Potentially passworded means releases which contain .cab or .ace files which are typically password protected.</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="reqidurl">Allfilled Request Id Lookup URL</label>:</td>
 	<td>
 		<input class="long" id="reqidurl" name="reqidurl" type="text" value="{$fsite->reqidurl}" />

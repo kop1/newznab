@@ -103,7 +103,7 @@ class Releases
 		if (count($excludedcats) > 0)
 			$exccatlist = " and categoryID not in (".implode(",", $excludedcats).")";
 		
-		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases where 1=1 %s %s %s", $catsrch, $maxage, $exccatlist));		
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s", $catsrch, $maxage, $exccatlist));		
 		return $res["num"];	
 	}	
 	
@@ -153,7 +153,7 @@ class Releases
 			$exccatlist = " and releases.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getBrowseOrder($orderby);
-		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s order by %s %s".$limit, $catsrch, $maxage, $exccatlist, $order[0], $order[1]));		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s order by %s %s".$limit, $catsrch, $maxage, $exccatlist, $order[0], $order[1]));		
 	}
 	
 	public function getBrowseOrder($orderby)
@@ -264,7 +264,7 @@ class Releases
 			$rage = sprintf(" and releases.rageID = %d", $rageid);
 
 			
-		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID where 1=1 %s %s order by postdate desc %s" ,$cat, $rage, $limit));
+		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s order by postdate desc %s" ,$cat, $rage, $limit));
 	}
 		
 	public function getCount()
@@ -384,7 +384,7 @@ class Releases
 		else
 			$order = $this->getBrowseOrder($orderby);
 
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by %s %s limit %d, %d ", $searchsql, $catsrch, $maxage, $exccatlist, $order[0], $order[1], $offset, $limit), true);
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s order by %s %s limit %d, %d ", $searchsql, $catsrch, $maxage, $exccatlist, $order[0], $order[1], $offset, $limit), true);
 
 		return $res;
 	}	
@@ -469,7 +469,7 @@ class Releases
 		else
 			$maxage = "";		
 		
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $searchsql, $catsrch, $maxage, $offset, $limit), true);		
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $searchsql, $catsrch, $maxage, $offset, $limit), true);		
 		
 		return $res;
 	}
@@ -545,7 +545,7 @@ class Releases
 		else
 			$maxage = "";		
 		
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where 1=1 %s %s %s %s order by postdate desc limit %d, %d ", $searchsql, $imdbId, $catsrch, $maxage, $offset, $limit), true);		
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s order by postdate desc limit %d, %d ", $searchsql, $imdbId, $catsrch, $maxage, $offset, $limit), true);		
 
 		return $res;
 	}			
@@ -631,7 +631,7 @@ class Releases
 			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
 		}
 		
-		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID  left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where rageID = %d %s %s", $rageid, $series, $episode));		
+		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID  left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) and rageID = %d %s %s", $rageid, $series, $episode));		
 	}	
 
 	public function removeRageIdFromReleases($rageid)
