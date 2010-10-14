@@ -35,6 +35,36 @@ class Nntp extends Net_NNTP_Client
 		$this->quit();
 	}
 	
+	function getMessage($groupname, $partMsgId)
+	{
+		$yenc = new yenc();
+		
+		$summary = $this->selectGroup($groupname);
+		$message = $dec = '';
+
+		if (PEAR::isError($summary)) 
+		{
+			echo $summary->getMessage();
+			return false;
+		}
+
+		$body = $this->getBody('<'.$partMsgId.'>', true);
+		if (PEAR::isError($body)) 
+		{
+		   echo 'Error fetching part number '.$partMsgId.' in '.groupname.' (Server response: '. $body->getMessage().')';
+		   return false;
+		}
+		
+		$message = $yenc->decode($body);
+		if ($yenc->error) 
+		{
+			echo $yenc->error;
+			return false;
+		}
+
+		return $message;
+	}
+
 	function getBinary($binaryId)
 	{
 		$db = new DB();

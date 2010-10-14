@@ -1087,7 +1087,7 @@ class Releases
 		}
 		else
 		{
-			//$this->processPasswordedReleases($echooutput);
+			$this->processPasswordedReleases($echooutput);
 		}
 
 		//
@@ -1142,8 +1142,9 @@ class Releases
 	{
 		$maxattemptstocheckpassworded = 5;
 		$potentiallypasswordedfileregex = "/\.(ace|cab|tar|gz)$/i";
-		$rarmatchregex = "/\.(rar)$/i";
+		$rarmatchregex = "/^.*?\.(?:part(?=0*1)\d+|(?!part\d+)[^.]+)\.rar.*$/i";
 		$numfound = 0; $numpasswd = 0; $numpot = 0; $numnone = 0;
+		$db = new DB;
 		$nntp = new Nntp;
 		$rar = new RarInfo;
 		$rar->setMaxBytes(4000);
@@ -1154,98 +1155,108 @@ class Releases
 		//
 		// Get out all releases which have not been checked more than max attempts for password.
 		//
-		$result = $db->query(sprintf("select ID from releases where passwordstatus between -1 and %d", ($maxattemptstocheckpassworded + 1) * -1));
-
-		$nntp->doConnect();
-
-		foreach ($result as $row)
+		$result = $db->query(sprintf("select ID from releases where passwordstatus between %d and -1", ($maxattemptstocheckpassworded + 1) * -1));
+	
+		if (count($result) > 0)
 		{
-			//
-			// get out all files for this release, if it contains no rars, mark as Releases::PASSWD_NONE
-			// if it contains rars, try and retrieve the message for the first rar and inspect its filename
-			// if rar file is encrypted set as Releases::PASSWD_RAR, if it contains an ace/cab etc 
-			// mark as Releases::PASSWD_POTENTIAL, otherwise set as Releases::PASSWD_NONE.
-			//
-			$numfound++;
-			
-			//
-			// Go through the binaries for this release looking for a rar
-			//
-			$binresult = $db->query(sprintf("select ID, name from binaries where releaseID = %d order by relpart", $row["ID"]));
-			$binid = -1;
-			foreach ($binresult as $binrow)
-			{
-				if (preg_match($rarmatchregex, $binrow["name"]))
-				{
-					$part = $db->queryOneRow(sprintf("select messageID from parts where binaryID = %d order by partnumber", $binrow["ID"]));
-					if (isset($part["messageID"]))
-						$binid = $part["messageID"];
-				}
-			}
-			
-			$passStatus = Releases::PASSWD_NONE;
-			
-			//
-			// no part of binary found matching a rar, so it cant be progressed further
-			//
-			if ($binid != -1)
-			{
-				$fetchedBinary = $nntp->getBinary($binid);
-				if ($fetchedBinary === false) 
-				{			
-					$db->query(sprintf("update releases set passwordstatus = passwordstatus - 1 where ID = %d", $row["ID"]));
-					continue;
-				}
-				
-				$rar->setData($fetchedBinary);
 
+			$nntp->doConnect();
+	
+			foreach ($result as $row)
+			{
 				//
-				// whole archive password protected
+				// get out all files for this release, if it contains no rars, mark as Releases::PASSWD_NONE
+				// if it contains rars, try and retrieve the message for the first rar and inspect its filename
+				// if rar file is encrypted set as Releases::PASSWD_RAR, if it contains an ace/cab etc 
+				// mark as Releases::PASSWD_POTENTIAL, otherwise set as Releases::PASSWD_NONE.
 				//
-				if ($rar->isEncrypted)
+				$numfound++;
+				
+				//
+				// Go through the binaries for this release looking for a rar
+				//
+				$binresult = $db->query(sprintf("select binaries.ID, binaries.name, groups.name as groupname from binaries inner join groups on groups.ID = binaries.groupID where releaseID = %d order by relpart", $row["ID"]));
+				$msgid = -1;
+				$bingroup = "";
+				foreach ($binresult as $binrow)
 				{
-					$passStatus = Releases::PASSWD_RAR;
-				}
-				else
-				{
-					$files = $rar->getFileList();			
-					foreach ($files as $file) 
+					if (preg_match($rarmatchregex, $binrow["name"]))
 					{
-						//
-						// individual file rar passworded
-						//
-						if ($file['pass'] == true) 
+						$bingroup = $binrow["groupname"];
+						
+						$part = $db->queryOneRow(sprintf("select messageID from parts where binaryID = %d order by partnumber", $binrow["ID"]));
+						if (isset($part["messageID"]))
 						{
-							$passStatus = Releases::PASSWD_RAR;
-							break;
-						}
-						//
-						// individual file looks suspect
-						//
-						else if (preg_match($potentiallypasswordedfileregex, $file["name"]))
-						{
-							$passStatus = Releases::PASSWD_POTENTIAL;
+							$msgid = $part["messageID"];
 							break;
 						}
 					}
 				}
+			
+				$passStatus = Releases::PASSWD_NONE;
 				
+				//
+				// no part of binary found matching a rar, so it cant be progressed further
+				//
+				if ($msgid != -1)
+				{
+					$fetchedBinary = $nntp->getMessage($bingroup, $msgid);
+					if ($fetchedBinary === false) 
+					{			
+						$db->query(sprintf("update releases set passwordstatus = passwordstatus - 1 where ID = %d", $row["ID"]));
+						continue;
+					}
+					
+					$rar->setData($fetchedBinary);
+	
+					//
+					// whole archive password protected
+					//
+					if ($rar->isEncrypted)
+					{
+						$passStatus = Releases::PASSWD_RAR;
+					}
+					else
+					{
+						$files = $rar->getFileList();			
+						foreach ($files as $file) 
+						{
+							//
+							// individual file rar passworded
+							//
+							if ($file['pass'] == true) 
+							{
+								$passStatus = Releases::PASSWD_RAR;
+								break;
+							}
+							//
+							// individual file looks suspect
+							//
+							else if (preg_match($potentiallypasswordedfileregex, $file["name"]))
+							{
+								$passStatus = Releases::PASSWD_POTENTIAL;
+								break;
+							}
+						}
+					}
+					
+				}
+				//
+				// increment reporting stats
+				//
+				if ($passStatus == Releases::PASSWD_RAR)
+					$numpasswd++;
+				elseif ($passStatus == Releases::PASSWD_POTENTIAL)
+					$numpot++;
+				else
+					$numnone++;
+					
+				$db->query(sprintf("update releases set passwordstatus = %d where ID = %d", $passStatus, $row["ID"]));
 			}
-			//
-			// increment reporting stats
-			//
-			if ($passStatus == Releases::PASSWORD_RAR)
-				$numpasswd++;
-			elseif ($passStatus == Releases::PASSWD_POTENTIAL)
-				$numpot++;
-			else
-				$numnone++;
-				
-			$db->query(sprintf("update releases set passwordstatus = %d where ID = %d", $passStatus, $row["ID"]));
+			
+			$nntp->doQuit();
 		}
-		
-		$nntp->doQuit();
-		
+					
 		if($echooutput)
 			echo sprintf("Finished checking for passwords for %d releases (%d passworded, %d potential, %d none).\n\n", $numfound, $numpasswd, $numpot, $numnone);
 	}
