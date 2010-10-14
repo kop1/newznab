@@ -1,3 +1,3 @@
-alter table releases add passwordstatus int not null default -1;
-alter table site add checkpasswordedrar int not null default 1;
-alter table site add showpasswordedrelease int not null default 0;
+ALTER TABLE site DROP COLUMN checkpasswordedrar ;
+ALTER TABLE site ADD checkpasswordedrar INT NOT NULL DEFAULT 0;
+
