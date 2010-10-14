@@ -40,10 +40,11 @@
  * @author     Hecks
  * @copyright  (c) 2010 Hecks
  * @license    Modified BSD
- * @version    1.5
+ * @version    1.6
  *
  * CHANGELOG:
  * ----------
+ * 1.6 Added extra error checking to read method
  * 1.5 Improved getSummary method output
  * 1.4 Added filename sanity checks & maxFilenameLength variable
  * 1.3 Fixed issues with some file headers lacking LONG_BLOCK flag
@@ -484,8 +485,9 @@ class RarInfo
 				return false;
 			}
 			
-		// No more readable data
+		// No more readable data, or read error
 		} catch (Exception $e) {
+			if ($this->error) {return false;}
 			break;
 		}
 
@@ -503,11 +505,24 @@ class RarInfo
 	 */
 	protected function read($num)
 	{
+		// Check that enough data is available
 		$newPos = $this->offset + $num;
 		if ($newPos > ($this->dataSize - 1)) {
 			throw new Exception('End of readable data');
 		}
+		
+		// Read the requested bytes
 		$read = substr($this->data, $this->offset, $num);
+		
+		// Confirm read length
+		$rlen = strlen($read);
+		if ($rlen < $num) {
+			$this->error = "Not enough data ({$num} requested, {$rlen} available)";
+			trigger_error($this->error, E_USER_WARNING);
+			throw new Exception('Read error');
+		}
+		
+		// Move the data pointer
 		$this->offset = $newPos;
 		
 		return $read;

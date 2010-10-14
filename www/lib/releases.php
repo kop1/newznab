@@ -1142,7 +1142,6 @@ class Releases
 	{
 		$maxattemptstocheckpassworded = 5;
 		$potentiallypasswordedfileregex = "/\.(ace|cab|tar|gz)$/i";
-		$rarmatchregex = "/^.*?\.(?:part(?=0*1)\d+|(?!part\d+)[^.]+)\.rar.*$/i";
 		$numfound = 0; $numpasswd = 0; $numpot = 0; $numnone = 0;
 		$db = new DB;
 		$nntp = new Nntp;
@@ -1180,10 +1179,12 @@ class Releases
 				$bingroup = "";
 				foreach ($binresult as $binrow)
 				{
-					if (preg_match($rarmatchregex, $binrow["name"]))
+					if (preg_match("/\.rar(\s|\"|$)/i", $binrow["name"]) &&
+               (!preg_match("/part\d+\.rar(\s|\"|$)/i", $binrow["name"]) ||
+               preg_match("/part0{0,}1\.rar(\s|\"|$)/i", $binrow["name"]))) 					
 					{
 						$bingroup = $binrow["groupname"];
-						
+						//echo "matched ".$binrow["name"]."\n";
 						$part = $db->queryOneRow(sprintf("select messageID from parts where binaryID = %d order by partnumber", $binrow["ID"]));
 						if (isset($part["messageID"]))
 						{
@@ -1207,39 +1208,40 @@ class Releases
 						continue;
 					}
 					
-					$rar->setData($fetchedBinary);
+					if ($rar->setData($fetchedBinary))
+					{
 	
-					//
-					// whole archive password protected
-					//
-					if ($rar->isEncrypted)
-					{
-						$passStatus = Releases::PASSWD_RAR;
-					}
-					else
-					{
-						$files = $rar->getFileList();			
-						foreach ($files as $file) 
+						//
+						// whole archive password protected
+						//
+						if ($rar->isEncrypted)
 						{
-							//
-							// individual file rar passworded
-							//
-							if ($file['pass'] == true) 
+							$passStatus = Releases::PASSWD_RAR;
+						}
+						else
+						{
+							$files = $rar->getFileList();			
+							foreach ($files as $file) 
 							{
-								$passStatus = Releases::PASSWD_RAR;
-								break;
-							}
-							//
-							// individual file looks suspect
-							//
-							else if (preg_match($potentiallypasswordedfileregex, $file["name"]))
-							{
-								$passStatus = Releases::PASSWD_POTENTIAL;
-								break;
+								//
+								// individual file rar passworded
+								//
+								if ($file['pass'] == true) 
+								{
+									$passStatus = Releases::PASSWD_RAR;
+									break;
+								}
+								//
+								// individual file looks suspect
+								//
+								else if (preg_match($potentiallypasswordedfileregex, $file["name"]))
+								{
+									$passStatus = Releases::PASSWD_POTENTIAL;
+									break;
+								}
 							}
 						}
 					}
-					
 				}
 				//
 				// increment reporting stats
