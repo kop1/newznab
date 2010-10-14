@@ -10,6 +10,7 @@ require_once(WWW_DIR."/lib/tvrage.php");
 require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/zipfile.php");
+require_once(WWW_DIR."/lib/rarinfo.php");
 
 class Releases
 {	
@@ -44,6 +45,13 @@ class Releases
 	// to get a name, its given up
 	const PROCSTAT_NOREQIDNAMELOOKUPFOUND = 7;
 
+	//
+	// passworded indicator
+	//
+	const PASSWD_NONE = 0;
+	const PASSWD_RAR = 1;
+	const PASSWD_POTENTIAL = 2;	
+	
 	public function get()
 	{			
 		$db = new DB();
@@ -1070,6 +1078,19 @@ class Releases
 		}
 		
 		//
+		// Process nfo files
+		//
+		if ($page->site->checkpasswordedrar != "1")
+		{
+			if ($echooutput)
+				echo "Site config (site.checkpasswordedrar) prevented checking releases are passworded\n";		
+		}
+		else
+		{
+			//$this->processPasswordedReleases($echooutput);
+		}
+
+		//
 		// Process all TV related releases which will assign their series/episode/rage data
 		//
 		$this->processTvSeriesData($echooutput, ($page->site->lookuptvrage=="1"));
@@ -1117,6 +1138,118 @@ class Releases
 		return $retcount;	
 	}
 
+	public function processPasswordedReleases($echooutput=false)
+	{
+		$maxattemptstocheckpassworded = 5;
+		$potentiallypasswordedfileregex = "/\.(ace|cab|tar|gz)$/i";
+		$rarmatchregex = "/\.(rar)$/i";
+		$numfound = 0; $numpasswd = 0; $numpot = 0; $numnone = 0;
+		$nntp = new Nntp;
+		$rar = new RarInfo;
+		$rar->setMaxBytes(4000);
+		
+		if($echooutput)
+			echo "Checking for passworded releases.\n\n";
+		
+		//
+		// Get out all releases which have not been checked more than max attempts for password.
+		//
+		$result = $db->query(sprintf("select ID from releases where passwordstatus between -1 and %d", ($maxattemptstocheckpassworded + 1) * -1));
+
+		$nntp->doConnect();
+
+		foreach ($result as $row)
+		{
+			//
+			// get out all files for this release, if it contains no rars, mark as Releases::PASSWD_NONE
+			// if it contains rars, try and retrieve the message for the first rar and inspect its filename
+			// if rar file is encrypted set as Releases::PASSWD_RAR, if it contains an ace/cab etc 
+			// mark as Releases::PASSWD_POTENTIAL, otherwise set as Releases::PASSWD_NONE.
+			//
+			$numfound++;
+			
+			//
+			// Go through the binaries for this release looking for a rar
+			//
+			$binresult = $db->query(sprintf("select ID, name from binaries where releaseID = %d order by relpart", $row["ID"]));
+			$binid = -1;
+			foreach ($binresult as $binrow)
+			{
+				if (preg_match($rarmatchregex, $binrow["name"]))
+				{
+					$part = $db->queryOneRow(sprintf("select messageID from parts where binaryID = %d order by partnumber", $binrow["ID"]));
+					if (isset($part["messageID"]))
+						$binid = $part["messageID"];
+				}
+			}
+			
+			$passStatus = Releases::PASSWD_NONE;
+			
+			//
+			// no part of binary found matching a rar, so it cant be progressed further
+			//
+			if ($binid != -1)
+			{
+				$fetchedBinary = $nntp->getBinary($binid);
+				if ($fetchedBinary === false) 
+				{			
+					$db->query(sprintf("update releases set passwordstatus = passwordstatus - 1 where ID = %d", $row["ID"]));
+					continue;
+				}
+				
+				$rar->setData($fetchedBinary);
+
+				//
+				// whole archive password protected
+				//
+				if ($rar->isEncrypted)
+				{
+					$passStatus = Releases::PASSWD_RAR;
+				}
+				else
+				{
+					$files = $rar->getFileList();			
+					foreach ($files as $file) 
+					{
+						//
+						// individual file rar passworded
+						//
+						if ($file['pass'] == true) 
+						{
+							$passStatus = Releases::PASSWD_RAR;
+							break;
+						}
+						//
+						// individual file looks suspect
+						//
+						else if (preg_match($potentiallypasswordedfileregex, $file["name"]))
+						{
+							$passStatus = Releases::PASSWD_POTENTIAL;
+							break;
+						}
+					}
+				}
+				
+			}
+			//
+			// increment reporting stats
+			//
+			if ($passStatus == Releases::PASSWORD_RAR)
+				$numpasswd++;
+			elseif ($passStatus == Releases::PASSWD_POTENTIAL)
+				$numpot++;
+			else
+				$numnone++;
+				
+			$db->query(sprintf("update releases set passwordstatus = %d where ID = %d", $passStatus, $row["ID"]));
+		}
+		
+		$nntp->doQuit();
+		
+		if($echooutput)
+			echo sprintf("Finished checking for passwords for %d releases (%d passworded, %d potential, %d none).\n\n", $numfound, $numpasswd, $numpot, $numnone);
+	}
+	
 	public function processTvSeriesData($echooutput=false, $lookupTvRage = true)
 	{
 		$ret = 0;

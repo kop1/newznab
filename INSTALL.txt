@@ -217,6 +217,7 @@ development
 	midgetspy@sickbeard			rage integration,api
 	ueland@newznab				installer
 	ensi@ensisoft.com			api
+	hecks@tvnzb					rar api
 	michael@newznab				dev
 	sakarias@newznab			testing
 	pairdime@sabnzbd			jquery,css
