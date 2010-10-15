@@ -58,7 +58,7 @@ CREATE TABLE `releases`
 `reqID` INT NULL,
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
 `comments` INT NOT NULL DEFAULT 0,
-`passwordstatus` INT NOT NULL DEFAULT -1,
+`passwordstatus` INT NOT NULL DEFAULT 0,
 PRIMARY KEY  (`ID`),
 FULLTEXT KEY `searchname` (`searchname`)
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
@@ -498,7 +498,7 @@ CREATE TABLE site (
 `latestregexurl` VARCHAR(1000) NOT NULL DEFAULT 'http://www.newznab.com/latestregex.sql',
 `latestregexrevision` INT NOT NULL DEFAULT 0,
 `releaseretentiondays` INT NOT NULL DEFAULT 0,
-`checkpasswordedrar` INT NOT NULL DEFAULT 1,
+`checkpasswordedrar` INT NOT NULL DEFAULT 0,
 `showpasswordedrelease` INT NOT NULL DEFAULT 0
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 
