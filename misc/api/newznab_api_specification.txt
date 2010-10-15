@@ -645,6 +645,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    group           ALL                     NNTP Group(s)                           "a.b.warez, a.b.teevee"
    team            ALL                     Team doing the release                  "DiAMOND"
    grabs           ALL                     Number of times item downloaded         "1"
+   password        ALL                     Whether the archive is passworded       "0" no, "1" rar pass, "2" contains inner archive
    comments        ALL                     Number of comments                      "2"
    usenetdate      ALL                     Date posted to usenet                   "Tue, 22 Jun 2010 06:54:22 +0100"
    info            ALL                     Info (.nfo) file URL                    "http://somesite/stuff/info.php?id=1234"

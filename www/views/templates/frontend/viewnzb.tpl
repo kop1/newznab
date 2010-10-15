@@ -32,6 +32,14 @@
 	<tr><th>Size:</th><td>{$release.size|fsize_format:"MB"}</td></tr>
 	<tr><th>Grabs:</th><td>{$release.grabs} time{if $release.grabs==1}{else}s{/if}</td></tr>
 	<tr><th>Files:</th><td><a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$release.guid}">{$release.totalpart} file{if $release.totalpart==1}{else}s{/if}</a></td></tr>
+
+	{if $site->checkpasswordedrar == 1}
+	<tr><th>Password:</th>
+		<td>
+			{if $release.passwordstatus == 0}None{elseif $release.passwordstatus == 1}Passworded Rar Archive{elseif $release.passwordstatus == 2}Contains Cab/Ace Archive{else}Unknown{/if}
+		</td>
+	</tr>
+	{/if}
 	
 	{if $movie.imdbID > 0}
 	<tr><th>Movie Info:</th><td>

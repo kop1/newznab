@@ -41,6 +41,7 @@
 {/if}
 	<newznab:attr name="grabs" value="{$release.grabs}" />
 	<newznab:attr name="comments" value="{$release.comments}" />
+	<newznab:attr name="password" value="{$release.passwordstatus}" />
 	<newznab:attr name="usenetdate" value="{$release.postdate|phpdate_format:"DATE_RSS"}" />	
 	<newznab:attr name="group" value="{$release.group_name|escape:html}" />
 

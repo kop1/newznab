@@ -31,6 +31,7 @@
 	<li>Groups: {$release.group_name}</li>
 	<li>Poster: {$release.fromname}</li>
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
+	<li>Password: {if $release.passwordstatus == 0}None{elseif $release.passwordstatus == 1}Passworded Rar Archive{elseif $release.passwordstatus == 2}Contains Cab/Ace Archive{else}Unknown{/if}</li>
 	</ul>]]>
 	{/if}
 </description>
@@ -52,6 +53,7 @@
 {/if}
 <newznab:attr name="grabs" value="{$release.grabs}" />
 	<newznab:attr name="comments" value="{$release.comments}" />
+	<newznab:attr name="password" value="{$release.passwordstatus}" />
 	<newznab:attr name="usenetdate" value="{$release.postdate|phpdate_format:"DATE_RSS"}" />	
 	<newznab:attr name="group" value="{$release.group_name|escape:html}" />
 		

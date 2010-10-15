@@ -42,6 +42,13 @@
 			<td><input type="checkbox" class="nzb_check" name="id[]" value="{$result.guid}" /></td>
 			<td>
 				<a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.searchname|escape:"htmlall"|replace:".":" "}</a>
+
+				{if $result.passwordstatus == 1}
+					<img title="Passworded Rar Archive" src="{$smarty.const.WWW_TOP}/views/images/icons/lock.gif" alt="Passworded Rar Archive" />
+				{elseif $result.passwordstatus == 2}
+					<img title="Contains .cab/ace Archive" src="{$smarty.const.WWW_TOP}/views/images/icons/lock.gif" alt="Contains .cab/ace Archive" />
+				{/if}
+				
 				<div class="resextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="modal_nfo" rel="nfo">[Nfo]</a>{/if}
 					{if $result.imdbID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="name{$result.imdbID}" title="View movie info" class="modal_imdb" rel="movie" >[Cover]</a>{/if}
