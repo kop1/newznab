@@ -518,7 +518,7 @@ class RarInfo
 		$rlen = strlen($read);
 		if ($rlen < $num) {
 			$this->error = "Not enough data ({$num} requested, {$rlen} available)";
-			trigger_error($this->error, E_USER_WARNING);
+			//trigger_error($this->error, E_USER_WARNING);
 			throw new Exception('Read error');
 		}
 		

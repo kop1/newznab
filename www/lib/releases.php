@@ -1030,8 +1030,8 @@ class Releases
 			else
 				$reqID = $reqIDused;
 
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s)", 
-										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID));
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID, passwordstatus) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s, %d)", 
+										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID, ($page->site->checkpasswordedrar == "1" ? -1 : 0) ));
 			if ($echooutput)
 				echo "Added release ".$row['relname']."\n";
 			
