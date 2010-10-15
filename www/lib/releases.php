@@ -1179,12 +1179,10 @@ class Releases
 				$bingroup = "";
 				foreach ($binresult as $binrow)
 				{
-					if (preg_match("/\.rar(\s|\"|$)/i", $binrow["name"]) &&
-               (!preg_match("/part\d+\.rar(\s|\"|$)/i", $binrow["name"]) ||
-               preg_match("/part0{0,}1\.rar(\s|\"|$)/i", $binrow["name"]))) 					
+					if (preg_match("/\W(?:part0*1|(?!part\d+)[^.]+)\.rar(?!\.)/i", $binrow["name"])
 					{
 						$bingroup = $binrow["groupname"];
-						//echo "matched ".$binrow["name"]."\n";
+						echo "Checking ".$binrow["name"]." for password.\n";
 						$part = $db->queryOneRow(sprintf("select messageID from parts where binaryID = %d order by partnumber", $binrow["ID"]));
 						if (isset($part["messageID"]))
 						{
