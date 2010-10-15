@@ -1179,7 +1179,7 @@ class Releases
 				$bingroup = "";
 				foreach ($binresult as $binrow)
 				{
-					if (preg_match("/\W(?:part0*1|(?!part\d+)[^.]+)\.rar(?!\.)/i", $binrow["name"])
+					if (preg_match("/\W(?:part0*1|(?!part\d+)[^.]+)\.rar(?!\.)/i", $binrow["name"]))
 					{
 						$bingroup = $binrow["groupname"];
 						echo "Checking ".$binrow["name"]." for password.\n";
