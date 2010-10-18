@@ -5,6 +5,7 @@ pre-reqs
 		minimum execution time of 60+ seconds
 		make sure you update the php.ini for both web and cli
 		OpenSSL (if connecting to ssl usenet provider)
+		php register_globals off
 
 	GD Imaging Library w/PHP integration
 
@@ -187,6 +188,7 @@ faqs
 	* Server did not return article numbers 1234567 - this isnt necessarily a bad thing, see section on missing parts
 	* connection timed out. Reconnecting... Cannot connect to server *******: Already connected, disconnect first! - 
 	disable compressed headers
+	* session error during install step1 - set register_globals to off.
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
