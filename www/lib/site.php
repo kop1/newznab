@@ -53,7 +53,7 @@ class Sites
 
 	public function version()
 	{
-		return "0.1.5";
+		return "0.1.6";
 	}
 	
 	public function update($form)
