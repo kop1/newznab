@@ -33,6 +33,9 @@ if (!isset($_GET["t"]) && !isset($_GET["rage"]))
 	$categorylist = $category->get(true, $page->userdata["categoryexclusions"]);
 	$page->smarty->assign('categorylist',$categorylist);
 	
+	$parentcategorylist = $category->getForMenu($page->userdata["categoryexclusions"]);
+	$page->smarty->assign('parentcategorylist',$parentcategorylist);
+
 	$page->content = $page->smarty->fetch('rssdesc.tpl');
 	$page->render();
 	

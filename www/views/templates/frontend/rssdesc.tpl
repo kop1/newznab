@@ -30,6 +30,7 @@
 			
 			<h2>Available Feeds</h2>
 			<p>
+				<h3>General</h3>
 				<ul style="text-align: left;">
 					<li>
 						Full site feed<br/>
@@ -39,6 +40,21 @@
 						My cart feed<br/>
 						<a href="{$smarty.const.WWW_TOP}/rss?t=-2&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss?t=-2&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
 					</li>
+
+				</ul>
+				<h3>Parent Category</h3>
+				<ul style="text-align: left;">
+					{foreach from=$parentcategorylist item=category}
+						<li>
+							{$category.title} feed <br/>
+							<a href="{$smarty.const.WWW_TOP}/rss?t={$category.ID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">{$smarty.const.WWW_TOP}/rss?t={$category.ID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}</a>
+						</li>
+					{/foreach}
+
+				</ul>
+				<h3>Sub Category</h3>
+				<ul style="text-align: left;">
+
 					{foreach from=$categorylist item=category}
 						<li>
 							{$category.title} feed <br/>

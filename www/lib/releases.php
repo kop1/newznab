@@ -261,18 +261,39 @@ class Releases
 		$db = new DB();
 		
 		$limit = " LIMIT 0,".($num > 100 ? 100 : $num);
-		$cat = "";
-		if ($category > 0)
-			$cat = sprintf(" and releases.categoryID = %d", $category);
-		elseif ($category == -2)
-			$cat = sprintf(" and releases.ID in (select releaseID from usercart where userID = %d)", $uid);
+
+		$catsrch = "";
 		
+		if ($category > 0)
+		{
+			$catsrch = " and (";
+			$categ = new Category();
+			if ($categ->isParent($category))
+			{
+				$children = $categ->getChildren($category);
+				$chlist = "-99";
+				foreach ($children as $child)
+					$chlist.=", ".$child["ID"];
+
+				if ($chlist != "-99")
+						$catsrch .= " releases.categoryID in (".$chlist.") or ";
+			}
+			else
+			{
+				$catsrch .= sprintf(" releases.categoryID = %d or ", $category);
+			}
+					$catsrch.= "1=2 )";
+
+		}
+		elseif ($category == -2)
+			$catsrch = sprintf(" and releases.ID in (select releaseID from usercart where userID = %d)", $uid);
+
+
 		$rage = "";
 		if ($rageid > 0)
 			$rage = sprintf(" and releases.rageID = %d", $rageid);
-
 			
-		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s order by postdate desc %s" ,$cat, $rage, $limit));
+		return $db->query(sprintf(" SELECT releases.*, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s order by postdate desc %s" ,$catsrch, $rage, $limit));
 	}
 		
 	public function getCount()
