@@ -12,10 +12,10 @@ class DB
 		{
 			// initialize db connection
 			mysql_pconnect(DB_HOST, DB_USER, DB_PASSWORD)
-			or die("[".CODENAME."] fatal error: could not connect to database!");
+			or die("fatal error: could not connect to database! Check your config.");
 			
 			mysql_select_db(DB_NAME)
-			or die("[".CODENAME."] fatal error: could not select database!");
+			or die("fatal error: could not select database! Check your config.");
 			
 			DB::$initialized = true;
 		}			
