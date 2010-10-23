@@ -49,7 +49,7 @@ if (isset($_REQUEST["id"]))
 			$_POST['cover'] = (file_exists($coverLoc)) ? 1 : 0;
 			$_POST['backdrop'] = (file_exists($backdropLoc)) ? 1 : 0;
 			
-			$movie->update($id, $_POST["title"], $_POST["plot"], $_POST["year"], $_POST["rating"], $_POST["genre"], $_POST["cover"], $_POST['backdrop']);
+			$movie->update($id, $_POST["title"], $_POST['tagline'], $_POST["plot"], $_POST["year"], $_POST["rating"], $_POST["genre"], $_POST["director"], $_POST["actors"], $_POST["language"], $_POST["cover"], $_POST['backdrop']);
 			
 			header("Location:".WWW_TOP."/movie-list.php");
 	        die();

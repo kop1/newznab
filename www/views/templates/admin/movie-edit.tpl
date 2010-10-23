@@ -25,6 +25,13 @@
 </tr>
 
 <tr>
+	<td><label for="tagline">Tagline</label>:</td>
+	<td>
+		<input id="tagline" class="long" name="tagline" type="text" value="{$movie.tagline|escape:'htmlall'}" />
+	</td>
+</tr>
+
+<tr>
 	<td><label for="plot">Plot</label>:</td>
 	<td>
 		<textarea id="plot" name="plot">{$movie.plot|escape:'htmlall'}</textarea>
@@ -49,6 +56,27 @@
 	<td><label for="genre">Genre</label>:</td>
 	<td>
 		<input id="genre" class="long" name="genre" type="text" value="{$movie.genre|escape:'htmlall'}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="director">Director</label>:</td>
+	<td>
+		<input id="director" class="long" name="director" type="text" value="{$movie.director|escape:'htmlall'}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="actors">Actors</label>:</td>
+	<td>
+		<textarea id="actors" name="actors">{$movie.actors|escape:'htmlall'}</textarea>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="language">Language</label>:</td>
+	<td>
+		<input id="language" class="long" name="language" type="text" value="{$movie.language|escape:'htmlall'}" />
 	</td>
 </tr>
 

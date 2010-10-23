@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright (c) 2009, Jonas De Smet, Glamorous
+Copyright (c) 2010, Jonas De Smet, Glamorous
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -10,17 +10,17 @@ Redistribution and use in source and binary forms, with or without modification,
     * Neither the name of the organisation nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+*/
 /**
  * TMDb PHP API class - API 'themoviedb.org'
  * API Documentation: http://api.themoviedb.org/2.1/
- * Documentation and usage in README file
+ * Documentation and usage in README file - http://github.com/glamorous/TMDb-PHP-API
  *
  * @author Jonas De Smet - Glamorous
  * @since 09.11.2009
- * @date 13.05.2010
+ * @date 01.09.2010
  * @copyright Jonas De Smet - Glamorous
- * @version 0.9.3
+ * @version 0.9.8
  * @license BSD http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -33,9 +33,12 @@ class TMDb
 	const XML = 'xml';
 	const YAML = 'yaml';
 
+	const POST = 'post';
+	const GET = 'get';
+
 	const API_URL = 'http://api.themoviedb.org/2.1/';
 
-	const VERSION = '0.9.3';
+	const VERSION = '0.9.8';
 
 	/**
 	 * The API-key
@@ -115,13 +118,15 @@ class TMDb
 	/**
 	 * Get a movie by hash
 	 *
-	 * @param string $hash						File hash
+	 * @param string $hash						Hash
+	 * @param string $bytesize					Bitesize
 	 * @param const[optional] $format			Return format for this function
 	 * @return string
 	 */
-	public function getMovieByHash($hash, $format = null)
+	public function getMovieByHash($hash, $bytesize, $format = null)
 	{
-		return $this->_makeCall('Hash.getInfo', $hash, $format);
+
+		return $this->_makeCall('Media.getInfo', $hash.'/'.$bytesize, $format);
 	}
 
 	/**
@@ -161,6 +166,165 @@ class TMDb
 	}
 
 	/**
+	 * Get a Movie-version by its TMDb-id or IMDB-id
+	 *
+	 * @param string $id						Movie TMDb-id or IMDB-id
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getMovieVersion($id, $format = null)
+	{
+		return $this->_makeCall('Movie.getVersion', $id, $format);
+	}
+
+	/**
+	 * Get multiple Movie-versions by their TMDb-id or IMDB-id
+	 *
+	 * @param array $ids						Array with Movie TMDb-id's or IMDB-id's
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getMovieVersions(array $ids, $format = null)
+	{
+		return $this->_makeCall('Movie.getVersion', implode(',', $ids), $format);
+	}
+
+	/**
+	 * Get a Person-version by its TMDb-id
+	 *
+	 * @param string $id						Person TMDb-id
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getPersonVersion($id, $format = null)
+	{
+		return $this->_makeCall('Person.getVersion', $id, $format);
+	}
+
+	/**
+	 * Get multiple Person-versions by their TMDb-id
+	 *
+	 * @param array $ids						Array with Person TMDb-id's
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getPersonVersions(array $ids, $format = null)
+	{
+		return $this->_makeCall('Person.getVersion', implode(',', $ids), $format);
+	}
+
+	/**
+	 * Browse movies to get a list ordered by rating/release/title
+	 *
+	 * @param string $order_by					Order by rating, release or title
+	 * @param string $order						Order asc or desc
+	 * @param array[optional] $params			Key => value pairs for optional parameters
+	 * @param const[optional] $format			Return format for this function
+	 * @return mixed
+	 */
+	public function browseMovies($order_by, $order, $params = array(), $format = null)
+	{
+		$order_by_container = array('rating','release','title');
+		$order_container = array('asc','desc');
+
+		if(in_array($order_by, $order_by_container) AND in_array($order, $order_container))
+		{
+			$params['order_by'] = $order_by;
+			$params['order'] = $order;
+			return $this->_makeCall('Movie.browse', $params, $format);
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
+	 * Get Movie-translations by its TMDb-id or IMDB-id
+	 *
+	 * @param string $id						Movie TMDb-id or IMDB-id
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getMovieTranslations($id, $format = null)
+	{
+		return $this->_makeCall('Movie.getTranslations', $id, $format);
+	}
+
+	/**
+	 * Get Latest Movie
+	 *
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getLatestMovie($format = null)
+	{
+		return $this->_makeCall('Movie.getLatest', '', $format);
+	}
+
+	/**
+	 * Get Latest Person
+	 *
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getLatestPerson($format = null)
+	{
+		return $this->_makeCall('Person.getLatest', '', $format);
+	}
+
+	/**
+	 * Get Genres
+	 *
+	 * @param const[optional] $format			Return format for this function
+	 * @return string
+	 */
+	public function getGenres($format = null)
+	{
+		return $this->_makeCall('Genres.getList', '', $format);
+	}
+
+	/**
+	 * Authentication: getToken
+	 *
+	 * @return string
+	 */
+	public function getToken()
+	{
+		$result = json_decode($this->_makeCall('Auth.getToken', '', null), TRUE);
+		return $result['token'];
+	}
+
+	/**
+	 * Authentication: getSession
+	 *
+	 * @return string
+	 */
+	public function getSession($token, $format = null)
+	{
+		return $this->_makeCall('Auth.getSession', $token, $format);
+	}
+
+	/**
+	 * Add a rating to a movie
+	 *
+	 * @param string $id							TMDb-id or IDMB-id of the Movie
+	 * @param float $rating							A value between 0.0 to 10.0
+	 * @param string $session_key					Session key that you received with getSession
+	 *
+	 * @return string
+	 */
+	public function addMovieRating($id, $rating, $session_key, $format = null)
+	{
+		$params = array(
+			'id' => $id,
+			'rating' => (float) $rating,
+			'session_key' => (string) $session_key,
+		);
+		return $this->_makeCall('Movie.addRating', $params, $format, TMDB::POST);
+	}
+
+	/**
 	 * Makes the call to the API
 	 *
 	 * @param string $function					API specific function name for in the URL
@@ -168,11 +332,40 @@ class TMDb
 	 * @param const $format						Return format for this function
 	 * @return string
 	 */
-	private function _makeCall($function, $param, $format)
+	private function _makeCall($function, $param, $format, $method = TMDB::GET)
 	{
 		$type = (!empty($format))? $format : $this->getFormat();
 
-		$url = TMDb::API_URL.$function.'/'.$this->getLang().'/'.$type.'/'.$this->getApikey().'/'.urlencode($param);
+		$params = '';
+
+		if($method == TMDB::GET)
+		{
+			if(is_array($param) AND ! empty($param))
+			{
+				$params .= '?'.http_build_query($param);
+			}
+			elseif($param != '')
+			{
+				$arr = explode('/', $param);
+				$arr = array_map('urlencode', $arr);
+				$params .= '/'.implode('/', $arr);
+			}
+
+			$lang = (strstr($function,'.', TRUE) !== 'Auth') ? '/'.$this->getLang() : '';
+			$url = TMDb::API_URL.$function.$lang.'/'.$type.'/'.$this->getApikey().$params;
+		}
+		elseif($method == TMDB::POST)
+		{
+			$params = (array) $param;
+			$params['type'] = $type;
+			$params['api_key'] = $this->getApikey();
+
+			$url = TMDb::API_URL.$function;
+		}
+
+		//var_dump($params);
+
+		$results = '';
 
 		if (extension_loaded('curl'))
 		{
@@ -181,6 +374,12 @@ class TMDb
 			curl_setopt($ch, CURLOPT_HEADER, 0);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+
+			if($method == TMDB::POST)
+			{
+				curl_setopt($ch,CURLOPT_POST, 1);
+				curl_setopt($ch,CURLOPT_POSTFIELDS, $params);
+			}
 
 			$results = curl_exec($ch);
 			$headers = curl_getinfo($ch);
@@ -267,7 +466,5 @@ class TMDb
 	{
 		return $this->_apikey;
 	}
-
-
 }
 ?>

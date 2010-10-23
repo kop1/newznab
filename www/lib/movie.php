@@ -37,12 +37,171 @@ class Movie
 		return $res["num"];
 	}
 	
-	public function update($id, $title, $plot, $year, $rating, $genre, $cover, $backdrop)
+	public function getMovieCount($cat, $maxage=-1, $excludedcats=array())
+	{
+		$db = new DB();
+		
+		$browseby = ' ';
+		$browsebyArr = $this->getBrowseBy();
+		foreach ($browsebyArr as $bb) {
+			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
+				$bbv = stripslashes($_REQUEST[$bb]);
+				if ($_REQUEST[$bb] == 'rating') { $bbv .= '.'; }
+				$browseby .= "m.$bb LIKE(\"%".mysql_real_escape_string($bbv)."%\") AND ";
+				//$browseby_link .= '&amp;'.$bb.'='.$_REQUEST[$bb];
+			}
+		}
+		
+		$catsrch = "";
+		if (count($cat) > 0 && $cat[0] != -1)
+		{
+			$catsrch = " (";
+			foreach ($cat as $category)
+			{
+				if ($category != -1)
+				{
+					$categ = new Category();
+					if ($categ->isParent($category))
+					{
+						$children = $categ->getChildren($category);
+						$chlist = "-99";
+						foreach ($children as $child)
+							$chlist.=", ".$child["ID"];
+
+						if ($chlist != "-99")
+								$catsrch .= " r.categoryID in (".$chlist.") or ";
+					}
+					else
+					{
+						$catsrch .= sprintf(" r.categoryID = %d or ", $category);
+					}
+				}
+			}
+			$catsrch.= "1=2 )";
+		}			
+
+		if ($maxage > 0)
+			$maxage = sprintf(" and r.postdate > now() - interval %d day ", $maxage);
+		else
+			$maxage = "";		
+		
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
+		
+		$sql = sprintf("select count(r.ID) as num from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s", $browseby, $catsrch, $maxage, $exccatlist);
+		//echo $sql;
+		$res = $db->queryOneRow($sql);		
+		return $res["num"];	
+	}	
+	
+	public function getMovieRange($cat, $start, $num, $orderby, $maxage=-1, $excludedcats=array())
+	{	
+		$browseby = ' ';
+		$browsebyArr = $this->getBrowseBy();
+		foreach ($browsebyArr as $bb) {
+			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
+				$bbv = stripslashes($_REQUEST[$bb]);
+				if ($_REQUEST[$bb] == 'rating') { $bbv .= '.'; }
+				$browseby .= "m.$bb LIKE(\"%".mysql_real_escape_string($bbv)."%\") AND ";
+				//$browseby_link .= '&amp;'.$bb.'='.$_REQUEST[$bb];
+			}
+		}
+		
+		$db = new DB();
+		
+		if ($start === false)
+			$limit = "";
+		else
+			$limit = " LIMIT ".$start.",".$num;
+		
+		$catsrch = "";
+		if (count($cat) > 0 && $cat[0] != -1)
+		{
+			$catsrch = " (";
+			foreach ($cat as $category)
+			{
+				if ($category != -1)
+				{
+					$categ = new Category();
+					if ($categ->isParent($category))
+					{
+						$children = $categ->getChildren($category);
+						$chlist = "-99";
+						foreach ($children as $child)
+							$chlist.=", ".$child["ID"];
+
+						if ($chlist != "-99")
+								$catsrch .= " r.categoryID in (".$chlist.") or ";
+					}
+					else
+					{
+						$catsrch .= sprintf(" r.categoryID = %d or ", $category);
+					}
+				}
+			}
+			$catsrch.= "1=2 )";
+		}	
+		
+		$maxage = "";
+		if ($maxage > 0)
+			$maxage = sprintf(" and r.postdate > now() - interval %d day ", $maxage);
+
+		$exccatlist = "";
+		if (count($excludedcats) > 0)
+			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
+			
+		$order = $this->getMovieOrder($orderby);
+		$sql = sprintf(" SELECT r.*, m.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		//echo $sql;
+		return $db->query($sql);		
+	}
+	
+	public function getMovieOrder($orderby)
+	{
+		$order = ($orderby == '') ? 'r.posted_desc' : $orderby;
+		$orderArr = explode("_", $order);
+		switch($orderArr[0]) {
+			case 'cat':
+				$orderfield = 'r.categoryID';
+			break;
+			case 'name':
+				$orderfield = 'searchname';
+			break;
+			case 'size':
+				$orderfield = 'size';
+			break;
+			case 'files':
+				$orderfield = 'totalpart';
+			break;
+			case 'stats':
+				$orderfield = 'grabs';
+			break;
+			case 'posted': 
+			default:
+				$orderfield = 'postdate';
+			break;
+		}
+		$ordersort = (isset($orderArr[1]) && preg_match('/^asc|desc$/i', $orderArr[1])) ? $orderArr[1] : 'desc';
+		return array($orderfield, $ordersort);
+	}
+	
+	public function getMovieOrdering()
+	{
+		return array('name_asc', 'name_desc', 'cat_asc', 'cat_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc');
+	}
+	
+	public function getBrowseBy()
+	{
+		return array('title', 'director', 'actors', 'genre', 'rating', 'year');
+	}
+	
+	public function update($id, $title, $tagline, $plot, $year, $rating, $genre, $director, $actors, $language, $cover, $backdrop)
 	{			
 		$db = new DB();
 		
-		$db->query(sprintf("UPDATE movieinfo SET title=%s, plot=%s, year=%s, rating=%s, genre=%s, cover=%d, backdrop=%d WHERE imdbID = %d", 
-			$db->escapeString($title), $db->escapeString($plot), $db->escapeString($year), $db->escapeString($rating), $db->escapeString($genre), $cover, $backdrop, $id));		
+		$db->query(sprintf("UPDATE movieinfo SET title=%s, tagline=%s, plot=%s, year=%s, rating=%s, genre=%s, director=%s, actors=%s, language=%s, cover=%d, backdrop=%d WHERE imdbID = %d", 
+			$db->escapeString($title), $db->escapeString($tagline), $db->escapeString($plot), $db->escapeString($year), $db->escapeString($rating), $db->escapeString($genre), $db->escapeString($director), $db->escapeString($actors), $db->escapeString($language), $cover, $backdrop, $id));		
 	}
 	
 	public function updateMovieInfo($imdbId)
@@ -51,53 +210,123 @@ class Movie
 			echo "fetching imdb info from tmdb - ".$imdbId."\n";
 		
 		//check themoviedb for imdb info
-		$imdb = $this->fetchTmdbProperties($imdbId);
+		$tmdb = $this->fetchTmdbProperties($imdbId);
+		if (!$tmdb) 
+		{
+			if ($this->echooutput)
+				echo "not found in tmdb\n";
+		}
+		
+		//check imdb for movie info
+		$imdb = $this->fetchImdbProperties($imdbId);
 		if (!$imdb) 
 		{
 			if ($this->echooutput)
-				echo "not found in tmdb... trying from imdb - ".$imdbId."\n";
-			
-			//check imdb for movie info
-			$imdb = $this->fetchImdbProperties($imdbId);
-			if (!$imdb) {
-				if ($this->echooutput)
-					echo "unable to get movie info from imdb - ".$imdbId."\n";
-			}
+				echo "unable to get movie info from imdb - ".$imdbId."\n";
 		}
 										
-		if (!$imdb) {
+		if (!$imdb && !$tmdb) {
 			return false;
 		}
 		
-		$imdb['tmdb_id'] = (!isset($imdb['tmdb_id']) || $imdb['tmdb_id'] == '') ? "NULL" : $imdb['tmdb_id'];
+		$mov = array();
+		$mov['imdb_id'] = $imdbId;
+		$mov['tmdb_id'] = (!isset($tmdb['tmdb_id']) || $tmdb['tmdb_id'] == '') ? "NULL" : $tmdb['tmdb_id'];
 		
-		if (isset($imdb['cover']) && $imdb['cover'] != '') {
-			$imdb['cover'] = $this->saveCoverImage($imdb['cover'], $imdbId, 'cover');
-		}
-			
-		if (isset($imdb['backdrop']) && $imdb['backdrop'] != '') {
-			$imdb['backdrop'] = $this->saveCoverImage($imdb['backdrop'], $imdbId, 'backdrop');
+		//prefer tmdb cover over imdb cover
+		$mov['cover'] = 0;
+		if (isset($tmdb['cover']) && $tmdb['cover'] != '') {
+			$mov['cover'] = $this->saveCoverImage($tmdb['cover'], $imdbId, 'cover');
+		} elseif (isset($imdb['cover']) && $imdb['cover'] != '') {
+			$mov['cover'] = $this->saveCoverImage($imdb['cover'], $imdbId, 'cover');
 		}
 		
+		$mov['backdrop'] = 0;
+		if (isset($tmdb['backdrop']) && $tmdb['backdrop'] != '') {
+			$mov['backdrop'] = $this->saveCoverImage($tmdb['backdrop'], $imdbId, 'backdrop');
+		}
+		
+		$mov['title'] = '';
+		if (isset($imdb['title']) && $imdb['title'] != '') {
+			$mov['title'] = $imdb['title'];
+		} elseif (isset($tmdb['title']) && $tmdb['title'] != '') { 
+			$mov['title'] = $tmdb['title'];
+		}
+		
+		$mov['rating'] = '';
+		if (isset($imdb['rating']) && $imdb['rating'] != '') {
+			$mov['rating'] = $imdb['rating'];
+		} elseif (isset($tmdb['rating']) && $tmdb['rating'] != '') { 
+			$mov['rating'] = $tmdb['rating'];
+		}
+		
+		$mov['tagline'] = '';
+		if (isset($imdb['tagline']) && $imdb['tagline'] != '') { 
+			$mov['tagline'] = $imdb['tagline'];
+		}
+
+		$mov['plot'] = '';
+		if (isset($imdb['plot']) && $imdb['plot'] != '') {
+			$mov['plot'] = $imdb['plot'];
+		} elseif (isset($tmdb['plot']) && $tmdb['plot'] != '') { 
+			$mov['plot'] = $tmdb['plot'];
+		}
+		
+		$mov['year'] = '';
+		if (isset($imdb['year']) && $imdb['year'] != '') {
+			$mov['year'] = $imdb['year'];
+		} elseif (isset($tmdb['year']) && $tmdb['year'] != '') { 
+			$mov['year'] = $tmdb['year'];
+		}
+
+		$mov['genre'] = '';
+		if (isset($tmdb['genre']) && $tmdb['genre'] != '') {
+			$mov['genre'] = $tmdb['genre'];
+		} elseif (isset($imdb['genre']) && $imdb['genre'] != '') { 
+			$mov['genre'] = $imdb['genre'];
+		}
+		if (is_array($mov['genre'])) {
+			$mov['genre'] = implode(', ', array_unique($mov['genre']));
+		}
+		
+		$mov['director'] = '';
+		if (isset($imdb['director']) && $imdb['director'] != '') { 
+			$mov['director'] = (is_array($imdb['director'])) ? implode(', ', array_unique($imdb['director'])) : $imdb['director'];
+		}
+		
+		$mov['actors'] = '';
+		if (isset($imdb['actors']) && $imdb['actors'] != '') { 
+			$mov['actors'] = (is_array($imdb['actors'])) ? implode(', ', array_unique($imdb['actors'])) : $imdb['actors'];
+		}
+		
+		$mov['language'] = '';
+		if (isset($imdb['language']) && $imdb['language'] != '') { 
+			$mov['language'] = (is_array($imdb['language'])) ? implode(', ', array_unique($imdb['language'])) : $imdb['language'];
+		}
+		/*
+		echo "<pre>";
+		print_r($mov);
+		echo "</pre>";
+		*/
 		$db = new DB();
 		$query = sprintf("
 			INSERT INTO movieinfo 
-				(imdbID, tmdbID, title, rating, plot, year, genre, cover, backdrop, createddate)
+				(imdbID, tmdbID, title, rating, tagline, plot, year, genre, director, actors, language, cover, backdrop, createddate)
 			VALUES 
-				(%d, %s, %s, %s, %s, %s, %s, %d, %d, NOW())
+				(%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, NOW())
 			ON DUPLICATE KEY UPDATE
-				imdbID=%d, tmdbID=%s, title=%s, rating=%s, plot=%s, year=%s, genre=%s, cover=%d, backdrop=%d", 
-		$imdb['imdb_id'], $imdb['tmdb_id'], $db->escapeString($imdb['title']), $db->escapeString($imdb['rating']), $db->escapeString($imdb['plot']), $db->escapeString($imdb['year']), $db->escapeString($imdb['genre']), $imdb['cover'], $imdb['backdrop'],
-		$imdb['imdb_id'], $imdb['tmdb_id'], $db->escapeString($imdb['title']), $db->escapeString($imdb['rating']), $db->escapeString($imdb['plot']), $db->escapeString($imdb['year']), $db->escapeString($imdb['genre']), $imdb['cover'], $imdb['backdrop']);
+				imdbID=%d, tmdbID=%s, title=%s, rating=%s, tagline=%s, plot=%s, year=%s, genre=%s, director=%s, actors=%s, language=%s, cover=%d, backdrop=%d", 
+		$mov['imdb_id'], $mov['tmdb_id'], $db->escapeString($mov['title']), $db->escapeString($mov['rating']), $db->escapeString($mov['tagline']), $db->escapeString($mov['plot']), $db->escapeString($mov['year']), $db->escapeString($mov['genre']), $db->escapeString($mov['director']), $db->escapeString($mov['actors']), $db->escapeString($mov['language']), $mov['cover'], $mov['backdrop'],
+		$mov['imdb_id'], $mov['tmdb_id'], $db->escapeString($mov['title']), $db->escapeString($mov['rating']), $db->escapeString($mov['tagline']), $db->escapeString($mov['plot']), $db->escapeString($mov['year']), $db->escapeString($mov['genre']), $db->escapeString($mov['director']), $db->escapeString($mov['actors']), $db->escapeString($mov['language']), $mov['cover'], $mov['backdrop']);
 		
 		$movieId = $db->queryInsert($query);
-		
+
 		if ($movieId) {
 			if ($this->echooutput)
-				echo "added movie: ".$imdb['title']." (".$imdb['year'].") - ".$imdb['imdb_id']."\n";
+				echo "added movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		} else {
 			if ($this->echooutput)
-				echo "error adding movie: ".$imdb['title']." (".$imdb['year'].") - ".$imdb['imdb_id']."\n";
+				echo "error adding movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		}
 		
 		return $movieId;
@@ -111,6 +340,23 @@ class Movie
 			$im = @imagecreatefromstring($img);
 			if ($im !== false)
 			{
+				/*
+				$max_width = 1024; 
+				$max_height = 768; 
+				$width = imagesx($im);
+				$height = imagesy($im); 
+				$ratioh = $max_height/$height; 
+				$ratiow = $max_width/$width; 
+				$ratio = min($ratioh, $ratiow); 
+				// New dimensions 
+				$new_width = intval($ratio*$width); 
+				$new_height = intval($ratio*$height); 
+				if ($new_width < $width) {
+					$new_image = imagecreatetruecolor($new_width, $new_height);
+      				imagecopyresampled($new_image, $im, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+      				return $new_image;
+				}
+				*/
 				return $img;
 			}
 		}
@@ -136,6 +382,7 @@ class Movie
 		if (!$tmdbLookup) { return false; }
 		$movie = array_shift($tmdbLookup);
 		if ($movie == 'Nothing found.') { return false; }
+
 		$ret = array();
 		$ret['title'] = $movie->name;
 		$ret['tmdb_id'] = $movie->id;
@@ -143,7 +390,6 @@ class Movie
 		$ret['rating'] = ($movie->rating == 0) ? '' : $movie->rating;
 		$ret['plot'] = $movie->overview;
 		$ret['year'] = date("Y", strtotime($movie->released));
-		$ret['genre'] = '';
 		if (isset($movie->genres) && sizeof($movie->genres) > 0) 
 		{
 			$genres = array();
@@ -151,9 +397,8 @@ class Movie
 			{
 				$genres[] = $genre->name;
 			}
-			$ret['genre'] = implode(', ', $genres);
+			$ret['genre'] = $genres;
 		}
-		$ret['cover'] = '';
 		if (isset($movie->posters) && sizeof($movie->posters) > 0) 
 		{
 			foreach($movie->posters as $poster) 
@@ -164,7 +409,6 @@ class Movie
 				}
 			}
 		}
-		$ret['backdrop'] = '';
 		if (isset($movie->backdrops) && sizeof($movie->backdrops) > 0) 
 		{
 			foreach($movie->backdrops as $backdrop) 
@@ -182,11 +426,16 @@ class Movie
     {
         $imdb_regex = array(
             'title'    => '/<title>(.*?)\(.*?<\/title>/i',
+			'tagline'  => '/taglines:<\/h4>\s([^<]+)/i',
 			'plot'     => '/<p>\s<p>(.*?)\s<\/p>\s<\/p>/i',
             'rating'   => '/<span class="rating\-rating">([0-9]{1,2}\.[0-9]{1,2})<span>/i',
 			'year'     => '/<title>.*?\((\d+).*?<\/title>/i',
-			'genre'    => '/href="\/genre\/(.*?)"/i',
-			'cover'    => '/<a href="\/media\/.*?><img src="(.*?)"/i'
+			'cover'    => '/<a.*?href="\/media\/.*?><img src="(.*?)"/i'
+        );
+        
+        $imdb_regex_multi = array(
+        	'genre'    => '/href="\/genre\/(.*?)"/i',
+        	'language' => '/<a href="\/language\/[a-z]+">(.*?)<\/a>/i'
         );
 
         $buffer = file_get_contents("http://akas.imdb.com/title/tt$imdbId/");
@@ -195,28 +444,78 @@ class Movie
         if (strlen($buffer))
         {
         	$ret = array();
-            $ret['tmdb_id'] = '';
-			$ret['imdb_id'] = $imdbId;
-			$ret['backdrop'] = '';
-			$error = true;
             foreach ($imdb_regex as $field => $regex)
             {
-                if (!preg_match($regex, $buffer, $matches))
-                {
-                    //print "Error fetching '$field' for imdb id: $imdbId\n";
-                    $ret[$field] = '';
-                }
-                else 
+                if (preg_match($regex, $buffer, $matches))
                 {
                     $match = $matches[1];
                     $match = strip_tags(trim(rtrim(addslashes($match))));
                     $ret[$field] = $match;
-                    $error = false;
                 }
             }
-            return ($error === true) ? false : $ret;
+            
+            foreach ($imdb_regex_multi as $field => $regex)
+            {
+                if (preg_match_all($regex, $buffer, $matches))
+                {
+                    $match = $matches[1];
+                    $match = array_map("trim", $match);
+                    $ret[$field] = $match;
+                }
+            }
+            
+            //actors
+            if (preg_match('/<table class="cast_list">(.+)<\/table>/s', $buffer, $hit))
+            {
+				if (preg_match_all('/<a.*?href="\/name\/(nm\d{1,8})\/">([^<]+)<\/a>/', $hit[0], $results, PREG_PATTERN_ORDER))
+				{
+					$ret['actors'] = $results[2];
+				} 
+            }
+            
+            //directors
+			if (preg_match('/Directors?:[\s]+?<\/h4>(.+)<\/div>/sU', $buffer, $hit))
+			{
+				if (preg_match_all('/<a.*?>(.*?)<\/a>/is', $hit[0], $results, PREG_PATTERN_ORDER))
+				{
+					$ret['director'] = $results[1];
+				} 
+			}
+            
+            return $ret;
         }
         return false;
+    }
+    
+    function getGenres() {
+    	return array(
+    		'Action',
+    		'Adventure',
+    		'Animation',
+    		'Biography',
+			'Comedy',
+			'Crime',
+			'Documentary',
+			'Drama',
+			'Family',
+			'Fantasy',
+			'Film-Noir',
+			'Game-Show',
+			'History',
+			'Horror',
+			'Music',
+			'Musical',
+			'Mystery',
+			'News',
+			'Reality-TV',
+			'Romance',
+			'Sci-Fi',
+			'Sport',
+			'Talk-Show',
+			'Thriller',
+			'War',
+			'Western'
+		);
     }
 }
 ?>
