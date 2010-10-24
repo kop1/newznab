@@ -110,6 +110,8 @@ pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 
 div.resextra { padding-top:2px; color: #888; font-size: 0.8em; height:16px; }
 div.resextra a { color: #888; text-decoration:none; }
 
+div.movextra { padding-top:2px; color: #888; font-size: 0.8em; }
+
 div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(../images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
 
 div.comments { padding-top:20px; }

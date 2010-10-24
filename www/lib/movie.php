@@ -41,16 +41,7 @@ class Movie
 	{
 		$db = new DB();
 		
-		$browseby = ' ';
-		$browsebyArr = $this->getBrowseBy();
-		foreach ($browsebyArr as $bb) {
-			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
-				$bbv = stripslashes($_REQUEST[$bb]);
-				if ($_REQUEST[$bb] == 'rating') { $bbv .= '.'; }
-				$browseby .= "m.$bb LIKE(\"%".mysql_real_escape_string($bbv)."%\") AND ";
-				//$browseby_link .= '&amp;'.$bb.'='.$_REQUEST[$bb];
-			}
-		}
+		$browseby = $this->getBrowseBy('sql');
 		
 		$catsrch = "";
 		if (count($cat) > 0 && $cat[0] != -1)
@@ -97,18 +88,9 @@ class Movie
 	
 	public function getMovieRange($cat, $start, $num, $orderby, $maxage=-1, $excludedcats=array())
 	{	
-		$browseby = ' ';
-		$browsebyArr = $this->getBrowseBy();
-		foreach ($browsebyArr as $bb) {
-			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
-				$bbv = stripslashes($_REQUEST[$bb]);
-				if ($_REQUEST[$bb] == 'rating') { $bbv .= '.'; }
-				$browseby .= "m.$bb LIKE(\"%".mysql_real_escape_string($bbv)."%\") AND ";
-				//$browseby_link .= '&amp;'.$bb.'='.$_REQUEST[$bb];
-			}
-		}
-		
 		$db = new DB();
+		
+		$browseby = $this->getBrowseBy('sql');
 		
 		if ($start === false)
 			$limit = "";
@@ -159,27 +141,30 @@ class Movie
 	
 	public function getMovieOrder($orderby)
 	{
-		$order = ($orderby == '') ? 'r.posted_desc' : $orderby;
+		$order = ($orderby == '') ? 'r.postdate' : $orderby;
 		$orderArr = explode("_", $order);
 		switch($orderArr[0]) {
-			case 'cat':
-				$orderfield = 'r.categoryID';
-			break;
-			case 'name':
-				$orderfield = 'searchname';
+			case 'title':
+				$orderfield = 'm.title';
 			break;
 			case 'size':
-				$orderfield = 'size';
+				$orderfield = 'r.size';
 			break;
 			case 'files':
-				$orderfield = 'totalpart';
+				$orderfield = 'r.totalpart';
 			break;
 			case 'stats':
-				$orderfield = 'grabs';
+				$orderfield = 'r.grabs';
+			break;
+			case 'year':
+				$orderfield = 'm.year';
+			break;
+			case 'rating':
+				$orderfield = 'm.rating';
 			break;
 			case 'posted': 
 			default:
-				$orderfield = 'postdate';
+				$orderfield = 'r.postdate';
 			break;
 		}
 		$ordersort = (isset($orderArr[1]) && preg_match('/^asc|desc$/i', $orderArr[1])) ? $orderArr[1] : 'desc';
@@ -188,12 +173,30 @@ class Movie
 	
 	public function getMovieOrdering()
 	{
-		return array('name_asc', 'name_desc', 'cat_asc', 'cat_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc');
+		return array('title_asc', 'title_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'year_asc', 'year_desc', 'rating_asc', 'rating_desc');
 	}
 	
-	public function getBrowseBy()
+	public function getBrowseByOptions()
 	{
 		return array('title', 'director', 'actors', 'genre', 'rating', 'year');
+	}
+	
+	public function getBrowseBy($option='sql')
+	{
+		$db = new Db;
+		
+		$browseby = ' ';
+		$browseby_link = '';
+		$browsebyArr = $this->getBrowseByOptions();
+		foreach ($browsebyArr as $bb) {
+			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
+				$bbv = stripslashes($_REQUEST[$bb]);
+				if ($bb == 'rating') { $bbv .= '.'; }
+				$browseby .= "m.$bb LIKE(".$db->escapeString('%'.$bbv.'%').") AND ";
+				$browseby_link .= '&amp;'.$bb.'='.$_REQUEST[$bb];
+			}
+		}
+		return (($option == 'sql') ? $browseby : $browseby_link);
 	}
 	
 	public function update($id, $title, $tagline, $plot, $year, $rating, $genre, $director, $actors, $language, $cover, $backdrop)
@@ -429,7 +432,7 @@ class Movie
 			'tagline'  => '/taglines:<\/h4>\s([^<]+)/i',
 			'plot'     => '/<p>\s<p>(.*?)\s<\/p>\s<\/p>/i',
             'rating'   => '/<span class="rating\-rating">([0-9]{1,2}\.[0-9]{1,2})<span>/i',
-			'year'     => '/<title>.*?\((\d+).*?<\/title>/i',
+			'year'     => '/<title>.*?\(.*?(\d{4}).*?<\/title>/i',
 			'cover'    => '/<a.*?href="\/media\/.*?><img src="(.*?)"/i'
         );
         
