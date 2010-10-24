@@ -110,6 +110,7 @@
 				<li><a title="Search for Nzbs" href="{$smarty.const.WWW_TOP}/search">Search</a></li>
 				<li><a title="Browse for Nzbs" href="{$smarty.const.WWW_TOP}/browse">Browse</a></li>
 				<li><a title="Search for individual files" href="{$smarty.const.WWW_TOP}/searchraw">Raw Search</a></li>
+				<li><a title="Browse for Movies" href="{$smarty.const.WWW_TOP}/movies">Movies</a></li>
 				{if $isadmin=="true"}
 					<li><a title="Admin" href="{$smarty.const.WWW_TOP}/admin/">Admin</a></li>
 				{/if}

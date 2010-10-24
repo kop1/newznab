@@ -1,6 +1,60 @@
 
 <h1>Browse {$catname}</h1>
-	
+
+<form name="browseby" action="movies">
+<table border="0" cellpadding="2" cellspacing="0">
+	<tr>
+		<th class="left">Title</th>
+		<th class="left">Actor</th>
+		<th class="left">Director</th>
+		<th class="left">Rating</th>
+		<th class="left">Genre</th>
+		<th class="left">Year</th>
+		<th class="left">Category</th>
+		<th></th>
+	</tr>
+	<tr>
+		<td><input id="movietitle" type="text" name="title" value="{$title}" size="15" /></td>
+		<td><input id="movieactors" type="text" name="actors" value="{$actors}" size="15" /></td>
+		<td><input id="moviedirector" type="text" name="director" value="{$director}" size="15" /></td>
+		<td>
+			<select id="rating" name="rating">
+			<option class="grouping" value=""></option>
+			{foreach from=$ratings item=rate}
+				<option {if $rating==$rate}selected="selected"{/if} value="{$rate}">{$rate}</option>
+			{/foreach}
+			</select>
+		</td>
+		<td>
+			<select id="genre" name="genre">
+			<option class="grouping" value=""></option>
+			{foreach from=$genres item=gen}
+				<option {if $gen==$genre}selected="selected"{/if} value="{$gen}">{$gen}</option>
+			{/foreach}
+			</select>
+		</td>
+		<td>
+			<select id="year" name="year">
+			<option class="grouping" value=""></option>
+			{foreach from=$years item=yr}
+				<option {if $yr==$year}selected="selected"{/if} value="{$yr}">{$yr}</option>
+			{/foreach}
+			</select>
+		</td>
+		<td>
+			<select id="category" name="t">
+			<option class="grouping" value="2000"></option>
+			{foreach from=$catlist item=ct}
+				<option {if $ct.ID==$category}selected="selected"{/if} value="{$ct.ID}">{$ct.title}</option>
+			{/foreach}
+			</select>
+		</td>
+		<td><input type="submit" value="Go" /></td>
+	</tr>
+</table>
+</form>
+<p></p>
+
 {if $results|@count > 0}
 
 <form id="nzb_multi_operations_form" action="get">
@@ -18,50 +72,45 @@
 <table style="width:100%;margin-top:10px;" class="data highlight icons">
 	<tr>
 		<th><input type="checkbox" class="nzb_check_all" /></th>
-		<th>name<br/><a title="Sort Descending" href="{$orderbytitle_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbytitle_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>title<br/><a title="Sort Descending" href="{$orderbytitle_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbytitle_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>year<br/><a title="Sort Descending" href="{$orderbyyear_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyyear_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>rating<br/><a title="Sort Descending" href="{$orderbyrating_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyrating_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>posted<br/><a title="Sort Descending" href="{$orderbyposted_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyposted_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>size<br/><a title="Sort Descending" href="{$orderbysize_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbysize_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>files<br/><a title="Sort Descending" href="{$orderbyfiles_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyfiles_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>stats<br/><a title="Sort Descending" href="{$orderbystats_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbystats_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
-		<th></th>
 	</tr>
 
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}" id="guid{$result.guid}">
 			<td class="mid">
-				{if $result.cover == 1}
-					<img src="{$smarty.const.WWW_TOP}/views/images/covers/{$result.imdbID}-cover.jpg" width="100" class="cover" alt="{$result.title|escape:"htmlall"}" />
-				{else}
-					<img src="{$smarty.const.WWW_TOP}/views/images/covers/no-cover.jpg" width="100" class="cover" alt="{$result.title|escape:"htmlall"}" />
-				{/if}
+				<img src="{$smarty.const.WWW_TOP}/views/images/covers/{if $result.cover == 1}{$result.imdbID}-cover.jpg{else}no-cover.jpg{/if}" width="120" class="cover" alt="{$result.title|escape:"htmlall"}" />
 				<div class="movextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="modal_nfo" rel="nfo">[Nfo]</a>{/if}
-					{if $result.imdbID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="name{$result.imdbID}" title="View movie info" class="modal_imdb" rel="movie" >[Cover]</a>{/if}
-					{if $result.imdbID > 0}<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="imdb{$result.imdbID}" title="View movie info">[Imdb]</a>{/if}
+					<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="name{$result.imdbID}" title="View movie info" class="modal_imdb" rel="movie" >[Cover]</a>
+					<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="imdb{$result.imdbID}" title="View movie info">[Imdb]</a>
 				</div>
 			</td>
-			<td colspan="7">
+			<td colspan="7" class="left">
 				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.title}</a> (<a class="title" href="{$smarty.const.WWW_TOP}/movies?year={$result.year}">{$result.year}</a>) {if $result.rating != ''}{$result.rating}/10{/if}</h2>
-				{if $result.tagline != ''}<h3>{$result.tagline}</h3>{/if}
+				{if $result.tagline != ''}<b>{$result.tagline}</b><br />{/if}
 				{if $result.plot != ''}{$result.plot}<br /><br />{/if}
 				<b>Genre:</b> {$result.genre}<br />
 				<b>Director:</b> {$result.director}<br />
-				<b>Starring:</b> <small>{$result.actors}</small>
+				<b>Starring:</b> {$result.actors}<br /><br />
 				<div class="movextra">
-					<input type="checkbox" class="nzb_check" value="{$result.guid}" /> <b>{$result.searchname|escape:"htmlall"}</b>
+					<b>{$result.searchname|escape:"htmlall"}</b>
 					{if $isadmin}
 						<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">[Edit</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Delete Release">Del</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">Reb]</a>
 					{/if}
 					<br />
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Info:</b> {$result.postdate|timeago},  {$result.size|fsize_format:"MB"},  <a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$result.guid}">{$result.totalpart} files</a>,  <a title="View comments for {$result.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}#comments">{$result.comments} cmt{if $result.comments != 1}s{/if}</a>, {$result.grabs} grab{if $result.grabs != 1}s{/if}
+					<b>Info:</b> {$result.postdate|timeago},  {$result.size|fsize_format:"MB"},  <a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$result.guid}">{$result.totalpart} files</a>,  <a title="View comments for {$result.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}#comments">{$result.comments} cmt{if $result.comments != 1}s{/if}</a>, {$result.grabs} grab{if $result.grabs != 1}s{/if}
+					<br />
+					<div class="icon"><input type="checkbox" class="nzb_check" value="{$result.guid}" /></div>
+					<div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}.nzb">&nbsp;</a></div>
+					<div class="icon icon_cart" title="Add to Cart"></div>
+					<div class="icon icon_sab" title="Send to my Sabnzbd"></div>
 				</div>
-			</td>
-			<td class="icons">
-				<div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/download/{$result.searchname|escape:"htmlall"}/nzb/{$result.guid}.nzb">&nbsp;</a></div>
-				<div class="icon icon_cart" title="Add to Cart"></div>
-				<div class="icon icon_sab" title="Send to my Sabnzbd"></div>
 			</td>
 		</tr>
 	{/foreach}

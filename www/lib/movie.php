@@ -41,7 +41,7 @@ class Movie
 	{
 		$db = new DB();
 		
-		$browseby = $this->getBrowseBy('sql');
+		$browseby = $this->getBrowseBy();
 		
 		$catsrch = "";
 		if (count($cat) > 0 && $cat[0] != -1)
@@ -90,7 +90,7 @@ class Movie
 	{	
 		$db = new DB();
 		
-		$browseby = $this->getBrowseBy('sql');
+		$browseby = $this->getBrowseBy();
 		
 		if ($start === false)
 			$limit = "";
@@ -181,22 +181,20 @@ class Movie
 		return array('title', 'director', 'actors', 'genre', 'rating', 'year');
 	}
 	
-	public function getBrowseBy($option='sql')
+	public function getBrowseBy()
 	{
 		$db = new Db;
 		
 		$browseby = ' ';
-		$browseby_link = '';
 		$browsebyArr = $this->getBrowseByOptions();
 		foreach ($browsebyArr as $bb) {
 			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
 				$bbv = stripslashes($_REQUEST[$bb]);
 				if ($bb == 'rating') { $bbv .= '.'; }
 				$browseby .= "m.$bb LIKE(".$db->escapeString('%'.$bbv.'%').") AND ";
-				$browseby_link .= '&amp;'.$bb.'='.$_REQUEST[$bb];
 			}
 		}
-		return (($option == 'sql') ? $browseby : $browseby_link);
+		return $browseby;
 	}
 	
 	public function makeFieldLinks($data, $field)
@@ -205,7 +203,7 @@ class Movie
 		$newArr = array();
 		$i = 0;
 		foreach($tmpArr as $ta) {
-			if ($i > 5) { break; }
+			if ($i > 5) { break; } //only use first 6
 			$newArr[] = '<a href="'.WWW_TOP.'/movies?'.$field.'='.urlencode($ta).'">'.$ta.'</a>';
 			$i++;
 		}
@@ -503,7 +501,8 @@ class Movie
         return false;
     }
     
-    function getGenres() {
+    public function getGenres()
+    {
     	return array(
     		'Action',
     		'Adventure',
