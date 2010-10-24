@@ -199,6 +199,19 @@ class Movie
 		return (($option == 'sql') ? $browseby : $browseby_link);
 	}
 	
+	public function makeFieldLinks($data, $field)
+	{
+		$tmpArr = explode(', ',$data[$field]);
+		$newArr = array();
+		$i = 0;
+		foreach($tmpArr as $ta) {
+			if ($i > 5) { break; }
+			$newArr[] = '<a href="'.WWW_TOP.'/movies?'.$field.'='.urlencode($ta).'">'.$ta.'</a>';
+			$i++;
+		}
+		return implode(', ', $newArr);
+	}
+	
 	public function update($id, $title, $tagline, $plot, $year, $rating, $genre, $director, $actors, $language, $cover, $backdrop)
 	{			
 		$db = new DB();

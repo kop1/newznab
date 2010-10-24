@@ -33,35 +33,13 @@ $offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 $ordering = $movie->getMovieOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 
-$results = array();
+$results = $movies = array();
 $results = $movie->getMovieRange($catarray, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"]);
-
-$movies = array();
 foreach($results as $result) {
-	$tmpGenres = explode(', ',$result['genre']);
-	$newGenres = array();
-	foreach($tmpGenres as $tg) {
-		$newGenres[] = '<a href="'.WWW_TOP.'/movies?genre='.urlencode($tg).'">'.$tg.'</a>';
-	}
-	$result['genre'] = implode(', ', $newGenres);
-	
-	$tmpActors = explode(', ',$result['actors']);
-	$newActors = array();
-	$a = 0;
-	foreach($tmpActors as $ta) {
-		if ($a > 5) { break; }
-		$newActors[] = '<a href="'.WWW_TOP.'/movies?actors='.urlencode($ta).'">'.$ta.'</a>';
-		$a++;
-	}
-	$result['actors'] = implode(', ', $newActors);
-	
-	$tmpDirector = explode(', ',$result['director']);
-	$newDirector = array();
-	foreach($tmpDirector as $td) {
-		$newDirector[] = '<a href="'.WWW_TOP.'/movies?director='.urlencode($td).'">'.$td.'</a>';
-	}
-	$result['director'] = implode(', ', $newDirector);
-	
+	$result['genre'] = $movie->makeFieldLinks($result, 'genre');
+	$result['actors'] = $movie->makeFieldLinks($result, 'actors');
+	$result['director'] = $movie->makeFieldLinks($result, 'director');
+
 	$movies[] = $result;
 }
 
