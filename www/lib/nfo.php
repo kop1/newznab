@@ -93,7 +93,7 @@ class Nfo
 							$movie = new Movie($this->echooutput);
 							//check for existing movie entry
 							$movCheck = $movie->getMovieInfo($imdbId);
-							if ($movCheck === false)
+							if ($movCheck === false || (isset($movCheck['updateddate']) && (time() - strtotime($movCheck['updateddate'])) > 2592000))
 							{
 								$movieId = $movie->updateMovieInfo($imdbId);
 							}

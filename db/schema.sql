@@ -160,6 +160,7 @@ CREATE TABLE `movieinfo`
   `cover` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
   `backdrop` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
   `createddate` datetime NOT NULL,
+  `updateddate` datetime NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `imdbID` (`imdbID`)
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
