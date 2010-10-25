@@ -337,10 +337,10 @@ class Movie
 
 		if ($movieId) {
 			if ($this->echooutput)
-				echo "added movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "added/updated movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		} else {
 			if ($this->echooutput)
-				echo "error adding movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "nothing to update for movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		}
 		
 		return $movieId;
