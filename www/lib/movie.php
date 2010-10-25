@@ -382,7 +382,7 @@ class Movie
 		$cover = $this->fetchCoverImage($imgUrl);
 		if ($cover !== false) 
 		{
-			$coverSave = file_put_contents(WWW_DIR.'views/images/covers/'.$imdbId.'-'.$type.'.jpg', $cover);
+			$coverSave = @file_put_contents(WWW_DIR.'views/images/covers/'.$imdbId.'-'.$type.'.jpg', $cover);
 			return ($coverSave !== false) ? 1 : 0;
 		}
 		return 0;

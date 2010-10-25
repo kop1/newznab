@@ -12,6 +12,7 @@
 		<th>Cover</th>
 		<th>Backdrop</th>
 		<th>Created</th>
+		<th></th>
 	</tr>
 	
 	{foreach from=$movielist item=movie}
@@ -22,6 +23,7 @@
 		<td class="less">{$movie.cover}</td>
 		<td class="less">{$movie.backdrop}</td>
 		<td class="less">{$movie.createddate|date_format}</td>
+		<td class="less"><a title="Update" href="{$smarty.const.WWW_TOP}/movie-add.php?id={$movie.imdbID}">Update</a></td>
 	</tr>
 	{/foreach}
 

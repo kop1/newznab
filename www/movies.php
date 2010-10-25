@@ -66,6 +66,7 @@ $page->smarty->assign('genres', $genres);
 $page->smarty->assign('genre', $genre);
 
 $years = range(1903, (date("Y")+1));
+rsort($years);
 $year = (isset($_REQUEST['year']) && in_array($_REQUEST['year'], $years)) ? $_REQUEST['year'] : '';
 $page->smarty->assign('years', $years);
 $page->smarty->assign('year', $year);
