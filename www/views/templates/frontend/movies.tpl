@@ -84,22 +84,24 @@
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}" id="guid{$result.guid}">
 			<td class="mid">
-				<img src="{$smarty.const.WWW_TOP}/views/images/covers/{if $result.cover == 1}{$result.imdbID}-cover.jpg{else}no-cover.jpg{/if}" width="120" class="cover" alt="{$result.title|escape:"htmlall"}" />
+				<a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">
+					<img src="{$smarty.const.WWW_TOP}/views/images/covers/{if $result.cover == 1}{$result.imdbID}-cover.jpg{else}no-cover.jpg{/if}" width="120" border="0" class="cover" alt="{$result.title|escape:"htmlall"}" />
+				</a>
 				<div class="movextra">
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="modal_nfo" rel="nfo">[Nfo]</a>{/if}
 					<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="name{$result.imdbID}" title="View movie info" class="modal_imdb" rel="movie" >[Cover]</a>
-					<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="imdb{$result.imdbID}" title="View movie info">[Imdb]</a>
+					<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="imdb{$result.imdbID}" title="View imdb page">[Imdb]</a>
 				</div>
 			</td>
 			<td colspan="7" class="left">
-				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.title}</a> (<a class="title" href="{$smarty.const.WWW_TOP}/movies?year={$result.year}">{$result.year}</a>) {if $result.rating != ''}{$result.rating}/10{/if}</h2>
+				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.title}</a> (<a class="title" title="{$result.year}" href="{$smarty.const.WWW_TOP}/movies?year={$result.year}">{$result.year}</a>) {if $result.rating != ''}{$result.rating}/10{/if}</h2>
 				{if $result.tagline != ''}<b>{$result.tagline}</b><br />{/if}
 				{if $result.plot != ''}{$result.plot}<br /><br />{/if}
 				<b>Genre:</b> {$result.genre}<br />
 				<b>Director:</b> {$result.director}<br />
 				<b>Starring:</b> {$result.actors}<br /><br />
 				<div class="movextra">
-					<b>{$result.searchname|escape:"htmlall"}</b>
+					<b>{$result.searchname|escape:"htmlall"}</b> <a href="{$smarty.const.WWW_TOP}/movies?imdb={$result.imdbID}" title="View similar nzbs">[Similar]</a>
 					{if $isadmin}
 						<a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">[Edit</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Delete Release">Del</a> <a onclick="return confirm('Are you sure?');" href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">Reb]</a>
 					{/if}

@@ -81,7 +81,6 @@ class Movie
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 		
 		$sql = sprintf("select count(r.ID) as num from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s", $browseby, $catsrch, $maxage, $exccatlist);
-		//echo $sql;
 		$res = $db->queryOneRow($sql);		
 		return $res["num"];	
 	}	
@@ -135,7 +134,6 @@ class Movie
 			
 		$order = $this->getMovieOrder($orderby);
 		$sql = sprintf(" SELECT r.*, m.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
-		//echo $sql;
 		return $db->query($sql);		
 	}
 	
@@ -178,7 +176,7 @@ class Movie
 	
 	public function getBrowseByOptions()
 	{
-		return array('title', 'director', 'actors', 'genre', 'rating', 'year');
+		return array('title', 'director', 'actors', 'genre', 'rating', 'year', 'imdb');
 	}
 	
 	public function getBrowseBy()
@@ -191,7 +189,11 @@ class Movie
 			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
 				$bbv = stripslashes($_REQUEST[$bb]);
 				if ($bb == 'rating') { $bbv .= '.'; }
-				$browseby .= "m.$bb LIKE(".$db->escapeString('%'.$bbv.'%').") AND ";
+				if ($bb == 'imdb') {
+					$browseby .= "m.{$bb}ID = $bbv AND ";
+				} else {
+					$browseby .= "m.$bb LIKE(".$db->escapeString('%'.$bbv.'%').") AND ";
+				}
 			}
 		}
 		return $browseby;
@@ -204,7 +206,7 @@ class Movie
 		$i = 0;
 		foreach($tmpArr as $ta) {
 			if ($i > 5) { break; } //only use first 6
-			$newArr[] = '<a href="'.WWW_TOP.'/movies?'.$field.'='.urlencode($ta).'">'.$ta.'</a>';
+			$newArr[] = '<a href="'.WWW_TOP.'/movies?'.$field.'='.urlencode($ta).'" title="'.$ta.'">'.$ta.'</a>';
 			$i++;
 		}
 		return implode(', ', $newArr);
@@ -317,11 +319,7 @@ class Movie
 		if (isset($imdb['language']) && $imdb['language'] != '') { 
 			$mov['language'] = (is_array($imdb['language'])) ? implode(', ', array_unique($imdb['language'])) : $imdb['language'];
 		}
-		/*
-		echo "<pre>";
-		print_r($mov);
-		echo "</pre>";
-		*/
+
 		$db = new DB();
 		$query = sprintf("
 			INSERT INTO movieinfo 
