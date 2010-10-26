@@ -4,13 +4,13 @@
 <form name="browseby" action="movies">
 <table border="0" cellpadding="2" cellspacing="0">
 	<tr>
-		<th class="left">Title</th>
-		<th class="left">Actor</th>
-		<th class="left">Director</th>
-		<th class="left">Rating</th>
-		<th class="left">Genre</th>
-		<th class="left">Year</th>
-		<th class="left">Category</th>
+		<th class="left"><label for="movietitle">Title</label></th>
+		<th class="left"><label for="movieactors">Actor</label></th>
+		<th class="left"><label for="moviedirector">Director</label></th>
+		<th class="left"><label for="rating">Rating</label></th>
+		<th class="left"><label for="genre">Genre</label></th>
+		<th class="left"><label for="year">Year</label></th>
+		<th class="left"><label for="category">Category</label></th>
 		<th></th>
 	</tr>
 	<tr>
