@@ -9,7 +9,9 @@
 	If you want to apply a regex to a group and all its children then append an asterix a.b.blah* to the end. 
 </p>
 
-<div id="message">hi mom!</div>
+<div id="message">msg</div>
+
+{html_options id="regexGroupSelect" name=category options=$reggrouplist selected=$selectedgroup}
 
 <table style="margin-top:10px;" class="data Sortable highlight">
 

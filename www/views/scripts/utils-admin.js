@@ -160,4 +160,12 @@ function ajax_binaryblacklist_delete(id)
 	});
 }
 
+jQuery(function($){
+
+$('#regexGroupSelect').change(function() {
+  document.location="?group=" + $("#regexGroupSelect option:selected").attr('value');
+});
+
+});
+
 

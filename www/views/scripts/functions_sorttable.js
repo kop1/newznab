@@ -126,14 +126,14 @@ function ts_resortTable(lnk,clid) {
     if (span.getAttribute("sortdir") == 'down')
     {
        	// ARROW = '&nbsp;&nbsp;&uarr;';
-		ARROW = '<img src="' + WWW_TOP + '/images/sorting/arrow_up.gif" />';
+		ARROW = '<img src="' + WWW_TOP + '/views/images/sorting/arrow_up.gif" />';
         newRows.reverse();
         span.setAttribute('sortdir','up');
     }
     else
     {
         //ARROW = '&nbsp;&nbsp;&darr;';
-		ARROW = '<img src="' + WWW_TOP + '/images/sorting/arrow_down.gif" alt="" />';
+		ARROW = '<img src="' + WWW_TOP + '/views/images/sorting/arrow_down.gif" alt="" />';
         span.setAttribute('sortdir','down');
     }
     

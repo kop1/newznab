@@ -23,8 +23,8 @@
 		<td><a href="{$smarty.const.WWW_TOP}/user-edit.php?id={$user.ID}">{$user.username}</a></td>
 		<td>{$user.email}</td>
 		<td>{$user.host}</td>
-		<td>{$user.createddate|date_format}</td>
-		<td>{$user.lastlogin|date_format}</td>
+		<td title="{$user.createddate}">{$user.createddate|date_format}</td>
+		<td title="{$user.lastlogin}">{$user.lastlogin|date_format}</td>
 		<td>{$user.grabs}</td>
 		<td>{$user.invites}</td>
 		<td>{if $user.role=="1"}User{elseif $user.role=="2"}Admin{elseif $user.role=="3"}Disabled{else}Unknown{/if}</td>

@@ -5,21 +5,42 @@ require_once(WWW_DIR."/lib/framework/db.php");
 class ReleaseRegex
 {	
 
-	public function get($activeonly=true)
+	public function get($activeonly=true, $groupname="-1")
 	{			
 		$db = new DB();
 		
 		$where = "";
 		if ($activeonly)
-			$where = " where releaseregex.status = 1";
+			$where.= " and releaseregex.status = 1";
+		
+		if ($groupname=="all")
+			$where.= " and releaseregex.groupname is null";
+		elseif ($groupname!="-1")
+			$where.= sprintf(" and releaseregex.groupname = %s", $db->escapeString($groupname));
 			
 		return $db->query("SELECT releaseregex.ID, releaseregex.categoryID, category.title as categoryTitle, releaseregex.status, releaseregex.description, releaseregex.groupname AS groupname, releaseregex.regex, 
 												groups.ID AS groupID, releaseregex.ordinal FROM releaseregex 
 												left outer JOIN groups ON groups.name = releaseregex.groupname 
 												left outer join category on category.ID = releaseregex.categoryID
-												".$where."
+												where 1=1 ".$where."
 												ORDER BY groupname LIKE '%*' ASC, coalesce(groupname,'zzz') DESC, ordinal ASC");		
 	}
+
+	public function getGroupsForSelect()
+	{
+		
+		$db = new DB();
+		$categories = $db->query("SELECT distinct coalesce(groupname,'all') as groupname from releaseregex order by groupname ");
+		$temp_array = array();
+		
+		$temp_array[-1] = "--Please Select--";
+		
+		foreach($categories as $category)
+			$temp_array[$category["groupname"]] = $category["groupname"];
+
+		return $temp_array;
+	}
+
 
 	public function getByID($id)
 	{			
