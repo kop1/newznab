@@ -8,8 +8,11 @@
 <div id="movieinfo">
 
 <h1>{$movie.title|ss} ({$movie.year})</h1>
-<h2>{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/views/images/covers/{$movie.imdbID}-cover.jpg" class="cover" alt="{$movie.title|ss}" align="left" />{/if}<b>{$movie.tagline|ss}</b></h2>
+<h2>{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/views/images/covers/{$movie.imdbID}-cover.jpg" class="cover" alt="{$movie.title|ss}" align="left" />{/if}
+<b>{$movie.tagline|ss}</b></h2>
+
 {if $movie.plot != ''}<h2>{$movie.plot|ss}</h2>{/if}
-<h3>Rating: {$movie.rating}/10<br />Genre: {$movie.genre|ss}</h3>
+<h3>Rating: {$movie.rating}/10<br />Director: {$movie.director}<br />Genre: {$movie.genre|ss}</h3>
+<h3>Starring:<br />{$movie.actors}</h3>
 
 </div>

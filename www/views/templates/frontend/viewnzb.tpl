@@ -44,10 +44,12 @@
 	{if $movie.imdbID > 0}
 	<tr><th>Movie Info:</th><td>
 		{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/views/images/covers/{$movie.imdbID}-cover.jpg" alt="{$movie.title}" height="140" align="left" hspace="10" />{/if}
-		<strong>{$movie.title} ({$movie.year})</strong>
-		{if $movie.plot != ''}<br />{$movie.plot}{/if}
-		<br /><br /><strong>Rating:</strong> {if $movie.rating == ''}N/A{/if}{$movie.rating}/10
-		<br /><strong>Genre:</strong>{$movie.genre}
+		<strong>{$movie.title} ({$movie.year}) {if $movie.rating == ''}N/A{/if}{$movie.rating}/10</strong>
+		{if $movie.tagline != ''}<br />{$movie.tagline}{/if}
+		{if $movie.plot != ''}{if $movie.tagline != ''} - {else}<br />{/if}{$movie.plot}{/if}
+		<br /><br /><strong>Director:</strong> {$movie.director}
+		<br /><strong>Genre:</strong> {$movie.genre}
+		<br /><strong>Starring:</strong> {$movie.actors}
 		<br /><strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$release.imdbID}/" title="View IMDB">IMDB</a>]{if $movie.tmdbID != ''}&nbsp;&nbsp;[<a target="_blank" href="{$site->dereferrer_link}http://www.themoviedb.org/movie/{$movie.tmdbID}" title="View TMDb">TMDb</a>]{/if}
 	</td></tr>
 	{/if}

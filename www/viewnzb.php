@@ -39,6 +39,12 @@ if (isset($_GET["id"]))
 		require_once(WWW_DIR."/lib/movie.php");
 		$movie = new Movie();
 		$mov = $movie->getMovieInfo($data['imdbID']);
+		
+		if ($mov) {
+			$mov['actors'] = $movie->makeFieldLinks($mov, 'actors');
+			$mov['genre'] = $movie->makeFieldLinks($mov, 'genre');
+			$mov['director'] = $movie->makeFieldLinks($mov, 'director');
+		}
 	}
 	
 	$page->smarty->assign('release',$data);
