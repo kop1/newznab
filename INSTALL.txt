@@ -202,11 +202,11 @@ development
 	\www\lib\framework few general classes for db/http code
 	\www\lib\smarty copy of a fairly recent smarty lib
 	\www\lib\ all classes used in the app, typically named same as its database entity
-	\www\templates\admin all templates used by the admin pages
-	\www\templates\ all templates used by the user pages
+	\www\views\templates\admin all templates used by the admin pages
+	\www\views\templates\frontend all templates used by the user pages
 	\www\admin\ all php pages used by the admin
 	\www\theme\<yourtheme> blank area for implementation specific ui customisations
-	\www\includes js dumping ground
+	\www\views\scripts\ js dumping ground
 	\www\api.php all functionality related to api calls into newznab
 	
 (just some of the) people who've helped along the way. full(er) list at http://code.google.com/p/newznab/source/list
