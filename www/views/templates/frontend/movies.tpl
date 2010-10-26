@@ -82,7 +82,7 @@
 	</tr>
 
 	{foreach from=$results item=result}
-		<tr class="{cycle values=",alt"}" id="guid{$result.guid}">
+		<tr class="{cycle values=",alt"}">
 			<td class="mid">
 				<a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">
 					<img src="{$smarty.const.WWW_TOP}/views/images/covers/{if $result.cover == 1}{$result.imdbID}-cover.jpg{else}no-cover.jpg{/if}" width="120" border="0" class="cover" alt="{$result.title|escape:"htmlall"}" />
@@ -93,7 +93,7 @@
 					<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="imdb{$result.imdbID}" title="View imdb page">[Imdb]</a>
 				</div>
 			</td>
-			<td colspan="7" class="left">
+			<td colspan="7" class="left" id="guid{$result.guid}">
 				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.searchname|escape:"htmlall"}/viewnzb/{$result.guid}">{$result.title}</a> (<a class="title" title="{$result.year}" href="{$smarty.const.WWW_TOP}/movies?year={$result.year}">{$result.year}</a>) {if $result.rating != ''}{$result.rating}/10{/if}</h2>
 				{if $result.tagline != ''}<b>{$result.tagline}</b><br />{/if}
 				{if $result.plot != ''}{$result.plot}<br /><br />{/if}
