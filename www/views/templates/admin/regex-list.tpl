@@ -21,6 +21,7 @@
 		<th>regex</th>
 		<th>category</th>
 		<th>status</th>
+		<th>releases</th>
 		<th>ordinal</th>
 		<th style="display:none;width:60px;">Order</th>
 		<th style="width:75px;">Options</th>
@@ -34,6 +35,7 @@
 			{$regex.description}</td>
 		<td title="{$regex.categoryID}">{if $regex.categoryID!=""}{$regex.categoryTitle}{/if}</td>
 		<td>{if $regex.status==1}active{else}disabled{/if}</td>
+		<td>{$regex.num_releases}</td>
 		<td style="text-align:center;">{$regex.ordinal}</td>
 		<td style="display:none;"><a title="Move up" href="#">up</a> | <a title="Move down" href="#">down</a></td>
 		<td><a href="javascript:ajax_releaseregex_delete({$regex.ID})">delete</a>{if $regex.groupname != ""} | <a href="{$smarty.const.WWW_TOP}/regex-test.php?action=submit&groupname={$regex.groupID}&regex={$regex.regex|urlencode}">test</a>{/if}</td>

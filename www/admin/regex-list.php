@@ -20,7 +20,7 @@ if (isset($_REQUEST["group"]))
 	
 $page->smarty->assign('selectedgroup', $group);	
 
-$regexlist = $reg->get(false, $group);
+$regexlist = $reg->get(false, $group, true);
 $page->smarty->assign('regexlist', $regexlist);	
 
 $page->content = $page->smarty->fetch('regex-list.tpl');

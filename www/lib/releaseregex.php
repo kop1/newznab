@@ -5,7 +5,7 @@ require_once(WWW_DIR."/lib/framework/db.php");
 class ReleaseRegex
 {	
 
-	public function get($activeonly=true, $groupname="-1")
+	public function get($activeonly=true, $groupname="-1", $blnIncludeReleaseCount=false)
 	{			
 		$db = new DB();
 		
@@ -17,11 +17,21 @@ class ReleaseRegex
 			$where.= " and releaseregex.groupname is null";
 		elseif ($groupname!="-1")
 			$where.= sprintf(" and releaseregex.groupname = %s", $db->escapeString($groupname));
-			
+		
+		$relcountjoin="";
+		$relcountcol="";
+		if ($blnIncludeReleaseCount)
+		{
+			$relcountcol = " , coalesce(x.count, 0) as num_releases ";
+			$relcountjoin = " left outer join (  select regexID, count(ID) as count from releases ) x on x.regexID = releaseregex.ID ";
+		}
+		
 		return $db->query("SELECT releaseregex.ID, releaseregex.categoryID, category.title as categoryTitle, releaseregex.status, releaseregex.description, releaseregex.groupname AS groupname, releaseregex.regex, 
-												groups.ID AS groupID, releaseregex.ordinal FROM releaseregex 
+												groups.ID AS groupID, releaseregex.ordinal ".$relcountcol."
+												FROM releaseregex 
 												left outer JOIN groups ON groups.name = releaseregex.groupname 
 												left outer join category on category.ID = releaseregex.categoryID
+												".$relcountjoin."
 												where 1=1 ".$where."
 												ORDER BY groupname LIKE '%*' ASC, coalesce(groupname,'zzz') DESC, ordinal ASC");		
 	}
