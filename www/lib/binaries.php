@@ -352,33 +352,55 @@ class Binaries
 		
 		//get all parts in partrepair table
 		$db = new DB;
-		$missingParts = $db->query(sprintf("SELECT * FROM partrepair WHERE groupID = %d AND attempts < 5", $groupArr['ID']));
-		$partsRepaired = 0;
+		$missingParts = $db->query(sprintf("SELECT * FROM partrepair WHERE groupID = %d AND attempts < 5 ORDER BY numberID ASC", $groupArr['ID']));
+		$partsRepaired = $partsFailed = 0;
 		
 		if (sizeof($missingParts) > 0)
 		{
-			
 			echo 'Attempting to repair '.sizeof($missingParts).' parts...'.$n;
 			
-			//loop through each part
+			//loop through each part to group into ranges
+			$ranges = array();
+			$lastnum = $lastpart = 0;
 			foreach($missingParts as $part)
+			{
+				if (($lastnum+1) == $part['numberID']) {
+					$ranges[$lastpart] = $part['numberID'];
+				} else {
+					$lastpart = $part['numberID'];
+					$ranges[$lastpart] = $part['numberID'];
+				}
+				$lastnum = $part['numberID'];
+			}
+			
+			//download missing parts in ranges
+			foreach($ranges as $partfrom=>$partto)
 			{
 				$this->startLoop = microtime(true);
 				
-				//get article from newsgroup
-				$this->scan($nntp, $groupArr, $part['numberID'], $part['numberID'], 'partrepair');
+				echo '-repairing '.$partfrom.' to '.$partto.$n;
 				
-				//check if article was added
-				$res = $db->queryOneRow(sprintf("SELECT p.ID FROM parts p INNER JOIN binaries b ON p.binaryID = b.ID AND b.groupID = %d WHERE p.number = %d", $groupArr['ID'], $part['numberID']));
-				if ($res)
+				//get article from newsgroup
+				$this->scan($nntp, $groupArr, $partfrom, $partto, 'partrepair');
+				
+				//check if the articles were added
+				$articles = implode(',', range($partfrom, $partto));
+				$sql = sprintf("SELECT pr.ID, pr.numberID, p.number from partrepair pr LEFT JOIN parts p ON p.number = pr.numberID WHERE pr.groupID=%d AND pr.numberID IN (%s) ORDER BY pr.numberID ASC", $groupArr['ID'], $articles);
+				$res = $db->query($sql);
+				foreach($res as $r)
 				{
-					$partsRepaired++;
-					
-					//article was added, delete from partrepair
-					$db->query(sprintf("DELETE FROM partrepair WHERE ID = %d", $part['ID']));
-				} else {
-					//article was not added, increment attempts
-					$db->query(sprintf("UPDATE partrepair SET attempts=attempts+1 WHERE ID = %d", $part['ID']));
+					if (isset($r['number']) && $r['number'] == $r['numberID'])
+					{
+						$partsRepaired++;
+						
+						//article was added, delete from partrepair
+						$db->query(sprintf("DELETE FROM partrepair WHERE ID=%d", $r['ID']));
+					} else {
+						$partsFailed++;
+						
+						//article was not added, increment attempts
+						$db->query(sprintf("UPDATE partrepair SET attempts=attempts+1 WHERE ID=%d", $r['ID']));
+					}
 				}
 			}
 			
