@@ -23,7 +23,7 @@ class ReleaseRegex
 		if ($blnIncludeReleaseCount)
 		{
 			$relcountcol = " , coalesce(x.count, 0) as num_releases, coalesce(x.adddate, 'n/a') as max_releasedate ";
-			$relcountjoin = " left outer join (  select regexID, max(adddate) adddate, count(ID) as count from releases ) x on x.regexID = releaseregex.ID ";
+			$relcountjoin = " left outer join (  select regexID, max(adddate) adddate, count(ID) as count from releases group by regexID) x on x.regexID = releaseregex.ID ";
 		}
 		
 		return $db->query("SELECT releaseregex.ID, releaseregex.categoryID, category.title as categoryTitle, releaseregex.status, releaseregex.description, releaseregex.groupname AS groupname, releaseregex.regex, 
