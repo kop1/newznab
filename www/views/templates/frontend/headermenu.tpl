@@ -2,6 +2,15 @@
 	<div id="menulink"> 
 		<ul>
 		{foreach from=$parentcatlist item=parentcat}
+			{if $parentcat.ID == 2000}
+			<li><a title="Browse {$parentcat.title}" href="{$smarty.const.WWW_TOP}/movies">{$parentcat.title}</a>
+				<ul>
+				{foreach from=$parentcat.subcatlist item=subcat}
+					<li><a title="Browse {$subcat.title}" href="{$smarty.const.WWW_TOP}/movies?t={$subcat.ID}">{$subcat.title}</a></li>
+				{/foreach}
+				</ul>
+			</li>
+			{else}
 			<li><a title="Browse {$parentcat.title}" href="{$smarty.const.WWW_TOP}/browse?t={$parentcat.ID}">{$parentcat.title}</a>
 				<ul>
 				{foreach from=$parentcat.subcatlist item=subcat}
@@ -9,6 +18,7 @@
 				{/foreach}
 				</ul>
 			</li>
+			{/if}
 		{/foreach}
 		</ul>
 	</div>
