@@ -602,11 +602,10 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    4040                                 PC/Phone                        Mobile phone software 
    4050                                 PC/Games                        PC Games
    5000                                 TV                              All of TV
-   5010                                 TV/DVD                          TV Series on DVD
-   5020                                 TV/SWE                          Swedish TV
-   5030                                 TV/XviD
-   5040                                 TV/x264                         HD TV with AVC encoding
-   5050                                 TV/iPod
+   5020                                 TV/FOREIGN                      FOREIGN TV
+   5030                                 TV/TV-SD												SD TV
+   5040                                 TV/TV-HD                        HD TV
+   5050                                 TV/OTHER												Other TV Content
    5060                                 TV/Sport                        
    6000                                 XXX                             All of XXX
    6010                                 XXX/DVD                                 

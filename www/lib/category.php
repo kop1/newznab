@@ -27,11 +27,10 @@ class Category
 	const CAT_PC_MAC = 4030;
 	const CAT_PC_PHONE = 4040;
 	const CAT_PC_GAMES = 4050;
-	const CAT_TV_DVD = 5010;
 	const CAT_TV_FOREIGN = 5020;
-	const CAT_TV_XVID = 5030;
-	const CAT_TV_X264 = 5040;
-	const CAT_TV_MOBILE = 5050;
+	const CAT_TV_SD = 5030;
+	const CAT_TV_HD = 5040;
+	const CAT_TV_OTHER = 5050;
 	const CAT_TV_SPORT = 5060;
 	const CAT_XXX_DVD = 6010;
 	const CAT_XXX_WMV = 6020;
@@ -201,7 +200,7 @@ class Category
 		if (preg_match('/alt\.binaries\.hdtv\.x264|alt\.binaries\.x264/i', $group)) {
 			if ($this->isTv($releasename)) {
 				if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
-				return Category::CAT_TV_X264;
+				return Category::CAT_TV_HD;
 			}
 			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_X264; }
 			return Category::CAT_MOVIE_HDOTHER;
@@ -240,7 +239,7 @@ class Category
 			return Category::CAT_PC_ISO;
 
 		if (preg_match('/alt\.binaries\.ipod\.videos\.tvshows/i', $group)) 
-			return Category::CAT_TV_MOBILE;	
+			return Category::CAT_TV_OTHER;	
 
 		if (preg_match('/alt\.binaries\.tv\.swedish/i', $group)) 
 			return Category::CAT_TV_FOREIGN;									
@@ -282,14 +281,14 @@ class Category
 			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
 			// x264
 			if ($this->isHd($releasename)) { 
-				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_X264; }
-				return Category::CAT_TV_X264; //HD-Other?
+				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
+				return Category::CAT_TV_HD; //HD-Other?
 			}
 			// DVDR
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
 			// Mobile
-			if (preg_match('/itouch\-/i', $releasename)) { return Category::CAT_TV_MOBILE; }
-			return Category::CAT_TV_XVID;
+			if (preg_match('/itouch\-/i', $releasename)) { return Category::CAT_TV_OTHER; }
+			return Category::CAT_TV_SD;
 		}
 		
 		//S01E01
@@ -299,17 +298,17 @@ class Category
 		if ($this->isTv($releasename)) {
 			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
 			if ($this->isHd($releasename)) { 
-				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_X264; }
-				return Category::CAT_TV_X264; //HD-Other?
+				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
+				return Category::CAT_TV_HD; //HD-Other?
 			}
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
-			return Category::CAT_TV_XVID;
+			return Category::CAT_TV_SD;
 		}
 		
 		if (preg_match('/\.S\d{2}\./i', $releasename)) {
 			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
-			if ($this->isHd($releasename)) { return Category::CAT_TV_X264; }
-			return Category::CAT_TV_XVID;
+			if ($this->isHd($releasename)) { return Category::CAT_TV_HD; }
+			return Category::CAT_TV_SD;
 		}
 		
 		//
