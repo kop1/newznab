@@ -376,11 +376,10 @@ INSERT INTO category (ID, title, parentID) VALUES (4030, 'Mac', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4040, 'Phone', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4050, 'Games', 4000);
 
-INSERT INTO category (ID, title, parentID) VALUES (5010, 'DVD', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5020, 'Foreign', 5000);
-INSERT INTO category (ID, title, parentID) VALUES (5030, 'XviD', 5000);
-INSERT INTO category (ID, title, parentID) VALUES (5040, 'x264', 5000);
-INSERT INTO category (ID, title, parentID) VALUES (5050, 'Mobile', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5030, 'TV-SD', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5040, 'TV-HD', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5050, 'Other', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5060, 'Sport', 5000);
 
 INSERT INTO category (ID, title, parentID) VALUES (6010, 'DVD', 6000);
