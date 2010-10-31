@@ -197,10 +197,12 @@ class Category
 		}
 		
 		if (preg_match('/alt\.binaries\.hdtv\.x264|alt\.binaries\.x264/i', $group)) {
-			if ($this->isTv($releasename)) {
+			if ($this->isTv($releasename) || preg_match('/\.S\d{2}\./i', $releasename)) {
 				if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
+				if (preg_match('/h\.?264/i', $releasename)) { return Category::CAT_TV_OTHER; }
 				return Category::CAT_TV_HD;
 			}
+			if ($this->isForeign($releasename)) { return Category::CAT_MOVIE_FOREIGN; }
 			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_HD; }
 			return Category::CAT_MOVIE_OTHER;
 		}
@@ -258,6 +260,7 @@ class Category
 		//
 		if (preg_match('/alt\.binaries\.(teevee|multimedia|tv|tvseries)/i', $group)) {
 			// Sports
+			
 			if (preg_match('/ESPN/', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/WWE\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/MMA\./', $releasename)) { return Category::CAT_TV_SPORT; }
@@ -265,48 +268,36 @@ class Category
 			if (preg_match('/FIA\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/PGA\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NFL\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/NCAA\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/Rugby\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/TNA\./', $releasename)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/EPL\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/NASCAR\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/DTM\./', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/(NASCAR|SBK)\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/(formula1|indycar|Superleague|V8\.Supercars)\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NBA\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NHL\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/NRL\.(\d{4})/', $releasename)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/Superleague\.Formula/', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/FIFA\./', $releasename)) { return Category::CAT_TV_SPORT; }
 			if (preg_match('/netball\.anz/', $releasename)) { return Category::CAT_TV_SPORT; }
-			if (preg_match('/motogp/i', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/motogp|supercup|wtcc/i', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/red\.bull.*?race/', $releasename)) { return Category::CAT_TV_SPORT; }
+			if (preg_match('/(bundesliga|la\.liga|uefa|epl)[_\.]/i', $releasename)) { return Category::CAT_TV_SPORT; }
+			
 			// Foreign
 			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
-			// x264
+			// HD
 			if ($this->isHd($releasename)) { 
 				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
-				return Category::CAT_TV_OTHER; //HD-Other?
+				if (preg_match('/h\.?264|web\-?dl/i', $releasename)) { return Category::CAT_TV_HD; }
+				return Category::CAT_TV_OTHER;
 			}
 			// DVDR
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_SD; }
-			// Mobile
-			if (preg_match('/itouch\-/i', $releasename)) { return Category::CAT_TV_OTHER; }
-			return Category::CAT_TV_SD;
-		}
-		
-		//S01E01
-		//S01.E01
-		//1x01
-		//S1.D1
-		if ($this->isTv($releasename)) {
-			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
-			if ($this->isHd($releasename)) { 
-				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
-				return Category::CAT_TV_HD; //HD-Other?
-			}
-			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_SD; }
-			return Category::CAT_TV_SD;
-		}
-		
-		if (preg_match('/\.S\d{2}\./i', $releasename)) {
-			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
-			if ($this->isHd($releasename)) { return Category::CAT_TV_HD; }
+			// Other
+			if (preg_match('/itouch/i', $releasename)) { return Category::CAT_TV_OTHER; }
+			// x264
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
+			// Everything else
 			return Category::CAT_TV_SD;
 		}
 		
@@ -320,6 +311,37 @@ class Category
 			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_XXX_DVD; }
 			return Category::CAT_XXX_XVID;
 		}
+		
+				//TV
+		//S01E01
+		//S01.E01
+		//1x01
+		//S1.D1
+		if ($this->isTv($releasename)) {
+			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
+			if ($this->isHd($releasename)) { 
+				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
+				if (preg_match('/h\.?264|web\-?dl/i', $releasename)) { return Category::CAT_TV_HD; }
+				return Category::CAT_TV_OTHER;
+			}
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_SD; }
+			if (preg_match('/itouch/i', $releasename)) { return Category::CAT_TV_OTHER; }
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
+			return Category::CAT_TV_SD;
+		}
+		
+		if (preg_match('/\.S\d{2}\./i', $releasename)) {
+			if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
+			if ($this->isHd($releasename)) { 
+				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
+				if (preg_match('/h\.?264|web\-?dl/i', $releasename)) { return Category::CAT_TV_HD; }
+				return Category::CAT_TV_OTHER; //HD-Other?
+			}
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_SD; }
+			if (preg_match('/itouch/i', $releasename)) { return Category::CAT_TV_OTHER; }
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
+			return Category::CAT_TV_SD;
+		}
 
 		//
 		// Movie 
@@ -331,15 +353,18 @@ class Category
 			return Category::CAT_MOVIE_SD;
 		
 		if ($this->isHd($releasename)) {
+			if ($this->isForeign($releasename)) { return Category::CAT_MOVIE_FOREIGN; }
 			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_HD; }
+			if (preg_match('/trollhd$/i', $releasename)) { return Category::CAT_TV_OTHER; }
 			return Category::CAT_MOVIE_OTHER;
 		}
 		
 		if (preg_match('/bluray\-/i', $releasename)) 
-			return Category::CAT_MOVIE_OTHER;
+			return Category::CAT_MOVIE_HD;
 		
 		if (preg_match('/wmv/i', $releasename)) 
 			return Category::CAT_MOVIE_HD;
+		
 		
 		//
 		// Console 
@@ -405,6 +430,10 @@ class Category
 	
 	private function isHd($releasename) {
 		return preg_match('/720p|1080p|1080i/i', $releasename);
+	}
+
+	private function isXxx($releasename) {
+		return preg_match('/XXX/i', $releasename);
 	}
 }
 ?>
