@@ -132,7 +132,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
                   <subcat id="1020" name="PSP"/>
                 </category>
                 <category id="2000" name="Movies">
-                  <subcat id="2010" name="DVD"/>
+                  <subcat id="2010" name="Foreign"/>
                 </category>
 
                 <!-- site specific categories -->
@@ -585,11 +585,10 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    1060                                 Console/Wiiware                 Wii homebrew
    1070                                 Console/Xb0x 360 DLC            Microsoft XBox 360 Downloadable Content
    2000                                 Movies                          All of movies
-   2010                                 Movies/DVD                      
-   2020                                 Movies/WMV-HD
-   2030                                 Movies/XViD
-   2040                                 Movies/x264                     HD movies with AVC encoding
-   2050                                 Movies/HD Other                 Other HD movie content
+   2010                                 Movies/Foreign                      
+   2020                                 Movies/Other
+   2030                                 Movies/Movies-SD
+   2040                                 Movies/Movies-HD                     HD movies with AVC encoding
    3000                                 Audio                           All of audio
    3010                                 Audio/MP3
    3020                                 Audio/Video                     Music videos

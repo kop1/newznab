@@ -360,11 +360,11 @@ INSERT INTO category (ID, title, parentID) VALUES (1060, 'WiiWare/VC', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1070, 'XBOX 360 DLC', 1000);
 INSERT INTO category (ID, title, parentID) VALUES (1080, 'PS3', 1000);
 
-INSERT INTO category (ID, title, parentID) VALUES (2010, 'DVD', 2000);
-INSERT INTO category (ID, title, parentID) VALUES (2020, 'WMV-HD', 2000);
-INSERT INTO category (ID, title, parentID) VALUES (2030, 'XviD', 2000);
-INSERT INTO category (ID, title, parentID) VALUES (2040, 'x264', 2000);
-INSERT INTO category (ID, title, parentID) VALUES (2050, 'HD Other', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2010, 'Foreign', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2020, 'Other', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2030, 'Movies-SD', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2040, 'Movies-HD', 2000);
+
 INSERT INTO category (ID, title, parentID) VALUES (3010, 'MP3', 3000);
 INSERT INTO category (ID, title, parentID) VALUES (3020, 'Video', 3000);
 INSERT INTO category (ID, title, parentID) VALUES (3030, 'Audiobook', 3000);

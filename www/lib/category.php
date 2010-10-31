@@ -13,11 +13,10 @@ class Category
 	const CAT_GAME_WIIWARE = 1060;
 	const CAT_GAME_XBOX360DLC = 1070;
 	const CAT_GAME_PS3 = 1080;
-	const CAT_MOVIE_DVD = 2010;
-	const CAT_MOVIE_WMV_HD = 2020;
-	const CAT_MOVIE_XVID = 2030;
-	const CAT_MOVIE_X264 = 2040;
-	const CAT_MOVIE_HDOTHER = 2050;
+	const CAT_MOVIE_FOREIGN = 2010;
+	const CAT_MOVIE_OTHER = 2020;
+	const CAT_MOVIE_SD = 2030;
+	const CAT_MOVIE_HD = 2040;
 	const CAT_MUSIC_MP3 = 3010;
 	const CAT_MUSIC_VIDEO = 3020;
 	const CAT_MUSIC_AUDIOBOOK = 3030;
@@ -188,13 +187,13 @@ class Category
 		if (preg_match('/alt\.binaries\.games\.xbox/i', $group)) {
 			if (preg_match('/DLC.*?xbox360|xbox360.*?DLC/i', $releasename)) { return Category::CAT_GAME_XBOX360DLC; }
 			if (preg_match('/xbox360/i', $releasename)) { return Category::CAT_GAME_XBOX360; }
-			if (preg_match('/wmv/i', $releasename)) { return Category::CAT_MOVIE_WMV_HD; }
+			if (preg_match('/wmv/i', $releasename)) { return Category::CAT_MOVIE_HD; }
 			return Category::CAT_GAME_XBOX;
 		}
 
 		if (preg_match('/alt\.binaries\.dvd.*?/i', $group)) {
-			if ($this->isTv($releasename)) { return Category::CAT_TV_DVD; }
-			return Category::CAT_MOVIE_DVD;	
+			if ($this->isTv($releasename)) { return Category::CAT_TV_SD; }
+			return Category::CAT_MOVIE_SD;	
 		}
 		
 		if (preg_match('/alt\.binaries\.hdtv\.x264|alt\.binaries\.x264/i', $group)) {
@@ -202,12 +201,12 @@ class Category
 				if ($this->isForeign($releasename)) { return Category::CAT_TV_FOREIGN; }
 				return Category::CAT_TV_HD;
 			}
-			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_X264; }
-			return Category::CAT_MOVIE_HDOTHER;
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_HD; }
+			return Category::CAT_MOVIE_OTHER;
 		}
 			
 		if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx/i', $group)) 
-			return Category::CAT_MOVIE_XVID;	
+			return Category::CAT_MOVIE_SD;	
 			
 		if (preg_match('/alt\.binaries\.e-book.*?/i', $group)) 
 			return Category::CAT_MISC_EBOOK;
@@ -282,10 +281,10 @@ class Category
 			// x264
 			if ($this->isHd($releasename)) { 
 				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
-				return Category::CAT_TV_HD; //HD-Other?
+				return Category::CAT_TV_OTHER; //HD-Other?
 			}
 			// DVDR
-			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_SD; }
 			// Mobile
 			if (preg_match('/itouch\-/i', $releasename)) { return Category::CAT_TV_OTHER; }
 			return Category::CAT_TV_SD;
@@ -301,7 +300,7 @@ class Category
 				if (preg_match('/x264/i', $releasename)) { return Category::CAT_TV_HD; }
 				return Category::CAT_TV_HD; //HD-Other?
 			}
-			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_DVD; }
+			if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename)) { return Category::CAT_TV_SD; }
 			return Category::CAT_TV_SD;
 		}
 		
@@ -326,21 +325,21 @@ class Category
 		// Movie 
 		//		
 		if (preg_match('/xvid|dvdscr|extrascene|dvdrip|r5/i', $releasename)) 
-			return Category::CAT_MOVIE_XVID;
+			return Category::CAT_MOVIE_SD;
 
 		if (preg_match('/dvdr|dvd9|dvd5/i', $releasename) && !preg_match('/dvdrip/i', $releasename)) 
-			return Category::CAT_MOVIE_DVD;
+			return Category::CAT_MOVIE_SD;
 		
 		if ($this->isHd($releasename)) {
-			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_X264; }
-			return Category::CAT_MOVIE_HDOTHER;
+			if (preg_match('/x264/i', $releasename)) { return Category::CAT_MOVIE_HD; }
+			return Category::CAT_MOVIE_OTHER;
 		}
 		
 		if (preg_match('/bluray\-/i', $releasename)) 
-			return Category::CAT_MOVIE_HDOTHER;
+			return Category::CAT_MOVIE_OTHER;
 		
 		if (preg_match('/wmv/i', $releasename)) 
-			return Category::CAT_MOVIE_WMV_HD;
+			return Category::CAT_MOVIE_HD;
 		
 		//
 		// Console 
