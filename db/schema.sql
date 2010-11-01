@@ -362,8 +362,8 @@ INSERT INTO category (ID, title, parentID) VALUES (1080, 'PS3', 1000);
 
 INSERT INTO category (ID, title, parentID) VALUES (2010, 'Foreign', 2000);
 INSERT INTO category (ID, title, parentID) VALUES (2020, 'Other', 2000);
-INSERT INTO category (ID, title, parentID) VALUES (2030, 'Movies-SD', 2000);
-INSERT INTO category (ID, title, parentID) VALUES (2040, 'Movies-HD', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2030, 'SD', 2000);
+INSERT INTO category (ID, title, parentID) VALUES (2040, 'HD', 2000);
 
 INSERT INTO category (ID, title, parentID) VALUES (3010, 'MP3', 3000);
 INSERT INTO category (ID, title, parentID) VALUES (3020, 'Video', 3000);
@@ -377,8 +377,8 @@ INSERT INTO category (ID, title, parentID) VALUES (4040, 'Phone', 4000);
 INSERT INTO category (ID, title, parentID) VALUES (4050, 'Games', 4000);
 
 INSERT INTO category (ID, title, parentID) VALUES (5020, 'Foreign', 5000);
-INSERT INTO category (ID, title, parentID) VALUES (5030, 'TV-SD', 5000);
-INSERT INTO category (ID, title, parentID) VALUES (5040, 'TV-HD', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5030, 'SD', 5000);
+INSERT INTO category (ID, title, parentID) VALUES (5040, 'HD', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5050, 'Other', 5000);
 INSERT INTO category (ID, title, parentID) VALUES (5060, 'Sport', 5000);
 
