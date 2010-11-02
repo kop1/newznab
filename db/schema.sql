@@ -404,8 +404,9 @@ CREATE TABLE `users` (
   `resetguid` VARCHAR(50) NULL,
   `lastlogin` datetime default null,
   `apiaccess` datetime default null,
-	`invites` int not null default 0,
-	`invitedby` int null,
+  `invites` int not null default 0,
+  `invitedby` int null,
+  `movieview` int not null default 1,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 

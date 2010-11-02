@@ -117,7 +117,7 @@ class Users
 			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid()), $invites, $invitedby));		
 	}	
 	
-	public function update($id, $uname, $email, $grabs, $role, $invites)
+	public function update($id, $uname, $email, $grabs, $role, $invites, $movieview)
 	{			
 		$db = new DB();
 		
@@ -140,8 +140,8 @@ class Users
 			if ($res["ID"] != $id)
 				return Users::ERR_SIGNUP_EMAILINUSE;		
 		
-		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d, role = %d, invites=%d where id = %d", 
-			$db->escapeString($uname), $db->escapeString($email), $grabs, $role, $invites, $id));		
+		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d, role = %d, invites=%d, movieview=%d where id = %d", 
+			$db->escapeString($uname), $db->escapeString($email), $grabs, $role, $invites, $movieview, $id));		
 			
 		return Users::SUCCESS;
 	}	

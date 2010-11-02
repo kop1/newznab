@@ -13,12 +13,21 @@
 <table class="data">
 	<tr><th>Username:</th><td>{$user.username|escape:"htmlall"}</td></tr>
 	<tr><th>Email:</th><td><input id="email" name="email" type="text" value="{$user.email|escape:"htmlall"}"></input></td></tr>
-	<tr><th>Password:</th><td><input autocomplete="off" id="password" name="password" type="password" value=""></input>
-		<div class="hint">Only enter your password if you want to change it.</div>
-	</td></tr>
+	<tr><th>Password:</th>
+		<td>
+			<input autocomplete="off" id="password" name="password" type="password" value=""></input>
+			<div class="hint">Only enter your password if you want to change it.</div>
+		</td>
+	</tr>
 	<tr><th>Confirm Password:</th><td><input autocomplete="off" id="confirmpassword" name="confirmpassword" type="password" value=""></input>
 	</td></tr>
 	<tr><th>Site Api/Rss Key:</th><td>{$user.rsstoken}<br/><a onclick="return confirm('Are you sure?');" href="?action=newapikey">Generate</a></td></tr>
+	<tr><th>View Movie Page:</th>
+		<td>
+			<input id="movieview" name="movieview" value="1" type="checkbox" {if $user.movieview=="1"}checked="checked"{/if}></input>
+			<div class="hint">Browse movie covers. Only shows movies with known IMDB info.</div>
+		</td>
+	</tr>
 	<tr><th>Excluded Categories:</th>
 		<td>
 			{html_options style="height:105px;" multiple=multiple name=exccat[] options=$catlist selected=$userexccat}

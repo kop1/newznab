@@ -50,8 +50,8 @@ switch($action)
 						$page->smarty->assign('error', "Sorry, the email is already in use.");	
 					else
 					{
-						$users->update($userid, $data["username"], $_POST['email'], $data["grabs"], $data["role"], $data["invites"]);
-						
+
+						$users->update($userid, $data["username"], $_POST['email'], $data["grabs"], $data["role"], $data["invites"], (isset($_POST['movieview']) ? "1" : "0"));
 						$users->addCategoryExclusions($userid, $_POST['exccat']);
 
 						if ($_POST['password'] != "")

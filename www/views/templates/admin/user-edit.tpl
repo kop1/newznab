@@ -48,6 +48,13 @@
 </tr>
 
 <tr>
+	<td>Movie View:</td>
+	<td>
+		<input name="movieview" type="checkbox" value="1" {if $user.movieview=="1"}checked="checked"{/if}" />
+	</td>
+</tr>
+
+<tr>
 	<td><label for="role">Role</label>:</td>
 	<td>
 		{html_radios id="role" name='role' values=$role_ids output=$role_names selected=$user.role separator='<br />'}

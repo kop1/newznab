@@ -17,6 +17,7 @@ switch($action)
 				$user = array();
 				$user["role"] = Users::ROLE_USER;
 				$user["invites"] = Users::DEFAULT_INVITES;
+				$user["movieview"] = "1";
 				$page->smarty->assign('user', $user);	
 
 			break;
@@ -24,12 +25,12 @@ switch($action)
     
     	if ($_POST["id"] == "")
     	{
-				$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '', 	$_POST["role"], $_POST["invites"]);
+			$ret = $users->signup($_POST["username"], $_POST["password"], $_POST["email"], '', 	$_POST["role"], $_POST["invites"]);
     	}
     	else
     	{
-				$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"], $_POST["role"], $_POST["invites"]);
-			}
+			$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"], $_POST["role"], $_POST["invites"], (isset($_POST['movieview']) ? "1" : "0"));
+		}
 
 				if ($ret >= 0)
 					header("Location:".WWW_TOP."/user-list.php");
@@ -63,6 +64,7 @@ switch($action)
 					$user["grabs"] = $_POST["grabs"];
 					$user["role"] = $_POST["role"];
 					$user["invites"] = $_POST["invites"];
+					$user["movieview"] = $_POST["movieview"];
 					$page->smarty->assign('user', $user);	
 				}
         break;
