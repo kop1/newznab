@@ -614,6 +614,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    7000                                 Other                           All of other
    7010                                 Misc
    7020                                 EBook                           E-Books
+   7030																	Comics													Comics Ebooks
    100000-                              Custom                          Specific to a site
 
 
