@@ -37,6 +37,7 @@ class Category
 	const CAT_XXX_X264 = 6040;
 	const CAT_MISC = 7010;
 	const CAT_MISC_EBOOK = 7020;
+	const CAT_MISC_COMICS = 7030;
 	
 	const CAT_PARENT_GAME = 1000;
 	const CAT_PARENT_MOVIE = 2000;
@@ -215,7 +216,7 @@ class Category
 			return Category::CAT_MISC_EBOOK;
 			
 		if (preg_match('/alt\.binaries\.comics.*?/i', $group)) 
-			return Category::CAT_MISC_EBOOK;			
+			return Category::CAT_MISC_COMICS;			
 		
 		if (preg_match('/alt\.binaries\.cd\.image|alt\.binaries\.audio\.warez/i', $group)) {
 			if ($this->isMac($releasename)) { return Category::CAT_PC_MAC; }
@@ -252,7 +253,7 @@ class Category
 		if (preg_match('/alt\.binaries\.mma|alt\.binaries\.multimedia\.sports.*?/i', $group)) 
 			return Category::CAT_TV_SPORT;	
 			
-		if (preg_match('/alt\.binaries\.b4e/i', $group)) 
+		if (preg_match('/alt\.binaries\.b4e$/i', $group)) 
 			return Category::CAT_PC_0DAY;					
 			
 		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries\.warez/i', $group)) 
