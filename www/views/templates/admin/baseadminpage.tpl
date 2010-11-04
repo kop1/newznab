@@ -7,16 +7,14 @@
 	<title>{$page->meta_title}</title>
 	<link href="{$smarty.const.WWW_TOP}/../views/styles/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$smarty.const.WWW_TOP}/../views/styles/admin.css" rel="stylesheet" type="text/css" media="screen" />
+	{if $site->style != "" && $site->style != "/"}<link href="{$smarty.const.WWW_TOP}/../views/themes/{$site->style}/style.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{$smarty.const.WWW_TOP}/../views/themes/{$site->style}/admin.css" rel="stylesheet" type="text/css" media="screen" />	
+	{/if}
 	<link rel="shortcut icon" type="image/ico" href="{$smarty.const.WWW_TOP}/../views/images/favicon.ico"/>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/../views/scripts/jquery.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/../views/scripts/functions_sorttable.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/../views/scripts/utils-admin.js"></script>
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}/..";</script>
-	{if $site->style != "" && $site->style != "/"}<link href="{$smarty.const.WWW_TOP}/../views/themes/{$site->style}/style.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="{$smarty.const.WWW_TOP}/../views/themes/{$site->style}/admin.css" rel="stylesheet" type="text/css" media="screen" />	
-	{/if}
-	
-	
 	
 	{$page->head}
 </head>
