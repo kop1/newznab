@@ -1,5 +1,6 @@
 pre-reqs
 	PHP
+		php version 5.3 or higher
 		sessions enabled
 		memory limit at 256MB or more
 		minimum execution time of 60+ seconds
@@ -189,6 +190,7 @@ faqs
 	* connection timed out. Reconnecting... Cannot connect to server *******: Already connected, disconnect first! - 
 	disable compressed headers
 	* session error during install step1 - set register_globals to off.
+	* Warning: Wrong parameter count for strstr() in newznab\www\lib\TMDb.php on line 354 - wrong php version, requires 5.3+
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
