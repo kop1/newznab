@@ -92,6 +92,46 @@ jQuery(function($){
 			}
 		});
 	});
+	//front end admin functions
+	$('input.nzb_multi_operations_edit').click(function(){
+		var ids = "";
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	if ($(row).val()!="on")
+		    	ids += '&id[]='+$(row).val();
+	    });
+	    if (ids)
+			$('input.nzb_multi_operations_edit').colorbox({
+				href: function(){ return SERVERROOT + "ajax_release-admin.php?action=edit"+ids; },
+				title: 'Edit Release',
+				innerWidth:"400px", innerHeight:"250px", initialWidth:"400px", initialHeight:"250px", speed:0, opacity:0.7
+			});
+	});
+	$('input.nzb_multi_operations_delete').click(function(){
+		var ids = "";
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	if ($(row).val()!="on")
+		    	ids += '&id[]='+$(row).val();
+	    });
+	    if (ids)
+			if (confirm('Are you sure you want to delete the selected releases?')) {
+				$.post(SERVERROOT + "ajax_release-admin.php?action=dodelete"+ids, function(resp){
+					window.location = window.location;
+				});
+			}
+	});
+	$('input.nzb_multi_operations_rebuild').click(function(){
+		var ids = "";
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	if ($(row).val()!="on")
+		    	ids += '&id[]='+$(row).val();
+	    });
+	    if (ids)
+			if (confirm('Are you sure you want to rebuild the selected releases?')) {
+				$.post(SERVERROOT + "ajax_release-admin.php?action=dorebuild"+ids, function(resp){
+					window.location = window.location;
+				});
+			}
+	});
 
 	// headermenu.tpl
 	$('#headsearch')

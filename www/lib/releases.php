@@ -312,6 +312,31 @@ class Releases
 
 	}
 	
+	public function rebuildmulti($guids)
+	{
+		if (!is_array($guids) || sizeof($guids) < 1)
+			return false;
+		
+		$db = new DB();
+		
+		$updateGuids = array();
+		foreach($guids as $guid) {
+			$updateGuids[] = $db->escapeString($guid);
+		}
+		
+		$rels = $db->query(sprintf('select ID from releases where guid IN (%s)', implode(', ', $updateGuids)));
+		$relids = array();
+		foreach($rels as $r) {
+			$relids[] = $r['ID'];
+		}
+			
+		$this->deletemulti($guids);
+		
+		$db = new DB();
+		$db->query(sprintf("update binaries set procstat = 0,procattempts=0, categoryID=null, regexID=null,reqID=null,relpart=null,reltotalpart=null,relname=null,releaseID=null where releaseID IN (%s)", implode(',',$relids)));
+
+	}
+	
 	public function delete($id)
 	{			
 		$db = new DB();
@@ -331,6 +356,30 @@ class Releases
 		$users->delCartForRelease($id);
 		$db->query(sprintf("delete from releases where id = %d", $id));		
 	}
+	
+	public function deletemulti($guids)
+	{
+		if (!is_array($guids) || sizeof($guids) < 1)
+			return false;
+		
+		$db = new DB();
+		$users = new Users();
+		$s = new Sites();
+		$nfo = new Nfo();
+		$site = $s->get();
+		
+		foreach($guids as $guid)
+		{
+			$rel = $this->getByGuid($guid);
+			if ($rel && file_exists($site->nzbpath.$rel["guid"].".nzb.gz")) 
+				unlink($site->nzbpath.$rel["guid"].".nzb.gz");
+			
+			$nfo->deleteReleaseNfo($rel['ID']);
+			$this->deleteCommentsForRelease($rel['ID']);
+			$users->delCartForRelease($rel['ID']);
+			$db->query(sprintf("delete from releases where id = %d", $rel['ID']));
+		}
+	}
 
 	public function update($id, $name, $searchname, $fromname, $category, $parts, $grabs, $size, $posteddate, $addeddate, $rageid, $seriesfull, $season, $episode, $imdbid)
 	{			
@@ -338,6 +387,40 @@ class Releases
 
 		$db->query(sprintf("update releases set name=%s, searchname=%s, fromname=%s, categoryID=%d, totalpart=%d, grabs=%d, size=%d, postdate=%s, adddate=%s, rageID=%d, seriesfull=%s, season=%s, episode=%s, imdbID=%d where id = %d", 
 			$db->escapeString($name), $db->escapeString($searchname), $db->escapeString($fromname), $category, $parts, $grabs, $size, $db->escapeString($posteddate), $db->escapeString($addeddate), $rageid, $db->escapeString($seriesfull), $db->escapeString($season), $db->escapeString($episode), $imdbid, $id));		
+	}
+	
+	public function updatemulti($guids, $category, $grabs, $rageid, $season, $imdbid)
+	{			
+		if (!is_array($guids) || sizeof($guids) < 1)
+			return false;
+		
+		$update = array(
+			'categoryID'=>(($category == '-1') ? '' : $category),
+			'grabs'=>$grabs,
+			'rageID'=>$rageid,
+			'season'=>$season,
+			'imdbID'=>$imdbid
+		);
+		
+		$db = new DB();
+		$updateSql = array();
+		foreach($update as $updk=>$updv) {
+			if ($updv != '') 
+				$updateSql[] = sprintf($updk.'=%s', $db->escapeString($updv));
+		}
+		
+		if (sizeof($updateSql) < 1) {
+			//echo 'no field set to be changed';
+			return -1;
+		}
+		
+		$updateGuids = array();
+		foreach($guids as $guid) {
+			$updateGuids[] = $db->escapeString($guid);
+		}
+		
+		$sql = sprintf('update releases set '.implode(', ', $updateSql).' where guid in (%s)', implode(', ', $updateGuids));
+		return $db->query($sql);
 	}	
 	
 	public function search($search, $cat=array(-1), $offset=0, $limit=1000, $orderby='', $maxage=-1, $excludedcats=array())

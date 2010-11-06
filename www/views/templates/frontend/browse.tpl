@@ -10,6 +10,12 @@
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
 	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
 	<input type="button" class="nzb_multi_operations_sab" value="Send to SAB" />
+	{if $isadmin}
+	&nbsp;&nbsp;
+	<input type="button" class="nzb_multi_operations_edit" value="Edit" />
+	<input type="button" class="nzb_multi_operations_delete" value="Del" />
+	<input type="button" class="nzb_multi_operations_rebuild" value="Reb" />
+	{/if}	
 </div>
 <br/>
 
@@ -74,6 +80,12 @@
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
 	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
 	<input type="button" class="nzb_multi_operations_sab" value="Send to SAB" />
+	{if $isadmin}
+	&nbsp;&nbsp;
+	<input type="button" class="nzb_multi_operations_edit" value="Edit" />
+	<input type="button" class="nzb_multi_operations_delete" value="Del" />
+	<input type="button" class="nzb_multi_operations_rebuild" value="Reb" />
+	{/if}	
 </div>
 
 </form>
