@@ -44,6 +44,7 @@ else
 $user="";
 $uid="";
 $apikey="";
+$catexclusions = array();
 if (!$users->isLoggedIn())
 {
 	if ($function != "c" && $function != "r")
@@ -58,12 +59,14 @@ if (!$users->isLoggedIn())
 		}
 		$uid=$res["ID"];
 		$apikey=$_GET["apikey"];
+		$catexclusions = $users->getCategoryExclusion($uid);
 	}	
 }
 else
 {
 	$uid=$page->userdata["ID"];
 	$apikey=$page->userdata["rsstoken"];
+	$catexclusions = $page->userdata["categoryexclusions"];
 }
 
 //
@@ -123,14 +126,14 @@ switch ($function)
 			$offset = $_GET["offset"];
 
 		if (isset($_GET["q"]))
-			$reldata = $releases->search($_GET["q"], $categoryId, $offset, $limit, "", $maxage);
+			$reldata = $releases->search($_GET["q"], $categoryId, $offset, $limit, "", $maxage, $catexclusions);
 		else
 		{
 			$orderby = array();
 			$orderby[0] = "postdate";
 			$orderby[1] = "asc";
-			$totrows = $releases->getBrowseCount($categoryId, $maxage);
-			$reldata = $releases->getBrowseRange($categoryId, $offset, $limit, "", $maxage);
+			$totrows = $releases->getBrowseCount($categoryId, $maxage, $catexclusions);
+			$reldata = $releases->getBrowseRange($categoryId, $offset, $limit, "", $maxage, $catexclusions);
 			if ($totrows > 0 && count($reldata))
 				$reldata[0]["_totalrows"] = $totrows;
 		}
