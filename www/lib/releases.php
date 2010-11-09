@@ -512,7 +512,10 @@ class Releases
 
 		if ($series != "")
 		{
-			if (is_numeric($series))
+			//
+			// Exclude four digit series, which will be the year 2010 etc
+			//
+			if (is_numeric($series) && strlen($series) != 4)
 				$series = sprintf('S%02d', $series);
 
 			$series = sprintf(" and upper(releases.season) = upper(%s)", $db->escapeString($series));
@@ -729,7 +732,10 @@ class Releases
 
 		if ($series != "")
 		{
-			if (is_numeric($series))
+			//
+			// Exclude four digit series, which will be the year 2010 etc
+			//
+			if (is_numeric($series) && strlen($series) != 4)
 				$series = sprintf('S%02d', $series);
 			
 			$series = sprintf(" and upper(releases.season) = upper(%s)", $db->escapeString($series));
