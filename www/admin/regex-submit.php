@@ -21,20 +21,21 @@ if (isset($_POST['regex_submit_please']))
   foreach ($oldFiles as $oldRegexFilename) @unlink($oldRegexFilename);
 
   // Create new regex file
-  file_put_contents(WWW_DIR . "/temp/$regexFilename", $regexSerialize);
-
-  // Continue processing
-  if (file_exists(WWW_DIR . "/temp/$regexFilename") &&
-      is_readable(WWW_DIR . "/temp/$regexFilename"))
+  if (file_put_contents(WWW_DIR . "/temp/$regexFilename", $regexSerialize))
   {
-    // Submit
+    // Continue processing
+    if (file_exists(WWW_DIR . "/temp/$regexFilename") &&
+        is_readable(WWW_DIR . "/temp/$regexFilename"))
+    {
+      // Submit
 
-    // Remove old regex file
-    @unlink(WWW_DIR . "/temp/$regexFilename");
-  }
-  else
-  {
-    $regexFilename = 'Unable to generate file! Please try again.';
+      // Remove old regex file
+      //@unlink(WWW_DIR . "/temp/$regexFilename");
+    }
+    else
+    {
+      $regexFilename = 'Unable to generate file! Please try again.';
+    }
   }
 }
 
