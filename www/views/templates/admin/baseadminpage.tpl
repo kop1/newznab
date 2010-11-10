@@ -4,7 +4,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />	
-	<title>{$page->meta_title}</title>
+	<title>{$site->title|default:'newznab'} - {$page->meta_title|default:$page->title}</title>
 	<link href="{$smarty.const.WWW_TOP}/../views/styles/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$smarty.const.WWW_TOP}/../views/styles/admin.css" rel="stylesheet" type="text/css" media="screen" />
 	{if $site->style != "" && $site->style != "/"}<link href="{$smarty.const.WWW_TOP}/../views/themes/{$site->style}/style.css" rel="stylesheet" type="text/css" media="screen" />
@@ -19,7 +19,6 @@
 	{$page->head}
 </head>
 <body>
-
 	<div id="logo" style="cursor: pointer;">
 		<h1><a href="/"></a></h1>
 		<p><em></em></p>
