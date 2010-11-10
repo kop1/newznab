@@ -7,6 +7,7 @@
 		<li><a href="{$smarty.const.WWW_TOP}/category-list.php?action=add">Edit</a> Categories</li>
 		<li><a href="{$smarty.const.WWW_TOP}/group-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/group-edit.php">Add</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/group-bulk.php">BulkAdd</a> Groups</li>
 		<li><a href="{$smarty.const.WWW_TOP}/regex-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/regex-edit.php?action=add">Add</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/regex-test.php">Test</a> Regex</li>
+		<li><a href="{$smarty.const.WWW_TOP}/regex-submit.php" style="color: #dd0">Submit regex expressions</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/binaryblacklist-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/binaryblacklist-edit.php?action=add">Add</a> Blacklist</li>
 		<li><a href="{$smarty.const.WWW_TOP}/release-list.php">View Releases</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/rage-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/rage-edit.php?action=add">Add</a> TVRage List</li>
