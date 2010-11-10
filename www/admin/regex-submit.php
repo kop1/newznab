@@ -29,8 +29,8 @@ if (isset($_POST['regex_submit_please']))
   {
     // Submit
 
-    // Remove old file
-    @unlink(WWW_DIR . "/temp/$regexFilename);
+    // Remove old regex file
+    @unlink(WWW_DIR . "/temp/$regexFilename");
   }
   else
   {
