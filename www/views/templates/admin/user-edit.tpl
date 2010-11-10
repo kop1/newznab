@@ -28,7 +28,7 @@
 <tr>
 	<td>Password:</td>
 	<td>
-		<input class="long" name="password" type="text" value="" />
+		<input class="long" name="password" type="password" value="" />
 	</td>
 </tr>
 {else}
