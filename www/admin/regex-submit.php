@@ -9,7 +9,7 @@ $page->title    = "Submit your regex expressions to the Official Database";
 
 // Logic
 $regex          = new ReleaseRegex();
-$regexList      = $regex->get(false, -1, true);
+$regexList      = $regex->get(false, -1, true, true);
 $regexSerialize = serialize($regexList);
 $regexFilename  = 'releaseregex-' . time() . '.regex';
 

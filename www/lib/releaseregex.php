@@ -5,7 +5,7 @@ require_once(WWW_DIR."/lib/framework/db.php");
 class ReleaseRegex
 {	
 
-	public function get($activeonly=true, $groupname="-1", $blnIncludeReleaseCount=false)
+	public function get($activeonly=true, $groupname="-1", $blnIncludeReleaseCount=false, $userReleaseRegex=false)
 	{			
 		$db = new DB();
 		
@@ -17,7 +17,12 @@ class ReleaseRegex
 			$where.= " and releaseregex.groupname is null";
 		elseif ($groupname!="-1")
 			$where.= sprintf(" and releaseregex.groupname = %s", $db->escapeString($groupname));
-		
+      
+    if ($userReleaseRegex)
+    {
+      $where .= ' AND releaseregex.ID >= 100000';
+    }
+
 		$relcountjoin="";
 		$relcountcol="";
 		if ($blnIncludeReleaseCount)
