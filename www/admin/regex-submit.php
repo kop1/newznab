@@ -17,18 +17,20 @@ $regexFilename  = 'releaseregex-' . time() . '.regex';
 if (isset($_POST['regex_submit_please']))
 {
   // Delete old regex files
-  foreach (glob(WWW_DIR . "/temp/*.regex") as $oldRegexFilename)
-  {
-    @unlink($oldRegexFilename);
-  }
+  $oldFiles = glob(WWW_DIR . '/temp/*.regex') ? glob(WWW_DIR . '/temp/*.regex') : array();
+  foreach ($oldFiles as $oldRegexFilename) @unlink($oldRegexFilename);
 
   // Create new regex file
   file_put_contents(WWW_DIR . "/temp/$regexFilename", $regexSerialize);
 
   // Continue processing
-  if (file_exists(WWW_DIR . "/temp/$regexFilename") && is_readable(WWW_DIR . "/temp/$regexFilename"))
+  if (file_exists(WWW_DIR . "/temp/$regexFilename") &&
+      is_readable(WWW_DIR . "/temp/$regexFilename"))
   {
     // Submit
+
+    // Remove old file
+    @unlink(WWW_DIR . "/temp/$regexFilename);
   }
   else
   {
