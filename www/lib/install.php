@@ -33,6 +33,7 @@ class Install {
 	public $gdCheck;
 	public $cacheCheck;
 	public $coversCheck;
+	public $tempCheck;
 	public $configCheck;
 	public $lockCheck;
 	public $pearCheck;

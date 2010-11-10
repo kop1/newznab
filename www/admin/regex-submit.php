@@ -11,7 +11,30 @@ $page->title    = "Submit your regex expressions to the Official Database";
 $regex          = new ReleaseRegex();
 $regexList      = $regex->get(false, -1, true);
 $regexSerialize = serialize($regexList);
-$regexFilename  = 'releaseregex-' . time();
+$regexFilename  = 'releaseregex-' . time() . '.regex';
+
+// User wants to submit their regex's
+if (isset($_POST['regex_submit_please']))
+{
+  // Delete old regex files
+  foreach (glob(WWW_DIR . "/temp/*.regex") as $oldRegexFilename)
+  {
+    @unlink($oldRegexFilename);
+  }
+
+  // Create new regex file
+  file_put_contents(WWW_DIR . "/temp/$regexFilename", $regexSerialize);
+
+  // Continue processing
+  if (file_exists(WWW_DIR . "/temp/$regexFilename") && is_readable(WWW_DIR . "/temp/$regexFilename"))
+  {
+    // Submit
+  }
+  else
+  {
+    $regexFilename = 'Unable to generate file! Please try again.';
+  }
+}
 
 // Assigns
 $page->smarty->assign('regex_filename', $regexFilename);

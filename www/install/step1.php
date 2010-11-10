@@ -29,6 +29,9 @@ if ($cfg->cacheCheck === false) { $cfg->error = true; }
 $cfg->coversCheck = is_writable($cfg->WWW_DIR.'/views/images/covers');
 if ($cfg->coversCheck === false) { $cfg->error = true; }
 
+$cfg->tempCheck = is_writable($cfg->WWW_DIR.'/temp');
+if ($cfg->coversCheck === false) { $cfg->error = true; }
+
 $cfg->configCheck = is_writable($cfg->WWW_DIR.'/config.php');
 if($cfg->configCheck === false) {
 	$cfg->configCheck = is_file($cfg->WWW_DIR.'/config.php');
