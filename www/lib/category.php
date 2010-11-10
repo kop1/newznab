@@ -174,7 +174,7 @@ class Category
 		$ret = Category::CAT_MISC;
 
 		//
-		// Try and determine based on group
+		// Try and determine based on group - First Pass
 		//
 		if (preg_match('/alt\.binaries\..*?audiobook.*?/i', $group)) 
 			return Category::CAT_MUSIC_AUDIOBOOK;
@@ -372,7 +372,7 @@ class Category
 		//
 		// Movie 
 		//		
-		if (preg_match('/xvid|dvdscr|extrascene|dvdrip|r5/i', $releasename)) 
+		if (preg_match('/xvid|dvdscr|extrascene|dvdrip|r5|\.CAM\./i', $releasename)) 
 			return Category::CAT_MOVIE_SD;
 
 		if (preg_match('/dvdr|dvd9|dvd5/i', $releasename) && !preg_match('/dvdrip/i', $releasename)){
@@ -431,6 +431,14 @@ class Category
 		if (preg_match('/Greatest_Hits|VA(\-|_)|WEB\-\d{4}/i', $releasename))
 					return Category::CAT_MUSIC_MP3;
 		
+		//
+		// Default to Categories by Group now that Release Name Matching has finished.
+		//
+		
+		if (preg_match('/alt\.binaries\.warez\.ibm\-pc\.0\-day|alt\.binaries\.warez/i', $group)) 
+					return Category::CAT_PC_0DAY;
+		if (preg_match('/alt\.binaries\.cores/i', $group)) 
+					return Category::CAT_PC_0DAY;
 		
 		//
 		// If no release name provided and the group wasnt determined, then return -1
