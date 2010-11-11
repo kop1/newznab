@@ -9,7 +9,21 @@
 	</div>
 </form>
 
-{if $results|@count > 0}
+{if $results|@count == 0 && $search != ""}
+	<div class="nosearchresults">
+		Your search - <strong>{$search|escape:'htmlall'}</strong> - did not match any headers.
+		<br/><br/>
+		Suggestions:
+		<br/><br/>
+		<ul>
+		<li>Make sure all words are spelled correctly.</li>
+		<li>Try different keywords.</li>
+		<li>Try more general keywords.</li>
+		<li>Try fewer keywords.</li>
+		</ul>
+	</div>
+{elseif $search == ""}
+{else}
 <form method="post" id="dl" name="dl" action="{$smarty.const.WWW_TOP}/searchraw">
 <table style="width:100%;margin-top:40px;margin-bottom:20px;" class="data">
 	<tr>

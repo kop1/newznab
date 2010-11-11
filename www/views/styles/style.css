@@ -149,6 +149,9 @@ div.icon_tvrage			{ background-image:url('../images/icons/tvrage.png'); }
 div.icon_check			{ background-image:url('../images/icons/check.png'); }
 
 
+div.nosearchresults {margin-left:25px; padding-top:50px;}
+div.nosearchresults ul { line-height: 150%;}
+
 
 
 
