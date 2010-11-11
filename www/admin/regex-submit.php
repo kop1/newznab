@@ -29,8 +29,34 @@ if (isset($_POST['regex_submit_please']))
     {
       // Submit
 
-      // Remove old regex file
-      //@unlink(WWW_DIR . "/temp/$regexFilename");
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+      curl_setopt($ch, CURLOPT_VERBOSE, 0);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible;)");
+      curl_setopt($ch, CURLOPT_URL,"http://newznab.com/regex/upload.php");
+      curl_setopt($ch, CURLOPT_POST, true);
+      $post = array(
+          "regex_file" => "@" . WWW_DIR . "/temp/$regexFilename",
+      );
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $post); 
+      $response = curl_exec($ch);
+
+      echo curl_error($ch);
+
+      curl_close($ch);
+
+      if ($response == 'OK')
+      {
+        $page->smarty->assign('upload_status', 'OK');
+
+        // Remove old regex file
+        @unlink(WWW_DIR . "/temp/$regexFilename");
+      }
+      else
+      {
+        $page->smarty->assign('upload_status', 'BAD');
+      }
     }
     else
     {
