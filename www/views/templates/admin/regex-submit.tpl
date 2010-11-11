@@ -17,6 +17,9 @@
 <br />
 { /if }
 
+{if $regex_error}
+<p><strong>No avalible user regex's. Please add some and visit this page again.</strong></p>
+{else}
 <form action="{$SCRIPT_NAME}" method="post" name="submit_regex">
   <input type="hidden" name="regex_submit_please" value="1" />
   <input type="submit" name="submit" value="Submit regular expressions" />
@@ -33,4 +36,5 @@
   {$regex_contents|print_r}
   </pre>
 </p>
+{/if}
 
