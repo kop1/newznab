@@ -28,3 +28,4 @@ RewriteRule ^queue$ viewqueue.php
 RewriteRule ^api$ api.php
 RewriteRule ^apihelp$ apihelp.php
 RewriteRule ^cart$ cart.php
+RewriteRule ^mysearches$ mysearches.php

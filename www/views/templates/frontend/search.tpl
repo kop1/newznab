@@ -7,6 +7,11 @@
 		<input id="search" name="search" value="{$search|escape:'html'}" type="text"/>
 		<input id="search_search_button" type="submit" value="search" />
 		{if $header_menu_cat}<input type="hidden" name="t" value="{$header_menu_cat}" />{/if}
+
+    {if $results}
+    <br />
+    <a href="{$smarty.const.WWW_TOP}/mysearches.php?term={$search|escape:'html'}&category={$header_menu_cat|default:'0'}">Save this search ({$search|escape:'html'}) to <strong>My Searches</strong></a>
+    {/if}
 	</div>
 </form>
 
@@ -17,7 +22,7 @@
 
 <br/>
 <div class="nzb_multi_operations">
-	<small>With Selected:</small>
+	<small>With selected:</small>
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
 	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
 	<input type="button" class="nzb_multi_operations_sab" value="Send to SAB" />
@@ -77,7 +82,7 @@
 <br/>
 
 <div class="nzb_multi_operations">
-	<small>With Selected:</small>
+	<small>With selected:</small>
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
 	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
 	<input type="button" class="nzb_multi_operations_sab" value="Send to SAB" />

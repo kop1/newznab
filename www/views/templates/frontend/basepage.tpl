@@ -115,6 +115,7 @@
 					<li><a title="Admin" href="{$smarty.const.WWW_TOP}/admin/">Admin</a></li>
 				{/if}
 				<li><a title="Your Nzb Cart" href="{$smarty.const.WWW_TOP}/cart">My Cart</a></li>
+				<li><a title="My Searches" href="{$smarty.const.WWW_TOP}/mysearches">My Searches</a></li>
 				<li><a title="View your Profile " href="{$smarty.const.WWW_TOP}/profile">Profile</a></li>
 				{if $sabintegrated=="true"}
 					<li><a title="Your Sabnzbd Queue" href="{$smarty.const.WWW_TOP}/queue">Download Queue</a></li>
