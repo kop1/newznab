@@ -11,7 +11,7 @@
 { /if }
 
 { if $upload_status eq 'BAD' }
-<div style="background-color: #CDEB8B; color: #CC0000; padding: 20px">
+<div style="background-color: #CC0000; color: #fff; padding: 20px">
   <strong>Failed to upload your regex file :-( - please try again.</strong>
 </div>
 <br />
