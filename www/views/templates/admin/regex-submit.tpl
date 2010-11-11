@@ -1,7 +1,7 @@
 
 <h1>{$page->title}</h1>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam libero eros, aliquet a vehicula sed, feugiat a nunc. Vestibulum in dictum leo. Donec quis tortor dui, aliquet euismod libero. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean ut nisi eget odio tincidunt vestibulum. <strong>Thank you!</strong></p>
+<p>Use this feature to submit any regex you have added locally to newznab. We'll have a look at integrating them into the master list. No data other than regex's with an ID greater than 10000 will be sent.</p>
 
 { if $upload_status eq 'OK' }
 <div style="background-color: #CDEB8B; color: #fff; padding: 20px">

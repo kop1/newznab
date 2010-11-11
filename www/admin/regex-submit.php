@@ -5,7 +5,7 @@ require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/releaseregex.php");
 
 $page           = new AdminPage();
-$page->title    = "Submit your regex expressions to the Official Database";
+$page->title    = "Submit your regex expressions to newznab";
 
 // Logic
 $regex          = new ReleaseRegex();
