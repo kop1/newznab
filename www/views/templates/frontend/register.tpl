@@ -18,7 +18,7 @@
 			<tr><th><label for="password">Password</label>: <em>*</em></th>
 				<td>
 					<input id="password" autocomplete="off" name="password" value="{$password}" type="password"/>
-					<input id="invitecode" name="invitecode" type="hidden" value="{$invitecode}" />
+					<input id="invitecode" name="invitecode" type="hidden" value="{$invitecode|escape:html_all}" />
 					<div class="hint">Should be at least six characters long.</div>
 				</td>
 			</tr>

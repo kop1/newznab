@@ -11,12 +11,21 @@ $users = new Users();
 if ($users->isLoggedIn())
 	$page->show404();
 
-if (($page->site->registerstatus != Sites::REGISTER_STATUS_OPEN) &&
-	($page->site->registerstatus == Sites::REGISTER_STATUS_INVITE && !isset($_GET["invite"])) && 
-	($page->site->registerstatus == Sites::REGISTER_STATUS_INVITE && !isset($_POST["invitecode"]))
-)
+$showregister = 1;	
+	
+if ($page->site->registerstatus == Sites::REGISTER_STATUS_CLOSED)
 {
 	$page->smarty->assign('error', "Registrations are currently disabled.");
+	$showregister = 0;	
+}
+elseif ($page->site->registerstatus == Sites::REGISTER_STATUS_INVITE && !(isset($_GET["invite"]) || isset($_POST["invitecode"])))
+{
+	$page->smarty->assign('error', "Registrations are currently invite only.");
+	$showregister = 0;	
+}
+
+if ($showregister == 0)
+{
 	$page->smarty->assign('showregister', "0");
 }
 else
