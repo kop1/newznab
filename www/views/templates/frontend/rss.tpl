@@ -24,7 +24,8 @@
 	<category>{$release.category_name|escape:html}</category> 	
 	<description>{if $api=="1"}{$release.searchname}{else}
 <![CDATA[
-	<ul>
+	<div>
+	<ul style="float:left;">
 	<li>ID: <a href="{$serverroot}rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
 	<li>Attributes: Category - {$release.category_name}</li>
@@ -32,7 +33,10 @@
 	<li>Poster: {$release.fromname}</li>
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
 	<li>Password: {if $release.passwordstatus == 0}None{elseif $release.passwordstatus == 1}Passworded Rar Archive{elseif $release.passwordstatus == 2}Contains Cab/Ace Archive{else}Unknown{/if}</li>
-	</ul>]]>
+	</ul>
+	{if $release.cover == 1}<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />{/if}
+	</div>
+]]>
 	{/if}
 </description>
 	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}

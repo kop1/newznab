@@ -10,15 +10,15 @@
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="alt">
 			<td><label for="user">Username:</label></td>
-			<td><input type="text" name="user" id="user" value="{$cfg->ADMIN_USER}" /></td>
+			<td><input autocomplete="off" type="text" name="user" id="user" value="{$cfg->ADMIN_USER}" /></td>
 		</tr>
 		<tr class="">
 			<td><label for="pass">Password:</label></td>
-			<td><input type="text" name="pass" id="pass" value="{$cfg->ADMIN_PASS}" /></td>
+			<td><input autocomplete="off" type="password" name="pass" id="pass" value="{$cfg->ADMIN_PASS}" /></td>
 		</tr>
 		<tr class="alt">
 			<td><label for="email">Email:</label> </td>
-			<td><input type="text" name="email" id="email" value="{$cfg->ADMIN_EMAIL}" /></td>
+			<td><input autocomplete="off" type="text" name="email" id="email" value="{$cfg->ADMIN_EMAIL}" /></td>
 		</tr>
 		<tr class="">
 			<td colspan="2">
