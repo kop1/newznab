@@ -55,7 +55,7 @@ class NZB
 				gzwrite($fp, " </groups>\n"); 
 				gzwrite($fp, " <segments>\n"); 
 
-				$resparts = $db->queryDirect(sprintf("SELECT size, partnumber, messageID FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
+				$resparts = $db->queryDirect(sprintf("SELECT DISTINCT(messageID), size, partnumber FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
 				while ($partsrow = mysql_fetch_array($resparts, MYSQL_BOTH)) 
 				{				
 					gzwrite($fp, "  <segment bytes=\"".$partsrow["size"]."\" number=\"".$partsrow["partnumber"]."\">".htmlentities($partsrow["messageID"], ENT_QUOTES)."</segment>\n"); 
