@@ -1188,7 +1188,7 @@ class Releases
 		}
 		
 		//
-		// Process nfo files
+		// Check for passworded releases
 		//
 		if ($page->site->checkpasswordedrar != "1")
 		{
