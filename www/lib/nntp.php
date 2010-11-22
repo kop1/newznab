@@ -65,7 +65,7 @@ class Nntp extends Net_NNTP_Client
 		return $message;
 	}
 
-	function getBinary($binaryId)
+	function getBinary($binaryId, $isNfo=false)
 	{
 		$db = new DB();
 		$yenc = new yenc();
@@ -84,8 +84,15 @@ class Nntp extends Net_NNTP_Client
 			return false;
 		}
 
-		$resparts = $db->queryDirect(sprintf("SELECT size, partnumber, messageID FROM parts WHERE binaryID = %d ORDER BY partnumber", $binaryId));
-		while ($part = mysql_fetch_array($resparts, MYSQL_BOTH)) 
+		$resparts = $db->query(sprintf("SELECT size, partnumber, messageID FROM parts WHERE binaryID = %d ORDER BY partnumber", $binaryId));
+		
+		if (sizeof($resparts) > 1 && $isNfo === true)
+		{
+			echo 'NFO is more than 1 part, skipping. ';
+			return false;
+		}
+		
+		foreach($resparts as $part) 
 		{
 			$messageID = '<'.$part['messageID'].'>';
 			$body = $this->getBody($messageID, true);

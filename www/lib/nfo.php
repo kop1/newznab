@@ -74,7 +74,7 @@ class Nfo
 			$nntp->doConnect();
 			while ($arr = mysql_fetch_array($res, MYSQL_BOTH)) 
 			{
-				$fetchedBinary = $nntp->getBinary($arr['binaryID']);
+				$fetchedBinary = $nntp->getBinary($arr['binaryID'], true);
 				if ($fetchedBinary !== false) 
 				{
 					//insert nfo into database
@@ -130,6 +130,9 @@ class Nfo
 			}
 			$nntp->doQuit();
 		}
+		
+		//remove nfo that we cant fetch after 5 attempts
+		$db->query("DELETE FROM releasenfo WHERE nfo IS NULL AND attempts >= 5");
 		
 		if ($this->echooutput)
 			echo $ret." nfo files processed\n";
