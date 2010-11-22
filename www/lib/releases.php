@@ -1168,7 +1168,7 @@ class Releases
 			$nzb->writeNZBforReleaseId($relid, $relguid, $row["relname"], $catId, $nzb->getNZBPath($relguid, $page->site->nzbpath, true));
 
 			if ($echooutput && ($retcount % 5 == 0))
-				echo "-processed ".$retcount." binaries stage three\n";
+				echo "-processed ".$retcount." releases stage three\n";
 		}    
     	
     	if ($echooutput)
