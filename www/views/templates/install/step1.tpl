@@ -52,8 +52,8 @@
 		<td>{if $cfg->opensslCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
 	</tr>
 	<tr class="alt">
-		<td>Checking for Apache's mod_rewrite:{if !$cfg->rewriteCheck}<br /><span class="error">The Apache module mod_rewrite is not loaded. This module is required, please enable it.</span>{/if}</td>
-		<td>{if $cfg->rewriteCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
+		<td>Checking for Apache's mod_rewrite:{if !$cfg->rewriteCheck}<br /><span class="warn">The Apache module mod_rewrite is not loaded. This module is required, please enable it if you are running Apache</span>{/if}</td>
+		<td>{if $cfg->rewriteCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
 	</tr>
 </table>
 

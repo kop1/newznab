@@ -73,7 +73,6 @@ $cfg->memlimitCheck = (ini_get('memory_limit') >= 256) ? true : false;
 $cfg->opensslCheck = !extension_loaded("opensssl");
 
 $cfg->rewriteCheck = (function_exists("apache_get_modules") && in_array("mod_rewrite", apache_get_modules())) ? true : false;
-if (!$cfg->rewriteCheck) { $cfg->error = true; }
 
 //Load previous config.php
 if (file_exists($cfg->WWW_DIR.'/config.php') && is_readable($cfg->WWW_DIR.'/config.php')) {
