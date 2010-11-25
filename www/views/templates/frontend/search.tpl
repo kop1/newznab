@@ -10,7 +10,7 @@
 
     {if $results}
     <br />
-    <a href="{$smarty.const.WWW_TOP}/mysearches.php?term={$search|escape:'html'}&category={$header_menu_cat|default:'0'}">Save this search ({$search|escape:'html'}) to <strong>My Searches</strong></a>
+    <a style="display:none;" href="{$smarty.const.WWW_TOP}/mysearches.php?term={$search|escape:'html'}&category={$header_menu_cat|default:'0'}">Save this search ({$search|escape:'html'}) to <strong>My Searches</strong></a>
     {/if}
 	</div>
 </form>
