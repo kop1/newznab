@@ -5,7 +5,7 @@
 	Binaries can be prevented from being added to the index at all if they match a regex provided in the blacklist. They can also be included only if they match a regex (whitelist).
 </p>
 
-<div id="message">hi mom!</div>
+<div id="message"></div>
 
 <table style="margin-top:10px;" class="data Sortable highlight">
 
@@ -22,7 +22,7 @@
 	{foreach from=$binlist item=bin}
 	<tr id="row-{$bin.ID}" class="{cycle values=",alt"}">
 		<td>{$bin.ID}</td>
-		<td title="{$bin.description}">{if $bin.groupname==""}all{else}{$bin.groupname|replace:"alt.binaries":"a.b"}{/if}</td>
+		<td title="{$bin.description}">{$bin.groupname|replace:"alt.binaries":"a.b"}</td>
 		<td title="Edit regex"><a href="{$smarty.const.WWW_TOP}/binaryblacklist-edit.php?id={$bin.ID}">{$bin.regex|escape:html}</a><br>
 		{$bin.description}</td>
 		<td>{if $bin.optype==1}black{else}white{/if}</td>

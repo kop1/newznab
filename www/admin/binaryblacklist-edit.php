@@ -14,16 +14,29 @@ $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : 'view';
 switch($action) 
 {
     case 'submit':
+    
+    	if ($_POST["groupname"] == "")
+    	{
+				$page->smarty->assign('error', "Group must be a valid usenet group");
+				break;
+    	}
+
+    	if ($_POST["regex"] == "")
+    	{
+				$page->smarty->assign('error', "Regex cannot be empty");
+				break;
+    	}
+
 	    if ($_POST["id"] == "")
     	{
-			$bin->addBlacklist($_POST);
-		}
-		else
-		{
-			$ret = $bin->updateBlacklist($_POST);
-		}	
-		header("Location:".WWW_TOP."/binaryblacklist-list.php");
-		break;
+				$bin->addBlacklist($_POST);
+			}
+			else
+			{
+				$ret = $bin->updateBlacklist($_POST);
+			}	
+			header("Location:".WWW_TOP."/binaryblacklist-list.php");
+			break;
     case 'addtest':
     	if (isset($_GET['regex']) && isset($_GET['groupname'])) {
     		$r = array('groupname'=>$_GET['groupname'], 'regex'=>$_GET['regex'], 'ordinal'=>'1', 'status'=>'1');
