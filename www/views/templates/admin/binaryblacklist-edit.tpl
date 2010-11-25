@@ -15,7 +15,7 @@
 	<td>
 		<input type="hidden" name="id" value="{$regex.ID}" />
 		<input id="groupname" name="groupname" value="{$regex.groupname|escape:html}" />
-		<div class="hint">The full name of a valid newsgroup.</div>		
+		<div class="hint">The full name of a valid newsgroup. (NOTE: Wildcard's will not work here)</div>		
 	</td>
 </tr>
 
@@ -23,7 +23,7 @@
 	<td>Regex:</td>
 	<td>
 		<textarea id="regex" name="regex" >{$regex.regex|escape:html}</textarea>
-		<div class="hint">The regex to be applied.</div>		
+		<div class="hint">The regex to be applied. (Note: Beginning and Ending / are already included)</div>		
 	</td>
 </tr>
 
