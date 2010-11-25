@@ -204,6 +204,11 @@
                                 if($this->isTV($releasename)){ return $this->tmpCat; }
                                 if($this->isMovie($releasename)){ return $this->tmpCat; }
                             }
+                    if (preg_match('/alt\.binaries\.games\.wii/i', $group))
+                            {
+                                if($this->isConsole($releasename)){ return $this->tmpCat; }
+                                return Category::CAT_GAME_WII;
+                            }                            
                     if (preg_match('/alt\.binaries\.dvd.*?/i', $group))
                             {
                                 if($this->isTv($releasename)){ return $this->tmpCat; }
@@ -480,7 +485,7 @@
                                 $this->tmpCat = Category::CAT_PC_0DAY;
                                 return true;
                             }
-                            else if (preg_match('/\-SUNiSO|Adobe|MULTiLANGUAGE|Cracked|lz0|\-BEAN|MultiOS|\-iNViSiBLE|\-SPYRAL|WinAll|Keymaker|Keygen|Lynda\.com|FOSI|Keyfilemaker|DIGERATI|\-UNION/i', $releasename))
+                            else if (preg_match('/\-SUNiSO|Adobe|CYGNUS|GERMAN\-|v\d{1,3}.*?Pro|MULTiLANGUAGE|Cracked|lz0|\-BEAN|MultiOS|\-iNViSiBLE|\-SPYRAL|WinAll|Keymaker|Keygen|Lynda\.com|FOSI|Keyfilemaker|DIGERATI|\-UNION/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_PC_0DAY;
                                 return true;
@@ -614,7 +619,7 @@
 
                     private function isGameWiiWare($releasename)
                     {
-                            if (preg_match('/WIIWARE|VC|CONSOLE/i', $releasename))
+                            if (preg_match('/WIIWARE|WII.*?VC|VC.*?WII|WII.*?DLC|DLC.*?WII|WII.*?CONSOLE|CONSOLE.*?WII/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_GAME_WIIWARE;
                                 return true;
