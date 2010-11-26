@@ -231,5 +231,6 @@ development
 	inpheaux@sabnzbd			design,nzb
 	spooge@newznab				testing
 	sy@newznab					testing, regexs
+	magegmins@newznab			lighttpd rewrite rules
 	fubaarr@newznab				testing
 	mobiKalw@newznab			testing

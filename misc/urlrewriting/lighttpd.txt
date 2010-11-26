@@ -1,21 +1,30 @@
- url.rewrite-once = ( "^/$" => "/content.php?id=0" )
- url.rewrite-once += ( "^/sitemap\.xml$" => "sitemap.php?type=xml" )
- url.rewrite-once += ( "^robots\.txt$" => "robots.php" )
- url.rewrite-once += ( ".*/c([0-9]+)$" => "content.php?id=$1" )
- url.rewrite-once += ( ".*/nzb/(.*)$" => "getnzb.php?id=$1" )
- url.rewrite-once += ( ".*/viewnzb/(.*)$" => "viewnzb.php?id=$1" )
- url.rewrite-once += ( "^/filelist/(.*)$" => "viewfilelist.php?id=$1" )
- url.rewrite-once += ( "^/series/(.*)$" => "viewseries.php?id=$1" )
- url.rewrite-once += ( "^/nfo/(.*)$" => "viewnfo.php?id=$1" )
- url.rewrite-once += ( "^/login$" => "login.php" )
- url.rewrite-once += ( "^/logout$" => "logout.php" )
- url.rewrite-once += ( "^/register$" => "register.php" )
- url.rewrite-once += ( "^/search/(.*)$" => "search.php?search=$1" )
- url.rewrite-once += ( "^/search$" => "search.php" )
- url.rewrite-once += ( "^/searchraw/(.*)$" => "searchraw.php?search=$1" )
- url.rewrite-once += ( "^/searchraw$" => "searchraw.php" )
- url.rewrite-once += ( "^/browse$" => "browse.php" )
- url.rewrite-once += ( "^/profile$" => "profile.php" )
- url.rewrite-once += ( "^/api$" => "api.php" )
- url.rewrite-once += ( "^/cart$" => "cart.php" )
- url.rewrite-once += ( "^/movie/(.*)$" => "viewmovie.php?id=$1" )
+url.rewrite-once = (
+		"^/$" => "/content.php?id=0",
+		"^/admin/(.*)$" => "admin/$1",
+		"^/sitemap\.xml$" => "sitemap.php?type=xml",
+		".*/nzb/(.*)$" => "getnzb.php?id=$1",
+		".*/viewnzb/(.*)$" => "viewnzb.php?id=$1",
+		"^/rss(.*)$" => "rss.php$1",                    # rss line must be after */viewnzb/ and */nzb/
+		".*/c([0-9]+)$" => "content.php?id=$1",
+		"^/filelist/(.*)$" => "viewfilelist.php?id=$1",
+		"^/series/(.*)$" => "viewseries.php?id=$1",
+		"^/nfo/(.*)$" => "viewnfo.php?id=$1",
+		"^/movie/(.*)$" => "viewmovie.php?id=$1",
+		"^/login$" => "login.php",
+		"^/logout$" => "logout.php",
+		"^/register$" => "register.php",
+		"^/search/(.*)$" => "search.php?search=$1",
+		"^/search$" => "search.php",
+		"^/searchraw/(.*)$" => "searchraw.php?search=$1",
+		"^/searchraw$" => "searchraw.php",
+		"^/browse(.*)$" => "browse.php$1",
+		"^/movies(.*)$" => "movies.php$1",
+		"^/profileedit(.*)$" => "profileedit.php$1",
+		"^/profile/(.*)$" => "profile.php?name=$1",
+		"^/profile$" => "profile.php",
+		"^/queue$" => "viewqueue.php",
+		"^/apihelp$" => "apihelp.php",
+		"^/api(.*)$" => "api.php$1",
+		"^/cart(.*)$" => "cart.php$1",
+		"^/mysearches(\.php|)(.*)$" => "mysearches.php$2"
+)
