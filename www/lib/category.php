@@ -64,7 +64,7 @@
                     if ($activeonly)
                             $act = sprintf(" where c.status = %d %s ", Category::STATUS_ACTIVE, $exccatlist ) ;
 
-                    return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, cp.ID as parentID, c.status from category c inner join category cp on cp.ID = c.parentID ".$act);
+                    return $db->query("select c.ID, concat(cp.title, ' > ',c.title) as title, cp.ID as parentID, c.status from category c inner join category cp on cp.ID = c.parentID ".$act." ORDER BY c.ID");
             }
 
             public function isParent($cid)
@@ -83,7 +83,7 @@
                     $act = "";
                     if ($activeonly)
                             $act = sprintf(" where c.status = %d ", Category::STATUS_ACTIVE ) ;
-                    return $db->query("select c.*, (SELECT title FROM category WHERE ID=c.parentID) AS parentName from category c ".$act);
+                    return $db->query("select c.*, (SELECT title FROM category WHERE ID=c.parentID) AS parentName from category c ".$act." ORDER BY c.ID");
             }
 
             public function getChildren($cid)

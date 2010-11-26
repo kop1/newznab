@@ -56,7 +56,7 @@ class Groups
 							LEFT OUTER JOIN
 							(
 							SELECT groupID, COUNT(ID) AS num FROM releases group by groupID
-							) rel ON rel.groupID = groups.ID");
+							) rel ON rel.groupID = groups.ID ORDER BY groups.name");
 	}	
 	
 	public function getByID($id)
