@@ -207,7 +207,6 @@
                     if (preg_match('/alt\.binaries\.games\.wii/i', $group))
                             {
                                 if($this->isConsole($releasename)){ return $this->tmpCat; }
-                                return Category::CAT_GAME_WII;
                             }                            
                     if (preg_match('/alt\.binaries\.dvd.*?/i', $group))
                             {
