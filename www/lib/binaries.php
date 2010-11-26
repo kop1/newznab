@@ -429,19 +429,13 @@ class Binaries
 	{
 		if (is_array($this->blackList) && !empty($this->blackList)) { return $this->blackList; }
 		$blackList = $this->getBlacklist(true);
-		$result = array();
-		foreach($blackList as $bl) 
-		{
-			$result[$bl['groupname']][$bl['optype']][] = $bl;
-		}
-		$this->blackList = $result;
-		return $result;
+		$this->blackList = $blackList;
+		return $blackList;
 	}
 	
 	public function isBlackListed($msg, $groupName) 
 	{
 		$blackList = $this->retrieveBlackList();
-	
 		$field = array();
 		if (isset($msg["Subject"]))
 			$field[Binaries::BLACKLIST_FIELD_SUBJECT] = $msg["Subject"];
@@ -452,29 +446,28 @@ class Binaries
 		if (isset($msg["Message-ID"]))
 			$field[Binaries::BLACKLIST_FIELD_MESSAGEID] = $msg["Message-ID"];
 
-		$omitBinary = false;
-		//whitelist
-		if (isset($blackList[$groupName][2])) 
+		$omitBinary = false;		
+		
+		foreach ($blackList as $blist)
 		{
-			foreach ($blackList[$groupName][2] as $wList) 
+			if (preg_match('/^'.$blist['groupname'].'$/i', $groupName))
 			{
-				if (!preg_match('/'.$wList['regex'].'/i', $field[$wList['msgcol']]))
+				//blacklist
+				if ($blist['optype'] == 1)
 				{
-					$omitBinary = true;
+					if (preg_match('/'.$blist['regex'].'/i', $field[$blist['msgcol']])) {
+						$omitBinary = true;
+					}
+				}
+				else if ($blist['optype'] == 2) 
+				{
+					if (!preg_match('/'.$blist['regex'].'/i', $field[$blist['msgcol']])) {
+						$omitBinary = true;
+					}
 				}
 			}
 		}
-		//blacklist
-		if (isset($blackList[$groupName][1])) 
-		{
-			foreach ($blackList[$groupName][1] as $bList) 
-			{
-				if (preg_match('/'.$bList['regex'].'/i', $field[$bList['msgcol']]))
-				{
-					$omitBinary = true;
-				}
-			}
-		}
+
 		return $omitBinary;
 	}
 	
