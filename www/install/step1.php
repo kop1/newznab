@@ -68,6 +68,7 @@ $cfg->schemaCheck = is_readable($cfg->DB_DIR.'/schema.sql');
 if ($cfg->schemaCheck === false) { $cfg->error = true; }
 
 // Dont set error = true for these as we only want to display a warning
+$cfg->phpCheck = (version_compare(PHP_VERSION, '5.2.0', '>=')) ? true : false;
 $cfg->timelimitCheck = (ini_get('max_execution_time') >= 60) ? true : false;
 $cfg->memlimitCheck = (ini_get('memory_limit') >= 256) ? true : false;
 $cfg->opensslCheck = !extension_loaded("opensssl");

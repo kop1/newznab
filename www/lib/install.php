@@ -38,6 +38,7 @@ class Install {
 	public $lockCheck;
 	public $pearCheck;
 	public $schemaCheck;
+	public $phpCheck;
 	public $timelimitCheck;
 	public $memlimitCheck;
 	public $rewriteCheck;
