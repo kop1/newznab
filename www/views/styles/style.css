@@ -91,6 +91,7 @@ table.data td.less { color: #888; font-size: 0.8em; white-space:nowrap; }
 table.data td.icons { white-space:nowrap; padding-left:0px; padding-right:0px; width:60px; }
 table.highlight tr:hover td { background-color: #E1F0D9; }
 table tr.alt { background-color: #EEE; }
+table tr.new { background-color: #f6f8ff; }
 table.data em {font-weight:bolder; color:red;}
 div.hint, div.hint a {font-size:0.9em; font-style:italic; color:#999;}
 div.hint { margin-bottom:10px;}

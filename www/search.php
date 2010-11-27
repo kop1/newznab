@@ -34,6 +34,7 @@ if (isset($_REQUEST["search"]))
 	}
 	$page->smarty->assign('category', $categoryId);
 	$page->smarty->assign('search', $_REQUEST["search"]);
+	$page->smarty->assign('lastvisit', $page->userdata['lastlogin']);
 	$results = $releases->search($_REQUEST["search"], $categoryId, 0, 1000, $orderby, -1, $page->userdata["categoryexclusions"]);
 }
 

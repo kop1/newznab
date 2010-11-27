@@ -17,6 +17,7 @@ body { background: #000 url() repeat-x left top;}
 
 /* override table styles, alt rows, headings etc*/
 table tr.alt { background-color: #333; }
+table tr.new { background-color: #004703; }
 table.highlight tr:hover td { background-color: #444; }
 table.data th { background-color:#555; border-color: #777;}
 table.data td, table.data { border-color: #777;}
