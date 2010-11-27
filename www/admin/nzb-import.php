@@ -17,13 +17,15 @@ if (!empty($argc) || $page->isPostBack() )
 	{
 		$strTerminator = "\n";
 		$path = $argv[1];
+		$usenzbname = (isset($argv[2]) && $argv[2] == 'true') ? true : false;
 	}
 	else		
 	{
 		$strTerminator = "<br />";
 		$path = $_POST["folder"];
+		$usenzbname = (isset($_POST['usefilename']) && $_POST["usefilename"] == 'on') ? true : false;
 	}
-
+		
 	if (substr($path, strlen($path) - 1) != '/')
 		$path = $path."/";
 
@@ -93,6 +95,11 @@ if (!empty($argc) || $page->isPostBack() )
 							$db->escapeString($xref), $db->escapeString($totalParts), $db->escapeString($groupID), $db->escapeString($nzbFile) );
 					
 					$binaryId = $db->queryInsert($binarySql);
+					
+					if ($usenzbname) {
+						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s, regexID=%d, reqID=%s where ID = %d", 
+							$db->escapeString(str_replace('.nzb', '', basename($nzbFile))), 1, 1, 5, "null", "null", "null", $binaryId));
+					}
 					
 					//segments (i.e. parts)
 					foreach($file->segments->segment as $segment) 
