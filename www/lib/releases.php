@@ -901,7 +901,12 @@ class Releases
 						$reqid = " null ";
 						if (isset($matches['reqid'])) 
 							$reqid = $matches['reqid'];
-
+						
+						//check if post is repost
+						if (preg_match('/(repost\d?|re\-?up)/i', $rowbin['name'], $repost) && !preg_match('/repost|re\-?up/i', $matches['name'])) {
+							$matches['name'] .= ' '.$repost[1];
+						}
+						
 						$relparts = explode("/", $matches['parts']);
 						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s, regexID=%d, reqID=%s where ID = %d", 
 							$db->escapeString($matches['name']), $relparts[0], $relparts[1], Releases::PROCSTAT_TITLEMATCHED, $regcatid, $regexrow["ID"], $reqid, $rowbin["ID"] ));
