@@ -35,7 +35,7 @@ switch($action)
 		
 	break;
 	case 'dodelete':
-		$releases->deletemulti($_REQUEST["id"]);
+		$releases->delete($_REQUEST["id"], true);
 	break;
 	case 'dorebuild':
 		$releases->rebuildmulti($_REQUEST["id"]);

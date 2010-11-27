@@ -330,47 +330,31 @@ class Releases
 			$relids[] = $r['ID'];
 		}
 			
-		$this->deletemulti($guids);
+		$this->delete($relids);
 		
 		$db = new DB();
 		$db->query(sprintf("update binaries set procstat = 0,procattempts=0, categoryID=null, regexID=null,reqID=null,relpart=null,reltotalpart=null,relname=null,releaseID=null where releaseID IN (%s)", implode(',',$relids)));
 
 	}
 	
-	public function delete($id)
+	public function delete($id, $isGuid=false)
 	{			
 		$db = new DB();
 		$users = new Users();
 		$s = new Sites();
 		$nfo = new Nfo();
 		$site = $s->get();
-		//
-		// delete from disk.
-		//
-		$rel = $this->getById($id);
-		if ($rel && file_exists($site->nzbpath.$rel["guid"].".nzb.gz")) 
-			unlink($site->nzbpath.$rel["guid"].".nzb.gz");
 		
-		$nfo->deleteReleaseNfo($id);
-		$this->deleteCommentsForRelease($id);
-		$users->delCartForRelease($id);
-		$db->query(sprintf("delete from releases where id = %d", $id));		
-	}
-	
-	public function deletemulti($guids)
-	{
-		if (!is_array($guids) || sizeof($guids) < 1)
-			return false;
-		
-		$db = new DB();
-		$users = new Users();
-		$s = new Sites();
-		$nfo = new Nfo();
-		$site = $s->get();
-		
-		foreach($guids as $guid)
+		if (!is_array($id))
+			$id = array($id);
+				
+		foreach($id as $identifier)
 		{
-			$rel = $this->getByGuid($guid);
+			//
+			// delete from disk.
+			//
+			$rel = ($isGuid) ? $this->getByGuid($identifier) : $this->getById($identifier);
+
 			if ($rel && file_exists($site->nzbpath.$rel["guid"].".nzb.gz")) 
 				unlink($site->nzbpath.$rel["guid"].".nzb.gz");
 			
