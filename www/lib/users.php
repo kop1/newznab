@@ -194,7 +194,7 @@ class Users
 	public function getById($id)
 	{			
 		$db = new DB();
-		return $db->queryOneRow(sprintf("select * from users where id = %d ", $id));		
+		return $db->queryOneRow(sprintf("select *, NOW() as now from users where id = %d ", $id));		
 	}	
 	
 	public function getByIdAndRssToken($id, $rsstoken)
@@ -356,19 +356,24 @@ class Users
 		$site = new Sites();
 		$db = new DB();
 		$s = $site->get();
-		if ($s->storeuserips == "1")
-		{
-			$db->query(sprintf("update users set lastlogin=now(), host = %s where ID = %d ", $db->escapeString($host), $uid));		
-		}
-		else
-		{
-			$db->query(sprintf("update users set lastlogin=now() where ID = %d ", $uid));		
-		}
+		
+		if ($s->storeuserips != "1")
+			$host = '';
+			
+		$this->updateSiteAccessed($uid, $host);
 		
 		if ($remember == 1) 
-		{
 			$this->setCookies($uid, $s->siteseed);
-		}	
+	}
+	
+	public function updateSiteAccessed($uid, $host="")
+	{			
+		$db = new DB();
+		$hostSql = '';
+		if ($host != '')
+			$hostSql = sprintf(', host = %s', $db->escapeString($host));
+			
+		$db->query(sprintf("update users set lastlogin = now() %s where ID = %d ", $hostSql, $uid));		
 	}
 	
 	public function updateApiAccessed($uid)
