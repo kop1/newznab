@@ -351,7 +351,7 @@ class TMDb
 				$params .= '/'.implode('/', $arr);
 			}
 
-			$lang = (strstr($function,'.', TRUE) !== 'Auth') ? '/'.$this->getLang() : '';
+			$lang = (strstr($function,'.') !== 'Auth') ? '/'.$this->getLang() : '';
 			$url = TMDb::API_URL.$function.$lang.'/'.$type.'/'.$this->getApikey().$params;
 		}
 		elseif($method == TMDB::POST)
