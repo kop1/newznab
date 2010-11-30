@@ -509,7 +509,7 @@ class Releases
 			if (is_numeric($episode))
 				$episode = sprintf('E%02d', $episode);
 
-			$episode = sprintf(" and upper(releases.episode) = upper(%s)", $db->escapeString($episode));
+			$episode = sprintf(" and releases.episode like %s", $db->escapeString('%'.$episode.'%'));
 		}
 
 		//
@@ -1498,9 +1498,15 @@ class Releases
 			'airdate' => ''
 		);
 		
+		//S01E01-E02
+		//S01E01-02
+		if (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})(?:\-e?|\-?e)(\d{1,3})\./i', $relname, $matches)) {
+			$showInfo['name'] = $matches[1];
+			$showInfo['season'] = intval($matches[2]);
+			$showInfo['episode'] = array(intval($matches[3]), intval($matches[4]));
 		//S01E01
 		//S01.E01
-		if (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})\.?/i', $relname, $matches)) {
+		} elseif (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})\.?/i', $relname, $matches)) {
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = intval($matches[2]);
 			$showInfo['episode'] = intval($matches[3]);
@@ -1537,12 +1543,6 @@ class Releases
 			$showInfo['name'] = $matches[1];
 			$showInfo['season'] = '20'.$matches[2];
 			$showInfo['episode'] = intval($matches[3]);
-		//S01E01-E02
-		//S01E01-02
-		} elseif (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})-e?(\d{1,3})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = intval($matches[2]);
-			$showInfo['episode'] = intval($matches[3]).''.intval($matches[4]);
 		//2009.Part1
 		} elseif (preg_match('/^(.*?)\.20(\d{2})\.Part(\d{1,2})\./i', $relname, $matches)) {
 			$showInfo['name'] = $matches[1];
@@ -1579,11 +1579,19 @@ class Releases
 		}
 		
 		if (!empty($showInfo['name'])) {
+			$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
+			if (is_array($showInfo['episode'])) {
+				$tmpArr = array();
+				foreach ($showInfo['episode'] as $ep) {
+					$tmpArr[] = sprintf('E%02d', $ep);
+				}
+				$showInfo['episode'] = implode('', $tmpArr);
+			} else {
+				$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
+			}
 			if (strlen($showInfo['season']) == 4) {
 				$showInfo['seriesfull'] = $showInfo['season']."/".$showInfo['episode'];
 			} else {
-				$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
-				$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
 				$showInfo['seriesfull'] = $showInfo['season'].$showInfo['episode'];
 			}
 			$showInfo['airdate'] = (!empty($showInfo['airdate'])) ? $showInfo['airdate'].' 00:00:00' : '';
