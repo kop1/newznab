@@ -25,8 +25,6 @@ class Users
 
 	const SALTLEN = 4;
 	const SHA1LEN = 40;
-	const HASHLEN = 44;
-	const TOKENLEN = 12;
 
 	public function get()
 	{			
