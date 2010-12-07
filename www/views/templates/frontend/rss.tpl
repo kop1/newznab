@@ -26,6 +26,9 @@
 	<description>{if $api=="1"}{$release.searchname}{else}
 <![CDATA[{strip}
 	<div>
+	{if $release.cover == 1}
+		<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
+	{/if}
 	<ul{if $release.parentCategoryID == 2000 && $release.cover == 1} style="float:left;"{/if}>
 	<li>ID: <a href="{$serverroot}rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
@@ -50,9 +53,6 @@
 		</li>
 		{/if}
 		</ul>
-		{if $release.cover == 1}
-			<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
-		{/if}
 	{/if}
 	</div>
 	{/strip}]]>
