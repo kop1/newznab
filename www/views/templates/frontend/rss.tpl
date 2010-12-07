@@ -26,7 +26,7 @@
 	<description>{if $api=="1"}{$release.searchname}{else}
 <![CDATA[{strip}
 	<div>
-	<ul style="float:left;">
+	<ul{if $release.parentCategoryID == 2000 && $release.cover == 1} style="float:left;"{/if}>
 	<li>ID: <a href="{$serverroot}rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
 	<li>Attributes: Category - {$release.category_name}</li>
@@ -35,21 +35,25 @@
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
 	<li>Password: {if $release.passwordstatus == 0}None{elseif $release.passwordstatus == 1}Passworded Rar Archive{elseif $release.passwordstatus == 2}Contains Cab/Ace Archive{else}Unknown{/if}</li>
 	
-	{if $release.imdbID != ""}
-	<li>Imdb Info: 
-		<ul>
-			<li>Link: <a href="http://www.imdb.com/title/tt{$release.imdbID}/">{$release.searchname}</a></li>
-			{if $release.rating != ""}<li>Rating: {$release.rating}</li>{/if}
-			{if $release.plot != ""}<li>Plot: {$release.plot}</li>{/if}
-			{if $release.year != ""}<li>Year: {$release.year}</li>{/if}
-			{if $release.genre != ""}<li>Genre: {$release.genre}</li>{/if}
-			{if $release.director != ""}<li>Director: {$release.director}</li>{/if}
-			{if $release.actors != ""}<li>Actors: {$release.actors}</li>{/if}
+	{if $release.parentCategoryID == 2000}
+		{if $release.imdbID != ""}
+		<li>Imdb Info: 
+			<ul>
+				<li>Link: <a href="http://www.imdb.com/title/tt{$release.imdbID}/">{$release.searchname}</a></li>
+				{if $release.rating != ""}<li>Rating: {$release.rating}</li>{/if}
+				{if $release.plot != ""}<li>Plot: {$release.plot}</li>{/if}
+				{if $release.year != ""}<li>Year: {$release.year}</li>{/if}
+				{if $release.genre != ""}<li>Genre: {$release.genre}</li>{/if}
+				{if $release.director != ""}<li>Director: {$release.director}</li>{/if}
+				{if $release.actors != ""}<li>Actors: {$release.actors}</li>{/if}
+			</ul>
+		</li>
+		{/if}
 		</ul>
-	</li>
+		{if $release.cover == 1}
+			<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
+		{/if}
 	{/if}
-	</ul>
-	{if $release.cover == 1}<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />{/if}
 	</div>
 	{/strip}]]>
 	{/if}
