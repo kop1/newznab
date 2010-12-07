@@ -1,5 +1,4 @@
 <?php
-
 require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
@@ -91,8 +90,7 @@ else
 	$reldata = $releases->getRss($usercat, $usernum, $uid, $userrage);
 	$page->smarty->assign('releases',$reldata);
 	header("Content-type: text/xml");
-	echo $page->smarty->fetch('rss.tpl');
+	echo trim($page->smarty->fetch('rss.tpl'));
 
 }
-
 ?>

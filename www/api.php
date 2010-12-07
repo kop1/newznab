@@ -143,7 +143,7 @@ switch ($function)
 			$page->smarty->assign('offset',$offset);
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
-			echo $page->smarty->fetch('apiresult.tpl');	
+			echo trim($page->smarty->fetch('apiresult.tpl'));	
 		}
 		else
 		{
@@ -198,7 +198,7 @@ switch ($function)
 			$page->smarty->assign('offset',$offset);
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
-			echo $page->smarty->fetch('apiresult.tpl');	
+			echo trim($page->smarty->fetch('apiresult.tpl'));
 		}
 		else
 		{
@@ -246,7 +246,7 @@ switch ($function)
 			$page->smarty->assign('offset',$offset);
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
-			echo $page->smarty->fetch('apiresult.tpl');	
+			echo trim($page->smarty->fetch('apiresult.tpl'));	
 		}
 		else
 		{
@@ -290,7 +290,7 @@ switch ($function)
 		{
 			$page->smarty->assign('releases',$reldata);
 			header("Content-type: text/xml");
-			echo $page->smarty->fetch('apidetail.tpl');
+			echo trim($page->smarty->fetch('apidetail.tpl'));
 		}	
 		else
 			echo json_encode($data); //TODO:make that a more specific array of data to return rather than resultset
@@ -345,7 +345,7 @@ switch ($function)
 			showApiError(107);	
 			
 		header("Content-type: text/xml");
-		echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
 		echo "<register username=\"".$username."\" password=\"".$password."\" apikey=\"".$userdata["rsstoken"]."\"/>\n";
 		
 		break;			
@@ -404,7 +404,7 @@ function showApiError($errcode=900, $errtext="")
 	}
 	
 	header("Content-type: text/xml");
-	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
 	echo "<error code=\"$errcode\" description=\"$errtext\"/>\n";
 	die();
 }

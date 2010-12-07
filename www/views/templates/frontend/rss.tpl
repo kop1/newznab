@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/" encoding="ISO-8859-1">
 <channel>
 <atom:link href="{$serverroot}rss" rel="self" type="application/rss+xml" />
@@ -23,7 +24,7 @@
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
 	<category>{$release.category_name|escape:html}</category> 	
 	<description>{if $api=="1"}{$release.searchname}{else}
-<![CDATA[
+<![CDATA[{strip}
 	<div>
 	<ul style="float:left;">
 	<li>ID: <a href="{$serverroot}rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
@@ -33,10 +34,24 @@
 	<li>Poster: {$release.fromname}</li>
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
 	<li>Password: {if $release.passwordstatus == 0}None{elseif $release.passwordstatus == 1}Passworded Rar Archive{elseif $release.passwordstatus == 2}Contains Cab/Ace Archive{else}Unknown{/if}</li>
+	
+	{if $release.imdbID != ""}
+	<li>Imdb Info: 
+		<ul>
+			<li>Link: <a href="http://www.imdb.com/title/tt{$release.imdbID}/">{$release.searchname}</a></li>
+			{if $release.rating != ""}<li>Rating: {$release.rating}</li>{/if}
+			{if $release.plot != ""}<li>Plot: {$release.plot}</li>{/if}
+			{if $release.year != ""}<li>Year: {$release.year}</li>{/if}
+			{if $release.genre != ""}<li>Genre: {$release.genre}</li>{/if}
+			{if $release.director != ""}<li>Director: {$release.director}</li>{/if}
+			{if $release.actors != ""}<li>Actors: {$release.actors}</li>{/if}
+		</ul>
+	</li>
+	{/if}
 	</ul>
 	{if $release.cover == 1}<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />{/if}
 	</div>
-]]>
+	{/strip}]]>
 	{/if}
 </description>
 	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />{/if}

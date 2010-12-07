@@ -293,7 +293,7 @@ class Releases
 		if ($rageid > 0)
 			$rage = sprintf(" and releases.rageID = %d", $rageid);
 			
-		return $db->query(sprintf(" SELECT releases.*, m.cover, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID left outer join movieinfo m on m.imdbID = releases.imdbID and m.title != '' where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s order by postdate desc %s" ,$catsrch, $rage, $limit));
+		return $db->query(sprintf(" SELECT releases.*, m.cover, m.imdbID, m.rating, m.plot, m.year, m.genre, m.director, m.actors, g.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, coalesce(cp.ID,0) as parentCategoryID from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID left outer join groups g on g.ID = releases.groupID left outer join movieinfo m on m.imdbID = releases.imdbID and m.title != '' where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s order by postdate desc %s" ,$catsrch, $rage, $limit));
 	}
 		
 	public function getCount()
