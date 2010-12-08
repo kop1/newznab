@@ -43,6 +43,7 @@ class Install {
 	public $memlimitCheck;
 	public $rewriteCheck;
 	public $opensslCheck;
+	public $timezoneCheck;
 	
 	public $dbConnCheck;
 	public $dbNameCheck;
