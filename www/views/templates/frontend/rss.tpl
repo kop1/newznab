@@ -55,6 +55,7 @@
 		</ul>
 	{/if}
 	</div>
+	<div style="clear:both;">
 	{/strip}]]>
 	{/if}
 </description>
