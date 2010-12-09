@@ -6,7 +6,7 @@
 		<label for="search" style="display:none;">Search</label>
 		<input id="search" name="search" value="{$search|escape:'html'}" type="text"/>
 		<input id="search_search_button" type="submit" value="search" />
-		{if $category[0]}<input type="hidden" name="t" value="{$category[0]}" id="search_cat" />{/if}
+		<input type="hidden" name="t" value="{if $category[0]!=""}{$category[0]}{else}-1{/if}" id="search_cat" />
 
     {if $results}
     <br />

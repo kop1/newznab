@@ -12,7 +12,7 @@
 	{/if}
 	<link rel="shortcut icon" type="image/ico" href="{$smarty.const.WWW_TOP}/../views/images/favicon.ico"/>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/../views/scripts/jquery.js"></script>
-	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/../views/scripts/functions_sorttable.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/../views/scripts/sorttable.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/../views/scripts/utils-admin.js"></script>
 	<script type="text/javascript">var WWW_TOP = "{$smarty.const.WWW_TOP}/..";</script>
 	

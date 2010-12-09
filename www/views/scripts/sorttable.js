@@ -1,30 +1,13 @@
-
-//------------------------------------------------------------------------------------------------------------------------------------------------
-//-- Change the status bar
-//------------------------------------------------------------------------------------------------------------------------------------------------
-
-function F_ChangeStatus ( str_Message )
-{
-	if ( str_Message == null ) str_Message = "";
-	window.status = str_Message;
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-//------------------------------------------------------------------------------------------------------------------------------------------------
-//-- Code aquired from http://www.kryogenix.org/code/browser/sorttable/
-//------------------------------------------------------------------------------------------------------------------------------------------------
-
+//
+// Javascript clientside sorting of table data
+//
 
 addEvent(window, "load", sortables_init);
 
 var SORT_COLUMN_INDEX;
 
-function sortables_init() {
+function sortables_init() 
+{
     // Find all tables with class sortable and make them sortable
     if (!document.getElementsByTagName) { alert ( "cannot" ); return; }
     tbls = document.getElementsByTagName("table");
@@ -32,7 +15,6 @@ function sortables_init() {
         thisTbl = tbls[ti];
         if ((' '+thisTbl.className+' ').indexOf("Sortable") != -1) {
             ts_makeSortable(thisTbl);
-			//F_ColourRows(thisTbl);
         }
     }
 }
@@ -48,10 +30,7 @@ function ts_makeSortable(table) {
         var cell = firstRow.cells[i];
         var txt = ts_getInnerText(cell);
 		var str_HTML = '<a href="#" onclick="ts_resortTable(this, ' + i + ');return false;" ' +
-			'title="Sort by ' + txt + ' &gt;&gt;" ' +
-			//'title="cssheader=[TooltipBody] cssbody=[TooltipBody] header=[<b>Sort by ' + txt + '</b>]  coverselects=[on]" ' + // extra title info added to deal with tooltip
-			'onMouseOver="F_ChangeStatus(\'Sort by '+ txt +'\');return true;" ' +
-			'onMouseOut="F_ChangeStatus();return true;">' + txt + '<span class="SortArrow"';
+			'title="Sort by ' + txt + ' &gt;&gt;" >' + txt + '<span class="SortArrow"';
 		
 		// adjust the first column so it displays as selected
 		if ( i==0 ) {
@@ -223,9 +202,6 @@ function ts_sort_default(a,b) {
 
 
 function addEvent(elm, evType, fn, useCapture)
-// addEvent and removeEvent
-// cross-browser event handling for IE5+,  NS6 and Mozilla
-// By Scott Andrew
 {
   if (elm.addEventListener){
     elm.addEventListener(evType, fn, useCapture);

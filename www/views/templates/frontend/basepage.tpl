@@ -17,7 +17,7 @@
 	<link rel="shortcut icon" type="image/ico" href="{$smarty.const.WWW_TOP}/views/images/favicon.ico"/>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/views/scripts/jquery.js"></script>
 	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/views/scripts/utils.js"></script>
-	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/views/scripts/functions_sorttable.js"></script>
+	<script type="text/javascript" src="{$smarty.const.WWW_TOP}/views/scripts/sorttable.js"></script>
 
 	<script type="text/javascript">
 		var WWW_TOP = "{$smarty.const.WWW_TOP}";
@@ -45,7 +45,6 @@
 	<hr />
 	
 	<div id="header">
-
 		<div id="menu"> 
 
 			{if $loggedin=="true"}
@@ -68,13 +67,11 @@
 			{/if}
 						
 		</div> 
-		<!-- end #menu --> 
 	</div>
-	
 	
 	<div id="page">
 
-	<div id="adpanel">
+		<div id="adpanel">
 			&nbsp;
 			{if $site->google_adsense_acc != '' && $site->google_adsense_sidepanel != ''}
 			{literal}
@@ -92,13 +89,11 @@
 		
 			{/literal}
 			{/if}
-		
 		</div>
 
 		<div id="content">
 			{$page->content}
 		</div>
-		<!-- end #content -->
 
 		<div id="sidebar">
 		<ul>		
@@ -169,29 +164,23 @@
 		<li>
 			<a title="Sabznbd - A great usenet binary downloader" href="http://www.sabnzbd.org/"><img class="menupic" alt="Sabznbd - A great usenet binary downloader" src="{$smarty.const.WWW_TOP}/views/images/sabnzbd.png" /></a>
 		</li>
-		
 		</ul>
 		</div>
-		<!-- end #sidebar -->
 	
 		<div  style="clear: both;text-align:right;padding-bottom:10px;">
 			<a class="w3validator" href="http://validator.w3.org/check?uri=referer">
 			<img src="{$smarty.const.WWW_TOP}/views/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
 			</a> 
 		</div>
-
-		 
 		
 	</div>
-	<!-- end #page -->
 
 	<div class="footer">
 	<p>
 		{$site->footer}
-		<br /><br /><br /><a href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/><a href="{$smarty.const.WWW_TOP}/terms-and-conditions.php">{$site->title} Terms and Conditions</a>
+		<br /><br /><br /><a title="Newznab - A usenet indexing web application with community features." href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/><a href="{$smarty.const.WWW_TOP}/terms-and-conditions.php">{$site->title} Terms and Conditions</a>
 	</p>
 	</div>
-	<!-- end #footer -->
 	
 	{if $site->google_analytics_acc != ''}
 	{literal}
