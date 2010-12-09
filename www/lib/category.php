@@ -215,6 +215,7 @@
                             }
                     if (preg_match('/alt\.binaries\.hdtv*|alt\.binaries\.x264/i', $group))
                             {
+                            	  if($this->isXXX($releasename)){ return $this->tmpCat; }
                                 if($this->isTv($releasename)){ return $this->tmpCat; }
                                 if($this->isMovie($releasename)){ return $this->tmpCat; }
                             }
@@ -332,7 +333,7 @@
 
                     private function isTV($releasename)
                     {
-                            If(preg_match('/(S?(\d{1,2})\.?(E|X|D)(\d{1,3}))|(dsr|pdtv|hdtv)[\.\-_]/i', $releasename))
+                            If(preg_match('/(S?(\d{1,2})\.?(E|X|D)(\d{1,2})[\. _-]+)|(dsr|pdtv|hdtv)[\.\-_]/i', $releasename))
                             {
                                     if($this->isForeignTV($releasename)){ return true; }
                                     if($this->isSportTV($releasename)){ return true; }
