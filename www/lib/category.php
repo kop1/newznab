@@ -191,7 +191,7 @@
                             }                                                                           
                     if (preg_match('/alt\.binaries\..*?audiobook.*?/i', $group))
                             return Category::CAT_MUSIC_AUDIOBOOK;
-                    if (preg_match('/alt\.binaries\.sounds.*?|alt\.binaries\.mp3.*?/i', $group))
+                    if (preg_match('/alt\.binaries\.sounds.*?|alt\.binaries\.mp3.*?|alt\.binaries\..*\.mp3/i', $group))
                             {
                             if($this->isMusic($releasename)){ return $this->tmpCat; }
                             return Category::CAT_MUSIC_MP3;
@@ -219,8 +219,11 @@
                                 if($this->isTv($releasename)){ return $this->tmpCat; }
                                 if($this->isMovie($releasename)){ return $this->tmpCat; }
                             }
-                    if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx/i', $group))
+                    if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx|alt\.binaries\.movies/i', $group))
+                            {
+                            if($this->isMovie($releasename)){ return $this->tmpCat; }
                             return Category::CAT_MOVIE_SD;
+                          	}      
                     if (preg_match('/alt\.binaries\.classic\.tv.*?/i', $group))
                             return Category::CAT_TV_SD;
                     if (preg_match('/alt\.binaries\.e-book*?/i', $group))
@@ -411,8 +414,8 @@
                     private function isMovie($releasename)
                     {
                             if($this->isMovieForeign($releasename)){ return true; }
-                            if($this->isMovieHD($releasename)){ return true; }
                             if($this->isMovieSD($releasename)){ return true; }
+                            if($this->isMovieHD($releasename)){ return true; }
                     }
 
                     private function isMovieForeign($releasename)
@@ -422,7 +425,7 @@
                                 $this->tmpCat = Category::CAT_MOVIE_FOREIGN;
                                 return true;
                             }
-                            Else If(preg_match('/NLSubs|NL\-Subs|NLSub/i', $releasename))
+                            Else If(preg_match('/NLSubs|NL\-Subs|NLSub|\d{4} German/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_MOVIE_FOREIGN;
                                 return true;
@@ -432,7 +435,7 @@
 
                     private function isMovieHD($releasename)
                     {
-                            If(preg_match('/x264|bluray\-|wmvhd|web\-dl|bd?25|bd?50|blu-ray|VC1|VC\-1|AVC/i', $releasename))
+                            If(preg_match('/x264|bluray\-|wmvhd|web\-dl|bd?25|bd?50|blu-ray|VC1|VC\-1|AVC|XvidHD/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_MOVIE_HD;
                                 return true;
@@ -442,7 +445,7 @@
 
                     private function isMovieSD($releasename)
                     {
-                            If(preg_match('/xvid|dvdscr|extrascene|dvdrip|r5|\.CAM\.|dvdr|dvd9|dvd5/i', $releasename))
+                            If(preg_match('/(xvid|dvdscr|extrascene|dvdrip|r5|\.CAM|dvdr|dvd9|dvd5|divx)[\.\-]/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_MOVIE_SD;
                                 return true;
