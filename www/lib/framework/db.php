@@ -69,7 +69,7 @@ class DB
 		
 		$rows = array();
 
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		while ($row = mysql_fetch_assoc($result)) 
 		{
 			$rows[] = $row;	
 			if ($addtotalcount)
