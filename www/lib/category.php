@@ -218,12 +218,7 @@
                             	  if($this->isXXX($releasename)){ return $this->tmpCat; }
                                 if($this->isTv($releasename)){ return $this->tmpCat; }
                                 if($this->isMovie($releasename)){ return $this->tmpCat; }
-                            }
-                    if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx|alt\.binaries\.movies/i', $group))
-                            {
-                            if($this->isMovie($releasename)){ return $this->tmpCat; }
-                            return Category::CAT_MOVIE_SD;
-                          	}      
+                            }    
                     if (preg_match('/alt\.binaries\.classic\.tv.*?/i', $group))
                             return Category::CAT_TV_SD;
                     if (preg_match('/alt\.binaries\.e-book*?/i', $group))
@@ -261,7 +256,7 @@
                     if (preg_match('/alt\.binaries\.tv\.swedish/i', $group))
                             return Category::CAT_TV_FOREIGN;
                     if (preg_match('/alt\.binaries\.erotica\.divx/i', $group))
-                            return Category::CAT_XXX_XVID;
+                            return Category::CAT_XXX_XVID;                       	                             
                     if (preg_match('/alt\.binaries\.mma|alt\.binaries\.multimedia\.sports.*?/i', $group))
                             return Category::CAT_TV_SPORT;
                     if (preg_match('/alt\.binaries\.b4e$/i', $group))
@@ -287,6 +282,11 @@
                             if($this->isXxx($releasename)){ return $this->tmpCat; }
                             return Category::CAT_XXX_XVID;
                             }
+                    if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx|alt\.binaries\.movies/i', $group))
+                            {
+                            if($this->isMovie($releasename)){ return $this->tmpCat; }
+                            return Category::CAT_MOVIE_SD;
+                          	}                               
                     if (preg_match('/wmvhd/i', $group))
                             {
                             if($this->isTV($releasename)){ return $this->tmpCat; }
