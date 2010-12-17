@@ -1,0 +1,37 @@
+
+/* example site specific theme*/
+
+/* make all main site containers black baground and remove the fader image at the top*/
+
+/* remove the w3 validator, change logo, and hide h1 text*/
+
+body { background:none; color: #333; }
+.footer, .w3validator, .menupic {display:none;}
+#logo { visibility:none; height:35px; background:none;}
+
+/* override table styles, alt rows, headings etc*/
+table tr.alt { background-color: #eee; }
+table tr.new { background-color: #004703; }
+table.highlight tr:hover td { background-color: #efefef; }
+table.data th { background-color:#fff; border-color: #ddd;}
+table.data td, table.data { border-color: #ddd;}
+
+
+/* override almost every element in the sites font and color*/
+#sidebar li li a:hover, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a, select, textarea, input {font-family:Calibri, courier, monospace; color:#444;}
+#sidebar li li, #sidebar li li:hover { background:none;}
+#sidebar li li a {padding: 0 0 0 0;}
+#sidebar a:hover { text-decoration: underline;}
+
+input[type=text],
+input[type=password],
+textarea,
+select { background: none; }
+
+/* menu bar background colours*/
+#menulink a, #menulink :visited, #menulink li, #menu { background-color:#fff;}
+#menulink :hover, #menulink a.selected { color: #fff; background-color: #333; }
+
+
+#cboxLoadedContent{ background:#333; }
+
