@@ -115,9 +115,9 @@
 				{if $sabintegrated=="true"}
 					<li onclick="document.location='{$smarty.const.WWW_TOP}/queue';"><a title="Your Sabnzbd Queue" href="{$smarty.const.WWW_TOP}/queue">Download Queue</a></li>
 				{/if}
-				<li onclick="document.location='';"><a title="Logout" href="{$smarty.const.WWW_TOP}/logout">Logout</a></li>
+				<li onclick="document.location='{$smarty.const.WWW_TOP}/logout';"><a title="Logout" href="{$smarty.const.WWW_TOP}/logout">Logout</a></li>
 			{else}
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/logout';"><a title="Login" href="{$smarty.const.WWW_TOP}/login">Login</a></li>
+				<li onclick="document.location='{$smarty.const.WWW_TOP}/login';"><a title="Login" href="{$smarty.const.WWW_TOP}/login">Login</a></li>
 				<li onclick="document.location='{$smarty.const.WWW_TOP}/register';"><a title="Register" href="{$smarty.const.WWW_TOP}/register">Register</a></li>
 			{/if}
 			</ul>
