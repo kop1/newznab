@@ -19,6 +19,12 @@ img.right { float: right; margin: 7px 0 0 30px; }
 hr { display: none; }
 .small { width: 50px; }
 .tiny { width: 25px; }
+input[type=text],
+input[type=password],
+textarea,
+select { background: #fff; background: -webkit-gradient(linear, left top, left 25, from(#fff), color-stop(4%, #f0f0f0), to(#fff)); border: 1px solid #ccc; border-bottom-color: #999; border-right-color: #999; margin: 0; padding: 4px; color: #444; font-size: 100%; outline: none; }
+
+
 
 /*
 page structure
@@ -32,7 +38,7 @@ page structure
 #menulink ul { list-style-type: none; padding: 0; margin: 0; }
 #menulink li { float: left; position: relative; z-index: 100; }
 #menulink a, #menulink :visited {	display: block; font-size: 0.9em; width: 80px; padding: 0px 0px 0px 5px; color: #000; background-color: #e5e5e5; text-decoration: none; text-align: left; vertical-align: middle; }
-#menulink :hover, #menulink a.selected { background-color: #aaa; }
+#menulink :hover, #menulink a.selected {color:#fff; background-color: #777; }
 #menulink ul ul { visibility: hidden; position: absolute; width: 60px; height: 0; }
 #menulink ul li:hover ul, #menulink ul a:hover ul { visibility: visible; }
 #menusearchlink { padding-top:3px; float:right; }
@@ -70,8 +76,10 @@ select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 #sidebar li { margin-bottom: 30px; padding: 0 0 0px 0px;}
 #sidebar li ul { list-style-type: none;  list-style-position:inside; margin: 0px 10px; padding: 0; margin-left: 1em;}
 #sidebar li li { background-image: url('../images/bullet.jpg'); background-repeat: no-repeat; background-position: 0.7em 1.1em; margin: 0;	padding-left: .5em; padding-top: .8em;padding-bottom:10px; border-bottom: 1px solid #E9E8DD;}
-#sidebar li li a {padding: 0px 0px 0px 20px; font-weight: normal; color: #808080;}
-#sidebar li li a:hover { color: #99B898;}
+#sidebar li li a {padding: 5px 5px 5px 20px; font-weight: normal; color: #808080;}
+#sidebar li li a:hover {color: #4D9408;}
+#sidebar li li:hover { cursor:pointer; background-color:#EEE; background-image: url('../images/bullet_hov.jpg');}
+
 #sidebar p { margin: 0; padding: 0px 14px;}
 #sidebar h2 { height: 30px; margin: 0 0 5px 0px; padding: 6px 0 2px 14px; font-size: 18px; font-weight: normal; color: #485459;}
 #sidebar p { line-height: 200%;}
@@ -126,7 +134,7 @@ div.nzb_multi_operations input:hover { color:#000; border:1px solid #000; cursor
 
 div.pager {display:inline;}
 div.pager a {font-weight:bold; background-color:#DDD; padding:0 3px 0px 4px; border:1px #CCC solid;}
-div.pager .current {font-weight:bold; background-color:#CCC; padding:0 4px 0px 4px; border:1px #CCC solid;}
+div.pager .current {color:#fff; font-weight:bold; background-color:#777; padding:0 4px 0px 4px; border:1px #CCC solid;}
 
 .left { text-align:left;}
 .right { text-align:right;}
