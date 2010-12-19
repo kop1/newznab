@@ -17,30 +17,34 @@ $category = -1;
 if (isset($_REQUEST["t"]))
 	$category = $_REQUEST["t"] + 0;
 
+$grp = "";
+if (isset($_REQUEST["g"]))
+	$grp = $_REQUEST["g"];
+
 $catarray = array();
 $catarray[] = $category;	
 
-$browsecount = $releases->getBrowseCount($catarray, -1, $page->userdata["categoryexclusions"]);
+$browsecount = $releases->getBrowseCount($catarray, -1, $page->userdata["categoryexclusions"], $grp);
 
 $offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
 $ordering = $releases->getBrowseOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 
 $results = array();
-$results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"]);
+$results = $releases->getBrowseRange($catarray, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"], $grp);
 
 $page->smarty->assign('pagertotalitems',$browsecount);
 $page->smarty->assign('pageroffset',$offset);
 $page->smarty->assign('pageritemsperpage',ITEMS_PER_PAGE);
-$page->smarty->assign('pagerquerybase', WWW_TOP."/browse?t=".$category."&amp;ob=".$orderby."&amp;offset=");
+$page->smarty->assign('pagerquerybase', WWW_TOP."/browse?t=".$category."&amp;g=".$grp."&amp;ob=".$orderby."&amp;offset=");
 $page->smarty->assign('pagerquerysuffix', "#results");
 
 $pager = $page->smarty->fetch($page->getCommonTemplate("pager.tpl"));
 $page->smarty->assign('pager', $pager);
 
-if ($category == -1)
+if ($category == -1 && $grp == "")
 	$page->smarty->assign("catname","All");			
-else
+elseif ($category != -1 && $grp == "")
 {
 	$cat = new Category();
 	$cdata = $cat->getById($category);
@@ -49,6 +53,11 @@ else
 	else
 		$page->show404();
 }
+elseif ($grp != "")
+{
+	$page->smarty->assign('catname',$grp);			
+}
+
 
 foreach($ordering as $ordertype) 
 	$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/browse?t=".$category."&amp;ob=".$ordertype."&amp;offset=0");	

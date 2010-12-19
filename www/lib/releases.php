@@ -70,7 +70,7 @@ class Releases
 		return $db->query(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name from releases left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID order by postdate desc".$limit);		
 	}
 	
-	public function getBrowseCount($cat, $maxage=-1, $excludedcats=array())
+	public function getBrowseCount($cat, $maxage=-1, $excludedcats=array(), $grp)
 	{
 		$db = new DB();
 
@@ -107,15 +107,19 @@ class Releases
 		else
 			$maxage = "";		
 		
+		$grpsql = "";
+		if ($grp != "")
+			$grpsql = sprintf(" and groups.name = %s ", $db->escapeString($grp));
+		
 		$exccatlist = "";
 		if (count($excludedcats) > 0)
 			$exccatlist = " and categoryID not in (".implode(",", $excludedcats).")";
 		
-		$res = $db->queryOneRow(sprintf("select count(ID) as num from releases where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s", $catsrch, $maxage, $exccatlist));		
+		$res = $db->queryOneRow(sprintf("select count(releases.ID) as num from releases left outer join groups on groups.ID = releases.groupID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s", $catsrch, $maxage, $exccatlist, $grpsql));		
 		return $res["num"];	
 	}	
 	
-	public function getBrowseRange($cat, $start, $num, $orderby, $maxage=-1, $excludedcats=array())
+	public function getBrowseRange($cat, $start, $num, $orderby, $maxage=-1, $excludedcats=array(), $grp="")
 	{		
 		$db = new DB();
 		
@@ -152,16 +156,20 @@ class Releases
 			$catsrch.= "1=2 )";
 		}	
 		
-		$maxage = "";
+		$maxagesql = "";
 		if ($maxage > 0)
-			$maxage = sprintf(" and postdate > now() - interval %d day ", $maxage);
+			$maxagesql = sprintf(" and postdate > now() - interval %d day ", $maxage);
+
+		$grpsql = "";
+		if ($grp != "")
+			$grpsql = sprintf(" and groups.name = %s ", $db->escapeString($grp));
 
 		$exccatlist = "";
 		if (count($excludedcats) > 0)
 			$exccatlist = " and releases.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getBrowseOrder($orderby);
-		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s order by %s %s".$limit, $catsrch, $maxage, $exccatlist, $order[0], $order[1]));		
+		return $db->query(sprintf(" SELECT releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s order by %s %s".$limit, $catsrch, $maxagesql, $exccatlist, $grpsql, $order[0], $order[1]));		
 	}
 	
 	public function getBrowseOrder($orderby)

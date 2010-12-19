@@ -1,5 +1,5 @@
 
-<h1>Browse {$catname}</h1>
+<h1>Browse {$catname|escape:"htmlall"}</h1>
 	
 {if $results|@count > 0}
 

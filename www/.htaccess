@@ -19,6 +19,7 @@ RewriteRule ^search$ search.php
 RewriteRule ^searchraw/(.*)$ searchraw.php?search=$1
 RewriteRule ^searchraw$ searchraw.php
 RewriteRule ^browse$ browse.php
+RewriteRule ^browsegroup$ browsegroup.php
 RewriteRule ^movies$ movies.php
 RewriteRule ^profile/(.*)$ profile.php?name=$1
 RewriteRule ^profile$ profile.php
