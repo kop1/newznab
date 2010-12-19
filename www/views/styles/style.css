@@ -97,6 +97,7 @@ table.data th { text-align:left; vertical-align:top; background-color:#DDD; bord
 table.data td { white-space:normal; vertical-align:top; padding:5px; border-color: #AAA; border-width: 1px; border-style: solid; }
 table.data td.less { color: #888; font-size: 0.8em; white-space:nowrap; }
 table.data td.icons { white-space:nowrap; padding-left:0px; padding-right:0px; width:60px; }
+table.data td.check {cursor:pointer;}
 table.highlight tr:hover td { background-color: #E1F0D9; }
 table tr.alt { background-color: #EEE; }
 table tr.new { background-color: #f6f8ff; }

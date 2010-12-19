@@ -11,7 +11,7 @@ body { background:none; color: #333; }
 
 /* override table styles, alt rows, headings etc*/
 table tr.alt { background-color: #eee; }
-table tr.new { background-color: #ddd; }
+table tr.new { background-color: #fff; }
 table.highlight tr:hover td { background-color: #efefef; }
 table.data th { background-color:#fff; border-color: #ddd;}
 table.data td, table.data { border-color: #ddd;}
@@ -34,6 +34,4 @@ select { background: none; }
 
 a:hover, #sidebar li li a:hover {color:#000;}
 
-
-#cboxLoadedContent{ background:#333; }
 

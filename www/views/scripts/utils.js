@@ -8,6 +8,11 @@ jQuery(function($){
 		function(){	$(this).children('td.icons').children('div.icon').css('opacity',1); },
 		function(){	$(this).children('td.icons').children('div.icon').css('opacity',orig_opac); }
 	);
+
+	$(".check").click(function(e) {
+		if (!$(e.target).is('input'))
+			$(this).children(".nzb_check").attr('checked', !$(this).children(".nzb_check").attr('checked'));
+	});
 	
 	$('.nzb_check_all').change(function(){
 		$('table.data tr td input:checkbox').attr('checked',$(this).attr('checked'));
