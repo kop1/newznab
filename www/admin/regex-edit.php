@@ -19,11 +19,11 @@ switch($action)
 	    if ($_POST["id"] == "")
     	{
 			$reg->add($_POST);
-		}
-		else
-		{
-			$ret = $reg->update($_POST);
-		}	
+			}
+			else
+			{
+				$ret = $reg->update($_POST);
+			}	
 		header("Location:".WWW_TOP."/regex-list.php");
 		break;
     case 'addtest':

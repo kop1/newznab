@@ -97,32 +97,25 @@
 
 		<div id="sidebar">
 		<ul>		
+		
+		{if $menulist|@count > 0}
 		<li>
 			<h2>Menu</h2> 
 			
 			<ul>
-			{if $loggedin=="true"}
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/search';"><a title="Search for Nzbs" href="{$smarty.const.WWW_TOP}/search">Search</a></li>
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/browse';"><a title="Browse for Nzbs" href="{$smarty.const.WWW_TOP}/browse">Browse</a></li>
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/searchraw';"><a title="Search for individual files" href="{$smarty.const.WWW_TOP}/searchraw">Raw Search</a></li>
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/movies';"><a title="Browse for Movies" href="{$smarty.const.WWW_TOP}/movies">Movies</a></li>
-				{if $isadmin=="true"}
-					<li onclick="document.location='{$smarty.const.WWW_TOP}/admin/';"><a title="Admin" href="{$smarty.const.WWW_TOP}/admin/">Admin</a></li>
-				{/if}
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/cart';"><a title="Your Nzb Cart" href="{$smarty.const.WWW_TOP}/cart">My Cart</a></li>
-				<li style="display:none;" onclick="document.location='{$smarty.const.WWW_TOP}/mysearches';"><a title="My Searches" href="{$smarty.const.WWW_TOP}/mysearches">My Searches</a></li>
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/profile';"><a title="View your Profile " href="{$smarty.const.WWW_TOP}/profile">Profile</a></li>
-				{if $sabintegrated=="true"}
-					<li onclick="document.location='{$smarty.const.WWW_TOP}/queue';"><a title="Your Sabnzbd Queue" href="{$smarty.const.WWW_TOP}/queue">Download Queue</a></li>
-				{/if}
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/logout';"><a title="Logout" href="{$smarty.const.WWW_TOP}/logout">Logout</a></li>
-			{else}
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/login';"><a title="Login" href="{$smarty.const.WWW_TOP}/login">Login</a></li>
-				<li onclick="document.location='{$smarty.const.WWW_TOP}/register';"><a title="Register" href="{$smarty.const.WWW_TOP}/register">Register</a></li>
-			{/if}
+					{foreach from=$menulist item=menu}
+					{strip}
+						{assign var="var" value=$menu.menueval}	
+						{eval var=$var, assign='menuevalresult'}
+						{if $menuevalresult|replace:",":"1" == "1"}
+							<li onclick="document.location='{$menu.href}';"><a title="{$menu.tooltip}" href="{$menu.href}">{$menu.title}</a></li>
+						{/if}
+					{/strip}
+					{/foreach}
 			</ul>
 		</li>
-
+		{/if}
+		
 		{$article_menu}
 
 		{$useful_menu}

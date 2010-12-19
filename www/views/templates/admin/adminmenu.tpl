@@ -4,6 +4,7 @@
 		<li><a title="Admin Home" href="{$smarty.const.WWW_TOP}/">Admin Home</a></li>
 		<li><a title="Edit Site" href="{$smarty.const.WWW_TOP}/site-edit.php">Edit Site</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/content-add.php?action=add">Add</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/content-list.php">Edit</a> Content Page</li>
+		<li><a href="{$smarty.const.WWW_TOP}/menu-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/menu-edit.php?action=add">Add</a> Menu Items</li>
 		<li><a href="{$smarty.const.WWW_TOP}/category-list.php?action=add">Edit</a> Categories</li>
 		<li><a href="{$smarty.const.WWW_TOP}/group-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/group-edit.php">Add</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/group-bulk.php">BulkAdd</a> Groups</li>
 		<li><a href="{$smarty.const.WWW_TOP}/regex-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/regex-edit.php?action=add">Add</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/regex-test.php">Test</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/regex-submit.php">Send</a> Regex</li>

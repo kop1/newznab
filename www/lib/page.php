@@ -5,6 +5,7 @@ require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/content.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/users.php");
+require_once(WWW_DIR."/lib/menu.php");
 
 class Page extends BasePage
 {    
@@ -13,7 +14,7 @@ class Page extends BasePage
 	function Page()
 	{	
 		parent::BasePage();
-		
+
 		// set site variable
 		$s = new Sites();
 		$this->site = $s->get();
@@ -24,6 +25,8 @@ class Page extends BasePage
 			$role = $this->userdata["role"];
 
 		$content = new Contents();
+		$menu = new Menu();
+		$this->smarty->assign('menulist',$menu->get($role, $this->serverurl));
 		$this->smarty->assign('usefulcontentlist',$content->getForMenuByTypeAndRole(Contents::TYPEUSEFUL, $role));
 		$this->smarty->assign('articlecontentlist',$content->getForMenuByTypeAndRole(Contents::TYPEARTICLE, $role));
 		
