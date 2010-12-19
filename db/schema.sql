@@ -109,6 +109,10 @@ VALUES ('browse', 'Browse',
 	'Browse for Nzbs', 1, 20);
 
 INSERT INTO menu (`href`, `title`, `tooltip`, `role`, `ordinal` )
+VALUES ('browsegroup', 'Browse Groups', 
+	'Browse by Group', 1, 25);
+
+INSERT INTO menu (`href`, `title`, `tooltip`, `role`, `ordinal` )
 VALUES ('searchraw', 'Raw Search', 
 	'Search for individual files', 1, 30);
 
