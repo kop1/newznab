@@ -405,6 +405,12 @@ class Users
 		$db->query(sprintf("delete from usercart where ID = %d and userID = %d", $id, $uid));		
 	}	
 	
+	public function delCartByUserAndRelease($guid, $uid)
+	{			
+		$db = new DB();
+		$db->query(sprintf("DELETE r FROM usercart u LEFT JOIN releases r ON r.ID = u.releaseID WHERE u.userID = %d AND r.guid = %s", $uid, $db->escapeString($guid)));		
+	}	
+
 	public function delCartForUser($uid)
 	{			
 		$db = new DB();

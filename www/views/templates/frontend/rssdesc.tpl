@@ -12,6 +12,9 @@
 						Add this string to your feed URL to allow NZB downloads without logging in: <span style="font-family:courier;">&i={$userdata.ID}&r={$userdata.rsstoken}</span>
 					</li>
 					<li>
+						To remove the nzb from your cart after download add this string to your feed URL: <span style="font-family:courier;">&del=1</span> 
+					</li>
+					<li>
 						To change the default link to download an nzb: <span style="font-family:courier;">&dl=1</span>
 					</li>
 					<li>

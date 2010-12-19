@@ -52,7 +52,12 @@ if (isset($_GET["id"]) && isset($_GET["zip"]) && $_GET["zip"] == "1")
 	{
 		$users->incrementGrabs($uid, count($guids));
 		foreach ($guids as $guid)
+		{
 			$rel->updateGrab($guid);
+
+			if (isset($_GET["del"]) && $_GET["del"]==1)
+				$users->delCartByUserAndRelease($guid, $uid);
+		}
 
 		$filename = date("Ymdhis").".nzb.zip";
 		header("Content-type: application/octet-stream");
@@ -63,7 +68,6 @@ if (isset($_GET["id"]) && isset($_GET["zip"]) && $_GET["zip"] == "1")
 	else
 		$page->show404();
 }
-
 
 if (isset($_GET["id"]))
 {
@@ -77,6 +81,8 @@ if (isset($_GET["id"]))
 	{
 		$rel->updateGrab($_GET["id"]);
 		$users->incrementGrabs($uid);
+		if (isset($_GET["del"]) && $_GET["del"]==1)
+			$users->delCartByUserAndRelease($_GET["id"], $uid);
 	}
 	else
 		$page->show404();

@@ -253,6 +253,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
       cat=xxx           List of categories to search delimeted by ","
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
       extended=1        Return extended information in the search results. (See DETAILS).
+      del=1        			Delete the item from a users cart on download.
       maxage=123        Only return results which were posted to usenet in the last x days.
       offset=50         The 0 based query offset defining which part of the response we want.
 
@@ -348,6 +349,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
      ep=xxx             Episode string, e.g E13 or 13 for the item being queried.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
      extended=1         Return extended information in the search results
+     del=1              Delete the item from a users cart on download.
      maxage=123         Only return results which were posted to usenet in the last x days.
      offset=50          The 0 based query offset defining whcih part of the response we want.
      
@@ -438,6 +440,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
      q=xxxx             Search input (URL/UTF-8 encoded). Case insensitive.
      o=xml              Output format, either "JSON" or "XML". Default is "XML".
      extended=1         Return extended information in the search results
+     del=1              Delete the item from a users cart on download.
      maxage=123         Only return results which were posted to usenet in the last x days.
      offset=50          The 0 based query offset defining whcih part of the response we want.
      
@@ -497,6 +500,7 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
       
     Optional parameters:
       o=xxx             Output format, either "JSON" or "XML". Default is "XML".
+      del=1             Delete the item from a users cart on download.
 
     Example:
       --> GET http://servername.com/api?t=details&apikey=xxxxx&guid=xxxxxxxxx

@@ -77,11 +77,12 @@ if ($uid != "")
 	$users->updateApiAccessed($uid);
 
 
-
 $page->smarty->assign("uid",$uid);
 $page->smarty->assign("rsstoken",$apikey);
 if (isset($_GET["extended"]) && $_GET["extended"] == "1")
 	$page->smarty->assign('extended','1');
+if (isset($_GET["del"]) && $_GET["del"] == "1")
+	$page->smarty->assign("del","1");
 
 //
 // output is either json or xml
@@ -261,10 +262,14 @@ switch ($function)
 		if (!isset($_GET["id"]))
 			showApiError(200);
 
+		$del = "";
+		if (isset($_GET["del"]) && $_GET["del"] == "1")
+			$del = "&del=1";
+
 		$reldata = $releases->getByGuid($_GET["id"]);
 		if ($reldata)
 		{
-			header("Location:".WWW_TOP."/getnzb.php?i=".$uid."&r=".$apikey."&id=".$reldata["guid"]);
+			header("Location:".WWW_TOP."/getnzb.php?i=".$uid."&r=".$apikey."&id=".$reldata["guid"].$del);
 		}
 		else
 		{
