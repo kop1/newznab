@@ -191,6 +191,10 @@
                             }                                                                           
                     if (preg_match('/alt\.binaries\..*?audiobook.*?/i', $group))
                             return Category::CAT_MUSIC_AUDIOBOOK;
+                    if (preg_match('/lossless|flac/i', $group))
+                            {
+                            return Category::CAT_MUSIC_LOSSLESS;
+                         		}                            
                     if (preg_match('/alt\.binaries\.sounds.*?|alt\.binaries\.mp3.*?|alt\.binaries\..*\.mp3/i', $group))
                             {
                             if($this->isMusic($releasename)){ return $this->tmpCat; }
