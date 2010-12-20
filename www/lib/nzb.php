@@ -6,11 +6,6 @@ require_once(WWW_DIR."/lib/category.php");
 
 class NZB 
 {
-	function NZB() 
-	{
-		
-	}
-	
 	//
 	// Writes out the nzb when processing releases. Moved out of smarty due to memory issues
 	// of holding all parts in an array.

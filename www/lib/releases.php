@@ -913,7 +913,7 @@ class Releases
 		//
 		if ($echooutput)
 			echo "Stage 2\n";
-		$result = $db->queryDirect(sprintf("SELECT relname, SUM(reltotalpart) AS reltotalpart, groupID, reqID, fromname, SUM(num) AS num FROM  ( SELECT relname, reltotalpart, groupID, reqID, fromname, COUNT(ID) AS num FROM binaries WHERE procstat = %d GROUP BY relname, reltotalpart, groupID, reqID, fromname) x GROUP BY relname, groupID, reqID, fromname", Releases::PROCSTAT_TITLEMATCHED));
+		$result = $db->queryDirect(sprintf("SELECT relname, SUM(reltotalpart) AS reltotalpart, groupID, reqID, fromname, SUM(num) AS num, coalesce(g.minfilestoformrelease, s.minfilestoformrelease) as minfilestoformrelease FROM   ( SELECT relname, reltotalpart, groupID, reqID, fromname, COUNT(ID) AS num FROM binaries     WHERE procstat = %s     GROUP BY relname, reltotalpart, groupID, reqID, fromname    ) x left outer join groups g on g.ID = x.groupID inner join ( select * from site limit 1 ) s GROUP BY relname, groupID, reqID, fromname", Releases::PROCSTAT_TITLEMATCHED));
 		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
 		{
 			$retcount ++;
@@ -922,10 +922,10 @@ class Releases
 			// Less than the site permitted number of files in a release. Dont discard it, as it may
 			// be part of a set being uploaded.
 			//
-			if ($row["num"] < $page->site->minfilestoformrelease)
+			if ($row["num"] < $row["minfilestoformrelease"])
 			{
 				if ($echooutput)
-					echo "Number of files in release ".$row["relname"]." less than site setting (".$row['num']."/".$page->site->minfilestoformrelease.")\n";
+					echo "Number of files in release ".$row["relname"]." less than site/group setting (".$row['num']."/".$row["minfilestoformrelease"].")\n";
 					
 				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d and fromname = %s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 			}

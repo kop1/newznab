@@ -22,10 +22,18 @@
 </tr>
 
 <tr>
-	<td>Backfill Days</td>
+	<td><label for="backfill_target">Backfill Days</label></td>
 	<td>
-		<input class="small" id="backfill_target" name="backfill_target" type-"text" value="{$group.backfill_target}" />
+		<input class="small" id="backfill_target" name="backfill_target" type="text" value="{$group.backfill_target}" />
 		<div class="hint">Number of days to attempt to backfill this group.  Adjust as necessary.</div>
+	</td>
+</td>
+
+<tr>
+	<td><label for="minfilestoformrelease">Minimum Files <br/>To Form Release</label></td>
+	<td>
+		<input class="small" id="minfilestoformrelease" name="minfilestoformrelease" type="text" value="{$group.minfilestoformrelease}" />
+		<div class="hint">The minimum number of files to make a release. i.e. if set to two, then releases which only contain one file will not be created. If left blank, will use the site wide setting.</div>
 	</td>
 </td>
 

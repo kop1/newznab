@@ -9,44 +9,6 @@ require_once(WWW_DIR."/lib/binaries.php");
 
 class Groups
 {	
-	/*
-	Recommended list of binary newsgroups
-	
-	.alt.binaries.audio.warez
-	.alt.binaries.dvd
-	.alt.binaries.dvdr
-	.alt.binaries.erotica.divx
-	.alt.binaries.games.nintendods
-	.alt.binaries.games.wii
-	.alt.binaries.games.xbox360
-	.alt.binaries.ipod.videos.tvshows
-	.alt.binaries.mac
-	.alt.binaries.movies.divx
-	.alt.binaries.mpeg.video.music
-	.alt.binaries.nintendo.ds
-	.alt.binaries.sony.psp
-	.alt.binaries.sounds.mp3.complete_cd
-	.alt.binaries.sounds.mp3.dance
-	.alt.binaries.sounds.mp3.goa-trance
-	.alt.binaries.sounds.mp3.rap-hiphop.mixtapes
-	.alt.binaries.tv.swedish
-	.alt.binaries.tvseries
-	.alt.binaries.warez.ibm-pc.0-day
-	.alt.binaries.e-book
-	
-	alt.binaries.erotica
-	alt.binaries.b4e
-	alt.binaries.boneless
-	alt.binaries.cd.image
-	alt.binaries.hdtv.x264
-	alt.binaries.multimedia
-	alt.binaries.warez
-	alt.binaries.x264
-	alt.binaries.teevee
-	alt.binaries.moovee
-	alt.binaries.inner-sanctum	
-	*/	
-
 	public function getAll()
 	{			
 		$db = new DB();
@@ -75,7 +37,12 @@ class Groups
 	{			
 		$db = new DB();
 		
-		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active) values (%s, %s, %s, %s, null, %d) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"]));		
+		if ($group["minfilestoformrelease"] == "" || $group["minfilestoformrelease"] == "0")
+			$minfiles = 'null';
+		else
+			$minfiles = $group["minfilestoformrelease"] + 0;
+		
+		return $db->queryInsert(sprintf("insert into groups (name, description, first_record, last_record, last_updated, active, minfilestoformrelease) values (%s, %s, %s, %s, null, %d, %s) ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["first_record"]), $db->escapeString($group["last_record"]), $group["active"], $minfiles));		
 	}	
 	
 	public function delete($id)
@@ -110,8 +77,13 @@ class Groups
 	public function update($group)
 	{			
 		$db = new DB();
+
+		if ($group["minfilestoformrelease"] == "" || $group["minfilestoformrelease"] == "0")
+			$minfiles = 'null';
+		else
+			$minfiles = $group["minfilestoformrelease"] + 0;
 		
-		return $db->query(sprintf("update groups set name=%s, description = %s, backfill_target = %s , active=%d where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["backfill_target"]),$group["active"] , $group["id"] ));		
+		return $db->query(sprintf("update groups set name=%s, description = %s, backfill_target = %s , active=%d, minfilestoformrelease=%s where ID = %d ",$db->escapeString($group["name"]), $db->escapeString($group["description"]), $db->escapeString($group["backfill_target"]),$group["active"] , $minfiles, $group["id"] ));		
 	}	
 
 	//

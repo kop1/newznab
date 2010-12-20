@@ -240,6 +240,7 @@ CREATE TABLE `groups` (
   `last_record` BIGINT UNSIGNED NOT NULL DEFAULT '0',
   `last_record_postdate` DATETIME DEFAULT NULL,
   `last_updated` DATETIME DEFAULT NULL,
+  `minfilestoformrelease` INT(4) NULL,
   `active` TINYINT(1) NOT NULL DEFAULT '0',
   `description` VARCHAR(255) NULL DEFAULT '',
   PRIMARY KEY  (`ID`),
