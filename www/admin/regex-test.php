@@ -42,7 +42,7 @@ switch($action)
 			$unreleasedSql = ($gunreleased != '') ? ' and binaries.procstat NOT IN (4,5,6) and binaries.releaseID IS NULL' : '';
 			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID as binID, binaries.name as binName from binaries where binaries.groupID = %d%s order by dateadded", $gselected, $unreleasedSql));
 			$matches = array();
-			while ($rowbin = mysql_fetch_array($resbin)) 
+			while ($rowbin = mysql_fetch_assoc($resbin)) 
 			{
 				if (preg_match ($gregex, $rowbin["binName"], $binmatch)) 
 				{

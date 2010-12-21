@@ -11,7 +11,7 @@ if (isset($_GET["reqid"]))
 	$reqid = explode(",",$_GET["reqid"]);
 
 $result = mysql_query("select count(ID) as num from feed where code = '".mysql_real_escape_string($type)."'");
-while ($row = mysql_fetch_array($result)) 
+while ($row = mysql_fetch_assoc($result)) 
 {
 	if ($row["num"] == "0")
 	{
@@ -36,7 +36,7 @@ $result = mysql_query("select * from item inner join feed on feed.ID = item.feed
 // build metadata about the item(s)
 //
 $ret = "<items>";
-while ($row = mysql_fetch_array($result)) 
+while ($row = mysql_fetch_assoc($result)) 
 	$ret.="<item reqid=\"".$row["reqid"]."\" link=\"".cleanXML($row["link"])."\" date=\"".$row["pubdate"]."\" title=\"".cleanXML($row["title"])."\" />\n";
 $ret.="</items>";
 

@@ -32,7 +32,7 @@ class NZB
 			gzwrite($fp, "</head>\n\n"); 
 	
 			$result = $db->queryDirect(sprintf("SELECT binaries.*, UNIX_TIMESTAMP(date) AS unixdate, groups.name as groupname FROM binaries inner join groups on binaries.groupID = groups.ID WHERE binaries.releaseID = %d ORDER BY binaries.name", $relid));
-			while ($binrow = mysql_fetch_array($result)) 
+			while ($binrow = mysql_fetch_assoc($result)) 
 			{				
 				$groups = array();
 				$groupsRaw = explode(' ', $binrow['xref']);
@@ -51,7 +51,7 @@ class NZB
 				gzwrite($fp, " <segments>\n"); 
 
 				$resparts = $db->queryDirect(sprintf("SELECT DISTINCT(messageID), size, partnumber FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
-				while ($partsrow = mysql_fetch_array($resparts)) 
+				while ($partsrow = mysql_fetch_assoc($resparts)) 
 				{				
 					gzwrite($fp, "  <segment bytes=\"".$partsrow["size"]."\" number=\"".$partsrow["partnumber"]."\">".htmlentities($partsrow["messageID"], ENT_QUOTES)."</segment>\n"); 
 				}
