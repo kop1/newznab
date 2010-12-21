@@ -7,7 +7,7 @@ require_once('config.php');
 // retrieve a list of feeds to be scraped
 //
 $result = mysql_query("select * from feed where status=1");	
-while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+while ($row = mysql_fetch_array($result)) 
 {
 	$rss = fetch_rss($row["url"]);
 

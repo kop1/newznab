@@ -846,7 +846,7 @@ class Releases
 			$arrNoPartBinaries = array();
 			$resbin = $db->queryDirect(sprintf("SELECT binaries.ID, binaries.name, binaries.date, binaries.totalParts from binaries where (%s) and procstat = %d order by binaries.date asc", $groupmatch, Releases::PROCSTAT_NEW));
 
-			while ($rowbin = mysql_fetch_array($resbin, MYSQL_BOTH)) 
+			while ($rowbin = mysql_fetch_array($resbin)) 
 			{
 				if (preg_match ($regexrow["regex"], $rowbin["name"], $matches)) 
 				{
@@ -914,7 +914,7 @@ class Releases
 		if ($echooutput)
 			echo "Stage 2\n";
 		$result = $db->queryDirect(sprintf("SELECT relname, SUM(reltotalpart) AS reltotalpart, groupID, reqID, fromname, SUM(num) AS num, coalesce(g.minfilestoformrelease, s.minfilestoformrelease) as minfilestoformrelease FROM   ( SELECT relname, reltotalpart, groupID, reqID, fromname, COUNT(ID) AS num FROM binaries     WHERE procstat = %s     GROUP BY relname, reltotalpart, groupID, reqID, fromname    ) x left outer join groups g on g.ID = x.groupID inner join ( select * from site limit 1 ) s GROUP BY relname, groupID, reqID, fromname", Releases::PROCSTAT_TITLEMATCHED));
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		while ($row = mysql_fetch_array($result)) 
 		{
 			$retcount ++;
 			
@@ -1053,7 +1053,7 @@ class Releases
 		// Get out all distinct relname, group from binaries of STAGE2 
 		// 
 		$result = $db->queryDirect(sprintf("SELECT relname, groupID, g.name as group_name, fromname, count(binaries.ID) as parts from binaries inner join groups g on g.ID = binaries.groupID where procstat = %d and relname is not null group by relname, g.name, groupID, fromname ORDER BY COUNT(binaries.ID) desc", Releases::PROCSTAT_READYTORELEASE));
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		while ($row = mysql_fetch_array($result)) 
 		{
 			$retcount ++;
 
@@ -1383,7 +1383,7 @@ class Releases
 			echo "Processing tv for ".mysql_num_rows($result)." releases\n";
 			echo "Lookup tv rage from the web - ".($lookupTvRage?"Yes\n":"No\n");
 			
-		while ($arr = mysql_fetch_array($result, MYSQL_BOTH)) 
+		while ($arr = mysql_fetch_array($result)) 
 		{
 			$show = $this->parseNameEpSeason($arr['searchname']);			
 			if (!$show)

@@ -386,8 +386,9 @@ class Binaries
 				//check if the articles were added
 				$articles = implode(',', range($partfrom, $partto));
 				$sql = sprintf("SELECT pr.ID, pr.numberID, p.number from partrepair pr LEFT JOIN parts p ON p.number = pr.numberID WHERE pr.groupID=%d AND pr.numberID IN (%s) ORDER BY pr.numberID ASC", $groupArr['ID'], $articles);
-				$res = $db->query($sql);
-				foreach($res as $r)
+				
+				$result = $db->queryDirect($sql);
+				while ($r = mysql_fetch_array($result)) 
 				{
 					if (isset($r['number']) && $r['number'] == $r['numberID'])
 					{
@@ -395,7 +396,9 @@ class Binaries
 						
 						//article was added, delete from partrepair
 						$db->query(sprintf("DELETE FROM partrepair WHERE ID=%d", $r['ID']));
-					} else {
+					} 
+					else 
+					{
 						$partsFailed++;
 						
 						//article was not added, increment attempts

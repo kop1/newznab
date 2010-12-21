@@ -18,7 +18,7 @@ class Nfo
 		$nfos = array();
 		$db = new DB();
 		$result = $db->queryDirect(sprintf("select binaries.* from binaries where releaseID = %d order by relpart", $relid));		
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) 
+		while ($row = mysql_fetch_array($result)) 
 			if (preg_match('/.*\.nfo[ "\)\]\-]/i', $row['name'])) 
 				$nfos[$row['name']] = $row;
 
@@ -72,7 +72,7 @@ class Nfo
 				echo "Processing ".mysql_num_rows($res)." nfos\n";
 		
 			$nntp->doConnect();
-			while ($arr = mysql_fetch_array($res, MYSQL_BOTH)) 
+			while ($arr = mysql_fetch_array($res)) 
 			{
 				$fetchedBinary = $nntp->getBinary($arr['binaryID'], true);
 				if ($fetchedBinary !== false) 
