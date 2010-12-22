@@ -1,0 +1,2 @@
+ALTER TABLE parts MODIFY `number` BIGINT;
+ALTER TABLE partrepair MODIFY `numberID` BIGINT;

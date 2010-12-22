@@ -321,7 +321,7 @@ class Binaries
 				if (sizeof($msgsnotinserted) > 0)
 				{
 					echo 'WARNING: Parts failed to insert'.$n;
-					//$this->addMissingParts($msgsnotinserted, $groupArr['ID']);
+					$this->addMissingParts($msgsnotinserted, $groupArr['ID']);
 				}					
 				if (($count >= 500) || ($updatecount >= 500)) { echo $n; } //line break for bin adds output
 			}	

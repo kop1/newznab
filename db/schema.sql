@@ -376,7 +376,7 @@ CREATE TABLE `parts` (
   `ID` INT(16) UNSIGNED NOT NULL AUTO_INCREMENT,
   `binaryID` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `messageID` VARCHAR(255) NOT NULL DEFAULT '',
-  `number` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  `number` BIGINT UNSIGNED NOT NULL DEFAULT '0',
   `partnumber` INT UNSIGNED NOT NULL DEFAULT '0',
   `size` BIGINT UNSIGNED NOT NULL DEFAULT '0',
   `dateadded` DATETIME DEFAULT NULL,
@@ -390,7 +390,7 @@ CREATE INDEX ix_parts_number ON parts (number);
 DROP TABLE IF EXISTS `partrepair`;
 CREATE TABLE `partrepair` (
   `ID` int(16) unsigned NOT NULL AUTO_INCREMENT,
-  `numberID` int(11) unsigned NOT NULL,
+  `numberID` BIGINT unsigned NOT NULL,
   `groupID` int(11) unsigned NOT NULL,
   `attempts` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`ID`),
