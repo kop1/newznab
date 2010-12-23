@@ -93,9 +93,9 @@ class DB
 
 		foreach ($alltables as $tablename) 
 		{
-			$ret[] = $tablename[0];
-			$this->queryDirect("REPAIR TABLE `".$tablename[0]."`"); 
-			$this->queryDirect("OPTIMIZE TABLE `".$tablename[0]."`"); 
+			$ret[] = $tablename['Tables_in_'.DB_NAME];
+			$this->queryDirect("REPAIR TABLE `".$tablename['Tables_in_'.DB_NAME]."`"); 
+			$this->queryDirect("OPTIMIZE TABLE `".$tablename['Tables_in_'.DB_NAME]."`"); 
 		}
 			
 		return $ret;
