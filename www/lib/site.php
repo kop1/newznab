@@ -16,13 +16,13 @@ class Site
 	public $last_update = '';	
 	public $google_analytics_acc = '';	
 	public $google_adsense_acc = '';	
-	public $google_adsense_menu = '';	
 	public $google_adsense_sidepanel = '';	
 	public $google_adsense_search = '';	
 	public $siteseed = '';
 	public $tandc = '';
 	public $registerstatus = '';
 	public $style = '';
+	public $menuposition = '';
 	public $dereferrer_link = '';
 	public $nzbpath = '';
 	public $rawretentiondays = '';
@@ -92,7 +92,6 @@ class Sites
 			$obj->last_update = $row["lastupdate"];
 		$obj->google_analytics_acc = $row["google_analytics_acc"];
 		$obj->google_adsense_acc = $row["google_adsense_acc"];
-		$obj->google_adsense_menu = $row["google_adsense_menu"];
 		$obj->google_adsense_sidepanel = $row["google_adsense_sidepanel"];
 		$obj->google_adsense_search = $row["google_adsense_search"];
 		if (isset($row["siteseed"]))
@@ -100,6 +99,7 @@ class Sites
 		$obj->tandc = $row["tandc"];
 		$obj->registerstatus = $row["registerstatus"];
 		$obj->style = $row["style"];
+		$obj->menuposition = $row["menuposition"];
 		$obj->dereferrer_link = $row["dereferrer_link"];
 		$obj->version = $this->version();
 		$obj->nzbpath = $row["nzbpath"];
@@ -134,7 +134,7 @@ class Sites
 			$site->nzbpath = $site->nzbpath."/";
 		}
 		
-		return $db->query(sprintf("update site set	code = %s , 	title = %s , 	strapline = %s , 	metatitle = %s , 	metadescription = %s , 	metakeywords = %s , 	footer = %s ,	email = %s , 	lastupdate = now(), google_adsense_menu = %s, google_adsense_search = %s, google_adsense_sidepanel = %s, google_analytics_acc = %s, tandc=%s, registerstatus=%d, style=%s, dereferrer_link=%s, nzbpath=%s, rawretentiondays=%d, attemptgroupbindays=%d, lookuptvrage=%d, lookupimdb=%d, lookupnfo=%d, compressedheaders=%d, maxmssgs=%d, newgroupscanmethod=%d, newgroupdaystoscan=%d, newgroupmsgstoscan=%d, storeuserips=%d, minfilestoformrelease=%d, reqidurl=%s, latestregexurl=%s, google_adsense_acc = %s, releaseretentiondays=%d, checkpasswordedrar=%d, showpasswordedrelease=%d ", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->email), $db->escapeString($site->google_adsense_menu), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc), $db->escapeString($site->tandc), $site->registerstatus, $db->escapeString($site->style), $db->escapeString($site->dereferrer_link), $db->escapeString($site->nzbpath), $site->rawretentiondays, $site->attemptgroupbindays, $site->lookuptvrage, $site->lookupimdb, $site->lookupnfo, $site->compressedheaders, $site->maxmssgs, $site->newgroupscanmethod, $site->newgroupdaystoscan, $site->newgroupmsgstoscan, $site->storeuserips, $site->minfilestoformrelease, $db->escapeString($site->reqidurl), $db->escapeString($site->latestregexurl), $db->escapeString($site->google_adsense_acc),$site->releaseretentiondays, $site->checkpasswordedrar, $site->showpasswordedrelease ));
+		return $db->query(sprintf("update site set	code = %s , 	title = %s , 	strapline = %s , 	metatitle = %s , 	metadescription = %s , 	metakeywords = %s , 	footer = %s ,	email = %s , 	lastupdate = now(), google_adsense_search = %s, google_adsense_sidepanel = %s, google_analytics_acc = %s, tandc=%s, registerstatus=%d, style=%s, dereferrer_link=%s, nzbpath=%s, rawretentiondays=%d, attemptgroupbindays=%d, lookuptvrage=%d, lookupimdb=%d, lookupnfo=%d, compressedheaders=%d, maxmssgs=%d, newgroupscanmethod=%d, newgroupdaystoscan=%d, newgroupmsgstoscan=%d, storeuserips=%d, minfilestoformrelease=%d, reqidurl=%s, latestregexurl=%s, google_adsense_acc = %s, releaseretentiondays=%d, checkpasswordedrar=%d, showpasswordedrelease=%d, menuposition=%d ", $db->escapeString($site->code), $db->escapeString($site->title), $db->escapeString($site->strapline), $db->escapeString($site->meta_title), $db->escapeString($site->meta_description), $db->escapeString($site->meta_keywords), $db->escapeString($site->footer), $db->escapeString($site->email), $db->escapeString($site->google_adsense_search), $db->escapeString($site->google_adsense_sidepanel), $db->escapeString($site->google_analytics_acc), $db->escapeString($site->tandc), $site->registerstatus, $db->escapeString($site->style), $db->escapeString($site->dereferrer_link), $db->escapeString($site->nzbpath), $site->rawretentiondays, $site->attemptgroupbindays, $site->lookuptvrage, $site->lookupimdb, $site->lookupnfo, $site->compressedheaders, $site->maxmssgs, $site->newgroupscanmethod, $site->newgroupdaystoscan, $site->newgroupmsgstoscan, $site->storeuserips, $site->minfilestoformrelease, $db->escapeString($site->reqidurl), $db->escapeString($site->latestregexurl), $db->escapeString($site->google_adsense_acc),$site->releaseretentiondays, $site->checkpasswordedrar, $site->showpasswordedrelease, $site->menuposition ));
 	}
 
 	public function data_get()

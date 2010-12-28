@@ -74,6 +74,14 @@
 </tr>
 
 <tr>
+	<td><label for="style">User Menu Position</label>:</td>
+	<td>
+		{html_options id="menuposition" name='menuposition' values=$menupos_ids output=$menupos_names selected=$fsite->menuposition}
+		<div class="hint">Where the menu should appear. Moving the menu to the top will require using a theme which widens the content panel.</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="style">Dereferrer Link</label>:</td>
 	<td>
 		<input id="dereferrer_link" class="long" name="dereferrer_link" type="text" value="{$fsite->dereferrer_link}" />
@@ -116,14 +124,6 @@
 	<td>
 		<input id="google_adsense_acc" name="google_adsense_acc" type="text" value="{$fsite->google_adsense_acc}" />
 		<div class="hint">e.g. pub-123123123123123</div>
-	</td>
-</tr>
-
-<tr>
-	<td><label for="google_adsense_menu">Google Adsense Menu</label>:</td>
-	<td>
-		<input id="google_adsense_menu" name="google_adsense_menu" type="text" value="{$fsite->google_adsense_menu}" />
-		<div class="hint">The ID of the google adsense link panel displayed at the top of every page.</div>
 	</td>
 </tr>
 

@@ -1,4 +1,3 @@
-
 /*
 site wide html styles
 */
@@ -17,12 +16,8 @@ a img { border: none; }
 img.left { float: left; margin: 7px 30px 0 0; }
 img.right { float: right; margin: 7px 0 0 30px; }
 hr { display: none; }
-.small { width: 50px; }
-.tiny { width: 25px; }
-input[type=text],
-input[type=password],
-textarea,
-select { background: #fff; background: -webkit-gradient(linear, left top, left 25, from(#fff), color-stop(4%, #f0f0f0), to(#fff)); border: 1px solid #ccc; border-bottom-color: #999; border-right-color: #999; margin: 0; padding: 4px; color: #444; font-size: 100%; outline: none; }
+input[type=text], input[type=password], textarea, select { background: #fff; background: -webkit-gradient(linear, left top, left 25, from(#fff), color-stop(4%, #f0f0f0), to(#fff)); border: 1px solid #ccc; border-bottom-color: #999; border-right-color: #999; margin: 0; padding: 4px; color: #444; font-size: 100%; outline: none; }
+
 
 
 
@@ -30,40 +25,18 @@ select { background: #fff; background: -webkit-gradient(linear, left top, left 2
 page structure
 */
 #header { width: 940px; 	margin: 0 auto; }
-
-#menu { height:30px; float: left; width: 100%; background-color:#e5e5e5; }
-.menupic {padding-left:15px;}
-
-#menulink { float: left; }
-#menulink ul { list-style-type: none; padding: 0; margin: 0; }
-#menulink li { float: left; position: relative; z-index: 100; }
-#menulink a, #menulink :visited {	display: block; font-size: 0.9em; width: 80px; padding: 0px 0px 0px 5px; color: #000; background-color: #e5e5e5; text-decoration: none; text-align: left; vertical-align: middle; }
-#menulink :hover, #menulink a.selected {color:#fff; background-color: #777; }
-#menulink ul ul { visibility: hidden; position: absolute; width: 60px; height: 0; }
-#menulink ul li:hover ul, #menulink ul a:hover ul { visibility: visible; }
-#menusearchlink { padding-top:3px; float:right; }
-#menusearchlink input, #menusearchlink select { font-size: 0.9em; color:#555; }
-#menucontainer { width:940px; height:10px; }
-
 #page { width: 940px; margin: 0 auto; padding: 50px 0px 0px 0px;}
 
 #logo { width: 940px; height: 67px; margin: 0 auto; padding-left:5px; margin-top:4px; background:url("../images/banner.jpg") no-repeat bottom left; }
-
 #logo h1, #logo p { display:none; margin: 0px; line-height: normal; text-transform: lowercase; font-weight: normal; color: #485459;}
-
 #logo p { margin-top: 2px; text-transform: lowercase; font-size: 13px; color: #A8A8A8;}
 #logo h1 { padding-top: 10px; font-size: 48px;}
 #logo a { text-decoration: none; color: #A8A8A8; }
 #logo img { margin-top:15px; }
 #logo h1 a { text-decoration: none; color: #485459;}
 
-#banner { padding-bottom: 20px; }
-
-#statusbar { float:right; padding-right:10px; padding-top:2px;}
+#statusbar { width:940px; margin: 0 auto; text-align:right; padding-right:10px; padding-top:5px;}
 #statusbar a { text-decoration: none; color: #515151;}
-
-select#headcat option { padding-left: 10px; }
-select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 
 #content { float: right; width: 585px;}
 #content h1 { font-size: 28px;}
@@ -89,6 +62,44 @@ select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 .footer p { margin: 0; padding: 20px 0px 0px 0px; text-align: center; line-height: normal; font-size: 10px; }
 .footer a {}
 
+
+
+
+/*
+menu structure (the browse by category menu)
+*/
+#menu { height:30px; float: left; width: 100%; background-color:#e5e5e5; }
+.menupic {padding-left:15px;}
+
+#menulink { float: left; }
+#menulink ul { list-style-type: none; padding: 0; margin: 0; }
+#menulink li { float: left; position: relative; z-index: 100; }
+#menulink a, #menulink :visited {	display: block; font-size: 0.9em; width: 80px; padding: 0px 0px 0px 5px; color: #000; background-color: #e5e5e5; text-decoration: none; text-align: left; vertical-align: middle; }
+#menulink :hover, #menulink a.selected {color:#fff; background-color: #777; }
+#menulink ul ul { visibility: hidden; position: absolute; width: 60px; height: 0; }
+#menulink ul li:hover ul, #menulink ul a:hover ul { visibility: visible; }
+#menusearchlink { padding-top:3px; float:right; }
+#menusearchlink input, #menusearchlink select { font-size: 0.9em; color:#555; }
+#menucontainer { width:940px; height:10px; }
+
+select#headcat {width:120px;}
+select#headcat option { padding-left: 10px; }
+select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
+
+
+/* 
+menu styling for when menu is displayed in top position 
+*/
+#logo ul { list-style-type: none; clear:both; float:right; margin: 0 0 10px 0; padding:0; line-height: normal; text-align: right; }
+#logo ul li h2 {display:none;}
+#logo ul li ul li {float: left; margin-left: 1em; padding-right:5px;  }
+#logo ul li a {color:#333;}
+#logo ul ul {list-style-type: square;}
+
+
+
+
+
 /*
 misc site style such as data tables, 
 */
@@ -108,6 +119,12 @@ input.long {width:400px; }
 input.short { width:40px; }
 input.date { width:70px; }
 
+.small { width: 50px; }
+.tiny { width: 25px; }
+.left { text-align:left;}
+.right { text-align:right;}
+.mid { text-align:center;}
+
 pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
 #movieinfo { background-position: center center; background-repeat: no-repeat; position: absolute; z-index: 2;}
@@ -120,11 +137,9 @@ pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 
 
 div.resextra { padding-top:2px; color: #888; font-size: 0.8em; height:16px; }
 div.resextra a { color: #888; text-decoration:none; }
-
 div.movextra { padding-top:2px; color: #888; font-size: 0.8em; }
 
 div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(../images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
-
 div.comments { padding-top:20px; }
 
 input.nzb_check_all { margin-left:5px; }
@@ -137,13 +152,8 @@ div.pager {display:inline;}
 div.pager a {font-weight:bold; background-color:#DDD; padding:0 3px 0px 4px; border:1px #CCC solid;}
 div.pager .current {color:#fff; font-weight:bold; background-color:#777; padding:0 4px 0px 4px; border:1px #CCC solid;}
 
-.left { text-align:left;}
-.right { text-align:right;}
-.mid { text-align:center;}
-
 .invitesuccess {display:none;font-weight:bold;padding-left:10px;color:green;}
 .invitefailed {display:none;font-weight:bold;padding-left:10px;color:red;}
-
 
 /* icons */
 div.icon { width:16px; height:16px; background-repeat:no-repeat; cursor:pointer; position:relative; float:left; margin:2px; }
@@ -158,11 +168,8 @@ div.icon_sab_clicked	{ background-image:url('../images/icons/sabdown.png'); }
 div.icon_tvrage			{ background-image:url('../images/icons/tvrage.png'); }
 div.icon_check			{ background-image:url('../images/icons/check.png'); }
 
-
 div.nosearchresults {margin-left:25px; padding-top:50px;}
 div.nosearchresults ul { line-height: 150%;}
-
-
 
 
 
