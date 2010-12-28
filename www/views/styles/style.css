@@ -68,13 +68,13 @@ page structure
 /*
 menu structure (the browse by category menu)
 */
-#menu { height:30px; float: left; width: 100%; background-color:#e5e5e5; }
+#menu { height:33px; float: left; width: 100%; background-color:#e5e5e5; }
 .menupic {padding-left:15px;}
 
 #menulink { float: left; }
 #menulink ul { list-style-type: none; padding: 0; margin: 0; }
 #menulink li { float: left; position: relative; z-index: 100; }
-#menulink a, #menulink :visited {	display: block; font-size: 0.9em; width: 80px; padding: 0px 0px 0px 5px; color: #000; background-color: #e5e5e5; text-decoration: none; text-align: left; vertical-align: middle; }
+#menulink a, #menulink :visited {height:32px; display: block; font-size: 0.9em; width: 80px; padding: 1px 0px 0px 5px; color: #000; background-color: #e5e5e5; text-decoration: none; text-align: left; vertical-align: middle; }
 #menulink :hover, #menulink a.selected {color:#fff; background-color: #777; }
 #menulink ul ul { visibility: hidden; position: absolute; width: 60px; height: 0; }
 #menulink ul li:hover ul, #menulink ul a:hover ul { visibility: visible; }
