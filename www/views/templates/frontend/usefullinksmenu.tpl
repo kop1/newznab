@@ -1,4 +1,4 @@
-<li>
+<li class="menu_useful">
 		<h2>Useful Links</h2> 
 		<ul>
 		<li onclick=""><a title="Contact Us" href="{$smarty.const.WWW_TOP}/contact-us.php">Contact Us</a></li>

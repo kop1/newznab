@@ -29,6 +29,7 @@
 </head>
 <body {$page->body}>
 
+	{strip}
 	<div id="statusbar">
 		{if $loggedin=="true"}
 			Welcome back <a href="{$smarty.const.WWW_TOP}/profile">{$userdata.username}</a>. <a href="{$smarty.const.WWW_TOP}/logout">Logout</a>
@@ -36,11 +37,15 @@
 			<a href="{$smarty.const.WWW_TOP}/login">Login</a> or <a href="{$smarty.const.WWW_TOP}/register">Register</a>
 		{/if}
 	</div>
+	{/strip}
 
 	<div id="logo">
 		<a title="{$site->title} Logo" href="{$smarty.const.WWW_TOP}/"><img alt="{$site->title} Logo" src="{$smarty.const.WWW_TOP}/views/images/clearlogo.png" /></a>
 		<h1><a href="{$smarty.const.WWW_TOP}/">{$site->title}</a></h1>
 		<p><em>{$site->strapline}</em></p>
+
+		<!--<ul>{$main_menu}</ul>-->
+
 	</div>
 	<hr />
 	
@@ -49,21 +54,6 @@
 
 			{if $loggedin=="true"}
 				{$header_menu}
-			{/if}
-				
-			{if 1==2 && $site->google_adsense_acc != '' && $site->google_adsense_menu != ''}
-			{literal}
-				<script type="text/javascript">
-						<!--
-						google_ad_client = "{/literal}{$site->google_adsense_acc}{literal}";
-						google_ad_slot = "{/literal}{$site->google_adsense_menu}{literal}";
-						google_ad_width = 728;
-						google_ad_height = 15;
-						//-->
-						</script>
-						<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-				</script>
-			{/literal}
 			{/if}
 						
 		</div> 
@@ -98,23 +88,7 @@
 		<div id="sidebar">
 		<ul>		
 		
-		{if $menulist|@count > 0}
-		<li>
-			<h2>Menu</h2> 
-			
-			<ul>
-					{foreach from=$menulist item=menu}
-					{strip}
-						{assign var="var" value=$menu.menueval}	
-						{eval var=$var, assign='menuevalresult'}
-						{if $menuevalresult|replace:",":"1" == "1"}
-							<li onclick="document.location='{$menu.href}';"><a title="{$menu.tooltip}" href="{$menu.href}">{$menu.title}</a></li>
-						{/if}
-					{/strip}
-					{/foreach}
-			</ul>
-		</li>
-		{/if}
+		{$main_menu}
 		
 		{$article_menu}
 
@@ -160,7 +134,7 @@
 		</ul>
 		</div>
 	
-		<div  style="clear: both;text-align:right;padding-bottom:10px;">
+		<div style="clear: both;text-align:right;">
 			<a class="w3validator" href="http://validator.w3.org/check?uri=referer">
 			<img src="{$smarty.const.WWW_TOP}/views/images/valid-xhtml10.png" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
 			</a> 

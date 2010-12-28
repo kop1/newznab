@@ -1,0 +1,48 @@
+
+/* example site specific theme*/
+
+/* make all main site containers black baground and remove the fader image at the top*/
+
+/* remove the w3 validator, change logo, and hide h1 text*/
+
+body { background:#CCC; color: #333; }
+.w3validator, .menupic {display:none;}
+#logo {background: url(images/logo.png) no-repeat 0% 100%;}
+.menu_useful {display:none;}
+
+/* override table styles, alt rows, headings etc*/
+table tr.alt { background-color: #eee; }
+table tr.new { background-color: #fff; }
+table.highlight tr:hover td { background-color: #efefef; }
+table.data th { background-color:#fff; border-color: #ddd;}
+table.data td, table.data { border-color: #ddd;}
+
+
+/* override almost every element in the sites font and color*/
+#sidebar li, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a, select, textarea, input {font-family:Calibri, courier, monospace; color:#444;}
+#sidebar li li, #sidebar li li:hover { background:none;}
+#sidebar li li a {padding: 0 0 0 0;}
+#sidebar a:hover { text-decoration: underline;}
+
+input[type=text],
+input[type=password],
+textarea,
+select { background: #fff; }
+
+/* menu bar background colours*/
+#menulink a, #menulink :visited, #menulink li, #menu {color:#fff;  background-color:#333;}
+#menulink :hover { color: #fff; background-color: #555; }
+
+a:hover, #sidebar li li a:hover {color:#000;}
+
+
+#statusbar {width:280px;}
+#logo { height:80px; }
+#logo ul { clear:both; float:right; margin: 0 0 10px 0; padding: 0; line-height: normal; list-style-type: none; text-align: right; }
+#logo ul li h2 {display:none;}
+#logo ul li {display: inline; padding-right:5px;  }
+#logo ul li a {color:#333;}
+#sidebar {width:0px;}
+#content {border:2px solid #333; width:936px;}
+#page {padding: 0px 0px 0px; background:#fff;}
+.footer { border-top: none; background: #CCC; }

@@ -1,5 +1,5 @@
 {if $articlecontentlist|@count > 0}
-<li>
+<li class="menu_articles">
 		<h2>Articles</h2> 
 		<ul>
 		{foreach from=$articlecontentlist item=content}

@@ -30,11 +30,9 @@ class Page extends BasePage
 		$this->smarty->assign('usefulcontentlist',$content->getForMenuByTypeAndRole(Contents::TYPEUSEFUL, $role));
 		$this->smarty->assign('articlecontentlist',$content->getForMenuByTypeAndRole(Contents::TYPEARTICLE, $role));
 		
-		$usefullinks_menu = $this->smarty->fetch('usefullinksmenu.tpl');
-		$this->smarty->assign('useful_menu',$usefullinks_menu);		
-
-		$article_menu = $this->smarty->fetch('articlesmenu.tpl');
-		$this->smarty->assign('article_menu',$article_menu);	
+		$this->smarty->assign('main_menu',$this->smarty->fetch('mainmenu.tpl'));		
+		$this->smarty->assign('useful_menu',$this->smarty->fetch('usefullinksmenu.tpl'));		
+		$this->smarty->assign('article_menu',$this->smarty->fetch('articlesmenu.tpl'));	
 
 		$category = new Category();
 		if ($this->userdata != null)

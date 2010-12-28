@@ -43,7 +43,7 @@ page structure
 #menulink ul li:hover ul, #menulink ul a:hover ul { visibility: visible; }
 #menusearchlink { padding-top:3px; float:right; }
 #menusearchlink input, #menusearchlink select { font-size: 0.9em; color:#555; }
-#menucontainer { width:900px; height:10px; }
+#menucontainer { width:940px; height:10px; }
 
 #page { width: 940px; margin: 0 auto; padding: 50px 0px 0px 0px;}
 
