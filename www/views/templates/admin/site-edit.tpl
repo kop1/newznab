@@ -68,7 +68,7 @@
 <tr>
 	<td><label for="style">Theme</label>:</td>
 	<td>
-		{html_options id="style" name='style' values=$themelist output=$themelist selected=$fsite->style}
+		{html_options class="siteeditstyle" id="style" name='style' values=$themelist output=$themelist selected=$fsite->style}
 		<div class="hint">The theme folder which will be loaded for css and images. (Use / for default)</div>
 	</td>
 </tr>
@@ -76,7 +76,7 @@
 <tr>
 	<td><label for="style">User Menu Position</label>:</td>
 	<td>
-		{html_options id="menuposition" name='menuposition' values=$menupos_ids output=$menupos_names selected=$fsite->menuposition}
+		{html_options class="siteeditmenuposition" id="menuposition" name='menuposition' values=$menupos_ids output=$menupos_names selected=$fsite->menuposition}
 		<div class="hint">Where the menu should appear. Moving the menu to the top will require using a theme which widens the content panel. (e.g. nzbsu theme)</div>
 	</td>
 </tr>

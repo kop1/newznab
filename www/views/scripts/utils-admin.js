@@ -166,6 +166,16 @@ $('#regexGroupSelect').change(function() {
   document.location="?group=" + $("#regexGroupSelect option:selected").attr('value');
 });
 
+$('.siteeditstyle').change(function() {
+  
+  if ($('.siteeditstyle option:selected').text() == "nzbsu")
+	  $('.siteeditmenuposition').val("2");
+  else
+  	$('.siteeditmenuposition').val("1");
+  
+});
+
+
 });
 
 
