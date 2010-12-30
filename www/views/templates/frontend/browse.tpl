@@ -17,7 +17,6 @@
 	<input type="button" class="nzb_multi_operations_rebuild" value="Reb" />
 	{/if}	
 </div>
-<br/>
 
 {$pager}
 

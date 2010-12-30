@@ -1,7 +1,7 @@
 
 body { background:none; color: #333; }
 .footer, .w3validator, .menupic {display:none;}
-#logo { visibility:none; height:35px; background:none;}
+#logo { visibility:none; height:15px; background:none;}
 
 /* override table styles, alt rows, headings etc*/
 table tr.alt { background-color: #eee; }
