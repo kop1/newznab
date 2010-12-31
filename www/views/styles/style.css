@@ -178,6 +178,7 @@ div.nosearchresults ul { line-height: 150%;}
 
 .rndbtn { padding-left:4px; padding-right:4px; margin-right:1px; border:1px #CCC solid; background-color:#EEE; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
 table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { background-color: #fff; }
+table.highlight tr:hover .rndbtn:hover { background-color: #DDD; }
 
 
 
