@@ -79,13 +79,17 @@ menu structure (the browse by category menu)
 #menulink :hover, #menulink a.selected {color:#fff; background-color: #777; }
 #menulink ul ul { visibility: hidden; position: absolute; width: 60px; height: 0; }
 #menulink ul li:hover ul, #menulink ul a:hover ul { visibility: visible; }
-#menusearchlink { padding-top:3px; float:right; }
+#menusearchlink { padding-top:5px; float:right; }
 #menusearchlink input, #menusearchlink select { font-size: 0.9em; color:#555; }
 #menucontainer { width:940px; height:10px; }
 
-select#headcat {width:120px;}
+select#headcat {width:120px; float:right;margin-left:5px;height:25px;}
 select#headcat option { padding-left: 10px; }
 select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
+#headsearch{float:right;height:15px;}
+
+.gobutton {display:inline;float:right;margin-left:5px;}
+.gobutton input { background:url('../images/icons/go.png') no-repeat; cursor:pointer; border: none;	 width:30px; height:25px; }
 
 
 /* 

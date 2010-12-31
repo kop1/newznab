@@ -29,20 +29,24 @@
 	</div>
 	
 	<div id="menusearchlink">
-	<form id="headsearch_form" action="{$smarty.const.WWW_TOP}/search" method="get">
-		<label style="display:none;" for="headsearch">Search Text</label>
-		<input id="headsearch" name="search" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
-		<label style="display:none;" for="headcat">Search Category</label>
-		<select id="headcat" name="t">
-			<option class="grouping" value="-1">All</option>
-		{foreach from=$parentcatlist item=parentcat}
-			<option {if $header_menu_cat==$parentcat.ID}selected="selected"{/if} class="grouping" value="{$parentcat.ID}">{$parentcat.title}</option>
-			{foreach from=$parentcat.subcatlist item=subcat}
-				<option {if $header_menu_cat==$subcat.ID}selected="selected"{/if} value="{$subcat.ID}">&nbsp;&nbsp;{$subcat.title}</option>
+		<form id="headsearch_form" action="{$smarty.const.WWW_TOP}/search" method="get">
+
+			<div class="gobutton" title="Submit search"><input id="headsearch_go" type="submit" value="" /></div>
+
+			<label style="display:none;" for="headcat">Search Category</label>
+			<select id="headcat" name="t">
+				<option class="grouping" value="-1">All</option>
+			{foreach from=$parentcatlist item=parentcat}
+				<option {if $header_menu_cat==$parentcat.ID}selected="selected"{/if} class="grouping" value="{$parentcat.ID}">{$parentcat.title}</option>
+				{foreach from=$parentcat.subcatlist item=subcat}
+					<option {if $header_menu_cat==$subcat.ID}selected="selected"{/if} value="{$subcat.ID}">&nbsp;&nbsp;{$subcat.title}</option>
+				{/foreach}
 			{/foreach}
-		{/foreach}
-		</select>
-		<input id="headsearch_go" type="submit" value="Go"/>
-	</form>
+			</select>
+
+			<label style="display:none;" for="headsearch">Search Text</label>
+			<input id="headsearch" name="search" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
+
+		</form>
 	</div>
 </div>
