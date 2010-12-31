@@ -21,7 +21,7 @@
 	</tr>
 	<tr><th>Confirm Password:</th><td><input autocomplete="off" id="confirmpassword" name="confirmpassword" type="password" value=""></input>
 	</td></tr>
-	<tr><th>Site Api/Rss Key:</th><td>{$user.rsstoken}<br/><a onclick="return confirm('Are you sure?');" href="?action=newapikey">Generate</a></td></tr>
+	<tr><th>Site Api/Rss Key:</th><td>{$user.rsstoken}<br/><a class="confirm_action" href="?action=newapikey">Generate</a></td></tr>
 	<tr><th>View Movie Page:</th>
 		<td>
 			<input id="movieview" name="movieview" value="1" type="checkbox" {if $user.movieview=="1"}checked="checked"{/if}></input>

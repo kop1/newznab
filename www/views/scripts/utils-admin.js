@@ -175,6 +175,9 @@ $('.siteeditstyle').change(function() {
   
 });
 
+// misc
+$('.confirm_action').click(function(){ return confirm('Are you sure?'); });
+
 
 });
 
