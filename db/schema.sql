@@ -586,11 +586,10 @@ INSERT INTO `site`
 	`footer`, 
 	`email`, 
 	`lastupdate`, 
-	`google_adsense_menu`, 
 	`google_adsense_search`, 
 	`google_adsense_sidepanel`, 
 	`google_analytics_acc`,
-	siteseed,
+	`siteseed`,
 	`tandc`,
 	`registerstatus`,
 	`style`,
@@ -604,7 +603,7 @@ INSERT INTO `site`
 	'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
-	NOW(), NULL, NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
+	NOW(), NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
 	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2);
 
 INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
