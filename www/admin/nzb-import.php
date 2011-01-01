@@ -9,6 +9,8 @@ if (empty($argc))
 	$page = new AdminPage();
 
 $filestoprocess = Array();
+$browserpostednames = Array();
+$viabrowser = false;
 
 if (!empty($argc) || $page->isPostBack() )
 {
@@ -26,6 +28,8 @@ if (!empty($argc) || $page->isPostBack() )
           $tmp_name = $_FILES["uploadedfiles"]["tmp_name"][$key];
           $name = $_FILES["uploadedfiles"]["name"][$key];
           $filestoprocess[] = $tmp_name;
+          $browserpostednames[$tmp_name] = $name;
+          $viabrowser = true;
       }
     }
 	}
@@ -104,8 +108,6 @@ if (!empty($argc) || $page->isPostBack() )
 					$groupArr[] = $group;
 				}
 				
-				
-				
 				if ($groupID != -1)
 				{
 					
@@ -120,9 +122,12 @@ if (!empty($argc) || $page->isPostBack() )
 					
 					$binaryId = $db->queryInsert($binarySql);
 					
-					if ($usenzbname) {
+					if ($usenzbname) 
+					{
+						$usename = str_replace('.nzb', '', ($viabrowser ? $browserpostednames[$nzbFile] : basename($nzbFile)));
+						
 						$db->query(sprintf("update binaries set relname = replace(%s, '_', ' '), relpart = %d, reltotalpart = %d, procstat=%d, categoryID=%s, regexID=%d, reqID=%s where ID = %d", 
-							$db->escapeString(str_replace('.nzb', '', basename($nzbFile))), 1, 1, 5, "null", "null", "null", $binaryId));
+							$db->escapeString($usename), 1, 1, 5, "null", "null", "null", $binaryId));
 					}
 					
 					//segments (i.e. parts)
