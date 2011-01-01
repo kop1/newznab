@@ -2,7 +2,7 @@
 <h1>{$page->title}</h1>
 
 <p>
-Import nzbs from a folder into the system. Specify the full file path to a folder containing nzbs.
+Import nzbs from a folder or via the browser into the system. Specify the full file path to a folder containing nzbs.
 <br />
 Importing will enter the nzbs into the binaries/parts tables, but not create any releases. The update_releases function should be run to create new releases from the imported nzbs.
 </p>
@@ -13,12 +13,15 @@ Importing will enter the nzbs into the binaries/parts tables, but not create any
 <li>Duplicate binary/part checks are not done so you will get duplicated binary and part data if you import nzbs that are already indexed.</li>
 </ul>
 
-<form action="{$SCRIPT_NAME}" method="POST">
+<fieldset>
+<legend>Import From Directory</legend>
+
+<form action="{$SCRIPT_NAME}#results" method="POST">
 
 <table class="input">
 
 <tr>
-	<td><label for="folder">Folder</label>:</td>
+	<td width="100"><label for="folder">Folder</label>:</td>
 	<td>
 		<input id="folder" class="long" name="folder" type="text" value="" />
 		<div class="hint">Windows file paths should be specified with forward slashes e.g. c:/temp/</div>
@@ -44,6 +47,51 @@ Importing will enter the nzbs into the binaries/parts tables, but not create any
 
 </form>
 
-<div>
-{$output}
-</div>
+
+</fieldset>
+
+
+
+<fieldset>
+<legend>Import From Browser</legend>
+
+<form action="{$SCRIPT_NAME}#results" method="POST" enctype="multipart/form-data">
+
+<table class="input">
+
+<tr>
+	<td width="100"><label for="uploadedfiles[]">File</label>:</td>
+	<td>
+		<input name="uploadedfiles[]" type="file" class="multi accept-nzb"/>
+		<div class="hint">Select one or more .nzb files.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="usefilename">Use Filename</label>:</td>
+	<td>
+		<input type="checkbox" name="usefilename" />
+		<div class="hint">Use the nzb's filename as the release name. This will bypass the release regex process.</div>
+	</td>
+</tr>
+
+
+<tr>
+	<td></td>
+	<td>
+		<input type="submit" value="Import" />
+	</td>
+</tr>
+
+</table>
+
+</fieldset>
+
+
+{if $output != ""}
+	<div>
+		<a id="results"></a>
+		<h1>Import Results</h1>
+		{$output}
+	</div>
+{/if}

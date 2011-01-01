@@ -8,11 +8,28 @@ $db = new DB();
 if (empty($argc))
 	$page = new AdminPage();
 
+$filestoprocess = Array();
+
 if (!empty($argc) || $page->isPostBack() )
 {
 	$retval = "";	
-	$strTerminator = "<br />";
-	
+
+	//
+	// Via browser, build an array of all the nzb files uploaded into php /tmp location
+	//	
+	if (isset($_FILES["uploadedfiles"]))
+	{
+    foreach ($_FILES["uploadedfiles"]["error"] as $key => $error)
+    {
+      if ($error == UPLOAD_ERR_OK)
+      {
+          $tmp_name = $_FILES["uploadedfiles"]["tmp_name"][$key];
+          $name = $_FILES["uploadedfiles"]["name"][$key];
+          $filestoprocess[] = $tmp_name;
+      }
+    }
+	}
+
 	if (!empty($argc))
 	{
 		$strTerminator = "\n";
@@ -22,7 +39,7 @@ if (!empty($argc) || $page->isPostBack() )
 	else		
 	{
 		$strTerminator = "<br />";
-		$path = $_POST["folder"];
+		$path = (isset($_POST["folder"]) ? $_POST["folder"] : "");
 		$usenzbname = (isset($_POST['usefilename']) && $_POST["usefilename"] == 'on') ? true : false;
 	}
 		
@@ -47,7 +64,14 @@ if (!empty($argc) || $page->isPostBack() )
 	else
 	{	
 		$nzbCount = 0;
-		foreach(glob($path."*.nzb") as $nzbFile) 
+	
+		//
+		// read from the path, if no files submitted via the browser
+		//		
+		if (count($filestoprocess) == 0)
+			$filestoprocess = glob($path."*.nzb"); 
+		
+		foreach($filestoprocess as $nzbFile) 
 		{
 			$importfailed = false;
 			$nzb = file_get_contents($nzbFile);
