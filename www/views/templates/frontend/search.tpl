@@ -31,11 +31,10 @@
 {elseif $search == ""}
 {else}
 
+<form style="padding-top:10px;" id="nzb_multi_operations_form" method="get" action="{$smarty.const.WWW_TOP}/search">
+
 {$pager}
 
-<form id="nzb_multi_operations_form" method="get" action="{$smarty.const.WWW_TOP}/search">
-
-<br/>
 <div class="nzb_multi_operations">
 	<small>With selected:</small>
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
