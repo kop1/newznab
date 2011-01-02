@@ -30,6 +30,9 @@
 	</div>
 {elseif $search == ""}
 {else}
+
+{$pager}
+
 <form id="nzb_multi_operations_form" method="get" action="{$smarty.const.WWW_TOP}/search">
 
 <br/>
@@ -46,7 +49,6 @@
 	{/if}
 </div>
 <br/><br/>
-
 
 <table style="width:100%;" class="data highlight icons">
 	<tr>
@@ -101,6 +103,8 @@
 	
 </table>
 <br/>
+
+{$pager}
 
 <div class="nzb_multi_operations">
 	<small>With selected:</small>
