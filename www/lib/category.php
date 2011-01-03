@@ -288,6 +288,7 @@
                             }
                     if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx|alt\.binaries\.movies/i', $group))
                             {
+                            if($this->isTV($releasename)){ return $this->tmpCat; }
                             if($this->isMovie($releasename)){ return $this->tmpCat; }
                             return Category::CAT_MOVIE_SD;
                           	}                               
@@ -362,12 +363,12 @@
 
                     private function isForeignTV($releasename)
                     {
-                            If(preg_match('/(danish|flemish|dutch|nl\.?subbed|nl\.?sub|\.NL\.|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename))
+                            If(preg_match('/(danish|flemish|dutch|Deutsch|nl\.?subbed|nl\.?sub|\.NL\.|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_TV_FOREIGN;
                                 return true;
                             }
-                            Else If(preg_match('/NLSubs|NL\-Subs|NLSub/i', $releasename))
+                            Else If(preg_match('/NLSubs|NL\-Subs|NLSub|Deutsch| der |German/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_TV_FOREIGN;
                                 return true;
@@ -424,12 +425,12 @@
 
                     private function isMovieForeign($releasename)
                     {
-                            If(preg_match('/(danish|flemish|dutch|nl\.?subbed|nl\.?sub|\.NL|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename))
+                            If(preg_match('/(danish|flemish|Deutsch|dutch|nl\.?subbed|nl\.?sub|\.NL|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_MOVIE_FOREIGN;
                                 return true;
                             }
-                            Else If(preg_match('/NLSubs|NL\-Subs|NLSub|\d{4} German/i', $releasename))
+                            Else If(preg_match('/NLSubs|NL\-Subs|NLSub|\d{4} German|Deutsch| der /i', $releasename))
                             {
                                 $this->tmpCat = Category::CAT_MOVIE_FOREIGN;
                                 return true;
