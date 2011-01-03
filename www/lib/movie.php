@@ -529,6 +529,9 @@ class Movie
 						$imdbId = $nfo->parseImdb($buffer);
 						if ($imdbId !== false) 
 						{
+							if ($this->echooutput)
+								echo '- found '.$imdbId."\n";
+							
 							//update release with imdb id
 							$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["ID"]));
 							
@@ -563,9 +566,9 @@ class Movie
 	{
 		$cat = new Category;
 		if (!$cat->isMovieForeign($releasename)) {
-			preg_match('/^(?P<name>.*)(?P<year>19\d{2}|20\d{2})/i', $releasename, $matches);
+			preg_match('/^(?P<name>.*)[\.\-_ ](?P<year>19\d{2}|20\d{2})/i', $releasename, $matches);
 			if (!isset($matches['year'])) {
-				preg_match('/^(?P<name>.*)(?:dvdrip|bdrip|brrip|bluray|hdtv|divx|xvid|proper|repack|real\.proper)/i', $releasename, $matches);
+				preg_match('/^(?P<name>.*)[\.\-_ ](?:dvdrip|bdrip|brrip|bluray|hdtv|divx|xvid|proper|repack|real\.proper)/i', $releasename, $matches);
 			}
 			
 			if (isset($matches['name'])) {
