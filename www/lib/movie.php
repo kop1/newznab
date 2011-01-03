@@ -2,6 +2,8 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/TMDb.php");
+require_once(WWW_DIR."/lib/category.php");
+require_once(WWW_DIR."/lib/nfo.php");
 
 class Movie
 {
@@ -498,6 +500,82 @@ class Movie
         }
         return false;
     }
+    
+    public function processMovieReleases()
+	{
+		$ret = 0;
+		$db = new DB();
+		$nfo = new Nfo;
+		
+		$res = $db->queryDirect(sprintf("SELECT searchname, ID from releases where imdbID IS NULL and categoryID in ( select ID from category where parentID = %d )", Category::CAT_PARENT_MOVIE));
+		if (mysql_num_rows($res) > 0)
+		{	
+			if ($this->echooutput)
+				echo "Processing ".mysql_num_rows($res)." movie releases\n";
+		
+			while ($arr = mysql_fetch_assoc($res)) 
+			{				
+				$moviename = $this->parseMovieName($arr['searchname']);
+				if ($moviename !== false)
+				{
+					if ($this->echooutput)
+						echo 'Looking up: '.$moviename.' ['.$arr['searchname'].']'."\n";
+		
+					$buffer = file_get_contents("http://www.google.com/search?source=ig&hl=en&rlz=&btnG=Google+Search&aq=f&oq=&q=".urlencode($moviename.' imdb'));
+	
+			        // make sure we got some data
+			        if (strlen($buffer))
+			        {
+						$imdbId = $nfo->parseImdb($buffer);
+						if ($imdbId !== false) 
+						{
+							//update release with imdb id
+							$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["ID"]));
+							
+							//check for existing movie entry
+							$movCheck = $this->getMovieInfo($imdbId);
+							if ($movCheck === false || (isset($movCheck['updateddate']) && (time() - strtotime($movCheck['updateddate'])) > 2592000))
+							{
+								$movieId = $this->updateMovieInfo($imdbId);
+							}
+
+						} else {
+							//no imdb id found, set to all zeros so we dont process again
+							$db->query(sprintf("UPDATE releases SET imdbID = %d WHERE ID = %d", 0, $arr["ID"]));
+						}
+						
+					} else {
+						//url fetch failed, will try next run
+					}
+				
+				
+				} else {
+					//no valid movie name found, set to all zeros so we dont process again
+					$db->query(sprintf("UPDATE releases SET imdbID = %d WHERE ID = %d", 0, $arr["ID"]));
+				}
+								
+			}
+		}
+	
+	}
+	
+	public function parseMovieName($releasename)
+	{
+		$cat = new Category;
+		if (!$cat->isMovieForeign($releasename)) {
+			preg_match('/^(?P<name>.*)(?P<year>19\d{2}|20\d{2})/i', $releasename, $matches);
+			if (!isset($matches['year'])) {
+				preg_match('/^(?P<name>.*)(?:dvdrip|bdrip|brrip|bluray|hdtv|divx|xvid|proper|repack|real\.proper)/i', $releasename, $matches);
+			}
+			
+			if (isset($matches['name'])) {
+				$name = preg_replace('/\(.*?\)|\.|_/i', ' ', $matches['name']);
+				$year = (isset($matches['year'])) ? ' ('.$matches['year'].')' : '';
+				return trim($name).$year;
+			}
+		}
+		return false;
+	}
     
     public function getGenres()
     {

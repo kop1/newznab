@@ -7,6 +7,7 @@ require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/releaseregex.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/tvrage.php");
+require_once(WWW_DIR."/lib/movie.php");
 require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/zipfile.php");
@@ -1181,7 +1182,15 @@ class Releases
 		}
 		else
 		{
-			$nfo->processNfoFiles(($page->site->lookupimdb=="1"));
+			$nfo->processNfoFiles($page->site->lookupimdb);
+		}
+		
+		//
+		// Lookup imdb if enabled
+		//
+		if ($page->site->lookupimdb == 1) {
+			$movie = new Movie($echooutput);
+			$movie->processMovieReleases();
 		}
 		
 		//

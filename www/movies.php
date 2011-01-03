@@ -15,12 +15,12 @@ if (!$users->isLoggedIn())
 	$page->show403();
 
 
-$moviecats = $cat->getChildren(2000);
+$moviecats = $cat->getChildren(Category::CAT_PARENT_MOVIE);
 $mtmp = array();
 foreach($moviecats as $mcat) {
 	$mtmp[$mcat['ID']] = $mcat;
 }
-$category = 2000;
+$category = Category::CAT_PARENT_MOVIE;
 if (isset($_REQUEST["t"]) && array_key_exists($_REQUEST['t'], $mtmp))
 	$category = $_REQUEST["t"] + 0;
 	

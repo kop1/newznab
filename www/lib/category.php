@@ -332,14 +332,13 @@
             }
 
                     //
-                    // Beginning of Private Functions
+                    // Beginning of functions to determine category by release name
                     //
 
                     //
                     //      TV
                     //
-
-                    private function isTV($releasename)
+                    public function isTV($releasename)
                     {
                             If(preg_match('/(S?(\d{1,2})\.?(E|X|D)(\d{1,2})[\. _-]+)|(dsr|pdtv|hdtv)[\.\-_]/i', $releasename))
                             {
@@ -361,7 +360,7 @@
                             }
                     }
 
-                    private function isForeignTV($releasename)
+                    public function isForeignTV($releasename)
                     {
                             If(preg_match('/(danish|flemish|dutch|Deutsch|nl\.?subbed|nl\.?sub|\.NL\.|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename))
                             {
@@ -376,7 +375,7 @@
                             return false;
                     }
 
-                    private function isSportTV($releasename)
+                    public function isSportTV($releasename)
                     {
                             If(preg_match('/(epl|motogp|supercup|wtcc|red\.bull.*?race|bundesliga|la\.liga|uefa|EPL|ESPN|WWE\.|MMA\.|UFC\.|FIA\.|PGA\.|NFL\.|NCAA\.)/i', $releasename))
                             {
@@ -391,7 +390,7 @@
                             return false;
                     }
 
-                    private function isHDTV($releasename)
+                    public function isHDTV($releasename)
                     {
                             If (preg_match('/x264|1080|720|h\.?264|web\-?dl|wmvhd|trollhd/i', $releasename))
                             {
@@ -401,7 +400,7 @@
                             return false;
                     }
 
-                    private function isSDTV($releasename)
+                    public function isSDTV($releasename)
                     {
                             If (preg_match('/dvdr|dvd5|dvd9|xvid/i', $releasename))
                             {
@@ -415,15 +414,14 @@
                     //
                     //      Movie
                     //
-
-                    private function isMovie($releasename)
+                    public function isMovie($releasename)
                     {
                             if($this->isMovieForeign($releasename)){ return true; }
                             if($this->isMovieSD($releasename)){ return true; }
                             if($this->isMovieHD($releasename)){ return true; }
                     }
 
-                    private function isMovieForeign($releasename)
+                    public function isMovieForeign($releasename)
                     {
                             If(preg_match('/(danish|flemish|Deutsch|dutch|nl\.?subbed|nl\.?sub|\.NL|swedish|swesub|french|german|spanish)[\.\-]/i', $releasename))
                             {
@@ -438,7 +436,7 @@
                             return false;
                     }
 
-                    private function isMovieHD($releasename)
+                    public function isMovieHD($releasename)
                     {
                             If(preg_match('/x264|bluray\-|wmvhd|web\-dl|bd?25|bd?50|blu-ray|VC1|VC\-1|AVC|XvidHD/i', $releasename))
                             {
@@ -448,7 +446,7 @@
                             return false;
                     }
 
-                    private function isMovieSD($releasename)
+                    public function isMovieSD($releasename)
                     {
                             If(preg_match('/(xvid|dvdscr|extrascene|dvdrip|r5|\.CAM|dvdr|dvd9|dvd5|divx)[\.\-]/i', $releasename))
                             {
@@ -462,8 +460,7 @@
                     //
                     //      PC
                     //
-
-                    private function isPC($releasename)
+                    public function isPC($releasename)
                     {
                             if($this->isPhone($releasename)){ return true; }
                             if($this->isMac($releasename)){ return true; }
@@ -471,7 +468,7 @@
                             if($this->is0day($releasename)){ return true; }
                     }
 
-                    private function isPhone($releasename)
+                    public function isPhone($releasename)
                     {
                             if (preg_match('/[\.\-_](IPHONE|ITOUCH|ANDROID|COREPDA|symbian|xscale|wm5|wm6)[\.\-_]/i', $releasename))
                             {
@@ -486,7 +483,7 @@
                             return false;
                     }
 
-                    private function is0day($releasename)
+                    public function is0day($releasename)
                     {
                             if(preg_match('/[\.\-_ ](x32|x64|x86|win64|winnt|win9x|win2k|winxp|winnt2k2003serv|win9xnt|win9xme|winnt2kxp|win2kxp|win2kxp2k3|keygen|regged|keymaker|winall|win32|template|Patch|GAMEGUiDE|unix|irix|solaris|freebsd|hpux|linux|windows|multilingual|software|Pro v\d{1,3})[\.\-_ ]/i', $releasename))
                             {
@@ -501,7 +498,7 @@
                             return false;
                     }
 
-                    private function isMac($releasename)
+                    public function isMac($releasename)
                     {
                             If(preg_match('/osx|os\.x|\.mac\./i', $releasename))
                             {
@@ -511,7 +508,7 @@
                             return false;
                     }
 
-                    private function isPCGame($releasename)
+                    public function isPCGame($releasename)
                     {
                             if (preg_match('/\-RELOADED|\-SKIDROW|PC GAME|FASDOX|games|v\d{1,3}.*?\-TE|RIP\-unleashed|Razor1911/i', $releasename))
                             {
@@ -525,8 +522,7 @@
                     //
                     //      XXX
                     //
-
-                    private function isXxx($releasename)
+                    public function isXxx($releasename)
                     {
                             if(preg_match('/xxx/i', $releasename))
                             {
@@ -539,7 +535,7 @@
                             }
                     }
 
-                    private function isXxx264($releasename)
+                    public function isXxx264($releasename)
                     {
                             if (preg_match('/x264/i', $releasename))
                             {
@@ -549,7 +545,7 @@
                             return false;
                     }
 
-                    private function isXxxXvid($releasename)
+                    public function isXxxXvid($releasename)
                     {
                             if (preg_match('/xvid|dvdrip|bdrip|brrip|pornolation|swe6|nympho|detoxication|tesoro/i', $releasename))
                             {
@@ -559,7 +555,7 @@
                             return false;
                     }
 
-                    private function isXxxWMV($releasename)
+                    public function isXxxWMV($releasename)
                     {
                             if (preg_match('/wmv|pack\-|mp4|f4v|flv|mov|mpeg|isom|realmedia|multiformat|(e\d{2,})|(\d{2}\.\d{2}\.\d{2})|uhq|(issue\.\d{2,})/i', $releasename))
                             {
@@ -569,7 +565,7 @@
                             return false;
                     }
 
-                    private function isXxxDVD($releasename)
+                    public function isXxxDVD($releasename)
                     {
                             if (preg_match('/dvdr[^ip]|dvd5|dvd9/i', $releasename))
                             {
@@ -582,8 +578,7 @@
                     //
                     //      Console
                     //
-
-                    private function isConsole($releasename)
+                    public function isConsole($releasename)
                     {
                                     if($this->isGameNDS($releasename)){return true;}
                                     if($this->isGamePS3($releasename)){ return true; }
@@ -595,7 +590,7 @@
                                     if($this->isGameXBOX($releasename)){ return true; }
                     }
 
-                    private function isGameNDS($releasename)
+                    public function isGameNDS($releasename)
                     {
                             if (preg_match('/NDS/', $releasename))
                             {
@@ -605,7 +600,7 @@
                             return false;
                     }
 
-                    private function isGamePS3($releasename)
+                    public function isGamePS3($releasename)
                     {
                             if (preg_match('/PS3?\-/', $releasename))
                             {
@@ -615,7 +610,7 @@
                             return false;
                     }
 
-                    private function isGamePSP($releasename)
+                    public function isGamePSP($releasename)
                     {
                             if (preg_match('/PSP?\-/i', $releasename))
                             {
@@ -625,7 +620,7 @@
                             return false;
                     }
 
-                    private function isGameWiiWare($releasename)
+                    public function isGameWiiWare($releasename)
                     {
                             if (preg_match('/WIIWARE|WII.*?VC|VC.*?WII|WII.*?DLC|DLC.*?WII|WII.*?CONSOLE|CONSOLE.*?WII/i', $releasename))
                             {
@@ -635,7 +630,7 @@
                             return false;
                     }
 
-                    private function isGameWii($releasename)
+                    public function isGameWii($releasename)
                     {
                             if (preg_match('/WII/i', $releasename))
                             {
@@ -645,7 +640,7 @@
                             return false;
                     }
 
-                    private function isGameXBOX360DLC($releasename)
+                    public function isGameXBOX360DLC($releasename)
                     {
                             if (preg_match('/(DLC.*?xbox360|xbox360.*?DLC|XBLA.*?xbox360|xbox360.*?XBLA)/i', $releasename))
                             {
@@ -655,7 +650,7 @@
                             return false;
                     }
 
-                    private function isGameXBOX360($releasename)
+                    public function isGameXBOX360($releasename)
                     {
                             if (preg_match('/XBOX360|x360/i', $releasename))
                             {
@@ -665,7 +660,7 @@
                             return false;
                     }
 
-                    private function isGameXBOX($releasename)
+                    public function isGameXBOX($releasename)
                     {
                             if (preg_match('/XBOX/i', $releasename))
                             {
@@ -679,14 +674,13 @@
                     //
                     //      Music
                     //
-
-                    private function isMusic($releasename)
+                    public function isMusic($releasename)
                     {
                                     if($this->isMusicMP3($releasename)){ return true; }
                                     if($this->isMusicLossless($releasename)){ return true; }
                     }
 
-                    private function isMusicMP3($releasename)
+                    public function isMusicMP3($releasename)
                     {
                             if (preg_match('/Greatest_Hits|VA?(\-|_)|WEB\-\d{4}/i', $releasename))
                             {
@@ -696,7 +690,7 @@
                             return false;
                     }
 
-                    private function isMusicLossless($releasename)
+                    public function isMusicLossless($releasename)
                     {
                             if (preg_match('/Lossless|FLAC/i', $releasename))
                             {
@@ -709,7 +703,7 @@
                     //
                     //			Ebooks
                     // 
-                    private function isEBook($releasename)
+                    public function isEBook($releasename)
                     {
                             if (preg_match('/Ebook|E?\-book|\) WW|\[Springer\]|Publishing/', $releasename))
                             {

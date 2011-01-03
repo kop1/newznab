@@ -58,7 +58,7 @@ class Nfo
 		return false;
 	}
 	
-	public function processNfoFiles($processImdb=true)
+	public function processNfoFiles($processImdb=1)
 	{
 		$ret = 0;
 		$db = new DB();
@@ -88,7 +88,7 @@ class Nfo
 						$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["releaseID"]));
 						
 						//if set scan for imdb info
-						if ($processImdb)
+						if ($processImdb == 1)
 						{
 							$movie = new Movie($this->echooutput);
 							//check for existing movie entry
