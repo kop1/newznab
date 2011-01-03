@@ -1138,10 +1138,14 @@ class Releases
 			else
 				$reqID = $reqIDused;
 
+			//Clean release name
+			$cleanArr = array('#', '@', '$', '%', '^', '¤', '¬', '©', '…');
+			$cleanRelName = str_replace($cleanArr, '', $row['relname']);
+			
 			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID, passwordstatus) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s, %d)", 
-										$db->escapeString($row["relname"]), $db->escapeString($row["relname"]), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID, ($page->site->checkpasswordedrar == "1" ? -1 : 0) ));
+										$db->escapeString($cleanRelName), $db->escapeString($cleanRelName), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID, ($page->site->checkpasswordedrar == "1" ? -1 : 0) ));
 			if ($echooutput)
-				echo "Added release ".$row['relname']."\n";
+				echo "Added release ".$cleanRelName."\n";
 			
 			//
 			// Tag every binary for this release with its parent release id
@@ -1163,7 +1167,7 @@ class Releases
 			//
 			// Write the nzb to disk
 			//
-			$nzb->writeNZBforReleaseId($relid, $relguid, $row["relname"], $catId, $nzb->getNZBPath($relguid, $page->site->nzbpath, true));
+			$nzb->writeNZBforReleaseId($relid, $relguid, $cleanRelName, $catId, $nzb->getNZBPath($relguid, $page->site->nzbpath, true));
 
 			if ($echooutput && ($retcount % 5 == 0))
 				echo "-processed ".$retcount." releases stage three\n";
