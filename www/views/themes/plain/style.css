@@ -26,6 +26,8 @@ select { background: none; }
 #menulink a, #menulink :visited, #menulink li, #menu { background-color:#fff;}
 #menulink :hover { color: #fff; background-color: #333; }
 
+table.data td.less, div.resextra {font-size: 0.9em;}
+div.resextra a:hover {text-decoration:underline;}
 
 select#headcat {width:100px;}
 
