@@ -7,11 +7,6 @@
 		<input id="search" name="search" value="{$search|escape:'html'}" type="text"/>
 		<input id="search_search_button" type="submit" value="search" />
 		<input type="hidden" name="t" value="{if $category[0]!=""}{$category[0]}{else}-1{/if}" id="search_cat" />
-
-    {if $results}
-    <br />
-    <a style="display:none;" href="{$smarty.const.WWW_TOP}/mysearches.php?term={$search|escape:'html'}&category={$header_menu_cat|default:'0'}">Save this search ({$search|escape:'html'}) to <strong>My Searches</strong></a>
-    {/if}
 	</div>
 </form>
 
