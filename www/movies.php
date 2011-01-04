@@ -32,7 +32,7 @@ $page->smarty->assign('category', $category);
 
 $browsecount = $movie->getMovieCount($catarray, -1, $page->userdata["categoryexclusions"]);
 
-$offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
+$offset = (isset($_REQUEST["offset"]) && ctype_digit($_REQUEST['offset'])) ? $_REQUEST["offset"] : 0;
 $ordering = $movie->getMovieOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 

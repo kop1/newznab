@@ -14,8 +14,9 @@ $tvrage = new TvRage;
 if (!$users->isLoggedIn())
 	$page->show403();
 	
-if (isset($_GET["id"]))
+if (isset($_GET["id"]) && ctype_digit($_GET['id']))
 {
+
 	$rel = $releases->searchbyRageId($_GET["id"]);
 	$rage = $tvrage->getByRageID($_GET['id']);
 	

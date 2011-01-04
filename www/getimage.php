@@ -14,7 +14,7 @@ $users = new Users;
 if (!$users->isLoggedIn())
 	$page->show403();
 
-if (!isset($_GET["type"]) || !isset($_GET["id"]))
+if (!isset($_GET["type"]) || !isset($_GET["id"]) || !ctype_digit($_GET["id"]))
 	$page->show404();
 	
 //

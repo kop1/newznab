@@ -14,8 +14,8 @@ if (!$users->isLoggedIn())
 	$page->show403();
 
 $category = -1;
-if (isset($_REQUEST["t"]))
-	$category = $_REQUEST["t"] + 0;
+if (isset($_REQUEST["t"]) && ctype_digit($_REQUEST["t"]))
+	$category = $_REQUEST["t"];
 
 $grp = "";
 if (isset($_REQUEST["g"]))
@@ -26,7 +26,7 @@ $catarray[] = $category;
 
 $browsecount = $releases->getBrowseCount($catarray, -1, $page->userdata["categoryexclusions"], $grp);
 
-$offset = isset($_REQUEST["offset"]) ? $_REQUEST["offset"] : 0;
+$offset = (isset($_REQUEST["offset"]) && ctype_digit($_REQUEST['offset'])) ? $_REQUEST["offset"] : 0;
 $ordering = $releases->getBrowseOrdering();
 $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 

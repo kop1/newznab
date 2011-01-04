@@ -12,7 +12,7 @@ $movie = new Movie;
 if (!$users->isLoggedIn())
 	$page->show403();
 	
-if (isset($_GET["id"]))
+if (isset($_GET["id"]) && ctype_digit($_GET["id"]))
 {
 	$mov = $movie->getMovieInfo($_GET['id']);
 	
