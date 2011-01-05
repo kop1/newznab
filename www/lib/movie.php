@@ -135,7 +135,7 @@ class Movie
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getMovieOrder($orderby);
-		$sql = sprintf(" SELECT r.*, m.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		$sql = sprintf(" SELECT m.*, r.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
 	
@@ -452,7 +452,7 @@ class Movie
         	'language' => '/<a href="\/language\/[a-z]+">(.*?)<\/a>/i'
         );
 
-        $buffer = file_get_contents("http://akas.imdb.com/title/tt$imdbId/");
+        $buffer = file_get_contents("http://www.imdb.com/title/tt$imdbId/");
 
         // make sure we got some data
         if (strlen($buffer))
