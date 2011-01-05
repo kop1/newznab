@@ -130,7 +130,7 @@ importing/exporting nzbs
 	
 google ads/analytics
 	to integrate google analytics and adsense provide enter the adsense ad module ids 
-	into the site table for the menu (top), sidepanel (right), searchbox (bottom of menu). 
+	into the site table for the sidepanel (right), searchbox (bottom of menu). 
 	providing an analytics id will include the analytics js in the footer
 
 admin
@@ -206,6 +206,7 @@ development
 	\www\lib\ all classes used in the app, typically named same as its database entity
 	\www\views\templates\admin all templates used by the admin pages
 	\www\views\templates\frontend all templates used by the user pages
+	\www\pages\ controllers for every frontend page in the system
 	\www\admin\ all php pages used by the admin
 	\www\theme\<yourtheme> blank area for implementation specific ui customisations
 	\www\views\scripts\ js dumping ground
