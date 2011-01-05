@@ -5,7 +5,7 @@ body { background:none; color: #333; }
 
 /* override table styles, alt rows, headings etc*/
 table tr.alt { background-color: #eee; }
-table tr.new, table tr.new .rndbtn { background-color: #fff; }
+table tr.new { background-color: #fff; }
 table.highlight tr:hover td { background-color: #efefef; }
 table.data th { background-color:#fff; border-color: #ddd;}
 table.data td, table.data { border-color: #ddd;}
@@ -36,3 +36,5 @@ a:hover, #sidebar li li a:hover {color:#000;}
 .rndbtn { padding-left:0px; padding-right:1px; margin-right:0px; border:1px #FFF solid; background-color:#FFF; -moz-border-radius: 0px;  -webkit-border-radius: 0px;}
 table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { border:1px #EEE solid; background-color: #EEE; }
 table.highlight tr:hover .rndbtn:hover { background-color: #EEE; }
+
+table tr.new .rndbtn { background-color: #fff; }
