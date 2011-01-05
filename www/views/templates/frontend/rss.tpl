@@ -27,9 +27,9 @@
 <![CDATA[{strip}
 	<div>
 	{if $release.cover == 1}
-		<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
+		<img style="margin-left:10px;margin-bottom:10px;float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
 	{/if}
-	<ul{if $release.parentCategoryID == 2000 && $release.cover == 1} style="float:left;"{/if}>
+	<ul>
 	<li>ID: <a href="{$serverroot}details/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
 	<li>Attributes: Category - {$release.category_name}</li>
