@@ -24,7 +24,7 @@
 		<td>{if $cfg->cacheCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="alt">
-		<td>Checking that covers dir is writeable:{if !$cfg->coversCheck}<br /><span class="error">The images/covers dir must be writable. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}/views/images/covers</span>{/if}</td>
+		<td>Checking that covers dir is writeable:{if !$cfg->coversCheck}<br /><span class="error">The images/covers dir must be writable. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}/covers/movies</span>{/if}</td>
 		<td>{if $cfg->coversCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="">

@@ -43,7 +43,7 @@
 	
 	{if $movie.imdbID > 0}
 	<tr><th>Movie Info:</th><td>
-		{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/views/images/covers/{$movie.imdbID}-cover.jpg" alt="{$movie.title}" height="140" align="left" hspace="10" />{/if}
+		{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/covers/movies/{$movie.imdbID}-cover.jpg" alt="{$movie.title}" height="140" align="left" hspace="10" />{/if}
 		<strong>{$movie.title} ({$movie.year}) {if $movie.rating == ''}N/A{/if}{$movie.rating}/10</strong>
 		{if $movie.tagline != ''}<br />{$movie.tagline}{/if}
 		{if $movie.plot != ''}{if $movie.tagline != ''} - {else}<br />{/if}{$movie.plot}{/if}

@@ -23,8 +23,8 @@ if (isset($_REQUEST["id"]))
 	switch($action) 
 	{
 	    case 'submit':
-	    	$coverLoc = WWW_DIR."views/images/covers/".$id.'-cover.jpg';
-	    	$backdropLoc = WWW_DIR."views/images/covers/".$id.'-backdrop.jpg';
+	    	$coverLoc = WWW_DIR."covers/movies/".$id.'-cover.jpg';
+	    	$backdropLoc = WWW_DIR."covers/movies/".$id.'-backdrop.jpg';
 	    	
 			if($_FILES['cover']['size'] > 0)
 			{

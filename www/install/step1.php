@@ -26,7 +26,7 @@ $cfg->gdCheck = function_exists('imagecreatetruecolor');
 $cfg->cacheCheck = is_writable($cfg->SMARTY_DIR.'/templates_c');
 if ($cfg->cacheCheck === false) { $cfg->error = true; }
 
-$cfg->coversCheck = is_writable($cfg->WWW_DIR.'/views/images/covers');
+$cfg->coversCheck = is_writable($cfg->WWW_DIR.'/covers/movies');
 if ($cfg->coversCheck === false) { $cfg->error = true; }
 
 $cfg->tempCheck = is_writable($cfg->WWW_DIR.'/temp');
