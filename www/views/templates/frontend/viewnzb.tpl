@@ -10,7 +10,7 @@
 		<tr><th>Episode:</th><td>{$release.seriesfull|replace:"S":"Series "|replace:"E":" Episode "} <a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">View All Episodes</a></td></tr>
 		<tr><th>Tv Info:</th><td>
 		{if $rage.imgdata != ""}
-			<img src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&id={$rage.ID}" width="180" align="left" style="padding-right:10px;"  />
+			<img src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&id={$rage.ID}" width="180" align="left" style="padding-right:10px;"  />
 		{/if}
 
 		{if $release.tvtitle != ""}
@@ -77,7 +77,7 @@
 				<a title="View similar Nzb details" href="{$smarty.const.WWW_TOP}/details/{$similar.searchname|escape:"htmlall"}/viewnzb/{$similar.guid}">{$similar.searchname|escape:"htmlall"}</a><br/>
 			{/foreach}
 			<br/>
-			<a title="Search for similar Nzbs" href="{$smarty.const.WWW_TOP}/search.php?search={$searchname|escape:"htmlall"}.">Search for similar NZBs...</a><br/>
+			<a title="Search for similar Nzbs" href="{$smarty.const.WWW_TOP}/search/{$searchname|escape:"htmlall"}.">Search for similar NZBs...</a><br/>
 		</td>
 	</tr>
 	{/if}

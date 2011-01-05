@@ -147,7 +147,7 @@
 	<div class="footer">
 	<p>
 		{$site->footer}
-		<br /><br /><br /><a title="Newznab - A usenet indexing web application with community features." href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/> <a title="Chat about newznab" href="http://www.newznab.com/chat.html">Newznab Chat</a> <br/><a href="{$smarty.const.WWW_TOP}/terms-and-conditions.php">{$site->title} Terms and Conditions</a>
+		<br /><br /><br /><a title="Newznab - A usenet indexing web application with community features." href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}. <br/> <a title="Chat about newznab" href="http://www.newznab.com/chat.html">Newznab Chat</a> <br/><a href="{$smarty.const.WWW_TOP}/terms-and-conditions">{$site->title} Terms and Conditions</a>
 	</p>
 	</div>
 	

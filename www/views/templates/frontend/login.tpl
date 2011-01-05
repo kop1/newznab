@@ -5,7 +5,7 @@
 	<div class="error">{$error}</div>
 {/if}
 
-<form method="post">
+<form action="login" method="post">
 	<table class="data">
 		<tr><th><label for="username">Username<br/> or Email</label>:</th>
 			<td>
@@ -20,4 +20,4 @@
 	</table>
 </form>
 <br/>
-<a href="{$smarty.const.WWW_TOP}/forgottenpassword.php">Forgotten your password?</a>
+<a href="{$smarty.const.WWW_TOP}/forgottenpassword">Forgotten your password?</a>

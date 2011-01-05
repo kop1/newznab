@@ -18,9 +18,9 @@
 {foreach from=$releases item=release}
 <item>
 	<title>{$release.searchname|escape:html}</title>
-	<guid isPermaLink="true">{$serverroot}rss/viewnzb/{$release.guid}</guid>
-	<link>{$serverroot}rss/{if $dl=="1"}nzb{else}viewnzb{/if}/{$release.guid}{if $dl=="1"}.nzb&amp;i={$uid}&amp;r={$rsstoken}{/if}{if $del=="1"}&amp;del=1{/if}</link>
-	<comments>{$serverroot}rss/viewnzb/{$release.guid}#comments</comments> 	
+	<guid isPermaLink="true">{$serverroot}details/{$release.guid}</guid>
+	<link>{$serverroot}{if $dl=="1"}getnzb{else}details{/if}/{$release.guid}{if $dl=="1"}.nzb&amp;i={$uid}&amp;r={$rsstoken}{/if}{if $del=="1"}&amp;del=1{/if}</link>
+	<comments>{$serverroot}details/{$release.guid}#comments</comments> 	
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
 	<category>{$release.category_name|escape:html}</category> 	
 	<description>{if $api=="1"}{$release.searchname}{else}
@@ -30,7 +30,7 @@
 		<img style="float:right;" src="{$serverroot}views/images/covers/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
 	{/if}
 	<ul{if $release.parentCategoryID == 2000 && $release.cover == 1} style="float:left;"{/if}>
-	<li>ID: <a href="{$serverroot}rss/viewnzb/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
+	<li>ID: <a href="{$serverroot}details/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
 	<li>Attributes: Category - {$release.category_name}</li>
 	<li>Groups: {$release.group_name}</li>
@@ -59,7 +59,7 @@
 	{/strip}]]>
 	{/if}
 </description>
-	{if $dl=="1"}<enclosure url="{$serverroot}rss/nzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}{if $del=="1"}&amp;del=1{/if}" length="{$release.size}" type="application/x-nzb" />{/if}
+	{if $dl=="1"}<enclosure url="{$serverroot}getnzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}{if $del=="1"}&amp;del=1{/if}" length="{$release.size}" type="application/x-nzb" />{/if}
 
 
 	{foreach from=$release.category_ids|parray:"," item=cat}

@@ -5,7 +5,6 @@ require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/releaseregex.php");
 require_once(WWW_DIR."/lib/groups.php");
 require_once(WWW_DIR."/lib/category.php");
-define("ITEMS_PER_PAGE", "50");
 
 $page = new AdminPage();
 $reg = new ReleaseRegex();

@@ -1,5 +1,4 @@
 <?php
-require_once("config.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/groups.php");

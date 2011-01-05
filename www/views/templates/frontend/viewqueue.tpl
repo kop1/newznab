@@ -13,7 +13,7 @@ function getQueue()
 	var rand_no = Math.random();
 
 	$.ajax({
-	  url: "viewqueuedata.php?id=" + rand_no,
+	  url: "queuedata?id=" + rand_no,
 	  cache: false,
 	  success: function(html)
 	  {

@@ -14,7 +14,7 @@
 				Alternatively use our contact form to get in touch.
 			</p>
 			
-			<form method="post" action="{$SCRIPT_NAME}">
+			<form method="post" action="contact-us">
 				<table>
 					<tr>
 						<td width="100px">Your name: </td>

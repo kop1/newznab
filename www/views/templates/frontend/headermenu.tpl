@@ -29,7 +29,7 @@
 	</div>
 	
 	<div id="menusearchlink">
-		<form id="headsearch_form" action="{$smarty.const.WWW_TOP}/search" method="get">
+		<form id="headsearch_form" action="{$smarty.const.WWW_TOP}/search/" method="get">
 
 			<div class="gobutton" title="Submit search"><input id="headsearch_go" type="submit" value="" /></div>
 

@@ -3,7 +3,6 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/tvrage.php");
-define("ITEMS_PER_PAGE", "25");
 
 $page = new AdminPage();
 

@@ -7,7 +7,7 @@
 
 <br/><br/>
 
-<form action="{$SCRIPT_NAME}?action=submit" method="post">
+<form action="profileedit?action=submit" method="post">
 
 <h2>User Details</h2>
 <table class="data">

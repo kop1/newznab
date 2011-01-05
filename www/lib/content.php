@@ -1,6 +1,5 @@
 <?php
-require_once("config.php");
-require_once("users.php");
+require_once(WWW_DIR."/lib/users.php");
 require_once(WWW_DIR."/lib/framework/db.php");
 
 class Content 

@@ -12,9 +12,15 @@ define('WWW_TOP', $www_top);
 //
 // used to refer to the /www/lib class files
 //
-define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
+//define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
+define('WWW_DIR', realpath(dirname(__FILE__)).'/');
 
 //
 // path to smarty files
 //
 define('SMARTY_DIR', WWW_DIR.'lib/smarty/');
+
+//
+// number of results per page
+//
+define("ITEMS_PER_PAGE", "50");

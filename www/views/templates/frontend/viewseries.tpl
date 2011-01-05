@@ -2,7 +2,7 @@
 <h1>{$page->title}</h1>
 
 {if $rage[0].imgdata != ""}
-	<img alt="{$rage[0].releasetitle} Logo" style="display:block;" src="{$smarty.const.WWW_TOP}/getimage.php?type=tvrage&amp;id={$rage[0].ID}" />
+	<img alt="{$rage[0].releasetitle} Logo" style="display:block;" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&amp;id={$rage[0].ID}" />
 {/if}
 
 <p>

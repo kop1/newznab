@@ -7,10 +7,10 @@
 
 {if $confirmed == '' && $sent == ''}
 	<p>
-		Please enter the email address you used to register and we will send an email to reset your password. If you cannot remember your email, or no longer have access to it, please <a href="{$smarty.const.WWW_TOP}/contact-us.php">contact us</a>.
+		Please enter the email address you used to register and we will send an email to reset your password. If you cannot remember your email, or no longer have access to it, please <a href="{$smarty.const.WWW_TOP}/contact-us">contact us</a>.
 	</p>
 
-	<form method="post" action="{$SCRIPT_NAME}?action=submit">
+	<form method="post" action="forgottenpassword?action=submit">
 
 		<table class="data">
 			<tr><th><label for="email">Email</label>: <em>*</em></th>

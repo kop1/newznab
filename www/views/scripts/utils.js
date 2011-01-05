@@ -22,7 +22,7 @@ jQuery(function($){
 	$('.icon_cart').click(function(e){
 		if ($(this).hasClass('icon_cart_clicked')) return false;
 		var guid = $(this).parent().parent().attr('id').substring(4);
-		$.post( SERVERROOT + "cart.php?add=" + guid, function(resp){
+		$.post( SERVERROOT + "cart?add=" + guid, function(resp){
 			$(e.target).addClass('icon_cart_clicked').attr('title','added to cart');
 		});
 		return false;
@@ -36,7 +36,7 @@ jQuery(function($){
 			priority = "1";
 			
 		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=" + priority + "&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
-		var nzburl = SERVERROOT + "download/sab/nzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
+		var nzburl = SERVERROOT + "getnzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 
 		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
 			$(e.target).addClass('icon_sab_clicked').attr('title','added to queue');
@@ -64,7 +64,7 @@ jQuery(function($){
 	    });
 	    ids = ids.substring(0,ids.length-1);
 	    if (ids)
-			window.location = SERVERROOT + "getnzb.php?zip=1&id="+ids;
+			window.location = SERVERROOT + "getnzb?zip=1&id="+ids;
 	});
 	$('input.nzb_multi_operations_cart').click(function()
 	{
@@ -73,7 +73,7 @@ jQuery(function($){
 	    	var $cartIcon = $(row).parent().parent().children('td.icons').children('.icon_cart');
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
 			if (guid && !$cartIcon.hasClass('icon_cart_clicked')){
-				$.post( SERVERROOT + "cart.php?add=" + guid, function(resp){
+				$.post( SERVERROOT + "cart?add=" + guid, function(resp){
 					$cartIcon.addClass('icon_cart_clicked').attr('title','added to cart');
 				});
 			}
@@ -90,7 +90,7 @@ jQuery(function($){
 	    	var $sabIcon = $(row).parent().parent().children('td.icons').children('.icon_sab');
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
 			if (guid && !$sabIcon.hasClass('icon_sab_clicked')){
-				var nzburl = SERVERROOT + "download/sab/nzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
+				var nzburl = SERVERROOT + "getnzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 				$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
 					$sabIcon.addClass('icon_sab_clicked').attr('title','added to queue');
 				});
@@ -106,7 +106,7 @@ jQuery(function($){
 	    });
 	    if (ids)
 			$('input.nzb_multi_operations_edit').colorbox({
-				href: function(){ return SERVERROOT + "ajax_release-admin.php?action=edit"+ids; },
+				href: function(){ return SERVERROOT + "ajax_release-admin?action=edit"+ids; },
 				title: 'Edit Release',
 				innerWidth:"400px", innerHeight:"250px", initialWidth:"400px", initialHeight:"250px", speed:0, opacity:0.7
 			});
@@ -119,7 +119,7 @@ jQuery(function($){
 	    });
 	    if (ids)
 			if (confirm('Are you sure you want to delete the selected releases?')) {
-				$.post(SERVERROOT + "ajax_release-admin.php?action=dodelete"+ids, function(resp){
+				$.post(SERVERROOT + "ajax_release-admin?action=dodelete"+ids, function(resp){
 					window.location = window.location;
 				});
 			}
@@ -132,7 +132,7 @@ jQuery(function($){
 	    });
 	    if (ids)
 			if (confirm('Are you sure you want to rebuild the selected releases?')) {
-				$.post(SERVERROOT + "ajax_release-admin.php?action=dorebuild"+ids, function(resp){
+				$.post(SERVERROOT + "ajax_release-admin?action=dorebuild"+ids, function(resp){
 					window.location = window.location;
 				});
 			}
@@ -149,14 +149,14 @@ jQuery(function($){
 	$('#headsearch_go').click(function(){
 		if ($('#headsearch').val() && $('#headsearch').val() != 'Enter keywords')
 		{
-			document.location= WWW_TOP + "/search/" + $('#headsearch').val() + ($("#headcat").val()!=-1 ? "&t="+$("#headcat").val() : "");
+			document.location= WWW_TOP + "/search/" + $('#headsearch').val() + ($("#headcat").val()!=-1 ? "?t="+$("#headcat").val() : "");
 		}
 	});
 
 	// search.tpl
 	$('#search_search_button').click(function(){
 		if ($('#search').val())
-			document.location=WWW_TOP + "/search/" + $('#search').val() + ($("#search_cat").val()!=-1 ? "&t="+$("#search_cat").val() : "");
+			document.location=WWW_TOP + "/search/" + $('#search').val() + ($("#search_cat").val()!=-1 ? "?t="+$("#search_cat").val() : "");
 		return false;
 	});
 
@@ -280,7 +280,7 @@ jQuery(function($){
 			// no caching of results
 			var rand_no = Math.random();
 			$.ajax({
-			  url       : WWW_TOP + '/ajax_profile.php?action=1&rand=' + rand_no,
+			  url       : WWW_TOP + '/ajax_profile?action=1&rand=' + rand_no,
 			  data      : { emailto: inputEmailto},
 			  dataType  : "html",
 			  success   : function(data)

@@ -6,7 +6,7 @@
 {/if}
 
 {if $showregister != "0"}
-	<form method="post" action="{$SCRIPT_NAME}?action=submit">
+	<form method="post" action="register?action=submit">
 
 		<table style="width:500px;" class="data">
 			<tr><th width="75px;"><label for="username">Username</label>: <em>*</em></th>
