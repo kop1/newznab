@@ -1,7 +1,6 @@
 <?php
 require_once(WWW_DIR."/lib/releases.php");
 require_once(WWW_DIR."/lib/category.php");
-require_once("config.php");
 
 $releases = new Releases;
 
