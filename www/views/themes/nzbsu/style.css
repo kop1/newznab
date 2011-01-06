@@ -28,12 +28,12 @@ table.data td.less, div.resextra {font-size: 0.9em;}
 #logo ul ul {list-style-image: url('images/menubullet.jpg');}
 #logo ul a:hover { text-decoration: underline; }
 
-#page {padding: 0px 0px 0px; background:#ccc;}
+#content {padding:10px; border:2px solid #333; width:1016px;}
+#page {padding: 0px 0px 0px; background:#fff;}
 .footer { border-top: none; background: #CCC; }
 
-#page { width: 100%; padding: 50px 0px 0px 0px;}
-#content { padding:10px; float: none; width:98%; border:2px solid #333; background-color:#fff;}
-#frame {padding-left:20px;padding-right:20px;}
-
-#menucontainer, #header {width:100%;}
-
+#header { width: 1040px; }
+#page { width: 1040px;}
+#logo { width: 1040px;}
+#statusbar { width:1040px;}
+#menucontainer { width:1040px; }
