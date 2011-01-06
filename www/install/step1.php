@@ -26,11 +26,11 @@ $cfg->gdCheck = function_exists('imagecreatetruecolor');
 $cfg->cacheCheck = is_writable($cfg->SMARTY_DIR.'/templates_c');
 if ($cfg->cacheCheck === false) { $cfg->error = true; }
 
-$cfg->coversCheck = is_writable($cfg->WWW_DIR.'/covers/movies');
-if ($cfg->coversCheck === false) { $cfg->error = true; }
+$cfg->movieCoversCheck = is_writable($cfg->WWW_DIR.'/covers/movies');
+if ($cfg->movieCoversCheck === false) { $cfg->error = true; }
 
-$cfg->tempCheck = is_writable($cfg->WWW_DIR.'/temp');
-if ($cfg->coversCheck === false) { $cfg->error = true; }
+$cfg->musicCoversCheck = is_writable($cfg->WWW_DIR.'/covers/music');
+if ($cfg->musicCoversCheck === false) { $cfg->error = true; }
 
 $cfg->configCheck = is_writable($cfg->WWW_DIR.'/config.php');
 if($cfg->configCheck === false) {

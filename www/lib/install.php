@@ -32,8 +32,8 @@ class Install {
 	public $mysqlCheck;
 	public $gdCheck;
 	public $cacheCheck;
-	public $coversCheck;
-	public $tempCheck;
+	public $movieCoversCheck;
+	public $musicCoversCheck;
 	public $configCheck;
 	public $lockCheck;
 	public $pearCheck;

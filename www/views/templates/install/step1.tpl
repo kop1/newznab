@@ -24,8 +24,12 @@
 		<td>{if $cfg->cacheCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="alt">
-		<td>Checking that covers dir is writeable:{if !$cfg->coversCheck}<br /><span class="error">The images/covers dir must be writable. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}/covers/movies</span>{/if}</td>
-		<td>{if $cfg->coversCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
+		<td>Checking that movie covers dir is writeable:{if !$cfg->movieCoversCheck}<br /><span class="error">The covers/movies dir must be writable. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}/covers/movies</span>{/if}</td>
+		<td>{if $cfg->movieCoversCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
+	</tr>
+	<tr class="alt">
+		<td>Checking that music covers dir is writeable:{if !$cfg->musicCoversCheck}<br /><span class="error">The covers/music dir must be writable. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}/covers/music</span>{/if}</td>
+		<td>{if $cfg->musicCoversCheck}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
 	</tr>
 	<tr class="">
 		<td>Checking that config.php is writeable:{if !$cfg->configCheck}<br /><span class="error">The installer cannot write to {$cfg->WWW_DIR}/config.php. A quick solution is to run:<br />chmod 777 {$cfg->WWW_DIR}</span>{/if}</td>
