@@ -18,13 +18,13 @@
 {foreach from=$releases item=release}
 <item>
 	<title>{$release.searchname|escape:html}</title>
-	<guid isPermaLink="true">{$serverroot}rss/viewnzb/{$release.guid}</guid>
-	<link>{$serverroot}rss/nzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}</link>
-	<comments>{$serverroot}rss/viewnzb/{$release.guid}#comments</comments> 	
+	<guid isPermaLink="true">{$serverroot}details/{$release.guid}</guid>
+	<link>{$serverroot}getnzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}</link>
+	<comments>{$serverroot}details/{$release.guid}#comments</comments> 	
 	<pubDate>{$release.adddate|phpdate_format:"DATE_RSS"}</pubDate> 
 	<category>{$release.category_name|escape:html}</category> 	
 	<description>{$release.searchname|escape:html}</description>
-	<enclosure url="{$serverroot}rss/nzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />
+	<enclosure url="{$serverroot}getnzb/{$release.guid}.nzb&amp;i={$uid}&amp;r={$rsstoken}" length="{$release.size}" type="application/x-nzb" />
 
 	{foreach from=$release.category_ids|parray:"," item=cat}
 <newznab:attr name="category" value="{$cat}" />
