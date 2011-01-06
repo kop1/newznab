@@ -30,7 +30,7 @@ else
 // weblogging programs see nzb traffic
 //
 if (isset($_GET["id"]))
-	$_GET["id"] = preg_replace("/.nzb/i", "", $_GET["id"]);
+	$_GET["id"] = preg_replace("/\.nzb/i", "", $_GET["id"]);
 
 
 //
