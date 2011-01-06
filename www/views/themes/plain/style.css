@@ -3,6 +3,12 @@ body { background:none; color: #333; }
 .footer, .w3validator, .menupic {display:none;}
 #logo { visibility:none; height:15px; background:none;}
 
+#page { width: 100%; padding: 50px 0px 0px 0px;}
+#content { float: right; width:85%; }
+#sidebar { float: left; width:15%; font-size: 12px;}
+
+#frame {padding-left:20px;padding-right:20px;}
+
 /* override table styles, alt rows, headings etc*/
 table tr.alt { background-color: #eee; }
 table tr.new { background-color: #fff; }
