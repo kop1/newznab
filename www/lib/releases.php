@@ -772,7 +772,7 @@ class Releases
 		$db->queryOneRow(sprintf("update releases set grabs = grabs + 1 where guid = %s", $db->escapeString($guid)));		
 	}
 	
-	function processReleases($echooutput=false) 
+	function processReleases() 
 	{
 		$db = new DB;
 		$cat = new Category;
@@ -781,14 +781,12 @@ class Releases
 		$s = new Sites;
 		$relreg = new ReleaseRegex;
 		$page = new Page;
-		$nfo = new Nfo($echooutput);
+		$nfo = new Nfo(true);
 		$retcount = 0;
 		
-		if ($echooutput)
-			echo $s->getLicense();
+		echo $s->getLicense();
 
-		if ($echooutput)
-			echo "\n\nStarting release update process (".date("Y-m-d H:i:s").")\n";
+		echo "\n\nStarting release update process (".date("Y-m-d H:i:s").")\n";
 		
 		if (!file_exists($page->site->nzbpath))
 		{
@@ -796,7 +794,7 @@ class Releases
 			return;
 		}
 		
-		$this->checkRegexesUptoDate($page->site->latestregexurl, $page->site->latestregexrevision, $echooutput);
+		$this->checkRegexesUptoDate($page->site->latestregexurl, $page->site->latestregexrevision, true);
 		
 		//
 		// Get all regexes for all groups which are to be applied to new binaries
@@ -805,8 +803,7 @@ class Releases
 		$regexrows = $relreg->get();
 		foreach ($regexrows as $regexrow)
 		{
-			if ($echooutput)
-				echo "Applying regex ".$regexrow["ID"]." for group ".($regexrow["groupname"]==""?"all":$regexrow["groupname"])."\n";
+			echo "Applying regex ".$regexrow["ID"]." for group ".($regexrow["groupname"]==""?"all":$regexrow["groupname"])."\n";
 		
 			$groupmatch = "";
 			
@@ -863,12 +860,9 @@ class Releases
 					// Check that the regex provided the correct parameters
 					if (!isset($matches['name']) || empty($matches['name'])) 
 					{
-						if ($echooutput) 
-						{
-							echo "regex applied which didnt return right number of capture groups - ".$regexrow["regex"]."\n";
-							print_r($matches);
-							continue;
-						}
+						echo "regex applied which didnt return right number of capture groups - ".$regexrow["regex"]."\n";
+						print_r($matches);
+						continue;
 					}
 
 					// If theres no number of files data in the subject, put it into a release if it was posted to usenet longer than five hours ago.
@@ -915,8 +909,7 @@ class Releases
 		//
 		// Move all binaries from releases which have the correct number of files on to the next stage.
 		//
-		if ($echooutput)
-			echo "Stage 2\n";
+		echo "Stage 2\n";
 		$result = $db->queryDirect(sprintf("SELECT relname, SUM(reltotalpart) AS reltotalpart, groupID, reqID, fromname, SUM(num) AS num, coalesce(g.minfilestoformrelease, s.minfilestoformrelease) as minfilestoformrelease FROM   ( SELECT relname, reltotalpart, groupID, reqID, fromname, COUNT(ID) AS num FROM binaries     WHERE procstat = %s     GROUP BY relname, reltotalpart, groupID, reqID, fromname    ) x left outer join groups g on g.ID = x.groupID inner join ( select * from site limit 1 ) s GROUP BY relname, groupID, reqID, fromname", Releases::PROCSTAT_TITLEMATCHED));
 		while ($row = mysql_fetch_assoc($result)) 
 		{
@@ -928,8 +921,7 @@ class Releases
 			//
 			if ($row["num"] < $row["minfilestoformrelease"])
 			{
-				if ($echooutput)
-					echo "Number of files in release ".$row["relname"]." less than site/group setting (".$row['num']."/".$row["minfilestoformrelease"].")\n";
+				echo "Number of files in release ".$row["relname"]." less than site/group setting (".$row['num']."/".$row["minfilestoformrelease"].")\n";
 					
 				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d and fromname = %s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 			}
@@ -950,18 +942,12 @@ class Releases
 					$binParts = $db->queryOneRow(sprintf("SELECT COUNT(ID) AS num FROM parts WHERE binaryID = %d", $rowbin['ID']));
 					if ($binParts['num'] < $rowbin['totalParts']) 
 					{
-						if ($echooutput) 
-						{
-							echo "binary ".$rowbin['ID']." from ".$row['relname']." has missing parts - ".$binParts['num']."/".$rowbin['totalParts']." (".number_format(($binParts['num']/$rowbin['totalParts'])*100, 1)."% complete)\n";
-						}
+						echo "binary ".$rowbin['ID']." from ".$row['relname']." has missing parts - ".$binParts['num']."/".$rowbin['totalParts']." (".number_format(($binParts['num']/$rowbin['totalParts'])*100, 1)."% complete)\n";
 						
 						// Allow to binary to release if posted to usenet longer than four hours ago and we still don't have all the parts
 						if (strtotime($currTime['now']) - strtotime($rowbin['date']) > 14400)
 						{
-							if ($echooutput) 
-							{
-								echo "allowing incomplete binary ".$rowbin['ID']."\n";
-							}
+							echo "allowing incomplete binary ".$rowbin['ID']."\n";
 						} 
 						else 
 						{
@@ -972,8 +958,7 @@ class Releases
 				
 				if ($incomplete) 
 				{
-					if ($echooutput)
-						echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
+					echo "Incorrect number of parts ".$row["relname"]."-".$row["num"]."-".$row["reltotalpart"]."\n";
 						
 					$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d and fromname = %s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 				}
@@ -987,9 +972,8 @@ class Releases
 					// Try and get the name using the group
 					//
 					$binGroup = $db->queryOneRow(sprintf("SELECT name FROM groups WHERE ID = %d", $row["groupID"]));
-					if ($echooutput)
-						echo "Looking up ".$row['reqID']." in ".$binGroup['name']."... ";	
-					$newtitle = $this->getReleaseNameForReqId($page->site->reqidurl, $binGroup["name"], $row["reqID"], $echooutput);
+					echo "Looking up ".$row['reqID']." in ".$binGroup['name']."... ";	
+					$newtitle = $this->getReleaseNameForReqId($page->site->reqidurl, $binGroup["name"], $row["reqID"], true);
 
 					//
 					// if the feed/group wasnt supported by the scraper, then just use the release name as the title.
@@ -997,8 +981,7 @@ class Releases
 					if ($newtitle == "no feed")
 					{
 						$newtitle = $row["relname"];
-						if ($echooutput)
-							echo "Group not supported\n";
+						echo "Group not supported\n";
 					}
 					
 					//
@@ -1024,8 +1007,7 @@ class Releases
 						{
 							$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
 								Releases::PROCSTAT_NOREQIDNAMELOOKUPFOUND, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"])));
-							if ($echooutput)
-								echo "Not found in 48 hours\n";
+							echo "Not found in 48 hours\n";
 						}
 					}
 				}
@@ -1041,18 +1023,16 @@ class Releases
 			//
 			else
 			{
-				if ($echooutput)
-					echo "Incorrect number of files for ".$row["relname"]." (".$row["num"]."/".$row["reltotalpart"].")\n";
+				echo "Incorrect number of files for ".$row["relname"]." (".$row["num"]."/".$row["reltotalpart"].")\n";
 					
 				$db->query(sprintf("update binaries set procattempts = procattempts + 1 where relname = %s and procstat = %d and groupID = %d and fromname=%s", $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"]) ));
 			}
-			if ($echooutput && ($retcount % 10 == 0))
+			if ($retcount % 10 == 0)
 				echo "-processed ".$retcount." binaries stage two\n";
 		}
 		$retcount=$nfocount=0;
 
-		if ($echooutput)
-			echo "Stage 3\n";
+		echo "Stage 3\n";
 		//
 		// Get out all distinct relname, group from binaries of STAGE2 
 		// 
@@ -1074,12 +1054,8 @@ class Releases
 									$db->escapeString($row["relname"]), $db->escapeString($bindata["date"]), $db->escapeString($bindata["date"])));
 			if (count($relDupes) > 0)
 			{
-				if ($echooutput)
-					echo "Found duplicate release - ".$row["relname"]."\n";
-				
 				$db->query(sprintf("update binaries set procstat = %d where relname = %s and procstat = %d and groupID = %d and fromname=%s ", 
 									Releases::PROCSTAT_DUPLICATE, $db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"], $db->escapeString($row["fromname"])));
-
 				continue;
 			}
 
@@ -1147,8 +1123,7 @@ class Releases
 			
 			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID, passwordstatus) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s, %d)", 
 										$db->escapeString($cleanRelName), $db->escapeString($cleanRelName), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID, ($page->site->checkpasswordedrar == "1" ? -1 : 0) ));
-			if ($echooutput)
-				echo "Added release ".$cleanRelName."\n";
+			echo "Added release ".$cleanRelName."\n";
 			
 			//
 			// Tag every binary for this release with its parent release id
@@ -1172,20 +1147,18 @@ class Releases
 			//
 			$nzb->writeNZBforReleaseId($relid, $relguid, $cleanRelName, $catId, $nzb->getNZBPath($relguid, $page->site->nzbpath, true));
 
-			if ($echooutput && ($retcount % 5 == 0))
+			if ($retcount % 5 == 0)
 				echo "-processed ".$retcount." releases stage three\n";
 		}    
     	
-    	if ($echooutput)
-			echo "Found ".$nfocount." nfos in ".$retcount." releases\n";
+		echo "Found ".$nfocount." nfos in ".$retcount." releases\n";
 		
 		//
 		// Process nfo files
 		//
 		if ($page->site->lookupnfo != "1")
 		{
-			if ($echooutput)
-				echo "Site config (site.lookupnfo) prevented retrieving nfos\n";		
+			echo "Site config (site.lookupnfo) prevented retrieving nfos\n";		
 		}
 		else
 		{
@@ -1195,8 +1168,9 @@ class Releases
 		//
 		// Lookup imdb if enabled
 		//
-		if ($page->site->lookupimdb == 1) {
-			$movie = new Movie($echooutput);
+		if ($page->site->lookupimdb == 1) 
+		{
+			$movie = new Movie(true);
 			$movie->processMovieReleases();
 		}
 		
@@ -1205,18 +1179,17 @@ class Releases
 		//
 		if ($page->site->checkpasswordedrar != "1")
 		{
-			if ($echooutput)
-				echo "Site config (site.checkpasswordedrar) prevented checking releases are passworded\n";		
+			echo "Site config (site.checkpasswordedrar) prevented checking releases are passworded\n";		
 		}
 		else
 		{
-			$this->processPasswordedReleases($echooutput);
+			$this->processPasswordedReleases(true);
 		}
 
 		//
 		// Process all TV related releases which will assign their series/episode/rage data
 		//
-		$this->processTvSeriesData($echooutput, ($page->site->lookuptvrage=="1"));
+		$this->processTvSeriesData(true, ($page->site->lookuptvrage=="1"));
 		
 		//
 		// Get the current datetime again, as using now() in the housekeeping queries prevents the index being used.
@@ -1227,19 +1200,17 @@ class Releases
 		// Tidy away any binaries which have been attempted to be grouped into 
 		// a release more than x times
 		//
-		if ($echooutput)
-			echo "Tidying away binaries which cant be grouped after ".$page->site->attemptgroupbindays." days\n";			
+		echo "Tidying away binaries which cant be grouped after ".$page->site->attemptgroupbindays." days\n";			
 		$db->query(sprintf("update binaries set procstat = %d where procstat = %d and dateadded < %s - interval %d day ", 
 			Releases::PROCSTAT_WRONGPARTS, Releases::PROCSTAT_NEW, $db->escapeString($currTime["now"]), $page->site->attemptgroupbindays));
 		
 		//
 		// Delete any parts and binaries which are older than the site's retention days
 		//
-		if ($echooutput)
-			echo "Deleting parts which are older than ".$page->site->rawretentiondays." days\n";			
+		echo "Deleting parts which are older than ".$page->site->rawretentiondays." days\n";			
 		$db->query(sprintf("delete from parts where dateadded < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->rawretentiondays));
-		if ($echooutput)
-			echo "Deleting binaries which are older than ".$page->site->rawretentiondays." days\n";			
+
+		echo "Deleting binaries which are older than ".$page->site->rawretentiondays." days\n";			
 		$db->query(sprintf("delete from binaries where dateadded < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->rawretentiondays));
 		
 		//
@@ -1247,16 +1218,14 @@ class Releases
 		//
 		if($page->site->releaseretentiondays != 0)
 		{
-			if($echooutput)
-				echo "Determining any releases past retention to be deleted.\n\n";
+			echo "Determining any releases past retention to be deleted.\n\n";
 
 			$result = $db->query(sprintf("select ID from releases where postdate < %s - interval %d day", $db->escapeString($currTime["now"]), $page->site->releaseretentiondays)); 		
 			foreach ($result as $row)
 				$this->delete($row["ID"]);
 		}
 		
-		if ($echooutput)
-			echo "Processed ". $retcount." releases\n\n";
+		echo "Processed ". $retcount." releases\n\n";
 			
 		return $retcount;	
 	}
@@ -1281,7 +1250,6 @@ class Releases
 	
 		if (count($result) > 0)
 		{
-
 			$nntp->doConnect();
 	
 			foreach ($result as $row)

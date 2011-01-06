@@ -12,10 +12,7 @@ class Binaries
 
 	function Binaries() 
 	{
-		if(isset($_SERVER['HTTP_USER_AGENT']) && strlen($_SERVER['HTTP_USER_AGENT']) > 0)
-			$this->n = "\n<BR>";
-		else
-			$this->n = "\n";
+		$this->n = "\n";
 			
 		$s = new Sites();
 		$site = $s->get();
