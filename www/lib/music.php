@@ -4,28 +4,6 @@ require_once(WWW_DIR."/lib/amazon.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/nfo.php");
 
-
-/*
-		require_once(WWW_DIR."/lib/amazon.php");
-    $obj = new AmazonProductAPI();
- 
-    try
-    {
-         $result = $obj->searchProducts("five leaves left",
-                                       AmazonProductAPI::MUSIC,
-                                       "TITLE");
-    }
-    catch(Exception $e)
-    {
-        echo $e->getMessage();
-    }
- 
-    print_r($result);
-    //print_r($result->Items->Item->SalesRank);
-*/
-
-
-
 class Music
 {
 	function Music($echooutput=false)
@@ -38,6 +16,14 @@ class Music
 		$db = new DB();
 		return $db->queryOneRow(sprintf("SELECT * FROM musicinfo where ID = %d", $id));
 	}
+
+	public function getMusicInfoByName($artist, $album)
+	{
+		$db = new DB();
+		return $db->queryOneRow(sprintf("SELECT * FROM musicinfo where title like %s and artist like %s", $db->escapeString("%".$artist."%"),  $db->escapeString("%".$album."%")));
+	}
+
+
 	
 	public function getRange($start, $num)
 	{		
@@ -236,106 +222,39 @@ class Music
 	{			
 		$db = new DB();
 		
-		$db->query(sprintf("UPDATE musicinfo SET title=%s, tagline=%s, plot=%s, year=%s, rating=%s, genre=%s, director=%s, actors=%s, language=%s, cover=%d, backdrop=%d, updateddate=NOW() WHERE imdbID = %d", 
-			$db->escapeString($title), $db->escapeString($tagline), $db->escapeString($plot), $db->escapeString($year), $db->escapeString($rating), $db->escapeString($genre), $db->escapeString($director), $db->escapeString($actors), $db->escapeString($language), $cover, $backdrop, $id));		
+		//$db->query(sprintf("UPDATE musicinfo SET title=%s, tagline=%s, plot=%s, year=%s, rating=%s, genre=%s, director=%s, actors=%s, language=%s, cover=%d, backdrop=%d, updateddate=NOW() WHERE imdbID = %d", 
+		//	$db->escapeString($title), $db->escapeString($tagline), $db->escapeString($plot), $db->escapeString($year), $db->escapeString($rating), $db->escapeString($genre), $db->escapeString($director), $db->escapeString($actors), $db->escapeString($language), $cover, $backdrop, $id));		
 	}
 	
-	public function updateMusicInfo($id)
+	public function updateMusicInfo($artist, $album)
 	{
 		if ($this->echooutput)
-			echo "fetching music info from amazon - ".$id."\n";
+			echo "fetching music info from amazon - ".$artist." - ".$album."\n";
 		
-		//check themoviedb for imdb info
-		$tmdb = $this->fetchAmazonProperties($id);
-		if (!$tmdb) 
+		$amaz = $this->fetchAmazonProperties($artist." - ".$album);
+		if (!$amaz) 
 		{
 			if ($this->echooutput)
-				echo "not found in tmdb\n";
-		}
-				
-		if (!$tmdb) 
-		{
+				echo "not found in amazon\n";
+			
 			return false;
 		}
 		
-		$mov = array();
-		$mov['imdb_id'] = $imdbId;
-		$mov['tmdb_id'] = (!isset($tmdb['tmdb_id']) || $tmdb['tmdb_id'] == '') ? "NULL" : $tmdb['tmdb_id'];
-		
-		//prefer tmdb cover over imdb cover
-		$mov['cover'] = 0;
-		if (isset($tmdb['cover']) && $tmdb['cover'] != '') {
-			$mov['cover'] = $this->saveCoverImage($tmdb['cover'], $imdbId, 'cover');
-		} elseif (isset($imdb['cover']) && $imdb['cover'] != '') {
-			$mov['cover'] = $this->saveCoverImage($imdb['cover'], $imdbId, 'cover');
-		}
-		
-		$mov['backdrop'] = 0;
-		if (isset($tmdb['backdrop']) && $tmdb['backdrop'] != '') {
-			$mov['backdrop'] = $this->saveCoverImage($tmdb['backdrop'], $imdbId, 'backdrop');
-		}
-		
-		$mov['title'] = '';
-		if (isset($imdb['title']) && $imdb['title'] != '') {
-			$mov['title'] = $imdb['title'];
-		} elseif (isset($tmdb['title']) && $tmdb['title'] != '') { 
-			$mov['title'] = $tmdb['title'];
-		}
-		
-		$mov['rating'] = '';
-		if (isset($imdb['rating']) && $imdb['rating'] != '') {
-			$mov['rating'] = $imdb['rating'];
-		} elseif (isset($tmdb['rating']) && $tmdb['rating'] != '') { 
-			$mov['rating'] = $tmdb['rating'];
-		}
-		
-		$mov['tagline'] = '';
-		if (isset($imdb['tagline']) && $imdb['tagline'] != '') { 
-			$mov['tagline'] = $imdb['tagline'];
+		$mus['cover'] = 0;
+		if ($amaz->Items->Item->MediumImage) 
+		{
+			$mus['cover'] = $this->saveCoverImage($amaz->Items->Item->MediumImage, $imdbId);
 		}
 
-		$mov['plot'] = '';
-		if (isset($imdb['plot']) && $imdb['plot'] != '') {
-			$mov['plot'] = $imdb['plot'];
-		} elseif (isset($tmdb['plot']) && $tmdb['plot'] != '') { 
-			$mov['plot'] = $tmdb['plot'];
-		}
-		
-		$mov['year'] = '';
-		if (isset($imdb['year']) && $imdb['year'] != '') {
-			$mov['year'] = $imdb['year'];
-		} elseif (isset($tmdb['year']) && $tmdb['year'] != '') { 
-			$mov['year'] = $tmdb['year'];
-		}
+		//
+		// get all other props 
+		//
 
-		$mov['genre'] = '';
-		if (isset($tmdb['genre']) && $tmdb['genre'] != '') {
-			$mov['genre'] = $tmdb['genre'];
-		} elseif (isset($imdb['genre']) && $imdb['genre'] != '') { 
-			$mov['genre'] = $imdb['genre'];
-		}
-		if (is_array($mov['genre'])) {
-			$mov['genre'] = implode(', ', array_unique($mov['genre']));
-		}
-		
-		$mov['director'] = '';
-		if (isset($imdb['director']) && $imdb['director'] != '') { 
-			$mov['director'] = (is_array($imdb['director'])) ? implode(', ', array_unique($imdb['director'])) : $imdb['director'];
-		}
-		
-		$mov['actors'] = '';
-		if (isset($imdb['actors']) && $imdb['actors'] != '') { 
-			$mov['actors'] = (is_array($imdb['actors'])) ? implode(', ', array_unique($imdb['actors'])) : $imdb['actors'];
-		}
-		
-		$mov['language'] = '';
-		if (isset($imdb['language']) && $imdb['language'] != '') { 
-			$mov['language'] = (is_array($imdb['language'])) ? implode(', ', array_unique($imdb['language'])) : $imdb['language'];
-		}
+
 
 		$db = new DB();
 		$query = sprintf("
-			INSERT INTO movieinfo 
+			INSERT INTO musicinfo 
 				(imdbID, tmdbID, title, rating, tagline, plot, year, genre, director, actors, language, cover, backdrop, createddate, updateddate)
 			VALUES 
 				(%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, NOW(), NOW())
@@ -344,17 +263,17 @@ class Music
 		$mov['imdb_id'], $mov['tmdb_id'], $db->escapeString($mov['title']), $db->escapeString($mov['rating']), $db->escapeString($mov['tagline']), $db->escapeString($mov['plot']), $db->escapeString($mov['year']), $db->escapeString($mov['genre']), $db->escapeString($mov['director']), $db->escapeString($mov['actors']), $db->escapeString($mov['language']), $mov['cover'], $mov['backdrop'],
 		$mov['imdb_id'], $mov['tmdb_id'], $db->escapeString($mov['title']), $db->escapeString($mov['rating']), $db->escapeString($mov['tagline']), $db->escapeString($mov['plot']), $db->escapeString($mov['year']), $db->escapeString($mov['genre']), $db->escapeString($mov['director']), $db->escapeString($mov['actors']), $db->escapeString($mov['language']), $mov['cover'], $mov['backdrop']);
 		
-		$movieId = $db->queryInsert($query);
+		$musicId = $db->queryInsert($query);
 
-		if ($movieId) {
+		if ($musicId) {
 			if ($this->echooutput)
-				echo "added/updated movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "added/updated album: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		} else {
 			if ($this->echooutput)
-				echo "nothing to update for movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "nothing to update for album: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		}
 		
-		return $movieId;
+		return $musicId;
 	}
 	
 	public function fetchCoverImage($imgUrl)
@@ -399,52 +318,22 @@ class Music
 		return 0;
 	}
 	
-	public function fetchAmazonProperties($imdbId)
+	public function fetchAmazonProperties($title)
 	{
-		$tmdb = new TMDb(Movie::TMDBAPIKEY);
-		$lookupId = 'tt'.$imdbId;
-		$tmdbLookup = json_decode($tmdb->getMovie($lookupId, TMDb::IMDB));
-		if (!$tmdbLookup) { return false; }
-		$movie = array_shift($tmdbLookup);
-		if ($movie == 'Nothing found.') { return false; }
+    $obj = new AmazonProductAPI();
+    try
+    {
+         $result = $obj->searchProducts($title, AmazonProductAPI::MUSIC, "TITLE");
+    }
+    catch(Exception $e)
+    {
+			if ($this->echooutput)
+				echo "Error fetching amazon properties - ".$e->getMessage();
+				
+				$result = false;
+    }
 
-		$ret = array();
-		$ret['title'] = $movie->name;
-		$ret['tmdb_id'] = $movie->id;
-		$ret['imdb_id'] = $imdbId;
-		$ret['rating'] = ($movie->rating == 0) ? '' : $movie->rating;
-		$ret['plot'] = $movie->overview;
-		$ret['year'] = date("Y", strtotime($movie->released));
-		if (isset($movie->genres) && sizeof($movie->genres) > 0) 
-		{
-			$genres = array();
-			foreach($movie->genres as $genre) 
-			{
-				$genres[] = $genre->name;
-			}
-			$ret['genre'] = $genres;
-		}
-		if (isset($movie->posters) && sizeof($movie->posters) > 0) 
-		{
-			foreach($movie->posters as $poster) 
-			{
-				if ($poster->image->size == 'cover') 
-				{
-					$ret['cover'] = $poster->image->url;
-				}
-			}
-		}
-		if (isset($movie->backdrops) && sizeof($movie->backdrops) > 0) 
-		{
-			foreach($movie->backdrops as $backdrop) 
-			{
-				if ($backdrop->image->size == 'original') 
-				{
-					$ret['backdrop'] = $backdrop->image->url;
-				}
-			}
-		}
-		return $ret;
+		return $result;
 	}
     
   public function processMusicReleases()
@@ -461,51 +350,38 @@ class Music
 		
 			while ($arr = mysql_fetch_assoc($res)) 
 			{				
-				$moviename = $this->parseArtist($arr['searchname']);
-				if ($moviename !== false)
+				$album = $this->parseArtist($arr['searchname']);
+				if ($album !== false)
 				{
 					if ($this->echooutput)
-						echo 'Looking up: '.$moviename.' ['.$arr['searchname'].']'."\n";
-		
-					$buffer = file_get_contents("http://www.google.com/search?source=ig&hl=en&rlz=&btnG=Google+Search&aq=f&oq=&q=".urlencode($moviename.' imdb'));
-	
-			        // make sure we got some data
-			        if (strlen($buffer))
-			        {
-						$imdbId = $nfo->parseImdb($buffer);
-						if ($imdbId !== false) 
+						echo 'Looking up: '.$album["album"].' ['.$arr['searchname'].']'."\n";
+					
+					//check for existing movie entry
+					$albumCheck = $this->getMusicInfoByName($album["artist"], $album["album"]);
+					
+					if ($albumCheck === false)
+					{
+						$albumId = $this->updateMusicInfo($album["artist"], $album["album"]);
+						if ($albumId === false)
 						{
-							if ($this->echooutput)
-								echo '- found '.$imdbId."\n";
-							
-							//update release with imdb id
-							$db->query(sprintf("UPDATE releases SET imdbID = %s WHERE ID = %d", $db->escapeString($imdbId), $arr["ID"]));
-							
-							//check for existing movie entry
-							$movCheck = $this->getMovieInfo($imdbId);
-							if ($movCheck === false || (isset($movCheck['updateddate']) && (time() - strtotime($movCheck['updateddate'])) > 2592000))
-							{
-								$movieId = $this->updateMovieInfo($imdbId);
-							}
-
-						} else {
-							//no imdb id found, set to all zeros so we dont process again
-							$db->query(sprintf("UPDATE releases SET imdbID = %d WHERE ID = %d", 0, $arr["ID"]));
+							$albumId = -2;
 						}
-						
-					} else {
-						//url fetch failed, will try next run
 					}
-				
-				
-				} else {
-					//no valid movie name found, set to all zeros so we dont process again
-					$db->query(sprintf("UPDATE releases SET imdbID = %d WHERE ID = %d", 0, $arr["ID"]));
+					else 
+					{
+						$albumId = $albumCheck["ID"];
+					}
+
+					//update release
+					$db->query(sprintf("UPDATE releases SET musicinfoID = %d WHERE ID = %d", $albumId, $arr["ID"]));
+
+				} 
+				else {
+					//no album found
+					$db->query(sprintf("UPDATE releases SET musicinfoID = %d WHERE ID = %d", -2, $arr["ID"]));
 				}
-								
 			}
 		}
-	
 	}
 	
 	function parseArtist($releasename)
