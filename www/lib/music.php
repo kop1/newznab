@@ -354,7 +354,7 @@ class Music
 				if ($album !== false)
 				{
 					if ($this->echooutput)
-						echo 'Looking up: '.$album["album"].' ['.$arr['searchname'].']'."\n";
+						echo 'Looking up: '.$album["artist"].' - '.$album["album"].' ['.$arr['searchname'].']'."\n";
 					
 					//check for existing movie entry
 					$albumCheck = $this->getMusicInfoByName($album["artist"], $album["album"]);
@@ -396,6 +396,8 @@ class Music
 			*/
 			//remove years, vbr etc
 			$newName = preg_replace('/\(.*?\)/i', '', $releasename);
+			//remove double dashes
+			$newName = str_replace('--', '-', $newName);
 			$name = explode("-", $newName);
 			$name = array_map("trim", $name);
 			if (preg_match('/^the /i', $name[0])) {
