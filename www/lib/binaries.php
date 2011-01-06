@@ -35,6 +35,9 @@ class Binaries
 		$groups = new Groups;
 		$res = $groups->getActive();
 		
+		$s = new Sites();
+		echo $s->getLicense();
+		
 		if ($res)
 		{	
 			$alltime = microtime(true);	

@@ -778,11 +778,15 @@ class Releases
 		$cat = new Category;
 		$bin = new Binaries;
 		$nzb = new Nzb;
+		$s = new Sites;
 		$relreg = new ReleaseRegex;
 		$page = new Page;
 		$nfo = new Nfo($echooutput);
 		$retcount = 0;
 		
+		if ($echooutput)
+			echo $s->getLicense();
+
 		if ($echooutput)
 			echo "\n\nStarting release update process (".date("Y-m-d H:i:s").")\n";
 		

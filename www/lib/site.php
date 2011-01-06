@@ -148,5 +148,25 @@ class Sites
 
 		return $db->query(sprintf("update site set latestregexrevision = %d", $rev));
 	}
+	
+	public function getLicense($html=false)
+	{
+		$n = "\r\n";
+		if ($html)
+			$n = "<br/>";
+	
+		return $n."newznab ".$this->version()." Copyright (C) ".date("Y")." newznab.com".$n."
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.".$n."
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+".$n;
+	}
 }
 ?>
