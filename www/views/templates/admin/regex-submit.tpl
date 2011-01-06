@@ -5,14 +5,14 @@
 
 { if $upload_status eq 'OK' }
 <div style="background-color: #CDEB8B; color: #fff; padding: 20px">
-  <strong>Your regex file was uploaded. Thank you for contributing.</strong>
+  <strong>Your regexes were uploaded. Thank you for contributing.</strong>
 </div>
 <br />
 { /if }
 
 { if $upload_status eq 'BAD' }
 <div style="background-color: #CC0000; color: #fff; padding: 20px">
-  <strong>Failed to upload your regex file :-( - please try again.</strong>
+  <strong>Failed to upload your regexes :-( - please try again.</strong>
 </div>
 <br />
 { /if }
@@ -28,9 +28,7 @@
 <br />
 
 <p>
-  <strong>Filename being submitted: </strong> {$regex_filename}
-  <br />
-  <strong>Contents</strong>
+  <strong>Regexes to be submitted:</strong>
   <br />
   <pre>
   {$regex_contents|print_r}
