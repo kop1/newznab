@@ -1,4 +1,4 @@
-<div id="group_list">
+﻿<div id="group_list"> 
 
     <h1>{$page->title}</h1>
 

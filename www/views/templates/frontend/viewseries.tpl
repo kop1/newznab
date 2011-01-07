@@ -1,4 +1,4 @@
-
+﻿ 
 <h1>{$page->title}</h1>
 
 {if $rage[0].imgdata != ""}

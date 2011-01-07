@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta name="keywords" content="{$page->meta_keywords},{$site->meta_keywords}" />
 	<meta name="description" content="{$page->meta_description} - {$site->meta_description}" />	
 	<meta name="newznab_version" content="{$site->version}" />
@@ -105,7 +105,7 @@
 					    <form action="http://www.google.co.uk/cse" id="cse-search-box" target="_blank">
 					      <div>
 					        <input type="hidden" name="cx" value="partner-{/literal}{$site->google_adsense_acc}{literal}:{/literal}{$site->google_adsense_search}{literal}" />
-					        <input type="hidden" name="ie" value="ISO-8859-1" />
+					        <input type="hidden" name="ie" value="UTF-8" />
 					        <input type="text" name="q" size="10" />
 					        <input type="submit" name="sa" value="Search" />
 					      </div>

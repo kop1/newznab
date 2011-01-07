@@ -1,4 +1,4 @@
-<div id="menucontainer">
+﻿<div id="menucontainer"> 
 	<div id="menulink"> 
 		<ul>
 		{foreach from=$parentcatlist item=parentcat}

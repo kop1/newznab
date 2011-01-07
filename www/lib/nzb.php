@@ -22,7 +22,7 @@ class NZB
 		$fp = gzopen($path, "w"); 
 		if ($fp)
 		{
-			gzwrite($fp, "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"); 
+			gzwrite($fp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"); 
 			gzwrite($fp, "<!DOCTYPE nzb PUBLIC \"-//newzBin//DTD NZB 1.1//EN\" \"http://www.newzbin.com/DTD/nzb/nzb-1.1.dtd\">\n"); 
 			gzwrite($fp, "<nzb xmlns=\"http://www.newzbin.com/DTD/2003/nzb\">\n\n"); 
 			gzwrite($fp, "<head>\n"); 

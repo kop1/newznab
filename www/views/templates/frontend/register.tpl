@@ -1,4 +1,4 @@
-
+﻿ 
 <h1>Register</h1>
 
 {if $error != ''}

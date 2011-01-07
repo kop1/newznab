@@ -1,4 +1,4 @@
-
+﻿ 
 <h1>Search Binaries</h1>
 
 <form method="get" action="{$smarty.const.WWW_TOP}/searchraw">

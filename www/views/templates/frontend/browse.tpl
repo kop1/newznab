@@ -1,4 +1,4 @@
-
+﻿
 <h1>Browse {$catname|escape:"htmlall"}</h1>
 	
 {if $results|@count > 0}

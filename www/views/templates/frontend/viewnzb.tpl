@@ -1,4 +1,4 @@
-
+﻿
 <h1>{$release.searchname|escape:"htmlall"}</h1>
 
 <table class="data">

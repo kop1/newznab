@@ -1,4 +1,4 @@
-
+﻿ 
 <h1>{$page->title}</h1>
 
 <p>Use this feature to submit any regex you have added locally to newznab. We'll have a look at integrating them into the master list. No data other than regex's with an ID greater than 10000 will be sent.</p>
