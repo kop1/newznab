@@ -1,4 +1,4 @@
-﻿ 
+ 
 			<h1>{$page->title}</h1>
 			<h2>Getting in touch</h2>
 

@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>Browse Groups</h1>
 	
 {if $results|@count > 0}

@@ -1,4 +1,4 @@
-﻿{if $menulist|@count > 0} 
+{if $menulist|@count > 0} 
 <li class="menu_main">
 	<h2>Menu</h2> 
 	

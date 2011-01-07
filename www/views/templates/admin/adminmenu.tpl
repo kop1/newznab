@@ -1,4 +1,4 @@
-﻿ 		<h2>Admin Functions</h2> 
+ 		<h2>Admin Functions</h2> 
 		<ul>
 		<li><a title="Home" href="{$smarty.const.WWW_TOP}/../">Home</a></li>
 		<li><a title="Admin Home" href="{$smarty.const.WWW_TOP}/">Admin Home</a></li>

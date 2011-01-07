@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>Browse {$catname}</h1>
 
 <form name="browseby" action="movies">

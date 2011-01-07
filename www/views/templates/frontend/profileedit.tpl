@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>Edit your profile</h1>
 
 {if $error != ''}

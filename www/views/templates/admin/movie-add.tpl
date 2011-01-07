@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>{$page->title}</h1>
 
 <form enctype="multipart/form-data" action="{$SCRIPT_NAME}" method="post">

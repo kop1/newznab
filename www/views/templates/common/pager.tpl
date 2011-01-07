@@ -1,4 +1,4 @@
-﻿{strip} 
+{strip} 
 {if $pagertotalitems > $pageritemsperpage}
 <div class="pager">
 {section name=pager loop=$pagertotalitems start=0 step=$pageritemsperpage}

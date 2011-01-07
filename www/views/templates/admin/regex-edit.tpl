@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>{$page->title}</h1>
 
 {if $regex.ID > 0 && $regex.ID < 100000 && $site->reqidurl != ""}

@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>Profile for {$user.username|escape:"htmlall"}</h1>
 
 <table class="data">

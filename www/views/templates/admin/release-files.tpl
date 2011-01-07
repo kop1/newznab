@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>{$page->title}</h1>
 
 <h2>For {$rel.searchname|escape:'htmlall'}</h2>

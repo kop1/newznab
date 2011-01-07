@@ -1,4 +1,4 @@
-﻿ 
+ 
 <h1>{$page->title}</h1>
 
 <p>The following items are currently being download at <a href="{$sabserver|escape:"htmlall"}">{$sabserver|escape:"htmlall"}</a>. Edit queue settings in <a href="{$smarty.const.WWW_TOP}/profileedit">your profile</a>.</p>

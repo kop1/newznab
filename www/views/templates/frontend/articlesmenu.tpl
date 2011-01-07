@@ -1,4 +1,4 @@
-﻿{if $articlecontentlist|@count > 0}
+{if $articlecontentlist|@count > 0}
 <li class="menu_articles"> 
 		<h2>Articles</h2> 
 		<ul>
