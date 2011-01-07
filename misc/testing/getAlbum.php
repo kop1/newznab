@@ -11,11 +11,18 @@ $music = new Music(true);
 $db = new Db;
 
 $albums = results();
+shuffle($albums);
 
 foreach ($albums as $album) {
-	echo '<pre>';
-	print_r($music->parseArtist($album));
-	echo '</pre>';
+	$artist = $music->parseArtist($album);
+	echo $artist['releasename'].'<br />';
+	$result = $music->updateMusicInfo($artist['artist'], $artist['album'], $artist['year']);
+	if ($result !== false) {
+		echo '<pre>';
+		print_r($result);
+		echo '</pre><br /><br />';
+	}
+	die;
 }
 
 

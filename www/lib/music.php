@@ -23,8 +23,6 @@ class Music
 		return $db->queryOneRow(sprintf("SELECT * FROM musicinfo where title like %s and artist like %s", $db->escapeString("%".$artist."%"),  $db->escapeString("%".$album."%")));
 	}
 
-
-	
 	public function getRange($start, $num)
 	{		
 		$db = new DB();
@@ -226,32 +224,76 @@ class Music
 		//	$db->escapeString($title), $db->escapeString($tagline), $db->escapeString($plot), $db->escapeString($year), $db->escapeString($rating), $db->escapeString($genre), $db->escapeString($director), $db->escapeString($actors), $db->escapeString($language), $cover, $backdrop, $id));		
 	}
 	
-	public function updateMusicInfo($artist, $album)
+	public function updateMusicInfo($artist, $album, $year)
 	{
 		if ($this->echooutput)
-			echo "fetching music info from amazon - ".$artist." - ".$album."\n";
+			echo "fetching music info from amazon: ".$artist." - ".$album." (".$year.")\n";
 		
+		$mus = array();
 		$amaz = $this->fetchAmazonProperties($artist." - ".$album);
 		if (!$amaz) 
 		{
 			if ($this->echooutput)
-				echo "not found in amazon\n";
+				echo "- not found in amazon\n";
 			
 			return false;
 		}
 		
+		/*
 		$mus['cover'] = 0;
 		if ($amaz->Items->Item->MediumImage) 
 		{
 			$mus['cover'] = $this->saveCoverImage($amaz->Items->Item->MediumImage, $imdbId);
 		}
-
+		*/
+		
 		//
-		// get all other props 
+		// get album properties
 		//
-
-
-
+		
+		//`title` varchar(128) NOT NULL,
+		$mus['title'] = (string) $amaz->Items->Item->ItemAttributes->Title;
+		if (empty($mus['title']))
+			$mus['title'] = $album;
+			
+  		//`asin` varchar(128) NULL,
+  		$mus['asin'] = (string) $amaz->Items->Item->ASIN;
+  		
+  		//`url` varchar(1000) NULL,
+  		$mus['url'] = (string) $amaz->Items->Item->DetailPageURL;
+		
+		//`salesrank` int(10) unsigned NULL,
+		$mus['salesrank'] = (string) $amaz->Items->Item->SalesRank;
+		
+		//`artist` varchar(255) NULL,
+		$mus['artist'] = (string) $amaz->Items->Item->ItemAttributes->Artist;
+		if (empty($mus['artist']))
+			$mus['artist'] = $artist;
+		
+		//`publisher` varchar(255) NULL,
+		$mus['publisher'] = (string) $amaz->Items->Item->ItemAttributes->Publisher;
+		
+		//`releasedate` varchar(255) NULL,
+		$mus['releasedate'] = (string) $amaz->Items->Item->ItemAttributes->ReleaseDate;
+		
+		//`review` varchar(2000) NULL,
+		$mus['review'] = (string) $amaz->Items->Item->EditorialReviews->EditorialReview->Content;
+		
+		//`year` varchar(4) NOT NULL,
+		$mus['year'] = $year;
+		
+		//`tracks` varchar(2000) NULL,
+		$tmpTracks = (array) $amaz->Items->Item->Tracks->Disc;
+		$tracks = $tmpTracks['Track'];
+		$mus['tracks'] = (is_array($tracks) && !empty($tracks)) ? implode('|', $tracks) : '';
+		
+		/*
+		`musicgenreID` int(10) unsigned NULL,
+		*/
+		
+		//end here to debug
+		return $mus;
+		
 		$db = new DB();
 		$query = sprintf("
 			INSERT INTO musicinfo 
@@ -354,14 +396,14 @@ class Music
 				if ($album !== false)
 				{
 					if ($this->echooutput)
-						echo 'Looking up: '.$album["artist"].' - '.$album["album"].' ['.$arr['searchname'].']'."\n";
+						echo 'Looking up: '.$album["artist"].' - '.$album["album"].' ('.$album['year'].') ['.$arr['searchname'].']'."\n";
 					
 					//check for existing movie entry
 					$albumCheck = $this->getMusicInfoByName($album["artist"], $album["album"]);
 					
 					if ($albumCheck === false)
 					{
-						$albumId = $this->updateMusicInfo($album["artist"], $album["album"]);
+						$albumId = $this->updateMusicInfo($album["artist"], $album["album"], $album['year']);
 						if ($albumId === false)
 						{
 							$albumId = -2;
@@ -386,31 +428,42 @@ class Music
 	
 	function parseArtist($releasename)
 	{
-			$result = array();
-			/*TODO: FIX VA lookups
-			if (substr($releasename, 0, 3) == 'VA-') {
-					$releasename = trim(str_replace('VA-', '', $releasename));
-			} elseif (substr($name, 0, 3) == 'VA ') {
-					$releasename = trim(str_replace('VA ', '', $releasename));
-			}
-			*/
-			//remove years, vbr etc
-			$newName = preg_replace('/\(.*?\)/i', '', $releasename);
-			//remove double dashes
-			$newName = str_replace('--', '-', $newName);
-			$name = explode("-", $newName);
-			$name = array_map("trim", $name);
-			if (preg_match('/^the /i', $name[0])) {
-					$name[0] = preg_replace('/^the /i', '', $name[0]).', The';     
-			}
-			if (preg_match('/deluxe edition|single/i', $name[1], $albumType)) {
-					$name[1] = preg_replace('/'.$albumType[0].'/i', '', $name[1]);
-			}
-			$result['artist'] = trim($name[0]);
-			$result['album'] = trim($name[1]);
-			$result['releasename'] = $releasename;
-			//echo $artist.' - '.$album.' - '.$releasename."\n";
-			return $result;
+		$result = array();
+		/*TODO: FIX VA lookups
+		if (substr($releasename, 0, 3) == 'VA-') {
+				$releasename = trim(str_replace('VA-', '', $releasename));
+		} elseif (substr($name, 0, 3) == 'VA ') {
+				$releasename = trim(str_replace('VA ', '', $releasename));
+		}
+		*/
+		//remove years, vbr etc
+		$newName = preg_replace('/\(.*?\)/i', '', $releasename);
+		//remove double dashes
+		$newName = str_replace('--', '-', $newName);
+		
+		$name = explode("-", $newName);
+		$name = array_map("trim", $name);
+		
+		if (preg_match('/^the /i', $name[0])) {
+				$name[0] = preg_replace('/^the /i', '', $name[0]).', The';     
+		}
+		if (preg_match('/deluxe edition|single|nmrVBR|READ NFO/i', $name[1], $albumType)) {
+				$name[1] = preg_replace('/'.$albumType[0].'/i', '', $name[1]);
+		}
+		$result['artist'] = trim($name[0]);
+		$result['album'] = trim($name[1]);
+		
+		//make sure we've actually matched an album name
+		if (preg_match('/^(nmrVBR|WEB|SAT|20\d{2}|19\d{2}|CDM|EP)$/i', $result['album'])) {
+			$result['album'] = '';
+		}
+		
+		preg_match('/((?:19|20)\d{2})/i', $releasename, $year);
+		$result['year'] = (isset($year[1]) && !empty($year[1])) ? $year[1] : '';
+		
+		$result['releasename'] = $releasename;
+		
+		return (!empty($result['artist']) && !empty($result['album'])) ? $result : false;
 	}
 }
 ?>
