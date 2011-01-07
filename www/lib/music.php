@@ -369,10 +369,19 @@ class Music
     }
     catch(Exception $e)
     {
+    	//if first search failed try the mp3downloads section
+    	try
+    	{
+    		$result = $obj->searchProducts($title, AmazonProductAPI::MP3, "TITLE");
+    	}
+    	catch(Exception $e2)
+    	{
 			if ($this->echooutput)
-				echo "Error fetching amazon properties - ".$e->getMessage();
+				echo "Error fetching amazon properties - ".$e2->getMessage();
 				
 				$result = false;
+		}
+		return $result;
     }
 
 		return $result;

@@ -61,6 +61,7 @@
             http://docs.amazonwebservices.com/AWSECommerceService/latest/DG/APPNDX_SearchIndexValues.html
         */
         const MUSIC = "Music";
+        const MP3 = "MP3Downloads"; //this could be DigitalDownloads as well
         const DVD   = "DVD";
         const GAMES = "VideoGames";
         
@@ -116,7 +117,7 @@
         public function searchProducts($search, $category, $searchType = "UPC")
         {
             $allowedTypes = array("UPC", "TITLE", "ARTIST", "KEYWORD");
-            $allowedCategories = array("Music", "DVD", "VideoGames");
+            $allowedCategories = array("Music", "DVD", "VideoGames", "MP3Downloads");
             
             switch($searchType) 
             {
@@ -129,7 +130,7 @@
                 
                 case "TITLE" :  $parameters = array("Operation"     => "ItemSearch",
                                                     //"Title"         => $search,
-																										"Keywords"         => $search,
+													"Keywords"         => $search,
                                                     "SearchIndex"   => $category,
                                                     "ResponseGroup" => "Large");
                                 break;
