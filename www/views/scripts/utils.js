@@ -23,7 +23,7 @@ jQuery(function($){
 		if ($(this).hasClass('icon_cart_clicked')) return false;
 		var guid = $(this).parent().parent().attr('id').substring(4);
 		$.post( SERVERROOT + "cart?add=" + guid, function(resp){
-			$(e.target).addClass('icon_cart_clicked').attr('title','added to cart');
+			$(e.target).addClass('icon_cart_clicked').attr('title','Added to cart');
 		});
 		return false;
 	});
@@ -39,7 +39,7 @@ jQuery(function($){
 		var nzburl = SERVERROOT + "getnzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 
 		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
-			$(e.target).addClass('icon_sab_clicked').attr('title','added to queue');
+			$(e.target).addClass('icon_sab_clicked').attr('title','Added to queue');
 		});
 		return false;
 	});
@@ -74,7 +74,7 @@ jQuery(function($){
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
 			if (guid && !$cartIcon.hasClass('icon_cart_clicked')){
 				$.post( SERVERROOT + "cart?add=" + guid, function(resp){
-					$cartIcon.addClass('icon_cart_clicked').attr('title','added to cart');
+					$cartIcon.addClass('icon_cart_clicked').attr('title','Added to cart');
 				});
 			}
 		});
@@ -92,7 +92,7 @@ jQuery(function($){
 			if (guid && !$sabIcon.hasClass('icon_sab_clicked')){
 				var nzburl = SERVERROOT + "getnzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
 				$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
-					$sabIcon.addClass('icon_sab_clicked').attr('title','added to queue');
+					$sabIcon.addClass('icon_sab_clicked').attr('title','Added to queue');
 				});
 			}
 		});
