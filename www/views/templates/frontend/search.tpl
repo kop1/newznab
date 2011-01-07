@@ -1,4 +1,4 @@
-﻿ 
+﻿  
 <h1>Search</h1>
 
 <form method="get" action="{$smarty.const.WWW_TOP}/search">
