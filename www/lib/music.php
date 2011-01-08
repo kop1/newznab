@@ -39,7 +39,7 @@ class Music
 	public function getCount()
 	{			
 		$db = new DB();
-		$res = $db->queryOneRow("select count(ID) as num from movieinfo");		
+		$res = $db->queryOneRow("select count(ID) as num from musicinfo");		
 		return $res["num"];
 	}
 	
@@ -230,17 +230,12 @@ class Music
 		$db = new DB();
 
 		if ($this->echooutput)
-			echo "fetching music info from amazon: ".$artist." - ".$album." (".$year.")\n";
+			echo "Looking up: ".$artist." - ".$album." (".$year.")\n";
 		
 		$mus = array();
 		$amaz = $this->fetchAmazonProperties($artist." - ".$album);
 		if (!$amaz) 
-		{
-			if ($this->echooutput)
-				echo "- not found in amazon\n";
-			
 			return false;
-		}
 		
 		//load genres
 		$defaultGenres = (is_array($this->genres)) ? $this->genres : $this->getGenres();
@@ -315,17 +310,17 @@ class Music
 		$mus['musicgenreID'] = $genreKey;
 				
 		$query = sprintf("
-		INSERT INTO musicinfo  (`title`, `asin`, `url`, `salesrank`,  `artist`, `publisher`, `releasedate`, `review`,`year`, `musicgenreID`, `tracks`, `cover`, `createddate`, `updateddate`)
-		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        %s,        %d,        now(),        now())
-			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `artist` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s,  `year` = %s,  `musicgenreID` = %d,  `tracks` = %s,  `cover` = %d,  createddate = now(),  updateddate = now()", 
+		INSERT INTO musicinfo  (`title`, `asin`, `url`, `salesrank`,  `artist`, `publisher`, `releasedate`, `review`, `year`, `musicgenreID`, `tracks`, `cover`, `createddate`, `updateddate`)
+		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        now(),        now())
+			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `artist` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s,  `year` = %s,  `musicgenreID` = %s,  `tracks` = %s,  `cover` = %d,  createddate = now(),  updateddate = now()", 
 		$db->escapeString($mus['title']), $db->escapeString($mus['asin']), $db->escapeString($mus['url']), 
 		$mus['salesrank'], $db->escapeString($mus['artist']), $db->escapeString($mus['publisher']), 
 		$mus['releasedate'], $db->escapeString($mus['review']), $db->escapeString($mus['year']), 
-		$mus['musicgenreID'], $db->escapeString($mus['tracks']), $mus['cover'], 
+		($mus['musicgenreID']==-1?"null":$mus['musicgenreID']), $db->escapeString($mus['tracks']), $mus['cover'], 
 		$db->escapeString($mus['title']), $db->escapeString($mus['asin']), $db->escapeString($mus['url']), 
 		$mus['salesrank'], $db->escapeString($mus['artist']), $db->escapeString($mus['publisher']), 
 		$mus['releasedate'], $db->escapeString($mus['review']), $db->escapeString($mus['year']), 
-		$mus['musicgenreID'], $db->escapeString($mus['tracks']), $mus['cover'] );
+		($mus['musicgenreID']==-1?"null":$mus['musicgenreID']), $db->escapeString($mus['tracks']), $mus['cover'] );
 		
 		$musicId = $db->queryInsert($query);
 
@@ -418,7 +413,7 @@ class Music
 					if ($this->echooutput)
 						echo 'Looking up: '.$album["artist"].' - '.$album["album"].' ('.$album['year'].') ['.$arr['searchname'].']'."\n";
 					
-					//check for existing movie entry
+					//check for existing music entry
 					$albumCheck = $this->getMusicInfoByName($album["artist"], $album["album"]);
 					
 					if ($albumCheck === false)
@@ -486,8 +481,8 @@ class Music
 		return (!empty($result['artist']) && !empty($result['album'])) ? $result : false;
 	}
 
-    public function getGenres()
-    {
+	public function getGenres()
+	{
 		$db = new DB();
 		return $db->query("select * from musicgenre");		
 	}	

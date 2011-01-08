@@ -7,6 +7,7 @@ require_once(WWW_DIR."/lib/releaseregex.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/tvrage.php");
 require_once(WWW_DIR."/lib/movie.php");
+require_once(WWW_DIR."/lib/music.php");
 require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/zipfile.php");
@@ -1174,6 +1175,15 @@ class Releases
 			$movie->processMovieReleases();
 		}
 		
+		//
+		// Lookup music if enabled
+		//
+		if ($page->site->lookupmusic == 1) 
+		{
+			$music = new Music(true);
+			$music->processMusicReleases();
+		}
+
 		//
 		// Check for passworded releases
 		//

@@ -55,6 +55,7 @@ CREATE TABLE `releases`
 `tvtitle` varchar(255) null,
 `tvairdate` datetime null,
 `imdbID` MEDIUMINT(7) UNSIGNED ZEROFILL NULL,
+`musicinfoID` INT NULL,
 `reqID` INT NULL,
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
 `comments` INT NOT NULL DEFAULT 0,
@@ -119,6 +120,10 @@ VALUES ('searchraw', 'Raw Search',
 INSERT INTO menu (`href`, `title`, `tooltip`, `role`, `ordinal` )
 VALUES ('movies', 'Movies', 
 	'Browse for Movies', 1, 40);
+
+INSERT INTO menu (`href`, `title`, `tooltip`, `role`, `ordinal` )
+VALUES ('music', 'Music', 
+	'Browse for Music', 1, 45);
 
 INSERT INTO menu (`href`, `title`, `tooltip`, `role`, `ordinal` )
 VALUES ('admin', 'Admin', 
@@ -559,6 +564,7 @@ CREATE TABLE site (
 `lookuptvrage` INT NOT NULL DEFAULT 1,
 `lookupimdb` INT NOT NULL DEFAULT 1,
 `lookupnfo` INT NOT NULL DEFAULT 1,
+`lookupmusic` INT NOT NULL DEFAULT 1,
 `compressedheaders` INT NOT NULL DEFAULT 0,
 `maxmssgs` INT NOT NULL DEFAULT 20000,
 `newgroupscanmethod` INT NOT NULL DEFAULT 0,
@@ -605,6 +611,204 @@ INSERT INTO `site`
 	'info@newznab.com', 
 	NOW(), NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
 	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2);
+
+
+DROP TABLE IF EXISTS `musicinfo`;
+CREATE TABLE `musicinfo` 
+(
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) NOT NULL,
+  `asin` varchar(128) NULL,
+  `url` varchar(1000) NULL,
+  `salesrank` int(10) unsigned NULL,
+  `artist` varchar(255) NULL,
+  `publisher` varchar(255) NULL,
+  `releasedate` datetime NULL,
+  `review` varchar(2000) NULL,
+  `year` varchar(4) NOT NULL,
+  `musicgenreID` int(10) NULL,
+  `tracks` varchar(2000) NULL,
+  `cover` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
+  `createddate` datetime NOT NULL,
+  `updateddate` datetime NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+
+
+
+DROP TABLE IF EXISTS `musicgenre`;
+CREATE TABLE `musicgenre` 
+(
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+
+INSERT INTO `musicgenre` 
+(
+  `title`
+) VALUES
+  ('Blues'),
+  ('Classic Rock'),
+  ('Country'),
+  ('Dance'),
+  ('Disco'),
+  ('Funk'),
+  ('Grunge'),
+  ('Hip-Hop'),
+  ('Jazz'),
+  ('Metal'),
+  ('New Age'),
+  ('Oldies'),
+  ('Other'),
+  ('Pop'),
+  ('R&B'),
+  ('Rap'),
+  ('Reggae'),
+  ('Rock'),
+  ('Techno'),
+  ('Industrial'),
+  ('Alternative'),
+  ('Ska'),
+  ('Death Metal'),
+  ('Pranks'),
+  ('Soundtrack'),
+  ('Euro-Techno'),
+  ('Ambient'),
+  ('Trip-Hop'),
+  ('Vocal'),
+  ('Jazz+Funk'),
+  ('Fusion'),
+  ('Trance'),
+  ('Classical'),
+  ('Instrumental'),
+  ('Acid'),
+  ('House'),
+  ('Game'),
+  ('Sound Clip'),
+  ('Gospel'),
+  ('Noise'),
+  ('Alternative Rock'),
+  ('Bass'),
+  ('Soul'),
+  ('Punk'),
+  ('Space'),
+  ('Meditative'),
+  ('Instrumental Pop'),
+  ('Instrumental Rock'),
+  ('Ethnic'),
+  ('Gothic'),
+  ('Darkwave'),
+  ('Techno-Industrial'),
+  ('Electronic'),
+  ('Pop-Folk'),
+  ('Eurodance'),
+  ('Dream'),
+  ('Southern Rock'),
+  ('Comedy'),
+  ('Cult'),
+  ('Gangsta'),
+  ('Top 40'),
+  ('Christian Rap'),
+  ('Pop/Funk'),
+  ('Jungle'),
+  ('Native US'),
+  ('Cabaret'),
+  ('New Wave'),
+  ('Psychadelic'),
+  ('Rave'),
+  ('Showtunes'),
+  ('Trailer'),
+  ('Lo-Fi'),
+  ('Tribal'),
+  ('Acid Punk'),
+  ('Acid Jazz'),
+  ('Polka'),
+  ('Retro'),
+  ('Musical'),
+  ('Rock & Roll'),
+  ('Hard Rock'),
+  ('Folk'),
+  ('Folk-Rock'),
+  ('National Folk'),
+  ('Swing'),
+  ('Fast Fusion'),
+  ('Bebob'),
+  ('Latin'),
+  ('Revival'),
+  ('Celtic'),
+  ('Bluegrass'),
+  ('Avantgarde'),
+  ('Gothic Rock'),
+  ('Progressive Rock'),
+  ('Psychedelic Rock'),
+  ('Symphonic Rock'),
+  ('Slow Rock'),
+  ('Big Band'),
+  ('Chorus'),
+  ('Easy Listening'),
+  ('Acoustic'),
+  ('Humour'),
+  ('Speech'),
+  ('Chanson'),
+  ('Opera'),
+  ('Chamber Music'),
+  ('Sonata'),
+  ('Symphony'),
+  ('Booty Bass'),
+  ('Primus'),
+  ('Porn Groove'),
+  ('Satire'),
+  ('Slow Jam'),
+  ('Club'),
+  ('Tango'),
+  ('Samba'),
+  ('Folklore'),
+  ('Ballad'),
+  ('Power Ballad'),
+  ('Rhytmic Soul'),
+  ('Freestyle'),
+  ('Duet'),
+  ('Punk Rock'),
+  ('Drum Solo'),
+  ('Acapella'),
+  ('Euro-House'),
+  ('Dance Hall'),
+  ('Goa'),
+  ('Drum & Bass'),
+  ('Club-House'),
+  ('Hardcore'),
+  ('Terror'),
+  ('Indie'),
+  ('BritPop'),
+  ('Negerpunk'),
+  ('Polsk Punk'),
+  ('Beat'),
+  ('Christian Gangsta'),
+  ('Heavy Metal'),
+  ('Black Metal'),
+  ('Crossover'),
+  ('Contemporary C'),
+  ('Christian Rock'),
+  ('Merengue'),
+  ('Salsa'),
+  ('Thrash Metal'),
+  ('Anime'),
+  ('JPop'),
+  ('SynthPop'),
+  ('Electronica');
+
+
+
+
+
+
+
+
+
+
+
+
 
 INSERT INTO `tvrage` (`ID`, `rageID`, `releasetitle`, `description`, `createddate`, `imgdata`, `tvdbID`) 
 VALUES 

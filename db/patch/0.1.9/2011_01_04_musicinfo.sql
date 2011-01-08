@@ -1,4 +1,5 @@
 alter table releases add `musicinfoID` INT NULL;
+alter table site add `lookupmusic` INT NOT NULL DEFAULT 1;
 
 DROP TABLE IF EXISTS `musicgenre`;
 CREATE TABLE `musicgenre` 
@@ -175,14 +176,13 @@ CREATE TABLE `musicinfo`
   `releasedate` datetime NULL,
   `review` varchar(2000) NULL,
   `year` varchar(4) NOT NULL,
-  `musicgenreID` int(10) unsigned NULL,
+  `musicgenreID` int NULL,
   `tracks` varchar(2000) NULL,
   `cover` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0',
   `createddate` datetime NOT NULL,
   `updateddate` datetime NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
-
 
 
 DELETE FROM menu WHERE href = 'music';
@@ -195,8 +195,8 @@ INSERT INTO menu
      `menueval`)
 VALUES (
         'music',
-        'Albums',
-        'Browse for Albums',
+        'Music',
+        'Browse for Music',
         '1',
         '45',
         '');

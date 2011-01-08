@@ -12,6 +12,7 @@
 		<li><a href="{$smarty.const.WWW_TOP}/release-list.php">View Releases</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/rage-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/rage-edit.php?action=add">Add</a> TVRage List</li>
 		<li><a href="{$smarty.const.WWW_TOP}/movie-list.php">View</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/movie-add.php">Add</a> Movie List</li>
+		<li><a href="{$smarty.const.WWW_TOP}/music-list.php">View Music List</a></li>
 		<li><a href="{$smarty.const.WWW_TOP}/nzb-import.php">Import</a> <a style="padding:0;" href="{$smarty.const.WWW_TOP}/nzb-export.php">Export</a> Nzb's</li>
 		<li><a href="{$smarty.const.WWW_TOP}/db-optimise.php">Optimise</a> Tables</li>
 		<li><a href="{$smarty.const.WWW_TOP}/comments-list.php">View Comments</a></li>

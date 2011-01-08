@@ -248,6 +248,14 @@
 </tr>
 
 <tr>
+	<td><label for="lookupmusic">Lookup Music</label>:</td>
+	<td>
+		{html_radios id="lookupmusic" name='lookupmusic' values=$yesno_ids output=$yesno_names selected=$fsite->lookupmusic separator='<br />'}
+		<div class="hint">Whether to attempt to lookup music information from Amazon when processing binaries.</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="compressedheaders">Use Compressed Headers</label>:</td>
 	<td>
 		{html_radios id="compressedheaders" name='compressedheaders' values=$yesno_ids output=$yesno_names selected=$fsite->compressedheaders separator='<br />'}
