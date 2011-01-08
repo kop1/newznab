@@ -159,7 +159,8 @@ INSERT INTO `musicgenre`
   ('Thrash Metal'),
   ('Anime'),
   ('JPop'),
-  ('SynthPop');
+  ('SynthPop'),
+  ('Electronica');
 
 DROP TABLE IF EXISTS `musicinfo`;
 CREATE TABLE `musicinfo` 

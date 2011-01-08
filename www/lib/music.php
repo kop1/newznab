@@ -9,6 +9,7 @@ class Music
 	function Music($echooutput=false)
 	{
 		$this->echooutput = $echooutput;
+		$this->genres = '';
 	}
 	
 	public function getMusicInfo($id)
@@ -241,6 +242,13 @@ class Music
 			return false;
 		}
 		
+		//load genres
+		$defaultGenres = (is_array($this->genres)) ? $this->genres : $this->getGenres();
+		$genres = array();
+		foreach($defaultGenres as $dg) {
+			$genres[$dg['ID']] = strtolower($dg['title']);
+		}		
+		
 		//
 		// get album properties
 		//
@@ -286,12 +294,26 @@ class Music
 			$tracks = $tmpTracks['Track'];
 			$mus['tracks'] = (is_array($tracks) && !empty($tracks)) ? implode('|', $tracks) : '';
 		}
-				
-		/*
-		`musicgenreID` int(10) unsigned NULL,
-		*/
-		$mus["musicgenreID"] = -1;
 		
+		$genreKey = -1;
+		$genreName = '';
+		$amazGenres = (array) $amaz->Items->Item->BrowseNodes;
+		foreach($amazGenres as $amazGenre) {
+			foreach($amazGenre as $ag) {
+				$tmpGenre = strtolower( (string) $ag->Name );
+				if (in_array($tmpGenre, $genres)) {
+					$genreKey = array_search($tmpGenre, $genres);
+					$genreName = $tmpGenre;
+					break;
+				} else {
+					//TODO: we got a genre but its not stored in our musicgenre table
+					$genreName = (string) $ag->Name;
+				}
+			}
+		}
+		$mus['musicgenre'] = $genreName;
+		$mus['musicgenreID'] = $genreKey;
+				
 		$query = sprintf("
 		INSERT INTO musicinfo  (`title`, `asin`, `url`, `salesrank`,  `artist`, `publisher`, `releasedate`, `review`,`year`, `musicgenreID`, `tracks`, `cover`, `createddate`, `updateddate`)
 		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        %s,        %d,        now(),        now())
@@ -385,7 +407,9 @@ class Music
 		{	
 			if ($this->echooutput)
 				echo "Processing ".mysql_num_rows($res)." music releases\n";
-		
+			
+			$this->genres = $this->getGenres();
+			
 			while ($arr = mysql_fetch_assoc($res)) 
 			{				
 				$album = $this->parseArtist($arr['searchname']);
@@ -464,9 +488,9 @@ class Music
 
     public function getGenres()
     {
-			$db = new DB();
-			return $db->query("select * from musicgenre");		
-		}	
+		$db = new DB();
+		return $db->query("select * from musicgenre");		
+	}	
 
 }
 
