@@ -171,7 +171,7 @@ CREATE TABLE `musicinfo`
   `salesrank` int(10) unsigned NULL,
   `artist` varchar(255) NULL,
   `publisher` varchar(255) NULL,
-  `releasedate` varchar(255) NULL,
+  `releasedate` datetime NULL,
   `review` varchar(2000) NULL,
   `year` varchar(4) NOT NULL,
   `musicgenreID` int(10) unsigned NULL,
@@ -183,3 +183,19 @@ CREATE TABLE `musicinfo`
 ) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
 
 
+
+DELETE FROM menu WHERE href = 'music';
+INSERT INTO menu
+    (`href`,
+     `title`,
+     `tooltip`,
+     `role`,
+     `ordinal`,
+     `menueval`)
+VALUES (
+        'music',
+        'Albums',
+        'Browse for Albums',
+        '1',
+        '45',
+        '');

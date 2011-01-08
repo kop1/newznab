@@ -137,7 +137,7 @@ class Music
 		if (count($excludedcats) > 0)
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
-		$order = $this->getMovieOrder($orderby);
+		$order = $this->getMusicOrder($orderby);
 		$sql = sprintf(" SELECT r.*, m.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join musicinfo m on m.ID = r.musicID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
@@ -226,6 +226,8 @@ class Music
 	
 	public function updateMusicInfo($artist, $album, $year)
 	{
+		$db = new DB();
+
 		if ($this->echooutput)
 			echo "fetching music info from amazon: ".$artist." - ".$album." (".$year.")\n";
 		
@@ -239,80 +241,83 @@ class Music
 			return false;
 		}
 		
-		/*
-		$mus['cover'] = 0;
-		if ($amaz->Items->Item->MediumImage) 
-		{
-			$mus['cover'] = $this->saveCoverImage($amaz->Items->Item->MediumImage, $imdbId);
-		}
-		*/
-		
 		//
 		// get album properties
 		//
-		
-		//`title` varchar(128) NOT NULL,
+
+		$mus['coverurl'] = (string) $amaz->Items->Item->MediumImage->URL;
+		if ($mus['coverurl'] != "")
+			$mus['cover'] = 1;
+		else
+			$mus['cover'] = 0;
+
 		$mus['title'] = (string) $amaz->Items->Item->ItemAttributes->Title;
 		if (empty($mus['title']))
 			$mus['title'] = $album;
 			
-  		//`asin` varchar(128) NULL,
-  		$mus['asin'] = (string) $amaz->Items->Item->ASIN;
-  		
-  		//`url` varchar(1000) NULL,
-  		$mus['url'] = (string) $amaz->Items->Item->DetailPageURL;
+		$mus['asin'] = (string) $amaz->Items->Item->ASIN;
 		
-		//`salesrank` int(10) unsigned NULL,
+		$mus['url'] = (string) $amaz->Items->Item->DetailPageURL;
+		
 		$mus['salesrank'] = (string) $amaz->Items->Item->SalesRank;
+		if ($mus['salesrank'] == "")
+			$mus['salesrank'] = 'null';
 		
-		//`artist` varchar(255) NULL,
 		$mus['artist'] = (string) $amaz->Items->Item->ItemAttributes->Artist;
 		if (empty($mus['artist']))
 			$mus['artist'] = $artist;
 		
-		//`publisher` varchar(255) NULL,
 		$mus['publisher'] = (string) $amaz->Items->Item->ItemAttributes->Publisher;
 		
-		//`releasedate` varchar(255) NULL,
-		$mus['releasedate'] = (string) $amaz->Items->Item->ItemAttributes->ReleaseDate;
+		$mus['releasedate'] = $db->escapeString((string) $amaz->Items->Item->ItemAttributes->ReleaseDate);
+		if ($mus['releasedate'] == "''")
+			$mus['releasedate'] = 'null';
 		
-		//`review` varchar(2000) NULL,
-		$mus['review'] = (string) $amaz->Items->Item->EditorialReviews->EditorialReview->Content;
+		$mus['review'] = "";
+		if (isset($amaz->Items->Item->EditorialReviews))
+			$mus['review'] = trim(strip_tags((string) $amaz->Items->Item->EditorialReviews->EditorialReview->Content));
 		
-		//`year` varchar(4) NOT NULL,
 		$mus['year'] = $year;
 		
-		//`tracks` varchar(2000) NULL,
-		$tmpTracks = (array) $amaz->Items->Item->Tracks->Disc;
-		$tracks = $tmpTracks['Track'];
-		$mus['tracks'] = (is_array($tracks) && !empty($tracks)) ? implode('|', $tracks) : '';
-		
+		$mus['tracks'] = "";
+		if (isset($amaz->Items->Item->Tracks))
+		{
+			$tmpTracks = (array) $amaz->Items->Item->Tracks->Disc;
+			$tracks = $tmpTracks['Track'];
+			$mus['tracks'] = (is_array($tracks) && !empty($tracks)) ? implode('|', $tracks) : '';
+		}
+				
 		/*
 		`musicgenreID` int(10) unsigned NULL,
 		*/
+		$mus["musicgenreID"] = -1;
 		
-		//end here to debug
-		return $mus;
-		
-		$db = new DB();
 		$query = sprintf("
-			INSERT INTO musicinfo 
-				(imdbID, tmdbID, title, rating, tagline, plot, year, genre, director, actors, language, cover, backdrop, createddate, updateddate)
-			VALUES 
-				(%d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, %d, NOW(), NOW())
-			ON DUPLICATE KEY UPDATE
-				imdbID=%d, tmdbID=%s, title=%s, rating=%s, tagline=%s, plot=%s, year=%s, genre=%s, director=%s, actors=%s, language=%s, cover=%d, backdrop=%d, updateddate=NOW()", 
-		$mov['imdb_id'], $mov['tmdb_id'], $db->escapeString($mov['title']), $db->escapeString($mov['rating']), $db->escapeString($mov['tagline']), $db->escapeString($mov['plot']), $db->escapeString($mov['year']), $db->escapeString($mov['genre']), $db->escapeString($mov['director']), $db->escapeString($mov['actors']), $db->escapeString($mov['language']), $mov['cover'], $mov['backdrop'],
-		$mov['imdb_id'], $mov['tmdb_id'], $db->escapeString($mov['title']), $db->escapeString($mov['rating']), $db->escapeString($mov['tagline']), $db->escapeString($mov['plot']), $db->escapeString($mov['year']), $db->escapeString($mov['genre']), $db->escapeString($mov['director']), $db->escapeString($mov['actors']), $db->escapeString($mov['language']), $mov['cover'], $mov['backdrop']);
+		INSERT INTO musicinfo  (`title`, `asin`, `url`, `salesrank`,  `artist`, `publisher`, `releasedate`, `review`,`year`, `musicgenreID`, `tracks`, `cover`, `createddate`, `updateddate`)
+		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        %s,        %d,        now(),        now())
+			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `artist` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s,  `year` = %s,  `musicgenreID` = %d,  `tracks` = %s,  `cover` = %d,  createddate = now(),  updateddate = now()", 
+		$db->escapeString($mus['title']), $db->escapeString($mus['asin']), $db->escapeString($mus['url']), 
+		$mus['salesrank'], $db->escapeString($mus['artist']), $db->escapeString($mus['publisher']), 
+		$mus['releasedate'], $db->escapeString($mus['review']), $db->escapeString($mus['year']), 
+		$mus['musicgenreID'], $db->escapeString($mus['tracks']), $mus['cover'], 
+		$db->escapeString($mus['title']), $db->escapeString($mus['asin']), $db->escapeString($mus['url']), 
+		$mus['salesrank'], $db->escapeString($mus['artist']), $db->escapeString($mus['publisher']), 
+		$mus['releasedate'], $db->escapeString($mus['review']), $db->escapeString($mus['year']), 
+		$mus['musicgenreID'], $db->escapeString($mus['tracks']), $mus['cover'] );
 		
 		$musicId = $db->queryInsert($query);
 
-		if ($musicId) {
+		if ($musicId) 
+		{
 			if ($this->echooutput)
-				echo "added/updated album: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
-		} else {
+				echo "added/updated album: ".$mus['title']." (".$mus['year'].")\n";
+
+			$mus['cover'] = $this->saveCoverImage($mus['coverurl'], $musicId);
+		} 
+		else 
+		{
 			if ($this->echooutput)
-				echo "nothing to update for album: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "nothing to update: ".$mus['title']." (".$mus['year'].")\n";
 		}
 		
 		return $musicId;
@@ -326,35 +331,18 @@ class Music
 			$im = @imagecreatefromstring($img);
 			if ($im !== false)
 			{
-				/*
-				$max_width = 1024; 
-				$max_height = 768; 
-				$width = imagesx($im);
-				$height = imagesy($im); 
-				$ratioh = $max_height/$height; 
-				$ratiow = $max_width/$width; 
-				$ratio = min($ratioh, $ratiow); 
-				// New dimensions 
-				$new_width = intval($ratio*$width); 
-				$new_height = intval($ratio*$height); 
-				if ($new_width < $width) {
-					$new_image = imagecreatetruecolor($new_width, $new_height);
-      				imagecopyresampled($new_image, $im, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-      				return $new_image;
-				}
-				*/
 				return $img;
 			}
 		}
 		return false;	
 	}
 	
-	public function saveCoverImage($imgUrl, $id, $type='cover')
+	public function saveCoverImage($imgUrl, $id)
 	{
 		$cover = $this->fetchCoverImage($imgUrl);
 		if ($cover !== false) 
 		{
-			$coverSave = @file_put_contents(WWW_DIR.'covers/music/'.$id.'-'.$type.'.jpg', $cover);
+			$coverSave = @file_put_contents(WWW_DIR.'covers/music/'.$id.'.jpg', $cover);
 			return ($coverSave !== false) ? 1 : 0;
 		}
 		return 0;
@@ -376,12 +364,11 @@ class Music
     	}
     	catch(Exception $e2)
     	{
-			if ($this->echooutput)
-				echo "Error fetching amazon properties - ".$e2->getMessage();
-				
+				if ($this->echooutput)
+					echo "Error fetching amazon properties - ".$e2->getMessage();
+					
 				$result = false;
-		}
-		return $result;
+			}
     }
 
 		return $result;
@@ -474,5 +461,14 @@ class Music
 		
 		return (!empty($result['artist']) && !empty($result['album'])) ? $result : false;
 	}
+
+    public function getGenres()
+    {
+			$db = new DB();
+			return $db->query("select * from musicgenre");		
+		}	
+
 }
+
+
 ?>
