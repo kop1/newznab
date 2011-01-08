@@ -10,63 +10,63 @@
 <tr>
 	<td><label for="title">Title</label>:</td>
 	<td>
-		<input id="title" class="long" name="title" type="text" value="{$movie.title|escape:'htmlall'}" />
+		<input id="title" class="long" name="title" type="text" value="{$music.title|escape:'htmlall'}" />
 	</td>
 </tr>
 
 <tr>
-	<td><label for="tagline">Tagline</label>:</td>
+	<td><label for="asin">ASIN</label>:</td>
 	<td>
-		<input id="tagline" class="long" name="tagline" type="text" value="{$movie.tagline|escape:'htmlall'}" />
+		<input id="asin" class="long" name="asin" type="text" value="{$music.asin|escape:'htmlall'}" />
 	</td>
 </tr>
 
 <tr>
-	<td><label for="plot">Plot</label>:</td>
+	<td><label for="url">URL</label>:</td>
 	<td>
-		<textarea id="plot" name="plot">{$movie.plot|escape:'htmlall'}</textarea>
+		<input id="url" class="long" name="url" type="text" value="{$music.url|escape:'htmlall'}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="salesrank">Sales Rank</label>:</td>
+	<td>
+		<input id="salesrank" class="short" type="text" name="salesrank" value="{$music.salesrank|escape:'htmlall'}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="artist">Artist</label>:</td>
+	<td>
+		<input id="artist" class="long" name="artist" type="text" value="{$music.artist|escape:'htmlall'}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="publisher">Publisher</label>:</td>
+	<td>
+		<input id="publisher" class="long" name="publisher" type="text" value="{$music.publisher|escape:'htmlall'}" />
+	</td>
+</tr>
+
+<tr>
+	<td><label for="releasedate">Release Date</label>:</td>
+	<td>
+		<input id="releasedate" name="releasedate" type="text" value="{$music.releasedate|escape:'htmlall'}" />
 	</td>
 </tr>
 
 <tr>
 	<td><label for="year">Year</label>:</td>
 	<td>
-		<input id="year" class="short" name="year" type="text" value="{$movie.year|escape:'htmlall'}" />
+		<input id="year" class="short" name="year" type="text" value="{$music.year|escape:'htmlall'}" />
 	</td>
 </tr>
 
 <tr>
-	<td><label for="rating">Rating</label>:</td>
+	<td><label for="tracks">Tracks</label>:</td>
 	<td>
-		<input id="rating" class="short" name="rating" type="text" value="{$movie.rating|escape:'htmlall'}" />
-	</td>
-</tr>
-
-<tr>
-	<td><label for="genre">Genre</label>:</td>
-	<td>
-		<input id="genre" class="long" name="genre" type="text" value="{$movie.genre|escape:'htmlall'}" />
-	</td>
-</tr>
-
-<tr>
-	<td><label for="director">Director</label>:</td>
-	<td>
-		<input id="director" class="long" name="director" type="text" value="{$movie.director|escape:'htmlall'}" />
-	</td>
-</tr>
-
-<tr>
-	<td><label for="actors">Actors</label>:</td>
-	<td>
-		<textarea id="actors" name="actors">{$movie.actors|escape:'htmlall'}</textarea>
-	</td>
-</tr>
-
-<tr>
-	<td><label for="language">Language</label>:</td>
-	<td>
-		<input id="language" class="long" name="language" type="text" value="{$movie.language|escape:'htmlall'}" />
+		<textarea id="tracks" name="tracks">{$music.tracks|escape:'htmlall'}</textarea>
 	</td>
 </tr>
 
@@ -74,18 +74,8 @@
 	<td><label for="cover">Cover Image</label>:</td>
 	<td>
 		<input type="file" id="cover" name="cover" />
-		{if $movie.cover == 1}
-			<img style="max-width:200px; display:block;" src="{$smarty.const.WWW_TOP}/../covers/movies/{$movie.imdbID}-cover.jpg" alt="" />
-		{/if}
-	</td>
-</tr>
-
-<tr>
-	<td><label for="backdrop">Backdrop Image</label>:</td>
-	<td>
-		<input type="file" name="backdrop" />
-		{if $movie.backdrop == 1}
-			<img style="max-width:200px; display:block;" src="{$smarty.const.WWW_TOP}/../covers/movies/{$movie.imdbID}-backdrop.jpg" alt="" />
+		{if $music.cover == 1}
+			<img style="max-width:200px; display:block;" src="{$smarty.const.WWW_TOP}/../covers/music/{$music.ID}.jpg" alt="" />
 		{/if}
 	</td>
 </tr>
