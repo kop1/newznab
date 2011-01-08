@@ -2,13 +2,6 @@
 require_once(WWW_DIR."/lib/releases.php");
 require_once(WWW_DIR."/lib/category.php");
 
-
-require_once(WWW_DIR."/lib/music.php");
-$m = new Music(true);
-$m->processMusicReleases();
-
-die();
-
 $releases = new Releases;
 
 if (!$users->isLoggedIn())
