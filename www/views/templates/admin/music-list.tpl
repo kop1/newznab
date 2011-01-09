@@ -17,9 +17,8 @@
 	<tr class="{cycle values=",alt"}">
 		<td class="less">{$music.ID}</td>
 		<td><a title="Edit" href="{$smarty.const.WWW_TOP}/music-edit.php?id={$music.ID}">{$music.title} ({$music.year})</a></td>
-		<td class="less">{$music.artist}</td>
-		<td class="less">{$movie.createddate|date_format}</td>
-		<td class="less"><a title="Update" href="{$smarty.const.WWW_TOP}/music-add.php?id={$music.ID}">Update</a></td>
+		<td>{$music.artist}</td>
+		<td>{$music.createddate|date_format}</td>
 	</tr>
 	{/foreach}
 
