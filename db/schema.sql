@@ -565,6 +565,9 @@ CREATE TABLE site (
 `lookupimdb` INT NOT NULL DEFAULT 1,
 `lookupnfo` INT NOT NULL DEFAULT 1,
 `lookupmusic` INT NOT NULL DEFAULT 1,
+`amazonpubkey` VARCHAR(255) NULL,
+`amazonprivkey` VARCHAR(255) NULL,
+`tmdbkey` VARCHAR(255) NULL,
 `compressedheaders` INT NOT NULL DEFAULT 0,
 `maxmssgs` INT NOT NULL DEFAULT 20000,
 `newgroupscanmethod` INT NOT NULL DEFAULT 0,
@@ -602,7 +605,10 @@ INSERT INTO `site`
 	`dereferrer_link`,
 	`nzbpath`,
 	`rawretentiondays`,
-	`attemptgroupbindays`
+	`attemptgroupbindays`,
+	`amazonpubkey`,
+	`amazonprivkey`,
+	`tmdbkey`
 	)
 	VALUES
 	(NULL, 'newznab', 'Newznab', 'A great usenet indexer', 'Newznab - A great usenet indexer', 
@@ -610,7 +616,7 @@ INSERT INTO `site`
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
 	NOW(), NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
-	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2);
+	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2, 'AKIAIPDNG5EU7LB4AD3Q', 'B58mVwyj+T/MEucxWugJ3GQ0CcW2kQq16qq/1WpS', '9a4e16adddcd1e86da19bcaf5ff3c2a3');
 
 
 DROP TABLE IF EXISTS `musicinfo`;

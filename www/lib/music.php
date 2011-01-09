@@ -3,6 +3,7 @@ require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/amazon.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/nfo.php");
+require_once(WWW_DIR."/lib/site.php");
 
 class Music
 {
@@ -10,6 +11,10 @@ class Music
 	{
 		$this->echooutput = $echooutput;
 		$this->genres = '';
+		$s = new Sites();
+		$site = $s->get();
+		$this->pubkey = $site->amazonpubkey;
+		$this->privkey = $site->amazonprivkey;
 	}
 	
 	public function getMusicInfo($id)
@@ -367,7 +372,7 @@ class Music
 	
 	public function fetchAmazonProperties($title)
 	{
-    $obj = new AmazonProductAPI();
+    $obj = new AmazonProductAPI($this->pubkey, $this->privkey);
     try
     {
          $result = $obj->searchProducts($title, AmazonProductAPI::MUSIC, "TITLE");
@@ -397,7 +402,7 @@ class Music
 		$db = new DB();
 		$nfo = new Nfo;
 		
-		$res = $db->queryDirect(sprintf("SELECT searchname, ID from releases where musicinfoID IS NULL and categoryID in ( select ID from category where parentID = %d )", Category::CAT_PARENT_MUSIC));
+		$res = $db->queryDirect(sprintf("SELECT searchname, ID from releases where musicinfoID IS NULL and categoryID in ( select ID from category where parentID = %d ) ORDER BY id DESC LIMIT 500", Category::CAT_PARENT_MUSIC));
 		if (mysql_num_rows($res) > 0)
 		{	
 			if ($this->echooutput)

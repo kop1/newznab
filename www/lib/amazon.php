@@ -40,14 +40,14 @@
          * @access private
          * @var string
          */
-        private $public_key     = "AKIAIPDNG5EU7LB4AD3Q";
+        private $public_key     = "";
         
         /**
          * Your Amazon Secret Access Key
          * @access private
          * @var string
          */
-        private $private_key    = "B58mVwyj+T/MEucxWugJ3GQ0CcW2kQq16qq/1WpS";
+        private $private_key    = "";
         
         /**
          * Constants for product types
@@ -65,6 +65,12 @@
         const DVD   = "DVD";
         const GAMES = "VideoGames";
         
+
+				public function __construct($pubk, $privk)
+				{
+					$this->public_key = (string) $pubk;
+					$this->private_key = (string) $privk;
+				}
         
         /**
          * Check if the xml received from Amazon is valid

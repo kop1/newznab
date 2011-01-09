@@ -3,14 +3,16 @@ require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/TMDb.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/nfo.php");
+require_once(WWW_DIR."/lib/site.php");
 
 class Movie
 {
-	const TMDBAPIKEY = '9a4e16adddcd1e86da19bcaf5ff3c2a3';
-	
 	function Movie($echooutput=false)
 	{
 		$this->echooutput = $echooutput;
+		$s = new Sites();
+		$site = $s->get();
+		$this->apikey = $site->tmdbkey;
 	}
 	
 	public function getMovieInfo($imdbId)
@@ -389,7 +391,7 @@ class Movie
 	
 	public function fetchTmdbProperties($imdbId)
 	{
-		$tmdb = new TMDb(Movie::TMDBAPIKEY);
+		$tmdb = new TMDb($this->apikey);
 		$lookupId = 'tt'.$imdbId;
 		$tmdbLookup = json_decode($tmdb->getMovie($lookupId, TMDb::IMDB));
 		if (!$tmdbLookup) { return false; }

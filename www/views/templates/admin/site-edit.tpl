@@ -146,6 +146,39 @@
 </table>
 </fieldset>
 
+
+<fieldset>
+<legend>3rd Party API Keys</legend>
+<table class="input">
+<tr>
+	<td style="width:160px;"><label for="tmdbkey">TMDB API Key</label>:</td>
+	<td>
+		<input id="tmdbkey" class="long" name="tmdbkey" type="text" value="{$fsite->tmdbkey}" />
+		<div class="hint">The api key used for access to tmdb</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="amazonpubkey">Amazon Public API Key</label>:</td>
+	<td>
+		<input id="amazonpubkey" class="long" name="amazonpubkey" type="text" value="{$fsite->amazonpubkey}" />
+		<div class="hint">The amazon public api key. Used for music lookups.</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="amazonprivkey">Amazon Private API Key</label>:</td>
+	<td>
+		<input id="amazonprivkey" class="long" name="amazonprivkey" type="text" value="{$fsite->amazonprivkey}" />
+		<div class="hint">The amazon private api key. Used for music lookups.</div>
+	</td>
+</tr>
+
+</table>
+</fieldset>
+
+
+
 <fieldset>
 <legend>Usenet Settings</legend>
 <table class="input">

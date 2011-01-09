@@ -20,6 +20,10 @@ pre-reqs
 		script timeout of at least 60 seconds
 		mod_rewrite enabled
 		.htaccess allow override on
+
+	3rd Party API Keys
+		tmdb
+		amazon
 		
 installation
 	there is an installer in \install\ try it first by creating your website
@@ -161,7 +165,12 @@ imdb/tmdb
 	get general data about the movie (title, year, genre, covers etc) from themoviedb.org. If no entry is 
 	available from tmdb then an attempt to gather the info from imdb.com is made. any results are stored
 	in the moveinfo table, with covers/backdrops being saved to the images/covers/.
-	
+
+3rd party api keys
+	in order to do lookups to tmdb and amazon, api keys are used. newznab is shipped with some default 
+	keys, but due to the restrictions on use of api's, it is strongly suggested you go and get your own 
+	api keys and save them in the site edit page.
+
 content/cms
 	pages can be added to the site with seo friendly urls via the /admin/ edit content links
 	

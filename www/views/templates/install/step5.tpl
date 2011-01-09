@@ -14,7 +14,7 @@
 		</tr>
 		<tr class="">
 			<td><label for="pass">Password:</label></td>
-			<td><input autocomplete="off" type="password" name="pass" id="pass" value="{$cfg->ADMIN_PASS}" /></td>
+			<td><input autocomplete="off" type="text" name="pass" id="pass" value="{$cfg->ADMIN_PASS}" /></td>
 		</tr>
 		<tr class="alt">
 			<td><label for="email">Email:</label> </td>
