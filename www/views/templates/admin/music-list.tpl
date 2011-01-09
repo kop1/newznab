@@ -10,7 +10,6 @@
 		<th>Title</th>
 		<th>Artist</th>
 		<th>Created</th>
-		<th></th>
 	</tr>
 	
 	{foreach from=$musiclist item=music}
