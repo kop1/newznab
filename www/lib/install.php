@@ -31,6 +31,7 @@ class Install {
 	public $sha1Check;
 	public $mysqlCheck;
 	public $gdCheck;
+	public $curlCheck;
 	public $cacheCheck;
 	public $movieCoversCheck;
 	public $musicCoversCheck;

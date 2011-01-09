@@ -23,6 +23,8 @@ if ($cfg->mysqlCheck === false) { $cfg->error = true; }
 
 $cfg->gdCheck = function_exists('imagecreatetruecolor');
 
+$cfg->curlCheck = function_exists('curl_init');
+
 $cfg->cacheCheck = is_writable($cfg->SMARTY_DIR.'/templates_c');
 if ($cfg->cacheCheck === false) { $cfg->error = true; }
 

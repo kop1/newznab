@@ -3,6 +3,10 @@
 		<th>check</th>
 		<th style="width:75px;">status</th>
 	</tr>
+	<tr class="alt">
+		<td>Checking for Curl support:{if !$cfg->curlCheck}<br /><span class="warn">The PHP installation lacks support for curl.</span>{/if}</td>
+		<td>{if $cfg->curlCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
+	</tr>
 	<tr class="">
 		<td>Checking for sha1():{if !$cfg->sha1Check}<br /><span class="error">The PHP installation lacks support for sha1.</span>{/if}</td>
 		<td>{if $cfg->sha1Check}<span class="success">OK</span>{else}<span class="error">Error</span>{/if}</td>
