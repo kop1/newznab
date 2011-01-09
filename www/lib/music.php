@@ -7,6 +7,8 @@ require_once(WWW_DIR."/lib/site.php");
 
 class Music
 {
+	const NUMTOPROCESSPERTIME = 250;
+	
 	function Music($echooutput=false)
 	{
 		$this->echooutput = $echooutput;
@@ -402,7 +404,7 @@ class Music
 		$db = new DB();
 		$nfo = new Nfo;
 		
-		$res = $db->queryDirect(sprintf("SELECT searchname, ID from releases where musicinfoID IS NULL and categoryID in ( select ID from category where parentID = %d ) ORDER BY id DESC LIMIT 500", Category::CAT_PARENT_MUSIC));
+		$res = $db->queryDirect(sprintf("SELECT searchname, ID from releases where musicinfoID IS NULL and categoryID in ( select ID from category where parentID = %d ) ORDER BY id DESC LIMIT %d", Category::CAT_PARENT_MUSIC, Music::NUMTOPROCESSPERTIME));
 		if (mysql_num_rows($res) > 0)
 		{	
 			if ($this->echooutput)
