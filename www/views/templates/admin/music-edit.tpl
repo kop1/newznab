@@ -17,7 +17,7 @@
 <tr>
 	<td><label for="asin">ASIN</label>:</td>
 	<td>
-		<input id="asin" class="long" name="asin" type="text" value="{$music.asin|escape:'htmlall'}" />
+		<input id="asin" name="asin" type="text" value="{$music.asin|escape:'htmlall'}" />
 	</td>
 </tr>
 
