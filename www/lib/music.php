@@ -146,7 +146,7 @@ class Music
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getMusicOrder($orderby);
-		$sql = sprintf(" SELECT r.*, m.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join musicinfo m on m.ID = r.musicID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		$sql = sprintf(" SELECT r.*, m.*, mg.title as genre, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join musicinfo m on m.ID = r.musicinfoID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID left outer join musicgenre mg on mg.ID = m.musicgenreID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
 	
@@ -155,8 +155,8 @@ class Music
 		$order = ($orderby == '') ? 'r.postdate' : $orderby;
 		$orderArr = explode("_", $order);
 		switch($orderArr[0]) {
-			case 'title':
-				$orderfield = 'm.title';
+			case 'artist':
+				$orderfield = 'm.artist';
 			break;
 			case 'size':
 				$orderfield = 'r.size';
@@ -170,8 +170,8 @@ class Music
 			case 'year':
 				$orderfield = 'm.year';
 			break;
-			case 'rating':
-				$orderfield = 'm.rating';
+			case 'genre':
+				$orderfield = 'm.musicgenreID';
 			break;
 			case 'posted': 
 			default:
@@ -184,12 +184,12 @@ class Music
 	
 	public function getMusicOrdering()
 	{
-		return array('title_asc', 'title_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'year_asc', 'year_desc', 'rating_asc', 'rating_desc');
+		return array('artist_asc', 'artist_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'year_asc', 'year_desc', 'genre_asc', 'genre_desc');
 	}
 	
 	public function getBrowseByOptions()
 	{
-		return array('title', 'director', 'actors', 'genre', 'rating', 'year', 'imdb');
+		return array('artist'=>'artist', 'genre'=>'musicgenreID', 'year'=>'year');
 	}
 	
 	public function getBrowseBy()
@@ -198,13 +198,13 @@ class Music
 		
 		$browseby = ' ';
 		$browsebyArr = $this->getBrowseByOptions();
-		foreach ($browsebyArr as $bb) {
-			if (isset($_REQUEST[$bb]) && !empty($_REQUEST[$bb])) {
-				$bbv = stripslashes($_REQUEST[$bb]);
-				if ($bb == 'id') {
-					$browseby .= "m.{$bb}ID = $bbv AND ";
+		foreach ($browsebyArr as $bbk=>$bbv) {
+			if (isset($_REQUEST[$bbk]) && !empty($_REQUEST[$bbk])) {
+				$bbs = stripslashes($_REQUEST[$bbk]);
+				if (preg_match('/id/i', $bbv)) {
+					$browseby .= "m.{$bbv} = $bbs AND ";
 				} else {
-					$browseby .= "m.$bb LIKE(".$db->escapeString('%'.$bbv.'%').") AND ";
+					$browseby .= "m.$bbv LIKE(".$db->escapeString('%'.$bbs.'%').") AND ";
 				}
 			}
 		}

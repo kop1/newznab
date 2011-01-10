@@ -33,22 +33,20 @@ $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_RE
 $results = $musics = array();
 $results = $music->getMusicRange($catarray, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"]);
 foreach($results as $result) {
-	$result['genre'] = $music->makeFieldLinks($result, 'genre');
-	$result['actors'] = $music->makeFieldLinks($result, 'actors');
-	$result['director'] = $music->makeFieldLinks($result, 'director');
-
+	//$result['genre'] = $music->makeFieldLinks($result, 'genre');
+	
 	$musics[] = $result;
 }
 
-$title = (isset($_REQUEST['title']) && !empty($_REQUEST['title'])) ? stripslashes($_REQUEST['title']) : '';
-$page->smarty->assign('title', $title);
+$artist = (isset($_REQUEST['artist']) && !empty($_REQUEST['artist'])) ? stripslashes($_REQUEST['artist']) : '';
+$page->smarty->assign('artist', $artist);
 
 $genres = $music->getGenres();
-$genre = (isset($_REQUEST['genre']) && in_array($_REQUEST['genre'], $genres)) ? $_REQUEST['genre'] : '';
+$genre = (isset($_REQUEST['genre']) && array_key_exists($_REQUEST['genre'], $genres)) ? $_REQUEST['genre'] : '';
 $page->smarty->assign('genres', $genres);
 $page->smarty->assign('genre', $genre);
 
-$years = range(1903, (date("Y")+1));
+$years = range(1950, (date("Y")+1));
 rsort($years);
 $year = (isset($_REQUEST['year']) && in_array($_REQUEST['year'], $years)) ? $_REQUEST['year'] : '';
 $page->smarty->assign('years', $years);
