@@ -6,7 +6,7 @@ h1, h2, h3 {	margin: 0;	font-weight: normal; color: #485459; }
 input, select, textarea { font-family: Calibri, Arial, Helvetica, sans-serif;}
 textarea { height:100px; width:300px;}
 h1 { font-size: 44px; padding-bottom:10px;}
-h2 { padding-bottom:5px; font-size: 18px; }
+h2 { padding-bottom:5px; font-size: 1.6em; }
 h3 { padding-top:10px;padding-bottom:5px;}
 p, ul, ol { margin-top: 0; line-height: 240%;	text-align: justify; }
 ul, ol { }
@@ -40,7 +40,7 @@ page structure
 #statusbar a { text-decoration: none; color: #515151;}
 
 #content { float: right; width: 585px;}
-#content h1 { font-size: 28px;}
+#content h1 { font-size: 2.3em;}
 #content p { margin-bottom:20px;}
 
 #adpanel { margin-left:15px;width:165px;float:right; }
@@ -141,9 +141,9 @@ pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 
 #backdrop { position: absolute; width: 810px; height: 455px; left: -1px; top: 5px; background-color: #000; overflow: hidden;}
 #backdrop img { opacity:0.5; width: 100%; height: 100%;}
 
-div.resextra { padding-top:7px; color: #555; font-size: 0.8em; height:16px; }
+div.resextra { padding-top:7px; color: #555; font-size: 0.9em; height:16px; }
 div.resextra a { color: #555; text-decoration:none; }
-div.movextra { padding-top:5px; color: #888; font-size: 0.8em; }
+div.movextra { padding-top:5px; color: #888; font-size: 0.9em; }
 div.movcover { width:125px; }
 div.resextra div.admin { float:right; }
 
