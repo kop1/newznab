@@ -289,7 +289,7 @@ class Music
 		
 		$mus['year'] = $year;
 		if ($mus['year'] == "" && $mus['releasedate'] != 'null')
-			$mus['year'] = substr($mus['releasedate'], 0, 4);
+			$mus['year'] = substr($mus['releasedate'], 1, 4);
 		
 		$mus['tracks'] = "";
 		if (isset($amaz->Items->Item->Tracks))
