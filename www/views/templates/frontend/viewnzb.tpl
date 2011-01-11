@@ -3,7 +3,7 @@
 
 <table class="data">
 	{if $isadmin}
-	<tr><th>Admin Functions:</th><td><a href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">[Edit]</a> <a class="confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Delete Release">[Delete]</a> <a class="confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">[Rebuild]</a></td></tr>
+	<tr><th>Admin Functions:</th><td><a class="rndbtn" href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">Edit</a> <a class="rndbtn confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Delete Release">Delete</a> <a class="rndbtn confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">Rebuild</a></td></tr>
 	{/if}
 	<tr><th>Name:</th><td>{$release.name|escape:"htmlall"}</td></tr>
 	{if $release.rageID > 0}
@@ -53,6 +53,32 @@
 		<br /><strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$release.imdbID}/" title="View IMDB">IMDB</a>]{if $movie.tmdbID != ''}&nbsp;&nbsp;[<a target="_blank" href="{$site->dereferrer_link}http://www.themoviedb.org/movie/{$movie.tmdbID}" title="View TMDb">TMDb</a>]{/if}
 	</td></tr>
 	{/if}
+	
+	{if $music.ID > 0}
+	<tr><th>Music Info:</th><td>
+		{if $music.cover == 1}<img src="{$smarty.const.WWW_TOP}/covers/music/{$music.ID}.jpg" alt="{$music.title}" height="120" align="left" hspace="10" />{/if}
+		<strong>{$music.title} {if $music.year != ""}({$music.year}){/if}</strong><br />
+
+		{if $music.genre != ""}<strong>Genre:</strong> {$music.genre}<br />{/if}
+		{if $music.publisher != ""}<strong>Publisher:</strong> {$music.publisher}<br />{/if}
+		{if $music.releasedate != ""}<strong>Released:</strong> {$music.releasedate|date_format}<br />{/if}
+		<strong>More:</strong> <a class="rndbtn" target="_blank" href="{$site->dereferrer_link}{$music.url}/" title="View Record">Amazon</a>
+	</td></tr>
+	
+	{if $music.tracks != ""}
+	<tr><th>Track Listing:</th><td>
+		<ol class="tracklist">
+			{assign var="tracksplits" value="|"|explode:$music.tracks}
+			{foreach from=$tracksplits item=tracksplit}
+			<li>{$tracksplit|trim}</li>
+			{/foreach}		
+		</ol>
+	</td></tr>
+	{/if}
+	
+	{if $music.review != ""}<tr><th>Music Review:</th><td>{$music.review}</td></tr>{/if}	
+	
+	{/if}	
 	
 	<tr><th>Poster:</th><td>{$release.fromname|escape:"htmlall"}</td></tr>
 	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format} ({$release.postdate|daysago})</td></tr>

@@ -40,9 +40,17 @@ if (isset($_GET["id"]))
 		}
 	}
 	
+	$mus = '';
+	if ($data['musicinfoID'] != '') {
+		require_once(WWW_DIR."/lib/music.php");
+		$music = new Music();
+		$mus = $music->getMusicInfo($data['musicinfoID']);
+	}	
+	
 	$page->smarty->assign('release',$data);
 	$page->smarty->assign('nfo',$nfo);
 	$page->smarty->assign('movie',$mov);
+	$page->smarty->assign('music',$mus);
 	$page->smarty->assign('comments',$comments);
 	$page->smarty->assign('similars',$similars);
 	$page->smarty->assign('searchname',$releases->getSimilarName($data['searchname']));

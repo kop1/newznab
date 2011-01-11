@@ -86,12 +86,11 @@
 				</div>
 			</td>
 			<td colspan="7" class="left" id="guid{$result.guid}">
-				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.artist} - {$result.title}</a> (<a class="title" title="{$result.year}" href="{$smarty.const.WWW_TOP}/music?year={$result.year}">{$result.year}</a>) {if $isadmin}&nbsp;&nbsp;<small>[ <a href="{$smarty.const.WWW_TOP}/admin/music-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">Edit</a> ]</small>{/if}</h2>
-				{if $result.tagline != ''}<b>{$result.tagline}</b><br />{/if}
-				{if $result.plot != ''}{$result.plot}<br /><br />{/if}
+				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.artist} - {$result.title}</a> (<a class="title" title="{$result.year}" href="{$smarty.const.WWW_TOP}/music?year={$result.year}">{$result.year}</a>)</h2>
 				{if $result.genre != ""}<b>Genre:</b> {$result.genre}<br />{/if}
-				<b>Publisher:</b> {$result.publisher}<br />
-				<b>Release:</b> {$result.releasedate|date_format}<br /><br />
+				{if $result.publisher != ""}<b>Publisher:</b> {$result.publisher}<br />{/if}
+				{if $result.releasedate != ""}<b>Released:</b> {$result.releasedate|date_format}<br />{/if}
+				<br />
 				<div class="movextra">
 					<b>{$result.searchname|escape:"htmlall"}</b> <a class="rndbtn" href="{$smarty.const.WWW_TOP}/music?artist={$result.artist}" title="View similar nzbs">Similar</a>
 					{if $isadmin}
