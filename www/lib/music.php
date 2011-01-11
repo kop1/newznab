@@ -490,7 +490,7 @@ class Music
 	public function getGenres()
 	{
 		$db = new DB();
-		return $db->query("select * from musicgenre");		
+		return $db->query("select * from musicgenre order by title");		
 	}	
 
 }
