@@ -21,7 +21,7 @@
 		<td>{$comment.text|escape:"htmlall"|nl2br}</td>
 		<td>{$comment.host}</td>
 		<td>
-			<a href="{$smarty.const.WWW_TOP}/../details/viewnzb/{$comment.guid}#comments">view</a> | 
+			<a href="{$smarty.const.WWW_TOP}/../details/{$comment.guid}#comments">view</a> | 
 			<a href="{$smarty.const.WWW_TOP}/comments-delete.php?id={$comment.ID}">delete</a>
 		</td>
 	</tr>
