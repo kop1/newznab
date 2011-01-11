@@ -2,9 +2,10 @@
 <h1>Browse Music</h1>
 
 <form name="browseby" action="music">
-<table border="0" cellpadding="2" cellspacing="0">
+<table class="rndbtn" border="0" cellpadding="2" cellspacing="0">
 	<tr>
 		<th class="left"><label for="musicartist">Artist</label></th>
+		<th class="left"><label for="musictitle">Title</label></th>
 		<th class="left"><label for="genre">Genre</label></th>
 		<th class="left"><label for="year">Year</label></th>
 		<th class="left"><label for="category">Category</label></th>
@@ -12,6 +13,7 @@
 	</tr>
 	<tr>
 		<td><input id="musicartist" type="text" name="artist" value="{$artist}" size="15" /></td>
+		<td><input id="musictitle" type="text" name="title" value="{$title}" size="15" /></td>
 		<td>
 			<select id="genre" name="genre">
 			<option class="grouping" value=""></option>
@@ -79,8 +81,8 @@
 					{if $result.nfoID > 0}<a href="{$smarty.const.WWW_TOP}/nfo/{$result.guid}" title="View Nfo" class="rndbtn modal_nfo" rel="nfo">Nfo</a>{/if}
 					<!--
 					<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="name{$result.imdbID}" title="View movie info" class="rndbtn modal_imdb" rel="movie" >Cover</a>
-					<a class="rndbtn" target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$result.imdbID}/" name="imdb{$result.imdbID}" title="View imdb page">Imdb</a>
 					-->
+					<a class="rndbtn" target="_blank" href="{$site->dereferrer_link}{$result.url}" name="amazon{$result.musicinfoID}" title="View amazon page">Amazon</a>
 					<a class="rndbtn" href="{$smarty.const.WWW_TOP}/browse?g={$result.group_name}" title="Browse releases in {$result.group_name|replace:"alt.binaries":"a.b"}">Grp</a>
 				</div>
 				</div>

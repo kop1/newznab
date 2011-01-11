@@ -189,7 +189,7 @@ class Music
 	
 	public function getBrowseByOptions()
 	{
-		return array('artist'=>'artist', 'genre'=>'musicgenreID', 'year'=>'year');
+		return array('artist'=>'artist', 'title'=>'title', 'genre'=>'musicgenreID', 'year'=>'year');
 	}
 	
 	public function getBrowseBy()

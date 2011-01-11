@@ -14,7 +14,7 @@
 	<td>Group:</td>
 	<td>
 		<input type="hidden" name="id" value="{$regex.ID}" />
-		<input id="groupname" name="groupname" value="{$regex.groupname|escape:html}" />
+		<input type="text" id="groupname" name="groupname" value="{$regex.groupname|escape:html}" />
 		<div class="hint">The full name of a valid newsgroup. (NOTE: Wildcard's will not work here)</div>		
 	</td>
 </tr>

@@ -41,6 +41,9 @@ foreach($results as $result) {
 $artist = (isset($_REQUEST['artist']) && !empty($_REQUEST['artist'])) ? stripslashes($_REQUEST['artist']) : '';
 $page->smarty->assign('artist', $artist);
 
+$title = (isset($_REQUEST['title']) && !empty($_REQUEST['title'])) ? stripslashes($_REQUEST['title']) : '';
+$page->smarty->assign('title', $title);
+
 $genres = $music->getGenres();
 $genre = (isset($_REQUEST['genre']) && array_key_exists($_REQUEST['genre'], $genres)) ? $_REQUEST['genre'] : '';
 $page->smarty->assign('genres', $genres);
@@ -52,8 +55,7 @@ $year = (isset($_REQUEST['year']) && in_array($_REQUEST['year'], $years)) ? $_RE
 $page->smarty->assign('years', $years);
 $page->smarty->assign('year', $year);
 
-$browseby_link = "";
-//$browseby_link = '&amp;title='.$title.'&amp;actors='.$actors.'&amp;director='.$director.'&amp;rating='.$rating.'&amp;genre='.$genre.'&amp;year='.$year;
+$browseby_link = '&amp;title='.$title.'&amp;artist='.$artist.'&amp;genre='.$genre.'&amp;year='.$year;
 
 $page->smarty->assign('pagertotalitems',$browsecount);
 $page->smarty->assign('pageroffset',$offset);

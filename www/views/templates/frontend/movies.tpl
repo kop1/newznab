@@ -2,7 +2,7 @@
 <h1>Browse {$catname}</h1>
 
 <form name="browseby" action="movies">
-<table border="0" cellpadding="2" cellspacing="0">
+<table class="rndbtn" border="0" cellpadding="2" cellspacing="0">
 	<tr>
 		<th class="left"><label for="movietitle">Title</label></th>
 		<th class="left"><label for="movieactors">Actor</label></th>

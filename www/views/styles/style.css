@@ -70,6 +70,8 @@ page structure
 menu structure (the browse by category menu)
 */
 #menu { height:33px; float: left; width: 100%; background-color:#e5e5e5; }
+#menu { padding-left:4px; padding-right:4px; margin-right:1px; border:1px #CCC solid; background-color:#e5e5e5; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
+
 .menupic {padding-left:15px;}
 
 #menulink { float: left; }
@@ -111,7 +113,7 @@ misc site style such as data tables,
 table.data { border-collapse:collapse; }
 table.data th { text-align:left; vertical-align:top; background-color:#DDD; border-color: #AAA; border-width: 1px; border-style: solid; padding:3px; font-style:bolder; text-transform:capitalize;}
 table.data td { white-space:normal; vertical-align:top; padding:5px; border-color: #AAA; border-width: 1px; border-style: solid; }
-table.data td.less { color: #888; font-size: 0.8em; white-space:nowrap; }
+table.data td.less { color: #888; font-size: 0.9em; white-space:nowrap; }
 table.data td.icons { white-space:nowrap; padding-left:0px; padding-right:0px; width:60px; }
 table.data td.check {cursor:pointer;}
 table.highlight tr:hover td { background-color: #E1F0D9; }

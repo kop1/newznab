@@ -23,6 +23,7 @@ table.data td.less, div.resextra {font-size: 0.9em;}
 /* menu bar background colours*/
 #menulink a, #menulink :visited, #menulink li, #menu {color:#fff;  background-color:#333;}
 #menulink :hover { color: #fff; background-color: #555; }
+#menu { padding-left:0px; padding-right:0px; margin-right:0px; border:0px; background-color:#333; -moz-border-radius: 0px;  -webkit-border-radius: 0px;}
 
 #logo { height: 67px; }
 #logo ul ul {list-style-image: url('images/menubullet.jpg');}
