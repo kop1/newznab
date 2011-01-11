@@ -29,7 +29,7 @@ switch($action)
     	}
     	else
     	{
-			$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"], $_POST["role"], $_POST["invites"], (isset($_POST['movieview']) ? "1" : "0"));
+			$ret = $users->update($_POST["id"], $_POST["username"], $_POST["email"], $_POST["grabs"], $_POST["role"], $_POST["invites"], (isset($_POST['movieview']) ? "1" : "0"), (isset($_POST['musicview']) ? "1" : "0"));
 		}
 
 				if ($ret >= 0)

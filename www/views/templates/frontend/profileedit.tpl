@@ -28,6 +28,12 @@
 			<div class="hint">Browse movie covers. Only shows movies with known IMDB info.</div>
 		</td>
 	</tr>
+	<tr><th>View Music Page:</th>
+		<td>
+			<input id="musicview" name="musicview" value="1" type="checkbox" {if $user.musicview=="1"}checked="checked"{/if}></input>
+			<div class="hint">Browse music covers. Only shows music with known lookup info.</div>
+		</td>
+	</tr>
 	<tr><th>Excluded Categories:</th>
 		<td>
 			{html_options style="height:105px;" multiple=multiple name=exccat[] options=$catlist selected=$userexccat}
