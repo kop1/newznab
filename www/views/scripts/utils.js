@@ -55,6 +55,16 @@ jQuery(function($){
 	}).click(function(){
 		$('#colorbox').removeClass().addClass('cboxMovie');	
 	});
+
+	$("table.data a.modal_music").colorbox({	 // Music modal
+		href: function(){ return SERVERROOT + "musicmodal/"+$(this).attr('name').substring(4)+'&modal'; },
+		title: function(){ return $(this).parent().parent().children('a.title').text(); },
+		innerWidth:"800px", innerHeight:"450px", initialWidth:"800px", initialHeight:"450px", speed:0, opacity:0.7
+	}).click(function(){
+		$('#colorbox').removeClass().addClass('cboxMusic');	
+	});
+
+
 	$('#nzb_multi_operations_form').submit(function(){return false;});
 	$('input.nzb_multi_operations_download').click(function(){
 		var ids = "";

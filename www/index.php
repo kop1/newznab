@@ -20,6 +20,7 @@ switch($page->page) {
 	case 'movie':
 	case 'series':
 	case 'music':
+	case 'musicmodal':
 	case 'nfo':
 	case 'details':
 	case 'filelist':
