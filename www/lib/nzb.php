@@ -88,7 +88,7 @@ class NZB
 	   
 	    $nzb = str_replace("\x0F", "", $nzb);
 	   	$num_pars = 0;
-	    $xml = @simplexml_load_string($nzb);
+	    $xml = @simplexml_load_string(html_entity_decode($nzb, ENT_NOQUOTES));
 	    if (!$xml || strtolower($xml->getName()) != 'nzb') 
 	      return false;
 
