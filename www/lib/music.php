@@ -305,13 +305,20 @@ class Music
 		foreach($amazGenres as $amazGenre) {
 			foreach($amazGenre as $ag) {
 				$tmpGenre = strtolower( (string) $ag->Name );
-				if (in_array($tmpGenre, $genres)) {
-					$genreKey = array_search($tmpGenre, $genres);
-					$genreName = $tmpGenre;
-					break;
-				} else {
-					//TODO: we got a genre but its not stored in our musicgenre table
-					$genreName = (string) $ag->Name;
+				if (!empty($tmpGenre)) {
+					if (in_array($tmpGenre, $genres)) {
+						$genreKey = array_search($tmpGenre, $genres);
+						$genreName = $tmpGenre;
+						break;
+					} else {
+						//we got a genre but its not stored in our musicgenre table
+						$genreName = (string) $ag->Name;
+						$genreKey = $db->queryInsert(sprintf("INSERT INTO musicgenre (`title`) VALUES (%s)", $db->escapeString($genreName)));
+						$nextId = sizeof($this->genres)+1;
+						$this->genres[$nextId]['ID'] = $genreKey;
+						$this->genres[$nextId]['title'] = $genreName;
+						break;
+					}
 				}
 			}
 		}
