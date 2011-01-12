@@ -26,9 +26,9 @@ class NZB
 			gzwrite($fp, "<nzb xmlns=\"http://www.newzbin.com/DTD/2003/nzb\">\n\n"); 
 			gzwrite($fp, "<head>\n"); 
 			if ($catrow)
-				gzwrite($fp, " <meta type=\"category\">".htmlentities($catrow["title"], ENT_QUOTES)."</meta>\n"); 
+				gzwrite($fp, " <meta type=\"category\">".htmlspecialchars($catrow["title"], ENT_QUOTES, 'utf-8')."</meta>\n"); 
 			if ($name != "")
-				gzwrite($fp, " <meta type=\"name\">".htmlentities($name, ENT_QUOTES)."</meta>\n"); 
+				gzwrite($fp, " <meta type=\"name\">".htmlspecialchars($name, ENT_QUOTES, 'utf-8')."</meta>\n"); 
 			gzwrite($fp, "</head>\n\n"); 
 	
 			$result = $db->queryDirect(sprintf("SELECT binaries.*, UNIX_TIMESTAMP(date) AS unixdate, groups.name as groupname FROM binaries inner join groups on binaries.groupID = groups.ID WHERE binaries.releaseID = %d ORDER BY binaries.name", $relid));
@@ -43,7 +43,7 @@ class NZB
 				if (count($groups) == 0)
 					$groups[] = $binrow["groupname"];
 
-				gzwrite($fp, "<file poster=\"".htmlentities($binrow["fromname"], ENT_QUOTES)."\" date=\"".$binrow["unixdate"]."\" subject=\"".htmlentities($binrow["name"], ENT_QUOTES)." (1/".$binrow["totalParts"].")\">\n"); 
+				gzwrite($fp, "<file poster=\"".htmlspecialchars($binrow["fromname"], ENT_QUOTES, 'utf-8')."\" date=\"".$binrow["unixdate"]."\" subject=\"".htmlspecialchars($binrow["name"], ENT_QUOTES, 'utf-8')." (1/".$binrow["totalParts"].")\">\n"); 
 				gzwrite($fp, " <groups>\n"); 
 				foreach ($groups as $group)
 					gzwrite($fp, "  <group>".$group."</group>\n"); 
@@ -53,7 +53,7 @@ class NZB
 				$resparts = $db->queryDirect(sprintf("SELECT DISTINCT(messageID), size, partnumber FROM parts WHERE binaryID = %d ORDER BY partnumber", $binrow["ID"]));
 				while ($partsrow = mysql_fetch_assoc($resparts)) 
 				{				
-					gzwrite($fp, "  <segment bytes=\"".$partsrow["size"]."\" number=\"".$partsrow["partnumber"]."\">".htmlentities($partsrow["messageID"], ENT_QUOTES)."</segment>\n"); 
+					gzwrite($fp, "  <segment bytes=\"".$partsrow["size"]."\" number=\"".$partsrow["partnumber"]."\">".htmlspecialchars($partsrow["messageID"], ENT_QUOTES, 'utf-8')."</segment>\n"); 
 				}
 				gzwrite($fp, " </segments>\n</file>\n"); 
 			}
@@ -88,7 +88,7 @@ class NZB
 	   
 	    $nzb = str_replace("\x0F", "", $nzb);
 	   	$num_pars = 0;
-	    $xml = @simplexml_load_string(html_entity_decode($nzb, ENT_NOQUOTES));
+	    $xml = @simplexml_load_string($nzb);
 	    if (!$xml || strtolower($xml->getName()) != 'nzb') 
 	      return false;
 

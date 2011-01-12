@@ -15,6 +15,8 @@ class DB
 			mysql_select_db(DB_NAME)
 			or die("fatal error: could not select database! Check your config.");
 			
+			mysql_set_charset('utf8');
+			
 			DB::$initialized = true;
 		}			
 	}	

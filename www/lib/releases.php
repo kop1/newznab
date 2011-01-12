@@ -1119,7 +1119,7 @@ class Releases
 				$reqID = $reqIDused;
 
 			//Clean release name
-			$cleanArr = array('#', '@', '$', '%', '^', '¤', '¬', '©', '…');
+			$cleanArr = array('#', '@', '$', '%', '^', 'Â§', 'Â¨', 'Â©', 'Ã–');
 			$cleanRelName = str_replace($cleanArr, '', $row['relname']);
 			
 			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID, passwordstatus) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s, %d)", 
