@@ -44,7 +44,7 @@ $page->smarty->assign('artist', $artist);
 $title = (isset($_REQUEST['title']) && !empty($_REQUEST['title'])) ? stripslashes($_REQUEST['title']) : '';
 $page->smarty->assign('title', $title);
 
-$genres = $music->getGenres();
+$genres = $music->getGenres(true);
 $genre = (isset($_REQUEST['genre']) && array_key_exists($_REQUEST['genre'], $genres)) ? $_REQUEST['genre'] : '';
 $page->smarty->assign('genres', $genres);
 $page->smarty->assign('genre', $genre);

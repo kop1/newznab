@@ -487,10 +487,13 @@ class Music
 		return (!empty($result['artist']) && !empty($result['album'])) ? $result : false;
 	}
 
-	public function getGenres()
+	public function getGenres($activeOnly=false)
 	{
 		$db = new DB();
-		return $db->query("select * from musicgenre order by title");		
+		if ($activeOnly)
+			return $db->query("SELECT musicgenre.* FROM musicgenre INNER JOIN (SELECT DISTINCT musicgenreID FROM musicinfo) X ON X.musicgenreID = musicgenre.ID ORDER BY title");		
+		else
+			return $db->query("select * from musicgenre order by title");		
 	}	
 
 }
