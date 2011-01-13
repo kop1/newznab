@@ -1,5 +1,3 @@
-ALTER TABLE  `binaries` DROP INDEX  `ix_binary_name`;
-ALTER TABLE  `binaries` DROP INDEX  `ix_name_fromname_groupID`;
 
 ALTER TABLE  `binaries` CHANGE  `name`  `name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT  '' ,
 CHANGE  `fromname`  `fromname` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT  '' ,
