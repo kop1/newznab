@@ -22,7 +22,7 @@ class Music
 	public function getMusicInfo($id)
 	{
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT * FROM musicinfo where ID = %d", $id));
+		return $db->queryOneRow(sprintf("SELECT musicinfo.*, musicgenre.title as genre FROM musicinfo left outer join musicgenre on musicgenre.ID = musicinfo.musicgenreID where musicinfo.ID = %d ", $id));
 	}
 
 	public function getMusicInfoByName($artist, $album)
