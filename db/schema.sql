@@ -15,6 +15,7 @@ CREATE TABLE `binaries` (
 		`reqID` INT NULL,
 		`relpart` INT DEFAULT 0,
 		`reltotalpart` INT DEFAULT 0,
+		`binaryhash` VARCHAR(255) NOT NULL,
 		`relname` VARCHAR(255) NULL,
 		`importname` VARCHAR(255) NULL,
 		`releaseID` INT NULL,
@@ -23,14 +24,13 @@ CREATE TABLE `binaries` (
 		KEY `fromname` (`fromname`),
 		KEY `date` (`date`),
 		KEY `groupID` (`groupID`)
-		) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+		) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
-CREATE FULLTEXT INDEX ix_binary_name ON binaries (name);
 CREATE INDEX ix_binary_relname ON binaries (relname);
 CREATE INDEX ix_binary_procstat ON binaries (procstat);
 CREATE INDEX ix_binary_releaseID ON binaries (releaseID);
 CREATE INDEX ix_binary_dateadded ON binaries (dateadded);
-CREATE INDEX ix_name_fromname_groupID ON binaries (name, fromname, groupID);
+CREATE INDEX ix_binary_binaryhash ON binaries (binaryhash);
 CREATE INDEX ix_binary_groupID_procstat ON binaries (procstat, groupID);
 
 DROP TABLE IF EXISTS `releases`;
@@ -60,9 +60,8 @@ CREATE TABLE `releases`
 `grabs` INT UNSIGNED NOT NULL DEFAULT '0',
 `comments` INT NOT NULL DEFAULT 0,
 `passwordstatus` INT NOT NULL DEFAULT 0,
-PRIMARY KEY  (`ID`),
-FULLTEXT KEY `searchname` (`searchname`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+PRIMARY KEY  (`ID`)
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_releases_adddate ON releases (`adddate`);
 CREATE INDEX ix_releases_postdate ON releases (`postdate`);
@@ -81,7 +80,7 @@ CREATE TABLE `releasecomment`
 `createddate` DATETIME DEFAULT NULL,
 `host` VARCHAR(15) NULL,
 PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_releasecomment_releaseID ON releasecomment (`releaseID`);
 CREATE INDEX ix_releasecomment_userID ON releasecomment (`userID`);
@@ -98,7 +97,7 @@ CREATE TABLE `menu`
 `ordinal` INT(11) UNSIGNED NOT NULL,
 `menueval` VARCHAR(2000) NOT NULL DEFAULT '',
 PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 
 INSERT INTO menu (`href`, `title`, `tooltip`, `role`, `ordinal` )
@@ -163,7 +162,7 @@ CREATE TABLE `releasenfo` (
   `attempts` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `nfo` BLOB NULL DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE UNIQUE INDEX ix_releasenfo_releaseID ON releasenfo (`releaseID`);
 
@@ -177,7 +176,7 @@ CREATE TABLE `binaryblacklist` (
   `status` INT(11) UNSIGNED NOT NULL DEFAULT 1,
   `description` VARCHAR(1000) NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=100000 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=100000 ;
 
 INSERT INTO `binaryblacklist` (`ID`, `groupname`, `regex`, `optype`, `status`, `description`) VALUES (100000, 'alt.binaries.boneless', 'usenet-4all|u4all|usenet4all', 2, 0, 'only allow u4all posts in boneless');
 
@@ -191,7 +190,7 @@ CREATE TABLE `releaseregex` (
   `description` VARCHAR(1000) NULL,
   `categoryID` INT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=100000 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=100000 ;
 
 INSERT INTO `releaseregex` (`ID`, `groupname`, `regex`, `ordinal`, `status`, `description`, `categoryID`) VALUES (1, NULL, '/^\\((?P<name>.*)\\).*?\\[(?P<parts>\\d{2,3}\\/\\d{2,3})/i', 52, 0, '', NULL);
 
@@ -206,7 +205,7 @@ CREATE TABLE `tvrage`
 `imgdata` longblob null,
 `createddate` DATETIME DEFAULT NULL,
 PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_tvrage_rageID ON tvrage (`rageID`);
 
@@ -232,7 +231,7 @@ CREATE TABLE `movieinfo`
   `updateddate` datetime NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `imdbID` (`imdbID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 
 DROP TABLE IF EXISTS `groups`;
@@ -250,7 +249,7 @@ CREATE TABLE `groups` (
   `description` VARCHAR(255) NULL DEFAULT '',
   PRIMARY KEY  (`ID`),
   KEY `active` (`active`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 ALTER TABLE groups ADD UNIQUE (NAME);
 
@@ -387,7 +386,7 @@ CREATE TABLE `parts` (
   `dateadded` DATETIME DEFAULT NULL,
   PRIMARY KEY  (`ID`),
   KEY `binaryID` (`binaryID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 CREATE INDEX ix_parts_dateadded ON parts (dateadded);
 CREATE INDEX ix_parts_number ON parts (number);
@@ -400,7 +399,7 @@ CREATE TABLE `partrepair` (
   `attempts` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `ix_partrepair_numberID_groupID` (`numberID`,`groupID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 
 DROP TABLE IF EXISTS `category`;
@@ -411,7 +410,7 @@ CREATE TABLE category
 `parentID` INT NULL,
 `status` INT NOT NULL DEFAULT '1',
 `description` varchar(255) null
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=100000 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=100000 ;
 
 INSERT INTO category (ID, title) VALUES (1000, 'Console');
 INSERT INTO category (ID, title) VALUES (2000, 'Movies');
@@ -481,7 +480,7 @@ CREATE TABLE `users` (
   `movieview` int not null default 1,
   `musicview` int not null default 1,
   PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `usercart`;
 CREATE TABLE `usercart` (
@@ -490,7 +489,7 @@ CREATE TABLE `usercart` (
   `releaseID` INT NOT NULL,
   `createddate` DATETIME NOT NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 CREATE UNIQUE INDEX ix_usercart_userrelease ON usercart (userID, releaseID);
 
 DROP TABLE IF EXISTS `userexcat`;
@@ -500,7 +499,7 @@ CREATE TABLE `userexcat` (
   `categoryID` INT NOT NULL,
   `createddate` DATETIME NOT NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 CREATE UNIQUE INDEX ix_userexcat_usercat ON userexcat (userID, categoryID);
 
 DROP TABLE IF EXISTS `userinvite`;
@@ -510,7 +509,7 @@ CREATE TABLE `userinvite` (
   `userID` int(11) UNSIGNED NOT NULL,
   `createddate` datetime not null,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `content`;
 CREATE TABLE content
@@ -526,7 +525,7 @@ CREATE TABLE content
 `status` INT NOT NULL,
 `ordinal` INT NULL,
 `role` INT NOT NULL DEFAULT 0
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 INSERT INTO content (title, body, contenttype, STATUS, metadescription, metakeywords, showinmenu)
 VALUES ('welcome to newznab', '<p>A usenet indexing community site thats easy to configure.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>', 3, 1, '', '', 0);
@@ -582,7 +581,7 @@ CREATE TABLE site (
 `releaseretentiondays` INT NOT NULL DEFAULT 0,
 `checkpasswordedrar` INT NOT NULL DEFAULT 0,
 `showpasswordedrelease` INT NOT NULL DEFAULT 0
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 
 INSERT INTO `site`
@@ -639,7 +638,7 @@ CREATE TABLE `musicinfo`
   `createddate` datetime NOT NULL,
   `updateddate` datetime NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 
 
@@ -649,7 +648,7 @@ CREATE TABLE `musicgenre`
   `ID` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MYISAM DEFAULT CHARSET latin1 COLLATE latin1_general_ci AUTO_INCREMENT=1 ;
+) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 INSERT INTO `musicgenre` 
 (

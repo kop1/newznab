@@ -28,7 +28,7 @@ if  ($page->isPostBack()) {
 	$cfg->dbNameCheck = mysql_select_db($cfg->DB_NAME);
 	if ($cfg->dbNameCheck === false) 
 	{
-		$result = @mysql_query("CREATE DATABASE ".$cfg->DB_NAME);	
+		$result = @mysql_query("CREATE DATABASE ".$cfg->DB_NAME." DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci");	
 		$cfg->dbNameCheck = mysql_select_db($cfg->DB_NAME);
 		if ($cfg->dbNameCheck === false) 
 		{
