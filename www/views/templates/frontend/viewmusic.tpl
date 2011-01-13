@@ -1,6 +1,6 @@
 <div id="musicinfo">
 
-{if $music.cover == 1}<img src="{$smarty.const.WWW_TOP}/covers/music/{$music.ID}.jpg" class="cover" alt="{$movie.title|ss}" align="right" />{/if}
+<img src="{$smarty.const.WWW_TOP}/covers/music/{if $music.cover == 1}{$music.ID}{else}no-cover{/if}.jpg" class="cover" alt="{$movie.title|ss}" align="right" />
 
 <h1>{$music.title} {if $music.year != ""}({$music.year}){/if}</h1>
 
