@@ -239,8 +239,8 @@ class Binaries
 				if(is_numeric($matches[1]) && is_numeric($matches[2]))
 				{
 					array_map('trim', $matches);
-					$subject = trim(preg_replace($pattern, '', $msg['Subject']));
-		
+					$subject = utf8_encode(trim(preg_replace($pattern, '', $msg['Subject'])));
+
 					if(!isset($this->message[$subject]))
 					{
 						$this->message[$subject] = $msg;
@@ -293,7 +293,8 @@ class Binaries
 						$res = $db->queryOneRow(sprintf("SELECT ID FROM binaries WHERE binaryhash = %s", $db->escapeString($binaryHash)));
 						if(!$res)
 						{
-							$binaryID = $db->queryInsert(sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, binaryhash, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, %s, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID'], $db->escapeString($binaryHash)));
+							$sql = sprintf("INSERT INTO binaries (name, fromname, date, xref, totalparts, groupID, binaryhash, dateadded) VALUES (%s, %s, FROM_UNIXTIME(%s), %s, %s, %d, %s, now())", $db->escapeString($subject), $db->escapeString($data['From']), $db->escapeString($data['Date']), $db->escapeString($data['Xref']), $db->escapeString($data['MaxParts']), $groupArr['ID'], $db->escapeString($binaryHash));
+							$binaryID = $db->queryInsert($sql);
 							$count++;
 							if ($count%500==0) echo "$count bin adds...";
 						}
