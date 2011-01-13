@@ -29,6 +29,9 @@
 	{if $release.cover == 1}
 		<img style="margin-left:10px;margin-bottom:10px;float:right;" src="{$serverroot}covers/movies/{$release.imdbID}-cover.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
 	{/if}
+	{if $release.mu_cover == 1}
+		<img style="margin-left:10px;margin-bottom:10px;float:right;" src="{$serverroot}covers/music/{$release.musicinfoID}.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
+	{/if}	
 	<ul>
 	<li>ID: <a href="{$serverroot}details/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
@@ -42,7 +45,7 @@
 		{if $release.imdbID != ""}
 		<li>Imdb Info: 
 			<ul>
-				<li>Link: <a href="http://www.imdb.com/title/tt{$release.imdbID}/">{$release.searchname}</a></li>
+				<li>IMDB Link: <a href="http://www.imdb.com/title/tt{$release.imdbID}/">{$release.searchname}</a></li>
 				{if $release.rating != ""}<li>Rating: {$release.rating}</li>{/if}
 				{if $release.plot != ""}<li>Plot: {$release.plot}</li>{/if}
 				{if $release.year != ""}<li>Year: {$release.year}</li>{/if}
@@ -54,6 +57,33 @@
 		{/if}
 		</ul>
 	{/if}
+	
+	{if $release.parentCategoryID == 3000}
+		{if $release.musicinfoID > 0}
+		<li>Music Info: 
+			<ul>
+				{if $release.mu_url != ""}<li>Amazon: <a href="{$release.mu_url}">{$release.mu_title}</a></li>{/if}
+				{if $release.mu_artist != ""}<li>Artist: {$release.mu_artist}</li>{/if}
+				{if $release.mu_genre != ""}<li>Genre: {$release.mu_genre}</li>{/if}
+				{if $release.mu_publisher != ""}<li>Publisher: {$release.mu_publisher}</li>{/if}
+				{if $release.year != ""}<li>Released: {$release.mu_releasedate|date_format}</li>{/if}
+				{if $release.mu_review != ""}<li>Review: {$release.mu_review}</li>{/if}
+				{if $release.mu_tracks != ""}
+				<li>Track Listing:
+					<ol>
+						{assign var="tracksplits" value="|"|explode:$release.mu_tracks}
+						{foreach from=$tracksplits item=tracksplit}
+						<li>{$tracksplit|trim}</li>
+						{/foreach}		
+					</ol>
+				</li>				
+				{/if}
+			</ul>
+		</li>
+		{/if}
+		</ul>
+	{/if}	
+	
 	</div>
 	<div style="clear:both;">
 	{/strip}]]>
