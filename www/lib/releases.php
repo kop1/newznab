@@ -489,7 +489,7 @@ class Releases
 		else
 			$order = $this->getBrowseOrder($orderby);
 
-		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s order by %s %s limit %d, %d ", $searchsql, $catsrch, $maxage, $exccatlist, $order[0], $order[1], $offset, $limit), true);
+		$res = $db->query(sprintf("select SQL_CALC_FOUND_ROWS releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID, cp.ID as categoryParentID from releases left outer join releasenfo rn on rn.releaseID = releases.ID left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s order by %s %s limit %d, %d ", $searchsql, $catsrch, $maxage, $exccatlist, $order[0], $order[1], $offset, $limit), true);
 
 		return $res;
 	}	
@@ -665,9 +665,17 @@ class Releases
 		if (!$results)
 			return $results;
 
+		//
+		// Get the category for the parent of this release
+		//
+		$currRow = $this->getById($currentid);
+		$cat = new Category();
+		$catrow = $cat->getById($currRow["categoryID"]);
+		$parentCat = $catrow["parentID"];
+		
 		$ret = array();
 		foreach ($results as $res)
-			if ($res["ID"] != $currentid)
+			if ($res["ID"] != $currentid && $res["categoryParentID"] == $parentCat)
 				$ret[] = $res;
 
 		return $ret;

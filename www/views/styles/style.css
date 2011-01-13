@@ -144,7 +144,7 @@ pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 
 #backdrop img { opacity:0.5; width: 100%; height: 100%;}
 
 
-#musicinfo { color:#FFF; background-color:#7F7F7F; background-image:url('../../covers/music/backdrop.jpg'); background-repeat: repeat-x;}
+#musicinfo { color:#FFF; min-height:445px; background-color:#7F7F7F; background-image:url('../../covers/music/backdrop.jpg'); background-repeat: repeat-x;}
 #musicinfo h1 { font-size: 32px; padding: 10px 10px 0px 20px; color: #fff; }
 #musicinfo h2, #musicinfo h3, #musicinfo p { padding: 10px 20px 0px 20px; color: #fff;}
 #musicinfo a { color: #fff; }

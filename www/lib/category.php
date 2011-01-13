@@ -94,7 +94,7 @@ class Category
         public function getById($id)
         {
                 $db = new DB();
-                return $db->queryOneRow(sprintf("SELECT c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));
+                return $db->queryOneRow(sprintf("SELECT c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status, c.parentID from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));
         }
 
         public function getByIds($ids)
