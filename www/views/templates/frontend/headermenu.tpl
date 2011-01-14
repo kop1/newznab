@@ -30,7 +30,7 @@
 		{/foreach}
 			<li><a title="Browse All" href="{$smarty.const.WWW_TOP}/browse">All</a>
 				<ul>
-					<li><a title="Browse Groups" href="{$smarty.const.WWW_TOP}/browsegroup">Groups</a>
+					<li><a title="Browse Groups" href="{$smarty.const.WWW_TOP}/browsegroup">Groups</a></li>
 				</ul>
 			</li>
 		</ul>
