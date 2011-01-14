@@ -1,0 +1,68 @@
+      ___           ___           ___           ___           ___           ___           ___     
+     /\__\         /\  \         /\__\         /\  \         /\__\         /\  \         /\  \    
+    /::|  |       /::\  \       /:/ _/_        \:\  \       /::|  |       /::\  \       /::\  \   
+   /:|:|  |      /:/\:\  \     /:/ /\__\        \:\  \     /:|:|  |      /:/\:\  \     /:/\:\  \  
+  /:/|:|  |__   /::\~\:\  \   /:/ /:/ _/_        \:\  \   /:/|:|  |__   /::\~\:\  \   /::\~\:\__\ 
+ /:/ |:| /\__\ /:/\:\ \:\__\ /:/_/:/ /\__\ _______\:\__\ /:/ |:| /\__\ /:/\:\ \:\__\ /:/\:\ \:|__|
+ \/__|:|/:/  / \:\~\:\ \/__/ \:\/:/ /:/  / \::::::::/__/ \/__|:|/:/  / \/__\:\/:/  / \:\~\:\/:/  /
+     |:/:/  /   \:\ \:\__\    \::/_/:/  /   \:\~~\~~         |:/:/  /       \::/  /   \:\ \::/  / 
+     |::/  /     \:\ \/__/     \:\/:/  /     \:\  \          |::/  /        /:/  /     \:\/:/  /  
+     /:/  /       \:\__\        \::/  /       \:\__\         /:/  /        /:/  /       \::/__/   
+     \/__/         \/__/         \/__/         \/__/         \/__/         \/__/         ~~       
+
+
+HEAD
+-----------------------------------------
+Amazon api music data, migrate db to utf8, musicview, move all pages in
+/pages dir, theme style improvements, change urls
+
+
+0.1.9	Dec 23 2010
+-----------------------------------------
+Improve mysql memory use, number of files to form a release per group, 
+browse by newsgroup
+
+
+0.1.8	Dec 16 2010
+-----------------------------------------
+Multi-nzb admin functions, categorisation improvements
+
+
+0.1.7	Nov 16 2010
+-----------------------------------------
+Movieview, imdb/tmdb integration
+
+
+0.1.6	Oct 18 2010
+-----------------------------------------
+Rar password checking, template reorganisation
+
+
+0.1.5	Oct 01 2010
+-----------------------------------------
+User excluded categories, part repair, rewrite nzb generation
+
+
+0.1.4	Sep 22 2010
+-----------------------------------------
+db patching folder, improvements to processing releases
+
+
+0.1.3	Sep 20 2010
+-----------------------------------------
+Fix backfill bugs
+
+
+0.1.2	Sep 17 2010
+-----------------------------------------
+Tidy admin pages, housekeeping binaries and parts
+
+
+0.1.1	Sep 15 2010
+-----------------------------------------
+Fix urls in rss feeds
+
+
+0.1.0	Sep 14 2010
+-----------------------------------------
+Initial release. 

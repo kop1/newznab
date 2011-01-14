@@ -28,24 +28,6 @@ pre-reqs
 installation
 	there is an installer in \install\ try it first by creating your website
 	copying the application files there and browsing to http://yournewznabserver/install.
-	it is much preferred to use the installer, as it will check your system for
-	pre-requisites.
-
-manual install (ONLY ATTEMPT AFTER INSTALLER)
-	create new database newznab
-	add new user with only rights to newznab db
-	import \db\schema.sql into newznab db (if this doesnt work piping in, use a query editor)
-	copy \www\install\config.php.tpl to \www\config.php and edit all settings
-	chmod -R 777 \www\lib\smarty\template_c
-	chmod -R 777 \www\lib\smarty\cache
-	restart apache
-	browse to http://localhost/ and should see newznab homepage with default content.
-	newznab.site database table contains configurable info about your site.
-	register and update the users.role to 2 to set that user as administrator
-	goto \admin\site-edit.php and customise fields to your installation.
-	call \admin\group-edit.php to add a group to your installation.
-	call from cli \misc\cron\update_binaries.php to populate database with binaries + parts.
-	call from cli \misc\cron\update_releases.php to create releases from all complete binary sets.
 	
 running	outside of root website
 	set /.htaccess RewriteBase to your virtual directory
@@ -72,9 +54,9 @@ sample apache config for your your VHOST.
 how it works
 	usenet groups are specified, message headers (binaries and parts) are downloaded for the 
 	groups, releases are created from completed sets of binaries by applying regex to the message subject.
-	releases are categorised by regexing the message subject. metadata from tvrage and tmdb are applied to
-	each created release. after a configurable number of days the header data is deleted from the database,
-	but the releases remain.
+	releases are categorised by regexing the message subject. metadata from tvrage, tmdb, imdb and amazon 
+	are applied toeach created release. after a configurable number of days the header data is deleted 
+	from the database, but the releases remain.
 	
 choosing newsgroups
 	groups can be manually entered if you know the name. groups can also be bulk added when
@@ -89,10 +71,8 @@ categorisation
 	function determineCategory()
 	
 updating index (populating binaries + parts)
-	updating the index can take a long time so its not recommended to run update scripts 
-	from web browsers as timeouts will occur. the recommended way to schedule updates 
-	is via the dos and unix start scripts in /path/to/newznab/misc/update_scripts/.
-	make sure you set the paths correctly to your installation.
+	the recommended way to schedule updates is via the dos and unix start scripts in 
+	/path/to/newznab/misc/update_scripts/. make sure you set the paths correctly to your installation.
 
 missing parts
 	when headers are requested from the usenet provider, they are asked for in number ranges
