@@ -52,6 +52,9 @@ foreach ($themes as $theme)
 
 $page->smarty->assign('themelist', $themelist);
 
+if (strpos(NNTP_SERVER, "astra")===false)
+	$page->smarty->assign('compress_headers_warning', "compress_headers_warning");
+
 $page->content = $page->smarty->fetch('site-edit.tpl');
 $page->render();
 
