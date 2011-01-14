@@ -22,8 +22,9 @@
 	<script type="text/javascript">
 		var WWW_TOP = "{$smarty.const.WWW_TOP}";
 		var SERVERROOT = "{$serverroot}";
-		var UID = "{$userdata.ID}";
+		{if $loggedin=="true"}var UID = "{$userdata.ID}";
 		var RSSTOKEN = "{$userdata.rsstoken}";
+{/if}
 	</script>
 	{$page->head}
 </head>
@@ -164,6 +165,11 @@
 	} catch(err) {}</script>
 	{/literal}
 	{/if}
+
+{if $loggedin=="true"}
+<input type="hidden" name="UID" value="{$userdata.ID}" />
+<input type="hidden" name="RSSTOKEN" value="{$userdata.rsstoken}" />
+{/if}
 	
 </body>
 </html>
