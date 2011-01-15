@@ -97,7 +97,7 @@ select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 /* 
 menu styling for when menu is displayed in top position 
 */
-#logo ul { list-style-type: none; clear:both; float:right; margin: 0 0 10px 0; padding:0; line-height: normal; text-align: right; }
+#logo ul { list-style-type: none; float:right; margin: 0 0 10px 0; padding:0; line-height: normal; text-align: right; }
 #logo ul li h2 {display:none;}
 #logo ul li ul li {float: left; margin-left: 1em; padding-right:5px;  }
 #logo ul li a {color:#333;}

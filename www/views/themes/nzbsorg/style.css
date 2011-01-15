@@ -1,0 +1,44 @@
+
+body { background:#F1F1F1; color: #333; background-image:url('images/bg-light.gif'); background-repeat:repeat-x;}
+.w3validator {display:none;}
+#logo {background: 0;}
+#logo h1 {display:block;float:left;padding:0}
+#logo .logoimg {display:none;}
+
+/* override table styles, alt rows, headings etc*/
+table tr.alt { background-color: #eee; }
+table tr.new { background-color: #fff; }
+table.highlight tr:hover td { background-color: #efefef; }
+table.data th { background-color:#CCC; border-color: #ddd;}
+table.data td, table.data { border-color: #ddd;}
+
+/* override almost every element in the sites font and color*/
+#sidebar li, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a, select, textarea, input {font-family:Calibri, courier, monospace; color:#444;}
+#sidebar li li, #sidebar li li:hover { background:none;}
+#sidebar li li a {padding: 0 0 0 0;}
+#sidebar a:hover { text-decoration: underline;}
+
+input[type=text], input[type=password], textarea, select { background: #fff; }
+
+table.data td.less, div.resextra {font-size: 0.9em;}
+
+/* menu bar background colours*/
+#menulink a, #menulink :visited, #menulink li, #menu {color:#fff;  background-color:#BBB;}
+#menulink :hover { color: #fff; background-color: #555; }
+#menu { padding-left:0px; padding-right:0px; margin-right:0px; border:0px; background-color:#BBB; -moz-border-radius: 0px;  -webkit-border-radius: 0px;}
+
+#logo { height: 67px; }
+#logo ul ul {list-style-image: url('images/menubullet.png');}
+#logo ul a:hover { text-decoration: underline; }
+
+#content {padding:10px; background:#F1F1F1; width:1016px;}
+#page {padding: 0px 0px 0px; background:#F1F1F1;}
+.footer { border-top: none; background: #F1F1F1; }
+
+.title {font-weight:bold;}
+
+#header { width: 1040px; }
+#page { width: 1040px;}
+#logo { width: 1040px;}
+#statusbar { width:1040px;}
+#menucontainer { width:1040px; }
