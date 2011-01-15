@@ -28,7 +28,10 @@
 	<td>Password:</td>
 	<td>
 		<input class="long" name="password" type="password" value="" />
-	</td>
+		{if $user.ID }
+			<div class="hint">Only enter a password if you want to change it.</div>
+		{/if}
+	</td>	
 </tr>
 {if $user.ID }
 <tr>
