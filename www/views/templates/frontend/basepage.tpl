@@ -22,9 +22,8 @@
 	<script type="text/javascript">
 		var WWW_TOP = "{$smarty.const.WWW_TOP}";
 		var SERVERROOT = "{$serverroot}";
-		{if $loggedin=="true"}var UID = "{$userdata.ID}";
-		var RSSTOKEN = "{$userdata.rsstoken}";
-{/if}
+		var UID = "{if $loggedin=="true"}{$userdata.ID}{else}{/if}";
+		var RSSTOKEN = "{if $loggedin=="true"}{$userdata.rsstoken}{else}{/if}";
 	</script>
 	{$page->head}
 </head>
