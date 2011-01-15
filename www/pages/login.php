@@ -25,7 +25,7 @@ if ($page->isPostBack())
 				$rememberMe = (isset($_POST['rememberme']) && $_POST['rememberme'] == 'on') ? 1 : 0;
 				$users->login($res["ID"], $_SERVER['REMOTE_ADDR'], $rememberMe);
 				
-				if ($_GET["redirect"] != "")
+				if (isset($_GET["redirect"]) && $_GET["redirect"] != "")
 					header("Location: ".$_GET["redirect"]);
 				else
 					header("Location: ".WWW_TOP."/");

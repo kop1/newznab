@@ -339,7 +339,6 @@ class Users
 	
 	public function logout()
 	{
-		session_start();
 		session_unset();
 		session_destroy();
 		setcookie('uid', '', (time()-2592000));

@@ -27,7 +27,10 @@
 	<td>Regex:</td>
 	<td>
 		<textarea id="regex" name="regex" >{$regex.regex|escape:html}</textarea>
-		<div class="hint">The regex to be applied.</div>		
+		<div class="hint">The regex to be applied.<br />
+		Regex requires at least 1 named capturing group in the form of (?P&lt;name&gt;) to work.<br />
+		If the subjects contains the number of parts (ie [1/10]) then it is wise to also use (?P&lt;parts&gt;) to match the parts.
+		</div>		
 	</td>
 </tr>
 
