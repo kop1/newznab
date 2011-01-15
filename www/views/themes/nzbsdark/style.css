@@ -1,0 +1,48 @@
+
+body { background:#111; color: #FFF; background-image:url('images/bg.gif'); background-repeat:repeat-x;}
+.w3validator {display:none;}
+#logo {background: 0;}
+#logo h1 {display:block;float:left;padding:0}
+#logo .logoimg {display:none;}
+
+/* override table styles, alt rows, headings etc*/
+table tr { background-color: #3F3F3F; }
+table tr.alt { background-color: #3F3F3F; }
+table tr.new { background-color: green; }
+table.highlight tr:hover td { background-color: #3F3F3F; }
+table.data th { background-color:#666; border-color: #444;}
+table.data td, table.data { border-color: #444;}
+
+/* override almost every element in the sites font and color*/
+#logo h1 a, #sidebar li, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a {font-family:'Trebuchet MS', 'Lucida Grande', Arial, Helvetica, sans-serif; color:#DDD;}
+#sidebar li li, #sidebar li li:hover { background:none;}
+#sidebar li li a {padding: 0 0 0 0;}
+#sidebar a:hover { text-decoration: underline;}
+
+.rndbtn, div.pager a {color:#333;}
+
+input[type=text], input[type=password], textarea, select { background: #DDD; }
+
+table.data td.less, div.resextra {font-size: 0.9em;}
+
+/* menu bar background colours*/
+#menulink a, #menulink :visited, #menulink li, #menu {color:#fff;  background-color:#333;}
+#menulink :hover { color: #fff; background-color: #555; }
+#menu { padding-left:0px; padding-right:0px; margin-right:0px; border:0px; background-color:#333; -moz-border-radius: 0px;  -webkit-border-radius: 0px;}
+
+#logo { height: 67px; }
+#logo ul ul {list-style-image: url('images/menubullet.png');}
+#logo ul a:hover { text-decoration: underline; }
+#logo ul li a { color:#FFF }
+
+#content {padding:10px; background:#111; width:1016px;}
+#page {padding: 0px 0px 0px; background:#111;}
+.footer { border-top: none; background: #111; }
+
+.title {font-weight:bold;}
+
+#header { width: 1040px; }
+#page { width: 1040px;}
+#logo { width: 1040px;}
+#statusbar { width:1040px;}
+#menucontainer { width:1040px; }
