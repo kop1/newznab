@@ -1,36 +1,56 @@
 
-body { background:#111; color: #FFF; background-image:url('images/bg.gif'); background-repeat:repeat-x;}
+body { background:#111; color: #ccc; background-image:url('images/bg.gif'); background-repeat:repeat-x; font-family: "Trebuchet MS", "Lucida Grande", Arial, Helvetica, sans-serif;}
 .w3validator {display:none;}
 #logo {background: 0;}
-#logo h1 {display:block;float:left;padding:0}
+#logo h1 {display:block;float:left;padding:0; font-size: 24px;}
 #logo .logoimg {display:none;}
 
+#menusearchlink input, #menusearchlink select { font-size: 0.9em; color:#111; background-color: #eee; }
+input#headsearch_go { background-color: #333; }
+
 /* override table styles, alt rows, headings etc*/
-table tr { background-color: #3F3F3F; }
-table tr.alt { background-color: #3F3F3F; }
-table tr.new { background-color: green; }
+table tr { background-color: #111; }
+table tr.alt { background-color: #333; }
+table tr.new { background-color: #3f3f3f; }
+table tr.selected { background-color: green; }
 table.highlight tr:hover td { background-color: #3F3F3F; }
-table.data th { background-color:#666; border-color: #444;}
-table.data td, table.data { border-color: #444;}
+table.data th { background-color:#555; }
+table.data th, table.data td, table.data { border-width: 0px; }
 
 /* override almost every element in the sites font and color*/
 #logo h1 a, #sidebar li, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a {font-family:'Trebuchet MS', 'Lucida Grande', Arial, Helvetica, sans-serif; color:#DDD;}
+#content h1 { font-size: 16px; }
+#content h2 { font-size: 14px; }
+#content h3 { font-size: 12px; }
 #sidebar li li, #sidebar li li:hover { background:none;}
 #sidebar li li a {padding: 0 0 0 0;}
 #sidebar a:hover { text-decoration: underline;}
 
-.rndbtn, div.pager a {color:#333;}
+.rndbtn { padding-left:4px; padding-right:4px; margin-right:1px; border:2px #666 solid; background-color:#111; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
+table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { background-color: #111; }
+table.highlight tr:hover .rndbtn:hover { background-color: #111; }
+.rndbtn, a.rndbtn {font-size: 0.8em; background-color: #333; color: #ccc; }
 
-input[type=text], input[type=password], textarea, select { background: #DDD; }
+div.nzb_multi_operations { color:#eee; display:inline; float:right; padding-bottom: 5px; }
+div.nzb_multi_operations input { color:#eee; background-color:#333; border:1px solid #666; }
+div.nzb_multi_operations input.nzb_multi_operations_sab { display:none; }
+div.nzb_multi_operations input:hover { color:#fff; border:1px solid #999; cursor:pointer; background-color: #555 }
 
-table.data td.less, div.resextra {font-size: 0.9em;}
+div.pager a {font-weight:normal; background-color:#333; padding:0 3px 0px 4px; border:1px #666 solid; color: #eee; font-size: 11px; }
+div.pager .current, div.pager a:hover {color:#fff; font-weight:normal; background-color:#555; padding:0 3px 0px 4px; border:1px #999 solid; text-decoration:none; font-size: 11px;}
+
+input[type=text], input[type=password], textarea, select { background: #111; border: 1px solid #666; color: #ccc;}
+
+table.data td.less, div.resextra {font-size: 0.9em; color: #ccc; }
+div.resextra a { color: #ccc; text-decoration:none; }
 
 /* menu bar background colours*/
 #menulink a, #menulink :visited, #menulink li, #menu {color:#fff;  background-color:#333;}
 #menulink :hover { color: #fff; background-color: #555; }
 #menu { padding-left:0px; padding-right:0px; margin-right:0px; border:0px; background-color:#333; -moz-border-radius: 0px;  -webkit-border-radius: 0px;}
+#menulink a, #menulink :visited {height:28px; display: block; font-size: 0.9em; width: 70px; padding: 2px 0px 2px 5px;}
 
-#logo { height: 67px; }
+#logo { height: 47px; }
 #logo ul ul {list-style-image: url('images/menubullet.png');}
 #logo ul a:hover { text-decoration: underline; }
 #logo ul li a { color:#FFF }
@@ -46,3 +66,8 @@ table.data td.less, div.resextra {font-size: 0.9em;}
 #logo { width: 1040px;}
 #statusbar { width:1040px;}
 #menucontainer { width:1040px; }
+
+
+pre#nfo { color: #fff; }
+#cboxOverlay{background:#999;}
+#cboxLoadedContent{ background:#333; }
