@@ -8,6 +8,7 @@ $users = new Users;
 
 switch($page->page) {
 	case 'content':
+	case 'sendtosab':
 	case 'browse':
 	case 'browsegroup':
 	case 'getnzb':

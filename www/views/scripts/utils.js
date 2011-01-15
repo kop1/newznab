@@ -31,14 +31,9 @@ jQuery(function($){
 		if ($(this).hasClass('icon_sab_clicked')) return false;
 
 		var guid = $(this).parent().parent().attr('id').substring(4);
-		var priority = $.cookie('sabnzbd_'+UID+'__priority');
-		if (priority == null || priority == "")
-			priority = "1";
-			
-		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=" + priority + "&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
-		var nzburl = SERVERROOT + "getnzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
+		var nzburl = SERVERROOT + "sendtosab/" + guid;
 
-		$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
+		$.post(nzburl, function(resp){
 			$(e.target).addClass('icon_sab_clicked').attr('title','Added to queue');
 		});
 		return false;
@@ -91,18 +86,15 @@ jQuery(function($){
 	});
 	$('input.nzb_multi_operations_sab').click(function()
 	{
-		var priority = $.cookie('sabnzbd_'+UID+'__priority');
-		if (priority == null || priority == "")
-			priority = "1";	
-
-		var fullsaburl = $.cookie('sabnzbd_'+UID+'__host') + "api/?mode=addurl&priority=" + priority + "&apikey=" + $.cookie('sabnzbd_'+UID+'__apikey');
-	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) 
+	    {
 	    	var $sabIcon = $(row).parent().parent().children('td.icons').children('.icon_sab');
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
-			if (guid && !$sabIcon.hasClass('icon_sab_clicked')){
-				var nzburl = SERVERROOT + "getnzb/" + guid + "&i=" + UID + "&r=" + RSSTOKEN;
-				$.post( fullsaburl+"&name="+escape(nzburl), function(resp){
-					$sabIcon.addClass('icon_sab_clicked').attr('title','Added to queue');
+				if (guid && !$sabIcon.hasClass('icon_sab_clicked'))
+				{
+					var nzburl = SERVERROOT + "sendtosab/" + guid;
+					$.post( nzburl, function(resp){
+							$sabIcon.addClass('icon_sab_clicked').attr('title','Added to queue');
 				});
 			}
 		});

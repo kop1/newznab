@@ -180,6 +180,7 @@ faqs
 	disable compressed headers
 	* session error during install step1 - set register_globals to off.
 	* Warning: Wrong parameter count for strstr() in newznab\www\lib\TMDb.php on line 354 - wrong php version, requires 5.3+
+	* Strict Standards: Non-static method PEAR::isError() should not be called statically - disable strict error reporting
 	
 debugging
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
