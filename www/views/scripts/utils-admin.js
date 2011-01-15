@@ -168,7 +168,7 @@ $('#regexGroupSelect').change(function() {
 
 $('.siteeditstyle').change(function() {
   
-  if ($('.siteeditstyle option:selected').text() == "nzbsu" || $('.siteeditstyle option:selected').text() == "nzbsorg")
+  if ($('.siteeditstyle option:selected').text() == "nzbsu" || $('.siteeditstyle option:selected').text() == "nzbsorg" || $('.siteeditstyle option:selected').text() == "nzbsdark")
 	  $('.siteeditmenuposition').val("2");
   else
   	$('.siteeditmenuposition').val("1");
