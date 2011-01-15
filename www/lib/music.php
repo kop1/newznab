@@ -268,6 +268,7 @@ class Music
 		$mus['asin'] = (string) $amaz->Items->Item->ASIN;
 		
 		$mus['url'] = (string) $amaz->Items->Item->DetailPageURL;
+		$mus['url'] = str_replace("%26tag%3Dws", "%26tag%3Dopensourceins%2D21", $mus['url']);
 		
 		$mus['salesrank'] = (string) $amaz->Items->Item->SalesRank;
 		if ($mus['salesrank'] == "")
