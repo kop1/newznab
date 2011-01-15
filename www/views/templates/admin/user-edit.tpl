@@ -24,14 +24,13 @@
 	</td>
 </tr>
 
-{if !$user.ID }
 <tr>
 	<td>Password:</td>
 	<td>
 		<input class="long" name="password" type="password" value="" />
 	</td>
 </tr>
-{else}
+{if $user.ID }
 <tr>
 	<td>Grabs:</td>
 	<td>
