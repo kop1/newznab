@@ -114,7 +114,7 @@ class Users
 			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $role, $db->escapeString($host), $db->escapeString(uniqid()), $invites, $invitedby));		
 	}	
 	
-	public function update($id, $uname, $pass, $email, $grabs, $role, $invites, $movieview, $musicview)
+	public function update($id, $uname, $email, $grabs, $role, $invites, $movieview, $musicview)
 	{			
 		$db = new DB();
 		
@@ -125,10 +125,7 @@ class Users
 			return Users::ERR_SIGNUP_BADUNAME;
 			
 		if (!$this->isValidEmail($email))
-			return Users::ERR_SIGNUP_BADEMAIL;
-			
-		if (!$this->isValidPassword($pass))
-			return Users::ERR_SIGNUP_BADPASS;			
+			return Users::ERR_SIGNUP_BADEMAIL;			
 
 		$res = $this->getByUsername($uname);
 		if ($res)
@@ -140,8 +137,8 @@ class Users
 			if ($res["ID"] != $id)
 				return Users::ERR_SIGNUP_EMAILINUSE;		
 		
-		$db->query(sprintf("update users set username = %s, password = %s, email = %s, grabs = %d, role = %d, invites=%d, movieview=%d, musicview=%d where id = %d", 
-			$db->escapeString($uname), $db->escapeString($this->hashPassword($pass)), $db->escapeString($email), $grabs, $role, $invites, $movieview, $musicview, $id));		
+		$db->query(sprintf("update users set username = %s, email = %s, grabs = %d, role = %d, invites=%d, movieview=%d, musicview=%d where id = %d", 
+			$db->escapeString($uname), $db->escapeString($email), $grabs, $role, $invites, $movieview, $musicview, $id));		
 			
 		return Users::SUCCESS;
 	}	
