@@ -22,6 +22,7 @@ table.data th, table.data td, table.data { border-width: 0px; }
 #content h1 { font-size: 16px; }
 #content h2 { font-size: 14px; }
 #content h3 { font-size: 12px; }
+#content p { font-size: 12px;}
 #sidebar li li, #sidebar li li:hover { background:none;}
 #sidebar li li a {padding: 0 0 0 0;}
 #sidebar a:hover { text-decoration: underline;}
@@ -67,6 +68,7 @@ div.resextra a { color: #ccc; text-decoration:none; }
 #statusbar { width:1040px;}
 #menucontainer { width:1040px; }
 
+div.movextra { color: #ccc; }
 
 pre#nfo { color: #fff; }
 #cboxOverlay{background:#999;}
