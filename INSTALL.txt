@@ -1,6 +1,6 @@
-pre-reqs
+REQUIREMENTS
 	PHP
-		php version 5.3 or higher
+		php version 5.2 or higher (5.3 recommended, lower versions may give warnings on some functions)
 		sessions enabled
 		memory limit at 256MB or more
 		minimum execution time of 60+ seconds
@@ -21,18 +21,18 @@ pre-reqs
 		mod_rewrite enabled
 		.htaccess allow override on
 
-	3rd Party API Keys
+	3rd Party API Keys (recommended to get your own api keys)
 		tmdb
 		amazon
 		
-installation
+INSTALLATION
 	there is an installer in \install\ try it first by creating your website
 	copying the application files there and browsing to http://yournewznabserver/install.
 	
-running	outside of root website
+RUNNING OUTSIDE OF WEB ROOT
 	set /.htaccess RewriteBase to your virtual directory
 	
-sample apache config for your your VHOST. 
+SAMPLE APACHE VHOST CONFIG
 	add this to your existing VHOST file modifying your values for ServerName, Server Alias, and DocumentRoot.  
 	You should find this under /etc/apache2/sites-enabled/ (000-default).	
 	<VirtualHost *:80>
@@ -50,178 +50,3 @@ sample apache config for your your VHOST.
 	        LogLevel warn
 	        ServerSignature Off
 	</VirtualHost>
-
-how it works
-	usenet groups are specified, message headers (binaries and parts) are downloaded for the 
-	groups, releases are created from completed sets of binaries by applying regex to the message subject.
-	releases are categorised by regexing the message subject. metadata from tvrage, tmdb, imdb and amazon 
-	are applied toeach created release. after a configurable number of days the header data is deleted 
-	from the database, but the releases remain.
-	
-choosing newsgroups
-	groups can be manually entered if you know the name. groups can also be bulk added when
-	specified as a regular expression. for example if you want to index the groups alt.bin.blah.* and alt.bin.other
-	use the value 'alt.bin.blah.*|alt.bin.other'. 
-	
-categorisation
-	most categorisation of releases is done at the time of applying the regex. however if no category
-	is supplied for a regex then \www\lib\category.php contains the logic which attempts to map a 
-	release to a site category. site categories are used to make browsing nzbs easier. add new categories
-	by updating the category table, and adding a new Category::constant. Then map it in the
-	function determineCategory()
-	
-updating index (populating binaries + parts)
-	the recommended way to schedule updates is via the dos and unix start scripts in 
-	/path/to/newznab/misc/update_scripts/. make sure you set the paths correctly to your installation.
-
-missing parts
-	when headers are requested from the usenet provider, they are asked for in number ranges
-	e.g. 1-1000, 1001-2000 etc. for various reasons sometimes the provider does not return 
-	a header, this is not always because the header does not exist, there may be some synchronisation
-	going on at the providers end. if a header is requested but not returned, we store a record of this
-	in the table partrepair. each time update_binaries is ran an attempt is made to go back and get the 
-	missing parts. if after five attempts the parts can still not be obtained, newznab gives up.
-	when update_releases runs, if a release is seen to have missing parts it will not be released until
-	four hours after it was uploaded to usenet. this is so a chance has been made to repair all missing
-	parts. after four hours a release will be created anyway and its down to the quality of the par files
-	to determine whether a release can be correctly unpacked.
-
-regex matching
-	releases are created by applying regexs to binary message subjects. different regexes 
-	are applied to binaries from different newsgroups. catchall regexes are applied to any
-	binaries left unmatched after the group specific matching. a category can be associated
-	with a regex, which will allow the processing of groups like inner-sanctum which contain a 
-	combination of different binary types.
-	
-regex updating
-	regexes in the system in the range 0-10000 are system defined and are updated centrally.
-	everytime processreleases is ran, a check will be performed to see if you have the latest regexs.
-	if you do not want this check to be made then set site.latestregexurl to null
-	
-nzb file store
-	nzbs are saved to disk gzipped at the location specified by site.nzbpath in subdirs based on the 
-	first char of the release guid, this just makes the dirs a bit easier to manage when you have thousands
-	of nzb.gz files. the default path is /website/../nzbfiles
-
-ssl usenet connection
-	Install the OpenSSL extension, set config.php define ('NNTP_SSLENABLED', true);
-	
-importing/exporting nzbs
-	.nzb files can be imported from the admin interface (or cli). importing is a convenient way to fill the
-	index without trawling a large backdated number of usenet messages. after running an import 
-	the processReleases() function must be run to create valid releases. nzbs can also be exported
-	based on system categories.
-	
-google ads/analytics
-	to integrate google analytics and adsense provide enter the adsense ad module ids 
-	into the site table for the sidepanel (right), searchbox (bottom of menu). 
-	providing an analytics id will include the analytics js in the footer
-
-admin
-	admin functions all live in /admin/ which is only accessible by users with admin role.
-	set users.role to be 2 on the users you wish to be admins
-
-tvrage
-	after releases.processReleases() is called, an attempt is made to determine the tvrageids for every 
-	release	which looks like its tv. this also works out the series/episode columns. the data in the 
-	tvrage table will become populated from best guesses from the rage search api. if some of these
-	guesses are wrong, you can manually edit the rage data in the admin interface, and use the 
-	remove link to wipe any releases which have that rageid and then manually call 'process tv' which
-	will attempt to relink rage data. when a new release is created it goes in with a release.rageid of -1
-	when tv is processed, the rageid either goes to the best guess, or to -2, which indicates no match 
-	could be made, or the release isnt percieved to be tv.
-
-tvrage - series/episode info
-	information about a particular episode of a series is requested from services.tvrage.com a shared 
-	newznab api key is used to retrieve this data. it assigns an 'aired date' to each release if a match
-	is found.
-	
-nfo
-	nfos are attempted to be retrieved using a queuing method. there will be a number of attempts to get
-	an nfo before giving up
-	
-imdb/tmdb
-	if enabled, and if an imdb id is found in the nfo, the application will attempt to use that imdb id to
-	get general data about the movie (title, year, genre, covers etc) from themoviedb.org. If no entry is 
-	available from tmdb then an attempt to gather the info from imdb.com is made. any results are stored
-	in the moveinfo table, with covers/backdrops being saved to the images/covers/.
-
-3rd party api keys
-	in order to do lookups to tmdb and amazon, api keys are used. newznab is shipped with some default 
-	keys, but due to the restrictions on use of api's, it is strongly suggested you go and get your own 
-	api keys and save them in the site edit page.
-
-content/cms
-	pages can be added to the site with seo friendly urls via the /admin/ edit content links
-	
-skinning
-	avoid custom edits to code and stylesheets to make updating painless. 
-	override any styles by creating a folder \www\theme\<yourtheme>\style.css. stick any custom images in
-	\www\theme\<yourtheme>\images\
-	pick the theme in the admin\site-edit page. your styles should override the existing style sheet, which
-	should always be loaded in.
-	
-api
-	www.sitename.com/api? provides api access to query and retrieve nzbs.
-	call www.sitename.com/apihelp to see help doc with all available options. users either have to be 
-	logged in or provide their rsstoken. users can use their rsstoken to access both rss + api.
-	full details of the api and how to implement it are provided in /misc/api/
-	
-faqs
-	* authorisation rejected from nntp server - check you have enough available connections 
-	not currently in use
-	* white screen - probably php error not being displayed to browser or session timed out and 403 being throw
-	* Lots of binary headers processed but few releases created - The binary headers downloaded do not match
-	the regexes used to create a release. The message headers must follow popular formats in order for releases
-	to be created.
-	* search and rawsearch requests lose page css styling - use the provided apache vhost settings.
-	* Server did not return article numbers 1234567 - this isnt necessarily a bad thing, see section on missing parts
-	* connection timed out. Reconnecting... Cannot connect to server *******: Already connected, disconnect first! - 
-	disable compressed headers
-	* session error during install step1 - set register_globals to off.
-	* Warning: Wrong parameter count for strstr() in newznab\www\lib\TMDb.php on line 354 - wrong php version, requires 5.3+
-	* Strict Standards: Non-static method PEAR::isError() should not be called statically - disable strict error reporting
-	
-debugging
-	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
-	
-development
-	\db\schema.sql is latest database schema. should be able to rerun in and create new blank schema
-	\misc\ for general docs and useful info, nothing in here is referenced by the application
-	\misc\update_scripts\ shell and batch scripts and php files to call the updating of index from cli
-	\nzbfiles default folder for all gzipped nzbs to be stored
-	\www\install installer files
-	\www\lib\framework few general classes for db/http code
-	\www\lib\smarty copy of a fairly recent smarty lib
-	\www\lib\ all classes used in the app, typically named same as its database entity
-	\www\views\templates\admin all templates used by the admin pages
-	\www\views\templates\frontend all templates used by the user pages
-	\www\pages\ controllers for every frontend page in the system
-	\www\admin\ all php pages used by the admin
-	\www\theme\<yourtheme> blank area for implementation specific ui customisations
-	\www\views\scripts\ js dumping ground
-	\www\api.php all functionality related to api calls into newznab
-	
-(just some of the) people who've helped along the way. full(er) list at http://code.google.com/p/newznab/source/list
-	iota@irc.cyberarmy.net		regexs,sessions
-	enstyne@irc.cyberarmy.net	regexs
-	gizmore@wechall.net			password,hash
-	lhbandit@nzbs.org			yenc,nntp,bokko,dev	
-	bb@newznab					dev
-	jayhawk@nzb.su				testing,icons	
-	midgetspy@sickbeard			rage integration,api
-	ueland@newznab				installer
-	ensi@ensisoft.com			api
-	hecks@tvnzb					rar api
-	michael@newznab				dev
-	sakarias@newznab			testing
-	pairdime@sabnzbd			jquery,css
-	pmow@sabnzbd				headers,backfill
-	bigdave@newznab				testing
-	duz@sabnzbd					yenc
-	inpheaux@sabnzbd			design,nzb
-	spooge@newznab				testing
-	sy@newznab					testing, regexs
-	magegmins@newznab			lighttpd rewrite rules
-	fubaarr@newznab				testing
-	mobiKalw@newznab			testing

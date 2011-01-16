@@ -14,7 +14,8 @@
 HEAD
 -----------------------------------------
 Amazon api music data, migrate db to utf8, musicview, move all pages in
-/pages dir, theme style improvements, change urls
+/pages dir, theme style improvements, change urls, multi nzb import from
+browser, category updates, movie lookups for releases without nfos
 
 
 0.1.9	Dec 23 2010
