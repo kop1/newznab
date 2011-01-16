@@ -11,8 +11,8 @@ input#headsearch_go { background-color: #333; }
 /* override table styles, alt rows, headings etc*/
 table tr { background-color: #111; }
 table tr.alt { background-color: #333; }
-table tr.new { background-color: #3f3f3f; }
-table tr.selected { background-color: green; }
+table tr.new { background-color: #3f3f3f; border-bottom: 1px solid #111; }
+table tr.selected { background-color: green; border-bottom: 1px solid #111; }
 table.highlight tr:hover td { background-color: #3F3F3F; }
 table.data th { background-color:#555; }
 table.data th, table.data td, table.data { border-width: 0px; }
@@ -35,7 +35,7 @@ table.highlight tr:hover .rndbtn:hover { background-color: #111; }
 div.nzb_multi_operations { color:#eee; display:inline; float:right; padding-bottom: 5px; }
 div.nzb_multi_operations input { color:#eee; background-color:#333; border:1px solid #666; }
 div.nzb_multi_operations input.nzb_multi_operations_sab { display:none; }
-div.nzb_multi_operations input:hover { color:#fff; border:1px solid #999; cursor:pointer; background-color: #555 }
+div.nzb_multi_operations input:hover { color:#fff; border:1px solid #999; cursor:pointer; background-color: #555; }
 
 div.pager a {font-weight:normal; background-color:#333; padding:0 3px 0px 4px; border:1px #666 solid; color: #eee; font-size: 11px; }
 div.pager .current, div.pager a:hover {color:#fff; font-weight:normal; background-color:#555; padding:0 3px 0px 4px; border:1px #999 solid; text-decoration:none; font-size: 11px;}
@@ -43,6 +43,7 @@ div.pager .current, div.pager a:hover {color:#fff; font-weight:normal; backgroun
 input[type=text], input[type=password], textarea, select { background: #111; border: 1px solid #666; color: #ccc;}
 
 table.data td.less, div.resextra {font-size: 0.9em; color: #ccc; }
+div.resextra { padding-bottom: 3px; padding-right: 5px; }
 div.resextra a { color: #ccc; text-decoration:none; }
 
 /* menu bar background colours*/
