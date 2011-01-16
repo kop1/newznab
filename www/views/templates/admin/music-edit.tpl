@@ -64,9 +64,21 @@
 </tr>
 
 <tr>
+	<td><label for="genre">Genre</label>:</td>
+	<td>
+		<select id="genre" name="genre">
+		{foreach from=$genres item=gen}
+			<option {if $gen.ID == $music.musicgenreID}selected="selected"{/if} value="{$gen.ID}">{$gen.title|escape:'htmlall'}</option>
+		{/foreach}
+		</select>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="tracks">Tracks</label>:</td>
 	<td>
 		<textarea id="tracks" name="tracks">{$music.tracks|escape:'htmlall'}</textarea>
+		<div class="hint">Tracks separated by | (pipe) delimeter</div>
 	</td>
 </tr>
 

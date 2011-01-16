@@ -36,16 +36,19 @@ if (isset($_REQUEST["id"]))
 			}
 			
 			$_POST['cover'] = (file_exists($coverLoc)) ? 1 : 0;
+			$_POST['salesrank'] = (empty($_POST['salesrank']) || !ctype_digit($_POST['salesrank'])) ? "null" : $_POST['salesrank'];
+			$_POST['releasedate'] = (empty($_POST['releasedate']) || !strtotime($_POST['releasedate'])) ? $mus['releasedate'] : date("Y-m-d H:i:s", strtotime($_POST['releasedate']));
 			
-			$music->update($id, $_POST["title"], $_POST['tagline'], $_POST["plot"], $_POST["year"], $_POST["rating"], $_POST["genre"], $_POST["director"], $_POST["actors"], $_POST["language"], $_POST["cover"], $_POST['backdrop']);
-			
+			$music->update($id, $_POST["title"], $_POST['asin'], $_POST['url'], $_POST["salesrank"], $_POST["artist"], $_POST["publisher"], $_POST["releasedate"], $_POST["year"], $_POST["tracks"], $_POST["cover"], $_POST["genre"]);
+
 			header("Location:".WWW_TOP."/music-list.php");
 	        die();
 	    break;
 	    case 'view':
-	    default:				
+	    default:
 			$page->title = "Music Edit";
 			$page->smarty->assign('music', $mus);
+			$page->smarty->assign('genres', $music->getGenres());
 		break;   
 	}
 }
