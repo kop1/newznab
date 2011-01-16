@@ -1589,19 +1589,19 @@ class Releases
 		}
 		
 		if (!empty($showInfo['name'])) {
-			$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
-			if (is_array($showInfo['episode'])) {
-				$tmpArr = array();
-				foreach ($showInfo['episode'] as $ep) {
-					$tmpArr[] = sprintf('E%02d', $ep);
-				}
-				$showInfo['episode'] = implode('', $tmpArr);
-			} else {
-				$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
-			}
 			if (strlen($showInfo['season']) == 4) {
 				$showInfo['seriesfull'] = $showInfo['season']."/".$showInfo['episode'];
 			} else {
+				$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
+				if (is_array($showInfo['episode'])) {
+					$tmpArr = array();
+					foreach ($showInfo['episode'] as $ep) {
+						$tmpArr[] = sprintf('E%02d', $ep);
+					}
+					$showInfo['episode'] = implode('', $tmpArr);
+				} else {
+					$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
+				}
 				$showInfo['seriesfull'] = $showInfo['season'].$showInfo['episode'];
 			}
 			$showInfo['airdate'] = (!empty($showInfo['airdate'])) ? $showInfo['airdate'].' 00:00:00' : '';
