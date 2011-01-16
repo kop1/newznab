@@ -1,17 +1,5 @@
 <?php
-
-if(is_file("config.php")) {
-	require_once("config.php");
-} else {
-	if(is_dir("install")) {
-		header("location: install");
-		exit();
-	} else {
-		$path = str_replace("content.php", "", $_SERVER['SCRIPT_FILENAME']);
-		exit("You have to setup config.php first.<br />quick fix: mv {$path}config.dist.php {$path}config.php");
-	}
-}
-
+require_once("config.php");
 require_once(WWW_DIR."/lib/content.php");
 
 $contents = new Contents();
