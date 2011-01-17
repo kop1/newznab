@@ -22,8 +22,8 @@ REQUIREMENTS
 		.htaccess allow override on
 
 	3rd Party API Keys (recommended to get your own api keys)
-		tmdb
-		amazon
+		tmdb (signup @ http://api.themoviedb.org/2.1/)
+		amazon (signup @ https://affiliate-program.amazon.com/gp/advertising/api/detail/main.html)
 		
 INSTALLATION
 	there is an installer in \install\ try it first by creating your website
