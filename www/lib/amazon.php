@@ -120,9 +120,9 @@
          * @param string $searchType type of search
          * @return mixed simpleXML object
          */
-        public function searchProducts($search, $category, $searchType = "UPC")
+        public function searchProducts($search, $category, $searchType = "UPC", $searchNode="")
         {
-            $allowedTypes = array("UPC", "TITLE", "ARTIST", "KEYWORD");
+            $allowedTypes = array("UPC", "TITLE", "ARTIST", "KEYWORD", "NODE");
             $allowedCategories = array("Music", "DVD", "VideoGames", "MP3Downloads");
             
             switch($searchType) 
@@ -135,9 +135,18 @@
                                 break;
                 
                 case "TITLE" :  $parameters = array("Operation"     => "ItemSearch",
-                                                    //"Title"         => $search,
-													"Keywords"         => $search,
+                                                    //"Title"      	=> $search,
+													"Keywords"     	=> $search,
                                                     "SearchIndex"   => $category,
+                                                    "ResponseGroup" => "Large");
+                                break;
+                
+                //same as TITLE but add BrowseNodeID param                
+                case "NODE" :  $parameters = array("Operation"     	=> "ItemSearch",
+                                                    //"Title"      	=> $search,
+													"Keywords"     	=> $search,
+                                                    "SearchIndex"   => $category,
+                                                    "BrowseNode"	=> $searchNode,
                                                     "ResponseGroup" => "Large");
                                 break;
             
@@ -280,5 +289,140 @@
 			return ($parsed_xml === False) ? False : $parsed_xml;
 		}
 	}
-	
+
+//
+// LIST OF GAME BROWSENODE's (for future reference)
+// Calculated from :
+// $params = array('Operation'=>'BrowseNodeLookup', 'BrowseNodeId'=>'11846801');
+// $resp = aws_signed_request("com", $params, $this->public_key, $this->private_key);
+// print_r($resp);
+//
+
+/*
+// Base Nodes:
+[BrowseNodeId] => 468642
+[Name] => Video Games
+
+[BrowseNodeId] => 11846801
+[Name] => Video Game Categories
+
+
+// Video Game Categories Nodes:
+[BrowseNodeId] => 14210751
+[Name] => PlayStation 3
+
+[BrowseNodeId] => 301712
+[Name] => PlayStation 2
+
+[BrowseNodeId] => 14220161
+[Name] => Xbox 360
+
+[BrowseNodeId] => 14218901
+[Name] => Wii
+
+[BrowseNodeId] => 229575
+[Name] => PC Games
+
+[BrowseNodeId] => 229647
+[Name] => Mac Games
+
+[BrowseNodeId] => 11075831
+[Name] => Nintendo DS
+
+[BrowseNodeId] => 11075221
+[Name] => Sony PSP
+
+[BrowseNodeId] => 294940
+[Name] => More Systems
+
+
+// More Systems Nodes
+[BrowseNodeId] => 10988231
+[Name] => 3DO
+
+[BrowseNodeId] => 10989511
+[Name] => Atari 2600
+
+[BrowseNodeId] => 10990151
+[Name] => Atari 5200
+
+[BrowseNodeId] => 10990791
+[Name] => Atari 7800
+
+[BrowseNodeId] => 10991431
+[Name] => Atari Jaguar
+
+[BrowseNodeId] => 10992071
+[Name] => Atari Lynx
+
+[BrowseNodeId] => 10993351
+[Name] => ColecoVision
+
+[BrowseNodeId] => 10993991
+[Name] => Commodore 64
+
+[BrowseNodeId] => 10994631
+[Name] => Commodore Amiga
+
+[BrowseNodeId] => 1272528011
+[Name] => Game Boy
+
+[BrowseNodeId] => 229783
+[Name] => Game Boy Color
+
+[BrowseNodeId] => 541020
+[Name] => Game Boy Advance
+
+[BrowseNodeId] => 541022
+[Name] => GameCube
+
+[BrowseNodeId] => 10995911
+[Name] => Intellivision
+
+[BrowseNodeId] => 290573
+[Name] => Linux Games
+
+[BrowseNodeId] => 541018
+[Name] => NEOGEO Pocket
+
+[BrowseNodeId] => 566458
+[Name] => Nintendo NES
+
+[BrowseNodeId] => 229763
+[Name] => Nintendo 64
+
+[BrowseNodeId] => 10986071
+[Name] => PDAs
+
+[BrowseNodeId] => 229773
+[Name] => PlayStation
+
+[BrowseNodeId] => 11000181
+[Name] => Sega CD
+
+[BrowseNodeId] => 229793
+[Name] => Sega Dreamcast
+
+[BrowseNodeId] => 294942
+[Name] => Sega Game Gear
+
+[BrowseNodeId] => 294943
+[Name] => Sega Genesis
+
+[BrowseNodeId] => 11002481
+[Name] => Sega Master System
+
+[BrowseNodeId] => 294944
+[Name] => Sega Saturn
+
+[BrowseNodeId] => 294945
+[Name] => Super Nintendo
+
+[BrowseNodeId] => 11004961
+[Name] => TurboGrafx 16
+
+[BrowseNodeId] => 537504
+[Name] => Xbox
+*/
+
 ?>
