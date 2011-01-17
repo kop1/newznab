@@ -131,6 +131,7 @@ class TvRage
 			{
 				if (isset($arrXml["show"]["showid"]))
 				{
+					$this->add($arrXml["show"]["showid"], $title, "", "");
 					return $arrXml["show"]["showid"];
 				}
 				else
