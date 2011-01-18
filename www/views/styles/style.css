@@ -163,7 +163,7 @@ div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: 
 div.comments { padding-top:20px; }
 
 input.nzb_check_all { margin-left:5px; }
-div.nzb_multi_operations { color:#888; display:inline; float:right; }
+div.nzb_multi_operations { color:#888; display:inline; float:right; text-align: right; }
 div.nzb_multi_operations input { color:#888; background-color:#fff; border:1px solid #ddd; }
 div.nzb_multi_operations input.nzb_multi_operations_sab { display:none; }
 div.nzb_multi_operations input:hover { color:#000; border:1px solid #000; cursor:pointer; }

@@ -6,6 +6,7 @@
 <form id="nzb_multi_operations_form" action="get">
 
 <div class="nzb_multi_operations">
+	{if $section != ''}View: <a href="{$smarty.const.WWW_TOP}/{$section}?t={$category}">Covers</a> | <b>List</b><br />{/if}
 	<small>With Selected:</small>
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
 	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
@@ -20,7 +21,7 @@
 
 {$pager}
 
-<table style="width:100%;margin-top:10px;" class="data highlight icons">
+<table style="width:100%;margin-top:10px;clear:both;" class="data highlight icons">
 	<tr>
 		<th><input id="chkSelectAll" type="checkbox" class="nzb_check_all" /><label for="chkSelectAll" style="display:none;">Select All</label></th>
 		<th>name<br/><a title="Sort Descending" href="{$orderbyname_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="Sort Descending" /></a><a title="Sort Ascending" href="{$orderbyname_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="Sort Ascending" /></a></th>

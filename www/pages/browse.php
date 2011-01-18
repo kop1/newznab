@@ -18,6 +18,7 @@ if (isset($_REQUEST["g"]))
 $catarray = array();
 $catarray[] = $category;	
 
+$page->smarty->assign('category', $category);
 $browsecount = $releases->getBrowseCount($catarray, -1, $page->userdata["categoryexclusions"], $grp);
 
 $offset = (isset($_REQUEST["offset"]) && ctype_digit($_REQUEST['offset'])) ? $_REQUEST["offset"] : 0;
@@ -36,22 +37,31 @@ $page->smarty->assign('pagerquerysuffix', "#results");
 $pager = $page->smarty->fetch($page->getCommonTemplate("pager.tpl"));
 $page->smarty->assign('pager', $pager);
 
+$section = '';
 if ($category == -1 && $grp == "")
 	$page->smarty->assign("catname","All");			
 elseif ($category != -1 && $grp == "")
 {
 	$cat = new Category();
 	$cdata = $cat->getById($category);
-	if ($cdata)
-		$page->smarty->assign('catname',$cdata["title"]);			
-	else
+	
+	if ($cdata) {
+		$page->smarty->assign('catname',$cdata["title"]);
+		if ($cdata['parentID'] == Category::CAT_PARENT_GAME || $cdata['ID'] == Category::CAT_PARENT_GAME)
+			$section = 'console';
+		elseif ($cdata['parentID'] == Category::CAT_PARENT_MOVIE || $cdata['ID'] == Category::CAT_PARENT_MOVIE)
+			$section = 'movies';
+		elseif ($cdata['parentID'] == Category::CAT_PARENT_MUSIC || $cdata['ID'] == Category::CAT_PARENT_MUSIC)
+			$section = 'music';
+	} else {
 		$page->show404();
+	}
 }
 elseif ($grp != "")
 {
 	$page->smarty->assign('catname',$grp);			
 }
-
+$page->smarty->assign('section',$section);
 
 foreach($ordering as $ordertype) 
 	$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/browse?t=".$category."&amp;ob=".$ordertype."&amp;offset=0");	
