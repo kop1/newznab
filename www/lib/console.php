@@ -7,7 +7,7 @@ require_once(WWW_DIR."/lib/site.php");
 
 class Console
 {
-	const NUMTOPROCESSPERTIME = 10;
+	const NUMTOPROCESSPERTIME = 100;
 	
 	function Console($echooutput=false)
 	{
@@ -25,10 +25,10 @@ class Console
 		return $db->queryOneRow(sprintf("SELECT consoleinfo.* FROM consoleinfo where consoleinfo.ID = %d ", $id));
 	}
 
-	public function getConsoleInfoByName($artist, $album)
+	public function getConsoleInfoByName($title, $platform)
 	{
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT * FROM consoleinfo where title like %s and artist like %s", $db->escapeString("%".$artist."%"),  $db->escapeString("%".$album."%")));
+		return $db->queryOneRow(sprintf("SELECT * FROM consoleinfo where title like %s and platform like %s", $db->escapeString("%".$title."%"),  $db->escapeString("%".$platform."%")));
 	}
 
 	public function getRange($start, $num)
@@ -146,7 +146,7 @@ class Console
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getConsoleOrder($orderby);
-		$sql = sprintf(" SELECT r.*, con.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join consoleinfo con on con.ID = r.consoleinfoID and con.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		$sql = sprintf(" SELECT r.*, con.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join consoleinfo con on con.ID = r.consoleinfoID left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
 	
@@ -237,7 +237,7 @@ class Console
 		$db = new DB();
 
 		if ($this->echooutput)
-			echo "Looking up: ".$gameInfo['title']." ".$gameInfo['platform']."\n";
+			echo "Looking up: ".$gameInfo['title']." ".$gameInfo['platform']." [".$gameInfo['release']."]\n";
 		
 		$con = array();
 		$amaz = $this->fetchAmazonProperties($gameInfo['title'], $gameInfo['node']);
@@ -281,68 +281,23 @@ class Console
 		if (isset($amaz->Items->Item->EditorialReviews))
 			$con['review'] = trim(strip_tags((string) $amaz->Items->Item->EditorialReviews->EditorialReview->Content));
 		
-		
-		//$con['amaz'] = $amaz->Items->Item;
-		
-		return $con;
-		/*
-		$mus['year'] = $year;
-		if ($mus['year'] == "" && $mus['releasedate'] != 'null')
-			$mus['year'] = substr($mus['releasedate'], 1, 4);
-		
-		$mus['tracks'] = "";
-		if (isset($amaz->Items->Item->Tracks))
-		{
-			$tmpTracks = (array) $amaz->Items->Item->Tracks->Disc;
-			$tracks = $tmpTracks['Track'];
-			$mus['tracks'] = (is_array($tracks) && !empty($tracks)) ? implode('|', $tracks) : '';
-		}
-		
-		$genreKey = -1;
-		$genreName = '';
-		$amazGenres = (array) $amaz->Items->Item->BrowseNodes;
-		foreach($amazGenres as $amazGenre) {
-			foreach($amazGenre as $ag) {
-				$tmpGenre = strtolower( (string) $ag->Name );
-				if (!empty($tmpGenre)) {
-					if (in_array($tmpGenre, $genres)) {
-						$genreKey = array_search($tmpGenre, $genres);
-						$genreName = $tmpGenre;
-						break;
-					} else {
-						//we got a genre but its not stored in our musicgenre table
-						$genreName = (string) $ag->Name;
-						$genreKey = $db->queryInsert(sprintf("INSERT INTO musicgenre (`title`) VALUES (%s)", $db->escapeString($genreName)));
-						$nextId = sizeof($this->genres)+1;
-						$this->genres[$nextId]['ID'] = $genreKey;
-						$this->genres[$nextId]['title'] = $genreName;
-						break;
-					}
-				}
-			}
-		}
-		$mus['musicgenre'] = $genreName;
-		$mus['musicgenreID'] = $genreKey;
-		
 		$query = sprintf("
-		INSERT INTO consoleinfo  (`title`, `asin`, `url`, `salesrank`,  `artist`, `publisher`, `releasedate`, `review`, `year`, `musicgenreID`, `tracks`, `cover`, `createddate`, `updateddate`)
-		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        now(),        now())
-			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `artist` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s,  `year` = %s,  `musicgenreID` = %s,  `tracks` = %s,  `cover` = %d,  createddate = now(),  updateddate = now()", 
-		$db->escapeString($mus['title']), $db->escapeString($mus['asin']), $db->escapeString($mus['url']), 
-		$mus['salesrank'], $db->escapeString($mus['artist']), $db->escapeString($mus['publisher']), 
-		$mus['releasedate'], $db->escapeString($mus['review']), $db->escapeString($mus['year']), 
-		($mus['musicgenreID']==-1?"null":$mus['musicgenreID']), $db->escapeString($mus['tracks']), $mus['cover'], 
-		$db->escapeString($mus['title']), $db->escapeString($mus['asin']), $db->escapeString($mus['url']), 
-		$mus['salesrank'], $db->escapeString($mus['artist']), $db->escapeString($mus['publisher']), 
-		$mus['releasedate'], $db->escapeString($mus['review']), $db->escapeString($mus['year']), 
-		($mus['musicgenreID']==-1?"null":$mus['musicgenreID']), $db->escapeString($mus['tracks']), $mus['cover'] );
+		INSERT INTO consoleinfo  (`title`, `asin`, `url`, `salesrank`,  `platform`, `publisher`, `releasedate`, `review`, `cover`, `createddate`, `updateddate`)
+		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        now(),        now())
+			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `platform` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s, `cover` = %d,  createddate = now(),  updateddate = now()", 
+		$db->escapeString($con['title']), $db->escapeString($con['asin']), $db->escapeString($con['url']), 
+		$con['salesrank'], $db->escapeString($con['platform']), $db->escapeString($con['publisher']), 
+		$con['releasedate'], $db->escapeString($con['review']), $con['cover'], 
+		$db->escapeString($con['title']), $db->escapeString($con['asin']), $db->escapeString($con['url']), 
+		$con['salesrank'], $db->escapeString($con['platform']), $db->escapeString($con['publisher']), 
+		$con['releasedate'], $db->escapeString($con['review']), $con['cover'] );
 		
 		$consoleId = $db->queryInsert($query);
 
 		if ($consoleId) 
 		{
 			if ($this->echooutput)
-				echo "added/updated game: ".$con['title']." (".$con['platform'].")\n";
+				echo "added/updated game: ".$con['title']." ".$con['platform']."\n";
 
 			$con['cover'] = $this->saveCoverImage($con['coverurl'], $consoleId);
 		} 
@@ -351,7 +306,7 @@ class Console
 			if ($this->echooutput)
 				echo "nothing to update: ".$con['title']." (".$con['platform'].")\n";
 		}
-		*/
+
 		return $consoleId;
 	}
 	
@@ -406,39 +361,35 @@ class Console
 		{	
 			if ($this->echooutput)
 				echo "Processing ".mysql_num_rows($res)." console releases\n";
-			
-			$this->genres = $this->getGenres();
-			
+						
 			while ($arr = mysql_fetch_assoc($res)) 
 			{				
-				$album = $this->parseArtist($arr['searchname']);
-				if ($album !== false)
+				$gameInfo = $this->parseTitle($arr['searchname']);
+				if ($gameInfo !== false)
 				{
-					if ($this->echooutput)
-						echo 'Looking up: '.$album["artist"].' - '.$album["album"].' ('.$album['year'].') ['.$arr['searchname'].']'."\n";
 					
 					//check for existing console entry
-					$albumCheck = $this->getConsoleInfoByName($album["artist"], $album["album"]);
+					$gameCheck = $this->getConsoleInfoByName($gameInfo["title"], $gameInfo["platform"]);
 					
-					if ($albumCheck === false)
+					if ($gameCheck === false)
 					{
-						$albumId = $this->updateConsoleInfo($album["artist"], $album["album"], $album['year']);
-						if ($albumId === false)
+						$gameId = $this->updateConsoleInfo($gameInfo);
+						if ($gameId === false)
 						{
-							$albumId = -2;
+							$gameId = -2;
 						}
 					}
 					else 
 					{
-						$albumId = $albumCheck["ID"];
+						$gameId = $gameCheck["ID"];
 					}
 
 					//update release
-					$db->query(sprintf("UPDATE releases SET consoleinfoID = %d WHERE ID = %d", $albumId, $arr["ID"]));
+					$db->query(sprintf("UPDATE releases SET consoleinfoID = %d WHERE ID = %d", $gameId, $arr["ID"]));
 
 				} 
 				else {
-					//no album found
+					//could not parse release title
 					$db->query(sprintf("UPDATE releases SET consoleinfoID = %d WHERE ID = %d", -2, $arr["ID"]));
 				}
 			}

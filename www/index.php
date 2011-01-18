@@ -31,6 +31,7 @@ switch($page->page) {
 	case 'series':
 	case 'music':
 	case 'musicmodal':
+	case 'console':
 	case 'nfo':
 	case 'details':
 	case 'filelist':
@@ -55,5 +56,4 @@ switch($page->page) {
 		$page->show404();
 	break;
 }
-
 ?>

@@ -8,6 +8,7 @@ require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/tvrage.php");
 require_once(WWW_DIR."/lib/movie.php");
 require_once(WWW_DIR."/lib/music.php");
+require_once(WWW_DIR."/lib/console.php");
 require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/zipfile.php");
@@ -1191,7 +1192,16 @@ class Releases
 			$music = new Music(true);
 			$music->processMusicReleases();
 		}
-
+		
+		//
+		// Lookup games if enabled
+		//
+		if ($page->site->lookupgames == 1) 
+		{
+			$console = new Console(true);
+			$console->processConsoleReleases();
+		}
+			
 		//
 		// Check for passworded releases
 		//
