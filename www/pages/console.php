@@ -32,7 +32,16 @@ $orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_RE
 
 $results = $consoles = array();
 $results = $console->getConsoleRange($catarray, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"]);
+
+$maxwords = 50;
 foreach($results as $result) {	
+	if (!empty($result['review'])) {
+		$words = explode(' ', $result['review']);
+		if (sizeof($words) > $maxwords) {
+			$newwords = array_slice($words, 0, $maxwords);
+			$result['review'] = implode(' ', $newwords).'...';	
+		}
+	}
 	$consoles[] = $result;
 }
 

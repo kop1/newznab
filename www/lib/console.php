@@ -155,8 +155,11 @@ class Console
 		$order = ($orderby == '') ? 'r.postdate' : $orderby;
 		$orderArr = explode("_", $order);
 		switch($orderArr[0]) {
-			case 'artist':
-				$orderfield = 'm.artist';
+			case 'title':
+				$orderfield = 'con.title';
+			break;
+			case 'platform':
+				$orderfield = 'con.platform';
 			break;
 			case 'size':
 				$orderfield = 'r.size';
@@ -166,12 +169,6 @@ class Console
 			break;
 			case 'stats':
 				$orderfield = 'r.grabs';
-			break;
-			case 'year':
-				$orderfield = 'm.year';
-			break;
-			case 'genre':
-				$orderfield = 'm.musicgenreID';
 			break;
 			case 'posted': 
 			default:
@@ -184,12 +181,12 @@ class Console
 	
 	public function getConsoleOrdering()
 	{
-		return array('artist_asc', 'artist_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'year_asc', 'year_desc', 'genre_asc', 'genre_desc');
+		return array('title_asc', 'title_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'platform_asc', 'platform_desc');
 	}
 	
 	public function getBrowseByOptions()
 	{
-		return array('artist'=>'artist', 'title'=>'title', 'genre'=>'musicgenreID', 'year'=>'year');
+		return array('platform'=>'platform', 'title'=>'title');
 	}
 	
 	public function getBrowseBy()
@@ -201,11 +198,7 @@ class Console
 		foreach ($browsebyArr as $bbk=>$bbv) {
 			if (isset($_REQUEST[$bbk]) && !empty($_REQUEST[$bbk])) {
 				$bbs = stripslashes($_REQUEST[$bbk]);
-				if (preg_match('/id/i', $bbv)) {
-					$browseby .= "m.{$bbv} = $bbs AND ";
-				} else {
-					$browseby .= "m.$bbv LIKE(".$db->escapeString('%'.$bbs.'%').") AND ";
-				}
+				$browseby .= "con.$bbv LIKE(".$db->escapeString('%'.$bbs.'%').") AND ";
 			}
 		}
 		return $browseby;
