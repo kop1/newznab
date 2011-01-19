@@ -1,10 +1,10 @@
 <?php
 class Install {
 	public $DB_TYPE;
-	public $DB_HOST;
+	public $DB_HOST = "localhost";
 	public $DB_USER;
 	public $DB_PASSWORD;
-	public $DB_NAME;
+	public $DB_NAME = "newznab";
 	
 	public $NNTP_USERNAME;
 	public $NNTP_PASSWORD;
