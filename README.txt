@@ -12,7 +12,8 @@ ABOUT
 	
 	To discuss use irc.synirc.net #newznab
 	
-	Newznab is licensed under terms of the GNU General Public License.  For details, please refer to LICENSE.txt.
+	Newznab is licensed under terms of the GNU General Public License.  For details, please 
+	refer to LICENSE.txt.
 
 
 HOW IT WORKS
@@ -24,8 +25,8 @@ HOW IT WORKS
 	
 CHOOSING NEWSGROUPS
 	groups can be manually entered if you know the name. groups can also be bulk added when
-	specified as a regular expression. for example if you want to index the groups alt.bin.blah.* and alt.bin.other
-	use the value 'alt.bin.blah.*|alt.bin.other'. 
+	specified as a regular expression. for example if you want to index the groups alt.bin.blah.* 
+	and alt.bin.other	use the value 'alt.bin.blah.*|alt.bin.other'. 
 	
 CATEGORIZATION
 	most categorisation of releases is done at the time of applying the regex. however if no category
@@ -152,6 +153,7 @@ FAQS
 	* session error during install step1 - set register_globals to off.
 	* Warning: Wrong parameter count for strstr() in newznab\www\lib\TMDb.php on line 354 - wrong php version, requires 5.3+
 	* Strict Standards: Non-static method PEAR::isError() should not be called statically - disable strict error reporting
+	* Error 502 Bad Gateway - error at $cfg->pearCheck = @include('System.php'); solved by adding in open_basedir path to pear
 	
 DEBUGGING
 	switch php.ini error_reporting to E_ALL and ensure logging to browser is enabled.
