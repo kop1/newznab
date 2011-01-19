@@ -565,6 +565,7 @@ CREATE TABLE site (
 `lookupimdb` INT NOT NULL DEFAULT 1,
 `lookupnfo` INT NOT NULL DEFAULT 1,
 `lookupmusic` INT NOT NULL DEFAULT 1,
+`lookupgames` INT NOT NULL DEFAULT 1,
 `amazonpubkey` VARCHAR(255) NULL,
 `amazonprivkey` VARCHAR(255) NULL,
 `tmdbkey` VARCHAR(255) NULL,
