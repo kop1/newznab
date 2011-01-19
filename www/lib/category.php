@@ -299,6 +299,7 @@ class Category
                 if (preg_match('/inner\-sanctum/i', $group))
                         {
                         if($this->isPC($releasename)){ return $this->tmpCat; }
+                        if($this->isEBook($releasename)){ return $this->tmpCat; }
                         return Category::CAT_MUSIC_MP3;
                         }                        
                 if (preg_match('/alt\.binaries\.x264/i', $group))
@@ -317,6 +318,7 @@ class Category
                         if($this->isMovie($releasename)){ return $this->tmpCat; }
                         if($this->isConsole($releasename)){ return $this->tmpCat; }
                         if($this->isMusic($releasename)){ return $this->tmpCat; }
+                        if($this->isEBook($releasename)){ return $this->tmpCat; }
                         return Category::CAT_MISC;
 
 
@@ -704,7 +706,7 @@ class Category
         // 
         public function isEBook($releasename)
         {
-                if (preg_match('/Ebook|E?\-book|\) WW|\[Springer\]|Publishing/', $releasename))
+                if (preg_match('/Ebook|E?\-book|\) WW|\[Springer\]|Publishing/i', $releasename))
                 {
                     $this->tmpCat = Category::CAT_MISC_EBOOK;
                     return true;
