@@ -24,7 +24,7 @@
 </script>
 {/literal}
 
-<form id="release" action="{$SCRIPT_NAME}?action=doedit" method="get">
+<form id="release" action="ajax_release-admin/?action=doedit" method="get">
 
 {foreach from=$idArr item=id}
 <input type="hidden" name="id[]" value="{$id}" />
