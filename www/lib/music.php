@@ -236,9 +236,6 @@ class Music
 	{
 		$db = new DB();
 
-		if ($this->echooutput)
-			echo "Looking up: ".$artist." - ".$album." (".$year.")\n";
-		
 		$mus = array();
 		$amaz = $this->fetchAmazonProperties($artist." - ".$album);
 		if (!$amaz) 
