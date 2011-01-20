@@ -1,9 +1,11 @@
 <?php
 require_once(WWW_DIR."/lib/music.php");
 require_once(WWW_DIR."/lib/category.php");
+require_once(WWW_DIR."/lib/genres.php");
 
 $music = new Music;
 $cat = new Category;
+$gen = new Genres;
 
 if (!$users->isLoggedIn())
 	$page->show403();
@@ -44,8 +46,12 @@ $page->smarty->assign('artist', $artist);
 $title = (isset($_REQUEST['title']) && !empty($_REQUEST['title'])) ? stripslashes($_REQUEST['title']) : '';
 $page->smarty->assign('title', $title);
 
-$genres = $music->getGenres(true);
-$genre = (isset($_REQUEST['genre']) && array_key_exists($_REQUEST['genre'], $genres)) ? $_REQUEST['genre'] : '';
+$genres = $gen->getGenres(Genres::MUSIC_TYPE, true);
+$tmpgnr = array();
+foreach($genres as $gn) {
+	$tmpgnr[$gn['ID']] = $gn['title'];
+}
+$genre = (isset($_REQUEST['genre']) && array_key_exists($_REQUEST['genre'], $tmpgnr)) ? $_REQUEST['genre'] : '';
 $page->smarty->assign('genres', $genres);
 $page->smarty->assign('genre', $genre);
 

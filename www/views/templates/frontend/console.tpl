@@ -6,12 +6,21 @@
 	<tr>
 		<th class="left"><label for="title">Title</label></th>
 		<th class="left"><label for="platform">Platform</label></th>
+		<th class="left"><label for="genre">Genre</label></th>
 		<th class="left"><label for="category">Category</label></th>
 		<th></th>
 	</tr>
 	<tr>
 		<td><input id="title" type="text" name="title" value="{$title}" size="15" /></td>
 		<td><input id="platform" type="text" name="platform" value="{$platform}" size="15" /></td>
+		<td>
+			<select id="genre" name="genre">
+			<option class="grouping" value=""></option>
+			{foreach from=$genres item=gen}
+				<option {if $gen.ID == $genre}selected="selected"{/if} value="{$gen.ID}">{$gen.title}</option>
+			{/foreach}
+			</select>
+		</td>
 		<td>
 			<select id="category" name="t">
 			<option class="grouping" value="1000"></option>
@@ -46,6 +55,7 @@
 		<th width="130"><input type="checkbox" class="nzb_check_all" /></th>
 		<th>title<br/><a title="Sort Descending" href="{$orderbytitle_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbytitle_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>platform<br/><a title="Sort Descending" href="{$orderbyplatform_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyplatform_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
+		<th>genre<br/><a title="Sort Descending" href="{$orderbygenre_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbygenre_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>release date<br/><a title="Sort Descending" href="{$orderbyreleasedate_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyreleasedate_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>posted<br/><a title="Sort Descending" href="{$orderbyposted_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbyposted_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
 		<th>size<br/><a title="Sort Descending" href="{$orderbysize_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbysize_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>
@@ -67,8 +77,10 @@
 				</div>
 				</div>
 			</td>
-			<td colspan="7" class="left" id="guid{$result.guid}">
+			<td colspan="8" class="left" id="guid{$result.guid}">
 				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.title|escape:"htmlall"} - {$result.platform|escape:"htmlall"}</a></h2>
+				{if $result.genre != ""}<b>Genre:</b> {$result.genre}<br />{/if}
+				{if $result.esrb != ""}<b>Rating:</b> {$result.esrb}<br />{/if}
 				{if $result.publisher != ""}<b>Publisher:</b> {$result.publisher}<br />{/if}
 				{if $result.releasedate != ""}<b>Released:</b> {$result.releasedate|date_format}<br />{/if}
 				{if $result.review != ""}<b>Review:</b> {$result.review|escape:'htmlall'}<br />{/if}

@@ -2,17 +2,16 @@
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/amazon.php");
 require_once(WWW_DIR."/lib/category.php");
-require_once(WWW_DIR."/lib/nfo.php");
+require_once(WWW_DIR."/lib/genres.php");
 require_once(WWW_DIR."/lib/site.php");
 
 class Console
 {
-	const NUMTOPROCESSPERTIME = 100;
+	const NUMTOPROCESSPERTIME = 125;
 	
 	function Console($echooutput=false)
 	{
 		$this->echooutput = $echooutput;
-		$this->genres = '';
 		$s = new Sites();
 		$site = $s->get();
 		$this->pubkey = $site->amazonpubkey;
@@ -146,7 +145,7 @@ class Console
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getConsoleOrder($orderby);
-		$sql = sprintf(" SELECT r.*, r.ID as releaseID, con.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join consoleinfo con on con.ID = r.consoleinfoID left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		$sql = sprintf(" SELECT r.*, r.ID as releaseID, con.*, g.title as genre, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join consoleinfo con on con.ID = r.consoleinfoID left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID left outer join genres g on g.ID = con.genreID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
 	
@@ -163,6 +162,9 @@ class Console
 			break;
 			case 'releasedate':
 				$orderfield = 'con.releasedate';
+			break;
+			case 'genre':
+				$orderfield = 'con.genreID';
 			break;
 			case 'size':
 				$orderfield = 'r.size';
@@ -184,12 +186,12 @@ class Console
 	
 	public function getConsoleOrdering()
 	{
-		return array('title_asc', 'title_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'platform_asc', 'platform_desc', 'releasedate_asc', 'releasedate_desc');
+		return array('title_asc', 'title_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'platform_asc', 'platform_desc', 'releasedate_asc', 'releasedate_desc', 'genre_asc', 'genre_desc');
 	}
 	
 	public function getBrowseByOptions()
 	{
-		return array('platform'=>'platform', 'title'=>'title');
+		return array('platform'=>'platform', 'title'=>'title', 'genre'=>'genreID');
 	}
 	
 	public function getBrowseBy()
@@ -231,15 +233,20 @@ class Console
 	public function updateConsoleInfo($gameInfo)
 	{
 		$db = new DB();
+		$gen = new Genres();
 
-		if ($this->echooutput)
-			echo "Looking up: ".$gameInfo['title']." ".$gameInfo['platform']." [".$gameInfo['release']."]\n";
-		
 		$con = array();
 		$amaz = $this->fetchAmazonProperties($gameInfo['title'], $gameInfo['node']);
 		if (!$amaz) 
 			return false;	
 		
+		//load genres
+		$defaultGenres = $gen->getGenres(Genres::CONSOLE_TYPE);
+		$genreassoc = array();
+		foreach($defaultGenres as $dg) {
+			$genreassoc[$dg['ID']] = $dg['title'];
+		}
+				
 		//
 		// get game properties
 		//
@@ -268,6 +275,8 @@ class Console
 			$con['platform'] = $platform;
 		
 		$con['publisher'] = (string) $amaz->Items->Item->ItemAttributes->Publisher;
+			
+		$con['esrb'] = (string) $amaz->Items->Item->ItemAttributes->ESRBAgeRating;
 		
 		$con['releasedate'] = $db->escapeString((string) $amaz->Items->Item->ItemAttributes->ReleaseDate);
 		if ($con['releasedate'] == "''")
@@ -277,17 +286,32 @@ class Console
 		if (isset($amaz->Items->Item->EditorialReviews))
 			$con['review'] = trim(strip_tags((string) $amaz->Items->Item->EditorialReviews->EditorialReview->Content));
 		
+		$genreKey = -1;
+		$genreName = '';
+		$con['genre'] = (string) $amaz->Items->Item->ItemAttributes->Genre;
+		if ($con['genre'] != "") {
+			$genreName = ucwords(str_replace('_', ' ', $con['genre']));
+			if (in_array($genreName, $genreassoc)) {
+				$genreKey = array_search($genreName, $genreassoc);
+			} else {
+				//we got a genre but its not stored in our genre table
+				$genreKey = $db->queryInsert(sprintf("INSERT INTO genres (`title`, `type`) VALUES (%s, %d)", $db->escapeString($genreName), Genres::CONSOLE_TYPE));
+			}
+		}
+		$con['consolegenre'] = $genreName;
+		$con['consolegenreID'] = $genreKey;
+		
 		$query = sprintf("
-		INSERT INTO consoleinfo  (`title`, `asin`, `url`, `salesrank`,  `platform`, `publisher`, `releasedate`, `review`, `cover`, `createddate`, `updateddate`)
-		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        now(),        now())
-			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `platform` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s, `cover` = %d,  createddate = now(),  updateddate = now()", 
+		INSERT INTO consoleinfo  (`title`, `asin`, `url`, `salesrank`, `platform`, `publisher`, `genreID`, `esrb`, `releasedate`, `review`, `cover`, `createddate`, `updateddate`)
+		VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d, now(), now())
+			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `platform` = %s,  `publisher` = %s,  `genreID` = %s,  `esrb` = %s,  `releasedate` = %s,  `review` = %s, `cover` = %d,  createddate = now(),  updateddate = now()", 
 		$db->escapeString($con['title']), $db->escapeString($con['asin']), $db->escapeString($con['url']), 
-		$con['salesrank'], $db->escapeString($con['platform']), $db->escapeString($con['publisher']), 
+		$con['salesrank'], $db->escapeString($con['platform']), $db->escapeString($con['publisher']), ($con['consolegenreID']==-1?"null":$con['consolegenreID']), $db->escapeString($con['esrb']),
 		$con['releasedate'], $db->escapeString($con['review']), $con['cover'], 
 		$db->escapeString($con['title']), $db->escapeString($con['asin']), $db->escapeString($con['url']), 
-		$con['salesrank'], $db->escapeString($con['platform']), $db->escapeString($con['publisher']), 
+		$con['salesrank'], $db->escapeString($con['platform']), $db->escapeString($con['publisher']), ($con['consolegenreID']==-1?"null":$con['consolegenreID']), $db->escapeString($con['esrb']), 
 		$con['releasedate'], $db->escapeString($con['review']), $con['cover'] );
-		
+
 		$consoleId = $db->queryInsert($query);
 
 		if ($consoleId) 
@@ -350,19 +374,21 @@ class Console
 	{
 		$ret = 0;
 		$db = new DB();
-		$nfo = new Nfo;
 		
 		$res = $db->queryDirect(sprintf("SELECT searchname, ID from releases where consoleinfoID IS NULL and categoryID in ( select ID from category where parentID = %d ) ORDER BY id DESC LIMIT %d", Category::CAT_PARENT_GAME, Console::NUMTOPROCESSPERTIME));
 		if (mysql_num_rows($res) > 0)
 		{	
 			if ($this->echooutput)
 				echo "Processing ".mysql_num_rows($res)." console releases\n";
-						
+				
 			while ($arr = mysql_fetch_assoc($res)) 
 			{				
 				$gameInfo = $this->parseTitle($arr['searchname']);
 				if ($gameInfo !== false)
 				{
+					
+					if ($this->echooutput)
+						echo 'Looking up: '.$gameInfo["title"].' ('.$gameInfo["platform"].') ['.$arr['searchname'].']'."\n";
 					
 					//check for existing console entry
 					$gameCheck = $this->getConsoleInfoByName($gameInfo["title"], $gameInfo["platform"]);

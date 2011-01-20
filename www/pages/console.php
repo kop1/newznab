@@ -1,9 +1,11 @@
 <?php
 require_once(WWW_DIR."/lib/console.php");
 require_once(WWW_DIR."/lib/category.php");
+require_once(WWW_DIR."/lib/genres.php");
 
-$console = new Console();
+$console = new Console;
 $cat = new Category;
+$gen = new Genres;
 
 if (!$users->isLoggedIn())
 	$page->show403();
@@ -50,6 +52,15 @@ $page->smarty->assign('platform', $platform);
 
 $title = (isset($_REQUEST['title']) && !empty($_REQUEST['title'])) ? stripslashes($_REQUEST['title']) : '';
 $page->smarty->assign('title', $title);
+
+$genres = $gen->getGenres(Genres::CONSOLE_TYPE, true);
+$tmpgnr = array();
+foreach($genres as $gn) {
+	$tmpgnr[$gn['ID']] = $gn['title'];
+}
+$genre = (isset($_REQUEST['genre']) && array_key_exists($_REQUEST['genre'], $tmpgnr)) ? $_REQUEST['genre'] : '';
+$page->smarty->assign('genres', $genres);
+$page->smarty->assign('genre', $genre);
 
 $browseby_link = '&amp;title='.$title.'&amp;platform='.$platform;
 

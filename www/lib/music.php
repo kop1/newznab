@@ -2,17 +2,16 @@
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/amazon.php");
 require_once(WWW_DIR."/lib/category.php");
-require_once(WWW_DIR."/lib/nfo.php");
+require_once(WWW_DIR."/lib/genres.php");
 require_once(WWW_DIR."/lib/site.php");
 
 class Music
 {
-	const NUMTOPROCESSPERTIME = 250;
+	const NUMTOPROCESSPERTIME = 125;
 	
 	function Music($echooutput=false)
 	{
 		$this->echooutput = $echooutput;
-		$this->genres = '';
 		$s = new Sites();
 		$site = $s->get();
 		$this->pubkey = $site->amazonpubkey;
@@ -22,7 +21,7 @@ class Music
 	public function getMusicInfo($id)
 	{
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT musicinfo.*, musicgenre.title as genre FROM musicinfo left outer join musicgenre on musicgenre.ID = musicinfo.musicgenreID where musicinfo.ID = %d ", $id));
+		return $db->queryOneRow(sprintf("SELECT musicinfo.*, genres.title as genres FROM musicinfo left outer join genres on genres.ID = musicinfo.genreID where musicinfo.ID = %d ", $id));
 	}
 
 	public function getMusicInfoByName($artist, $album)
@@ -146,7 +145,7 @@ class Music
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getMusicOrder($orderby);
-		$sql = sprintf(" SELECT r.*, r.ID as releaseID, m.*, mg.title as genre, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join musicinfo m on m.ID = r.musicinfoID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID left outer join musicgenre mg on mg.ID = m.musicgenreID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		$sql = sprintf(" SELECT r.*, r.ID as releaseID, m.*, g.title as genre, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join musicinfo m on m.ID = r.musicinfoID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID left outer join genres g on g.ID = m.genreID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
 	
@@ -171,7 +170,7 @@ class Music
 				$orderfield = 'm.year';
 			break;
 			case 'genre':
-				$orderfield = 'm.musicgenreID';
+				$orderfield = 'm.genreID';
 			break;
 			case 'posted': 
 			default:
@@ -189,7 +188,7 @@ class Music
 	
 	public function getBrowseByOptions()
 	{
-		return array('artist'=>'artist', 'title'=>'title', 'genre'=>'musicgenreID', 'year'=>'year');
+		return array('artist'=>'artist', 'title'=>'title', 'genre'=>'genreID', 'year'=>'year');
 	}
 	
 	public function getBrowseBy()
@@ -224,28 +223,29 @@ class Music
 		return implode(', ', $newArr);
 	}
 	
-	public function update($id, $title, $asin, $url, $salesrank, $artist, $publisher, $releasedate, $year, $tracks, $cover, $musicgenreID)
+	public function update($id, $title, $asin, $url, $salesrank, $artist, $publisher, $releasedate, $year, $tracks, $cover, $genreID)
 	{			
 		$db = new DB();
 		
-		$db->query(sprintf("UPDATE musicinfo SET title=%s, asin=%s, url=%s, salesrank=%s, artist=%s, publisher=%s, releasedate='%s', year=%s, tracks=%s, cover=%d, musicgenreID=%d, updateddate=NOW() WHERE ID = %d", 
-		$db->escapeString($title), $db->escapeString($asin), $db->escapeString($url), $salesrank, $db->escapeString($artist), $db->escapeString($publisher), $releasedate, $db->escapeString($year), $db->escapeString($tracks), $cover, $musicgenreID, $id));		
+		$db->query(sprintf("UPDATE musicinfo SET title=%s, asin=%s, url=%s, salesrank=%s, artist=%s, publisher=%s, releasedate='%s', year=%s, tracks=%s, cover=%d, genreID=%d, updateddate=NOW() WHERE ID = %d", 
+		$db->escapeString($title), $db->escapeString($asin), $db->escapeString($url), $salesrank, $db->escapeString($artist), $db->escapeString($publisher), $releasedate, $db->escapeString($year), $db->escapeString($tracks), $cover, $genreID, $id));		
 	}
 	
 	public function updateMusicInfo($artist, $album, $year)
 	{
 		$db = new DB();
-
+		$gen = new Genres();
+		
 		$mus = array();
 		$amaz = $this->fetchAmazonProperties($artist." - ".$album);
 		if (!$amaz) 
 			return false;
 		
 		//load genres
-		$defaultGenres = (is_array($this->genres)) ? $this->genres : $this->getGenres();
-		$genres = array();
+		$defaultGenres = $gen->getGenres(Genres::MUSIC_TYPE);
+		$genreassoc = array();
 		foreach($defaultGenres as $dg) {
-			$genres[$dg['ID']] = strtolower($dg['title']);
+			$genreassoc[$dg['ID']] = strtolower($dg['title']);
 		}		
 		
 		//
@@ -304,17 +304,14 @@ class Music
 			foreach($amazGenre as $ag) {
 				$tmpGenre = strtolower( (string) $ag->Name );
 				if (!empty($tmpGenre)) {
-					if (in_array($tmpGenre, $genres)) {
-						$genreKey = array_search($tmpGenre, $genres);
+					if (in_array($tmpGenre, $genreassoc)) {
+						$genreKey = array_search($tmpGenre, $genreassoc);
 						$genreName = $tmpGenre;
 						break;
 					} else {
-						//we got a genre but its not stored in our musicgenre table
+						//we got a genre but its not stored in our genre table
 						$genreName = (string) $ag->Name;
-						$genreKey = $db->queryInsert(sprintf("INSERT INTO musicgenre (`title`) VALUES (%s)", $db->escapeString($genreName)));
-						$nextId = sizeof($this->genres)+1;
-						$this->genres[$nextId]['ID'] = $genreKey;
-						$this->genres[$nextId]['title'] = $genreName;
+						$genreKey = $db->queryInsert(sprintf("INSERT INTO genres (`title`, `type`) VALUES (%s, %d)", $db->escapeString($genreName), Genres::MUSIC_TYPE));
 						break;
 					}
 				}
@@ -324,9 +321,9 @@ class Music
 		$mus['musicgenreID'] = $genreKey;
 				
 		$query = sprintf("
-		INSERT INTO musicinfo  (`title`, `asin`, `url`, `salesrank`,  `artist`, `publisher`, `releasedate`, `review`, `year`, `musicgenreID`, `tracks`, `cover`, `createddate`, `updateddate`)
+		INSERT INTO musicinfo  (`title`, `asin`, `url`, `salesrank`,  `artist`, `publisher`, `releasedate`, `review`, `year`, `genreID`, `tracks`, `cover`, `createddate`, `updateddate`)
 		VALUES (%s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %s,        %d,        now(),        now())
-			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `artist` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s,  `year` = %s,  `musicgenreID` = %s,  `tracks` = %s,  `cover` = %d,  createddate = now(),  updateddate = now()", 
+			ON DUPLICATE KEY UPDATE  `title` = %s,  `asin` = %s,  `url` = %s,  `salesrank` = %s,  `artist` = %s,  `publisher` = %s,  `releasedate` = %s,  `review` = %s,  `year` = %s,  `genreID` = %s,  `tracks` = %s,  `cover` = %d,  createddate = now(),  updateddate = now()", 
 		$db->escapeString($mus['title']), $db->escapeString($mus['asin']), $db->escapeString($mus['url']), 
 		$mus['salesrank'], $db->escapeString($mus['artist']), $db->escapeString($mus['publisher']), 
 		$mus['releasedate'], $db->escapeString($mus['review']), $db->escapeString($mus['year']), 
@@ -406,16 +403,13 @@ class Music
 	{
 		$ret = 0;
 		$db = new DB();
-		$nfo = new Nfo;
 		
 		$res = $db->queryDirect(sprintf("SELECT searchname, ID from releases where musicinfoID IS NULL and categoryID in ( select ID from category where parentID = %d ) ORDER BY id DESC LIMIT %d", Category::CAT_PARENT_MUSIC, Music::NUMTOPROCESSPERTIME));
 		if (mysql_num_rows($res) > 0)
 		{	
 			if ($this->echooutput)
 				echo "Processing ".mysql_num_rows($res)." music releases\n";
-			
-			$this->genres = $this->getGenres();
-			
+						
 			while ($arr = mysql_fetch_assoc($res)) 
 			{				
 				$album = $this->parseArtist($arr['searchname']);
