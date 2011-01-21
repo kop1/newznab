@@ -3,9 +3,11 @@
 require_once("config.php");
 require_once(WWW_DIR."/lib/adminpage.php");
 require_once(WWW_DIR."/lib/music.php");
+require_once(WWW_DIR."/lib/genres.php");
 
 $page = new AdminPage();
 $music = new Music();
+$gen = new Genres();
 $id = 0;
 
 // set the current action
@@ -48,7 +50,7 @@ if (isset($_REQUEST["id"]))
 	    default:
 			$page->title = "Music Edit";
 			$page->smarty->assign('music', $mus);
-			$page->smarty->assign('genres', $music->getGenres());
+			$page->smarty->assign('genres', $gen->getGenres(Genres::MUSIC_TYPE));
 		break;   
 	}
 }

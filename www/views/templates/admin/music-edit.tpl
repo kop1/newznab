@@ -68,7 +68,7 @@
 	<td>
 		<select id="genre" name="genre">
 		{foreach from=$genres item=gen}
-			<option {if $gen.ID == $music.musicgenreID}selected="selected"{/if} value="{$gen.ID}">{$gen.title|escape:'htmlall'}</option>
+			<option {if $gen.ID == $music.genreID}selected="selected"{/if} value="{$gen.ID}">{$gen.title|escape:'htmlall'}</option>
 		{/foreach}
 		</select>
 	</td>
