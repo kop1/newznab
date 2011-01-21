@@ -47,10 +47,18 @@ if (isset($_GET["id"]))
 		$mus = $music->getMusicInfo($data['musicinfoID']);
 	}	
 	
+	$con = '';
+	if ($data['consoleinfoID'] != '') {
+		require_once(WWW_DIR."/lib/console.php");
+		$c = new Console();
+		$con = $c->getConsoleInfo($data['consoleinfoID']);
+	}		
+	
 	$page->smarty->assign('release',$data);
 	$page->smarty->assign('nfo',$nfo);
 	$page->smarty->assign('movie',$mov);
 	$page->smarty->assign('music',$mus);
+	$page->smarty->assign('con',$con);
 	$page->smarty->assign('comments',$comments);
 	$page->smarty->assign('similars',$similars);
 	$page->smarty->assign('searchname',$releases->getSimilarName($data['searchname']));

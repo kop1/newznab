@@ -54,11 +54,23 @@
 	</td></tr>
 	{/if}
 	
+	{if $con.ID > 0}
+	<tr><th>Console Info:</th><td>
+		{if $con.cover == 1}<img src="{$smarty.const.WWW_TOP}/covers/console/{$con.ID}.jpg" alt="{$con.title}" height="140" align="left" hspace="10" />{/if}
+		<strong>{$con.title} ({$con.releasedate|date_format:"%Y"})</strong>
+		{if $con.esrb != ""}<strong>ESRB:</strong> {$con.esrb}<br />{/if}
+		{if $con.publisher != ""}<strong>Publisher:</strong> {$con.publisher}<br />{/if}
+		{if $con.platform != ""}<strong>Platform:</strong> {$con.platform}<br />{/if}
+		{if $con.releasedate != ""}<strong>Released:</strong> {$con.releasedate|date_format}<br />{/if}
+		<strong>More:</strong> <a class="rndbtn" target="_blank" href="{$site->dereferrer_link}{$con.url}/" title="View Game">Amazon</a>
+	</td></tr>
+	{/if}	
+	{if $con.review != ""}<tr><th>Console Review:</th><td>{$con.review}</td></tr>{/if}	
+	
 	{if $music.ID > 0}
 	<tr><th>Music Info:</th><td>
 		{if $music.cover == 1}<img src="{$smarty.const.WWW_TOP}/covers/music/{$music.ID}.jpg" alt="{$music.title}" height="120" align="left" hspace="10" />{/if}
 		<strong>{$music.title} {if $music.year != ""}({$music.year}){/if}</strong><br />
-
 		{if $music.genre != ""}<strong>Genre:</strong> {$music.genre}<br />{/if}
 		{if $music.publisher != ""}<strong>Publisher:</strong> {$music.publisher}<br />{/if}
 		{if $music.releasedate != ""}<strong>Released:</strong> {$music.releasedate|date_format}<br />{/if}
