@@ -656,6 +656,8 @@ Author: ensi at #newznab        (irc.synirc.org)   ensisoft@gmail.com
    season          TV                      Numeric season                          "1"
    episode         TV                      Numeric episode within the season       "1"
    rageid          TV                      TVRage ID. (www.tvrage.com)             "2322"
+   tvtitle         TV                      TVRage Show Title. (www.tvrage.com)     "Duck and Cover"
+   tvairdate       TV                      TVRage Show Air date. (www.tvrage.com)  "Tue, 22 Jun 2010 06:54:22 +0100"
    video           TV, Movies              Video codec                             "x264"
    audio           TV, Movies, Audio       Audio codec                             "AC3 2.0 @ 384 kbs"
    resolution      TV, Movies              Video resolution                        "1280x716 1.78:1"
