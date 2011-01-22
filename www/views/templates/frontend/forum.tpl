@@ -20,7 +20,7 @@
 	{foreach from=$results item=result}
 		<tr class="{cycle values=",alt"}" id="guid{$result.ID}">
 			<td style="cursor:pointer;" class="item" onclick="document.location='{$smarty.const.WWW_TOP}/forumpost/{$result.ID}';">
-				<a title="View post" href="{$smarty.const.WWW_TOP}/forumpost/{$result.ID}">{$result.subject|escape:"htmlall"|truncate:100:'...':true:true}</a>
+				<a title="View post" class="title" href="{$smarty.const.WWW_TOP}/forumpost/{$result.ID}">{$result.subject|escape:"htmlall"|truncate:100:'...':true:true}</a>
 				<div class="hint">
 					{$result.message|escape:"htmlall"|truncate:200:'...':false:false}
 				</div>

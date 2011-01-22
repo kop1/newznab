@@ -133,6 +133,9 @@ input.date { width:70px; }
 .right { text-align:right !important;}
 .mid { text-align:center !important;}
 
+a.title { font-size: 1.4em; }
+
+
 pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
 #movieinfo { background-position: center center; background-repeat: no-repeat; position: absolute; z-index: 2;}
