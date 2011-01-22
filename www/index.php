@@ -34,6 +34,8 @@ switch($page->page) {
 	case 'console':
 	case 'nfo':
 	case 'details':
+	case 'forum':
+	case 'forumpost':
 	case 'filelist':
 	case 'getimage':
 	case 'cart':

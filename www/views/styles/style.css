@@ -129,9 +129,9 @@ input.date { width:70px; }
 
 .small { width: 50px; }
 .tiny { width: 25px; }
-.left { text-align:left;}
-.right { text-align:right;}
-.mid { text-align:center;}
+.left { text-align:left !important;}
+.right { text-align:right !important;}
+.mid { text-align:center !important;}
 
 pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
