@@ -31,7 +31,7 @@
 				on <span title="{$result.createddate}">{$result.createddate|date_format}</span> <div class="hint">({$result.createddate|timeago})</div>
 			</td>
 			<td>
-				<span title="{$result.updateddate}">{$result.updateddate|date_format}</span> <div class="hint">({$result.updateddate|timeago})</div>
+				<a href="{$smarty.const.WWW_TOP}/forumpost/{$result.ID}#last" title="{$result.updateddate}">{$result.updateddate|date_format}</a> <div class="hint">({$result.updateddate|timeago})</div>
 			</td>
 			<td class="mid">{$result.replies}</td>
 		</tr>
