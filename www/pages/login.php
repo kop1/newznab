@@ -24,9 +24,9 @@ if ($page->isPostBack())
 			{
 				$rememberMe = (isset($_POST['rememberme']) && $_POST['rememberme'] == 'on') ? 1 : 0;
 				$users->login($res["ID"], $_SERVER['REMOTE_ADDR'], $rememberMe);
-				
-				if (isset($_GET["redirect"]) && $_GET["redirect"] != "")
-					header("Location: ".$_GET["redirect"]);
+
+				if (isset($_POST["redirect"]) && $_POST["redirect"] != "")
+					header("Location: ".$_POST["redirect"]);
 				else
 					header("Location: ".WWW_TOP."/");
 				die();
@@ -43,6 +43,7 @@ if ($page->isPostBack())
 	}
 }
 
+$page->smarty->assign('redirect', (isset($_GET['redirect'])) ? $_GET['redirect'] : '');
 $page->meta_title = "Login";
 $page->meta_keywords = "Login";
 $page->meta_description = "Login";
