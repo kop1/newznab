@@ -31,12 +31,6 @@ class Forum
         NOW(),        NOW())", $parentid, $userid, $db->escapeString($subject)	
         , $db->escapeString($message), $locked, $sticky, $replies));
 			
-			
-		}
-      
-		public function update($id, $vars)
-		{
-			$db = new DB();
 		}
 
 		public function getParent($parent)
@@ -73,16 +67,19 @@ class Forum
 		public function deleteParent($parent)
 		{
 			$db = new DB();
+			$db->query(sprintf("delete from forumpost where ID = %d or parentID = %d", $parent));		
 		}
 
 		public function deletePost($id)
 		{
 			$db = new DB();
+			$db->query(sprintf("delete from forumpost where ID = %d", $id));		
 		}
 
 		public function deleteUser($id)
 		{
 			$db = new DB();
+			$db->query(sprintf("delete from forumpost where userID = %d", $id));		
 		}
 
 }

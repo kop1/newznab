@@ -2,6 +2,7 @@
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/releases.php");
+require_once(WWW_DIR."/lib/forum.php");
 require_once(WWW_DIR."/lib/util.php");
 
 class Users
@@ -39,6 +40,9 @@ class Users
 		
 		$releases = new Releases();
 		$releases->deleteCommentsForUser($id);
+
+		$forum = new Forum();
+		$forum->deleteUser($id);
 		
 		$db->query(sprintf("delete from users where ID = %d", $id));		
 	}	
