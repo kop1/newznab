@@ -82,5 +82,24 @@ class Forum
 			$db->query(sprintf("delete from forumpost where userID = %d", $id));		
 		}
 
+		public function getCountForUser($uid)
+		{			
+			$db = new DB();
+			$res = $db->queryOneRow(sprintf("select count(ID) as num from forumpost where userID = %d", $uid));		
+			return $res["num"];
+		}
+		
+		public function getForUserRange($uid, $start, $num)
+		{		
+			$db = new DB();
+			
+			if ($start === false)
+				$limit = "";
+			else
+				$limit = " LIMIT ".$start.",".$num;
+			
+			return $db->query(sprintf(" SELECT forumpost.*, users.username FROM forumpost LEFT OUTER JOIN users ON users.ID = forumpost.userID where userID = %d order by forumpost.createddate desc ".$limit, $uid));		
+		}
+
 }
 ?>
