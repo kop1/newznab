@@ -479,7 +479,7 @@ class Users
 		$sender = $this->getById($uid);
 		$token = $this->hashSHA1(uniqid());
 		$subject = $sitetitle." Invitation";
-		$url = $serverurl."register.php?invite=".$token;
+		$url = $serverurl."register?invite=".$token;
 		$contents = $sender["username"]." has sent an invite to join ".$sitetitle." to this email address. To accept the invition click the following link.\n\n ".$url;
 
 		sendEmail($emailto, $subject, $contents, $siteemail);
