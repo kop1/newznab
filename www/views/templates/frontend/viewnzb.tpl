@@ -65,7 +65,7 @@
 		<strong>More:</strong> <a class="rndbtn" target="_blank" href="{$site->dereferrer_link}{$con.url}/" title="View Game">Amazon</a>
 	</td></tr>
 	{/if}	
-	{if $con.review != ""}<tr><th>Console Review:</th><td>{$con.review}</td></tr>{/if}	
+	{if $con.review != ""}<tr><th>Console Review:</th><td>{$con.review|nl2br|magicurl}</td></tr>{/if}	
 	
 	{if $music.ID > 0}
 	<tr><th>Music Info:</th><td>
@@ -88,7 +88,7 @@
 	</td></tr>
 	{/if}
 	
-	{if $music.review != ""}<tr><th>Music Review:</th><td>{$music.review}</td></tr>{/if}	
+	{if $music.review != ""}<tr><th>Music Review:</th><td>{$music.review|nl2br|magicurl}</td></tr>{/if}	
 	
 	{/if}	
 	

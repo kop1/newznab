@@ -17,13 +17,11 @@
 	{foreach from=$results item=result name=result}
 		<tr class="{cycle values=",alt"}">
 			<td width="15%;">
-			
-			
 				<a {if $smarty.foreach.result.last}id="last"{/if} title="View profile" href="{$smarty.const.WWW_TOP}/profile/?name={$result.username}">{$result.username}</a>
 				<br/>
 				on <span title="{$result.createddate}">{$result.createddate|date_format}</span> <div class="hint">({$result.createddate|timeago})</div>
 			</td>
-			<td>{$result.message|escape:"htmlall"|regex_replace:"/[\r\t\n]/":"<br/>"}</td>
+			<td>{$result.message|escape:"htmlall"|nl2br|magicurl}</td>
 		</tr>
 	{/foreach}
 	
