@@ -8,7 +8,11 @@ $id = $_GET["id"] + 0;
 
 $forum = new Forum();
 if ($page->isPostBack())
+{
 		$forum->add($id, $users->currentUserId(), "", $_POST["addReply"]); 
+		header("Location:".WWW_TOP."/forumpost/".$id."#last");
+		die();
+}
 
 $results = $forum->getPosts($id);
 if (count($results) == 0)

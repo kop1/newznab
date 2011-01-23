@@ -7,8 +7,11 @@ if (!$users->isLoggedIn())
 	$page->show403();
 
 if ($page->isPostBack())
+{
 		$forum->add(0, $users->currentUserId(), $_POST["addSubject"], $_POST["addMessage"]); 
-
+		header("Location:".WWW_TOP."/forum");
+		die();
+}
 $browsecount = $forum->getBrowseCount();
 
 $offset = (isset($_REQUEST["offset"]) && ctype_digit($_REQUEST['offset'])) ? $_REQUEST["offset"] : 0;

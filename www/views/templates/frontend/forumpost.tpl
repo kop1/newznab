@@ -35,7 +35,7 @@
 <div style="margin-top:10px;">
 <h3>Add Reply</h3>
 <a id="reply"></a>
-<form method="post" action="#last">
+<form method="post">
 	<label for="addReply">Message</label>:<br/>
 	<textarea maxlength="5000" id="addReply" name="addReply"></textarea>
 	<br/>
