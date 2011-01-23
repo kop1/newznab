@@ -9,6 +9,22 @@ jQuery(function($){
 		function(){	$(this).children('td.icons').children('div.icon').css('opacity',orig_opac); }
 	);
 
+	$(".forumpostsubmit").click(function(e) {
+		if ($.trim($("#addMessage").val()) == "" || $.trim($("#addSubject").val()) == "")
+		{
+			alert ("Please enter a subject and message.");
+			return false;
+		}
+	});
+	
+	$(".forumreplysubmit").click(function(e) {
+		if ($.trim($("#addReply").val()) == "")
+		{
+			alert ("Please enter a message.");
+			return false;
+		}
+	});
+	
 	$(".check").click(function(e) {
 		if (!$(e.target).is('input'))
 			$(this).children(".nzb_check").attr('checked', !$(this).children(".nzb_check").attr('checked'));

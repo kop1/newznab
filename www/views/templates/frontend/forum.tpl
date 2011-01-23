@@ -57,7 +57,7 @@
 	<label for="addMessage">Message</label>:<br/>
 	<textarea maxlength="5000" id="addMessage" name="addMessage"></textarea>
 	<br/>
-	<input type="submit" value="submit"/>
+	<input class="forumpostsubmit" type="submit" value="submit"/>
 </form>
 </div>
 

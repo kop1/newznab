@@ -33,12 +33,13 @@
 
 
 <div style="margin-top:10px;">
+<h3>Add Reply</h3>
 <a id="reply"></a>
 <form method="post" action="#last">
-	<label for="addReply">Add Reply</label>:<br/>
+	<label for="addReply">Message</label>:<br/>
 	<textarea maxlength="5000" id="addReply" name="addReply"></textarea>
 	<br/>
-	<input type="submit" value="submit"/>
+	<input class="forumreplysubmit" type="submit" value="submit"/>
 </form>
 </div>
 
