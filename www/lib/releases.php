@@ -13,6 +13,7 @@ require_once(WWW_DIR."/lib/nzb.php");
 require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/zipfile.php");
 require_once(WWW_DIR."/lib/rarinfo.php");
+require_once(WWW_DIR."/lib/site.php");
 
 class Releases
 {	
@@ -1722,6 +1723,12 @@ class Releases
 	public function addComment($id, $text, $userid, $host)
 	{			
 		$db = new DB();
+		
+		$site = new Sites();
+		$s = $site->get();
+		if ($s->storeuserips != "1")
+			$host = "";		
+		
 		$comid = $db->queryInsert(sprintf("INSERT INTO releasecomment (`releaseID`, 	`text`, 	`userID`, 	`createddate`, 	`host`	)	
 						VALUES (%d, 	%s, 	%d, 	now(), 	%s	)", $id, $db->escapeString($text), $userid, $db->escapeString($host) ));		
 		$this->updateReleaseCommentCount($id);					
