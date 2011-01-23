@@ -49,8 +49,9 @@
 
 <div style="margin-top:10px;">
 <a id="new"></a>
+<h3>Add New Post</h3>
 <form method="post" action="{$smarty.const.WWW_TOP}/forum">
-	<label for="addSubject">Add New Post</label>:<br/>
+	<label for="addSubject">Subject</label>:<br/>
 	<input maxlength="200" id="addSubject" name="addSubject" />
 	<br/>
 	<label for="addMessage">Message</label>:<br/>
