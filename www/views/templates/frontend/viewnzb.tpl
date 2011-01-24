@@ -57,7 +57,7 @@
 	{if $con.ID > 0}
 	<tr><th>Console Info:</th><td>
 		{if $con.cover == 1}<a target="_blank" href="{$site->dereferrer_link}{$con.url}/" ><img src="{$smarty.const.WWW_TOP}/covers/console/{$con.ID}.jpg" alt="{$con.title}" height="140" align="left" hspace="10" /></a>{/if}
-		<strong>{$con.title} ({$con.releasedate|date_format:"%Y"})</strong>
+		<strong>{$con.title} ({$con.releasedate|date_format:"%Y"})</strong><br />
 		{if $con.esrb != ""}<strong>ESRB:</strong> {$con.esrb}<br />{/if}
 		{if $con.publisher != ""}<strong>Publisher:</strong> {$con.publisher}<br />{/if}
 		{if $con.platform != ""}<strong>Platform:</strong> {$con.platform}<br />{/if}

@@ -26,7 +26,7 @@
 			</p>
 			
 			<p>
-				The feeds include additional attributes to help provide better filtering in your Nzb client, such as size, group and categorisation.
+				The feeds include additional attributes to help provide better filtering in your Nzb client, such as size, group and categorisation. If you want to chain multiple categories together or do more advanced searching, use the <a href="{$smarty.const.WWW_TOP}/apihelp">api</a>, which returns its data in an rss compatible format.
 			</p>
 			
 			<h2>Available Feeds</h2>
