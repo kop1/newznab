@@ -98,7 +98,7 @@
 				</div>
 			</td>
 			<td colspan="7" class="left" id="guid{$result.guid}">
-				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.title}</a> (<a class="title" title="{$result.year}" href="{$smarty.const.WWW_TOP}/movies?year={$result.year}">{$result.year}</a>) {if $result.rating != ''}{$result.rating}/10{/if}{if $isadmin}&nbsp;&nbsp;<small>[ <a href="{$smarty.const.WWW_TOP}/admin/movie-edit.php?id={$result.imdbID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">Edit</a> ]</small>{/if}</h2>
+				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.title}</a> (<a class="title" title="{$result.year}" href="{$smarty.const.WWW_TOP}/movies?year={$result.year}">{$result.year}</a>) {if $result.rating != ''}{$result.rating}/10{/if}</h2>
 				{if $result.tagline != ''}<b>{$result.tagline}</b><br />{/if}
 				{if $result.plot != ''}{$result.plot}<br /><br />{/if}
 				<b>Genre:</b> {$result.genre}<br />

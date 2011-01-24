@@ -52,7 +52,7 @@
 <h3>Add New Post</h3>
 <form method="post">
 	<label for="addSubject">Subject</label>:<br/>
-	<input maxlength="200" id="addSubject" name="addSubject" />
+	<input type="text" maxlength="200" id="addSubject" name="addSubject" />
 	<br/>
 	<label for="addMessage">Message</label>:<br/>
 	<textarea maxlength="5000" id="addMessage" name="addMessage"></textarea>
