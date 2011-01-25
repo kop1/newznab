@@ -50,7 +50,7 @@
 			<div class="gobutton" title="Submit search"><input id="headsearch_go" type="submit" value="" /></div>
 
 			<label style="display:none;" for="headcat">Search Category</label>
-			<select id="headcat" name="t">
+			<select id="headcat" name="t" tabindex="2">
 				<option class="grouping" value="-1">All</option>
 			{foreach from=$parentcatlist item=parentcat}
 				<option {if $header_menu_cat==$parentcat.ID}selected="selected"{/if} class="grouping" value="{$parentcat.ID}">{$parentcat.title}</option>
@@ -61,7 +61,7 @@
 			</select>
 
 			<label style="display:none;" for="headsearch">Search Text</label>
-			<input id="headsearch" name="search" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" /> 
+			<input id="headsearch" name="search" value="{if $header_menu_search == ""}Enter keywords{else}{$header_menu_search|escape:"htmlall"}{/if}" style="width:85px;" type="text" tabindex="1" /> 
 
 		</form>
 	</div>
