@@ -23,7 +23,7 @@ if (isset($_GET["id"]) && ctype_digit($_GET["id"]))
 	$page->meta_title = "";
 	$page->meta_keywords = "";
 	$page->meta_description = "";
-	$page->smarty->register_modifier('ss', 'stripslashes');
+	$page->smarty->registerPlugin('modifier', 'ss', 'stripslashes');
 	
 	$modal = false;
 	if (isset($_GET['modal'])) 
