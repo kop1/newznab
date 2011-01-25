@@ -24,13 +24,26 @@ REQUIREMENTS
 	3rd Party API Keys (recommended to get your own api keys)
 		tmdb (signup @ http://api.themoviedb.org/2.1/)
 		amazon (signup @ https://affiliate-program.amazon.com/gp/advertising/api/detail/main.html)
+	
 		
 INSTALLATION
-	there is an installer in \install\ try it first by creating your website
-	copying the application files there and browsing to http://yournewznabserver/install.
+	there is an installer in \install\ try it first by creating your website,
+	copying the application files there, and browsing to http://yournewznabserver/install.
+	
+	refer to the list of requirements above if you encounter any errors during install.
+	
+	once installed activate only one or two groups to test with first (a.b.teevee is a good choice), this
+	will save you time if it is not working correctly.
+	
+	run the update_binaries.php and update_releases.php scripts in \misc\update_scripts\ via command-line.
+	
+	if updating was successful then you can continue to setup your site and configure the cron scripts for
+	auto-updating.
+	
 	
 RUNNING OUTSIDE OF WEB ROOT
 	set /.htaccess RewriteBase to your virtual directory
+	
 	
 SAMPLE APACHE VHOST CONFIG
 	add this to your existing VHOST file modifying your values for ServerName, Server Alias, and DocumentRoot.  
