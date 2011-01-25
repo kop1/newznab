@@ -42,7 +42,7 @@
 	</tr>
 	<tr><th>Excluded Categories:</th>
 		<td>
-			{html_options style="height:105px;" multiple=multiple name=exccat[] options=$catlist selected=$userexccat}
+			{html_options style="height:105px;" multiple=multiple name="exccat[]" options=$catlist selected=$userexccat}
 			<div class="hint">Use Ctrl and click to exclude multiple categories.</div>
 		</td>
 	</tr>

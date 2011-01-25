@@ -41,7 +41,7 @@
 	</tr>
 	{/if}
 	
-	{if $movie.imdbID > 0}
+	{if $movie}
 	<tr><th>Movie Info:</th><td>
 		{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/covers/movies/{$movie.imdbID}-cover.jpg" alt="{$movie.title}" height="140" align="left" hspace="10" />{/if}
 		<strong>{$movie.title} ({$movie.year}) {if $movie.rating == ''}N/A{/if}{$movie.rating}/10</strong>
@@ -54,7 +54,7 @@
 	</td></tr>
 	{/if}
 	
-	{if $con.ID > 0}
+	{if $con}
 	<tr><th>Console Info:</th><td>
 		{if $con.cover == 1}<a target="_blank" href="{$site->dereferrer_link}{$con.url}/" ><img src="{$smarty.const.WWW_TOP}/covers/console/{$con.ID}.jpg" alt="{$con.title}" height="140" align="left" hspace="10" /></a>{/if}
 		<strong>{$con.title} ({$con.releasedate|date_format:"%Y"})</strong><br />
@@ -64,10 +64,10 @@
 		{if $con.releasedate != ""}<strong>Released:</strong> {$con.releasedate|date_format}<br />{/if}
 		<strong>More:</strong> <a class="rndbtn" target="_blank" href="{$site->dereferrer_link}{$con.url}/" title="View Game">Amazon</a>
 	</td></tr>
-	{/if}	
 	{if $con.review != ""}<tr><th>Console Review:</th><td>{$con.review|nl2br|magicurl}</td></tr>{/if}	
+	{/if}	
 	
-	{if $music.ID > 0}
+	{if $music}
 	<tr><th>Music Info:</th><td>
 		{if $music.cover == 1}<a target="_blank" href="{$site->dereferrer_link}{$music.url}/" ><img src="{$smarty.const.WWW_TOP}/covers/music/{$music.ID}.jpg" alt="{$music.title}" height="120" align="left" hspace="10" /></a>{/if}
 		<strong>{$music.title} {if $music.year != ""}({$music.year}){/if}</strong><br />

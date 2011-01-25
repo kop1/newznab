@@ -32,13 +32,17 @@
 <newznab:attr name="size" value="{$release.size}" />
 	<newznab:attr name="files" value="{$release.totalpart}" />
 	<newznab:attr name="poster" value="{$release.fromname|escape:html}" />
-{if $release.season != ""}<newznab:attr name="season" value="{$release.season}" />
+{if $release.season != ""}	<newznab:attr name="season" value="{$release.season}" />
 {/if}
-{if $release.episode != ""}<newznab:attr name="episode" value="{$release.episode}" />
+{if $release.episode != ""}	<newznab:attr name="episode" value="{$release.episode}" />
 {/if}
-{if $release.rageID != "-1" && $release.rageID != "-2"}<newznab:attr name="rageid" value="{$release.rageID}" />
+{if $release.rageID != "-1" && $release.rageID != "-2"}	<newznab:attr name="rageid" value="{$release.rageID}" />
+{if $release.tvtitle != ""}	<newznab:attr name="tvtitle" value="{$release.tvtitle|escape:html}" />
 {/if}
-	{if $release.imdbID != ""}<newznab:attr name="imdb" value="{$release.imdbID}" />
+{if $release.tvairdate != ""}	<newznab:attr name="tvairdate" value="{$release.tvairdate|phpdate_format:"DATE_RSS"}" />
+{/if}
+{/if}
+{if $release.imdbID != ""}	<newznab:attr name="imdb" value="{$release.imdbID}" />
 {/if}
 	<newznab:attr name="grabs" value="{$release.grabs}" />
 	<newznab:attr name="comments" value="{$release.comments}" />

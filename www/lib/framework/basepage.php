@@ -36,7 +36,8 @@ class BasePage
 		$this->smarty->template_dir = WWW_DIR.'views/templates/'.$this->template_dir;
 		$this->smarty->compile_dir = SMARTY_DIR.'templates_c/';
 		$this->smarty->config_dir = SMARTY_DIR.'configs/';
-		$this->smarty->cache_dir = SMARTY_DIR.'cache/';				
+		$this->smarty->cache_dir = SMARTY_DIR.'cache/';	
+		$this->smarty->error_reporting = (E_ALL - E_NOTICE);
 
 		$this->smarty->assign('page',$this);
 		if (isset($_SERVER["SERVER_NAME"]))
