@@ -11,6 +11,8 @@ $data = $users->getById($userid);
 if (!$data)
 	$page->show404();
 	
+$errorStr = '';
+
 switch($action) 
 {
 	case 'newapikey':
@@ -24,23 +26,23 @@ switch($action)
 		
 		if ($_POST['password']!= "" && $_POST['password'] != $_POST['confirmpassword'])
 		{
-			$page->smarty->assign('error', "Password Mismatch");
+			$errorStr = "Password Mismatch";
 		}
 		else
 		{
 			if ($_POST['password']!= "" && !$users->isValidPassword($_POST['password']))
 			{
-				$page->smarty->assign('error', "Your password must be longer than five characters.");
+				$errorStr = "Your password must be longer than five characters.";
 			}
 			else
 			{
 				if (!$users->isValidEmail($_POST['email']))
-					$page->smarty->assign('error', "Your email is not a valid format.");	
+					$errorStr = "Your email is not a valid format.";
 				else
 				{
 					$res = $users->getByEmail($_POST['email']);
 					if ($res && $res["ID"] != $userid)
-						$page->smarty->assign('error', "Sorry, the email is already in use.");	
+						$errorStr = "Sorry, the email is already in use.";
 					else
 					{
 
@@ -64,6 +66,7 @@ switch($action)
 	break;   
 }
 
+$page->smarty->assign('error', $errorStr);
 $page->smarty->assign('user', $data);
 $page->smarty->assign('userexccat', $users->getCategoryExclusion($userid));
 

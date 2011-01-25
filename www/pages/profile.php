@@ -23,12 +23,11 @@ $data = $users->getById($userid);
 if (!$data)
 	$page->show404();
 
+$invitedby = '';
 if ($data["invitedby"] != "")	
-{
 	$invitedby = $users->getById($data["invitedby"]);
-	$page->smarty->assign('userinvitedby',$invitedby);
-}
 	
+$page->smarty->assign('userinvitedby',$invitedby);
 $page->smarty->assign('user',$data);
 
 $commentcount = $releases->getCommentCountForUser($userid);

@@ -11,9 +11,12 @@ $page->meta_keywords = "search,nzb,description,details";
 $page->meta_description = "Search for Nzbs";
 
 $results = array();
+$searchStr = '';
 
 if (isset($_REQUEST["id"]))
 {
+	$searchStr = $_REQUEST["id"];
+
 	$categoryId = array();
 	if (isset($_GET["t"]))
 		$categoryId = explode(",",$_REQUEST["t"]);
@@ -24,13 +27,12 @@ if (isset($_REQUEST["id"]))
 	$ordering = $releases->getBrowseOrdering();
 	$orderby = isset($_REQUEST["ob"]) && in_array($_REQUEST['ob'], $ordering) ? $_REQUEST["ob"] : '';
 	foreach($ordering as $ordertype) {
-		$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/search/".htmlentities($_REQUEST["id"])."?t=".(implode(',',$categoryId))."&amp;ob=".$ordertype);
+		$page->smarty->assign('orderby'.$ordertype, WWW_TOP."/search/".htmlentities($searchStr)."?t=".(implode(',',$categoryId))."&amp;ob=".$ordertype);
 	}
 	$page->smarty->assign('category', $categoryId);
-	$page->smarty->assign('search', $_REQUEST["id"]);
 	$page->smarty->assign('lastvisit', $page->userdata['lastlogin']);
 	
-	$results = $releases->search($_REQUEST["id"], $categoryId, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"]);
+	$results = $releases->search($searchStr, $categoryId, $offset, ITEMS_PER_PAGE, $orderby, -1, $page->userdata["categoryexclusions"]);
 	
 	if (sizeof($results) > 0)
 		$totalRows = $results[0]['_totalrows'];
@@ -40,7 +42,7 @@ if (isset($_REQUEST["id"]))
 	$page->smarty->assign('pagertotalitems',$totalRows);
 	$page->smarty->assign('pageroffset',$offset);
 	$page->smarty->assign('pageritemsperpage',ITEMS_PER_PAGE);
-	$page->smarty->assign('pagerquerybase', WWW_TOP."/search/".htmlentities($_REQUEST["id"])."?t=".(implode(',',$categoryId))."&amp;ob=".$orderby."&amp;offset=");
+	$page->smarty->assign('pagerquerybase', WWW_TOP."/search/".htmlentities($searchStr)."?t=".(implode(',',$categoryId))."&amp;ob=".$orderby."&amp;offset=");
 	$page->smarty->assign('pagerquerysuffix', "#results");
 	
 	$pager = $page->smarty->fetch($page->getCommonTemplate("pager.tpl"));
@@ -48,6 +50,7 @@ if (isset($_REQUEST["id"]))
 
 }
 
+$page->smarty->assign('search', $searchStr);
 $page->smarty->assign('results', $results);
 
 $page->content = $page->smarty->fetch('search.tpl');
