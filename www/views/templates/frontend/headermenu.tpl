@@ -47,7 +47,7 @@
 	<div id="menusearchlink">
 		<form id="headsearch_form" action="{$smarty.const.WWW_TOP}/search/" method="get">
 
-			<div class="gobutton" title="Submit search"><input id="headsearch_go" type="submit" value="" /></div>
+			<div class="gobutton" title="Submit search"><input id="headsearch_go" type="submit" value="" tabindex="3" /></div>
 
 			<label style="display:none;" for="headcat">Search Category</label>
 			<select id="headcat" name="t" tabindex="2">
