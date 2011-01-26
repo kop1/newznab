@@ -278,6 +278,7 @@ class Category
                 if (preg_match('/alt\.binaries\.(teevee|multimedia|tv|tvseries)/i', $group))
                         {
                         if($this->isTV($releasename)){ return $this->tmpCat; }
+                        if($this->isForeignTV($releasename)){ return $this->tmpCat; }
                         return Category::CAT_TV_OTHER;
                         }
                 if (preg_match('/erotica/i', $group))
