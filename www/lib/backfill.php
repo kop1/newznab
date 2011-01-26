@@ -182,8 +182,8 @@ class Backfill
 			echo "To backfill this group you need to set Backfill Days to at least ".ceil($this->daysOld($lastDate)+1)." days (".date("r", $lastDate-86400).").$n";
 			return "";
 		}
-		if ($debug) echo "DEBUG: Searching for postdate $n Goaldate: $goaldate (".date("r", $goaldate).") $n Firstdate: $firstDate (".date("r", $firstDate).") $n Lastdate: $lastDate (".date("r", $lastDate).") $n";
-				
+		if ($debug) echo "DEBUG: Searching for postdate $n Goaldate: $goaldate (".date("r", $goaldate).") $n Firstdate: $firstDate (".((is_int($firstDate))?date("r", $firstDate):'n/a').") $n Lastdate: $lastDate (".date("r", $lastDate).") $n";
+			
 		$interval = floor(($upperbound - $lowerbound) * 0.5);
 		$dateofnextone = "";
 		$templowered = "";
