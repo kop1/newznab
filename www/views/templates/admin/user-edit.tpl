@@ -13,21 +13,21 @@
 	<td>Name:</td>
 	<td>
 		<input type="hidden" name="id" value="{$user.ID}" />
-		<input class="long" name="username" type="text" value="{$user.username}" />
+		<input autocomplete="off" class="long" name="username" type="text" value="{$user.username}" />
 	</td>
 </tr>
 
 <tr>
 	<td>Email:</td>
 	<td>
-		<input class="long" name="email" type="text" value="{$user.email}" />
+		<input autocomplete="off" class="long" name="email" type="text" value="{$user.email}" />
 	</td>
 </tr>
 
 <tr>
 	<td>Password:</td>
 	<td>
-		<input class="long" name="password" type="password" value="" />
+		<input autocomplete="off" class="long" name="password" type="password" value="" />
 		{if $user.ID}
 			<div class="hint">Only enter a password if you want to change it.</div>
 		{/if}
