@@ -28,6 +28,7 @@ class BasePage
 		{
             foreach($_GET as $k => $v) $_GET[$k] = stripslashes($v);
             foreach($_POST as $k => $v) $_POST[$k] = stripslashes($v);
+            foreach($_REQUEST as $k => $v) $_REQUEST[$k] = stripslashes($v);
             foreach($_COOKIE as $k => $v) $_COOKIE[$k] = stripslashes($v);
         }	
 		
