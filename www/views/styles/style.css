@@ -154,7 +154,8 @@ pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 
 #musicinfo h1 { font-size: 32px; padding: 10px 10px 0px 20px; color: #fff; }
 #musicinfo h2, #musicinfo h3, #musicinfo p { padding: 10px 20px 0px 20px; color: #fff;}
 #musicinfo a { color: #fff; }
-#musicinfo img.cover { float:right; margin-top: 20px; margin-left: 20px; padding-right: 20px;}
+#musicinfo img.cover 
+{ float:right;  margin-top: 20px; margin-left: 20px; margin-right:20px;  padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -moz-box-shadow: 3px 6px 8px -4px #333; -webkit-box-shadow: 3px 6px 8px -4px #333; box-shadow: 3px 6px 8px -4px #333; }
 #musicinfo p {text-align: left; line-height: 180%;}
 
 div.resextra { padding-top:7px; color: #555; font-size: 0.9em; height:16px; }
