@@ -32,6 +32,9 @@
 	{if $release.mu_cover == 1}
 		<img style="margin-left:10px;margin-bottom:10px;float:right;" src="{$serverroot}covers/music/{$release.musicinfoID}.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
 	{/if}	
+	{if $release.co_cover == 1}
+		<img style="margin-left:10px;margin-bottom:10px;float:right;" src="{$serverroot}covers/console/{$release.consoleinfoID}.jpg" width="120" border="0" alt="{$release.searchname|escape:"htmlall"}" />
+	{/if}	
 	<ul>
 	<li>ID: <a href="{$serverroot}details/{$release.guid}">{$release.guid}</a> (Size: {$release.size|fsize_format:"MB"}) </li>
 	<li>Name: {$release.searchname}</li>
@@ -55,7 +58,6 @@
 			</ul>
 		</li>
 		{/if}
-		</ul>
 	{/if}
 	
 	{if $release.parentCategoryID == 3000}
@@ -81,8 +83,23 @@
 			</ul>
 		</li>
 		{/if}
-		</ul>
 	{/if}	
+
+	{if $release.parentCategoryID == 1000}
+		{if $release.consoleinfoID > 0}
+		<li>Console Info: 
+			<ul>
+				{if $release.co_url != ""}<li>Amazon: <a href="{$release.co_url}">{$release.co_title}</a></li>{/if}
+				{if $release.co_genre != ""}<li>Genre: {$release.co_genre}</li>{/if}
+				{if $release.co_publisher != ""}<li>Publisher: {$release.co_publisher}</li>{/if}
+				{if $release.year != ""}<li>Released: {$release.co_releasedate|date_format}</li>{/if}
+				{if $release.co_review != ""}<li>Review: {$release.co_review}</li>{/if}
+			</ul>
+		</li>
+		{/if}
+	{/if}	
+
+	</ul>
 	
 	</div>
 	<div style="clear:both;">
