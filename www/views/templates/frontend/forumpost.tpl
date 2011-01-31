@@ -20,6 +20,12 @@
 				<a {if $smarty.foreach.result.last}id="last"{/if} title="View profile" href="{$smarty.const.WWW_TOP}/profile/?name={$result.username}">{$result.username}</a>
 				<br/>
 				on <span title="{$result.createddate}">{$result.createddate|date_format}</span> <div class="hint">({$result.createddate|timeago})</div>
+				{if $userdata.role==2}
+				<div>
+					<a class="rndbtn confirm_action" href="{$smarty.const.WWW_TOP}/admin/forum-delete.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Delete Post">Delete</a>
+				</div>
+				{/if}
+				
 			</td>
 			<td>{$result.message|escape:"htmlall"|nl2br|magicurl}</td>
 		</tr>

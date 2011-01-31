@@ -16,7 +16,10 @@ if ($page->isPostBack())
 
 $results = $forum->getPosts($id);
 if (count($results) == 0)
-	$page->show404();
+{
+	header("Location:".WWW_TOP."/forum");
+	die();
+}
 
 $page->meta_title = "Forum Post";
 $page->meta_keywords = "view,forum,post,thread";
