@@ -36,7 +36,7 @@ switch($action)
 				}				
 			}		
 
-			$tvrage->add($_POST["rageID"], $_POST["releasetitle"], $_POST["description"], $imgbytes);
+			$tvrage->add($_POST["rageID"], $_POST["releasetitle"], $_POST["description"], $_POST["genre"], $_POST['country'], $imgbytes);
 		}
 		else
 		{
@@ -60,7 +60,7 @@ switch($action)
 				}			
 			}	
 
-			$tvrage->update($_POST["id"], $_POST["rageID"], $_POST["releasetitle"], $_POST["description"], $imgbytes);
+			$tvrage->update($_POST["id"], $_POST["rageID"], $_POST["releasetitle"], $_POST["description"], $_POST["genre"], $_POST['country'], $imgbytes);
 		}
 		
 		header("Location:".WWW_TOP."/rage-list.php");

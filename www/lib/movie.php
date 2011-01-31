@@ -338,10 +338,10 @@ class Movie
 
 		if ($movieId) {
 			if ($this->echooutput)
-				echo "added/updated movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "added/updated movie: ".urldecode($mov['title'])." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		} else {
 			if ($this->echooutput)
-				echo "nothing to update for movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "nothing to update for movie: ".urldecode($mov['title'])." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		}
 		
 		return $movieId;
@@ -569,7 +569,7 @@ class Movie
 		if (!$cat->isMovieForeign($releasename)) {
 			preg_match('/^(?P<name>.*)[\.\-_ ](?P<year>19\d{2}|20\d{2})/i', $releasename, $matches);
 			if (!isset($matches['year'])) {
-				preg_match('/^(?P<name>.*)[\.\-_ ](?:dvdrip|bdrip|brrip|bluray|hdtv|divx|xvid|proper|repack|real\.proper)/i', $releasename, $matches);
+				preg_match('/^(?P<name>.*)[\.\-_ ](?:dvdrip|bdrip|brrip|bluray|hdtv|divx|xvid|proper|repack|real\.proper|sub\.?fix|sub\.?pack)/i', $releasename, $matches);
 			}
 			
 			if (isset($matches['name'])) {

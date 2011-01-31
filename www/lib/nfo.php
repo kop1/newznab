@@ -2,7 +2,6 @@
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/movie.php");
-require_once(WWW_DIR."/lib/releases.php");
 require_once(WWW_DIR."/lib/tvrage.php");
 
 class Nfo 
@@ -57,12 +56,11 @@ class Nfo
 		return false;
 	}
 	
-	public function processNfoFiles($processImdb=1)
+	public function processNfoFiles($processImdb=1, $processTvrage=1)
 	{
 		$ret = 0;
 		$db = new DB();
 		$nntp = new Nntp();
-		$tvr = new Tvrage();
 		
 		$res = $db->queryDirect(sprintf("SELECT rn.*, r.searchname FROM releasenfo rn left outer join releases r ON r.ID = rn.releaseID WHERE rn.nfo IS NULL AND rn.attempts < 5"));
 		if (mysql_num_rows($res) > 0)
@@ -102,16 +100,24 @@ class Nfo
 					$rageId = $this->parseRageId($fetchedBinary);
 					if ($rageId !== false)
 					{	
-						//update release with rage id
-						$rel = new Releases();
-						$show = $rel->parseNameEpSeason($arr['searchname']);			
-						$db->query(sprintf("update releases set rageID = %d, seriesfull = %s, season = %s, episode = %s WHERE ID = %d", 
-							$rageId, $db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $arr["releaseID"]));
-						
-						$rid = $tvr->getByRageID($rageId);
-						if (!$rid)
-							$tvr->add($rageId, $show['name'], '', '');
-						
+						//if set scan for tvrage info
+						if ($processTvrage == 1)
+						{
+							$tvrage = new Tvrage($this->echooutput);
+							$show = $tvrage->parseNameEpSeason($arr['searchname']);	
+							if (is_array($show) && $show['name'] != '')
+							{	
+								// update release with season, ep, and airdate info (if available) from releasetitle
+								$tvrage->updateEpInfo($show, $arr["releaseID"]);
+								
+								$rid = $tvrage->getByRageID($rageId);
+								if (!$rid)
+								{
+									$tvrShow = $tvrage->getRageInfoFromService($rageId);
+									$tvrage->updateRageInfo($rageId, $show, $tvrShow);
+								}
+							}
+						}
 					}
 				} 
 				else 

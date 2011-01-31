@@ -1173,7 +1173,7 @@ class Releases
 		}
 		else
 		{
-			$nfo->processNfoFiles($page->site->lookupimdb);
+			$nfo->processNfoFiles($page->site->lookupimdb, ($page->site->lookuptvrage=="1"));
 		}
 		
 		//
@@ -1218,7 +1218,8 @@ class Releases
 		//
 		// Process all TV related releases which will assign their series/episode/rage data
 		//
-		$this->processTvSeriesData(true, ($page->site->lookuptvrage=="1"));
+		$tvrage = new TVRage(true);
+		$tvrage->processTvReleases(($page->site->lookuptvrage=="1"));
 		
 		//
 		// Get the current datetime again, as using now() in the housekeeping queries prevents the index being used.
@@ -1380,100 +1381,6 @@ class Releases
 		if($echooutput)
 			echo sprintf("Finished checking for passwords for %d releases (%d passworded, %d potential, %d none).\n\n", $numfound, $numpasswd, $numpot, $numnone);
 	}
-	
-	public function processTvSeriesData($echooutput=false, $lookupTvRage = true)
-	{
-		$ret = 0;
-		$db = new DB();
-		$rage = new TvRage();
-		
-		//
-		// Get all releases without a rageid which are in a tv category.
-		//
-		$result = $db->queryDirect(sprintf("SELECT searchname, ID from releases where rageID = -1 and categoryID in ( select ID from category where parentID = %d )", Category::CAT_PARENT_TV));
-		
-		if ($echooutput)
-			echo "Processing tv for ".mysql_num_rows($result)." releases\n";
-			echo "Lookup tv rage from the web - ".($lookupTvRage?"Yes\n":"No\n");
-			
-		while ($arr = mysql_fetch_assoc($result)) 
-		{
-			$show = $this->parseNameEpSeason($arr['searchname']);			
-			if (!$show)
-			{
-				//
-				// Not a tv episode, so set rageid to na
-				// 
-				$db->query(sprintf("update releases set rageID = -2 where ID = %d", $arr["ID"]));
-			}
-			else
-			{
-				//
-				// see if its in the existing rage list
-				// only process releases which have a searchname like S01E01 or S01E02-E03
-				// 
-				if (is_array($show) && $show['name'] != '')
-				{
-					if ($echooutput)
-						echo "TV series - ".$show['name']."-".$show['seriesfull']."\n";
-					
-					//
-					// Get a clean name version of the release (the text upto the S01E01 part) and the series and episode parts
-					//
-					$relcleanname = str_replace(".", " ", $show['name']);
-					$relcleanname = str_replace("_", " ", $relcleanname);
-					
-					$tvairdate = (!empty($show['airdate'])) ? $db->escapestring($show['airdate']) : "null";
-					
-					$db->query(sprintf("update releases set seriesfull = %s, season = %s, episode = %s, tvairdate=%s where ID = %d", 
-								$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $tvairdate, $arr["ID"]));
-
-					//
-					// try and retrieve the entry from tvrage
-					//
-					$id = $rage->getRageId($relcleanname, $echooutput, $lookupTvRage);
-					if ($id != -1)
-					{
-						//
-						// try and get the episode info from tvrage
-						//
-						$tvairdate = $tvairdate;
-						$tvtitle = "null";
-
-						if ($lookupTvRage)
-						{
-							$epinfo = $rage->getEpisodeInfo($id, $show['season'], $show['episode']);
-							if ($epinfo != "")
-							{
-								$xmlObj = @simplexml_load_string($epinfo);
-								$arrXml = objectsIntoArray($xmlObj);
-								if (is_array($arrXml))
-								{
-									if (isset($arrXml['episode']['airdate']) && $arrXml['episode']['airdate'] != '0000-00-00')
-										$tvairdate = $db->escapeString($arrXml['episode']['airdate']);
-									if (isset($arrXml['episode']['title']))
-										$tvtitle = $db->escapeString($arrXml['episode']['title']);
-								}
-							}
-						}
-						
-						$db->query(sprintf("update releases set tvtitle=trim(%s), tvairdate=%s, rageID = %d where ID = %d", $tvtitle, $tvairdate, $id, $arr["ID"]));
-					}
-					else
-					{
-						//
-						// Cant find rageid, so set rageid to na
-						// 
-						$db->query(sprintf("update releases set rageID = -2 where ID = %d", $arr["ID"]));
-					}
-
-					$ret++;
-				}
-			}
-		}
-		
-		return $ret;
-	}
 
 	public function getReleaseNameForReqId($url, $groupname, $reqid, $echooutput=false)
 	{
@@ -1507,119 +1414,6 @@ class Releases
 			echo "no title found for reqid ".$reqid."\n";
 
 		return "";		
-	}
-	
-	public function parseNameEpSeason($relname)
-	{
-		$showInfo = array(
-			'name' => '',
-			'season' => '',
-			'episode' => '',
-			'seriesfull' => '',
-			'airdate' => ''
-		);
-		
-		//S01E01-E02
-		//S01E01-02
-		if (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})(?:\-e?|\-?e)(\d{1,3})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = intval($matches[2]);
-			$showInfo['episode'] = array(intval($matches[3]), intval($matches[4]));
-		//S01E01
-		//S01.E01
-		} elseif (preg_match('/^(.*?)\.s(\d{1,2})\.?e(\d{1,3})\.?/i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = intval($matches[2]);
-			$showInfo['episode'] = intval($matches[3]);
-		//S01
-		} elseif (preg_match('/^(.*?)\.s(\d{1,2})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = intval($matches[2]);
-			$showInfo['episode'] = 'all';
-		//1x01
-		} elseif (preg_match('/^(.*?)\.(\d{1,2})x(\d{1,3})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = intval($matches[2]);
-			$showInfo['episode'] = intval($matches[3]);
-		//2009.01.01
-		} elseif (preg_match('/^(.*?)\.(19|20)(\d{2})\.(\d{2}).(\d{2})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = $matches[2].$matches[3];
-			$showInfo['episode'] = $matches[4].'/'.$matches[5];
-			$showInfo['airdate'] = $matches[2].$matches[3].'-'.$matches[4].'-'.$matches[5]; //yy-m-d
-		//01.01.2009
-		} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(19|20)(\d{2})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = $matches[4].$matches[5];
-			$showInfo['episode'] = $matches[2].'/'.$matches[3];
-			$showInfo['airdate'] = $matches[4].$matches[5].'-'.$matches[2].'-'.$matches[3]; //yy-m-d
-		//01.01.09
-		} elseif (preg_match('/^(.*?)\.(\d{2}).(\d{2})\.(\d{2})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = ($matches[4] <= 99 && $matches[4] > 15) ? '19'.$matches[4] : '20'.$matches[4];
-			$showInfo['episode'] = $matches[2].'/'.$matches[3];
-			$showInfo['airdate'] = $showInfo['season'].'-'.$matches[2].'-'.$matches[3]; //yy-m-d
-		//2009.E01
-		} elseif (preg_match('/^(.*?)\.20(\d{2})\.e(\d{1,3})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = '20'.$matches[2];
-			$showInfo['episode'] = intval($matches[3]);
-		//2009.Part1
-		} elseif (preg_match('/^(.*?)\.20(\d{2})\.Part(\d{1,2})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = '20'.$matches[2];
-			$showInfo['episode'] = intval($matches[3]);
-		//Part1/Pt1
-		} elseif (preg_match('/^(.*?)\.(?:Part|Pt)\.?(\d{1,2})\./i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = 1;
-			$showInfo['episode'] = intval($matches[2]);
-		//The.Pacific.Pt.VI.HDTV.XviD-XII / Part.IV
-		} elseif (preg_match('/^(.*?)\.(?:Part|Pt)\.?([ivx]+)/i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = 1;
-			$epLow = strtolower($matches[2]);
-			switch($epLow) {
-				case 'i': $e = 1; break;
-				case 'ii': $e = 2; break;
-				case 'iii': $e = 3; break;
-				case 'iv': $e = 4; break;
-				case 'v': $e = 5; break;
-				case 'vi': $e = 6; break;
-				case 'vii': $e = 7; break;
-				case 'viii': $e = 8; break;
-				case 'ix': $e = 9; break;
-				case 'x': $e = 10; break;
-			}
-			$showInfo['episode'] = $e;
-		//Band.Of.Brothers.EP06.Bastogne.DVDRiP.XviD-DEiTY
-		} elseif (preg_match('/^(.*?)\.EP\.?(\d{1,3})/i', $relname, $matches)) {
-			$showInfo['name'] = $matches[1];
-			$showInfo['season'] = 1;
-			$showInfo['episode'] = intval($matches[2]);
-		}
-		
-		if (!empty($showInfo['name'])) {
-			if (strlen($showInfo['season']) == 4) {
-				$showInfo['seriesfull'] = $showInfo['season']."/".$showInfo['episode'];
-			} else {
-				$showInfo['season'] = sprintf('S%02d', $showInfo['season']);
-				if (is_array($showInfo['episode'])) {
-					$tmpArr = array();
-					foreach ($showInfo['episode'] as $ep) {
-						$tmpArr[] = sprintf('E%02d', $ep);
-					}
-					$showInfo['episode'] = implode('', $tmpArr);
-				} else {
-					$showInfo['episode'] = sprintf('E%02d', $showInfo['episode']);
-				}
-				$showInfo['seriesfull'] = $showInfo['season'].$showInfo['episode'];
-			}
-			$showInfo['airdate'] = (!empty($showInfo['airdate'])) ? $showInfo['airdate'].' 00:00:00' : '';
-			return $showInfo;
-		}
-		
-		return false;
 	}
 
 	public function checkRegexesUptoDate($url, $rev, $echooutput=false)

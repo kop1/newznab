@@ -211,6 +211,8 @@ CREATE TABLE `tvrage`
 `tvdbID` INT NOT NULL,
 `releasetitle` VARCHAR(255) NOT NULL DEFAULT '',
 `description` VARCHAR(2000) NULL,
+`genre` VARCHAR(64) NULL DEFAULT NULL,
+`country` VARCHAR(2) NULL DEFAULT NULL,
 `imgdata` longblob null,
 `createddate` DATETIME DEFAULT NULL,
 PRIMARY KEY  (`ID`)

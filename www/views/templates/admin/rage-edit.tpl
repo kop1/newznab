@@ -30,6 +30,22 @@
 </tr>
 
 <tr>
+	<td><label for="genre">Show Genres</label>:</td>
+	<td>
+		<input id="genre" class="long" name="genre" type="text" value="{$rage.genre|escape:'htmlall'}" />
+		<div class="hint">The genres for the TV show. Separated by pipes ( | )</div>
+	</td>
+</tr>
+
+<tr>
+	<td><label for="country">Show Counttry</label>:</td>
+	<td>
+		<input id="country" name="country" type="text" value="{$rage.country|escape:'htmlall'}" maxlength="2" />
+		<div class="hint">The country for the TV show.</div>
+	</td>
+</tr>
+
+<tr>
 	<td><label for="imagedata">Series Image</label>:</td>
 	<td>
 		{if $rage.imgdata != ""}

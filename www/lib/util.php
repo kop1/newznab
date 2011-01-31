@@ -65,6 +65,28 @@ function safeFilename($filename)
     return $result;
 }
 
+function getUrl($url, $method='get', $postdata='')
+{
+	$ch = curl_init();
+	if ($method == 'post') {
+		curl_setopt($ch, CURLOPT_POST, 1);
+   		curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+   	}
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+	
+	$buffer = curl_exec($ch);
+	$err = curl_errno($ch);
+	curl_close($ch);
+	
+	if ($err != 0)
+		return false;
+	else
+		return $buffer;
+}
+
 
 function cp437toUTF($str) {
 	$out = '';
