@@ -290,7 +290,7 @@ class TvRage
 				}
 				elseif ($id > 0)
 				{
-					$tvairdate = $tvairdate;
+					$tvairdate = (isset($show['airdate']) && !empty($show['airdate'])) ? $db->escapeString($show['airdate']) : "null";
 					$tvtitle = "null";
 					
 					if ($lookupTvRage)
