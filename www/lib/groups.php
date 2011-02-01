@@ -32,6 +32,30 @@ class Groups
 		return $db->query("SELECT * FROM groups WHERE active = 1 ORDER BY name");		
 	}
 
+	public function getCount()
+	{			
+		$db = new DB();
+		$res = $db->queryOneRow("select count(ID) as num from groups");		
+		return $res["num"];
+	}	
+	
+	public function getRange($start, $num)
+	{		
+		$db = new DB();
+		
+		if ($start === false)
+			$limit = "";
+		else
+			$limit = " LIMIT ".$start.",".$num;
+		
+		return $db->query("SELECT groups.*, COALESCE(rel.num, 0) AS num_releases
+							FROM groups
+							LEFT OUTER JOIN
+							(
+							SELECT groupID, COUNT(ID) AS num FROM releases group by groupID
+							) rel ON rel.groupID = groups.ID ORDER BY groups.name ".$limit);		
+	}	
+	
 	public function add($group)
 	{			
 		$db = new DB();

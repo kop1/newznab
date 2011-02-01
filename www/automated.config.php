@@ -12,7 +12,6 @@ define('WWW_TOP', $www_top);
 //
 // used to refer to the /www/lib class files
 //
-//define('WWW_DIR', str_replace("\\","/",dirname(__FILE__))."/");
 define('WWW_DIR', realpath(dirname(__FILE__)).'/');
 
 //

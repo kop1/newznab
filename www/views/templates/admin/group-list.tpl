@@ -3,8 +3,12 @@
     <h1>{$page->title}</h1>
 
     {if $grouplist}
+	
+	{$pager}
+	<br/><br/>
+	
     <div id="message">msg</div>
-    <table class="data Sortable highlight">
+    <table class="data highlight">
 
         <tr>
             <th>group</th>
