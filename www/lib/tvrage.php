@@ -511,6 +511,15 @@ class TvRage
 	public function cleanName($str)
 	{
 		$str = str_replace(array('.', '_'), ' ', $str);
+		
+		$str = str_replace(array('à','á','â','ã','ä','æ','À','Á','Â','Ã','Ä'), 'a', $str);
+		$str = str_replace(array('ç','Ç'), 'c', $str);
+		$str = str_replace(array('Σ','è','é','ê','ë','È','É','Ê','Ë'), 'e', $str);
+		$str = str_replace(array('ì','í','î','ï','Ì','Í','Î','Ï'), 'i', $str);
+		$str = str_replace(array('ò','ó','ô','õ','ö','Ò','Ó','Ô','Õ','Ö'), 'o', $str);
+		$str = str_replace(array('ù','ú','û','ü','ū','Ú','Û','Ü','Ū'), 'u', $str);
+		$str = str_replace('ß', 'ss', $str);
+		
 		$str = str_replace('&', 'and', $str);
 		$str = preg_replace('/^(history|discovery) channel/i', '', $str);
 		$str = str_replace(array('\'', ':', '!', '"', '#', '*', '’', ',', '(', ')', '?'), '', $str);
