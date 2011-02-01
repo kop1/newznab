@@ -108,13 +108,13 @@ class Nfo
 							if (is_array($show) && $show['name'] != '')
 							{	
 								// update release with season, ep, and airdate info (if available) from releasetitle
-								$tvrage->updateEpInfo($show, $arr["releaseID"]);
+								$tvrage->updateEpInfo($show, $arr['releaseID']);
 								
 								$rid = $tvrage->getByRageID($rageId);
 								if (!$rid)
 								{
 									$tvrShow = $tvrage->getRageInfoFromService($rageId);
-									$tvrage->updateRageInfo($rageId, $show, $tvrShow);
+									$tvrage->updateRageInfo($rageId, $show, $tvrShow, $arr['releaseID');
 								}
 							}
 						}

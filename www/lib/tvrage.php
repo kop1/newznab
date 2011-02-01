@@ -187,7 +187,7 @@ class TvRage
 					$db->escapeString($show['seriesfull']), $db->escapeString($show['season']), $db->escapeString($show['episode']), $tvairdate, $relid));
 	}
 	
-	public function updateRageInfo($rageid, $show, $tvrShow)
+	public function updateRageInfo($rageid, $show, $tvrShow, $relid)
 	{
 		$db = new Db;
 		
@@ -198,7 +198,9 @@ class TvRage
 			$tvairdate = (!empty($epinfo['airdate'])) ? $db->escapeString($epinfo['airdate']) : "null";
 			$tvtitle = (!empty($epinfo['title'])) ? $db->escapeString($epinfo['title']) : "null";
 				
-			$db->query(sprintf("update releases set tvtitle=trim(%s), tvairdate=%s, rageID = %d where ID = %d", $tvtitle, $tvairdate, $tvrShow['showid'], $arr["ID"]));
+			$db->query(sprintf("update releases set tvtitle=trim(%s), tvairdate=%s, rageID = %d where ID = %d", $tvtitle, $tvairdate, $tvrShow['showid'], $relid));
+		} else {
+			$db->query(sprintf("update releases set rageID = %d where ID = %d", $tvrShow['showid'], $relid));
 		}
 		
 		$genre = '';
@@ -269,7 +271,7 @@ class TvRage
 					if ($tvrShow !== false && is_array($tvrShow))
 					{
 						// get all tv info and add show
-						$this->updateRageInfo($tvrShow['showid'], $show, $tvrShow);
+						$this->updateRageInfo($tvrShow['showid'], $show, $tvrShow, $arr['ID']);
 					}
 					elseif ($tvrShow === false)
 					{
