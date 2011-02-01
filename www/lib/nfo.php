@@ -114,7 +114,7 @@ class Nfo
 								if (!$rid)
 								{
 									$tvrShow = $tvrage->getRageInfoFromService($rageId);
-									$tvrage->updateRageInfo($rageId, $show, $tvrShow, $arr['releaseID');
+									$tvrage->updateRageInfo($rageId, $show, $tvrShow, $arr['releaseID']);
 								}
 							}
 						}
