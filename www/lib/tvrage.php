@@ -156,7 +156,7 @@ class TvRage
 	
 	public function getRageInfoFromService($rageid)
 	{
-		$result = array('genres'=>'', 'country'=>'');
+		$result = array('genres'=>'', 'country'=>'', 'showid'=>$rageid);
 		$xml = getUrl($this->xmlFullShowInfoUrl.$rageid); //full search gives us the akas
 		if ($xml !== false)
 		{
@@ -197,7 +197,7 @@ class TvRage
 		{
 			$tvairdate = (!empty($epinfo['airdate'])) ? $db->escapeString($epinfo['airdate']) : "null";
 			$tvtitle = (!empty($epinfo['title'])) ? $db->escapeString($epinfo['title']) : "null";
-				
+
 			$db->query(sprintf("update releases set tvtitle=trim(%s), tvairdate=%s, rageID = %d where ID = %d", $tvtitle, $tvairdate, $tvrShow['showid'], $relid));
 		} else {
 			$db->query(sprintf("update releases set rageID = %d where ID = %d", $tvrShow['showid'], $relid));
