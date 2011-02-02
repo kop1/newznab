@@ -30,6 +30,12 @@ jQuery(function($){
 			$(this).children(".nzb_check").attr('checked', !$(this).children(".nzb_check").attr('checked'));
 	});
 	
+	$(".tvmore").click(function(e) {
+		$(".tvdescinitial").hide();
+		$(".tvdescfull").show();
+		return false;
+	});
+	
 	$('.nzb_check_all').change(function(){
 		$('table.data tr td input:checkbox').attr('checked',$(this).attr('checked'));
 	});

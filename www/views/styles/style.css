@@ -171,6 +171,8 @@ ol.tracklist li { line-height: 140%; }
 
 div.tvseriesheading img {float:right; margin-left:10px; margin-top:10px; padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -moz-box-shadow: 3px 6px 8px -4px #777; -webkit-box-shadow: 3px 6px 8px -4px #777; box-shadow: 3px 6px 8px -4px #777; }
 div.tvseriesheading p {text-align:left;}
+div.tvseriesheading a.tvmore {display:block; margin-top:10px;}
+div.tvseriesheading span.tvdescfull {display:none;}
 
 div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(../images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
 div.comments { padding-top:20px; }
