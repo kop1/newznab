@@ -63,6 +63,12 @@ switch($action)
 			$tvrage->update($_POST["id"], $_POST["rageID"], $_POST["releasetitle"], $_POST["description"], $_POST["genre"], $_POST['country'], $imgbytes);
 		}
 		
+		if(isset($_POST['from']) && !empty($_POST['from']))
+		{
+			header("Location:".$_POST['from']);
+			exit;
+		}		
+		
 		header("Location:".WWW_TOP."/rage-list.php");
         break;
     case 'view':

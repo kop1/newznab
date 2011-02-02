@@ -1,20 +1,32 @@
- 
-<h1>{$page->title} {if $catname != ''} in {$catname|escape:"htmlall"}{/if}</h1>
+<h1>
+{foreach $rage as $r}
+	{if $isadmin}
+		<a title="Edit rage data" href="{$smarty.const.WWW_TOP}/admin/rage-edit.php?id={$r.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}">{$r.releasetitle} </a>
+	{else}
+		{$r.releasetitle} 
+	{/if}
+	{if !$r@last} / {/if}
+{/foreach}
 
-{if $rage[0].imgdata != ""}
-	<img alt="{$rage[0].releasetitle} Logo" style="display:block;padding:0px 10px 10px 10px;" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&amp;id={$rage[0].ID}" align="right" />
-{/if}
-<p>
-	{if $seriesgenre != ''}<b>{$seriesgenre}</b><br />{/if}
-	{$seriesdescription}
-</p>
+{if $catname != ''} in {$catname|escape:"htmlall"}{/if}
+
+</h1>
+
+<div class="tvseriesheading">
+	{if $rage[0].imgdata != ""}<img alt="{$rage[0].releasetitle} Logo" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&amp;id={$rage[0].ID}" />{/if}
+	<p>
+		{if $seriesgenre != ''}<b>{$seriesgenre}</b><br />{/if}
+		{$seriesdescription}
+	</p>
+
+</div>
 
 <form id="nzb_multi_operations_form" action="get">
 
 <div class="nzb_multi_operations" style="clear:both;">
 	<div style="padding-bottom:10px;" >
-		<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a>
-		| <a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
+		<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a> | 
+		<a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
 	</div>
 	<small>With Selected:</small>
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
@@ -43,7 +55,7 @@
 			<th>Size</th>
 			<th>Files</th>
 			<th>Stats</th>
-			<th>Options</th>
+			<th></th>
 		</tr>
 		{foreach $season as $episodes}
 			{foreach $episodes as $result}

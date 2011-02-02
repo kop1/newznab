@@ -3,6 +3,8 @@
 
 <form enctype="multipart/form-data" action="{$SCRIPT_NAME}?action=submit" method="POST">
 
+<input type="hidden" name="from" value="{$smarty.get.from}" />
+
 <table class="input">
 
 <tr>
@@ -38,7 +40,7 @@
 </tr>
 
 <tr>
-	<td><label for="country">Show Counttry</label>:</td>
+	<td><label for="country">Show Country</label>:</td>
 	<td>
 		<input id="country" name="country" type="text" value="{$rage.country|escape:'htmlall'}" maxlength="2" />
 		<div class="hint">The country for the TV show.</div>
