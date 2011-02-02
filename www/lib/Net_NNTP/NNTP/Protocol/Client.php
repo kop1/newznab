@@ -1779,8 +1779,15 @@ class Net_NNTP_Protocol_Client extends PEAR
      */
     function cmdListOverviewFmt()
     {
+    	$defaultfmt = "Subject:\nFrom:\nDate:\nMessage-ID:\nReferences:\nBytes:\nLines:\nXref:full";
     	$response = $this->_sendCommand('LIST OVERVIEW.FMT');
-        if (PEAR::isError($response)){
+    	if ($response == 501)
+    	{
+    		$data = explode("\n", $defaultfmt);
+    		$fmtfallback = true;
+		}
+		elseif (PEAR::isError($response))
+		{
             return $response;
         }
 
@@ -1790,29 +1797,29 @@ class Net_NNTP_Protocol_Client extends PEAR
     	        if (PEAR::isError($data)) {
     	            return $data;
     	        }
+			case 501:
+    	    	$format = array();
+    	    	
+    			foreach ($data as $line) {
+					// Check if postfixed by ':full' (case-insensitive)
+					if (0 == strcasecmp(substr($line, -5, 5), ':full')) {
+			    	    // ':full' is _not_ included in tag, but value set to true
+			    	    $format[substr($line, 0, -5)] = true;
+					} else {
+			    	    // ':' is _not_ included in tag; value set to false
+			    	    $format[substr($line, 0, -1)] = false;
+	    		    }
+	    		}
 
-    	        $format = array();
-
-    	        foreach ($data as $line) {
-
-		    // Check if postfixed by ':full' (case-insensitive)
-		    if (0 == strcasecmp(substr($line, -5, 5), ':full')) {
-    	    		// ':full' is _not_ included in tag, but value set to true
-    	    		$format[substr($line, 0, -5)] = true;
-		    } else {
-    	    		// ':' is _not_ included in tag; value set to false
-    	    		$format[substr($line, 0, -1)] = false;
-    	            }
-    	        }
-
-    	        if ($this->_logger) {
-    	            $this->_logger->info('Fetched overview format');
-    	        }
-    	        return $format;
-    	    	break;
+	    		if ($this->_logger) {
+	    			if ($fmtfallback) $fmtfall = "(local overview.fmt fallback)";
+	    		    $this->_logger->info('Fetched overview format ' . $fmtfall);
+	    		}
+	    		return $format;
+			break;
     	    case 503: // RFC2980: 'program error, function not performed'
     	    	return $this->throwError('Internal server error, function not performed', $response, $this->_currentStatusResponse());
-    	    	break;
+    	    break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
     	}
