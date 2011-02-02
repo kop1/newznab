@@ -11,7 +11,7 @@
 
 <form id="nzb_multi_operations_form" action="get">
 
-<div class="nzb_multi_operations">
+<div class="nzb_multi_operations" style="clear:both;">
 	<div style="padding-bottom:10px;" >
 		<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a>
 		| <a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
