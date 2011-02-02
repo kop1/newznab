@@ -4,6 +4,7 @@ require_once(WWW_DIR."/lib/amazon.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/genres.php");
 require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/util.php");
 
 class Music
 {
@@ -353,7 +354,7 @@ class Music
 	
 	public function fetchCoverImage($imgUrl)
 	{		
-		$img = @file_get_contents($imgUrl);
+		$img = getUrl($imgUrl);
 		if ($img !== false)
 		{
 			$im = @imagecreatefromstring($img);

@@ -4,6 +4,7 @@ require_once(WWW_DIR."/lib/TMDb.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/util.php");
 
 class Movie
 {
@@ -349,7 +350,7 @@ class Movie
 	
 	public function fetchCoverImage($imgUrl)
 	{		
-		$img = @file_get_contents($imgUrl);
+		$img = getUrl($imgUrl);
 		if ($img !== false)
 		{
 			$im = @imagecreatefromstring($img);
@@ -453,10 +454,10 @@ class Movie
         	'language' => '/<a href="\/language\/[a-z]+">(.*?)<\/a>/i'
         );
 
-        $buffer = file_get_contents("http://www.imdb.com/title/tt$imdbId/");
+        $buffer = getUrl("http://www.imdb.com/title/tt$imdbId/");
 
         // make sure we got some data
-        if (strlen($buffer))
+        if ($buffer !== false && strlen($buffer))
         {
         	$ret = array();
             foreach ($imdb_regex as $field => $regex)
@@ -522,10 +523,10 @@ class Movie
 					if ($this->echooutput)
 						echo 'Looking up: '.$moviename.' ['.$arr['searchname'].']'."\n";
 		
-					$buffer = file_get_contents("http://www.google.com/search?source=ig&hl=en&rlz=&btnG=Google+Search&aq=f&oq=&q=".urlencode($moviename.' imdb'));
+					$buffer = getUrl("http://www.google.com/search?source=ig&hl=en&rlz=&btnG=Google+Search&aq=f&oq=&q=".urlencode($moviename.' imdb'));
 	
 			        // make sure we got some data
-			        if (strlen($buffer))
+			        if ($buffer !== false && strlen($buffer))
 			        {
 						$imdbId = $nfo->parseImdb($buffer);
 						if ($imdbId !== false) 

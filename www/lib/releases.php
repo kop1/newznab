@@ -14,6 +14,7 @@ require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/zipfile.php");
 require_once(WWW_DIR."/lib/rarinfo.php");
 require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/util.php");
 
 class Releases
 {	
@@ -1389,9 +1390,9 @@ class Releases
 
 		$xml = "";
 		$arrXml = "";
-		$xml = @file_get_contents($url);
+		$xml = getUrl($url);
 		
-		if (preg_match('/no feed/i', $xml)) 
+		if ($xml === false || preg_match('/no feed/i', $xml)) 
 			return "no feed";
 		else
 		{		
@@ -1420,8 +1421,8 @@ class Releases
 	{
 		if ($url != "")
 		{
-			$regfile = file_get_contents($url);
-			if ($regfile != "")
+			$regfile = getUrl($url);
+			if ($regfile !== false && $regfile != "")
 			{
 				/*$Rev: 728 $*/
 				if (preg_match('/\/\*\$Rev: (\d{3,4})/i', $regfile, $matches))
@@ -1456,7 +1457,7 @@ class Releases
 			}
 			else
 			{
-				echo "Error Regex File Does Not Exist\n";
+				echo "Error Regex File Does Not Exist or Unable to Connect\n";
 			}
 		}
 	}
