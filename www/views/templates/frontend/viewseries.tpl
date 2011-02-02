@@ -1,5 +1,5 @@
  
-<h1>{$page->title}</h1>
+<h1>{$page->title} {if $catname != ''} in {$catname|escape:"htmlall"}{/if}</h1>
 
 {if $rage[0].imgdata != ""}
 	<img alt="{$rage[0].releasetitle} Logo" style="display:block;padding:0px 10px 10px 10px;" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&amp;id={$rage[0].ID}" align="right" />
@@ -7,14 +7,27 @@
 <p>
 	{if $seriesgenre != ''}<b>{$seriesgenre}</b><br />{/if}
 	{$seriesdescription}
-	<br/>
-	<div style="float:right;padding-bottom:10px;" >
-	<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a>
-	| <a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
-	</div>
 </p>
 
 <form id="nzb_multi_operations_form" action="get">
+
+<div class="nzb_multi_operations">
+	<div style="padding-bottom:10px;" >
+		<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a>
+		| <a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
+	</div>
+	<small>With Selected:</small>
+	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
+	<input type="button" class="nzb_multi_operations_cart" value="Add to Cart" />
+	<input type="button" class="nzb_multi_operations_sab" value="Send to SAB" />
+	{if $isadmin}
+	&nbsp;&nbsp;
+	<input type="button" class="nzb_multi_operations_edit" value="Edit" />
+	<input type="button" class="nzb_multi_operations_delete" value="Del" />
+	<input type="button" class="nzb_multi_operations_rebuild" value="Reb" />
+	{/if}	
+</div>
+
 
 <table style="width:100%;" class="data highlight icons">
 	{foreach $seasons as $seasonnum => $season}
@@ -24,9 +37,12 @@
 		<tr>
 			<th>Ep</th>
 			<th>Name</th>
-			<th>Size</th>
-			<th>Stats</th>
+			<th><input id="chkSelectAll" type="checkbox" class="nzb_check_all" /><label for="chkSelectAll" style="display:none;">Select All</label></th>
+			<th>Category</th>
 			<th style="text-align:center;">Posted</th>
+			<th>Size</th>
+			<th>Files</th>
+			<th>Stats</th>
 			<th>Options</th>
 		</tr>
 		{foreach $season as $episodes}
@@ -48,14 +64,17 @@
 			
 							{if $isadmin}
 							<div class="admin">
-								<a class="rndbtn" href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">Edit</a>
+								<a class="rndbtn" href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Edit Release">Edit</a> <a class="rndbtn confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Delete Release">Del</a> <a class="rndbtn confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$result.ID}&amp;from={$smarty.server.REQUEST_URI|escape:"url"}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">Reb</a>
 							</div>
 							{/if}			
 						</div>
 					</td>
-					<td width="40" class="less">{$result.size|fsize_format:"MB"}</td>
-					<td width="40" class="less" nowrap="nowrap"><a title="View comments for {$result.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}#comments">{$result.comments} cmt{if $result.comments != 1}s{/if}</a><br/>{$result.grabs} grab{if $result.grabs != 1}s{/if}</td>
+					<td class="check"><input id="chk{$result.guid|substr:0:7}" type="checkbox" class="nzb_check" value="{$result.guid}" /></td>
+					<td class="less"><a title="This series in {$result.category_name}" href="{$smarty.const.WWW_TOP}/series/{$result.rageID}?t={$result.categoryID}">{$result.category_name}</a></td>
 					<td class="less mid" width="40" title="{$result.postdate}">{$result.postdate|timeago}</td>
+					<td width="40" class="less">{$result.size|fsize_format:"MB"}</td>
+					<td class="less mid"><a title="View file list" href="{$smarty.const.WWW_TOP}/filelist/{$result.guid}">{$result.totalpart}</a></td>
+					<td width="40" class="less" nowrap="nowrap"><a title="View comments for {$result.searchname|escape:"htmlall"}" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}#comments">{$result.comments} cmt{if $result.comments != 1}s{/if}</a><br/>{$result.grabs} grab{if $result.grabs != 1}s{/if}</td>
 					<td class="icons">
 						<div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/getnzb/{$result.guid}/{$result.searchname|escape:"htmlall"}">&nbsp;</a></div>
 						<div class="icon icon_cart" title="Add to Cart"></div>
