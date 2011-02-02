@@ -17,10 +17,10 @@ class ReleaseRegex
 		elseif ($groupname!="-1")
 			$where.= sprintf(" and releaseregex.groupname = %s", $db->escapeString($groupname));
       
-    if ($userReleaseRegex)
-    {
-      $where .= ' AND releaseregex.ID >= 100000';
-    }
+		if ($userReleaseRegex)
+		{
+		  $where .= ' AND releaseregex.ID >= 100000';
+		}
 
 		$relcountjoin="";
 		$relcountcol="";

@@ -23,7 +23,7 @@
 				</td>
 			</tr>
 			<tr><th><label for="confirmpassword">Confirm Password</label>: <em>*</em></th><td><input autocomplete="off" id="confirmpassword" name="confirmpassword" value="{$confirmpassword}" type="password"/></td></tr>
-			<tr><th><label for="email">Email</label>: <em>*</em></th><td><input autocomplete="off" id="email" name="email" value="{$email}"/></td></tr>
+			<tr><th><label for="email">Email</label>: <em>*</em></th><td><input autocomplete="off" id="email" name="email" value="{$email}" type="text" /></td></tr>
 		</table>
 
 		<table style="width:500px; margin-top:10px;" class="data">
