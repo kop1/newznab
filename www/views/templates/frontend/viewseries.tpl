@@ -66,7 +66,7 @@
 						<td width="20" class="static">{$episodes@key}</td>
 					{/if}
 					<td>
-						<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.searchname|escape:"htmlall"}</a>
+						<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.searchname|escape:"htmlall"|replace:".":" "}</a>
 					
 						<div class="resextra">
 							<div class="btns">
