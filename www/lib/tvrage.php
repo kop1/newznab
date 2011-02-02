@@ -629,12 +629,14 @@ class TvRage
 		
 		if (!empty($showInfo['name'])) {
 			//country or origin matching
-			if (preg_match('/[\._ ](US|UK|AU|NZ|CA|NL|Canada|Australia)/', $showInfo['name'], $countryMatch))
+			if (preg_match('/[\._ ](US|UK|AU|NZ|CA|NL|Canada|Australia|America)/', $showInfo['name'], $countryMatch))
 			{
 				if (strtolower($countryMatch[1]) == 'canada')
 					$showInfo['country'] = 'CA';
 				elseif (strtolower($countryMatch[1]) == 'australia')
 					$showInfo['country'] = 'AU';
+				elseif (strtolower($countryMatch[1]) == 'america')
+					$showInfo['country'] = 'US';
 				else
 					$showInfo['country'] = strtoupper($countryMatch[1]);
 			}
