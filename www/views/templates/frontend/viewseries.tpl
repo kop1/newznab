@@ -31,7 +31,7 @@
 		</tr>
 		{foreach $season as $episodes}
 			{foreach $episodes as $result}
-				<tr class="{cycle values=",alt"}">
+				<tr class="{cycle values=",alt"}" id="guid{$result.guid}">
 					{if $result@total>1 && $result@index == 0}
 						<td width="20" rowspan="{$result@total}">{$episodes@key}</td>
 					{else if $result@total == 1}
