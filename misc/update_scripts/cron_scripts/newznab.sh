@@ -15,6 +15,7 @@ PIDFILE="newznab_binup.pid"
 
 case "$1" in
   start)
+	[ -f ${NEWZNAB_PID_PATH}${PIDFILE} ] && { echo "$0 is already running."; false; }
         echo -n "Starting Newznab binaries update"
         cd ${NEWZNAB_PATH}
         (while (true);do cd ${NEWZNAB_PATH} && php ${NEWZNAB_BINUP}  2>&1 > /dev/null && php ${NEWZNAB_RELUP}  2>&1 > /dev/null ; sleep ${NEWZNAB_SLEEP_TIME} ;done) &

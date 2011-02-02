@@ -26,6 +26,7 @@ stop_cmd="newznabbinup_stop"
 
 newznabbinup_start()
 {
+	[ -f ${NEWZNAB_PID_PATH}${PIDFILE} ] && { echo "$0 is already running."; false; }
         echo -n "Starting Newznab binaries update"
         cd ${NEWZNAB_PATH}
         (while (true);do cd ${NEWZNAB_PATH} && php ${NEWZNAB_BINUP} ; sleep ${SLEEP_TIME} ;done) &
