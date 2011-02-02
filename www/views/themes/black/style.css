@@ -20,6 +20,7 @@ table tr.new { background-color: #004703; }
 table.highlight tr:hover td { background-color: #444; }
 table.data th { background-color:#555; border-color: #777;}
 table.data td, table.data { border-color: #777;}
+table td.static { background-color: #000; }
 
 /* backgrounds to input boxes need special case in this high contrast stylesheet*/
 span, select, textarea, input {font-family:verdana;}
@@ -36,6 +37,7 @@ div.resextra a {color:#88B541;}
 .rndbtn { color:#88B541; padding-left:4px; padding-right:4px; margin-right:1px; border:1px #444 solid; background-color:#333; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
 table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { background-color: #555; color:#9FC660;}
 table.highlight tr:hover .rndbtn:hover { background-color: #222; }
+table.highlight tr:hover td.static { background-color: #000; }
 
 div.pager a {background-color: #222;}
 

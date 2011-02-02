@@ -19,6 +19,9 @@ table.data td, table.data { border-color: #ddd;}
 input[type=text], input[type=password], textarea, select { background: #fff; }
 
 table.data td.less, div.resextra {font-size: 0.9em;}
+table td.static { background-color: #FFF; }
+table.highlight tr:hover td.static { background-color: #FFF; }
+
 
 /* menu bar background colours*/
 #menulink a, #menulink :visited, #menulink li, #menu {color:#fff;  background-color:#333;}

@@ -16,6 +16,7 @@ table tr.selected { background-color: green; border-bottom: 1px solid #111; }
 table.highlight tr:hover td { background-color: green; }
 table.data th { background-color:#555; }
 table.data th, table.data td, table.data { border-width: 0px; }
+table td.static { background-color: #111;  border: 1px solid #333; }
 
 /* override almost every element in the sites font and color*/
 #logo h1 a, #sidebar li, h3, h2, table.data, #statusbar, #statusbar a, div.comments , #menulink a, #menulink :visited, #menulink a , #sidebar h2, #sidebar li li a, li, #content h1, p, #menulink a.selected, #menulink a, #statusbar, #statusbar a, th, td, a {font-family:'Trebuchet MS', 'Lucida Grande', Arial, Helvetica, sans-serif; color:#DDD;}
@@ -31,6 +32,8 @@ table.data th, table.data td, table.data { border-width: 0px; }
 table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { background-color: #111; }
 table.highlight tr:hover .rndbtn:hover { background-color: #111; }
 .rndbtn, a.rndbtn {font-size: 0.8em; background-color: #333; color: #ccc; }
+table.highlight tr:hover td.static { background-color: #111; }
+
 
 div.nzb_multi_operations { color:#eee; display:inline; float:right; padding-bottom: 5px; }
 div.nzb_multi_operations input { color:#eee; background-color:#333; border:1px solid #666; }

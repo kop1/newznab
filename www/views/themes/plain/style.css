@@ -40,3 +40,6 @@ table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { border:1px #EEE solid; 
 table.highlight tr:hover .rndbtn:hover { background-color: #EEE; }
 
 table tr.new .rndbtn { background-color: #fff; }
+
+table td.static { background-color: #FFF; }
+table.highlight tr:hover td.static { background-color: #FFF; }

@@ -16,6 +16,7 @@ table tr.selected { background-color: #fff3e2; border-bottom: 1px solid #f1f1f1;
 table.highlight tr:hover td { background-color: #f0fff0; }
 table.data th { background-color:#ccc; }
 table.data th, table.data td, table.data { border-width: 0px; }
+table td.static { background-color: #f1f1f1; border: 1px solid #e2e2e2; }
 
 /* override almost every element in the sites font and color*/
 #logo h1 a { color: #333; }
@@ -32,6 +33,7 @@ table.data th, table.data td, table.data { border-width: 0px; }
 table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { background-color: #e2e2e2; }
 table.highlight tr:hover .rndbtn:hover { background-color: #f1f1f1; }
 .rndbtn, a.rndbtn {font-size: 0.8em; background-color: #e2e2e2; color: #555; }
+table.highlight tr:hover td.static { background-color: #f1f1f1; }
 
 div.nzb_multi_operations { color:#333; display:inline; float:right; padding-bottom: 5px; }
 div.nzb_multi_operations input { color:#333; background-color:#ddd; border:1px solid #ccc; }

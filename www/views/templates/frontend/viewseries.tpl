@@ -4,8 +4,8 @@
 {if $rage[0].imgdata != ""}
 	<img alt="{$rage[0].releasetitle} Logo" style="display:block;padding:0px 10px 10px 10px;" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&amp;id={$rage[0].ID}" align="right" />
 {/if}
-
 <p>
+	{if $seriesgenre != ''}<b>{$seriesgenre}</b><br />{/if}
 	{$seriesdescription}
 	<br/>
 	<div style="float:right;padding-bottom:10px;" >
@@ -33,9 +33,9 @@
 			{foreach $episodes as $result}
 				<tr class="{cycle values=",alt"}" id="guid{$result.guid}">
 					{if $result@total>1 && $result@index == 0}
-						<td width="20" rowspan="{$result@total}">{$episodes@key}</td>
+						<td width="20" rowspan="{$result@total}" class="static">{$episodes@key}</td>
 					{else if $result@total == 1}
-						<td width="20">{$episodes@key}</td>
+						<td width="20" class="static">{$episodes@key}</td>
 					{/if}
 					<td>
 						<a title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.searchname|escape:"htmlall"}</a>
