@@ -21,7 +21,7 @@
 
 {$pager}
 
-<table style="width:100%;margin-top:10px;clear:both;" class="data highlight icons">
+<table style="width:100%;" class="data highlight icons" id="browsetable">
 	<tr>
 		<th><input id="chkSelectAll" type="checkbox" class="nzb_check_all" /><label for="chkSelectAll" style="display:none;">Select All</label></th>
 		<th>name<br/><a title="Sort Descending" href="{$orderbyname_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="Sort Descending" /></a><a title="Sort Ascending" href="{$orderbyname_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="Sort Ascending" /></a></th>

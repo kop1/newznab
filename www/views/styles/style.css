@@ -116,6 +116,7 @@ select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 /*
 data tables, most lists.
 */
+#browsetable, #coverstable, #forumtable { margin-top: 10px; clear: both; }
 table.data { border-collapse:collapse; }
 table.data th { text-align:left; vertical-align:top; background-color:#DDD; border-color: #AAA; border-width: 1px; border-style: solid; padding:3px; font-style:bolder; text-transform:capitalize;}
 table.data td { white-space:normal; vertical-align:top; padding:5px; border-color: #AAA; border-width: 1px; border-style: solid; }
@@ -196,7 +197,7 @@ img.shadow {padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -
 /*
 mainly one-off styles used on individual pages
 */
-#forum a.title { font-size: 1.4em; }
+#forumtable a.title { font-size: 1.4em; }
 
 pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
@@ -259,7 +260,8 @@ movie, console and music modals with backdrop images.
 icons and multioperation buttons
 */
 input.nzb_check_all { margin-left:5px; }
-div.nzb_multi_operations { color:#888; display:inline; float:right; text-align: right; }
+#nzb_multi_operations_form { clear: both; }
+div.nzb_multi_operations { color:#888; display:inline; float:right; text-align: right; clear: both; }
 div.nzb_multi_operations input { color:#888; background-color:#fff; border:1px solid #ddd; }
 div.nzb_multi_operations input.nzb_multi_operations_sab { display:none; }
 div.nzb_multi_operations input:hover { color:#000; border:1px solid #000; cursor:pointer; }

@@ -50,7 +50,7 @@
 
 {$pager}
 
-<table style="width:100%;margin-top:10px;" class="data highlight icons">
+<table style="width:100%;" class="data highlight icons" id="coverstable">
 	<tr>
 		<th width="130"><input type="checkbox" class="nzb_check_all" /></th>
 		<th>title<br/><a title="Sort Descending" href="{$orderbytitle_desc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_down.gif" alt="" /></a><a title="Sort Ascending" href="{$orderbytitle_asc}"><img src="{$smarty.const.WWW_TOP}/views/images/sorting/arrow_up.gif" alt="" /></a></th>

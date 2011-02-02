@@ -9,7 +9,7 @@
 
 <a id="top"></a>
 
-<table style="width:100%;margin-top:10px;clear:both;" class="data highlight" id="forum">
+<table style="width:100%;" class="data highlight" id="forumtable">
 	<tr>
 		<th width="60%">Topic</th>
 		<th>Posted By</th>

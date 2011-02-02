@@ -3,7 +3,7 @@
 	
 {if $results|@count > 0}
 
-<table style="width:100%;margin-top:10px;" class="data highlight Sortable">
+<table style="width:100%;" class="data highlight Sortable" id="browsetable">
 	<tr>
 		<th>name</th>
 		<th>description</th>

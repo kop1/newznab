@@ -24,7 +24,7 @@
 
 <form id="nzb_multi_operations_form" action="get">
 
-<div class="nzb_multi_operations" style="clear:both;">
+<div class="nzb_multi_operations">
 	<div style="padding-bottom:10px;" >
 		<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a> | 
 		<a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
@@ -42,7 +42,7 @@
 </div>
 
 
-<table style="width:100%;" class="data highlight icons">
+<table style="width:100%;" class="data highlight icons" id="browsetable">
 	{foreach $seasons as $seasonnum => $season}
 		<tr>
 			<td style="padding-top:15px;" colspan="10"><h2>Season {$seasonnum}</h2></td>

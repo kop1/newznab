@@ -25,7 +25,7 @@
 {elseif $search == ""}
 {else}
 <form method="post" id="dl" name="dl" action="{$smarty.const.WWW_TOP}/searchraw">
-<table style="width:100%;margin-top:40px;margin-bottom:20px;" class="data">
+<table style="width:100%;" class="data" id="browsetable">
 	<tr>
 		<!--<th width="10"></th>-->
 		<th>filename</th>
