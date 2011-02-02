@@ -24,8 +24,13 @@ if (isset($_GET["id"]) && ctype_digit($_GET['id']))
 		$episode[$rlk] = $rlv['episode'];
 	}
 	array_multisort($season, SORT_DESC, $episode, SORT_DESC, $rel);
-	$page->smarty->assign('rel', $rel);
 	
+	$seasons = array();
+	foreach ($rel as $r) {
+		$seasons[$r['season']][$r['episode']][] = $r;
+	}
+	
+	$page->smarty->assign('seasons', $seasons);
 	$page->smarty->assign('rage', $rage);
 	
 	//get series name(s) and description
