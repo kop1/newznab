@@ -7,7 +7,7 @@ input, select, textarea { font-family: Calibri, Arial, Helvetica, sans-serif;}
 textarea { height:100px; width:300px;}
 h1 { font-size: 44px; padding-bottom:10px;}
 h2 { padding-bottom:5px; font-size: 1.6em; }
-h3 { padding-top:10px;padding-bottom:5px;}
+h3 { padding:10px 0 5px 0;}
 p, ul, ol { margin-top: 0; line-height: 240%;	text-align: justify; }
 ul, ol { }
 blockquote { }
@@ -18,6 +18,8 @@ img.left { float: left; margin: 7px 30px 0 0; }
 img.right { float: right; margin: 7px 0 0 30px; }
 hr { display: none; }
 input[type=text], input[type=password], textarea, select { background: #fff; background: -webkit-gradient(linear, left top, left 25, from(#fff), color-stop(4%, #f0f0f0), to(#fff)); border: 1px solid #ccc; border-bottom-color: #999; border-right-color: #999; margin: 0; padding: 4px; color: #444; font-size: 100%; outline: none; }
+
+
 
 
 
@@ -37,9 +39,7 @@ page structure
 #logo img { margxin-top:15px; }
 #logo h1 a { text-decoration: none; color: #485459;}
 
-
-
-#statusbar { width:940px; margin: 0 auto; text-align:right; padding-right:10px; padding-top:5px;}
+#statusbar { width:940px; margin: 0 auto; text-align:right; padding:5px 10px 0 0;}
 #statusbar a { text-decoration: none; color: #515151;}
 
 #content { float: right; width: 585px;}
@@ -62,6 +62,7 @@ page structure
 #sidebar p { line-height: 200%;}
 #sidebar a { text-align: left; text-decoration: none; font-weight: bold;}
 
+.w3validator img {margin:10px 0 10px 0;}
 .footer { width: 100%; height: 102px; margin: 0 auto; background: #E1E1E1; border-top: 5px solid #656565;}
 .footer p { margin: 0; padding: 20px 0px 0px 0px; text-align: center; line-height: normal; font-size: 0.9em; }
 .footer a {}
@@ -69,11 +70,13 @@ page structure
 
 
 
+
+
 /*
-menu structure (the browse by category menu)
+browse by category top menu
 */
 #menu { height:33px; float: left; width: 100%; background-color:#e5e5e5; }
-#menu { padding-left:4px; padding-right:4px; margin-right:1px; border:1px #CCC solid; background-color:#e5e5e5; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
+#menu { padding:0 4px 0 4px; margin-right:1px; border:1px #CCC solid; background-color:#e5e5e5; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
 
 .menupic {padding-left:15px;}
 
@@ -88,7 +91,7 @@ menu structure (the browse by category menu)
 #menusearchlink input, #menusearchlink select { font-size: 0.9em; color:#555; }
 #menucontainer { width:940px; height:10px; }
 
-select#headcat {width:120px; float:right;margin-left:5px;height:25px;}
+select#headcat {width:120px; float:right; margin-left:5px; height:25px;}
 select#headcat option { padding-left: 10px; }
 select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 #headsearch{float:right;height:15px;}
@@ -96,10 +99,7 @@ select#headcat option.grouping { padding-left: 5px; font-weight: bold; }
 .gobutton {display:inline;float:right;margin-left:5px;}
 .gobutton input { background:url('../images/icons/go.png') no-repeat; cursor:pointer; border: none;	 width:30px; height:25px; }
 
-
-/* 
-menu styling for when menu is displayed in top position 
-*/
+/* menu styling for when menu is displayed in top position  */
 #logo ul { list-style-type: none; float:right; margin: 0 0 10px 0; padding:0; line-height: normal; text-align: right; }
 #logo ul li h2 {display:none;}
 #logo ul li ul li {float: left; margin-left: 1em; padding-right:5px;  }
@@ -110,8 +110,11 @@ menu styling for when menu is displayed in top position
 
 
 
+
+
+
 /*
-misc site style such as data tables, 
+data tables, most lists.
 */
 table.data { border-collapse:collapse; }
 table.data th { text-align:left; vertical-align:top; background-color:#DDD; border-color: #AAA; border-width: 1px; border-style: solid; padding:3px; font-style:bolder; text-transform:capitalize;}
@@ -125,23 +128,112 @@ table tr.new { background-color: #f6f8ff; }
 table.data em {font-weight:bolder; color:red;}
 table td.item { padding:5px 5px 2px 5px; }
 table td.static { background-color: #FFF; }
-div.hint, div.hint a {font-size:0.9em; font-style:italic; color:#999;}
-div.hint { margin-bottom:10px;}
-input.long {width:400px; }
-input.short { width:40px; }
-input.date { width:70px; }
-
-.small { width: 50px; }
-.tiny { width: 25px; }
 .left { text-align:left !important;}
 .right { text-align:right !important;}
 .mid { text-align:center !important;}
 
-#forum a.title { font-size: 1.4em; }
 
+
+
+
+
+
+/*
+form inputs and helpers
+*/
+div.hint, div.hint a {font-size:0.9em; font-style:italic; color:#999;}
+div.hint { margin-bottom:10px;}
+input.long {width:400px; }
+input.short { width:40px; }
+input.tiny { width: 25px; }
+input.date { width:70px; }
+
+
+
+
+
+
+
+
+/*
+pager
+*/
+div.pager {display:inline;}
+div.pager a {font-weight:bold; background-color:#DDD; padding:0 3px 0px 4px; border:1px #CCC solid;}
+div.pager .current {color:#fff; font-weight:bold; background-color:#777; padding:0 4px 0px 4px; border:1px #CCC solid;}
+
+
+
+
+
+
+
+/*
+round buttoning
+*/
+.rndbtn { padding:0 4px 0 4px; margin-right:1px; border:1px #CCC solid; background-color:#EEE; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
+table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { background-color: #fff; }
+table.highlight tr:hover .rndbtn:hover { background-color: #DDD; }
+table.highlight tr:hover td.static { background-color: #FFF; }
+
+
+
+
+
+
+
+/*
+site wide covers and images with dropshadows
+*/
+img.shadow {padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -moz-box-shadow: 3px 6px 8px -4px #777; -webkit-box-shadow: 3px 6px 8px -4px #777; box-shadow: 3px 6px 8px -4px #777; }
+
+
+
+
+
+
+
+/*
+mainly one-off styles used on individual pages
+*/
+#forum a.title { font-size: 1.4em; }
 
 pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 12px; line-height: 13px; }
 
+div.resextra { padding-top:7px; color: #555; font-size: 0.9em; height:16px; }
+div.resextra a { color: #555; text-decoration:none; }
+div.resextra div.admin { float:right; }
+div.resextra div.btns {float:left; }
+
+div.movextra { padding-top:5px; color: #888; font-size: 0.9em; }
+div.movcover { width:140px; }
+div.movcover img { margin-bottom:5px;}
+
+ol.tracklist li { line-height: 140%; }
+
+div.tvseriesheading img {float:right; margin:10px 0 10px 10px; }
+div.tvseriesheading p {text-align:left;}
+div.tvseriesheading a.tvmore {display:block; margin-top:10px;}
+div.tvseriesheading span.tvdescfull {display:none;}
+
+div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(../images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
+div.comments { padding-top:20px; }
+
+.invitesuccess {display:none; font-weight:bold; padding-left:10px; color:green;}
+.invitefailed {display:none; font-weight:bold; padding-left:10px; color:red;}
+
+div.nosearchresults {margin-left:25px; padding-top:50px;}
+div.nosearchresults ul { line-height: 150%;}
+
+
+
+
+
+
+
+/*
+movie, console and music modals with backdrop images.
+*/
 #movieinfo { background-position: center center; background-repeat: no-repeat; position: absolute; z-index: 2;}
 #movieinfo h1 { font-size: 32px; padding: 10px 10px 0px 20px; color: #fff; text-shadow: 0px 0px 4px #000; }
 #movieinfo h2, #movieinfo h3 { padding: 10px 20px 0px 20px; color: #fff; text-shadow: 0px 0px 4px #000; }
@@ -150,47 +242,28 @@ pre#nfo { font-family: "Courier New", "DejaVu Sans Mono", monospace; font-size: 
 #backdrop { position: absolute; width: 810px; height: 455px; left: -1px; top: 5px; background-color: #000; overflow: hidden;}
 #backdrop img { opacity:0.5; width: 100%; height: 100%;}
 
-
 #musicinfo { color:#FFF; min-height:435px; background-color:#7F7F7F; background-image:url('../../covers/music/backdrop.jpg'); background-repeat: repeat-x;}
 #musicinfo h1 { font-size: 32px; padding: 10px 10px 0px 20px; color: #fff; }
 #musicinfo h2, #musicinfo h3, #musicinfo p { padding: 10px 20px 0px 20px; color: #fff;}
 #musicinfo a { color: #fff; }
-#musicinfo img.cover { float:right;  margin-top: 20px; margin-left: 20px; margin-right:20px;  padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -moz-box-shadow: 3px 6px 8px -4px #333; -webkit-box-shadow: 3px 6px 8px -4px #333; box-shadow: 3px 6px 8px -4px #333; }
+#musicinfo img.cover { float:right;  maring:20px 20px 0 20px; padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -moz-box-shadow: 3px 6px 8px -4px #333; -webkit-box-shadow: 3px 6px 8px -4px #333; box-shadow: 3px 6px 8px -4px #333; }
 #musicinfo p {text-align: left; line-height: 180%;}
 
-div.resextra { padding-top:7px; color: #555; font-size: 0.9em; height:16px; }
-div.resextra a { color: #555; text-decoration:none; }
-div.movextra { padding-top:5px; color: #888; font-size: 0.9em; }
-div.movcover { width:140px; }
-div.movcover img { margin-bottom:5px; padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -moz-box-shadow: 3px 6px 8px -4px #777; -webkit-box-shadow: 3px 6px 8px -4px #777; box-shadow: 3px 6px 8px -4px #777; }
 
-div.resextra div.admin { float:right; }
-div.resextra div.btns {float:left; }
 
-ol.tracklist li { line-height: 140%; }
 
-div.tvseriesheading img {float:right; margin-left:10px; margin-top:10px; padding: 5px 5px 5px 5px; background: #FFF; border:1px solid #EEE; -moz-box-shadow: 3px 6px 8px -4px #777; -webkit-box-shadow: 3px 6px 8px -4px #777; box-shadow: 3px 6px 8px -4px #777; }
-div.tvseriesheading p {text-align:left;}
-div.tvseriesheading a.tvmore {display:block; margin-top:10px;}
-div.tvseriesheading span.tvdescfull {display:none;}
 
-div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(../images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
-div.comments { padding-top:20px; }
 
+
+/* 
+icons and multioperation buttons
+*/
 input.nzb_check_all { margin-left:5px; }
 div.nzb_multi_operations { color:#888; display:inline; float:right; text-align: right; }
 div.nzb_multi_operations input { color:#888; background-color:#fff; border:1px solid #ddd; }
 div.nzb_multi_operations input.nzb_multi_operations_sab { display:none; }
 div.nzb_multi_operations input:hover { color:#000; border:1px solid #000; cursor:pointer; }
 
-div.pager {display:inline;}
-div.pager a {font-weight:bold; background-color:#DDD; padding:0 3px 0px 4px; border:1px #CCC solid;}
-div.pager .current {color:#fff; font-weight:bold; background-color:#777; padding:0 4px 0px 4px; border:1px #CCC solid;}
-
-.invitesuccess {display:none;font-weight:bold;padding-left:10px;color:green;}
-.invitefailed {display:none;font-weight:bold;padding-left:10px;color:red;}
-
-/* icons */
 div.icon { width:16px; height:16px; background-repeat:no-repeat; cursor:pointer; position:relative; float:left; margin:2px; }
 table.data td.icons div.icon { opacity:.20; }
 div.icon_cart			{ background-image:url('../images/icons/cartup.png'); }
@@ -203,14 +276,9 @@ div.icon_sab_clicked	{ background-image:url('../images/icons/sabdown.png'); }
 div.icon_tvrage			{ background-image:url('../images/icons/tvrage.png'); }
 div.icon_check			{ background-image:url('../images/icons/check.png'); }
 
-div.nosearchresults {margin-left:25px; padding-top:50px;}
-div.nosearchresults ul { line-height: 150%;}
 
 
-.rndbtn { padding-left:4px; padding-right:4px; margin-right:1px; border:1px #CCC solid; background-color:#EEE; -moz-border-radius: 4px;  -webkit-border-radius: 4px;}
-table.highlight tr:hover .rndbtn, table tr.alt .rndbtn { background-color: #fff; }
-table.highlight tr:hover .rndbtn:hover { background-color: #DDD; }
-table.highlight tr:hover td.static { background-color: #FFF; }
+
 
 
 
@@ -229,11 +297,6 @@ table.highlight tr:hover td.static { background-color: #FFF; }
 #cboxLoadingOverlay, #cboxLoadingGraphic{position:absolute; top:0; left:0; width:100%;}
 #cboxPrevious, #cboxNext, #cboxClose, #cboxSlideshow{cursor:pointer;}
 
-/* 
-    ColorBox example user style
-    The following rules are ordered and tabbed in a way that represents the
-    order/nesting of the generated HTML, so that the structure easier to understand.
-*/
 #cboxOverlay{background:#fff;}
 
 #colorbox{}
@@ -247,7 +310,6 @@ table.highlight tr:hover td.static { background-color: #FFF; }
     #cboxMiddleRight{width:25px; background:url(../images/colorbox/border2.png) -25px 0 repeat-y;}
     #cboxContent{background:#fff;}
         #cboxLoadedContent{background:#fff; margin-top:32px; padding:1px; }
-        /*#cboxLoadingGraphic{background:url(../images/loading.gif) center center no-repeat;}*/
         #cboxLoadingOverlay{background:#fff;}
         #cboxTitle{position:absolute; font-size:125%; top:-2px; left:0; color:#000; }
         #cboxCurrent{position:absolute; top:-1px; right:205px; text-indent:-9999px;}
@@ -264,16 +326,8 @@ table.highlight tr:hover td.static { background-color: #FFF; }
         .cboxSlideshow_off #cboxSlideshow{background-position:-100px 0px; right:44px;}
         .cboxSlideshow_off #cboxSlideshow.hover{background-position:-75px -25px;}
 
-
 /*
     The following fixes png-transparency for IE6.  
-    It is also necessary for png-transparency in IE7 & IE8 to avoid 'black halos' with the fade transition
-    
-    Since this method does not support CSS background-positioning, it is incompatible with CSS sprites.
-    Colorbox preloads navigation hover classes to account for this.
-    
-    !! Important Note: AlphaImageLoader src paths are relative to the HTML document,
-    while regular CSS background images are relative to the CSS document.
 */
 .cboxIE #cboxTopLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderTopLeft.png, sizingMethod='scale');}
 .cboxIE #cboxTopCenter{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderTopCenter.png, sizingMethod='scale');}
@@ -283,7 +337,6 @@ table.highlight tr:hover td.static { background-color: #FFF; }
 .cboxIE #cboxBottomRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderBottomRight.png, sizingMethod='scale');}
 .cboxIE #cboxMiddleLeft{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderMiddleLeft.png, sizingMethod='scale');}
 .cboxIE #cboxMiddleRight{background:transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=images/colorbox/internet_explorer/borderMiddleRight.png, sizingMethod='scale');}
-
 
 /*
 	Use colorbox example 2 css for movieinfo popups

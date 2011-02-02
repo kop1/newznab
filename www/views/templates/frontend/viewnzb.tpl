@@ -10,7 +10,7 @@
 		<tr><th>Episode:</th><td>{$release.seriesfull|replace:"S":"Series "|replace:"E":" Episode "} <a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">View All Episodes</a></td></tr>
 		<tr><th>Tv Info:</th><td>
 		{if $rage.imgdata != ""}
-			<img src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&id={$rage.ID}" width="180" align="left" style="padding-right:10px;"  />
+			<img class="shadow" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&id={$rage.ID}" width="180" align="left" style="margin-right:10px;"  />
 		{/if}
 
 		{if $release.tvtitle != ""}
@@ -43,7 +43,7 @@
 	
 	{if $movie}
 	<tr><th>Movie Info:</th><td>
-		{if $movie.cover == 1}<img src="{$smarty.const.WWW_TOP}/covers/movies/{$movie.imdbID}-cover.jpg" alt="{$movie.title}" height="140" align="left" hspace="10" />{/if}
+		{if $movie.cover == 1}<img class="shadow" src="{$smarty.const.WWW_TOP}/covers/movies/{$movie.imdbID}-cover.jpg" alt="{$movie.title}" height="140" align="left" hspace="10" />{/if}
 		<strong>{$movie.title} ({$movie.year}) {if $movie.rating == ''}N/A{/if}{$movie.rating}/10</strong>
 		{if $movie.tagline != ''}<br />{$movie.tagline}{/if}
 		{if $movie.plot != ''}{if $movie.tagline != ''} - {else}<br />{/if}{$movie.plot}{/if}
@@ -56,7 +56,7 @@
 	
 	{if $con}
 	<tr><th>Console Info:</th><td>
-		{if $con.cover == 1}<a target="_blank" href="{$site->dereferrer_link}{$con.url}/" ><img src="{$smarty.const.WWW_TOP}/covers/console/{$con.ID}.jpg" alt="{$con.title}" height="140" align="left" hspace="10" /></a>{/if}
+		{if $con.cover == 1}<a target="_blank" href="{$site->dereferrer_link}{$con.url}/" ><img class="shadow" src="{$smarty.const.WWW_TOP}/covers/console/{$con.ID}.jpg" alt="{$con.title}" height="140" align="left" hspace="10" /></a>{/if}
 		<strong>{$con.title} ({$con.releasedate|date_format:"%Y"})</strong><br />
 		{if $con.esrb != ""}<strong>ESRB:</strong> {$con.esrb}<br />{/if}
 		{if $con.publisher != ""}<strong>Publisher:</strong> {$con.publisher}<br />{/if}
@@ -69,7 +69,7 @@
 	
 	{if $music}
 	<tr><th>Music Info:</th><td>
-		{if $music.cover == 1}<a target="_blank" href="{$site->dereferrer_link}{$music.url}/" ><img src="{$smarty.const.WWW_TOP}/covers/music/{$music.ID}.jpg" alt="{$music.title}" height="120" align="left" hspace="10" /></a>{/if}
+		{if $music.cover == 1}<a target="_blank" href="{$site->dereferrer_link}{$music.url}/" ><img class="shadow" src="{$smarty.const.WWW_TOP}/covers/music/{$music.ID}.jpg" alt="{$music.title}" height="120" align="left" hspace="10" /></a>{/if}
 		<strong>{$music.title} {if $music.year != ""}({$music.year}){/if}</strong><br />
 		{if $music.genre != ""}<strong>Genre:</strong> {$music.genre}<br />{/if}
 		{if $music.publisher != ""}<strong>Publisher:</strong> {$music.publisher}<br />{/if}
