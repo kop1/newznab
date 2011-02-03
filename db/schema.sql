@@ -240,6 +240,10 @@ CREATE TABLE IF NOT EXISTS `forumpost` (
   KEY `updateddate` (`updateddate`)
 ) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
+INSERT INTO forumpost (`forumID`, `parentID`,  `userID`,  `subject`,  `message`, `locked`, `sticky`,`replies`,  `createddate`, `updateddate`)
+VALUES (1,0,1,'Welcome to newznab','This install was brought to you by the newznab team @ http://www.newznab.com/',  0, 0, 0,  NOW(), NOW());
+
+
 DROP TABLE IF EXISTS `movieinfo`;
 CREATE TABLE `movieinfo` 
 (
@@ -647,8 +651,8 @@ INSERT INTO `site`
 	'Newznab a usenet indexing website with community features', 'usenet,nzbs,newznab,cms,community', 
 	'newznab is designed to be a simple usenet indexing site that is easy to configure as a community website.',
 	'info@newznab.com', 
-	NOW(), NULL, NULL, NULL, MD5(UUID()), '<p>Your terms and conditions...</p>',0, '', 
-	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 3, 2, 'AKIAIPDNG5EU7LB4AD3Q', 'B58mVwyj+T/MEucxWugJ3GQ0CcW2kQq16qq/1WpS', '9a4e16adddcd1e86da19bcaf5ff3c2a3');
+	NOW(), NULL, NULL, NULL, MD5(UUID()), '<p>All information within this database is indexed by an automated process, without any human intervention. It is obtained from global Usenet newsgroups over which this site has no control. We cannot prevent that you might find obscene or objectionable material by using this service. If you do come across obscene, incorrect or objectionable results, let us know by using the contact form.</p>',0, '', 
+	'http://www.dereferer.ws/?', '/your/path/to/nzbs/', 2, 2, 'AKIAIPDNG5EU7LB4AD3Q', 'B58mVwyj+T/MEucxWugJ3GQ0CcW2kQq16qq/1WpS', '9a4e16adddcd1e86da19bcaf5ff3c2a3');
 
 DROP TABLE IF EXISTS `consoleinfo`;
 CREATE TABLE `consoleinfo` (

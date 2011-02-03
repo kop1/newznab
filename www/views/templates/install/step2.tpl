@@ -25,18 +25,19 @@
 			<td><label for="db">Database:</label></td>
 			<td><input type="text" name="db" id="db" value="{$cfg->DB_NAME}" /></td>
 		</tr>
-		<tr class="">
-			<td colspan="2">
+	</table>
+
+	<div style="padding-top:20px; text-align:center;">
 			{if $cfg->error}
+			<div>
 				The following error(s) were encountered:<br />
 				{if $cfg->dbConnCheck === false}<span class="error">&bull; Unable to connect to database</span><br />{/if}
 				{if $cfg->dbNameCheck === false}<span class="error">&bull; Unable to select database</span><br />{/if}
 				<br />
+			</div>
 			{/if}
 			<input type="submit" value="Setup Database" />
-			</td>
-		</tr>
-	</table>
+	</div>
 </form>
 
 {/if}

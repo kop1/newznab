@@ -8,15 +8,6 @@
 <table class="input">
 
 <tr>
-	<td style="width:160px;"><label for="codename">Code Name</label>:</td>
-	<td>
-		<input id="codename" name="code" type="text" value="{$fsite->code}" />
-		<input type="hidden" name="id" value="{$fsite->id}" />
-		<div class="hint">A just for fun value shown in debug and not on public pages.</div>
-	</td>
-</tr>
-
-<tr>
 	<td><label for="title">Title</label>:</td>
 	<td>
 		<input id="title" class="long" name="title" type="text" value="{$fsite->title}" />
@@ -62,6 +53,15 @@
 	<td>
 		<textarea id="footer" name="footer">{$fsite->footer}</textarea>
 		<div class="hint">Displayed in the footer section of every public page.</div>
+	</td>
+</tr>
+
+<tr>
+	<td style="width:160px;"><label for="codename">Code Name</label>:</td>
+	<td>
+		<input id="codename" name="code" type="text" value="{$fsite->code}" />
+		<input type="hidden" name="id" value="{$fsite->id}" />
+		<div class="hint">A just for fun value shown in debug and not on public pages.</div>
 	</td>
 </tr>
 

@@ -3,7 +3,7 @@ require_once('../lib/installpage.php');
 require_once('../lib/install.php');
 
 $page = new Installpage();
-$page->title = "Database setup";
+$page->title = "Database Setup";
 
 $cfg = new Install();
 

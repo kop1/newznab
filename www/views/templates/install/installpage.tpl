@@ -14,7 +14,7 @@
 		{$page->content}
 	
 		<div class="footer">
-			<p><br /><a href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}.</p>
+			<p><br /><a href="http://www.newznab.com/">newznab</a> is released under GPL. All rights reserved {$smarty.now|date_format:"%Y"}.</p>
 		</div>
 	</div>
 </body>

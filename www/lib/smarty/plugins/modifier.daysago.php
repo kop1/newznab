@@ -29,7 +29,8 @@ function smarty_modifier_daysAgo($date)
 		
 	if ($days >= 365)
 	{
-		return round(($days/365), 1).' Yrs ago';
+		$years = round(($days/365), 1);
+		return $years.' Yr'.($years!=1?"s":"").' ago';
 	}
 	else if ($days >= 90)
 	{

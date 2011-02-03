@@ -3,7 +3,7 @@ require_once('../lib/installpage.php');
 require_once('../lib/install.php');
 
 $page = new Installpage();
-$page->title = "News server setup";
+$page->title = "News Server Setup";
 
 $cfg = new Install();
 
@@ -22,7 +22,7 @@ if  ($page->isPostBack())
 	$cfg->NNTP_USERNAME = trim($_POST['user']);
 	$cfg->NNTP_PASSWORD = trim($_POST['pass']);
 	$cfg->NNTP_PORT = (trim($_POST['port']) == '') ? 119 : trim($_POST['port']);
-	$cfg->NNTP_SSLENABLED = (trim($_POST['ssl']) == '1' ? true : false);
+	$cfg->NNTP_SSLENABLED = (isset($_POST['ssl'])?(trim($_POST['ssl']) == '1' ? true : false):false);
 	
 	include($cfg->WWW_DIR.'/lib/Net_NNTP/NNTP/Client.php');
 	$test = new Net_NNTP_Client();

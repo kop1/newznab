@@ -27,16 +27,17 @@ if (!$cfg->error) {
 <body>
 	<h1 id="logo"><img alt="Newznab" src="../views/images/banner.jpg" /></h1>
 	<div class="content">	
-		<h2>Newznab Install</h2>
+		<h2>Index Usenet. Now.</h2>
 
 	
-		<p>Welcome to Newznab. Before getting started, you need to make sure that the server meet's 
-			the minimum requirements for running Newznab. Also prepare the following information:</p>
+		<p>Welcome to newznab.</p><p>Before getting started, you need to make sure that the server meet's 
+			the minimum requirements. You will also need...</p>
 		<ol>
-			<li>Your database credentials</li>
-			<li>Your news server credentials</li>
-			<li>SSH & root ability on your server (incase you need to install missing packages)</li>
+			<li>Your database credentials.</li>
+			<li>Your news server credentials.</li>
+			<li>SSH & root ability on your server (incase you need to install missing packages).</li>
 		</ol>
+		<br/><br/>
 		<p>
 			<strong>
 				<div style="color: red">WARNING: </div> 

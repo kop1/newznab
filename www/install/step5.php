@@ -4,7 +4,7 @@ require_once('../lib/installpage.php');
 require_once('../lib/install.php');
 
 $page = new Installpage();
-$page->title = "Admin user setup";
+$page->title = "Setup Admin User";
 
 $cfg = new Install();
 

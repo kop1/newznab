@@ -20,19 +20,20 @@
 			<td><label for="email">Email:</label> </td>
 			<td><input autocomplete="off" type="text" name="email" id="email" value="{$cfg->ADMIN_EMAIL}" /></td>
 		</tr>
-		<tr class="">
-			<td colspan="2">
+	</table>
+
+	<div style="padding-top:20px; text-align:center;">
 			{if $cfg->error}
-				The following error was encountered:<br />
+			<div>
+				The following error(s) were encountered:<br />
 				{if $cfg->ADMIN_USER == ''}<span class="error">&bull; Invalid username</span><br />{/if}
 				{if $cfg->ADMIN_PASS == ''}<span class="error">&bull; Invalid password</span><br />{/if}
 				{if $cfg->ADMIN_EMAIL == ''}<span class="error">&bull; Invalid email</span><br />{/if}
 				<br />
+			</div>
 			{/if}
 			<input type="submit" value="Create Admin User" />
-			</td>
-		</tr>
-	</table>
+	</div>
 </form>
 
 {/if}

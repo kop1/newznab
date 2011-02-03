@@ -4,7 +4,9 @@ require_once('../lib/installpage.php');
 require_once('../lib/install.php');
 
 $page = new Installpage();
-$page->title = "NZB files path";
+
+if (!isset($_REQUEST["success"]))
+	$page->title = "NZB File Path";
 
 $cfg = new Install();
 

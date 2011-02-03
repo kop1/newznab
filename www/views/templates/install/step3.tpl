@@ -5,7 +5,10 @@
 	</div>
 {else}
 
-<p>We need some information about your News server (NNTP), please provide the following information:</p>
+<p>newznab has a <a href="http://affiliate.astraweb.com/10457.html">special affilate deal</a> with <a href="http://affiliate.astraweb.com/10457.html">astraweb</a>, who in our opinion provide the best value usenet access. newznab is also designed to take advantage of astrawebs compression support, which other providers do not offer.
+</p>
+
+<p>If you already have a news server (NNTP), please provide the following information:</p>
 <form action="?" method="post">
 	<table width="100%" border="0" style="margin-top:10px;" class="data highlight">
 		<tr class="">
@@ -29,25 +32,28 @@
 			<td><label for="port">Port:</label></td>
 			<td>
 				<input type="text" name="port" id="port" value="{$cfg->NNTP_PORT}" />
-				<div class="hint">e.g. 119</div>
+				<div class="hint">e.g. 119 or 443,564 for SSL</div>
 			</td>
 		</tr>
 		<tr>
-			<td><label for="port">SSL?:</label></td>
+			<td><label for="ssl">SSL?:</label></td>
 			<td>
 				<input type="checkbox" name="ssl" id="ssl" value="1" {if $cfg->NNTP_SSLENABLED=="true"}checked="checked"{/if} />
 			</td>
 		</tr>		
-		<tr class="">
-			<td colspan="2">
+	</table>
+
+	<div style="padding-top:20px; text-align:center;">
 			{if $cfg->error}
-				The following error was encountered:<br />
-				<span class="error">&bull; {$cfg->nntpCheck->message}</span><br /><br />
+			<div>
+					The following error was encountered:<br />
+					<span class="error">&bull; {$cfg->nntpCheck->message}</span><br /><br />
+				<br />
+			</div>
 			{/if}
 			<input type="submit" value="Test Connection" />
-			</td>
-		</tr>
-	</table>
+	</div>
+
 </form>
 
 {/if}
