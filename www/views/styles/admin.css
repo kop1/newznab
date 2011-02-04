@@ -42,3 +42,13 @@ div#group_list a.group_deactive:active {
     color: #008C00;
 }
 
+#donate {
+	float: right;
+	display: block;
+	width: 150px;
+	border: 1px solid #ddd;
+	text-align: center;
+	padding: 8px 0px 8px 0px;
+}
+#donate form { margin: 0px; padding: 0px; }
+#donate h3 { margin: 0px 0px 6px 0px; padding: 0px; }

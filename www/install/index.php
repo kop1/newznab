@@ -60,7 +60,7 @@ if (!$cfg->error) {
 
 	
 		<div class="footer">
-			<p><br /><a href="http://www.newznab.com/">Newznab</a> is released under GPL. All rights reserved <?php echo date("Y"); ?>.</p>
+			<p><br /><a href="http://www.newznab.com/">newznab</a> is released under GPL. All rights reserved <?php echo date("Y"); ?>.</p>
 		</div>
 	</div>
 </body>
