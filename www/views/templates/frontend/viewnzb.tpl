@@ -5,17 +5,18 @@
 	{if $isadmin}
 	<tr><th>Admin Functions:</th><td><a class="rndbtn" href="{$smarty.const.WWW_TOP}/admin/release-edit.php?id={$release.ID}&amp;from={$smarty.server.REQUEST_URI}" title="Edit Release">Edit</a> <a class="rndbtn confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-delete.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Delete Release">Delete</a> <a class="rndbtn confirm_action" href="{$smarty.const.WWW_TOP}/admin/release-rebuild.php?id={$release.ID}&amp;from={$smarty.server.HTTP_REFERER}" title="Rebuild Release - Delete and reset for reprocessing if binaries still exist.">Rebuild</a></td></tr>
 	{/if}
-	<tr><th>Name:</th><td><strong>{$rage.releasetitle|escape:"htmlall"}</strong>  <a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">[View Series Info]</a></td></tr>
+	<tr><th>Name:</th><td>{$release.name|escape:"htmlall"}</td></tr>
 	{if $release.rageID > 0}
-		<tr><th>Episode:</th><td><strong>{$release.seriesfull|replace:"S":"Season "|replace:"E":" Episode "} 		{if $release.tvtitle != ""}
-			({$release.tvtitle})</strong>
-			<br/>
-		{/if}</td></tr>
+		<tr><th>Episode:</th><td>{$release.seriesfull|replace:"S":"Series "|replace:"E":" Episode "} <a title="View series info" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">View All Episodes</a></td></tr>
 		<tr><th>Tv Info:</th><td>
 		{if $rage.imgdata != ""}
 			<img class="shadow" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&id={$rage.ID}" width="180" align="left" style="margin-right:10px;"  />
 		{/if}
-		
+
+		{if $release.tvtitle != ""}
+			<strong>{$release.tvtitle}</strong>
+			<br/>
+		{/if}
 		{if $release.tvairdate != ""}
 			<strong>Aired:</strong> {$release.tvairdate|date_format}
 			<br/>
@@ -92,8 +93,8 @@
 	{/if}	
 	
 	<tr><th>Poster:</th><td>{$release.fromname|escape:"htmlall"}</td></tr>
-	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format} ({$release.postdate|daysago} )</td></tr>
-	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format} ({$release.adddate|daysago} )</td></tr>
+	<tr><th>Posted:</th><td title="{$release.postdate}">{$release.postdate|date_format} ({$release.postdate|daysago})</td></tr>
+	<tr><th>Added:</th><td title="{$release.adddate}">{$release.adddate|date_format} ({$release.adddate|daysago})</td></tr>
 	<tr id="guid{$release.guid}"><th>Download:</th><td>
 		<div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/getnzb/{$release.guid}/{$release.searchname|escape:"htmlall"}">&nbsp;</a></div>
 		<div class="icon icon_cart" title="Add to Cart"></div>
