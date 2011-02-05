@@ -39,6 +39,15 @@ jQuery(function($){
 	$('.nzb_check_all').change(function(){
 		$('table.data tr td input:checkbox').attr('checked',$(this).attr('checked'));
 	});
+	
+	$('.nzb_check_all_season').change(function(){
+		var season = $(this).attr('name');
+		$('table.data tr td input:checkbox').each( function(i, row) {
+			if ($(row).attr('name') == season) {
+				$(row).attr('checked', !$(row).attr('checked'));
+			}
+		});
+	});
 
 	// browse.tpl, search.tpl
 	$('.icon_cart').click(function(e){

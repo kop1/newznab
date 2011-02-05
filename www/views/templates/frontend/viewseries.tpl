@@ -27,7 +27,7 @@
 <div class="nzb_multi_operations">
 	<div style="padding-bottom:10px;" >
 		<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a> | 
-		<a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}{if $category != ''}&t={$category}{/if}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
+		<a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}{if $category != ''}&amp;t={$category}{/if}&amp;dl=1&amp;i={$userdata.ID}&amp;r={$userdata.rsstoken}">Rss Feed for this Series</a>
 	</div>
 	<small>With Selected:</small>
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />
@@ -50,7 +50,7 @@
 		<tr>
 			<th>Ep</th>
 			<th>Name</th>
-			<th><input id="chkSelectAll" type="checkbox" class="nzb_check_all" /><label for="chkSelectAll" style="display:none;">Select All</label></th>
+			<th><input id="chkSelectAll{$seasonnum}" type="checkbox" name="{$seasonnum}" class="nzb_check_all_season" /><label for="chkSelectAll{$seasonnum}" style="display:none;">Select All</label></th>
 			<th>Category</th>
 			<th style="text-align:center;">Posted</th>
 			<th>Size</th>
@@ -82,7 +82,7 @@
 							{/if}			
 						</div>
 					</td>
-					<td class="check"><input id="chk{$result.guid|substr:0:7}" type="checkbox" class="nzb_check" value="{$result.guid}" /></td>
+					<td class="check"><input id="chk{$result.guid|substr:0:7}" type="checkbox" class="nzb_check" name="{$seasonnum}" value="{$result.guid}" /></td>
 					<td class="less"><a title="This series in {$result.category_name}" href="{$smarty.const.WWW_TOP}/series/{$result.rageID}?t={$result.categoryID}">{$result.category_name}</a></td>
 					<td class="less mid" width="40" title="{$result.postdate}">{$result.postdate|timeago}</td>
 					<td width="40" class="less">{$result.size|fsize_format:"MB"}</td>
