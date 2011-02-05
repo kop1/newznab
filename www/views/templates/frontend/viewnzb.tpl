@@ -119,7 +119,7 @@
 	</tr>
 	{/if}
 	{if $isadmin}
-	<tr><th>Additional Info:</th>
+	<tr><th>Release Info:</th>
 		<td>
 			Regex Id (<a href="{$smarty.const.WWW_TOP}/admin/regex-list.php#{$release.regexID}">{$release.regexID}</a>) <br/> 
 			{if $release.reqID != ""}
