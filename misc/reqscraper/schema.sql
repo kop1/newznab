@@ -10,6 +10,7 @@ CREATE TABLE `feed`
 	`titlecol` VARCHAR(255) NULL,
 	`titleregex` VARCHAR(2000) NOT NULL,
 	`lastupdate` DATETIME NULL,
+	`updatemins` TINYINT(3) NOT NULL DEFAULT  '55',
 	`status` INT NOT NULL DEFAULT 1,
 	PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM AUTO_INCREMENT=1 ;
@@ -41,4 +42,4 @@ CREATE TABLE `item`
 
 CREATE INDEX ix_item_feedID ON item (feedID);
 CREATE INDEX ix_item_reqid ON item (reqid);
-CREATE UNIQUE INDEX ix_item_guid ON item (guid);
+CREATE UNIQUE INDEX ix_reqid_title ON item (reqid, title);

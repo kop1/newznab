@@ -6,17 +6,26 @@ require_once('config.php');
 //
 // retrieve a list of feeds to be scraped
 //
-$result = mysql_query("select * from feed where status=1");	
+$result = mysql_query("select *, NOW() as now from feed where status=1");	
 while ($row = mysql_fetch_assoc($result)) 
 {
-	$rss = fetch_rss($row["url"]);
+	
+	if (strtotime($row['now']) - strtotime($row['lastupdate']) < $row['updatemins']*60) {
+		continue;
+	}
 
+	$rss = fetch_rss($row["url"]);
+	
+	$upd = mysql_query("update feed set lastupdate = now() where ID = ".$row['ID']);
+	
 	//
 	// scrape every item into a database table
 	//
 	foreach ($rss->items as $item) 
 	{
-		$link = mysql_real_escape_string($item['link']);
+		$link = "";
+		if (isset($item['link']))
+			$link = mysql_real_escape_string($item['link']);
 		
 		if (isset($item['description']))
 			$description = mysql_real_escape_string($item['description']);	
@@ -56,7 +65,8 @@ while ($row = mysql_fetch_assoc($result))
 				$guid = md5(uniqid());	
 		}	
 			
-		$res = mysql_query("insert into item (feedID, reqid, title, link, description, pubdate, guid, adddate) values ($feedID, '$reqid', '$title', '$link', '$description', '$pubdate', '$guid', now())");	
+		$res = mysql_query("insert into item (feedID, reqid, title, link, description, pubdate, guid, adddate) values ($feedID, '$reqid', '$title', '$link', '$description', '$pubdate', '$guid', now())
+		on duplicate key update reqid = '$reqid', title = '$title'"");	
 	}
 }
 
