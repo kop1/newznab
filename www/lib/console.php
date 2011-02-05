@@ -22,7 +22,7 @@ class Console
 	public function getConsoleInfo($id)
 	{
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT consoleinfo.* FROM consoleinfo where consoleinfo.ID = %d ", $id));
+		return $db->queryOneRow(sprintf("SELECT consoleinfo.*, genres.title as genres FROM consoleinfo left outer join genres on genres.ID = consoleinfo.genreID where consoleinfo.ID = %d ", $id));
 	}
 
 	public function getConsoleInfoByName($title, $platform)

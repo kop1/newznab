@@ -1,7 +1,7 @@
 
 <h1>{$release.searchname|escape:"htmlall"}</h1>
 
-{if $rage && $rage.imgdata != ""}<img class="shadow" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&id={$rage.ID}" width="180" alt="{$rage.releasetitle|escape:"htmlall"}" style="float:right;" />{/if}
+{if $rage && $rage.imgdata != ""}<img class="shadow" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&amp;id={$rage.ID}" width="180" alt="{$rage.releasetitle|escape:"htmlall"}" style="float:right;" />{/if}
 {if $movie && $movie.cover == 1}<img class="shadow" src="{$smarty.const.WWW_TOP}/covers/movies/{$movie.imdbID}-cover.jpg" width="180" alt="{$movie.title|escape:"htmlall"}" style="float:right;" />{/if}
 {if $con && $con.cover == 1}<img class="shadow" src="{$smarty.const.WWW_TOP}/covers/console/{$con.ID}.jpg" width="160" alt="{$con.title|escape:"htmlall"}" style="float:right;" />{/if}
 {if $music && $music.cover == 1}<img class="shadow" src="{$smarty.const.WWW_TOP}/covers/music/{$music.ID}.jpg" width="160" alt="{$music.title|escape:"htmlall"}" style="float:right;" />{/if}
@@ -15,20 +15,20 @@
 	{if $rage}
 		<tr><th>Tv Info:</th><td>
 			<strong>{if $release.tvtitle != ""}{$release.tvtitle|escape:"htmlall"} - {/if}{$release.seriesfull|replace:"S":"Season "|replace:"E":" Episode "}</strong><br />
-			{if $rage.description != ""}<span class="descinitial">{$rage.description|nl2br|magicurl|truncate:"350":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>{if $rage.description|strlen > 350}<span class="descfull">{$rage.description}</span>{/if}<br /><br />{/if}
-			{if $rage.genre != ""}<strong>Genre:</strong> {$rage.genre|replace:"|":", "}<br />{/if}
+			{if $rage.description != ""}<span class="descinitial">{$rage.description|escape:"htmlall"|nl2br|magicurl|truncate:"350":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>{if $rage.description|strlen > 350}<span class="descfull">{$rage.description|escape:"htmlall"|nl2br|magicurl}</span>{/if}<br /><br />{/if}
+			{if $rage.genre != ""}<strong>Genre:</strong> {$rage.genre|escape:"htmlall"|replace:"|":", "}<br />{/if}
 			{if $release.tvairdate != ""}<strong>Aired:</strong> {$release.tvairdate|date_format}<br/>{/if}
 			{if $rage.country != ""}<strong>Country:</strong> {$rage.country}<br/>{/if}
-			<strong>More:</strong> [<a title="View all episodes from this series" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">All Episodes</a>]&nbsp;&nbsp;[<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View at TV Rage">TV Rage</a>]&nbsp;&nbsp;[<a href="{$smarty.const.WWW_TOP}/rss?rage={$release.rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}" title="Rss feed for this series">Rss Feed</a>]
+			<strong>More:</strong> [<a title="View all episodes from this series" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">All Episodes</a>]&nbsp;&nbsp;[<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View at TV Rage">TV Rage</a>]&nbsp;&nbsp;[<a href="{$smarty.const.WWW_TOP}/rss?rage={$release.rageID}&amp;dl=1&amp;i={$userdata.ID}&amp;r={$userdata.rsstoken}" title="Rss feed for this series">Rss Feed</a>]
 			</td>
 		</tr>
 	{/if}
 	
 	{if $movie}
 	<tr><th>Movie Info:</th><td>
-		<strong>{$movie.title} ({$movie.year}) {if $movie.rating == ''}N/A{/if}{$movie.rating}/10</strong>
-		{if $movie.tagline != ''}<br />{$movie.tagline}{/if}
-		{if $movie.plot != ''}{if $movie.tagline != ''} - {else}<br />{/if}{$movie.plot}{/if}
+		<strong>{$movie.title|escape:"htmlall"} ({$movie.year}) {if $movie.rating == ''}N/A{/if}{$movie.rating}/10</strong>
+		{if $movie.tagline != ''}<br />{$movie.tagline|escape:"htmlall"}{/if}
+		{if $movie.plot != ''}{if $movie.tagline != ''} - {else}<br />{/if}{$movie.plot|escape:"htmlall"}{/if}
 		<br /><br /><strong>Director:</strong> {$movie.director}
 		<br /><strong>Genre:</strong> {$movie.genre}
 		<br /><strong>Starring:</strong> {$movie.actors}
@@ -38,11 +38,12 @@
 	
 	{if $con}
 	<tr><th>Console Info:</th><td>
-		<strong>{$con.title} ({$con.releasedate|date_format:"%Y"})</strong><br />
-		{if $con.review != ""}<span class="descinitial">{$con.review|nl2br|magicurl|truncate:"350":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>{if $con.review|strlen > 350}<span class="descfull">{$con.review}</span>{/if}<br /><br />{/if}
-		{if $con.esrb != ""}<strong>ESRB:</strong> {$con.esrb}<br />{/if}
-		{if $con.publisher != ""}<strong>Publisher:</strong> {$con.publisher}<br />{/if}
-		{if $con.platform != ""}<strong>Platform:</strong> {$con.platform}<br />{/if}
+		<strong>{$con.title|escape:"htmlall"} ({$con.releasedate|date_format:"%Y"})</strong><br />
+		{if $con.review != ""}<span class="descinitial">{$con.review|escape:"htmlall"|nl2br|magicurl|truncate:"350":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>{if $con.review|strlen > 350}<span class="descfull">{$con.review|escape:"htmlall"|nl2br|magicurl}</span>{/if}<br /><br />{/if}
+		{if $con.esrb != ""}<strong>ESRB:</strong> {$con.esrb|escape:"htmlall"}<br />{/if}
+		{if $con.genres != ""}<strong>Genre:</strong> {$con.genres|escape:"htmlall"}<br />{/if}
+		{if $con.publisher != ""}<strong>Publisher:</strong> {$con.publisher|escape:"htmlall"}<br />{/if}
+		{if $con.platform != ""}<strong>Platform:</strong> {$con.platform|escape:"htmlall"}<br />{/if}
 		{if $con.releasedate != ""}<strong>Released:</strong> {$con.releasedate|date_format}<br />{/if}
 		<strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}{$con.url}/" title="View game at Amazon">Amazon</a>]
 	</td></tr>
@@ -50,10 +51,10 @@
 	
 	{if $music}
 	<tr><th>Music Info:</th><td>
-		<strong>{$music.title} {if $music.year != ""}({$music.year}){/if}</strong><br />
-		{if $music.review != ""}<span class="descinitial">{$music.review|nl2br|magicurl|truncate:"350":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>{if $music.review|strlen > 350}<span class="descfull">{$music.review}</span>{/if}<br /><br />{/if}
-		{if $music.genre != ""}<strong>Genre:</strong> {$music.genre}<br />{/if}
-		{if $music.publisher != ""}<strong>Publisher:</strong> {$music.publisher}<br />{/if}
+		<strong>{$music.title|escape:"htmlall"} {if $music.year != ""}({$music.year}){/if}</strong><br />
+		{if $music.review != ""}<span class="descinitial">{$music.review|nl2br|magicurl|truncate:"350":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>{if $music.review|strlen > 350}<span class="descfull">{$music.review|escape:"htmlall"|nl2br|magicurl}</span>{/if}<br /><br />{/if}
+		{if $music.genres != ""}<strong>Genre:</strong> {$music.genres|escape:"htmlall"}<br />{/if}
+		{if $music.publisher != ""}<strong>Publisher:</strong> {$music.publisher|escape:"htmlall"}<br />{/if}
 		{if $music.releasedate != ""}<strong>Released:</strong> {$music.releasedate|date_format}<br />{/if}
 		<strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}{$music.url}/" title="View record at Amazon">Amazon</a>]
 	</td></tr>
@@ -62,7 +63,7 @@
 		<ol class="tracklist">
 			{assign var="tracksplits" value="|"|explode:$music.tracks}
 			{foreach from=$tracksplits item=tracksplit}
-			<li>{$tracksplit|trim}</li>
+			<li>{$tracksplit|trim|escape:"htmlall"}</li>
 			{/foreach}		
 		</ol>
 	</td></tr>
@@ -138,9 +139,9 @@
 	
 	{/if}
 	
-	<form method="post">
+	<form action="" method="post">
 		<label for="txtAddComment">Add Comment</label>:<br/>
-		<textarea id="txtAddComment" name="txtAddComment"></textarea>
+		<textarea id="txtAddComment" name="txtAddComment" rows="6" cols="60"></textarea>
 		<br/>
 		<input type="submit" value="submit"/>
 	</form>

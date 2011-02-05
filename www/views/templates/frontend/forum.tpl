@@ -50,12 +50,12 @@
 <div style="margin-top:10px;">
 <a id="new"></a>
 <h3>Add New Post</h3>
-<form method="post">
+<form action="" method="post">
 	<label for="addSubject">Subject</label>:<br/>
 	<input type="text" maxlength="200" id="addSubject" name="addSubject" />
 	<br/>
 	<label for="addMessage">Message</label>:<br/>
-	<textarea maxlength="5000" id="addMessage" name="addMessage"></textarea>
+	<textarea maxlength="5000" id="addMessage" name="addMessage" rows="6" cols="60"></textarea>
 	<br/>
 	<input class="forumpostsubmit" type="submit" value="submit"/>
 </form>
