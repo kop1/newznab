@@ -6,7 +6,7 @@ require_once('config.php');
 //
 // retrieve a list of feeds to be scraped
 //
-$result = mysql_query("select *, NOW() as now from feed where status=1");	
+$result = mysql_query("SELECT *, NOW() as now FROM feed WHERE status=1");	
 while ($row = mysql_fetch_assoc($result)) 
 {
 	
@@ -16,7 +16,7 @@ while ($row = mysql_fetch_assoc($result))
 
 	$rss = fetch_rss($row["url"]);
 	
-	$upd = mysql_query("update feed set lastupdate = now() where ID = ".$row['ID']);
+	$upd = mysql_query("UPDATE feed SET lastupdate = NOW() WHERE ID = ".$row['ID']);
 	
 	//
 	// scrape every item into a database table
@@ -65,8 +65,7 @@ while ($row = mysql_fetch_assoc($result))
 				$guid = md5(uniqid());	
 		}	
 			
-		$res = mysql_query("insert into item (feedID, reqid, title, link, description, pubdate, guid, adddate) values ($feedID, '$reqid', '$title', '$link', '$description', '$pubdate', '$guid', now())
-		on duplicate key update reqid = '$reqid', title = '$title'"");	
+		$res = mysql_query("INSERT INTO item (feedID, reqid, title, link, description, pubdate, guid, adddate) VALUES ($feedID, '$reqid', '$title', '$link', '$description', '$pubdate', '$guid', NOW()) ON DUPLICATE KEY update reqid = '$reqid', title = '$title'");	
 	}
 }
 
