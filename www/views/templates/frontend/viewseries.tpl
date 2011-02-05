@@ -27,7 +27,7 @@
 <div class="nzb_multi_operations">
 	<div style="padding-bottom:10px;" >
 		<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$rage[0].rageID}" title="View in TvRage">View in Tv Rage</a> | 
-		<a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
+		<a href="{$smarty.const.WWW_TOP}/rss?rage={$rage[0].rageID}{if $category != ''}&t={$category}{/if}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}">Rss Feed for this Series</a>
 	</div>
 	<small>With Selected:</small>
 	<input type="button" class="nzb_multi_operations_download" value="Download NZBs" />

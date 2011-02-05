@@ -68,11 +68,15 @@ if (isset($_GET["id"]) && ctype_digit($_GET['id']))
 	$page->meta_description = "View $seriesnames Series";
 	
 	if ($category != -1)
+	{
 		$cdata = $cat->getById($category);
-	else
+		$catid = $category;
+	} else {
 		$cdata = array('title'=>'');
-		
+		$catid = '';
+	}
 	$page->smarty->assign('catname',$cdata["title"]);
+	$page->smarty->assign('category',$catid);
 	
 	$page->content = $page->smarty->fetch('viewseries.tpl');
 	$page->render();
