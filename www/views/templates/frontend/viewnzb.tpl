@@ -18,8 +18,12 @@
 			{if $rage.description != ""}<span class="descinitial">{$rage.description|escape:"htmlall"|nl2br|magicurl|truncate:"350":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>{if $rage.description|strlen > 350}<span class="descfull">{$rage.description|escape:"htmlall"|nl2br|magicurl}</span>{/if}<br /><br />{/if}
 			{if $rage.genre != ""}<strong>Genre:</strong> {$rage.genre|escape:"htmlall"|replace:"|":", "}<br />{/if}
 			{if $release.tvairdate != ""}<strong>Aired:</strong> {$release.tvairdate|date_format}<br/>{/if}
-			{if $rage.country != ""}<strong>Country:</strong> {$rage.country}<br/>{/if}
-			<strong>More:</strong> [<a title="View all episodes from this series" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">All Episodes</a>]&nbsp;&nbsp;[<a target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View at TV Rage">TV Rage</a>]&nbsp;&nbsp;[<a href="{$smarty.const.WWW_TOP}/rss?rage={$release.rageID}&amp;dl=1&amp;i={$userdata.ID}&amp;r={$userdata.rsstoken}" title="Rss feed for this series">Rss Feed</a>]
+			{if $rage.country != ""}<strong>Country:</strong> {$rage.country}{/if}
+			<div style="margin-top:10px;">
+				<a class="rndbtn" title="View all episodes from this series" href="{$smarty.const.WWW_TOP}/series/{$release.rageID}">All Episodes</a> 
+				<a class="rndbtn" target="_blank" href="{$site->dereferrer_link}http://www.tvrage.com/shows/id-{$release.rageID}" title="View at TV Rage">TV Rage</a>
+				<a class="rndbtn" href="{$smarty.const.WWW_TOP}/rss?rage={$release.rageID}&dl=1&i={$userdata.ID}&r={$userdata.rsstoken}" title="Rss feed for this series">Series Rss Feed</a>
+			</div>
 			</td>
 		</tr>
 	{/if}
@@ -29,10 +33,13 @@
 		<strong>{$movie.title|escape:"htmlall"} ({$movie.year}) {if $movie.rating == ''}N/A{/if}{$movie.rating}/10</strong>
 		{if $movie.tagline != ''}<br />{$movie.tagline|escape:"htmlall"}{/if}
 		{if $movie.plot != ''}{if $movie.tagline != ''} - {else}<br />{/if}{$movie.plot|escape:"htmlall"}{/if}
-		<br /><br /><strong>Director:</strong> {$movie.director}
-		<br /><strong>Genre:</strong> {$movie.genre}
+		<br /><br />{if $movie.director != ""} <strong>Director:</strong> {$movie.director}<br />{/if}
+		<strong>Genre:</strong> {$movie.genre}
 		<br /><strong>Starring:</strong> {$movie.actors}
-		<br /><strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$release.imdbID}/" title="View at IMDB">IMDB</a>]{if $movie.tmdbID != ''}&nbsp;&nbsp;[<a target="_blank" href="{$site->dereferrer_link}http://www.themoviedb.org/movie/{$movie.tmdbID}" title="View at TMDb">TMDb</a>]{/if}
+		<div style="margin-top:10px;">
+			<a class="rndbtn" target="_blank" href="{$site->dereferrer_link}http://www.imdb.com/title/tt{$release.imdbID}/" title="View at IMDB">IMDB</a>
+			{if $movie.tmdbID != ''}<a class="rndbtn" target="_blank" href="{$site->dereferrer_link}http://www.themoviedb.org/movie/{$movie.tmdbID}" title="View at TMDb">TMDb</a>{/if}
+		</div>
 	</td></tr>
 	{/if}
 	
@@ -44,8 +51,10 @@
 		{if $con.genres != ""}<strong>Genre:</strong> {$con.genres|escape:"htmlall"}<br />{/if}
 		{if $con.publisher != ""}<strong>Publisher:</strong> {$con.publisher|escape:"htmlall"}<br />{/if}
 		{if $con.platform != ""}<strong>Platform:</strong> {$con.platform|escape:"htmlall"}<br />{/if}
-		{if $con.releasedate != ""}<strong>Released:</strong> {$con.releasedate|date_format}<br />{/if}
-		<strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}{$con.url}/" title="View game at Amazon">Amazon</a>]
+		{if $con.releasedate != ""}<strong>Released:</strong> {$con.releasedate|date_format}{/if}
+		<div style="margin-top:10px;">
+			<a class="rndbtn" target="_blank" href="{$site->dereferrer_link}{$con.url}/" title="View game at Amazon">Amazon</a>
+		</div>
 	</td></tr>
 	{/if}
 	
@@ -56,7 +65,9 @@
 		{if $music.genres != ""}<strong>Genre:</strong> {$music.genres|escape:"htmlall"}<br />{/if}
 		{if $music.publisher != ""}<strong>Publisher:</strong> {$music.publisher|escape:"htmlall"}<br />{/if}
 		{if $music.releasedate != ""}<strong>Released:</strong> {$music.releasedate|date_format}<br />{/if}
-		<strong>More:</strong> [<a target="_blank" href="{$site->dereferrer_link}{$music.url}/" title="View record at Amazon">Amazon</a>]
+		<div style="margin-top:10px;">
+			<a class="rndbtn" target="_blank" href="{$site->dereferrer_link}{$music.url}/" title="View record at Amazon">Amazon</a>
+		</div>
 	</td></tr>
 	{if $music.tracks != ""}
 	<tr><th>Track Listing:</th><td>

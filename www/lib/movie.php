@@ -205,6 +205,9 @@ class Movie
 	
 	public function makeFieldLinks($data, $field)
 	{
+		if ($data[$field] == "")
+			return "";
+			
 		$tmpArr = explode(', ',$data[$field]);
 		$newArr = array();
 		$i = 0;
