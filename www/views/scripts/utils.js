@@ -30,9 +30,9 @@ jQuery(function($){
 			$(this).children(".nzb_check").attr('checked', !$(this).children(".nzb_check").attr('checked'));
 	});
 	
-	$(".tvmore").click(function(e) {
-		$(".tvdescinitial").hide();
-		$(".tvdescfull").show();
+	$(".descmore").click(function(e) {
+		$(".descinitial").hide();
+		$(".descfull").show();
 		return false;
 	});
 	

@@ -20,11 +20,40 @@ if (isset($_GET["id"]))
 	$nfo = $releases->getReleaseNfo($data["ID"], false);
 	$comments = $releases->getComments($data["ID"]);
 	$similars = $releases->searchSimilar($data["ID"], $data["searchname"], 6, $page->userdata["categoryexclusions"]);
-	if ($data["rageID"] != "")
+	
+	$rage = '';
+	if ($data["rageID"] != '')
 	{
-		$rage = $tvrage->getByRageID($data["rageID"]);
-		if (count($rage) > 0)
-			$page->smarty->assign('rage',$rage[0]);
+		$rageinfo = $tvrage->getByRageID($data["rageID"]);
+		if (count($rageinfo) > 0)
+		{
+			$seriesnames = $seriesdescription = $seriescountry = $seriesgenre = $seriesimg = $seriesid = array();
+			foreach($rageinfo as $r)
+			{
+				$seriesnames[] = $r['releasetitle'];
+				if (!empty($r['description']))
+					$seriesdescription[] = $r['description'];
+				
+				if (!empty($r['country']))
+					$seriescountry[] = $r['country'];
+					
+				if (!empty($r['genre']))
+					$seriesgenre[] = $r['genre'];
+					
+				if (!empty($r['imgdata'])) {
+					$seriesimg[] = $r['imgdata'];
+					$seriesid[] = $r['ID'];
+				}
+			}
+			$rage = array(
+				'releasetitle' => array_shift($seriesnames), 
+				'description' => array_shift($seriesdescription), 
+				'country' => array_shift($seriescountry), 
+				'genre' => array_shift($seriesgenre), 
+				'imgdata' => array_shift($seriesimg), 
+				'ID'=>array_shift($seriesid)
+			);
+		}
 	}
 	
 	$mov = '';
@@ -56,6 +85,7 @@ if (isset($_GET["id"]))
 	
 	$page->smarty->assign('release',$data);
 	$page->smarty->assign('nfo',$nfo);
+	$page->smarty->assign('rage',$rage);
 	$page->smarty->assign('movie',$mov);
 	$page->smarty->assign('music',$mus);
 	$page->smarty->assign('con',$con);

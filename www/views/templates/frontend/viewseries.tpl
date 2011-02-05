@@ -16,8 +16,8 @@
 	{if $rage[0].imgdata != ""}<img class="shadow" alt="{$rage[0].releasetitle} Logo" src="{$smarty.const.WWW_TOP}/getimage?type=tvrage&amp;id={$rage[0].ID}" />{/if}
 	<p>
 		{if $seriesgenre != ''}<b>{$seriesgenre}</b><br />{/if}
-		<span class="tvdescinitial">{$seriesdescription|truncate:"1500":"<a class='tvmore' href='#'> more...</a>"}</span>
-		{if $seriesdescription|strlen > 1500}<span class='tvdescfull'>{$seriesdescription}</span>{/if}
+		<span class="descinitial">{$seriesdescription|truncate:"1500":" <a class=\"descmore\" href=\"#\">more...</a>"}</span>
+		{if $seriesdescription|strlen > 1500}<span class="descfull">{$seriesdescription}</span>{/if}
 	</p>
 
 </div>
