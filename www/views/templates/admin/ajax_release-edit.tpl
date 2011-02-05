@@ -5,7 +5,7 @@
 
 <h4>Successfully updated!</h4>
 <script type="text/javascript">
-	window.location = window.location;
+	window.location = "{$from}";
 </script>
 
 {else}
@@ -24,12 +24,12 @@
 </script>
 {/literal}
 
-<form id="release" action="ajax_release-admin/?action=doedit" method="get">
+<form id="release" action="{$smarty.const.WWW_TOP}/ajax_release-admin/?action=doedit" method="get">
 
 {foreach from=$idArr item=id}
 <input type="hidden" name="id[]" value="{$id}" />
 {/foreach}
-
+<input type="hidden" name="from" value="{$from}" />
 <table class="input">
 
 <tr>

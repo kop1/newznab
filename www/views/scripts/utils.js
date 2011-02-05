@@ -137,7 +137,7 @@ jQuery(function($){
 	    });
 	    if (ids)
 			$('input.nzb_multi_operations_edit').colorbox({
-				href: function(){ return SERVERROOT + "ajax_release-admin?action=edit"+ids; },
+				href: function(){ return SERVERROOT + "ajax_release-admin?action=edit"+ids+"&from="+encodeURIComponent(window.location); },
 				title: 'Edit Release',
 				innerWidth:"400px", innerHeight:"250px", initialWidth:"400px", initialHeight:"250px", speed:0, opacity:0.7
 			});
