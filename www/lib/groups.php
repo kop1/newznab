@@ -31,6 +31,12 @@ class Groups
 		$db = new DB();
 		return $db->query("SELECT * FROM groups WHERE active = 1 ORDER BY name");		
 	}
+	
+	public function getByName($grp)
+	{			
+		$db = new DB();
+		return $db->queryOneRow(sprintf("select * from groups where name = '%s' ", $grp));		
+	}	
 
 	public function getCount()
 	{			

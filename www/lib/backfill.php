@@ -17,12 +17,18 @@ class Backfill
 	//
 	// Update all active groups categories and descriptions
 	//
-	function backfillAllGroups()
+	function backfillAllGroups($groupName='')
 	{
 		$n = $this->n;
 		$groups = new Groups;
-		$res = $groups->getActive();
-			
+		if ($groupName != '') {
+			$grp = $groups->getByName($groupName);
+			if ($grp)
+				$res = array($grp);
+		} else {
+			$res = $groups->getActive();
+		}
+				
 		if ($res)
 		{
 			$nntp = new Nntp();
