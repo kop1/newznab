@@ -218,6 +218,7 @@ class Category
 		}                            
 		if (preg_match('/alt\.binaries\.dvd.*?/i', $group))
 		{
+			if($this->isXxx($releasename)){ return $this->tmpCat; }     
 			if($this->isTv($releasename)){ return $this->tmpCat; }
 			if($this->isMovie($releasename)){ return $this->tmpCat; }
 		}
@@ -239,6 +240,7 @@ class Category
 			
 		if (preg_match('/alt\.binaries\.cores.*?/i', $group))
 		{
+			if($this->isXXX($releasename)){ return $this->tmpCat; }
 			if($this->isMovie($releasename)){ return $this->tmpCat; }
 			if($this->isConsole($releasename)){ return $this->tmpCat; }	
 			if($this->isPC($releasename)){ return $this->tmpCat; }
@@ -270,6 +272,7 @@ class Category
 			
 		if (preg_match('/alt\.binaries\.documentaries/i', $group))
 		{
+			if($this->isXxx($releasename)){ return $this->tmpCat; }     
 			if($this->isTV($releasename)){ return $this->tmpCat; }
 			return Category::CAT_TV_SD;
 		}
@@ -299,6 +302,7 @@ class Category
 		}
 		if (preg_match('/alt\.binaries\.(teevee|multimedia|tv|tvseries)/i', $group))
 		{
+			if($this->isXxx($releasename)){ return $this->tmpCat; }     
 			if($this->isTV($releasename)){ return $this->tmpCat; }
 			if($this->isForeignTV($releasename)){ return $this->tmpCat; }
 			return Category::CAT_TV_OTHER;
@@ -310,12 +314,14 @@ class Category
 		}
 		if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx|alt\.binaries\.movies/i', $group))
 		{
+			if($this->isXxx($releasename)){ return $this->tmpCat; }  
 			if($this->isTV($releasename)){ return $this->tmpCat; }
 			if($this->isMovie($releasename)){ return $this->tmpCat; }
 			return Category::CAT_MOVIE_SD;
 		}                               
 		if (preg_match('/wmvhd/i', $group))
 		{
+			if($this->isXxx($releasename)){ return $this->tmpCat; }  
 			if($this->isTV($releasename)){ return $this->tmpCat; }
 			if($this->isMovie($releasename)){ return $this->tmpCat; }
 		}
@@ -327,6 +333,7 @@ class Category
 		}                        
 		if (preg_match('/alt\.binaries\.x264/i', $group))
 		{
+			if($this->isXxx($releasename)){ return $this->tmpCat; }  
 			if($this->isTV($releasename)){ return $this->tmpCat; }
 			if($this->isMovie($releasename)){ return $this->tmpCat; }
 			return Category::CAT_MOVIE_OTHER;
@@ -553,7 +560,7 @@ class Category
 	//
 	public function isXxx($releasename)
 	{
-		if(preg_match('/xxx/i', $releasename))
+		if(preg_match('/XXX/', $releasename))
 		{
 			if($this->isXxx264($releasename)){ return true; }
 			if($this->isXxxXvid($releasename)){ return true; }
