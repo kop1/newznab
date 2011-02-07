@@ -287,8 +287,8 @@ class Music
 			$mus['review'] = trim(strip_tags((string) $amaz->Items->Item->EditorialReviews->EditorialReview->Content));
 		
 		$mus['year'] = $year;
-		if ($mus['year'] == "" && $mus['releasedate'] != 'null')
-			$mus['year'] = substr($mus['releasedate'], 1, 4);
+		if ($mus['year'] == "")
+			$mus['year'] = ($mus['releasedate'] != 'null' ? substr($mus['releasedate'], 1, 4) : date("Y"));
 		
 		$mus['tracks'] = "";
 		if (isset($amaz->Items->Item->Tracks))
