@@ -107,7 +107,7 @@ class NZB
 				if (preg_match('/\.(r\d{2,3})/i', $ext[0], $extrar))
 					$ext[1] = "rar";
 
-				$result[$i]['ext'] = $ext[1];
+				$result[$i]['ext'] = strtolower($ext[1]);
 			}
 			else
 			{
