@@ -9,6 +9,7 @@
 		<th>#</th>
 		<th>filename</th>
 		<th></th>
+		<th style="text-align:center;">completion</th>
 		<th style="text-align:center;">size</th>
 	</tr>
 
@@ -24,7 +25,10 @@
 			{assign var="icon" value=$file.ext}
 		{/if}
 		
+		{assign var="completion" value=($file.partsactual/$file.partstotal*100)|number_format:1}
+		
 		<td><img title=".{$file.ext}" alt="{$file.ext}" src="{$smarty.const.WWW_TOP}/views/images/fileicons/{$icon}.png" /></td>
+		<td class="less right">{if $completion < 100}<span class="warning">{$completion}%</span>{else}{$completion}%{/if}</td>
 		<td class="less right">{if $file.size < 100000}{$file.size|fsize_format:"KB"}{else}{$file.size|fsize_format:"MB"}{/if}</td>
 	</tr>
 	{/foreach}

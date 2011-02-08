@@ -46,6 +46,7 @@ CREATE TABLE `releases`
 `adddate` DATETIME DEFAULT NULL,
 `guid` VARCHAR(50) NOT NULL,
 `fromname` VARCHAR(255) NULL,
+`completion` FLOAT NOT NULL DEFAULT '0',
 `categoryID` INT DEFAULT 0,
 `regexID` INT DEFAULT 0,
 `rageID` INT NULL,

@@ -115,12 +115,19 @@ class NZB
 			}
 			
 			//filesize
-			$filesize = 0;
+			$filesize = $numsegs = 0;
 			foreach($file->segments->segment as $segment)
+			{
 				$filesize += $segment->attributes()->bytes;
-
+				$numsegs++;
+			}
 			$result[$i]['size'] = $filesize;
-
+			
+			//file completion
+			preg_match('/\((\d{1,4})\/(?P<total>\d{1,4})\)$/', $title, $parts);
+			$result[$i]['partstotal'] = $parts['total'];
+			$result[$i]['partsactual'] = $numsegs;
+			
 			$i++;
 	    }
 	   

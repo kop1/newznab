@@ -1042,7 +1042,7 @@ class Releases
 			if ($retcount % 10 == 0)
 				echo "-processed ".$retcount." binaries stage two\n";
 		}
-		$retcount=0;$nfocount=0;
+		$retcount=$nfocount=0;
 
 		echo "Stage 3\n";
 		//
@@ -1080,11 +1080,13 @@ class Releases
 			$regexAppliedCategoryID = "";
 			$regexIDused = "";
 			$reqIDused = "";
-			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID, reqID from binaries use index (ix_binary_relname) where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
+			$relTotalParts = 0;
+			$relCompletion = 0;
+			$binariesForSize = $db->query(sprintf("select ID, categoryID, regexID, reqID, totalParts from binaries use index (ix_binary_relname) where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
 									$db->escapeString($row["relname"]), Releases::PROCSTAT_READYTORELEASE, $row["groupID"], $db->escapeString($row["fromname"]) ));
 			if (count($binariesForSize) > 0)
 			{
-				$sizeSql = "select sum(size) as totalSize from parts where (";
+				$sizeSql = "select sum(size) as totalSize, count(ID) as relParts from parts where (";
 				foreach ($binariesForSize as $binSizeId)
 				{
 					$sizeSql.= " binaryID = ".$binSizeId["ID"]." or ";
@@ -1104,10 +1106,16 @@ class Releases
 					//					
 					if ($binSizeId["reqID"] != "" && $reqIDused == "")
 						$reqIDused = $binSizeId["reqID"];
+						
+					//
+					// Get number of expected parts
+					//
+					$relTotalParts += $binSizeId["totalParts"];
 				}
 				$sizeSql.=" 1=2) ";
 				$temp = $db->queryOneRow($sizeSql);
 				$totalSize = ($temp["totalSize"]+0)."";
+				$relCompletion = number_format($temp["relParts"]/$relTotalParts*100, 1);
 			}
 
 			//
@@ -1133,8 +1141,8 @@ class Releases
 			$cleanArr = array('#', '@', '$', '%', '^', '§', '¨', '©', 'Ö');
 			$cleanRelName = str_replace($cleanArr, '', $row['relname']);
 			
-			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID, passwordstatus) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s, %d)", 
-										$db->escapeString($cleanRelName), $db->escapeString($cleanRelName), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID, ($page->site->checkpasswordedrar == "1" ? -1 : 0) ));
+			$relid = $db->queryInsert(sprintf("insert into releases (name, searchname, totalpart, groupID, adddate, guid, categoryID, regexID, rageID, postdate, fromname, size, reqID, passwordstatus, completion) values (%s, %s, %d, %d, now(), %s, %d, %d, -1, %s, %s, %s, %s, %d, %f)", 
+										$db->escapeString($cleanRelName), $db->escapeString($cleanRelName), $row["parts"], $row["groupID"], $db->escapeString($relguid), $catId, $regexID, $db->escapeString($bindata["date"]), $db->escapeString($bindata["fromname"]), $totalSize, $reqID, ($page->site->checkpasswordedrar == "1" ? -1 : 0), $relCompletion ));
 			echo "Added release ".$cleanRelName."\n";
 			
 			//
