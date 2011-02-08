@@ -18,13 +18,13 @@
 		<td>{$file.title|escape:'htmlall'}</td>
 		
 		{assign var="icon" value='views/images/fileicons/'|cat:$file.ext|cat:".png"} 
-		{if !is_file("$icon")}
+		{if $file.ext == "" || !is_file("$icon")}
 			{assign var="icon" value='file'}
 		{else}
 			{assign var="icon" value=$file.ext}
 		{/if}
 		
-		<td>{if $file.ext != ""}<img title=".{$file.ext}" alt="{$file.ext}" src="{$smarty.const.WWW_TOP}/views/images/fileicons/{$icon}.png" />{/if}</td>
+		<td><img title=".{$file.ext}" alt="{$file.ext}" src="{$smarty.const.WWW_TOP}/views/images/fileicons/{$icon}.png" /></td>
 		<td class="less right">{if $file.size < 100000}{$file.size|fsize_format:"KB"}{else}{$file.size|fsize_format:"MB"}{/if}</td>
 	</tr>
 	{/foreach}
