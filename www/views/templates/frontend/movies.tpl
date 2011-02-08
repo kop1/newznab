@@ -101,9 +101,9 @@
 				<h2><a class="title" title="View details" href="{$smarty.const.WWW_TOP}/details/{$result.guid}/{$result.searchname|escape:"htmlall"}">{$result.title}</a> (<a class="title" title="{$result.year}" href="{$smarty.const.WWW_TOP}/movies?year={$result.year}">{$result.year}</a>) {if $result.rating != ''}{$result.rating}/10{/if}</h2>
 				{if $result.tagline != ''}<b>{$result.tagline}</b><br />{/if}
 				{if $result.plot != ''}{$result.plot}<br /><br />{/if}
-				<b>Genre:</b> {$result.genre}<br />
-				<b>Director:</b> {$result.director}<br />
-				<b>Starring:</b> {$result.actors}<br /><br />
+				{if $result.genre != ''}<b>Genre:</b> {$result.genre}<br />{/if}
+				{if $result.director != ''}<b>Director:</b> {$result.director}<br />{/if}
+				{if $result.actors != ''}<b>Starring:</b> {$result.actors}<br /><br />{/if}
 				<div class="movextra">
 					<b>{$result.searchname|escape:"htmlall"}</b> <a class="rndbtn" href="{$smarty.const.WWW_TOP}/movies?imdb={$result.imdbID}" title="View similar nzbs">Similar</a>
 					{if $isadmin}
