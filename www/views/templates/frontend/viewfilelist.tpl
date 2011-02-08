@@ -8,6 +8,7 @@
 	<tr>
 		<th>#</th>
 		<th>filename</th>
+		<th></th>
 		<th style="text-align:center;">size</th>
 	</tr>
 
@@ -15,6 +16,15 @@
 	<tr class="{cycle values=",alt"}">
 		<td width="20">{$smarty.foreach.iteration.index+1}</td>
 		<td>{$file.title|escape:'htmlall'}</td>
+		
+		{assign var="icon" value='views/images/fileicons/'|cat:$file.ext|cat:".png"} 
+		{if !is_file("$icon")}
+			{assign var="icon" value='file'}
+		{else}
+			{assign var="icon" value=$file.ext}
+		{/if}
+		
+		<td>{if $file.ext != ""}<img title=".{$file.ext}" alt="{$file.ext}" src="{$smarty.const.WWW_TOP}/views/images/fileicons/{$icon}.png" />{/if}</td>
 		<td class="less right">{if $file.size < 100000}{$file.size|fsize_format:"KB"}{else}{$file.size|fsize_format:"MB"}{/if}</td>
 	</tr>
 	{/foreach}

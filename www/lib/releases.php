@@ -1042,7 +1042,7 @@ class Releases
 			if ($retcount % 10 == 0)
 				echo "-processed ".$retcount." binaries stage two\n";
 		}
-		$retcount=$nfocount=0;
+		$retcount=0;$nfocount=0;
 
 		echo "Stage 3\n";
 		//
