@@ -58,6 +58,7 @@ if (!empty($argc) || $page->isPostBack() )
 		$nzb = new NZB;
 		$site = $s->get();
 		$nzbCount = 0;
+		$total = count($releases);
 		
 		foreach ($releases as $release)
 		{
@@ -69,6 +70,9 @@ if (!empty($argc) || $page->isPostBack() )
 			fwrite($fh, $nzbfile);
 			fclose($fh);
 			$nzbCount++;
+			
+			if ($nzbCount % 10 == 0)
+				echo "Exported ".$nzbCount." of ".$total." nzbs\n";			
 		}
 		
 		$retval.= 'Processed '.$nzbCount.' nzbs';

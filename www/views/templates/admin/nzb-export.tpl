@@ -4,7 +4,11 @@
 <p>
 Export nzbs from the system into a folder. Specify the full file path to a folder.
 <br/>
-If you are exporting a large number of nzb files, run this script from the command line and pass in the folder path as the first argument.
+If you are exporting a large number of nzb files, run this script from the command line and pass in the folder path as the first argument. e.g. php scriptname outputpath from(optional) to(optional) groupid(optional)<br/>
+<span style="font-family:courier;display:block;padding:5px 0 15px 0;">
+	php admin/nzb-export.php /path/to/export/into 01/01/2008 01/01/2010 123
+</span>
+
 </p>
 
 

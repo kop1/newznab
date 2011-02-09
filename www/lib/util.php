@@ -47,18 +47,12 @@ function safeFilename($filename)
 {
     $temp = $filename;
  
-    // Lower case
-    $temp = strtolower($temp);
- 
-    // Replace spaces with a '_'
-    $temp = str_replace(" ", "_", $temp);
- 
     // Loop through string
     $result = '';
     for ($i=0; $i<strlen($temp); $i++) {
-        if (preg_match('([0-9]|[a-z]|_)', $temp[$i])) {
+        if (preg_match('([a-zA-Z0-9\s\.\-])', $temp[$i])) {
             $result = $result . $temp[$i];
-        }    
+        }
     }
  
     // Return filename
