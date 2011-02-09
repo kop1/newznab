@@ -44,7 +44,7 @@ class Page extends BasePage
 		$this->smarty->assign('parentcatlist',$parentcatlist);
 		$searchStr = '';
 		if ($this->page == 'search' && isset($_REQUEST["id"]))
-			$searchStr = $_REQUEST["id"];
+			$searchStr = (string) $_REQUEST["id"];
 		$this->smarty->assign('header_menu_search',$searchStr);
 		
 		if (isset($_REQUEST["t"]))

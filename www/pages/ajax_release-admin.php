@@ -41,6 +41,9 @@ switch($action)
 	case 'dorebuild':
 		$releases->rebuildmulti($_REQUEST["id"]);
 	break;
+	default:
+		$page->show404();
+	break;
 }
 
 ?>

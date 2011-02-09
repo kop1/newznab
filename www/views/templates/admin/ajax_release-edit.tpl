@@ -4,9 +4,11 @@
 {if $success}
 
 <h4>Successfully updated!</h4>
+{if $from != ''}
 <script type="text/javascript">
 	window.location = "{$from}";
 </script>
+{/if}
 
 {else}
 

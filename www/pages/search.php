@@ -15,7 +15,7 @@ $searchStr = '';
 
 if (isset($_REQUEST["id"]))
 {
-	$searchStr = $_REQUEST["id"];
+	$searchStr = (string) $_REQUEST["id"];
 
 	$categoryId = array();
 	if (isset($_GET["t"]))
