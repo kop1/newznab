@@ -425,6 +425,7 @@ class Movie
 				if ($poster->image->size == 'cover') 
 				{
 					$ret['cover'] = $poster->image->url;
+					break;
 				}
 			}
 		}
@@ -435,6 +436,7 @@ class Movie
 				if ($backdrop->image->size == 'original') 
 				{
 					$ret['backdrop'] = $backdrop->image->url;
+					break;
 				}
 			}
 		}
