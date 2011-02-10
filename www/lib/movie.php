@@ -275,6 +275,7 @@ class Movie
 		} elseif (isset($tmdb['title']) && $tmdb['title'] != '') { 
 			$mov['title'] = $tmdb['title'];
 		}
+		$mov['title'] = html_entity_decode($mov['title'], ENT_QUOTES, 'UTF-8');
 		
 		$mov['rating'] = '';
 		if (isset($imdb['rating']) && $imdb['rating'] != '') {
@@ -285,7 +286,7 @@ class Movie
 		
 		$mov['tagline'] = '';
 		if (isset($imdb['tagline']) && $imdb['tagline'] != '') { 
-			$mov['tagline'] = $imdb['tagline'];
+			$mov['tagline'] = html_entity_decode($imdb['tagline'], ENT_QUOTES, 'UTF-8');
 		}
 
 		$mov['plot'] = '';
@@ -294,6 +295,7 @@ class Movie
 		} elseif (isset($tmdb['plot']) && $tmdb['plot'] != '') { 
 			$mov['plot'] = $tmdb['plot'];
 		}
+		$mov['plot'] = html_entity_decode($mov['plot'], ENT_QUOTES, 'UTF-8');
 		
 		$mov['year'] = '';
 		if (isset($imdb['year']) && $imdb['year'] != '') {
@@ -311,21 +313,25 @@ class Movie
 		if (is_array($mov['genre'])) {
 			$mov['genre'] = implode(', ', array_unique($mov['genre']));
 		}
+		$mov['genre'] = html_entity_decode($mov['genre'], ENT_QUOTES, 'UTF-8');
 		
 		$mov['director'] = '';
 		if (isset($imdb['director']) && $imdb['director'] != '') { 
 			$mov['director'] = (is_array($imdb['director'])) ? implode(', ', array_unique($imdb['director'])) : $imdb['director'];
 		}
+		$mov['director'] = html_entity_decode($mov['director'], ENT_QUOTES, 'UTF-8');
 		
 		$mov['actors'] = '';
 		if (isset($imdb['actors']) && $imdb['actors'] != '') { 
 			$mov['actors'] = (is_array($imdb['actors'])) ? implode(', ', array_unique($imdb['actors'])) : $imdb['actors'];
 		}
+		$mov['actors'] = html_entity_decode($mov['actors'], ENT_QUOTES, 'UTF-8');
 		
 		$mov['language'] = '';
 		if (isset($imdb['language']) && $imdb['language'] != '') { 
 			$mov['language'] = (is_array($imdb['language'])) ? implode(', ', array_unique($imdb['language'])) : $imdb['language'];
 		}
+		$mov['language'] = html_entity_decode($mov['language'], ENT_QUOTES, 'UTF-8');
 
 		$db = new DB();
 		$query = sprintf("
@@ -342,10 +348,10 @@ class Movie
 
 		if ($movieId) {
 			if ($this->echooutput)
-				echo "added/updated movie: ".urldecode($mov['title'])." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "added/updated movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		} else {
 			if ($this->echooutput)
-				echo "nothing to update for movie: ".urldecode($mov['title'])." (".$mov['year'].") - ".$mov['imdb_id']."\n";
+				echo "nothing to update for movie: ".$mov['title']." (".$mov['year'].") - ".$mov['imdb_id']."\n";
 		}
 		
 		return $movieId;
