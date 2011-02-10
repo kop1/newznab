@@ -9,6 +9,16 @@
 
     {if $grouplist}
 	
+	<div style="float:right;">
+	
+		<form name="groupsearch" action="">
+			<label for="groupname">Group</label>
+			<input id="groupname" type="text" name="groupname" value="{$groupname}" size="15" />
+			&nbsp;&nbsp;
+			<input type="submit" value="Go" />
+		</form>
+	</div>
+	
 	{$pager}
 	<br/><br/>
 	

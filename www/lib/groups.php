@@ -41,7 +41,12 @@ class Groups
 	public function getCount()
 	{			
 		$db = new DB();
-		$res = $db->queryOneRow("select count(ID) as num from groups");		
+		
+		$grpsql = '';
+		if (isset($_REQUEST['groupname']) && !empty($_REQUEST['groupname']))
+			$grpsql .= sprintf("groups.name like %s and ", $db->escapeString("%".$_REQUEST['groupname']."%"));
+		
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from groups where %s 1=1", $grpsql));		
 		return $res["num"];
 	}	
 	
@@ -54,12 +59,17 @@ class Groups
 		else
 			$limit = " LIMIT ".$start.",".$num;
 		
-		return $db->query("SELECT groups.*, COALESCE(rel.num, 0) AS num_releases
+		$grpsql = '';
+		if (isset($_REQUEST['groupname']) && !empty($_REQUEST['groupname']))
+			$grpsql .= sprintf("groups.name like %s and ", $db->escapeString("%".$_REQUEST['groupname']."%"));
+				
+		$sql = sprintf("SELECT groups.*, COALESCE(rel.num, 0) AS num_releases
 							FROM groups
 							LEFT OUTER JOIN
 							(
 							SELECT groupID, COUNT(ID) AS num FROM releases group by groupID
-							) rel ON rel.groupID = groups.ID ORDER BY groups.name ".$limit);		
+							) rel ON rel.groupID = groups.ID WHERE %s 1=1 ORDER BY groups.name ".$limit, $grpsql);
+		return $db->query($sql);		
 	}	
 	
 	public function add($group)
