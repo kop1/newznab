@@ -77,7 +77,7 @@ class TvRage
 		return $db->query(sprintf("delete from tvrage where ID = %d",$id));		
 	}
 
-	public function getRange($start, $num)
+	public function getRange($start, $num, $ragename="")
 	{		
 		$db = new DB();
 		
@@ -85,14 +85,23 @@ class TvRage
 			$limit = "";
 		else
 			$limit = " LIMIT ".$start.",".$num;
+			
+		$rsql = '';
+		if ($ragename != "")
+			$rsql .= sprintf("and tvrage.releasetitle like %s ", $db->escapeString("%".$ragename."%"));			
 		
-		return $db->query(" SELECT ID, rageID, releasetitle, description, createddate from tvrage order by rageID asc".$limit);		
+		return $db->query(sprintf(" SELECT ID, rageID, releasetitle, description, createddate from tvrage where 1=1 %s order by rageID asc".$limit, $rsql));		
 	}
 	
-	public function getCount()
+	public function getCount($ragename="")
 	{			
 		$db = new DB();
-		$res = $db->queryOneRow("select count(ID) as num from tvrage");		
+		
+		$rsql = '';
+		if ($ragename != "")
+			$rsql .= sprintf("and tvrage.releasetitle like %s ", $db->escapeString("%".$ragename."%"));
+			
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from tvrage where 1=1 %s ", $rsql));		
 		return $res["num"];
 	}
 	

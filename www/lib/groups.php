@@ -38,19 +38,19 @@ class Groups
 		return $db->queryOneRow(sprintf("select * from groups where name = '%s' ", $grp));		
 	}	
 
-	public function getCount()
+	public function getCount($groupname="")
 	{			
 		$db = new DB();
 		
 		$grpsql = '';
-		if (isset($_REQUEST['groupname']) && !empty($_REQUEST['groupname']))
-			$grpsql .= sprintf("groups.name like %s and ", $db->escapeString("%".$_REQUEST['groupname']."%"));
+		if ($groupname != "")
+			$grpsql .= sprintf("and groups.name like %s ", $db->escapeString("%".$groupname."%"));
 		
-		$res = $db->queryOneRow(sprintf("select count(ID) as num from groups where %s 1=1", $grpsql));		
+		$res = $db->queryOneRow(sprintf("select count(ID) as num from groups where 1=1 %s", $grpsql));		
 		return $res["num"];
 	}	
 	
-	public function getRange($start, $num)
+	public function getRange($start, $num, $groupname="")
 	{		
 		$db = new DB();
 		
@@ -60,15 +60,15 @@ class Groups
 			$limit = " LIMIT ".$start.",".$num;
 		
 		$grpsql = '';
-		if (isset($_REQUEST['groupname']) && !empty($_REQUEST['groupname']))
-			$grpsql .= sprintf("groups.name like %s and ", $db->escapeString("%".$_REQUEST['groupname']."%"));
+		if ($groupname != "")
+			$grpsql .= sprintf("and groups.name like %s ", $db->escapeString("%".$groupname."%"));
 				
 		$sql = sprintf("SELECT groups.*, COALESCE(rel.num, 0) AS num_releases
 							FROM groups
 							LEFT OUTER JOIN
 							(
 							SELECT groupID, COUNT(ID) AS num FROM releases group by groupID
-							) rel ON rel.groupID = groups.ID WHERE %s 1=1 ORDER BY groups.name ".$limit, $grpsql);
+							) rel ON rel.groupID = groups.ID WHERE 1=1 %s ORDER BY groups.name ".$limit, $grpsql);
 		return $db->query($sql);		
 	}	
 	

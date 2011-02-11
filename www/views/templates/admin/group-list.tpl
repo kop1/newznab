@@ -23,7 +23,7 @@
 	<br/><br/>
 	
     <div id="message">msg</div>
-    <table class="data highlight">
+    <table style="width:100%;" class="data highlight">
 
         <tr>
             <th>group</th>
