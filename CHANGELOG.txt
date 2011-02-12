@@ -13,6 +13,12 @@
 
 HEAD
 -----------------------------------------
+
+
+
+
+0.2.1	Feb 12 2011
+-----------------------------------------
 Console covers, forum, tvrage lookup rewrite, upgrade to smarty 3, 
 support for usp that dont support list overview.fmt, 
 more consistent details page, cron/init improvements, delete from sab queue,
