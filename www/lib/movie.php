@@ -137,13 +137,13 @@ class Movie
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getMovieOrder($orderby);
-		$sql = sprintf(" SELECT GROUP_CONCAT(r.ID SEPARATOR ',') as grp_release_id, GROUP_CONCAT(r.guid SEPARATOR ',') as grp_release_guid, GROUP_CONCAT(rn.ID SEPARATOR ',') as grp_release_nfoID, GROUP_CONCAT(groups.name SEPARATOR ',') as grp_release_grpname, GROUP_CONCAT(r.searchname SEPARATOR '#') as grp_release_name, GROUP_CONCAT(r.postdate SEPARATOR ',') as grp_release_postdate, GROUP_CONCAT(r.size SEPARATOR ',') as grp_release_size, GROUP_CONCAT(r.totalpart SEPARATOR ',') as grp_release_totalparts, GROUP_CONCAT(r.comments SEPARATOR ',') as grp_release_comments, GROUP_CONCAT(r.grabs SEPARATOR ',') as grp_release_grabs, m.*, groups.name as group_name, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s group by m.imdbID order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		$sql = sprintf(" SELECT GROUP_CONCAT(r.ID ORDER BY r.postdate desc SEPARATOR ',') as grp_release_id, GROUP_CONCAT(r.guid ORDER BY r.postdate desc SEPARATOR ',') as grp_release_guid, GROUP_CONCAT(rn.ID ORDER BY r.postdate desc SEPARATOR ',') as grp_release_nfoID, GROUP_CONCAT(groups.name ORDER BY r.postdate desc SEPARATOR ',') as grp_release_grpname, GROUP_CONCAT(r.searchname ORDER BY r.postdate desc SEPARATOR '#') as grp_release_name, GROUP_CONCAT(r.postdate ORDER BY r.postdate desc SEPARATOR ',') as grp_release_postdate, GROUP_CONCAT(r.size ORDER BY r.postdate desc SEPARATOR ',') as grp_release_size, GROUP_CONCAT(r.totalpart ORDER BY r.postdate desc SEPARATOR ',') as grp_release_totalparts, GROUP_CONCAT(r.comments ORDER BY r.postdate desc SEPARATOR ',') as grp_release_comments, GROUP_CONCAT(r.grabs ORDER BY r.postdate desc SEPARATOR ',') as grp_release_grabs, m.*, groups.name as group_name, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s group by m.imdbID order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
 	
 	public function getMovieOrder($orderby)
 	{
-		$order = ($orderby == '') ? 'r.postdate' : $orderby;
+		$order = ($orderby == '') ? 'max(r.postdate)' : $orderby;
 		$orderArr = explode("_", $order);
 		switch($orderArr[0]) {
 			case 'title':
@@ -166,7 +166,7 @@ class Movie
 			break;
 			case 'posted': 
 			default:
-				$orderfield = 'r.postdate';
+				$orderfield = 'max(r.postdate)';
 			break;
 		}
 		$ordersort = (isset($orderArr[1]) && preg_match('/^asc|desc$/i', $orderArr[1])) ? $orderArr[1] : 'desc';
