@@ -48,6 +48,7 @@ class Install {
 	
 	public $dbConnCheck;
 	public $dbNameCheck;
+	public $dbCreateCheck;
 	
 	public $nntpCheck;
 	public $adminCheck;

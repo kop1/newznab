@@ -33,6 +33,7 @@
 				The following error(s) were encountered:<br />
 				{if $cfg->dbConnCheck === false}<span class="error">&bull; Unable to connect to database</span><br />{/if}
 				{if $cfg->dbNameCheck === false}<span class="error">&bull; Unable to select database</span><br />{/if}
+				{if $cfg->dbCreateCheck === false}<span class="error">&bull; Unable to create database and data. Check permissions of your mysql user.</span><br />{/if}
 				<br />
 			</div>
 			{/if}

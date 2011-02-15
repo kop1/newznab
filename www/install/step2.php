@@ -52,8 +52,37 @@ if  ($page->isPostBack()) {
 			foreach($queries as $q) {
 				mysql_query($q);
 			}
-			header("Location: ?success");
-			die();
+			
+			//check one of the standard tables was created and has data
+			$dbInstallWorked = false;
+			$reschk = @mysql_query("select count(*) as num from category");	
+			if ($reschk === false)
+			{
+				$cfg->dbCreateCheck = false;
+				$cfg->error = true;
+			}
+			else
+			{
+				while ($row = mysql_fetch_assoc($reschk)) 
+				{
+					if ($row['num'] > 0)
+					{
+						$dbInstallWorked = true;
+						break;
+					}
+				}
+			}
+			
+			if ($dbInstallWorked)
+			{
+				header("Location: ?success");
+				die();
+			}
+			else
+			{
+				$cfg->dbCreateCheck = false;
+				$cfg->error = true;
+			}
 		}
 	}
 }
