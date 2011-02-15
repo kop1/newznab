@@ -207,6 +207,9 @@ div.resextra div.admin { float:right; }
 div.resextra div.btns {float:left; }
 
 div.movextra { padding-top:5px; color: #888; font-size: 0.9em; }
+div.movextra td {border:0; padding:0 0 10px 0}
+div.movextra tr.mlextra {display:none;}
+
 div.movcover { width:140px; }
 div.movcover img { margin-bottom:5px;}
 

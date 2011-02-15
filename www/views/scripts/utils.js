@@ -341,6 +341,14 @@ jQuery(function($){
 		return false;
 	});
 
+	// movie.tpl
+	$('.mlmore').click(function(){	// show more movies
+		$(this).hide();
+		$(".mlextra").show();
+		return false;
+	});
+	
+	
 });
 
 

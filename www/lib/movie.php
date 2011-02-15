@@ -84,7 +84,7 @@ class Movie
 		if (count($excludedcats) > 0)
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 		
-		$sql = sprintf("select count(r.ID) as num from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s", $browseby, $catsrch, $maxage, $exccatlist);
+		$sql = sprintf("select count(r.ID) as num from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s group by m.imdbID ", $browseby, $catsrch, $maxage, $exccatlist);
 		$res = $db->queryOneRow($sql);		
 		return $res["num"];	
 	}	
@@ -137,7 +137,7 @@ class Movie
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 			
 		$order = $this->getMovieOrder($orderby);
-		$sql = sprintf(" SELECT m.*, r.*, groups.name as group_name, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null left outer join category c on c.ID = r.categoryID left outer join category cp on cp.ID = c.parentID where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
+		$sql = sprintf(" SELECT GROUP_CONCAT(r.ID SEPARATOR ',') as grp_release_id, GROUP_CONCAT(r.guid SEPARATOR ',') as grp_release_guid, GROUP_CONCAT(rn.ID SEPARATOR ',') as grp_release_nfoID, GROUP_CONCAT(groups.name SEPARATOR ',') as grp_release_grpname, GROUP_CONCAT(r.searchname SEPARATOR '#') as grp_release_name, GROUP_CONCAT(r.postdate SEPARATOR ',') as grp_release_postdate, GROUP_CONCAT(r.size SEPARATOR ',') as grp_release_size, GROUP_CONCAT(r.totalpart SEPARATOR ',') as grp_release_totalparts, GROUP_CONCAT(r.comments SEPARATOR ',') as grp_release_comments, GROUP_CONCAT(r.grabs SEPARATOR ',') as grp_release_grabs, m.*, groups.name as group_name, rn.ID as nfoID from releases r left outer join groups on groups.ID = r.groupID inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' left outer join releasenfo rn on rn.releaseID = r.ID and rn.nfo is not null where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s group by m.imdbID order by %s %s".$limit, $browseby, $catsrch, $maxage, $exccatlist, $order[0], $order[1]);
 		return $db->query($sql);		
 	}
 	
