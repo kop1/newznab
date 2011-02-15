@@ -115,7 +115,7 @@
 						{assign var="mcomments" value=","|explode:$result.grp_release_comments}
 						{assign var="mgrabs" value=","|explode:$result.grp_release_grabs}
 						{foreach from=$msplits item=m}
-						<tr {if $m@index > 1}class="mlextra"{/if}>
+						<tr id="guid{$mguid[$m@index]}" {if $m@index > 1}class="mlextra"{/if}>
 							<td>
 								<div class="icon"><input type="checkbox" class="nzb_check" value="{$mguid[$m@index]}" /></div>							
 							</td>
@@ -127,7 +127,7 @@
 								<a href="{$smarty.const.WWW_TOP}/browse?g={$mgrp[$m@index]}" title="Browse releases in {$mgrp[$m@index]|replace:"alt.binaries":"a.b"}">Grp</a>
 								</div>
 							</td>
-							<td id="guid{$mguid[$m@index]}">
+							<td class="icons">
 								<div class="icon icon_nzb"><a title="Download Nzb" href="{$smarty.const.WWW_TOP}/getnzb/{$mguid[$m@index]}/{$mname[$m@index]|escape:"htmlall"}">&nbsp;</a></div>
 								<div class="icon icon_cart" title="Add to Cart"></div>
 								<div class="icon icon_sab" title="Send to my Sabnzbd"></div>
