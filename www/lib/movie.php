@@ -149,15 +149,6 @@ class Movie
 			case 'title':
 				$orderfield = 'm.title';
 			break;
-			case 'size':
-				$orderfield = 'r.size';
-			break;
-			case 'files':
-				$orderfield = 'r.totalpart';
-			break;
-			case 'stats':
-				$orderfield = 'r.grabs';
-			break;
 			case 'year':
 				$orderfield = 'm.year';
 			break;
@@ -175,7 +166,7 @@ class Movie
 	
 	public function getMovieOrdering()
 	{
-		return array('title_asc', 'title_desc', 'posted_asc', 'posted_desc', 'size_asc', 'size_desc', 'files_asc', 'files_desc', 'stats_asc', 'stats_desc', 'year_asc', 'year_desc', 'rating_asc', 'rating_desc');
+		return array('title_asc', 'title_desc', 'year_asc', 'year_desc', 'rating_asc', 'rating_desc');
 	}
 	
 	public function getBrowseByOptions()
