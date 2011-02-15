@@ -84,7 +84,7 @@ class Movie
 		if (count($excludedcats) > 0)
 			$exccatlist = " and r.categoryID not in (".implode(",", $excludedcats).")";
 		
-		$sql = sprintf("select count(r.ID) as num from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s group by m.imdbID ", $browseby, $catsrch, $maxage, $exccatlist);
+		$sql = sprintf("select count(distinct r.imdbID) as num from releases r inner join movieinfo m on m.imdbID = r.imdbID and m.title != '' where r.passwordstatus <= (select showpasswordedrelease from site) and %s %s %s %s ", $browseby, $catsrch, $maxage, $exccatlist);
 		$res = $db->queryOneRow($sql);		
 		return $res["num"];	
 	}	
