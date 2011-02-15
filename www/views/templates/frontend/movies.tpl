@@ -133,7 +133,7 @@
 								<div class="icon icon_sab" title="Send to my Sabnzbd"></div>
 							</td>
 						</tr>
-						{if $m@index == 1}
+						{if $m@index == 1 && $m@total > 2}
 							<tr class="mlmore"><td colspan="5"><a href="#">{$m@total-2} more...</a></td></tr>
 						{/if}
 						{/foreach}		
