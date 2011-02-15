@@ -134,7 +134,7 @@
 							</td>
 						</tr>
 						{if $m@index == 1 && $m@total > 2}
-							<tr class="mlmore"><td colspan="5"><a href="#">{$m@total-2} more...</a></td></tr>
+							<tr><td colspan="5"><a class="mlmore" href="#">{$m@total-2} more...</a></td></tr>
 						{/if}
 						{/foreach}		
 					</table>

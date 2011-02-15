@@ -343,8 +343,8 @@ jQuery(function($){
 
 	// movie.tpl
 	$('.mlmore').click(function(){	// show more movies
-		$(this).hide();
-		$(".mlextra").show();
+		$(this).parent().parent().hide();
+		$(this).parent().parent().parent().children(".mlextra").show();
 		return false;
 	});
 	
