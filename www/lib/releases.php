@@ -596,8 +596,8 @@ class Releases
 		$sql = sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name, rn.ID as nfoID from releases left outer join category c on c.ID = releases.categoryID left outer join groups on groups.ID = releases.groupID left outer join releasenfo rn on rn.releaseID = releases.ID and rn.nfo is not null left outer join category cp on cp.ID = c.parentID where releases.passwordstatus <= (select showpasswordedrelease from site) %s %s %s %s %s %s order by postdate desc limit %d, %d ", $rageId, $series, $episode, $searchsql, $catsrch, $maxage, $offset, $limit);            
 		$sqlcount = "select count(releases.ID) as num ".substr($sql, strpos($sql, "from") );
 
-		$countres = $db->queryOneRow($sqlcount, true);
-		$res = $db->query($sql, true);
+		$countres = $db->queryOneRow($sqlcount);
+		$res = $db->query($sql);
 		if (count($res) > 0)
 			$res[0]["_totalrows"] = $countres["num"];
 		
