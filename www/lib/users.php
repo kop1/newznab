@@ -413,7 +413,9 @@ class Users
 	public function delCartByUserAndRelease($guid, $uid)
 	{			
 		$db = new DB();
-		$db->query(sprintf("DELETE r FROM usercart u LEFT JOIN releases r ON r.ID = u.releaseID WHERE u.userID = %d AND r.guid = %s", $uid, $db->escapeString($guid)));		
+		$rel = $db->queryOneRow(sprintf("select ID from releases where guid = %s", $db->escapeString($guid)));		
+		if ($rel)
+			$db->query(sprintf("DELETE FROM usercart WHERE userID = %d AND releaseID = %d", $uid, $rel["ID"]));		
 	}	
 
 	public function delCartForUser($uid)
