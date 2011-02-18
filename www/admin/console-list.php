@@ -8,7 +8,7 @@ $page = new AdminPage();
 
 $con = new Console();
 
-$page->title = "Conole List";
+$page->title = "Console List";
 
 $concount = $con->getCount();
 
