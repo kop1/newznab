@@ -109,9 +109,19 @@ jQuery(function($){
 	    if (ids)
 			window.location = SERVERROOT + "getnzb?zip=1&id="+ids;
 	});
-	$('input.nzb_multi_operations_cart').click(function()
-	{
-	
+	$('input.nzb_multi_operations_cart').click(function(){
+		var guids = new Array();
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	var guid = $(row).parent().parent().attr('id').substring(4);
+	    	var $cartIcon = $(row).parent().parent().children('td.icons').children('.icon_cart');
+			if (guid && !$cartIcon.hasClass('icon_cart_clicked')){
+				$cartIcon.addClass('icon_cart_clicked').attr('title','Added to cart');	// consider doing this only upon success
+				guids.push(guid);
+			}
+		});
+		$.post( SERVERROOT + "cart?add=" + guids);
+
+		/*	// old way
 	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
 	    	var $cartIcon = $(row).parent().parent().children('td.icons').children('.icon_cart');
 	    	var guid = $(row).parent().parent().attr('id').substring(4);
@@ -121,6 +131,7 @@ jQuery(function($){
 				});
 			}
 		});
+		*/
 	});
 	$('input.nzb_multi_operations_sab').click(function()
 	{
