@@ -211,6 +211,13 @@ class Category
 			if($this->isTV($releasename)){ return $this->tmpCat; }
 			if($this->isMovie($releasename)){ return $this->tmpCat; }
 		}
+		
+		if (preg_match('/alt\.binaries\.games/i', $group))
+		{
+			if($this->isConsole($releasename)){ return $this->tmpCat; }
+			return Category::CAT_PC_GAMES;
+		}
+		
 		if (preg_match('/alt\.binaries\.games\.wii/i', $group))
 		{
 			if($this->isConsole($releasename)) { return $this->tmpCat; }
@@ -372,7 +379,7 @@ class Category
 			$this->tmpCat = Category::CAT_TV_OTHER;
 			return true;
 		}
-		else if (preg_match('/(\.S\d{2}\.|\.S\d{2}|\.EP\d{1,2}\.)/i', $releasename))
+		else if (preg_match('/(\.S\d{2}\.|\.S\d{2}|\.EP\d{1,2}\.|trollhd)/i', $releasename))
 		{
 			if($this->isForeignTV($releasename)){ return true; }
 			if($this->isSportTV($releasename)){ return true; }                                  
@@ -392,7 +399,7 @@ class Category
 			$this->tmpCat = Category::CAT_TV_FOREIGN;
 			return true;
 		}
-		else if(preg_match('/NLSubs|NL\-Subs|NLSub|Deutsch| der |German/i', $releasename))
+		else if(preg_match('/NLSubs|NL\-Subs|NLSub|Deutsch| der |German| NL /i', $releasename))
 		{
 			$this->tmpCat = Category::CAT_TV_FOREIGN;
 			return true;
