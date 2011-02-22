@@ -236,7 +236,7 @@ class Releases
 		else
 			$group = "";
 		
-		return $db->query(sprintf("SELECT searchname, guid from releases where 1 = 1 %s %s %s", $postfrom, $postto, $group));
+		return $db->query(sprintf("SELECT searchname, guid, CONCAT(cp.title,'_',category.title) as catName FROM releases INNER JOIN category ON releases.categoryID = category.ID LEFT OUTER JOIN category cp ON cp.ID = category.parentID where 1 = 1 %s %s %s", $postfrom, $postto, $group));
 	}
 	
 	public function getEarliestUsenetPostDate()

@@ -62,11 +62,14 @@ if (!empty($argc) || $page->isPostBack() )
 		
 		foreach ($releases as $release)
 		{
+			if (!file_exists($path.$release["catName"]))
+				mkdir($path.$release["catName"]);
+			
 			ob_start();
 			@readgzfile($nzb->getNZBPath($release["guid"], $site->nzbpath));
 			$nzbfile = ob_get_contents();
 			ob_end_clean();
-			$fh = fopen($path.safeFilename($release["searchname"]).".nzb", 'w');
+			$fh = fopen($path.$release["catName"]."/".safeFilename($release["searchname"]).".nzb", 'w');
 			fwrite($fh, $nzbfile);
 			fclose($fh);
 			$nzbCount++;
