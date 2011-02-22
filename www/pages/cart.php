@@ -7,12 +7,14 @@ if (!$users->isLoggedIn())
 if (isset($_GET["add"]))
 {
 	$releases = new Releases;
-	$data = $releases->getByGuid($_GET["add"]);
+	$guids = explode(',', $_GET['add']);
+	$data = $releases->getByGuid($guids);
 
 	if (!$data)
 		$page->show404();
 	
-	$users->addCart($users->currentUserId(), $data["ID"]);
+	foreach($data as $d)
+		$users->addCart($users->currentUserId(), $d["ID"]);
 }
 else
 {

@@ -727,7 +727,17 @@ class Releases
 	public function getByGuid($guid)
 	{			
 		$db = new DB();
-		return $db->queryOneRow(sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where guid = %s ", $db->escapeString($guid)));		
+		if (is_array($guid))
+		{
+			$tmpguids = array();
+			foreach($guid as $g)
+				$tmpguids[] = $db->escapeString($g);
+			$gsql = sprintf('guid in (%s)', implode(',',$tmpguids));
+		} else {
+			$gsql = sprintf('guid = %s', $db->escapeString($guid));
+		}
+		$sql = sprintf("select releases.*, concat(cp.title, ' > ', c.title) as category_name, concat(cp.ID, ',', c.ID) as category_ids, groups.name as group_name from releases left outer join groups on groups.ID = releases.groupID left outer join category c on c.ID = releases.categoryID left outer join category cp on cp.ID = c.parentID where %s ", $gsql);
+		return (is_array($guid)) ? $db->query($sql) : $db->queryOneRow($sql);		
 	}	
 
 	//
