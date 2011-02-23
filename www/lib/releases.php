@@ -470,6 +470,8 @@ class Releases
 					//
 					if ($intwordcount == 0 && (strpos($word, "^") === 0))
 						$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString(substr($word, 1)."%"));
+					elseif (substr($word, 0, 2) == '--')
+						$searchsql.= sprintf(" and releases.searchname not like %s", $db->escapeString("%".substr($word, 2)."%"));
 					else
 						$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString("%".$word."%"));
 
@@ -553,6 +555,8 @@ class Releases
 					//
 					if ($intwordcount == 0 && (strpos($word, "^") === 0))
 						$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString(substr($word, 1)."%"));
+					elseif (substr($word, 0, 2) == '--')
+						$searchsql.= sprintf(" and releases.searchname not like %s", $db->escapeString("%".substr($word, 2)."%"));
 					else
 						$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString("%".$word."%"));
 
@@ -640,6 +644,8 @@ class Releases
 					//
 					if ($intwordcount == 0 && (strpos($word, "^") === 0))
 						$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString(substr($word, 1)."%"));
+					elseif (substr($word, 0, 2) == '--')
+						$searchsql.= sprintf(" and releases.searchname not like %s", $db->escapeString("%".substr($word, 2)."%"));
 					else
 						$searchsql.= sprintf(" and releases.searchname like %s", $db->escapeString("%".$word."%"));
 
