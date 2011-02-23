@@ -13,8 +13,13 @@
 
 HEAD
 -----------------------------------------
-grouped releases in movie view
 
+
+
+
+0.2.2	Feb 21 2011
+-----------------------------------------
+grouped releases in movie view, critical error in user cart removal.
 
 
 0.2.1	Feb 12 2011
