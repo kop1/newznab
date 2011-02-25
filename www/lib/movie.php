@@ -570,9 +570,9 @@ class Movie
 	{
 		$cat = new Category;
 		if (!$cat->isMovieForeign($releasename)) {
-			preg_match('/^(?P<name>.*)[\.\-_ ](?P<year>19\d{2}|20\d{2})/i', $releasename, $matches);
+			preg_match('/^(?P<name>.*)[\.\-_\( ](?P<year>19\d{2}|20\d{2})/i', $releasename, $matches);
 			if (!isset($matches['year'])) {
-				preg_match('/^(?P<name>.*)[\.\-_ ](?:dvdrip|bdrip|brrip|bluray|hdtv|divx|xvid|proper|repack|real\.proper|sub\.?fix|sub\.?pack)/i', $releasename, $matches);
+				preg_match('/^(?P<name>.*)[\.\-_ ](?:dvdrip|bdrip|brrip|bluray|hdtv|divx|xvid|proper|repack|real\.proper|sub\.?fix|sub\.?packac3d|unrated|1080i|1080p|720p)/i', $releasename, $matches);
 			}
 			
 			if (isset($matches['name'])) {
