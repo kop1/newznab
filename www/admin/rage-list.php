@@ -26,6 +26,8 @@ $page->smarty->assign('pagerquerybase', WWW_TOP."/rage-list.php?".$tsearch."&off
 $pager = $page->smarty->fetch($page->getCommonTemplate("pager.tpl"));
 $page->smarty->assign('pager', $pager);
 
+$page->smarty->assign('ragename',$tname);
+
 $tvragelist = $tvrage->getRange($offset, ITEMS_PER_PAGE, $tname);
 $page->smarty->assign('tvragelist',$tvragelist);	
 
