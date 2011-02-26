@@ -17,7 +17,7 @@ class Nfo
 		$db = new DB();
 		$result = $db->queryDirect(sprintf("select binaries.* from binaries where releaseID = %d order by relpart", $relid));		
 		while ($row = mysql_fetch_assoc($result)) 
-			if (preg_match('/.*\.nfo[ "\)\]\-]/i', $row['name'])) 
+			if (preg_match('/.*\.nfo[ "\)\]\-]?/i', $row['name'])) 
 				$nfos[$row['name']] = $row;
 
 		ksort($nfos);
