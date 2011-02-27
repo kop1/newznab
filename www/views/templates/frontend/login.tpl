@@ -6,7 +6,7 @@
 {/if}
 
 <form action="login" method="post">
-	<input type="hidden" name="redirect" value="{$redirect}" />
+	<input type="hidden" name="redirect" value="{$redirect|escape:"htmlall"}" />
 	<table class="data">
 		<tr><th><label for="username">Username<br/> or Email</label>:</th>
 			<td>

@@ -515,6 +515,7 @@ CREATE TABLE `users` (
   `movieview` int not null default 1,
   `musicview` int not null default 1,
   `consoleview` int not null default 1,
+  `userseed` VARCHAR(50) NOT NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MYISAM DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci AUTO_INCREMENT=1 ;
 
