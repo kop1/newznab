@@ -321,6 +321,7 @@ class Category
 		}
 		if (preg_match('/alt\.binaries\.movies\.xvid|alt\.binaries\.movies\.divx|alt\.binaries\.movies/i', $group))
 		{
+			if($this->isConsole($releasename)){ return $this->tmpCat; }
 			if($this->isXxx($releasename)){ return $this->tmpCat; }  
 			if($this->isTV($releasename)){ return $this->tmpCat; }
 			if($this->isMovie($releasename)){ return $this->tmpCat; }
