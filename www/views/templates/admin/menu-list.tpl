@@ -26,5 +26,5 @@
 
 </table>
 {else}
-<p>No releases available.</p>
+<p>No menus available.</p>
 {/if}

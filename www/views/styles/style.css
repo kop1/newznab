@@ -124,7 +124,7 @@ table.data td.less { color: #888; font-size: 0.9em; white-space:nowrap; }
 table.data td.icons { white-space:nowrap; padding-left:0px; padding-right:0px; width:60px; }
 table.data td.check {cursor:pointer;}
 table.highlight tr:hover td { background-color: #E1F0D9; }
-table tr.alt { background-color: #EEE; }
+table tr.alt { background-color: #F6F6F6; }
 table tr.new { background-color: #f6f8ff; }
 table.data em {font-weight:bolder; color:red;}
 table td.item { padding:5px 5px 2px 5px; }
