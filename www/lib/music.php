@@ -298,25 +298,60 @@ class Music
 			$mus['tracks'] = (is_array($tracks) && !empty($tracks)) ? implode('|', $tracks) : '';
 		}
 		
+		//This is to verify the result back from amazon was at least somewhat related to what was intended.
+		//If you are debugging releases comment out the following code to show all info
+		
+		$match = similar_text($artist, $mus['artist'], $artistpercent);
+		//echo("Matched: Artist Percentage: $artistpercent%");
+		$match = similar_text($album, $mus['title'], $albumpercent);
+		//echo("Matched: Album Percentage: $albumpercent%");
+		
+		//If the artist is Various Artists, assume artist is 100%
+		if (preg_match('/various/i', $artist))
+			$artistpercent = '100';
+			
+		//If the Artist is less than 80% album must be 100%
+		if ($artistpercent < '80')
+		{	
+			if ($albumpercent != '100')
+				return false;
+		}
+		
+		//If the album is ever under 30%, it's probably not a match.
+		if ($albumpercent < '30')
+			return false;
+		
+		//This is the end of the recheck code. Comment out to this point to show all info.
+		
 		$genreKey = -1;
 		$genreName = '';
-		$amazGenres = (array) $amaz->Items->Item->BrowseNodes;
-		foreach($amazGenres as $amazGenre) {
-			foreach($amazGenre as $ag) {
-				$tmpGenre = strtolower( (string) $ag->Name );
-				if (!empty($tmpGenre)) {
-					if (in_array($tmpGenre, $genreassoc)) {
-						$genreKey = array_search($tmpGenre, $genreassoc);
-						$genreName = $tmpGenre;
-						break;
-					} else {
-						//we got a genre but its not stored in our genre table
-						$genreName = (string) $ag->Name;
-						$genreKey = $db->queryInsert(sprintf("INSERT INTO genres (`title`, `type`) VALUES (%s, %d)", $db->escapeString($genreName), Genres::MUSIC_TYPE));
+		if (isset($amaz->Items->Item->BrowseNodes))
+		{
+			//had issues getting this out of the browsenodes obj
+			//workaround is to get the xml and load that into its own obj
+			$amazGenresXml = $amaz->Items->Item->BrowseNodes->asXml();
+			$amazGenresObj = simplexml_load_string($amazGenresXml);
+			$amazGenres = $amazGenresObj->xpath("//BrowseNodeId");
+			
+			foreach($amazGenres as $amazGenre)
+			{
+				$currNode = trim($amazGenre[0]);
+				if (empty($genreName))
+				{
+					$genreMatch = $this->matchBrowseNode($currNode);
+					if ($genreMatch !== false)
+					{
+						$genreName = $genreMatch;
 						break;
 					}
 				}
 			}
+			
+			if (in_array(strtolower($genreName), $genreassoc)) {
+				$genreKey = array_search(strtolower($genreName), $genreassoc);
+			} else {
+				$genreKey = $db->queryInsert(sprintf("INSERT INTO genres (`title`, `type`) VALUES (%s, %d)", $db->escapeString($genreName), Genres::MUSIC_TYPE));
+			}		
 		}
 		$mus['musicgenre'] = $genreName;
 		$mus['musicgenreID'] = $genreKey;
@@ -447,7 +482,7 @@ class Music
 		}
 	}
 	
-	function parseArtist($releasename)
+	public function parseArtist($releasename)
 	{
 		$result = array();
 		/*TODO: FIX VA lookups
@@ -457,8 +492,11 @@ class Music
 				$releasename = trim(str_replace('VA ', '', $releasename));
 		}
 		*/
+		//Replace VA with Various Artists
+		$newName = preg_replace('/VA( |\-)/', 'Various Artists \-', $releasename);
+		
 		//remove years, vbr etc
-		$newName = preg_replace('/\(.*?\)/i', '', $releasename);
+		$newName = preg_replace('/\(.*?\)/i', '', $newName);
 		//remove double dashes
 		$newName = str_replace('--', '-', $newName);
 		
@@ -475,7 +513,7 @@ class Music
 		$result['album'] = trim($name[1]);
 		
 		//make sure we've actually matched an album name
-		if (preg_match('/^(nmrVBR|WEB|SAT|20\d{2}|19\d{2}|CDM|EP)$/i', $result['album'])) {
+		if (preg_match('/^(nmrVBR|VBR|WEB|SAT|20\d{2}|19\d{2}|CDM|EP)$/i', $result['album'])) {
 			$result['album'] = '';
 		}
 		
@@ -494,6 +532,108 @@ class Music
 			return $db->query("SELECT musicgenre.* FROM musicgenre INNER JOIN (SELECT DISTINCT musicgenreID FROM musicinfo) X ON X.musicgenreID = musicgenre.ID ORDER BY title");		
 		else
 			return $db->query("select * from musicgenre order by title");		
+	}
+	
+	public function matchBrowseNode($nodeId)
+	{
+		$str = '';
+		
+		//music nodes above mp3 download nodes
+		switch($nodeId)
+		{
+			case '163420':
+				$str = 'Music Video & Concerts';
+				break;
+			case '30':
+			case '624869011':
+				$str = 'Alternative Rock';
+				break;
+			case '31':
+			case '624881011':
+				$str = 'Blues';
+				break;
+			case '265640':
+			case '624894011':
+				$str = 'Broadway & Vocalists';
+				break;
+			case '173425':
+			case '624899011':
+				$str = "Children's Music";
+				break;
+			case '173429': //christian
+			case '2231705011': //gospel
+			case '624905011': //christian & gospel
+				$str = 'Christian & Gospel';
+				break;
+			case '67204':
+			case '624916011':
+				$str = 'Classic Rock';
+				break;
+			case '85':
+			case '624926011':
+				$str = 'Classical';
+				break;
+			case '16':
+			case '624976011':
+				$str = 'Country';
+				break;
+			case '7': //dance & electronic
+			case '624988011': //dance & dj
+				$str = 'Dance & Electronic';
+				break;
+			case '32':
+			case '625003011':
+				$str = 'Folk';
+				break;
+			case '67207':
+			case '625011011':
+				$str = 'Hard Rock & Metal';
+				break;
+			case '33': //world music
+			case '625021011': //international
+				$str = 'World Music';
+				break;
+			case '34':
+			case '625036011':
+				$str = 'Jazz';
+				break;
+			case '289122':
+			case '625054011':
+				$str = 'Latin Music';
+				break;
+			case '36':
+			case '625070011':
+				$str = 'New Age';
+				break;
+			case '625075011':
+				$str = 'Opera & Vocal';
+				break;
+			case '37':
+			case '625092011':
+				$str = 'Pop';
+				break;
+			case '39':
+			case '625105011':
+				$str = 'R&B';
+				break;
+			case '38':
+			case '625117011':
+				$str = 'Rap & Hip-Hop';
+				break;
+			case '40':
+			case '625129011':
+				$str = 'Rock';
+				break;
+			case '42':
+			case '625144011':
+				$str = 'Soundtracks';
+				break;
+			case '35':
+			case '625061011':
+				$str = 'Miscellaneous';
+				break;			
+		}
+		return ($str != '') ? $str : false;
 	}	
 
 }
