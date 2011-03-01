@@ -7,7 +7,6 @@
 
 <div style="float:right;margin-bottom:5px;"><a href="#reply">Reply</a></div>
 
-<a id="top"></a>
 <table style="width:100%;" class="data highlight" id="forumtable">
 	<tr>
 		<th>By</th>

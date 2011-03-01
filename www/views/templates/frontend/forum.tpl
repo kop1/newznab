@@ -7,8 +7,6 @@
 
 <div style="float:right;margin-bottom:5px;"><a href="#new">New Post</a></div>
 
-<a id="top"></a>
-
 <table style="width:100%;" class="data highlight" id="forumtable">
 	<tr>
 		<th width="60%">Topic</th>
