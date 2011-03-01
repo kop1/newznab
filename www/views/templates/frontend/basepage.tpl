@@ -28,7 +28,7 @@
 	{$page->head}
 </head>
 <body {$page->body}>
-
+	<a name="top"></a>
 	{strip}
 	<div id="statusbar">
 		{if $loggedin=="true"}

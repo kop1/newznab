@@ -222,6 +222,7 @@ a.descmore {display:block; margin-top:10px;}
 span.descfull {display:none;}
 #detailstable a.descmore { display: inline; margin: 0px; }
 
+a.top_link { float: right; font-size: 9px; vertical-align: super; }
 
 div.error { padding:20px; padding-left:50px; border:1px solid #BBB; background: #FED0D0 url(../images/icons/warning.png) no-repeat top; background-position: 5px 50%; font-size:1.2em; font-weight:bold; margin-bottom:10px;}
 div.comments { padding-top:20px; }

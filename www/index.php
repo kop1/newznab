@@ -8,7 +8,6 @@ if(is_file("config.php")) {
 	} 
 }
 
-require_once("config.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/users.php");
 

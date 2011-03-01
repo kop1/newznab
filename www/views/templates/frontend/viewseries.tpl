@@ -45,7 +45,7 @@
 <table style="width:100%;" class="data highlight icons" id="browsetable">
 	{foreach $seasons as $seasonnum => $season}
 		<tr>
-			<td style="padding-top:15px;" colspan="10"><h2>Season {$seasonnum}</h2></td>
+			<td style="padding-top:15px;" colspan="10"><a href="#top" class="top_link">Top</a><h2>Season {$seasonnum}</h2></td>
 		</tr>
 		<tr>
 			<th>Ep</th>
