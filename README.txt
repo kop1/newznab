@@ -183,6 +183,7 @@ SHOUTOUTS
 (just some of the) people who've helped along the way. full(er) list at http://code.google.com/p/newznab/source/list
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
+	fatfecker@newznab			mediainfo ffmpeg tv
 	gizmore@wechall.net			password,hash
 	lhbandit@nzbs.org			yenc,nntp,bokko,dev	
 	bb@newznab					dev
@@ -201,5 +202,6 @@ SHOUTOUTS
 	spooge@newznab				testing
 	sy@newznab					testing, regexs
 	magegmins@newznab			lighttpd rewrite rules
+	trizz@newznab				lighttpd rewrite rules
 	fubaarr@newznab				testing
 	mobiKalw@newznab			testing
