@@ -493,7 +493,7 @@ class Music
 		}
 		*/
 		//Replace VA with Various Artists
-		$newName = preg_replace('/VA( |\-)/', 'Various Artists \-', $releasename);
+		$newName = preg_replace('/VA( |\-)/', 'Various Artists -', $releasename);
 		
 		//remove years, vbr etc
 		$newName = preg_replace('/\(.*?\)/i', '', $newName);
