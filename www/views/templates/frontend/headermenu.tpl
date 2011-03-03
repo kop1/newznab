@@ -18,11 +18,15 @@
 				{/foreach}
 				</ul>
 			</li>
-			{elseif $parentcat.ID == 3000 && $userdata.musicview=="1"}
+			{elseif ($parentcat.ID == 3000 && $userdata.musicview=="1")}
 			<li><a title="Browse {$parentcat.title}" href="{$smarty.const.WWW_TOP}/music">{$parentcat.title}</a>
 				<ul>
 				{foreach from=$parentcat.subcatlist item=subcat}
-					<li><a title="Browse {$subcat.title}" href="{$smarty.const.WWW_TOP}/music?t={$subcat.ID}">{$subcat.title}</a></li>
+					{if $subcat.ID == 3030}
+						<li><a title="Browse {$subcat.title}" href="{$smarty.const.WWW_TOP}/browse?t={$subcat.ID}">{$subcat.title}</a></li>
+					{else}
+						<li><a title="Browse {$subcat.title}" href="{$smarty.const.WWW_TOP}/music?t={$subcat.ID}">{$subcat.title}</a></li>
+					{/if}
 				{/foreach}
 				</ul>
 			</li>
