@@ -614,7 +614,7 @@ CREATE TABLE site (
 `storeuserips` INT NOT NULL DEFAULT 0,
 `minfilestoformrelease` INT NOT NULL DEFAULT 1,
 `reqidurl` VARCHAR(1000) NOT NULL DEFAULT 'http://allfilled.newznab.com/query.php?t=[GROUP]&reqid=[REQID]',
-`latestregexurl` VARCHAR(1000) NOT NULL DEFAULT 'http://www.newznab.com/latestregex.sql',
+`latestregexurl` VARCHAR(1000) NOT NULL DEFAULT 'http://www.newznab.com/getregex.php',
 `latestregexrevision` INT NOT NULL DEFAULT 0,
 `releaseretentiondays` INT NOT NULL DEFAULT 0,
 `checkpasswordedrar` INT NOT NULL DEFAULT 0,
