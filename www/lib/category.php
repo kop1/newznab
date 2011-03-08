@@ -37,6 +37,7 @@ class Category
 	const CAT_MISC = 7010;
 	const CAT_MISC_EBOOK = 7020;
 	const CAT_MISC_COMICS = 7030;
+	const CAT_MISC_ANIME = 7040;
 
 	const CAT_PARENT_GAME = 1000;
 	const CAT_PARENT_MOVIE = 2000;
@@ -94,7 +95,7 @@ class Category
 	public function getById($id)
 	{
 		$db = new DB();
-		return $db->queryOneRow(sprintf("SELECT c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status, c.parentID from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));
+		return $db->queryOneRow(sprintf("SELECT c.disablepreview, c.ID, CONCAT(COALESCE(cp.title,'') , CASE WHEN cp.title IS NULL THEN '' ELSE ' > ' END , c.title) as title, c.status, c.parentID from category c left outer join category cp on cp.ID = c.parentID where c.ID = %d", $id));
 	}
 
 	public function getByIds($ids)
@@ -103,10 +104,10 @@ class Category
 		return $db->query(sprintf("SELECT concat(cp.title, ' > ',c.title) as title from category c inner join category cp on cp.ID = c.parentID where c.ID in (%s)", implode(',', $ids)));
 	}
 
-	public function update($id, $status, $desc)
+	public function update($id, $status, $desc, $disablepreview)
 	{
 		$db = new DB();
-		return $db->query(sprintf("update category set status = %d, description = %s where ID = %d", $status, $db->escapeString($desc), $id));
+		return $db->query(sprintf("update category set disablepreview = %d, status = %d, description = %s where ID = %d", $disablepreview, $status, $db->escapeString($desc), $id));
 	}
 
 	public function getForMenu($excludedcats=array())
@@ -186,8 +187,11 @@ class Category
 		{
 			if($this->isPC($releasename)){ return $this->tmpCat; }
 			if($this->isEBook($releasename)){ return $this->tmpCat; }                                
-		}                                                                           
-			
+		}                                  
+		                                  
+		if (preg_match('/anime/i', $group))
+				return Category::CAT_MISC_ANIME;
+				
 		if (preg_match('/alt\.binaries\..*?audiobook.*?/i', $group))
 			return Category::CAT_MUSIC_AUDIOBOOK;
 				
