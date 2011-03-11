@@ -68,9 +68,15 @@
 		<td>{if $cfg->opensslCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
 	</tr>
 	<tr class="">
+{if $smarty.server.SERVER_SOFTWARE|truncate:8:"" == 'lighttpd'}
+		<td>Instructions for Lighttpd's mod_rewrite:<br /><span class="warn">It is not possible for me to check you have enabled this properly! YOU will need to ensure that "mod_rewrite" is included in server.modules, check lighttpd for this, also ensure the rewrite rules are installed for your host. See misc/urlrewriting/lighttpd.txt for examples.</span></td>
+		<td><span class="warn">Warning</span></td>
+{else}
 		<td>Checking for Apache's mod_rewrite:{if !$cfg->rewriteCheck}<br /><span class="warn">The Apache module mod_rewrite is not loaded. This module is required, please enable it if you are running Apache</span>{/if}</td>
 		<td>{if $cfg->rewriteCheck}<span class="success">OK</span>{else}<span class="warn">Warning</span>{/if}</td>
+{/if}		
 	</tr>
+	
 </table>
 
 <div align="center">
