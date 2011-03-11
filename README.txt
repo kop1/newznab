@@ -8,8 +8,6 @@ ABOUT
 	
 	For information on how to install, please refer to INSTALL.txt
 	
-	To add a bug report or feature request browse to http://code.google.com/p/newznab/issues/list
-	
 	To discuss use irc.synirc.net #newznab
 	
 	Newznab is licensed under terms of the GNU General Public License.  For details, please 
@@ -180,7 +178,7 @@ DEVELOPMENT
 	\www\api.php all functionality related to api calls into newznab
 
 SHOUTOUTS
-(just some of the) people who've helped along the way. full(er) list at http://code.google.com/p/newznab/source/list
+(just some of the) people who've helped along the way.
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
 	fatfecker@newznab			mediainfo ffmpeg tv
