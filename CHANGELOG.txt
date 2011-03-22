@@ -17,6 +17,11 @@ HEAD
 
 
 
+0.2.3	Mar 22 2011
+-----------------------------------------
+bug fixes, lighttpd installer checks, new categories
+
+
 0.2.2	Feb 21 2011
 -----------------------------------------
 grouped releases in movie view, critical error in user cart removal.
