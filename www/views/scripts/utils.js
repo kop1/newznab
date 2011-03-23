@@ -188,6 +188,22 @@ jQuery(function($){
 				});
 			}
 	});
+	//cart functions
+	$('input.nzb_multi_operations_cartdelete').click(function(){
+		var ids = new Array();
+	    $("table.data INPUT[type='checkbox']:checked").each( function(i, row) {
+	    	if ($(row).val()!="on")
+		    	ids.push($(row).val());
+	    });
+	    if (ids)
+	    {
+			if (confirm('Are you sure you want to delete the selected releases from your cart?')) {
+				$.post( SERVERROOT + "cart?delete", { 'delete': ids }, function(resp){
+					window.location = window.location;
+				});
+			}
+		}
+	});
 
 	// headermenu.tpl
 	$('#headsearch')

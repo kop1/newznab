@@ -409,11 +409,22 @@ class Users
 		return $db->query(sprintf("select usercart.*, releases.searchname,releases.guid from usercart inner join releases on releases.ID = usercart.releaseID where userID = %d", $uid));		
 	}	
 
-	public function delCart($id, $uid)
+	public function delCart($ids, $uid)
 	{			
+		if (!is_array($ids))
+			return false;
+			
+		$del = array();
+		foreach ($ids as $id)
+		{
+			$id = sprintf("%d", $id);
+			if (!empty($id))
+				$del[] = $id;
+		}
 		$db = new DB();
-		$db->query(sprintf("delete from usercart where ID = %d and userID = %d", $id, $uid));		
-	}	
+		$sql = sprintf("delete from usercart where ID IN (%s) and userID = %d", implode(',',$del), $uid);
+		$db->query($sql);
+	}
 	
 	public function delCartByUserAndRelease($guid, $uid)
 	{			
