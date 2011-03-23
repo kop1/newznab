@@ -6,7 +6,7 @@
 
 {if $console.artist != ""}<h3>Artist: {$console.artist}</h3>{/if}
 
-{if $console.genre != ""}<h3>Genre: {$console.genre}</h3>{/if}
+{if $console.genres != ""}<h3>Genre: {$console.genres}</h3>{/if}
 
 {if $console.publisher != ""}<h3>Publisher: {$console.publisher}</h3>{/if}
 

@@ -6,7 +6,7 @@
 
 {if $music.artist != ""}<h3>Artist: {$music.artist}</h3>{/if}
 
-{if $music.genre != ""}<h3>Genre: {$music.genre}</h3>{/if}
+{if $music.genres != ""}<h3>Genre: {$music.genres}</h3>{/if}
 
 {if $music.publisher != ""}<h3>Publisher: {$music.publisher}</h3>{/if}
 
