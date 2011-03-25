@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/" encoding="utf-8">
 <channel>
-<atom:link href="{$serverroot}rss" rel="self" type="application/rss+xml" />
+<atom:link href="{$serverroot}{$smarty.server.REQUEST_URI|escape:"htmlall"|substr:1}" rel="self" type="application/rss+xml" />
 <title>{$site->title|escape}</title>
 <description>{$site->title|escape} Nzb Feed</description>
 <link>{$serverroot}</link>
@@ -40,9 +40,9 @@
 	<li>Name: {$release.searchname}</li>
 	<li>Attributes: Category - {$release.category_name}</li>
 	<li>Groups: {$release.group_name}</li>
-	<li>Poster: {$release.fromname}</li>
+	<li>Poster: {$release.fromname|escape:"htmlall"}</li>
 	<li>PostDate: {$release.postdate|phpdate_format:"DATE_RSS"}</li>
-	<li>Password: {if $release.passwordstatus == 0}None{elseif $release.passwordstatus == 1}Passworded Rar Archive{elseif $release.passwordstatus == 2}Contains Cab/Ace Archive{else}Unknown{/if}</li>
+	<li>Password: {if $release.passwordstatus == 0}None{elseif $release.passwordstatus == 1}Passworded Rar Archive{elseif $release.passwordstatus == 2}Contains Cab/Ace/RAR Archive{else}Unknown{/if}</li>
 	
 	{if $release.parentCategoryID == 2000}
 		{if $release.imdbID != ""}
