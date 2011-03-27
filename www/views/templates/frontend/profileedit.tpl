@@ -73,9 +73,10 @@
 		<th title="Not public">Added Priority:</th>
 		<td>
 			<select id="profile_sab_priority">
+				<option value="2">Force</option>
 				<option value="1">High</option>
-				<option value="2">Normal</option>
-				<option value="3">Low</option>
+				<option value="0">Normal</option>
+				<option value="-1">Low</option>
 			</select>
 		</td>
 	</tr>
