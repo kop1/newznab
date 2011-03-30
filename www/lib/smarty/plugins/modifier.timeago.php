@@ -25,9 +25,9 @@ function smarty_modifier_timeAgo( $date)
                         'Min','Mins',     // 3,3 
                         'Hour', 'Hrs',  // 5,5 
                         'Day', 'Days');
-      $debug = false; 
+
       $sec = time() - (( strtotime($date)) ? strtotime($date) : $date); 
-       
+
       if ( $sec <= 0) return $timeStrings[0]; 
        
       if ( $sec < 2) return $sec." ".$timeStrings[1]; 
@@ -38,7 +38,6 @@ function smarty_modifier_timeAgo( $date)
       if ( $min < 60) return floor($min+0.5)." ".$timeStrings[4]; 
        
       $hrs = $min / 60; 
-      echo ($debug == true) ? "hours: ".floor($hrs+0.5)."<br />" : ''; 
       if ( floor($hrs+0.5) < 2) return floor($hrs+0.5)." ".$timeStrings[5]; 
       if ( $hrs < 24) return floor($hrs+0.5)." ".$timeStrings[6]; 
       
