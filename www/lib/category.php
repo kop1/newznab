@@ -207,7 +207,10 @@ class Category
 		}
 		
 		if (preg_match('/alt\.binaries\.console.ps3/i', $group))
+		{
+				if($this->isConsole($releasename)){ return $this->tmpCat; }
 				return Category::CAT_GAME_PS3;
+		}
 				
 		if (preg_match('/alt\.binaries\.games\.xbox*/i', $group))
 		{
