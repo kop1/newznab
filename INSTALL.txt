@@ -31,7 +31,7 @@ INSTALLATION
 	there is an installer in \install\ try it first by creating your website,
 	copying the application files there, and browsing to http://yournewznabserver/install.
 	
-	refer to the list of requirements above if you encounter any errors during install.
+	refer to the list of requirements above if you encounter any errors during install, or the FAQ in the README
 	
 	once installed activate only one or two groups to test with first (a.b.teevee is a good choice), this
 	will save you time if it is not working correctly.

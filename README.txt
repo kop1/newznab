@@ -26,16 +26,16 @@ CHOOSING NEWSGROUPS
 	specified as a regular expression. for example if you want to index the groups alt.bin.blah.* 
 	and alt.bin.other	use the value 'alt.bin.blah.*|alt.bin.other'. 
 	
-CATEGORIZATION
+UPDATING INDEX (populating binaries + parts)
+	the recommended way to schedule updates is via the dos and unix start scripts in 
+	/path/to/newznab/misc/update_scripts/. make sure you set the paths correctly to your installation.
+	
+CATEGORISATION
 	most categorisation of releases is done at the time of applying the regex. however if no category
 	is supplied for a regex then \www\lib\category.php contains the logic which attempts to map a 
 	release to a site category. site categories are used to make browsing nzbs easier. add new categories
 	by updating the category table, and adding a new Category::constant. Then map it in the
 	function determineCategory()
-	
-UPDATING INDEX (populating binaries + parts)
-	the recommended way to schedule updates is via the dos and unix start scripts in 
-	/path/to/newznab/misc/update_scripts/. make sure you set the paths correctly to your installation.
 
 MISSING PARTS
 	when headers are requested from the usenet provider, they are asked for in number ranges
@@ -169,15 +169,15 @@ DEVELOPMENT
 	\www\lib\framework few general classes for db/http code
 	\www\lib\smarty copy of a fairly recent smarty lib
 	\www\lib\ all classes used in the app, typically named same as its database entity
+	\www\covers\ all covers downloaded for releases
 	\www\views\templates\admin all templates used by the admin pages
 	\www\views\templates\frontend all templates used by the user pages
 	\www\pages\ controllers for every frontend page in the system
 	\www\admin\ all php pages used by the admin
 	\www\theme\<yourtheme> blank area for implementation specific ui customisations
 	\www\views\scripts\ js dumping ground
-	\www\api.php all functionality related to api calls into newznab
 
-SHOUTOUTS
+HALL OF FAME
 (just some of the) people who've helped along the way.
 	iota@irc.cyberarmy.net		regexs,sessions
 	enstyne@irc.cyberarmy.net	regexs
@@ -199,8 +199,9 @@ SHOUTOUTS
 	duz@sabnzbd					yenc
 	inpheaux@sabnzbd			design,nzb
 	spooge@newznab				testing
-	sy@newznab					testing, regexs
-	magegmins@newznab			lighttpd rewrite rules
+	sy@newznab					testing, regexs, amazon
+	magegminds@newznab			lighttpd rewrite rules
 	trizz@newznab				lighttpd rewrite rules
 	fubaarr@newznab				testing
 	mobiKalw@newznab			testing
+	crudehung@newznab			nginx rewrite rules
