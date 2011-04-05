@@ -38,7 +38,7 @@ INSTALLATION
 	
 	run the update_binaries.php and update_releases.php scripts in \misc\update_scripts\ via command-line.
 	
-	if updating was successful then you can continue to setup your site and configure the cron scripts for
+	if updating was successful then you can continue to setup your site and configure the update scripts for
 	auto-updating.
 	
 	
