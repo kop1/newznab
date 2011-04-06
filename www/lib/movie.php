@@ -5,6 +5,7 @@ require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/nfo.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/util.php");
+require_once(WWW_DIR."/lib/releaseimage.php");
 
 class Movie
 {
@@ -14,6 +15,8 @@ class Movie
 		$s = new Sites();
 		$site = $s->get();
 		$this->apikey = $site->tmdbkey;
+		
+		$this->imgSavePath = WWW_DIR.'covers/movies/';
 	}
 	
 	public function getMovieInfo($imdbId)
@@ -220,6 +223,8 @@ class Movie
 	
 	public function updateMovieInfo($imdbId)
 	{
+		$ri = new ReleaseImage();
+		
 		if ($this->echooutput)
 			echo "fetching imdb info from tmdb - ".$imdbId."\n";
 		
@@ -250,14 +255,14 @@ class Movie
 		//prefer tmdb cover over imdb cover
 		$mov['cover'] = 0;
 		if (isset($tmdb['cover']) && $tmdb['cover'] != '') {
-			$mov['cover'] = $this->saveCoverImage($tmdb['cover'], $imdbId, 'cover');
+			$mov['cover'] = $ri->saveImage($imdbId.'-cover', $tmdb['cover'], $this->imgSavePath);
 		} elseif (isset($imdb['cover']) && $imdb['cover'] != '') {
-			$mov['cover'] = $this->saveCoverImage($imdb['cover'], $imdbId, 'cover');
+			$mov['cover'] = $ri->saveImage($imdbId.'-cover', $imdb['cover'], $this->imgSavePath);
 		}
 		
 		$mov['backdrop'] = 0;
 		if (isset($tmdb['backdrop']) && $tmdb['backdrop'] != '') {
-			$mov['backdrop'] = $this->saveCoverImage($tmdb['backdrop'], $imdbId, 'backdrop');
+			$mov['backdrop'] = $ri->saveImage($imdbId.'-backdrop', $tmdb['backdrop'], $this->imgSavePath, 1024, 768);
 		}
 		
 		$mov['title'] = '';
@@ -347,49 +352,7 @@ class Movie
 		
 		return $movieId;
 	}
-	
-	public function fetchCoverImage($imgUrl)
-	{		
-		$img = getUrl($imgUrl);
-		if ($img !== false)
-		{
-			$im = @imagecreatefromstring($img);
-			if ($im !== false)
-			{
-				/*
-				$max_width = 1024; 
-				$max_height = 768; 
-				$width = imagesx($im);
-				$height = imagesy($im); 
-				$ratioh = $max_height/$height; 
-				$ratiow = $max_width/$width; 
-				$ratio = min($ratioh, $ratiow); 
-				// New dimensions 
-				$new_width = intval($ratio*$width); 
-				$new_height = intval($ratio*$height); 
-				if ($new_width < $width) {
-					$new_image = imagecreatetruecolor($new_width, $new_height);
-      				imagecopyresampled($new_image, $im, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-      				return $new_image;
-				}
-				*/
-				return $img;
-			}
-		}
-		return false;	
-	}
-	
-	public function saveCoverImage($imgUrl, $imdbId, $type='cover')
-	{
-		$cover = $this->fetchCoverImage($imgUrl);
-		if ($cover !== false) 
-		{
-			$coverSave = @file_put_contents(WWW_DIR.'covers/movies/'.$imdbId.'-'.$type.'.jpg', $cover);
-			return ($coverSave !== false) ? 1 : 0;
-		}
-		return 0;
-	}
-	
+		
 	public function fetchTmdbProperties($imdbId)
 	{
 		$tmdb = new TMDb($this->apikey);

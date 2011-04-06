@@ -341,7 +341,7 @@ class Console
 		}
 		
 		//If the release is DLC matching sucks, so assume anything over 50% is legit.
-		if ($gameInfo['dlc'] == 1)
+		if (isset($gameInfo['dlc']) && $gameInfo['dlc'] == 1)
 		{
 			 if ($titlepercent >= 50)
 			 {

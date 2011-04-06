@@ -5,6 +5,7 @@ require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/genres.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/util.php");
+require_once(WWW_DIR."/lib/releaseimage.php");
 
 class Music
 {
@@ -17,6 +18,7 @@ class Music
 		$site = $s->get();
 		$this->pubkey = $site->amazonpubkey;
 		$this->privkey = $site->amazonprivkey;
+		$this->imgSavePath = WWW_DIR.'covers/music/';
 	}
 	
 	public function getMusicInfo($id)
@@ -236,6 +238,7 @@ class Music
 	{
 		$db = new DB();
 		$gen = new Genres();
+		$ri = new ReleaseImage();
 		
 		$mus = array();
 		$amaz = $this->fetchAmazonProperties($artist." - ".$album);
@@ -376,7 +379,7 @@ class Music
 			if ($this->echooutput)
 				echo "added/updated album: ".$mus['title']." (".$mus['year'].")\n";
 
-			$mus['cover'] = $this->saveCoverImage($mus['coverurl'], $musicId);
+			$mus['cover'] = $ri->saveImage($musicId, $mus['coverurl'], $this->imgSavePath, 250, 250);
 		} 
 		else 
 		{
@@ -385,31 +388,6 @@ class Music
 		}
 		
 		return $musicId;
-	}
-	
-	public function fetchCoverImage($imgUrl)
-	{		
-		$img = getUrl($imgUrl);
-		if ($img !== false)
-		{
-			$im = @imagecreatefromstring($img);
-			if ($im !== false)
-			{
-				return $img;
-			}
-		}
-		return false;	
-	}
-	
-	public function saveCoverImage($imgUrl, $id)
-	{
-		$cover = $this->fetchCoverImage($imgUrl);
-		if ($cover !== false) 
-		{
-			$coverSave = @file_put_contents(WWW_DIR.'covers/music/'.$id.'.jpg', $cover);
-			return ($coverSave !== false) ? 1 : 0;
-		}
-		return 0;
 	}
 	
 	public function fetchAmazonProperties($title)
