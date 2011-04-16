@@ -140,9 +140,9 @@ class TvRage
 		if ($page !== false)
 		{
 			//description
-			preg_match("@(Summary</h.>|<a name='summary'>).*?</table>(.*?)</td></tr><tr>.*?<td background@s", $page, $matches);
-			if (isset($matches[2])) {
-				$desc = $matches[2];
+			preg_match('@<div class="show_synopsis">(.*?)</div>@is', $page, $matches);
+			if (isset($matches[1])) {
+				$desc = $matches[1];
 				$desc = preg_replace('/<hr>.*/s', '', $desc);
 				$desc = preg_replace('/&nbsp;?/', '', $desc);
 				$desc = preg_replace('/<br>(\n)?<br>/', ' / ', $desc);
@@ -155,7 +155,7 @@ class TvRage
 				$result['desc'] = $desc;
 			}
 			// image
-			preg_match("@src=\"(http://images.tvrage.com/shows.*?)\"@i", $page, $matches);
+			preg_match("@src=[\"'](http://images.tvrage.com/shows.*?)[\"']@i", $page, $matches);
 			if (isset($matches[1])) {
 				$result['imgurl'] = $matches[1];
 			}
