@@ -33,7 +33,7 @@ if  ($page->isPostBack()) {
 		if (!$cfg->error) {
 			require_once($cfg->WWW_DIR.'/lib/framework/db.php');
 			$db = new DB();
-			$sql = sprintf("UPDATE site SET nzbpath = %s WHERE id = 1", $db->escapeString($cfg->NZB_PATH));
+			$sql = sprintf("UPDATE site SET value = %s WHERE setting = 'nzbpath'", $db->escapeString($cfg->NZB_PATH));
 			if ($db->query($sql) === false) {
 				$cfg->error = true;
 			}
