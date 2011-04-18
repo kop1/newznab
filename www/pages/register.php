@@ -11,7 +11,7 @@ if ($page->site->registerstatus == Sites::REGISTER_STATUS_CLOSED)
 	$page->smarty->assign('error', "Registrations are currently disabled.");
 	$showregister = 0;	
 }
-elseif ($page->site->registerstatus == Sites::REGISTER_STATUS_INVITE && !(isset($_GET["invite"]) || isset($_POST["invitecode"])))
+elseif ($page->site->registerstatus == Sites::REGISTER_STATUS_INVITE && !isset($_REQUEST["invitecode"]) || empty($_REQUEST['invitecode']))
 {
 	$page->smarty->assign('error', "Registrations are currently invite only.");
 	$showregister = 0;	
