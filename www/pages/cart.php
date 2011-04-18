@@ -27,7 +27,7 @@ elseif (isset($_REQUEST["delete"]))
 		$users->delCart($ids, $users->currentUserId());
 	
 	if (!isset($_POST['delete']))
-		header("Location: ".WWW_TOP."cart");
+		header("Location: ".WWW_TOP."/cart");
 		
 	die();
 }
