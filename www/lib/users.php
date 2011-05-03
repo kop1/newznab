@@ -341,7 +341,7 @@ class Users
 		{
 			$u = $this->getById($_COOKIE['uid']);
 			
-		 	if ($_COOKIE['idh'] == $this->hashSHA1($u["userseed"].$_COOKIE['uid'])) 
+		 	if (($_COOKIE['idh'] == $this->hashSHA1($u["userseed"].$_COOKIE['uid'])) && ($u["role"] != Users::ROLE_DISABLED) ) 
 		 	{
 				$this->login($_COOKIE['uid'], $_SERVER['REMOTE_ADDR']);
 			}
