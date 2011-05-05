@@ -289,6 +289,8 @@ CREATE TABLE `groups` (
 
 ALTER TABLE groups ADD UNIQUE (NAME);
 
+INSERT INTO `groups` (`name`, `description`) VALUES ('alt.binaries.cd.image.linux', 'This group contains Linux distributions.');
+INSERT INTO `groups` (`name`, `description`) VALUES ('alt.binaries.linux.iso', 'This group contains Linux distributions.');
 INSERT INTO `groups` (`name`, `description`) VALUES ('alt.binaries.dvdr', 'This group contains DVD Movies.');
 INSERT INTO `groups` (`name`, `description`) VALUES ('alt.binaries.boneless', 'This group contains XVID and X264 Movies. Some Foreign.');
 INSERT INTO `groups` (`name`, `description`) VALUES ('alt.binaries.multimedia', 'This group contains TV, Movies, and Music.');
