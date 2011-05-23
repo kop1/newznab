@@ -55,6 +55,8 @@ BACKFILLING GROUPS
 	your initial index has been built. to use the feature first set the back fill days setting in the group(s)
 	to be backfilled to the number of day you wish to go back, making sure to set it higher than the number
 	of days listed in the first post column. once set run the backfill.php script in misc/update_scripts.
+	groups can be backfilled to a particular date using the script misc/update_scripts/backfill_date.php
+	using the syntax php backfill_date.php 2011-05-15 alt.binaries.games.xbox
 
 REGEX MATCHING
 	releases are created by applying regexs to binary message subjects. different regexes 
@@ -186,6 +188,7 @@ HALL OF FAME
 	lhbandit@nzbs.org			yenc,nntp,bokko,dev	
 	dryes@nzbs.org				anidb	
 	bb@newznab					dev
+	keyvan@newznab				backfill	
 	jayhawk@nzb.su				testing,icons	
 	midgetspy@sickbeard			rage integration,api
 	ueland@newznab				installer

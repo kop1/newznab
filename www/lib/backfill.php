@@ -17,7 +17,7 @@ class Backfill
 	//
 	// Update all active groups categories and descriptions
 	//
-	function backfillAllGroups($groupName='')
+	function backfillAllGroups($groupName='', $backfillDate=null)
 	{
 		$n = $this->n;
 		$groups = new Groups;
@@ -36,7 +36,7 @@ class Backfill
 
 			foreach($res as $groupArr)
 			{
-				$this->backfillGroup($nntp, $groupArr);
+				$this->backfillGroup($nntp, $groupArr, $backfillDate);
 			}
 
 			$nntp->doQuit();
@@ -47,7 +47,7 @@ class Backfill
 		}
 	}
 	
-	function backfillGroup($nntp, $groupArr)
+	function backfillGroup($nntp, $groupArr, $backfillDate=null)
 	{
 		$db = new DB();
 		$binaries = new Binaries();
@@ -62,8 +62,11 @@ class Backfill
 			echo "Could not select group (bad name?): {$groupArr['name']}$n";
 			return;
 		}
-		$targetpost = $this->daytopost($nntp,$groupArr['name'],$groupArr['backfill_target'],TRUE); //get targetpost based on days target
-	       if($groupArr['first_record'] == 0 || $groupArr['backfill_target'] == 0)
+		if ($backfillDate)
+			$targetpost = $this->daytopost($nntp,$groupArr['name'],dateToDays($backfillDate),TRUE); // get targetpost based on date
+		else
+			$targetpost = $this->daytopost($nntp,$groupArr['name'],$groupArr['backfill_target'],TRUE); //get targetpost based on days target
+		if($groupArr['first_record'] == 0 || $groupArr['backfill_target'] == 0)
 		{
 			echo "Group ".$groupArr['name']." has invalid numbers.  Have you run update on it?  Have you set the backfill days amount?$n";
 			return;
@@ -223,6 +226,9 @@ class Backfill
     {
     	return round((time()-$timestamp)/86400, 1);
     }
-	
+	  
+		private function dateToDays($backfillDate) {
+			return floor(-(strtotime($backfillDate) - strtotime('now'))/(60*60*24));
+		}
 }
 ?>
