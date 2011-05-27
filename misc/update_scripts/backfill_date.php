@@ -20,7 +20,7 @@
 */
 
 require("config.php");
-require_once(WWW_DIR."/lib/backfill_date.php");
+require_once(WWW_DIR."/lib/backfill.php");
 
 if (strtotime($argv[1]) && (strtotime($argv[1]) < $strtotime('now'))) {
   $groupName = (isset($argv[2]) ? $argv[2] : '');
