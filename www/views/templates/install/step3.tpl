@@ -5,7 +5,7 @@
 	</div>
 {else}
 
-<p>newznab has a <a href="http://affiliate.astraweb.com/10457.html">special affilate deal</a> with <a href="http://affiliate.astraweb.com/10457.html">astraweb</a>, who in our opinion provide the best value usenet access. newznab is also designed to take advantage of astrawebs compression support, which other providers do not offer.
+<p>newznab has a <a target="_blank" href="http://affiliate.astraweb.com/10457.html">special affilate deal</a> <small><sup>[Opens in new window]</sup></small> with <a target="_blank" href="http://affiliate.astraweb.com/10457.html">astraweb</a> , who in our opinion provide the best value usenet access. newznab is also designed to take advantage of astrawebs compression support, which other providers do not offer.
 </p>
 
 <p>If you already have a news server (NNTP), please provide the following information:</p>
