@@ -157,8 +157,10 @@ class Binaries
 				if ($last == $grouplast)
 					$done = true;
 				else
+				{
 					$last = $lastId;
 					$first = $last + 1;
+				}
 			}
 			
 			$last_record_postdate = $backfill->postdate($nntp,$last,false);
