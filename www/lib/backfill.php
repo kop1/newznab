@@ -63,7 +63,7 @@ class Backfill
 			return;
 		}
 		if ($backfillDate)
-			$targetpost = $this->daytopost($nntp,$groupArr['name'],dateToDays($backfillDate),TRUE); // get targetpost based on date
+			$targetpost = $this->daytopost($nntp,$groupArr['name'],$this->dateToDays($backfillDate),TRUE); // get targetpost based on date
 		else
 			$targetpost = $this->daytopost($nntp,$groupArr['name'],$groupArr['backfill_target'],TRUE); //get targetpost based on days target
 		if($groupArr['first_record'] == 0 || $groupArr['backfill_target'] == 0)
