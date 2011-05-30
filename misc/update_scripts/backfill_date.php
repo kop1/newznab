@@ -22,7 +22,8 @@
 require("config.php");
 require_once(WWW_DIR."/lib/backfill.php");
 
-if (strtotime($argv[1]) && (strtotime($argv[1]) < time())) {
+$time = strtotime($argv[1]);
+if (($time > 1) && ($time < time())) {
   $groupName = (isset($argv[2]) ? $argv[2] : '');
   $backfill = new Backfill();
   $backfill->backfillAllGroups($groupName, strtotime($argv[1]));
