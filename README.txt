@@ -1,7 +1,6 @@
 ABOUT
-	Newznab is an nzbs.org clone PHP/Smarty application, which supports the indexing of 
-	usenet headers into a mysql database and provides a simple web based search interface 
-	onto the data.
+	Newznab is a PHP/Smarty application, which supports the indexing of usenet headers 
+	into a mysql database and provides a simple web based search interface onto the data.
 	
 	It includes simple CMS facilities, SEO friendly URLs and is designed with the intention 
 	of allowing users to create a community around their index.
@@ -56,7 +55,7 @@ BACKFILLING GROUPS
 	to be backfilled to the number of day you wish to go back, making sure to set it higher than the number
 	of days listed in the first post column. once set run the backfill.php script in misc/update_scripts.
 	groups can be backfilled to a particular date using the script misc/update_scripts/backfill_date.php
-	using the syntax php backfill_date.php 2011-05-15 alt.binaries.games.xbox
+	using the syntax php backfill_date.php 2011-05-15 alt.binaries.groupname
 
 REGEX MATCHING
 	releases are created by applying regexs to binary message subjects. different regexes 
