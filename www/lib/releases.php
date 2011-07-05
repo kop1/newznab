@@ -1064,7 +1064,7 @@ class Releases
 						//
 						// If added to the index over 48 hours ago, give up trying to determine the title
 						//
-						if ($maxaddeddate['now'] - strtotime($maxaddeddate['dateadded']) > (60*60*48))
+						if (strtotime($maxaddeddate['now']) - strtotime($maxaddeddate['dateadded']) > (60*60*48))
 						{
 							$db->query(sprintf("update binaries set procstat=%d where relname = %s and procstat = %d and groupID = %d and fromname=%s", 
 								Releases::PROCSTAT_NOREQIDNAMELOOKUPFOUND, $db->escapeString($row["relname"]), Releases::PROCSTAT_TITLEMATCHED, $row["groupID"], $db->escapeString($row["fromname"])));
