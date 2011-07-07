@@ -406,17 +406,17 @@ class Movie
     public function fetchImdbProperties($imdbId)
     {
         $imdb_regex = array(
-            'title'    => '/<title>(.*?)\(.*?<\/title>/i',
-			'tagline'  => '/taglines:<\/h4>\s([^<]+)/i',
-			'plot'     => '/<p>\s<p>(.*?)\s<\/p>\s<\/p>/i',
-            'rating'   => '/<span class="rating\-rating">([0-9]{1,2}\.[0-9]{1,2})<span>/i',
-			'year'     => '/<title>.*?\(.*?(\d{4}).*?<\/title>/i',
-			'cover'    => '/<a.*?href="\/media\/.*?><img src="(.*?)"/i'
+            'title'    => '/<title>(.*?)\(.*?<\/title>/iS',
+			'tagline'  => '/taglines:<\/h4>\s([^<]+)/iS',
+			'plot'     => '/<p>\s<p>(.*?)\s<\/p>\s<\/p>/iS',
+            'rating'   => '/<span class="value" itemprop="ratingValue">([0-9]{1,2}\.[0-9]{1,2})<\/span>/iS',
+			'year'     => '/<title>.*?\(.*?(\d{4}).*?<\/title>/iS',
+			'cover'    => '/<a.*?href="\/media\/.*?><img src="(.*?)"/iS'
         );
         
         $imdb_regex_multi = array(
-        	'genre'    => '/href="\/genre\/(.*?)"/i',
-        	'language' => '/<a href="\/language\/[a-z]+">(.*?)<\/a>/i'
+        	'genre'    => '/href="\/genre\/(.*?)"/iS',
+        	'language' => '/<a href="\/language\/[a-z]+">(.*?)<\/a>/iS'
         );
 
         $buffer = getUrl("http://www.imdb.com/title/tt$imdbId/");
