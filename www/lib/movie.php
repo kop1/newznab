@@ -406,10 +406,10 @@ class Movie
     public function fetchImdbProperties($imdbId)
     {
         $imdb_regex = array(
-            'title'    => '/<title>(.*?)\(.*?<\/title>/iS',
+            'title'    => '/<title>(?:imdb \-)?(.*?)\(.*?<\/title>/iS',
 			'tagline'  => '/taglines:<\/h4>\s([^<]+)/iS',
 			'plot'     => '/<p>\s<p>(.*?)\s<\/p>\s<\/p>/iS',
-            'rating'   => '/<span class="value" itemprop="ratingValue">([0-9]{1,2}\.[0-9]{1,2})<\/span>/iS',
+            'rating'   => '/<span class="value"(?: itemprop="ratingValue")?>([0-9]{1,2}\.[0-9]{1,2})<\/span>/iS',
 			'year'     => '/<title>.*?\(.*?(\d{4}).*?<\/title>/iS',
 			'cover'    => '/<a.*?href="\/media\/.*?><img src="(.*?)"/iS'
         );
