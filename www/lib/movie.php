@@ -406,9 +406,9 @@ class Movie
     public function fetchImdbProperties($imdbId)
     {
         $imdb_regex = array(
-            'title'    => '/<title>(?:imdb \-)?(.*?)\(.*?<\/title>/iS',
+            'title'    => '/<meta property=\'og:title\' content=\'(.*?) \(/iS',
 			'tagline'  => '/taglines:<\/h4>\s([^<]+)/iS',
-			'plot'     => '/<p>\s<p>(.*?)\s<\/p>\s<\/p>/iS',
+			'plot'     => '/<p>\s<p.*?>\s?(.*?)\s?<\/p>\s<\/p>/iS',
             'rating'   => '/<span class="value"(?: itemprop="ratingValue")?>([0-9]{1,2}\.[0-9]{1,2})<\/span>/iS',
 			'year'     => '/<title>.*?\(.*?(\d{4}).*?<\/title>/iS',
 			'cover'    => '/<a.*?href="\/media\/.*?><img src="(.*?)"/iS'
@@ -416,7 +416,7 @@ class Movie
         
         $imdb_regex_multi = array(
         	'genre'    => '/href="\/genre\/(.*?)"/iS',
-        	'language' => '/<a href="\/language\/[a-z]+">(.*?)<\/a>/iS'
+        	'language' => '/<a href="\/language\/[a-z]+".*?>(.*?)<\/a>/iS'
         );
 
         $buffer = getUrl("http://www.imdb.com/title/tt$imdbId/");
@@ -446,9 +446,9 @@ class Movie
             }
             
             //actors
-            if (preg_match('/<table class="cast_list">(.+)<\/table>/s', $buffer, $hit))
+            if (preg_match('/<table class="cast_list">(.+)<\/table>/is', $buffer, $hit))
             {
-				if (preg_match_all('/<a.*?href="\/name\/(nm\d{1,8})\/">([^<]+)<\/a>/', $hit[0], $results, PREG_PATTERN_ORDER))
+				if (preg_match_all('/<td class="name">.*?<a.*?href="\/name\/(nm\d{1,8})\/".*?>([^<]+)<\/a>/is', $hit[0], $results, PREG_PATTERN_ORDER))
 				{
 					$ret['actors'] = $results[2];
 				} 
