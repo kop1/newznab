@@ -1164,7 +1164,7 @@ class Releases
 				$sizeSql.=" 1=2) ";
 				$temp = $db->queryOneRow($sizeSql);
 				$totalSize = ($temp["totalSize"]+0)."";
-				$relCompletion = number_format($temp["relParts"]/$relTotalParts*100, 1);
+				$relCompletion = number_format($temp["relParts"]/$relTotalParts*100, 1, '.', '');
 			}
 
 			//
