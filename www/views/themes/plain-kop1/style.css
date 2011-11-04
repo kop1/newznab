@@ -1,7 +1,9 @@
 
 body { background:none; color: #333; }
 .footer, .w3validator, .menupic {display:none;}
-#logo { visibility:none; height:15px; background:none;}
+/* #logo { visibility:none; height:15px; background:none;} */
+#logo {background: url(images/KOP1.png) no-repeat 0% 100%;}
+
 
 /* override table styles, alt rows, headings etc*/
 table tr.alt { background-color: #eee; }
