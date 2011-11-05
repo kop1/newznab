@@ -45,3 +45,52 @@ table tr.new .rndbtn { background-color: #fff; }
 
 table td.static { background-color: #FFF; }
 table.highlight tr:hover td.static { background-color: #FFF; }
+
+/*
+KOP1 Costum Styles
+*/
+
+body {
+	margin: 0 auto;
+	width: 940px;
+}
+
+statusbar {
+	height: 20px;
+}
+
+#logo {
+	margin: 0;
+	float: left;
+	width: 680px;
+}
+
+#header {
+	width: 235px;
+	float: right;
+	margin: 0;
+}
+
+#menucontainer { width: 235px; }
+
+#menulink { display: none; }
+
+#menusearchlink { padding-top: 21px; }
+
+#sidebar h2 { padding-left: 0px; }
+
+#sidebar li ul { margin: 0; }
+
+#sidebar li li { padding-left: 0; }
+
+/*
+#logo {
+	background: none;
+	visibility: hidden;
+	display: none;
+}
+*/
+
+/*
+background: url(images/KOP1.png) no-repeat 0% 100%;}
+*/
